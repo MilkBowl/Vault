@@ -60,7 +60,8 @@ Github and we'll get to it at our convenience.
 ## Implementing Vault
 Implementing Vault is quite simple through obtaining an instance through the
 Bukkit PluginManager class by using the string "Vault".  An example plugin with
-limited functionality is located within the contrib folder.
+limited functionality is located within the VaultExamplePlugin repository
+(https://github.com/MilkBowl/VaultExamplePlugin).
 
 Example:
 
