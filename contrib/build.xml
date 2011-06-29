@@ -1,0 +1,36 @@
+<?xml version="1.0" ?>
+<project default="main">
+
+    <path id="classpath">
+        <fileset dir="lib" includes="**/*.jar"/>
+    </path>
+	
+    <target name="main" depends="clean, compile, compress" description="Main target">
+        <echo>Building the .jar file.</echo>
+    </target>
+	
+	<target name="clean" description="Cleans project">
+		<echo>Cleaning</echo>
+		<delete failonerror="false">
+			<fileset dir="bin" includes="**/*" />
+		</delete>
+		<delete file="Example.jar" />
+		<mkdir dir="bin"/>
+	</target>
+  
+    <target name="compile" description="Compilation target">
+    	<echo>Compiling</echo>
+        <javac srcdir="." destdir="bin" debug="on" debuglevel="lines,vars,source" classpathref="classpath" />
+    	<copy file="plugin.yml" tofile="bin/plugin.yml" />
+    </target>
+  
+  <target name="compress" description="Compression target">
+  		<echo>Compressing</echo>
+        <jar jarfile="Example.jar" basedir="bin" includes="com/**/*, plugin.yml, props/*">
+		<manifest>
+			<attribute name="Built-By" value="${user.name}" />
+		</manifest>
+        </jar>
+    	<delete dir="bin" />
+  </target>
+</project>

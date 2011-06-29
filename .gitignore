@@ -1,0 +1,9 @@
+*/**/.classpath
+.classpath
+*/**/.externalToolBuilders
+.externalToolBuilders
+*/**/.project
+.project
+*/**/.settings
+.settings
+Vault.jar

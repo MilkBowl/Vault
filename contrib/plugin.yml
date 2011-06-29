@@ -1,0 +1,12 @@
+name: ExamplePlugin
+main: com.example.plugin.ExamplePlugin
+version: 0.0.0
+author: ExampleAuthor
+depend: [Vault]
+description: >
+             Example Plugin demonstrating implementation of Vault.
+commands:
+  test-economy:
+    description: Tests Economy
+  test-permission:
+    description: Tests Permission
