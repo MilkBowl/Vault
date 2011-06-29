@@ -19,6 +19,8 @@
 
 package net.milkbowl.vault.economy.plugins;
 
+import java.util.logging.Logger;
+
 import net.milkbowl.vault.economy.Economy;
 import net.milkbowl.vault.economy.EconomyResponse;
 
@@ -34,6 +36,8 @@ import com.nijiko.coelho.iConomy.iConomy;
 import com.nijiko.coelho.iConomy.system.Account;
 
 public class Economy_iConomy4 implements Economy {
+    private static final Logger log = Logger.getLogger("Minecraft");
+    
     private String name = "iConomy 4";
     private Plugin plugin = null;
     private PluginManager pluginManager = null;

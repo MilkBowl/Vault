@@ -22,9 +22,6 @@ package net.milkbowl.vault.economy;
 import java.util.logging.Logger;
 
 public interface Economy {
-    
-    public static final Logger log = Logger.getLogger("Minecraft");
-
     public boolean isEnabled();
     public String getName();
     public String format(double amount);

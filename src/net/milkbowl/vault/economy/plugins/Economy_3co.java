@@ -19,6 +19,8 @@
 
 package net.milkbowl.vault.economy.plugins;
 
+import java.util.logging.Logger;
+
 import me.ic3d.eco.ECO;
 import net.milkbowl.vault.economy.Economy;
 import net.milkbowl.vault.economy.EconomyResponse;
@@ -32,6 +34,8 @@ import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.PluginManager;
 
 public class Economy_3co implements Economy {
+    private static final Logger log = Logger.getLogger("Minecraft");
+    
     private String name = "3co";
     private Plugin plugin = null;
     private PluginManager pluginManager = null;

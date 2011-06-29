@@ -19,6 +19,8 @@
 
 package net.milkbowl.vault.economy.plugins;
 
+import java.util.logging.Logger;
+
 import net.milkbowl.vault.economy.Economy;
 import net.milkbowl.vault.economy.EconomyResponse;
 
@@ -34,6 +36,8 @@ import org.bukkit.plugin.PluginManager;
 import cosine.boseconomy.BOSEconomy;
 
 public class Economy_BOSE implements Economy {
+    private static final Logger log = Logger.getLogger("Minecraft");
+    
     private String name = "BOSEconomy";
     private Plugin plugin = null;
     private PluginManager pluginManager = null;

@@ -6,4 +6,5 @@
 .project
 */**/.settings
 .settings
+javadoc
 Vault.jar

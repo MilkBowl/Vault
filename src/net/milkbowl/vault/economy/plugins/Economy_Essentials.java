@@ -19,6 +19,8 @@
 
 package net.milkbowl.vault.economy.plugins;
 
+import java.util.logging.Logger;
+
 import net.milkbowl.vault.economy.Economy;
 import net.milkbowl.vault.economy.EconomyResponse;
 
@@ -35,6 +37,8 @@ import com.earth2me.essentials.api.NoLoanPermittedException;
 import com.earth2me.essentials.api.UserDoesNotExistException;
 
 public class Economy_Essentials implements Economy {
+    private static final Logger log = Logger.getLogger("Minecraft");
+    
     private String name = "Essentials Economy";
     private Plugin plugin = null;
     private PluginManager pluginManager = null;

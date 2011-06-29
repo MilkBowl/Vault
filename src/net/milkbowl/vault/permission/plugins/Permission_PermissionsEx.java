@@ -19,6 +19,8 @@
 
 package net.milkbowl.vault.permission.plugins;
 
+import java.util.logging.Logger;
+
 import net.milkbowl.vault.permission.Permission;
 
 import org.bukkit.entity.Player;
@@ -36,6 +38,8 @@ import ru.tehkode.permissions.PermissionUser;
 import ru.tehkode.permissions.bukkit.PermissionsEx;
 
 public class Permission_PermissionsEx implements Permission {
+    private static final Logger log = Logger.getLogger("Minecraft");
+    
     private String name = "PermissionsEx";
     private Plugin plugin = null;
     private PluginManager pluginManager = null;

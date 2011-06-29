@@ -24,8 +24,6 @@ import java.util.logging.Logger;
 import org.bukkit.entity.Player;
 
 public interface Permission {
-    
-    public static final Logger log = Logger.getLogger("Minecraft");
 
     /**
      * Gets name of permission method
@@ -35,7 +33,7 @@ public interface Permission {
     
     /**
      * Checks if permission method is enabled.
-     * @return
+     * @return Success or Failure
      */
     public boolean isEnabled();
     
@@ -43,7 +41,7 @@ public interface Permission {
      * Checks if player has a permission node.
      * @param player Player instance
      * @param permission Permission node
-     * @return
+     * @return Success or Failure
      */
     public boolean playerHasPermission(Player player, String permission);
     
@@ -52,7 +50,7 @@ public interface Permission {
      * @param worldName Name of World
      * @param playerName Name of Player
      * @param permission Permission node
-     * @return
+     * @return Success or Failure
      */
     public boolean playerAddPermission(String worldName, String playerName, String permission);
     
@@ -61,7 +59,7 @@ public interface Permission {
      * @param worldName Name of World
      * @param playerName Name of Player
      * @param permission Permission node
-     * @return
+     * @return Success or Failure
      */
     public boolean playerRemovePermission(String worldName, String playerName, String permission);
     
@@ -70,7 +68,7 @@ public interface Permission {
      * @param worldName Name of World
      * @param groupName Name of Group
      * @param permission Permission node
-     * @return
+     * @return Success or Failure
      */
     public boolean groupHasPermission(String worldName, String groupName, String permission);
     
@@ -79,7 +77,7 @@ public interface Permission {
      * @param worldName Name of World
      * @param groupName Name of Group
      * @param permission Permission node
-     * @return
+     * @return Success or Failure
      */
     public boolean groupAddPermission(String worldName, String groupName, String permission);
     
@@ -88,7 +86,7 @@ public interface Permission {
      * @param worldName Name of World
      * @param groupName Name of Group
      * @param permission Permission node
-     * @return
+     * @return Success or Failure
      */
     public boolean groupRemovePermission(String worldName, String groupName, String permission);
     
@@ -97,7 +95,7 @@ public interface Permission {
      * @param worldName Name of World
      * @param playerName Name of Player
      * @param groupName Name of Group
-     * @return
+     * @return Success or Failure
      */
     public boolean playerInGroup(String worldName, String playerName, String groupName);
     
@@ -106,7 +104,7 @@ public interface Permission {
      * @param worldName Name of World
      * @param playerName Name of Player
      * @param groupName Name of Group
-     * @return
+     * @return Success or Failure
      */
     public boolean playerAddGroup(String worldName, String playerName, String groupName);
     
@@ -115,7 +113,7 @@ public interface Permission {
      * @param worldName Name of World
      * @param playerName Name of Player
      * @param groupName Name of Group
-     * @return
+     * @return Success or Failure
      */
     public boolean playerRemoveGroup(String worldName, String playerName, String groupName);
     
@@ -125,7 +123,7 @@ public interface Permission {
      * @param playerName Name of Player
      * @param node Permission node
      * @param defaultValue Default value (if node is not defined)
-     * @return
+     * @return Value
      */
     public int getPlayerInfoInteger(String world, String playerName, String node, int defaultValue);
     
@@ -144,7 +142,7 @@ public interface Permission {
      * @param groupName Name of Group
      * @param node Permission node
      * @param defaultValue Default value (if node is not defined)
-     * @return
+     * @return Value
      */
     
     public int getGroupInfoInteger(String world, String groupName, String node, int defaultValue);
@@ -164,7 +162,7 @@ public interface Permission {
      * @param playerName Name of Group
      * @param node Permission node
      * @param defaultValue Default value (if node is not defined)
-     * @return
+     * @return Value
      */
     public double getPlayerInfoDouble(String world, String playerName, String node, double defaultValue);
     
@@ -183,7 +181,7 @@ public interface Permission {
      * @param groupName Name of Group
      * @param node Permission node
      * @param defaultValue Default value (if node is not defined)
-     * @return
+     * @return Value
      */
     public double getGroupInfoDouble(String world, String groupName, String node, double defaultValue);
     
@@ -202,7 +200,7 @@ public interface Permission {
      * @param playerName Name of Player
      * @param node Permission node
      * @param defaultValue Default value (if node is not defined)
-     * @return
+     * @return Value
      */
     public boolean getPlayerInfoBoolean(String world, String playerName, String node, boolean defaultValue);
     
@@ -221,7 +219,7 @@ public interface Permission {
      * @param groupName Name of Group
      * @param node Permission node
      * @param defaultValue Default value (if node is not defined)
-     * @return
+     * @return Value
      */
     public boolean getGroupInfoBoolean(String world, String groupName, String node, boolean defaultValue);
     
@@ -240,7 +238,7 @@ public interface Permission {
      * @param playerName Name of Player
      * @param node Permission node
      * @param defaultValue Default value (if node is not defined)
-     * @return
+     * @return Value
      */
     public String getPlayerInfoString(String world, String playerName, String node, String defaultValue);
     
@@ -259,7 +257,7 @@ public interface Permission {
      * @param groupName Name of Group
      * @param node Permission node
      * @param defaultValue Default value (if node is not defined)
-     * @return
+     * @return Value
      */
     public String getGroupInfoString(String world, String groupName, String node, String defaultValue);
     
