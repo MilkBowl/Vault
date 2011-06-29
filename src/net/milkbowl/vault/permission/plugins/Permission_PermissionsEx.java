@@ -73,12 +73,12 @@ public class Permission_PermissionsEx implements Permission {
     }
 
     @Override
-    public boolean hasPermission(Player player, String permission) {
+    public boolean playerHasPermission(Player player, String permission) {
         return this.permission.has(player, permission);
     }
 
     @Override
-    public boolean inGroup(String worldName, String playerName, String groupName) {
+    public boolean playerInGroup(String worldName, String playerName, String groupName) {
         //Try catch the check because we don't know if the objects will actually exist Good Job on the crap Permissions plugin, why do we support this again?
         try {
             PermissionUser[] userList = PermissionsEx.getPermissionManager().getGroup(groupName).getUsers();
@@ -130,27 +130,27 @@ public class Permission_PermissionsEx implements Permission {
     }
 
     @Override
-    public int getUserInfoInteger(String world, String playerName, String node, int defaultValue) {
+    public int getPlayerInfoInteger(String world, String playerName, String node, int defaultValue) {
             return PermissionsEx.getPermissionManager().getUser(playerName).getOptionInteger(node, world, defaultValue);
     }
 
     @Override
-    public double getUserInfoDouble(String world, String playerName, String node, double defaultValue) {
+    public double getPlayerInfoDouble(String world, String playerName, String node, double defaultValue) {
         return PermissionsEx.getPermissionManager().getUser(playerName).getOptionDouble(node, world, defaultValue);
     }
 
     @Override
-    public boolean getUserInfoBoolean(String world, String playerName, String node, boolean defaultValue) {
+    public boolean getPlayerInfoBoolean(String world, String playerName, String node, boolean defaultValue) {
         return PermissionsEx.getPermissionManager().getUser(playerName).getOptionBoolean(node, world, defaultValue);
     }
 
     @Override
-    public String getUserInfoString(String world, String playerName, String node, String defaultValue) {
+    public String getPlayerInfoString(String world, String playerName, String node, String defaultValue) {
         return PermissionsEx.getPermissionManager().getUser(playerName).getOption(node, world, defaultValue);
     }
 
     @Override
-    public boolean userAddGroup(String worldName, String playerName, String groupName) {
+    public boolean playerAddGroup(String worldName, String playerName, String groupName) {
         PermissionGroup group = PermissionsEx.getPermissionManager().getGroup(groupName);
         PermissionUser user = PermissionsEx.getPermissionManager().getUser(playerName);
         if(group == null || user == null) {
@@ -162,7 +162,7 @@ public class Permission_PermissionsEx implements Permission {
     }
 
     @Override
-    public boolean userRemoveGroup(String worldName, String playerName, String groupName) {
+    public boolean playerRemoveGroup(String worldName, String playerName, String groupName) {
         PermissionGroup group = PermissionsEx.getPermissionManager().getGroup(groupName);
         PermissionUser user = PermissionsEx.getPermissionManager().getUser(playerName);
         if(group == null || user == null) {
@@ -174,7 +174,7 @@ public class Permission_PermissionsEx implements Permission {
     }
 
     @Override
-    public boolean userAddPermission(String worldName, String playerName, String permission) {
+    public boolean playerAddPermission(String worldName, String playerName, String permission) {
         PermissionUser user = PermissionsEx.getPermissionManager().getUser(playerName);
         if(user == null) {
             return false;
@@ -185,7 +185,7 @@ public class Permission_PermissionsEx implements Permission {
     }
 
     @Override
-    public boolean userRemovePermission(String worldName, String playerName, String permission) {
+    public boolean playerRemovePermission(String worldName, String playerName, String permission) {
         PermissionUser user = PermissionsEx.getPermissionManager().getUser(playerName);
         if(user == null) {
             return false;
@@ -218,7 +218,7 @@ public class Permission_PermissionsEx implements Permission {
     }
 
     @Override
-    public void setUserInfoInteger(String world, String playerName, String node, int value) {
+    public void setPlayerInfoInteger(String world, String playerName, String node, int value) {
         PermissionUser user = PermissionsEx.getPermissionManager().getUser(playerName);
         if(user != null) {
             user.setOption(node, String.valueOf(value), world);
@@ -226,7 +226,7 @@ public class Permission_PermissionsEx implements Permission {
     }
 
     @Override
-    public void setUserInfoDouble(String world, String playerName, String node, double value) {
+    public void setPlayerInfoDouble(String world, String playerName, String node, double value) {
         PermissionUser user = PermissionsEx.getPermissionManager().getUser(playerName);
         if(user != null) {
             user.setOption(node, String.valueOf(value), world);
@@ -234,7 +234,7 @@ public class Permission_PermissionsEx implements Permission {
     }
 
     @Override
-    public void setUserInfoBoolean(String world, String playerName, String node, boolean value) {
+    public void setPlayerInfoBoolean(String world, String playerName, String node, boolean value) {
         PermissionUser user = PermissionsEx.getPermissionManager().getUser(playerName);
         if(user != null) {
             user.setOption(node, String.valueOf(value), world);
@@ -242,7 +242,7 @@ public class Permission_PermissionsEx implements Permission {
     }
 
     @Override
-    public void setUserInfoString(String world, String playerName, String node, String value) {
+    public void setPlayerInfoString(String world, String playerName, String node, String value) {
         PermissionUser user = PermissionsEx.getPermissionManager().getUser(playerName);
         if(user != null) {
             user.setOption(node, String.valueOf(value), world);
@@ -326,6 +326,16 @@ public class Permission_PermissionsEx implements Permission {
             return;
         } else {
             group.setOption(node, world, value);
+        }
+    }
+
+    @Override
+    public boolean groupHasPermission(String worldName, String groupName, String permission) {
+        PermissionGroup group = PermissionsEx.getPermissionManager().getGroup(groupName);
+        if(group == null) {
+            return false;
+        } else {
+            return group.has(permission, worldName);
         }
     }
 

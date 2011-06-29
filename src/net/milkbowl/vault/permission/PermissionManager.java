@@ -98,7 +98,7 @@ public class PermissionManager {
     public boolean hasPermission(Player player, String permission, boolean def) {
         Permission p = getPermission();
         if(p != null) {
-            return p.hasPermission(player, permission);
+            return p.playerHasPermission(player, permission);
         } else {
             if(player.isOp()) {
                 return true;
@@ -118,7 +118,7 @@ public class PermissionManager {
     public boolean inGroup(String worldName, String playerName, String groupName) {
         Permission p = getPermission();
         if(p != null) {
-            return p.inGroup(worldName, playerName, groupName);
+            return p.playerInGroup(worldName, playerName, groupName);
         } else {
             return false;
         }
@@ -134,7 +134,7 @@ public class PermissionManager {
     public int getInfoInt(String world, String playerName, String node, int defaultValue) {
         Permission p = getPermission();
         if(p != null) {
-            return p.getUserInfoInteger(world, playerName, node, defaultValue);
+            return p.getPlayerInfoInteger(world, playerName, node, defaultValue);
         } else {
             return defaultValue;
         }
@@ -150,7 +150,7 @@ public class PermissionManager {
     public double getInfoBoolean(String world, String playerName, String node, double defaultValue) {
         Permission p = getPermission();
         if(p != null) {
-            return p.getUserInfoDouble(world, playerName, node, defaultValue);
+            return p.getPlayerInfoDouble(world, playerName, node, defaultValue);
         } else {
             return defaultValue;
         }
@@ -166,7 +166,7 @@ public class PermissionManager {
     public boolean getInfoBoolean(String world, String playerName, String node, boolean defaultValue) {
         Permission p = getPermission();
         if(p != null) {
-            return p.getUserInfoBoolean(world, playerName, node, defaultValue);
+            return p.getPlayerInfoBoolean(world, playerName, node, defaultValue);
         } else {
             return defaultValue;
         }
@@ -182,7 +182,7 @@ public class PermissionManager {
     public String getInfoBoolean(String world, String playerName, String node, String defaultValue) {
         Permission p = getPermission();
         if(p != null) {
-            return p.getUserInfoString(world, playerName, node, defaultValue);
+            return p.getPlayerInfoString(world, playerName, node, defaultValue);
         } else {
             return defaultValue;
         }
