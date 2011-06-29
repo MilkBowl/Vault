@@ -31,6 +31,7 @@ import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.PluginManager;
 
 
+import ru.tehkode.permissions.PermissionGroup;
 import ru.tehkode.permissions.PermissionUser;
 import ru.tehkode.permissions.bukkit.PermissionsEx;
 
@@ -128,27 +129,204 @@ public class Permission_PermissionsEx implements Permission {
         return name;
     }
 
-    /* (non-Javadoc)
-     * @see com.milkbukkit.localshops.modules.permission.Permission#numChestsAllowed(java.util.List, java.lang.String)
-     */
     @Override
-    public int getInfoInt(String world, String playerName, String node, int defaultValue) {
+    public int getUserInfoInteger(String world, String playerName, String node, int defaultValue) {
             return PermissionsEx.getPermissionManager().getUser(playerName).getOptionInteger(node, world, defaultValue);
     }
 
     @Override
-    public double getInfoDouble(String world, String playerName, String node, double defaultValue) {
+    public double getUserInfoDouble(String world, String playerName, String node, double defaultValue) {
         return PermissionsEx.getPermissionManager().getUser(playerName).getOptionDouble(node, world, defaultValue);
     }
 
     @Override
-    public boolean getInfoBoolean(String world, String playerName, String node, boolean defaultValue) {
+    public boolean getUserInfoBoolean(String world, String playerName, String node, boolean defaultValue) {
         return PermissionsEx.getPermissionManager().getUser(playerName).getOptionBoolean(node, world, defaultValue);
     }
 
     @Override
-    public String getInfoString(String world, String playerName, String node, String defaultValue) {
+    public String getUserInfoString(String world, String playerName, String node, String defaultValue) {
         return PermissionsEx.getPermissionManager().getUser(playerName).getOption(node, world, defaultValue);
+    }
+
+    @Override
+    public boolean userAddGroup(String worldName, String playerName, String groupName) {
+        PermissionGroup group = PermissionsEx.getPermissionManager().getGroup(groupName);
+        PermissionUser user = PermissionsEx.getPermissionManager().getUser(playerName);
+        if(group == null || user == null) {
+            return false;
+        } else {
+            user.addGroup(group);
+            return true;
+        }
+    }
+
+    @Override
+    public boolean userRemoveGroup(String worldName, String playerName, String groupName) {
+        PermissionGroup group = PermissionsEx.getPermissionManager().getGroup(groupName);
+        PermissionUser user = PermissionsEx.getPermissionManager().getUser(playerName);
+        if(group == null || user == null) {
+            return false;
+        } else {
+            user.removeGroup(group);
+            return true;
+        }
+    }
+
+    @Override
+    public boolean userAddPermission(String worldName, String playerName, String permission) {
+        PermissionUser user = PermissionsEx.getPermissionManager().getUser(playerName);
+        if(user == null) {
+            return false;
+        } else {
+            user.addPermission(permission, worldName);
+            return true;
+        }
+    }
+
+    @Override
+    public boolean userRemovePermission(String worldName, String playerName, String permission) {
+        PermissionUser user = PermissionsEx.getPermissionManager().getUser(playerName);
+        if(user == null) {
+            return false;
+        } else {
+            user.removePermission(permission, worldName);
+            return true;
+        }
+    }
+
+    @Override
+    public boolean groupAddPermission(String worldName, String groupName, String permission) {
+        PermissionGroup group = PermissionsEx.getPermissionManager().getGroup(groupName);
+        if(group == null) {
+            return false;
+        } else {
+            group.addPermission(permission, worldName);
+            return true;
+        }
+    }
+
+    @Override
+    public boolean groupRemovePermission(String worldName, String groupName, String permission) {
+        PermissionGroup group = PermissionsEx.getPermissionManager().getGroup(groupName);
+        if(group == null) {
+            return false;
+        } else {
+            group.removePermission(permission, worldName);
+            return true;
+        }
+    }
+
+    @Override
+    public void setUserInfoInteger(String world, String playerName, String node, int value) {
+        PermissionUser user = PermissionsEx.getPermissionManager().getUser(playerName);
+        if(user != null) {
+            user.setOption(node, String.valueOf(value), world);
+        }
+    }
+
+    @Override
+    public void setUserInfoDouble(String world, String playerName, String node, double value) {
+        PermissionUser user = PermissionsEx.getPermissionManager().getUser(playerName);
+        if(user != null) {
+            user.setOption(node, String.valueOf(value), world);
+        }        
+    }
+
+    @Override
+    public void setUserInfoBoolean(String world, String playerName, String node, boolean value) {
+        PermissionUser user = PermissionsEx.getPermissionManager().getUser(playerName);
+        if(user != null) {
+            user.setOption(node, String.valueOf(value), world);
+        }
+    }
+
+    @Override
+    public void setUserInfoString(String world, String playerName, String node, String value) {
+        PermissionUser user = PermissionsEx.getPermissionManager().getUser(playerName);
+        if(user != null) {
+            user.setOption(node, String.valueOf(value), world);
+        }
+    }
+
+    @Override
+    public int getGroupInfoInteger(String world, String groupName, String node, int defaultValue) {
+        PermissionGroup group = PermissionsEx.getPermissionManager().getGroup(groupName);
+        if(group == null) {
+            return defaultValue;
+        } else {
+            return group.getOptionInteger(node, world, defaultValue);
+        }
+    }
+
+    @Override
+    public void setGroupInfoInteger(String world, String groupName, String node, int value) {
+        PermissionGroup group = PermissionsEx.getPermissionManager().getGroup(groupName);
+        if(group == null) {
+            return;
+        } else {
+            group.setOption(node, world, String.valueOf(value));
+        }
+    }
+
+    @Override
+    public double getGroupInfoDouble(String world, String groupName, String node, double defaultValue) {
+        PermissionGroup group = PermissionsEx.getPermissionManager().getGroup(groupName);
+        if(group == null) {
+            return defaultValue;
+        } else {
+            return group.getOptionDouble(node, world, defaultValue);
+        }
+    }
+
+    @Override
+    public void setGroupInfoDouble(String world, String groupName, String node, double value) {
+        PermissionGroup group = PermissionsEx.getPermissionManager().getGroup(groupName);
+        if(group == null) {
+            return;
+        } else {
+            group.setOption(node, world, String.valueOf(value));
+        }
+    }
+
+    @Override
+    public boolean getGroupInfoBoolean(String world, String groupName, String node, boolean defaultValue) {
+        PermissionGroup group = PermissionsEx.getPermissionManager().getGroup(groupName);
+        if(group == null) {
+            return defaultValue;
+        } else {
+            return group.getOptionBoolean(node, world, defaultValue);
+        }
+    }
+
+    @Override
+    public void setGroupInfoBoolean(String world, String groupName, String node, boolean value) {
+        PermissionGroup group = PermissionsEx.getPermissionManager().getGroup(groupName);
+        if(group == null) {
+            return;
+        } else {
+            group.setOption(node, world, String.valueOf(value));
+        }
+    }
+
+    @Override
+    public String getGroupInfoString(String world, String groupName, String node, String defaultValue) {
+        PermissionGroup group = PermissionsEx.getPermissionManager().getGroup(groupName);
+        if(group == null) {
+            return defaultValue;
+        } else {
+            return group.getOption(node, world, defaultValue);
+        }
+    }
+
+    @Override
+    public void setGroupInfoString(String world, String groupName, String node, String value) {
+        PermissionGroup group = PermissionsEx.getPermissionManager().getGroup(groupName);
+        if(group == null) {
+            return;
+        } else {
+            group.setOption(node, world, value);
+        }
     }
 
 }

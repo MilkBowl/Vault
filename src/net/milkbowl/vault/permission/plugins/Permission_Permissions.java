@@ -114,28 +114,151 @@ public class Permission_Permissions implements Permission {
         return name;
     }
 
-    /* (non-Javadoc)
-     * @see com.milkbukkit.localshops.modules.permission.Permission#numChestsAllowed(java.util.List, java.lang.String, java.lang.String)
-     */
     @Override
-    public int getInfoInt(String world, String playerName, String node, int defaultValue) {
-        return this.permission.getHandler().getPermissionInteger(world, playerName, node);
+    public int getUserInfoInteger(String world, String playerName, String node, int defaultValue) {
+        return this.permission.getHandler().getInfoInteger(world, playerName, node, false);
     }
 
     @Override
-    public double getInfoDouble(String world, String playerName, String node, double defaultValue) {
-        return this.permission.getHandler().getPermissionDouble(world, playerName, node);
+    public double getUserInfoDouble(String world, String playerName, String node, double defaultValue) {
+        return this.permission.getHandler().getInfoDouble(world, playerName, node, false);
     }
 
     @Override
-    public boolean getInfoBoolean(String world, String playerName, String node, boolean defaultValue) {
-        return this.permission.getHandler().getPermissionBoolean(world, playerName, node);
+    public boolean getUserInfoBoolean(String world, String playerName, String node, boolean defaultValue) {
+        return this.permission.getHandler().getInfoBoolean(world, playerName, node, false);
     }
 
     @Override
-    public String getInfoString(String world, String playerName, String node, String defaultValue) {
-        return this.permission.getHandler().getPermissionString(world, playerName, node);
+    public String getUserInfoString(String world, String playerName, String node, String defaultValue) {
+        return this.permission.getHandler().getInfoString(world, playerName, node, false);
     }
 
+    @Override
+    public boolean userAddGroup(String worldName, String playerName, String groupName) {
+        // Not certain if this is possible in P3
+        return false;
+    }
 
+    @Override
+    public boolean userRemoveGroup(String worldName, String playerName, String groupName) {
+        // Not certain if this is possible in P3
+        return false;
+    }
+
+    @Override
+    public boolean userAddPermission(String worldName, String playerName, String permission) {
+        this.permission.getHandler().addUserPermission(worldName, playerName, permission);
+        return true;
+    }
+
+    @Override
+    public boolean userRemovePermission(String worldName, String playerName, String permission) {
+        this.permission.getHandler().removeUserPermission(worldName, playerName, permission);
+        return true;
+    }
+
+    @Override
+    public boolean groupAddPermission(String worldName, String groupName, String permission) {
+        this.permission.getHandler().addGroupPermission(worldName, groupName, permission);
+        return true;
+    }
+
+    @Override
+    public boolean groupRemovePermission(String worldName, String groupName, String permission) {
+        this.permission.getHandler().removeGroupPermission(worldName, groupName, permission);
+        return true;
+    }
+
+    @Override
+    public void setUserInfoInteger(String world, String playerName, String node, int value) {
+        try {
+            this.permission.getHandler().safeGetUser(world, playerName).setData(node, value);
+        } catch(Exception e) {
+            // lolwut?
+        }
+    }
+
+    @Override
+    public void setUserInfoDouble(String world, String playerName, String node, double value) {
+        try {
+            this.permission.getHandler().safeGetUser(world, playerName).setData(node, value);
+        } catch(Exception e) {
+            // lolwut?
+        }
+    }
+
+    @Override
+    public void setUserInfoBoolean(String world, String playerName, String node, boolean value) {
+        try {
+            this.permission.getHandler().safeGetUser(world, playerName).setData(node, value);
+        } catch(Exception e) {
+            // lolwut?
+        }        
+    }
+
+    @Override
+    public void setUserInfoString(String world, String playerName, String node, String value) {
+        try {
+            this.permission.getHandler().safeGetUser(world, playerName).setData(node, value);
+        } catch(Exception e) {
+            // lolwut?
+        }
+    }
+
+    @Override
+    public int getGroupInfoInteger(String world, String groupName, String node, int defaultValue) {
+        return this.permission.getHandler().getInfoInteger(world, groupName, node, true);
+    }
+
+    @Override
+    public void setGroupInfoInteger(String world, String groupName, String node, int value) {
+        try {
+            this.permission.getHandler().safeGetGroup(world, groupName).setData(node, value);
+        } catch(Exception e) {
+            // lolwut?
+        }
+    }
+
+    @Override
+    public double getGroupInfoDouble(String world, String groupName, String node, double defaultValue) {
+        return this.permission.getHandler().getInfoDouble(world, groupName, node, true);
+    }
+
+    @Override
+    public void setGroupInfoDouble(String world, String groupName, String node, double value) {
+        try {
+            this.permission.getHandler().safeGetGroup(world, groupName).setData(node, value);
+        } catch(Exception e) {
+            // lolwut?
+        }
+    }
+
+    @Override
+    public boolean getGroupInfoBoolean(String world, String groupName, String node, boolean defaultValue) {
+        return this.permission.getHandler().getInfoBoolean(world, groupName, node, true);
+    }
+
+    @Override
+    public void setGroupInfoBoolean(String world, String groupName, String node, boolean value) {
+        try {
+            this.permission.getHandler().safeGetGroup(world, groupName).setData(node, value);
+        } catch(Exception e) {
+            // lolwut?
+        }
+    }
+
+    @Override
+    public String getGroupInfoString(String world, String groupName, String node, String defaultValue) {
+        return this.permission.getHandler().getInfoString(world, groupName, node, true);
+    }
+
+    @Override
+    public void setGroupInfoString(String world, String groupName, String node, String value) {
+        try {
+            this.permission.getHandler().safeGetGroup(world, groupName).setData(node, value);
+        } catch(Exception e) {
+            // lolwut?
+        }
+    }
 }

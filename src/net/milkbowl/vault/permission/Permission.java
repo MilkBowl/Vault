@@ -29,10 +29,39 @@ public interface Permission {
 
     public String getName();
     public boolean isEnabled();
+    
     public boolean hasPermission(Player player, String permission);
+    public boolean userAddPermission(String worldName, String playerName, String permission);
+    public boolean userRemovePermission(String worldName, String playerName, String permission);
+    public boolean groupAddPermission(String worldName, String groupName, String permission);
+    public boolean groupRemovePermission(String worldName, String groupName, String permission);
+    
     public boolean inGroup(String worldName, String playerName, String groupName);
-    public int getInfoInt(String world, String playerName, String node, int defaultValue);
-    public double getInfoDouble(String world, String playerName, String node, double defaultValue);
-    public boolean getInfoBoolean(String world, String playerName, String node, boolean defaultValue);
-    public String getInfoString(String world, String playerName, String node, String defaultValue);
+    public boolean userAddGroup(String worldName, String playerName, String groupName);
+    public boolean userRemoveGroup(String worldName, String playerName, String groupName);
+    
+    public int getUserInfoInteger(String world, String playerName, String node, int defaultValue);
+    public void setUserInfoInteger(String world, String playerName, String node, int value);
+    
+    public int getGroupInfoInteger(String world, String groupName, String node, int defaultValue);
+    public void setGroupInfoInteger(String world, String groupName, String node, int value);
+    
+    public double getUserInfoDouble(String world, String playerName, String node, double defaultValue);
+    public void setUserInfoDouble(String world, String playerName, String node, double value);
+    
+    public double getGroupInfoDouble(String world, String groupName, String node, double defaultValue);
+    public void setGroupInfoDouble(String world, String groupName, String node, double value);
+    
+    public boolean getUserInfoBoolean(String world, String playerName, String node, boolean defaultValue);
+    public void setUserInfoBoolean(String world, String playerName, String node, boolean value);
+    
+    public boolean getGroupInfoBoolean(String world, String groupName, String node, boolean defaultValue);
+    public void setGroupInfoBoolean(String world, String groupName, String node, boolean value);
+    
+    public String getUserInfoString(String world, String playerName, String node, String defaultValue);
+    public void setUserInfoString(String world, String playerName, String node, String value);
+    
+    public String getGroupInfoString(String world, String groupName, String node, String defaultValue);
+    public void setGroupInfoString(String world, String groupName, String node, String value);
+    
 }

@@ -134,7 +134,7 @@ public class PermissionManager {
     public int getInfoInt(String world, String playerName, String node, int defaultValue) {
         Permission p = getPermission();
         if(p != null) {
-            return p.getInfoInt(world, playerName, node, defaultValue);
+            return p.getUserInfoInteger(world, playerName, node, defaultValue);
         } else {
             return defaultValue;
         }
@@ -150,7 +150,7 @@ public class PermissionManager {
     public double getInfoBoolean(String world, String playerName, String node, double defaultValue) {
         Permission p = getPermission();
         if(p != null) {
-            return p.getInfoDouble(world, playerName, node, defaultValue);
+            return p.getUserInfoDouble(world, playerName, node, defaultValue);
         } else {
             return defaultValue;
         }
@@ -166,7 +166,7 @@ public class PermissionManager {
     public boolean getInfoBoolean(String world, String playerName, String node, boolean defaultValue) {
         Permission p = getPermission();
         if(p != null) {
-            return p.getInfoBoolean(world, playerName, node, defaultValue);
+            return p.getUserInfoBoolean(world, playerName, node, defaultValue);
         } else {
             return defaultValue;
         }
@@ -182,7 +182,7 @@ public class PermissionManager {
     public String getInfoBoolean(String world, String playerName, String node, String defaultValue) {
         Permission p = getPermission();
         if(p != null) {
-            return p.getInfoString(world, playerName, node, defaultValue);
+            return p.getUserInfoString(world, playerName, node, defaultValue);
         } else {
             return defaultValue;
         }

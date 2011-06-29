@@ -81,7 +81,7 @@ Github and we'll get to it at our convenience.
    - 3co (http://forums.bukkit.org/threads/22461/)
 
  * Permissions
-   - Permissions 2 & 3 (http://forums.bukkit.org/threads/18430/)
+   - Permissions 3 (http://forums.bukkit.org/threads/18430/)
    - Permissions Ex (http://forums.bukkit.org/threads/18140/)
 
 
