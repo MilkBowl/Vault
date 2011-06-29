@@ -1,4 +1,4 @@
-# Vault - Abstraction Library for Bukkit Plugins
+# Vault - Abstraction Library for Bukkit Plugin
 
 ## Installing
 Installing Vault is as simple as copying the provided "Vault.jar" to your
@@ -8,8 +8,36 @@ file but should not be necessary in most cases.  See the "Advanced
 Configuration" section for more information.
 
 
+## Why Vault?
+I have no preference which library suits your plugin and development efforts
+best.  Really, I thought a central suite (rather...Vault) of solutions was the
+the proper avenue than focusing on a single category of plugin.  That's where
+the idea for Vault came into play.
+
+So, what features do I _think_ you'll like the most?
+
+ * No need to include my source code in your plugin
+   All of Vault is run in its own plugin, so all you need to do is obtain an
+   instance of it!  This simplifies issues with multiple plugins using the same
+   namespaces.  Just simply add Vault.jar to your download zip file!
+ * Broad range of supported plugins
+   I wanted an abstraction layer not only for Economic plugins but also
+   Permission plugins as well.  The future will likely add more, but what
+   types, I have yet to decide, let me know!
+ * Choice!
+   That's half the fun of Bukkit, we get to choose what to use!  More choice
+   has never hurt developers so here's to choice!
+
+
 ## Permissions
 None!  Vault has no permission nodes itself.
+
+
+## Advanced Configuration
+It isn't implemented yet, but the goal is to allow disabling of specific
+plugins by their namespace in a <bukkit-dir>/plugins/Vault/vault.properties
+configuration file.  It won't be necessary except for really oddball
+situations.
 
 
 ## License
