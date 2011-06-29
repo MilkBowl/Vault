@@ -29,29 +29,24 @@ import org.bukkit.plugin.java.JavaPlugin;
 public class Vault extends JavaPlugin {
     
     private static final Logger log = Logger.getLogger("Minecraft");
-    private static EconomyManager econManager = null;
-    private static PermissionManager permManager = null;
+    private EconomyManager econManager = new EconomyManager(this);
+    private PermissionManager permManager = new PermissionManager(this);
 
     @Override
     public void onDisable() {
-        econManager = null;
-        permManager = null;
         log.info(String.format("[%s] Disabled Version %s", getDescription().getName(), getDescription().getVersion()));
     }
 
     @Override
     public void onEnable() {
-        econManager = new EconomyManager(this);
-        permManager = new PermissionManager(this);
-        
         log.info(String.format("[%s] Enabled Version %s", getDescription().getName(), getDescription().getVersion()));
     }
 
-    public static EconomyManager getEconomy() {
+    public EconomyManager getEconomy() {
         return econManager;
     }
     
-    public static PermissionManager getPermission() {
+    public PermissionManager getPermission() {
         return permManager;
     }
 }
