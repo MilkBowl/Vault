@@ -123,22 +123,50 @@ public class Permission_Permissions implements Permission {
 
     @Override
     public int getPlayerInfoInteger(String world, String playerName, String node, int defaultValue) {
-        return this.permission.getHandler().getInfoInteger(world, playerName, node, false);
+        String s = this.permission.getHandler().getInfoString(world, playerName, node, false);
+        if(s == null) {
+            return defaultValue;
+        } else {
+            try {
+                return Integer.parseInt(s);
+            } catch(NumberFormatException e) {
+                return defaultValue;
+            }
+        }
     }
 
     @Override
     public double getPlayerInfoDouble(String world, String playerName, String node, double defaultValue) {
-        return this.permission.getHandler().getInfoDouble(world, playerName, node, false);
+        String s = this.permission.getHandler().getInfoString(world, playerName, node, false);
+        if(s == null) {
+            return defaultValue;
+        } else {
+            try {
+                return Double.parseDouble(s);
+            } catch(NumberFormatException e) {
+                return defaultValue;
+            }
+        }
     }
 
     @Override
     public boolean getPlayerInfoBoolean(String world, String playerName, String node, boolean defaultValue) {
-        return this.permission.getHandler().getInfoBoolean(world, playerName, node, false);
+        String s = this.permission.getHandler().getInfoString(world, playerName, node, false);
+        if (s == null) {
+            return defaultValue;
+        } else {
+            return Boolean.parseBoolean(s);
+        }
     }
 
     @Override
     public String getPlayerInfoString(String world, String playerName, String node, String defaultValue) {
-        return this.permission.getHandler().getInfoString(world, playerName, node, false);
+        String s = this.permission.getHandler().getInfoString(world, playerName, node, false);
+        if(s == null) {
+            return defaultValue;
+        } else {
+            return s;
+        }
     }
 
     @Override
