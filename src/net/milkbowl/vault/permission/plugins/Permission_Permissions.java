@@ -215,7 +215,16 @@ public class Permission_Permissions implements Permission {
 
     @Override
     public int getGroupInfoInteger(String world, String groupName, String node, int defaultValue) {
-        return this.permission.getHandler().getInfoInteger(world, groupName, node, true);
+        String s = this.permission.getHandler().getInfoString(world, groupName, node, true);
+        if(s == null) {
+            return defaultValue;
+        } else {
+            try {
+                return Integer.parseInt(s);
+            } catch(NumberFormatException e) {
+                return defaultValue;
+            }
+        }
     }
 
     @Override
@@ -229,7 +238,16 @@ public class Permission_Permissions implements Permission {
 
     @Override
     public double getGroupInfoDouble(String world, String groupName, String node, double defaultValue) {
-        return this.permission.getHandler().getInfoDouble(world, groupName, node, true);
+        String s = this.permission.getHandler().getInfoString(world, groupName, node, true);
+        if(s == null) {
+            return defaultValue;
+        } else {
+            try {
+                return Double.parseDouble(s);
+            } catch(NumberFormatException e) {
+                return defaultValue;
+            }
+        }
     }
 
     @Override
@@ -243,7 +261,12 @@ public class Permission_Permissions implements Permission {
 
     @Override
     public boolean getGroupInfoBoolean(String world, String groupName, String node, boolean defaultValue) {
-        return this.permission.getHandler().getInfoBoolean(world, groupName, node, true);
+        String s = this.permission.getHandler().getInfoString(world, groupName, node, true);
+        if(s == null) {
+            return defaultValue;
+        } else {
+            return Boolean.parseBoolean(s);
+        }
     }
 
     @Override
@@ -257,7 +280,12 @@ public class Permission_Permissions implements Permission {
 
     @Override
     public String getGroupInfoString(String world, String groupName, String node, String defaultValue) {
-        return this.permission.getHandler().getInfoString(world, groupName, node, true);
+        String s = this.permission.getHandler().getInfoString(world, groupName, node, true);
+        if(s == null) {
+            return defaultValue;
+        } else {
+            return s;
+        }
     }
 
     @Override
