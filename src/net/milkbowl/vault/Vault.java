@@ -23,13 +23,20 @@ import java.util.Iterator;
 import java.util.TreeMap;
 import java.util.logging.Logger;
 
-import net.milkbowl.vault.economy.*;
-import net.milkbowl.vault.economy.plugins.*;
-import net.milkbowl.vault.permission.*;
-import net.milkbowl.vault.permission.plugins.*;
+import net.milkbowl.vault.economy.Economy;
+import net.milkbowl.vault.economy.plugins.Economy_3co;
+import net.milkbowl.vault.economy.plugins.Economy_BOSE;
+import net.milkbowl.vault.economy.plugins.Economy_Essentials;
+import net.milkbowl.vault.economy.plugins.Economy_iConomy4;
+import net.milkbowl.vault.economy.plugins.Economy_iConomy5;
+import net.milkbowl.vault.permission.Permission;
+import net.milkbowl.vault.permission.plugins.Permission_Permissions;
+import net.milkbowl.vault.permission.plugins.Permission_PermissionsEx;
 
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
+import org.bukkit.command.ConsoleCommandSender;
+import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public class Vault extends JavaPlugin {
@@ -182,6 +189,19 @@ public class Vault extends JavaPlugin {
     
     @Override
     public boolean onCommand(CommandSender sender, Command command, String commandLabel, String[] args) {
+        if(sender instanceof Player) {
+            // Check if Player
+            // If so, ignore command if player is not Op
+            Player p = (Player) sender;
+            if(!p.isOp()) {
+                return true;
+            }
+        } else if (!(sender instanceof ConsoleCommandSender)) {
+            // Check if NOT console
+            // Ignore it if not originated from Console!
+            return true;
+        }
+        
         if(command.getLabel().equals("vault")) {
             if(args.length > 0) {
                 if(args[0].equalsIgnoreCase("info")) {
