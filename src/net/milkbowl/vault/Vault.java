@@ -59,6 +59,10 @@ public class Vault extends JavaPlugin {
         log.info(String.format("[%s] Enabled Version %s", getDescription().getName(), getDescription().getVersion()));
     }
 
+    /**
+     * Gets current active Economy implementation
+     * @return Economy class
+     */
     public Economy getEconomy() {
         if (activeEconomy == null) {
             Iterator<Economy> it = econs.values().iterator();
@@ -74,6 +78,10 @@ public class Vault extends JavaPlugin {
         }
     }
     
+    /**
+     * Gets current active Permission implementation
+     * @return Permission class
+     */
     public Permission getPermission() {
         if(activePermission == null) {
             Iterator<Permission> it = perms.values().iterator();
@@ -89,6 +97,9 @@ public class Vault extends JavaPlugin {
         }
     }
     
+    /**
+     * Attempts to load Economy Addons
+     */
     private void loadEconomy() {
         // Try to load 3co
         if(packageExists(new String[] { "me.ic3d.eco.ECO" })) {
@@ -136,6 +147,9 @@ public class Vault extends JavaPlugin {
         }
     }
     
+    /**
+     * Attempts to load Permission Addons
+     */
     private void loadPermission() {
         // Try to load PermissionsEx
         if(packageExists(new String[] { "ru.tehkode.permissions.bukkit.PermissionsEx" })) {
@@ -150,24 +164,53 @@ public class Vault extends JavaPlugin {
         if (packageExists(new String[] { "com.nijikokun.bukkit.Permissions.Permissions" })) {
             Permission nPerms = new Permission_Permissions(this);
             perms.put(9, nPerms);
-            log.info(String.format("[%s][Permission] Permissions (Phoenix) found: %s", getDescription().getName(), nPerms.isEnabled() ? "Loaded" : "Waiting"));
+            log.info(String.format("[%s][Permission] Permissions (Yetti) found: %s", getDescription().getName(), nPerms.isEnabled() ? "Loaded" : "Waiting"));
         } else {
-            log.info(String.format("[%s][Permission] Permissions (Phoenix) not found.", getDescription().getName()));
+            log.info(String.format("[%s][Permission] Permissions (Yetti) not found.", getDescription().getName()));
         }
+    }
+    
+    private void reload() {
+        econs.clear();
+        activeEconomy = null;
+        loadEconomy();
+        
+        perms.clear();
+        activePermission = null;
+        loadPermission();
     }
     
     @Override
     public boolean onCommand(CommandSender sender, Command command, String commandLabel, String[] args) {
         if(command.getLabel().equals("vault")) {
-            // do stuff!
-            sender.sendMessage(String.format("[%s] Vault v%s Information", getDescription().getName(), getDescription().getVersion()));
-            sender.sendMessage(String.format("[%s] Economy: %s", getDescription().getName(), getEconomy().getName()));
-            sender.sendMessage(String.format("[%s] Permission: %s", getDescription().getName(), getPermission().getName()));
-            return true;
+            if(args.length > 0) {
+                if(args[0].equalsIgnoreCase("info")) {
+                    sender.sendMessage(String.format("[%s] Vault v%s Information", getDescription().getName(), getDescription().getVersion()));
+                    sender.sendMessage(String.format("[%s] Economy: %s", getDescription().getName(), getEconomy().getName()));
+                    sender.sendMessage(String.format("[%s] Permission: %s", getDescription().getName(), getPermission().getName()));
+                    return true;
+                } else if(args[0].equalsIgnoreCase("reload")) {
+                    reload();
+                    sender.sendMessage(String.format("[%s] Reloaded Addons", getDescription().getName()));
+                    return true;
+                }
+            }
         }
-        return false;
+        
+        // Show help
+        sender.sendMessage("Vault Commands:");
+        sender.sendMessage("  /vault info - Displays information about Vault");
+        sender.sendMessage("  /vault reload - Reloads Addons");
+        return true;
     }
     
+    /**
+     * Determines if all packages in a String array are within the Classpath
+     * This is the best way to determine if a specific plugin exists and will be loaded.
+     * If the plugin package isn't loaded, we shouldn't bother waiting for it!
+     * @param packages String Array of package names to check
+     * @return Success or Failure
+     */
     private boolean packageExists(String[] packages) {
         try {
             for (String pkg : packages) {

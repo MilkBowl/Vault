@@ -19,8 +19,6 @@
 
 package net.milkbowl.vault.permission;
 
-import java.util.logging.Logger;
-
 import org.bukkit.entity.Player;
 
 public interface Permission {

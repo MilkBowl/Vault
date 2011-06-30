@@ -40,7 +40,7 @@ import com.nijikokun.bukkit.Permissions.Permissions;
 public class Permission_Permissions implements Permission {
     private static final Logger log = Logger.getLogger("Minecraft");
     
-    private String name = "Permissions (Phoenix)";
+    private String name = "Permissions (Yetti)";
     private Plugin plugin = null;
     private PluginManager pluginManager = null;
     private Permissions permission = null;
