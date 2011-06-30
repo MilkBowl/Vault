@@ -4,3 +4,8 @@ version: 1.0.0dev
 author: Cereal
 description: >
              Abstraction Library for Bukkit Plugins
+commands:
+  vault:
+    description: Generic command for Vault API 
+    usage: |
+           /<command> - displays vault command help
