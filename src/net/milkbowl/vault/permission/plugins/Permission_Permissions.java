@@ -32,8 +32,6 @@ import org.bukkit.event.server.ServerListener;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.PluginManager;
 
-import ru.tehkode.permissions.PermissionGroup;
-
 import com.nijiko.permissions.Group;
 import com.nijikokun.bukkit.Permissions.Permissions;
 

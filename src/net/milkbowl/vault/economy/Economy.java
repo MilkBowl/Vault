@@ -19,8 +19,6 @@
 
 package net.milkbowl.vault.economy;
 
-import java.util.logging.Logger;
-
 public interface Economy {
     public boolean isEnabled();
     public String getName();
