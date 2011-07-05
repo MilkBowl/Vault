@@ -36,12 +36,20 @@ public interface Permission {
     public boolean isEnabled();
     
     /**
+     * Checks if player has a permission node.  (Short for playerHas(...)
+     * @param player Player instance
+     * @param permission Permission node
+     * @return Success or Failure
+     */
+    public boolean has(Player player, String permission);
+    
+    /**
      * Checks if player has a permission node.
      * @param player Player instance
      * @param permission Permission node
      * @return Success or Failure
      */
-    public boolean playerHasPermission(Player player, String permission);
+    public boolean playerHas(Player player, String permission);
     
     /**
      * Add permission to a player.
@@ -50,7 +58,7 @@ public interface Permission {
      * @param permission Permission node
      * @return Success or Failure
      */
-    public boolean playerAddPermission(String worldName, String playerName, String permission);
+    public boolean playerAdd(String worldName, String playerName, String permission);
     
     /**
      * Remove permission from a player.
@@ -59,7 +67,7 @@ public interface Permission {
      * @param permission Permission node
      * @return Success or Failure
      */
-    public boolean playerRemovePermission(String worldName, String playerName, String permission);
+    public boolean playerRemove(String worldName, String playerName, String permission);
     
     /**
      * Checks if group has a permission node.
@@ -68,7 +76,7 @@ public interface Permission {
      * @param permission Permission node
      * @return Success or Failure
      */
-    public boolean groupHasPermission(String worldName, String groupName, String permission);
+    public boolean groupHas(String worldName, String groupName, String permission);
     
     /**
      * Add permission to a group.
@@ -77,7 +85,7 @@ public interface Permission {
      * @param permission Permission node
      * @return Success or Failure
      */
-    public boolean groupAddPermission(String worldName, String groupName, String permission);
+    public boolean groupAdd(String worldName, String groupName, String permission);
     
     /**
      * Remove permission from a group.
@@ -86,7 +94,7 @@ public interface Permission {
      * @param permission Permission node
      * @return Success or Failure
      */
-    public boolean groupRemovePermission(String worldName, String groupName, String permission);
+    public boolean groupRemove(String worldName, String groupName, String permission);
     
     /**
      * Check if player is member of a group.

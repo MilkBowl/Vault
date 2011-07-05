@@ -19,7 +19,9 @@
 
 package net.milkbowl.vault;
 
+import java.util.Collections;
 import java.util.Iterator;
+import java.util.Map;
 import java.util.TreeMap;
 import java.util.logging.Logger;
 
@@ -44,12 +46,12 @@ public class Vault extends JavaPlugin {
     private static final Logger log = Logger.getLogger("Minecraft");
     
     // Economy
-    private TreeMap<Integer, Economy> econs = new TreeMap<Integer, Economy>();
-    private Economy activeEconomy = null;
+    private static Map<Integer, Economy> econs = Collections.synchronizedMap(new TreeMap<Integer, Economy>());
+    private static Economy activeEconomy = null;
     
     // Permission
-    private TreeMap<Integer,Permission> perms = new TreeMap<Integer,Permission>();
-    private Permission activePermission = null;
+    private static Map<Integer,Permission> perms = Collections.synchronizedMap(new TreeMap<Integer, Permission>());
+    private static Permission activePermission = null;
 
     @Override
     public void onDisable() {
@@ -70,7 +72,7 @@ public class Vault extends JavaPlugin {
      * Gets current active Economy implementation
      * @return Economy class
      */
-    public Economy getEconomy() {
+    public static Economy getEconomy() {
         if (activeEconomy == null) {
             Iterator<Economy> it = econs.values().iterator();
             while (it.hasNext()) {
@@ -89,7 +91,7 @@ public class Vault extends JavaPlugin {
      * Gets current active Permission implementation
      * @return Permission class
      */
-    public Permission getPermission() {
+    public static Permission getPermission() {
         if(activePermission == null) {
             Iterator<Permission> it = perms.values().iterator();
             while(it.hasNext()) {
@@ -231,7 +233,7 @@ public class Vault extends JavaPlugin {
      * @param packages String Array of package names to check
      * @return Success or Failure
      */
-    private boolean packageExists(String[] packages) {
+    private static boolean packageExists(String[] packages) {
         try {
             for (String pkg : packages) {
                 Class.forName(pkg);

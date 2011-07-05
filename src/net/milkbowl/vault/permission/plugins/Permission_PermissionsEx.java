@@ -75,9 +75,14 @@ public class Permission_PermissionsEx implements Permission {
             return permission.isEnabled();
         }
     }
+    
+    @Override
+    public boolean has(Player player, String permission) {
+        return playerHas(player, permission);
+    }
 
     @Override
-    public boolean playerHasPermission(Player player, String permission) {
+    public boolean playerHas(Player player, String permission) {
         return this.permission.has(player, permission);
     }
 
@@ -178,7 +183,7 @@ public class Permission_PermissionsEx implements Permission {
     }
 
     @Override
-    public boolean playerAddPermission(String worldName, String playerName, String permission) {
+    public boolean playerAdd(String worldName, String playerName, String permission) {
         PermissionUser user = PermissionsEx.getPermissionManager().getUser(playerName);
         if(user == null) {
             return false;
@@ -189,7 +194,7 @@ public class Permission_PermissionsEx implements Permission {
     }
 
     @Override
-    public boolean playerRemovePermission(String worldName, String playerName, String permission) {
+    public boolean playerRemove(String worldName, String playerName, String permission) {
         PermissionUser user = PermissionsEx.getPermissionManager().getUser(playerName);
         if(user == null) {
             return false;
@@ -200,7 +205,7 @@ public class Permission_PermissionsEx implements Permission {
     }
 
     @Override
-    public boolean groupAddPermission(String worldName, String groupName, String permission) {
+    public boolean groupAdd(String worldName, String groupName, String permission) {
         PermissionGroup group = PermissionsEx.getPermissionManager().getGroup(groupName);
         if(group == null) {
             return false;
@@ -211,7 +216,7 @@ public class Permission_PermissionsEx implements Permission {
     }
 
     @Override
-    public boolean groupRemovePermission(String worldName, String groupName, String permission) {
+    public boolean groupRemove(String worldName, String groupName, String permission) {
         PermissionGroup group = PermissionsEx.getPermissionManager().getGroup(groupName);
         if(group == null) {
             return false;
@@ -334,7 +339,7 @@ public class Permission_PermissionsEx implements Permission {
     }
 
     @Override
-    public boolean groupHasPermission(String worldName, String groupName, String permission) {
+    public boolean groupHas(String worldName, String groupName, String permission) {
         PermissionGroup group = PermissionsEx.getPermissionManager().getGroup(groupName);
         if(group == null) {
             return false;

@@ -32,8 +32,6 @@ import org.bukkit.event.server.ServerListener;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.PluginManager;
 
-import ru.tehkode.permissions.PermissionGroup;
-
 import com.nijiko.permissions.Group;
 import com.nijikokun.bukkit.Permissions.Permissions;
 
@@ -75,9 +73,14 @@ public class Permission_Permissions implements Permission {
             return permission.isEnabled();
         }
     }
+    
+    @Override
+    public boolean has(Player player, String permission) {
+        return playerHas(player, permission);
+    }
 
     @Override
-    public boolean playerHasPermission(Player player, String permission) {
+    public boolean playerHas(Player player, String permission) {
         return this.permission.getHandler().has(player, permission);
     }
 
@@ -182,25 +185,25 @@ public class Permission_Permissions implements Permission {
     }
 
     @Override
-    public boolean playerAddPermission(String worldName, String playerName, String permission) {
+    public boolean playerAdd(String worldName, String playerName, String permission) {
         this.permission.getHandler().addUserPermission(worldName, playerName, permission);
         return true;
     }
 
     @Override
-    public boolean playerRemovePermission(String worldName, String playerName, String permission) {
+    public boolean playerRemove(String worldName, String playerName, String permission) {
         this.permission.getHandler().removeUserPermission(worldName, playerName, permission);
         return true;
     }
 
     @Override
-    public boolean groupAddPermission(String worldName, String groupName, String permission) {
+    public boolean groupAdd(String worldName, String groupName, String permission) {
         this.permission.getHandler().addGroupPermission(worldName, groupName, permission);
         return true;
     }
 
     @Override
-    public boolean groupRemovePermission(String worldName, String groupName, String permission) {
+    public boolean groupRemove(String worldName, String groupName, String permission) {
         this.permission.getHandler().removeGroupPermission(worldName, groupName, permission);
         return true;
     }
@@ -326,7 +329,7 @@ public class Permission_Permissions implements Permission {
     }
 
     @Override
-    public boolean groupHasPermission(String worldName, String groupName, String permission) {
+    public boolean groupHas(String worldName, String groupName, String permission) {
         try {
             Group group = this.permission.getHandler().safeGetGroup(worldName, groupName);
             return group.hasPermission(permission);
