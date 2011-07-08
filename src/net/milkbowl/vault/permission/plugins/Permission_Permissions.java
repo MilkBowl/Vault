@@ -338,4 +338,13 @@ public class Permission_Permissions implements Permission {
             return false;
         }
     }
+
+	@Override
+	public String[] getPlayerGroups(String world, String playerName) {
+		return this.permission.getHandler().getGroups(world, playerName);
+	}
+	
+	public String getPrimaryGroup(String world, String playerName) {
+		return this.permission.getHandler().getPrimaryGroup(world, playerName);
+	}
 }

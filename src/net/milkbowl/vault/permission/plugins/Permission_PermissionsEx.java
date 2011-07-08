@@ -348,4 +348,13 @@ public class Permission_PermissionsEx implements Permission {
         }
     }
 
+	@Override
+	public String[] getPlayerGroups(String world, String playerName) {
+		return PermissionsEx.getPermissionManager().getUser(playerName).getGroupsNames();
+	}
+
+	@Override
+	public String getPrimaryGroup(String world, String playerName) {
+		return PermissionsEx.getPermissionManager().getUser(playerName).getGroupsNames()[0];
+	}
 }
