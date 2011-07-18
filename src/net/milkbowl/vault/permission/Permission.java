@@ -276,4 +276,13 @@ public interface Permission {
      */
     public void setGroupInfoString(String world, String groupName, String node, String value);
     
+    /**
+     * Gets the list of groups that this player has
+     * 
+     * @param world Name of World
+     * @param playerName Name of Player 
+     */
+    public String[] getPlayerGroups(String world, String playerName);
+    
+    public String getPrimaryGroup(String world, String playerName);
 }
