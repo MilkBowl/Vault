@@ -79,26 +79,18 @@ public class Economy_Essentials implements Economy {
     }
 
     @Override
-    public EconomyResponse getBalance(String playerName) {
+    public double getBalance(String playerName) {
         double balance;
-        EconomyResponse.ResponseType type;
-        String errorMessage = null;
-        
+
         try {
             balance = com.earth2me.essentials.api.Economy.getMoney(playerName);
-            type = EconomyResponse.ResponseType.SUCCESS;
         } catch (UserDoesNotExistException e) {
-            if(createPlayerAccount(playerName)) {
-                balance = 0;
-                type = EconomyResponse.ResponseType.SUCCESS;
-            } else {
-                balance = 0;
-                type = EconomyResponse.ResponseType.FAILURE;
-                errorMessage = "User does not exist";
-            }
+            createPlayerAccount(playerName);
+            balance = 0;
         }
         
-        return new EconomyResponse(balance, balance, type, errorMessage);
+        final double fBalance = balance;
+        return fBalance;
     }
     
     private boolean createPlayerAccount(String playerName) {

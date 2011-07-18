@@ -23,7 +23,7 @@ public interface Economy {
     public boolean isEnabled();
     public String getName();
     public String format(double amount);
-    public EconomyResponse getBalance(String playerName);
+    public double getBalance(String playerName);
     public EconomyResponse withdrawPlayer(String playerName, double amount);
     public EconomyResponse depositPlayer(String playerName, double amount);
 }

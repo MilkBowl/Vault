@@ -84,15 +84,13 @@ public class Economy_iConomy5 implements Economy {
     }
 
     @Override
-    public EconomyResponse getBalance(String playerName) {
-        double balance;
-        EconomyResponse.ResponseType type;
-        String errorMessage = null;
+    public double getBalance(String playerName) {
+        final double balance;
 
         balance = getAccountBalance(playerName);
-        type = EconomyResponse.ResponseType.SUCCESS;
 
-        return new EconomyResponse(balance, balance, type, errorMessage);
+        final double fBalance = balance;
+        return fBalance;
     }
 
     @Override

@@ -1,6 +1,6 @@
 name: Vault
 main: net.milkbowl.vault.Vault
-version: 1.0.0dev1
+version: 1.0.0dev2
 author: Cereal
 description: >
              Abstraction Library for Bukkit Plugins

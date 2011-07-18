@@ -76,15 +76,13 @@ public class Economy_3co implements Economy {
     }
 
     @Override
-    public EconomyResponse getBalance(String playerName) {
-        double balance;
-        EconomyResponse.ResponseType type;
-        String errorMessage = null;
+    public double getBalance(String playerName) {
+        final double balance;
         
         balance = (double) economy.getMoney(plugin.getServer().getPlayer(playerName));
-        type = EconomyResponse.ResponseType.SUCCESS;
 
-        return new EconomyResponse(balance, balance, type, errorMessage);
+        final double fBalance = balance;
+        return fBalance;
     }
 
     @Override
