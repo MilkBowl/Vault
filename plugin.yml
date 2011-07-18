@@ -1,11 +1,15 @@
 name: Vault
 main: net.milkbowl.vault.Vault
-version: 1.0.0dev
+version: 1.0.0dev1
 author: Cereal
 description: >
              Abstraction Library for Bukkit Plugins
 commands:
-  vault:
-    description: Generic command for Vault API 
+  vault-info:
+    description: Displays information about Vault 
     usage: |
-           /<command> - displays vault command help
+           /<command> - Displays Vault information
+  vault-reload:
+    description: Reloads Vault
+    usage: |
+           /<command> - Reloads Vault

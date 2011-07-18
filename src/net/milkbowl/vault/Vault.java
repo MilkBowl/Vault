@@ -64,7 +64,8 @@ public class Vault extends JavaPlugin {
         loadEconomy();
         loadPermission();
         
-        getCommand("vault").setExecutor(this);
+        getCommand("vault-info").setExecutor(this);
+        getCommand("vault-reload").setExecutor(this);
         log.info(String.format("[%s] Enabled Version %s", getDescription().getName(), getDescription().getVersion()));
     }
 
@@ -204,19 +205,15 @@ public class Vault extends JavaPlugin {
             return true;
         }
         
-        if(command.getLabel().equals("vault")) {
-            if(args.length > 0) {
-                if(args[0].equalsIgnoreCase("info")) {
-                    sender.sendMessage(String.format("[%s] Vault v%s Information", getDescription().getName(), getDescription().getVersion()));
-                    sender.sendMessage(String.format("[%s] Economy: %s", getDescription().getName(), getEconomy().getName()));
-                    sender.sendMessage(String.format("[%s] Permission: %s", getDescription().getName(), getPermission().getName()));
-                    return true;
-                } else if(args[0].equalsIgnoreCase("reload")) {
-                    reload();
-                    sender.sendMessage(String.format("[%s] Reloaded Addons", getDescription().getName()));
-                    return true;
-                }
-            }
+        if (command.getLabel().equals("vault-info")) {
+            sender.sendMessage(String.format("[%s] Vault v%s Information", getDescription().getName(), getDescription().getVersion()));
+            sender.sendMessage(String.format("[%s] Economy: %s", getDescription().getName(), getEconomy().getName()));
+            sender.sendMessage(String.format("[%s] Permission: %s", getDescription().getName(), getPermission().getName()));
+            return true;
+        } else if (command.getLabel().equals("vault-reload")) {
+            reload();
+            sender.sendMessage(String.format("[%s] Reloaded Addons", getDescription().getName()));
+            return true;
         }
         
         // Show help
