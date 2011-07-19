@@ -19,10 +19,6 @@
 
 package net.milkbowl.vault;
 
-import java.util.Collections;
-import java.util.Iterator;
-import java.util.Map;
-import java.util.TreeMap;
 import java.util.logging.Logger;
 
 import net.milkbowl.vault.economy.Economy;
