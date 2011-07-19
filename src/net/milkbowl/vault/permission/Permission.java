@@ -278,11 +278,17 @@ public interface Permission {
     
     /**
      * Gets the list of groups that this player has
-     * 
      * @param world Name of World
-     * @param playerName Name of Player 
+     * @param playerName Name of Player
+     * @return Array of groups 
      */
     public String[] getPlayerGroups(String world, String playerName);
     
+    /**
+     * Gets users primary group
+     * @param world
+     * @param playerName
+     * @return Players primary group
+     */
     public String getPrimaryGroup(String world, String playerName);
 }

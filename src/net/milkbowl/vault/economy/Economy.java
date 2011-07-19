@@ -20,10 +20,49 @@
 package net.milkbowl.vault.economy;
 
 public interface Economy {
+    
+    /**
+     * Checks if economy method is enabled.
+     * @return Success or Failure
+     */
     public boolean isEnabled();
+    
+    /**
+     * Gets name of permission method
+     * @return Name of Permission Method
+     */
     public String getName();
+    
+    /**
+     * Format amount into a human readable String
+     * This provides translation into economy specific formatting
+     * to improve consistency between plugins.  Should be used when
+     * possible.
+     * @param amount
+     * @return Human readable string describing amount
+     */
     public String format(double amount);
+    
+    /**
+     * Gets balance of a player
+     * @param playerName
+     * @return Amount currently held in players account
+     */
     public double getBalance(String playerName);
+    
+    /**
+     * Withdraw an amount from a player
+     * @param playerName Name of player
+     * @param amount Amount to withdraw
+     * @return Detailed response of transaction
+     */
     public EconomyResponse withdrawPlayer(String playerName, double amount);
+    
+    /**
+     * Deposit an amount to a player
+     * @param playerName Name of player
+     * @param amount Amount to deposit
+     * @return Detailed response of transaction
+     */
     public EconomyResponse depositPlayer(String playerName, double amount);
 }
