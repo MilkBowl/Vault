@@ -46,7 +46,9 @@ public class Vault extends JavaPlugin {
 
     @Override
     public void onDisable() {
+        // Remove all Service Registrations
         getServer().getServicesManager().unregisterAll(this);
+        
         log.info(String.format("[%s] Disabled Version %s", getDescription().getName(), getDescription().getVersion()));
     }
 
@@ -134,16 +136,6 @@ public class Vault extends JavaPlugin {
         }
     }
     
-    private void reload() {
-        // Clear out any registered services provided by this plugin first
-        getServer().getServicesManager().unregisterAll(this);
-        
-        // Load Economy Service Providers
-        loadEconomy();
-        // Load Permission Service Providers
-        loadPermission();
-    }
-    
     @Override
     public boolean onCommand(CommandSender sender, Command command, String commandLabel, String[] args) {
         if(sender instanceof Player) {
@@ -159,47 +151,47 @@ public class Vault extends JavaPlugin {
             return true;
         }
         
-        String registeredEcons = null;
-        Collection<RegisteredServiceProvider<Economy>> econs = this.getServer().getServicesManager().getRegistrations(net.milkbowl.vault.economy.Economy.class);
-        for(RegisteredServiceProvider<Economy> econ : econs) {
-            Economy e = econ.getProvider();
-            if(registeredEcons == null) {
-                registeredEcons = e.getName();
-            } else {
-                registeredEcons += ", " + e.getName();
-            }
-        }
-        
-        String registeredPerms = null;
-        Collection<RegisteredServiceProvider<Permission>> perms = this.getServer().getServicesManager().getRegistrations(net.milkbowl.vault.permission.Permission.class);
-        for(RegisteredServiceProvider<Permission> perm : perms) {
-            Permission p = perm.getProvider();
-            if(registeredPerms == null) {
-                registeredPerms = p.getName();
-            } else {
-                registeredPerms += ", " + p.getName();
-            }
-        }
-        
-        Economy econ = getServer().getServicesManager().getRegistration(net.milkbowl.vault.economy.Economy.class).getProvider();
-        Permission perm = getServer().getServicesManager().getRegistration(net.milkbowl.vault.permission.Permission.class).getProvider();
-        
         if (command.getLabel().equals("vault-info")) {
+            
+            // Get String of Registered Economy Services
+            String registeredEcons = null;
+            Collection<RegisteredServiceProvider<Economy>> econs = this.getServer().getServicesManager().getRegistrations(net.milkbowl.vault.economy.Economy.class);
+            for(RegisteredServiceProvider<Economy> econ : econs) {
+                Economy e = econ.getProvider();
+                if(registeredEcons == null) {
+                    registeredEcons = e.getName();
+                } else {
+                    registeredEcons += ", " + e.getName();
+                }
+            }
+            
+            // Get String of Registered Permission Services
+            String registeredPerms = null;
+            Collection<RegisteredServiceProvider<Permission>> perms = this.getServer().getServicesManager().getRegistrations(net.milkbowl.vault.permission.Permission.class);
+            for(RegisteredServiceProvider<Permission> perm : perms) {
+                Permission p = perm.getProvider();
+                if(registeredPerms == null) {
+                    registeredPerms = p.getName();
+                } else {
+                    registeredPerms += ", " + p.getName();
+                }
+            }
+            
+            // Get Economy & Permission primary Services
+            Economy econ = getServer().getServicesManager().getRegistration(net.milkbowl.vault.economy.Economy.class).getProvider();
+            Permission perm = getServer().getServicesManager().getRegistration(net.milkbowl.vault.permission.Permission.class).getProvider();
+            
+            // Send user some info!
             sender.sendMessage(String.format("[%s] Vault v%s Information", getDescription().getName(), getDescription().getVersion()));
             sender.sendMessage(String.format("[%s] Economy: %s [%s]", getDescription().getName(), econ.getName(), registeredEcons));
             sender.sendMessage(String.format("[%s] Permission: %s [%s]", getDescription().getName(), perm.getName(), registeredPerms));
             return true;
-        } else if (command.getLabel().equals("vault-reload")) {
-            reload();
-            sender.sendMessage(String.format("[%s] Reloaded Addons", getDescription().getName()));
+        } else {
+            // Show help
+            sender.sendMessage("Vault Commands:");
+            sender.sendMessage("  /vault-info - Displays information about Vault");
             return true;
         }
-        
-        // Show help
-        sender.sendMessage("Vault Commands:");
-        sender.sendMessage("  /vault info - Displays information about Vault");
-        sender.sendMessage("  /vault reload - Reloads Addons");
-        return true;
     }
     
     /**
