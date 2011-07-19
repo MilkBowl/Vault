@@ -2,7 +2,6 @@
 <project default="main">
 
     <property environment="env"/>
-    <property name="label" value="${env.JOB_NAME}-${env.BUILD_NUMBER}"/>
 
     <path id="classpath">
         <fileset dir="lib" includes="**/*.jar"/>
@@ -26,7 +25,7 @@
     	<echo>Compiling</echo>
         <javac srcdir="." destdir="bin" debug="on" debuglevel="lines,vars,source" classpathref="classpath" />
     	<copy file="plugin.yml" tofile="bin/plugin.yml" />
-    	<replace file="bin/plugin.yml" token="b000" value="b${label}" />
+    	<replace file="bin/plugin.yml" token="b000" value="b${env.BUILD_NUMBER}" />
     </target>
   
   <target name="compress" description="Compression target">
