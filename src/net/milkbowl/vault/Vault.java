@@ -39,19 +39,12 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.entity.Player;
+import org.bukkit.plugin.ServicePriority;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public class Vault extends JavaPlugin {
     
     private static final Logger log = Logger.getLogger("Minecraft");
-    
-    // Economy
-    private static Map<Integer, Economy> econs = Collections.synchronizedMap(new TreeMap<Integer, Economy>());
-    private static Economy activeEconomy = null;
-    
-    // Permission
-    private static Map<Integer,Permission> perms = Collections.synchronizedMap(new TreeMap<Integer, Permission>());
-    private static Permission activePermission = null;
 
     @Override
     public void onDisable() {
@@ -70,51 +63,13 @@ public class Vault extends JavaPlugin {
     }
 
     /**
-     * Gets current active Economy implementation
-     * @return Economy class
-     */
-    public static Economy getEconomy() {
-        if (activeEconomy == null) {
-            Iterator<Economy> it = econs.values().iterator();
-            while (it.hasNext()) {
-                Economy e = it.next();
-                if (e.isEnabled()) {
-                    return e;
-                }
-            }
-            return null;
-        } else {
-            return activeEconomy;
-        }
-    }
-    
-    /**
-     * Gets current active Permission implementation
-     * @return Permission class
-     */
-    public static Permission getPermission() {
-        if(activePermission == null) {
-            Iterator<Permission> it = perms.values().iterator();
-            while(it.hasNext()) {
-                Permission p = it.next();
-                if(p.isEnabled()) {
-                    return p;
-                }
-            }
-            return null;
-        } else {
-            return activePermission;
-        }
-    }
-    
-    /**
      * Attempts to load Economy Addons
      */
     private void loadEconomy() {
         // Try to load 3co
         if(packageExists(new String[] { "me.ic3d.eco.ECO" })) {
             Economy econ = new Economy_3co(this);
-            econs.put(11, econ);
+            this.getServer().getServicesManager().register(net.milkbowl.vault.economy.Economy.class, econ, this, ServicePriority.Normal);
             log.info(String.format("[%s][Economy] 3co found: %s", getDescription().getName(), econ.isEnabled() ? "Loaded" : "Waiting"));
         } else {
             log.info(String.format("[%s][Economy] 3co not found.", getDescription().getName()));
@@ -123,7 +78,7 @@ public class Vault extends JavaPlugin {
         // Try to load BOSEconomy
         if (packageExists(new String[] { "cosine.boseconomy.BOSEconomy" })) {
             Economy bose = new Economy_BOSE(this);
-            econs.put(10, bose);
+            this.getServer().getServicesManager().register(net.milkbowl.vault.economy.Economy.class, bose, this, ServicePriority.Normal);
             log.info(String.format("[%s][Economy] BOSEconomy found: %s", getDescription().getName(), bose.isEnabled() ? "Loaded" : "Waiting"));
         } else {
             log.info(String.format("[%s][Economy] BOSEconomy not found.", getDescription().getName()));
@@ -132,7 +87,7 @@ public class Vault extends JavaPlugin {
         // Try to load Essentials Economy
         if (packageExists(new String[] { "com.earth2me.essentials.api.Economy", "com.earth2me.essentials.api.NoLoanPermittedException", "com.earth2me.essentials.api.UserDoesNotExistException" })) {
             Economy essentials = new Economy_Essentials(this);
-            econs.put(9, essentials);
+            this.getServer().getServicesManager().register(net.milkbowl.vault.economy.Economy.class, essentials, this, ServicePriority.Low);
             log.info(String.format("[%s][Economy] Essentials Economy found: %s", getDescription().getName(), essentials.isEnabled() ? "Loaded" : "Waiting"));
         } else {
             log.info(String.format("[%s][Economy] Essentials Economy not found.", getDescription().getName()));
@@ -141,7 +96,7 @@ public class Vault extends JavaPlugin {
         // Try to load iConomy 4
         if (packageExists(new String[] { "com.nijiko.coelho.iConomy.iConomy", "com.nijiko.coelho.iConomy.system.Account" })) {
             Economy icon4 = new Economy_iConomy4(this);
-            econs.put(8, icon4);
+            this.getServer().getServicesManager().register(net.milkbowl.vault.economy.Economy.class, icon4, this, ServicePriority.Lowest);
             log.info(String.format("[%s][Economy] iConomy 4 found: ", getDescription().getName(), icon4.isEnabled() ? "Loaded" : "Waiting"));
         } else {
             log.info(String.format("[%s][Economy] iConomy 4 not found.", getDescription().getName()));
@@ -150,7 +105,7 @@ public class Vault extends JavaPlugin {
         // Try to load iConomy 5
         if (packageExists(new String[] { "com.iConomy.iConomy", "com.iConomy.system.Account", "com.iConomy.system.Holdings" })) {
             Economy icon5 = new Economy_iConomy5(this);
-            econs.put(7, icon5);
+            this.getServer().getServicesManager().register(net.milkbowl.vault.economy.Economy.class, icon5, this, ServicePriority.Lowest);
             log.info(String.format("[%s][Economy] iConomy 5 found: %s", getDescription().getName(), icon5.isEnabled() ? "Loaded" : "Waiting"));
         } else {
             log.info(String.format("[%s][Economy] iConomy 5 not found.", getDescription().getName()));
@@ -164,7 +119,7 @@ public class Vault extends JavaPlugin {
         // Try to load PermissionsEx
         if(packageExists(new String[] { "ru.tehkode.permissions.bukkit.PermissionsEx" })) {
             Permission ePerms = new Permission_PermissionsEx(this);
-            perms.put(8, ePerms);
+            this.getServer().getServicesManager().register(net.milkbowl.vault.permission.Permission.class, ePerms, this, ServicePriority.Normal);
             log.info(String.format("[%s][Permission] PermissionsEx found: %s", getDescription().getName(), ePerms.isEnabled() ? "Loaded" : "Waiting"));
         } else {
             log.info(String.format("[%s][Permission] PermissionsEx not found.", getDescription().getName()));
@@ -173,7 +128,7 @@ public class Vault extends JavaPlugin {
         // Try to load Permissions (Phoenix)
         if (packageExists(new String[] { "com.nijikokun.bukkit.Permissions.Permissions" })) {
             Permission nPerms = new Permission_Permissions(this);
-            perms.put(9, nPerms);
+            this.getServer().getServicesManager().register(net.milkbowl.vault.permission.Permission.class, nPerms, this, ServicePriority.Lowest);
             log.info(String.format("[%s][Permission] Permissions (Yetti) found: %s", getDescription().getName(), nPerms.isEnabled() ? "Loaded" : "Waiting"));
         } else {
             log.info(String.format("[%s][Permission] Permissions (Yetti) not found.", getDescription().getName()));
@@ -181,12 +136,8 @@ public class Vault extends JavaPlugin {
     }
     
     private void reload() {
-        econs.clear();
-        activeEconomy = null;
         loadEconomy();
         
-        perms.clear();
-        activePermission = null;
         loadPermission();
     }
     
@@ -205,10 +156,13 @@ public class Vault extends JavaPlugin {
             return true;
         }
         
+        Economy econ = this.getServer().getServicesManager().getRegistration(net.milkbowl.vault.economy.Economy.class).getProvider();
+        Permission perm = this.getServer().getServicesManager().getRegistration(net.milkbowl.vault.permission.Permission.class).getProvider();
+        
         if (command.getLabel().equals("vault-info")) {
             sender.sendMessage(String.format("[%s] Vault v%s Information", getDescription().getName(), getDescription().getVersion()));
-            sender.sendMessage(String.format("[%s] Economy: %s", getDescription().getName(), getEconomy().getName()));
-            sender.sendMessage(String.format("[%s] Permission: %s", getDescription().getName(), getPermission().getName()));
+            sender.sendMessage(String.format("[%s] Economy: %s", getDescription().getName(), econ.getName()));
+            sender.sendMessage(String.format("[%s] Permission: %s", getDescription().getName(), perm.getName()));
             return true;
         } else if (command.getLabel().equals("vault-reload")) {
             reload();
