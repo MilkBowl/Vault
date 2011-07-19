@@ -26,7 +26,7 @@
     </target>
   
   <target name="compress" description="Compression target">
-  		<echo>Compressing</echo>
+	<echo>Compressing</echo>
         <jar jarfile="Vault.jar" basedir="bin" includes="net/**/*, plugin.yml, props/*">
 		<manifest>
 			<attribute name="Built-By" value="${user.name}" />
@@ -36,18 +36,21 @@
   </target>
 	
   <target name="javadoc" description="Generate JavaDoc">
-		<javadoc packagenames="net.milkbowl.vault.economy,net.milkbowl.vault.permission"
-				sourcepath="src"
-				destdir="javadoc"
-				access="public"
-				windowtitle="Vault"
-				verbose="false"
-				author="true"
-				version="true">
+	<javadoc packagenames="net.milkbowl.vault.economy,net.milkbowl.vault.permission"
+			sourcepath="src"
+			destdir="javadoc"
+			access="public"
+			windowtitle="Vault"
+			verbose="false"
+			author="true"
+			version="true">
 
-				<bottom>
-					<![CDATA[<b>MilkBukkit, 2011</b>]]>
-				</bottom>
-		</javadoc>
+		<classpath>
+			<fileset dir="lib" includes="**/*.jar"/>
+		</classpath>
+		<bottom>
+			<![CDATA[<b>MilkBukkit, 2011</b>]]>
+		</bottom>
+	</javadoc>
   </target>
 </project>
