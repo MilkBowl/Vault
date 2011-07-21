@@ -32,12 +32,11 @@ import org.bukkit.event.server.ServerListener;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.PluginManager;
 
-
 import ru.tehkode.permissions.PermissionGroup;
 import ru.tehkode.permissions.PermissionUser;
 import ru.tehkode.permissions.bukkit.PermissionsEx;
 
-public class Permission_PermissionsEx implements Permission {
+public class Permission_PermissionsEx extends Permission {
 	private static final Logger log = Logger.getLogger("Minecraft");
 
 	private String name = "PermissionsEx";
@@ -360,4 +359,34 @@ public class Permission_PermissionsEx implements Permission {
 		else
 			return null;
 	}
+
+    @Override
+    public boolean playerHas(String worldName, String playerName, String permission) {
+        PermissionUser user = PermissionsEx.getPermissionManager().getUser(playerName);
+        if(user != null) {
+            return user.has(permission, worldName);
+        } else {
+            return false;
+        }
+    }
+
+    @Override
+    public String getPlayerPrefix(String world, String playerName) {
+        PermissionUser user = PermissionsEx.getPermissionManager().getUser(playerName);
+        if(user != null) {
+            return user.getPrefix();
+        } else {
+            return null;
+        }
+    }
+
+    @Override
+    public String getPlayerSuffix(String world, String playerName) {
+        PermissionUser user = PermissionsEx.getPermissionManager().getUser(playerName);
+        if(user != null) {
+            return user.getSuffix();
+        } else {
+            return null;
+        }
+    }
 }

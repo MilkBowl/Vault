@@ -35,7 +35,7 @@ import org.bukkit.plugin.PluginManager;
 import com.nijiko.permissions.Group;
 import com.nijikokun.bukkit.Permissions.Permissions;
 
-public class Permission_Permissions implements Permission {
+public class Permission_Permissions extends Permission {
     private static final Logger log = Logger.getLogger("Minecraft");
     
     private String name = "Permissions (Yetti)";
@@ -74,16 +74,6 @@ public class Permission_Permissions implements Permission {
         }
     }
     
-    @Override
-    public boolean has(Player player, String permission) {
-        return playerHas(player, permission);
-    }
-
-    @Override
-    public boolean playerHas(Player player, String permission) {
-        return this.permission.getHandler().has(player, permission);
-    }
-
     @Override
     public boolean playerInGroup(String worldName, String playerName, String groupName) {
         return this.permission.getHandler().inGroup(worldName, playerName, groupName);
@@ -347,4 +337,19 @@ public class Permission_Permissions implements Permission {
 	public String getPrimaryGroup(String world, String playerName) {
 		return this.permission.getHandler().getPrimaryGroup(world, playerName);
 	}
+
+    @Override
+    public boolean playerHas(String worldName, String playerName, String permission) {
+        return this.permission.getHandler().has(worldName, playerName, permission);
+    }
+
+    @Override
+    public String getPlayerPrefix(String world, String playerName) {
+        return this.permission.getHandler().getUserPrefix(world, playerName);
+    }
+
+    @Override
+    public String getPlayerSuffix(String world, String playerName) {
+        return this.permission.getHandler().getUserSuffix(world, playerName);
+    }
 }
