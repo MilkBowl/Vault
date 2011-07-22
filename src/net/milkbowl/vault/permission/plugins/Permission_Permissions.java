@@ -352,4 +352,9 @@ public class Permission_Permissions extends Permission {
     public String getPlayerSuffix(String world, String playerName) {
         return this.permission.getHandler().getUserSuffix(world, playerName);
     }
+    
+    @Override
+    public void setPlayerSuffix(Player player, String suffix) {
+    	this.permission.getHandler().addUserInfo(player.getWorld().getName(), player.getName(), "suffix", suffix);
+    }
 }

@@ -444,4 +444,6 @@ public abstract class Permission {
     public String getPlayerSuffix(Player player) {
         return getPlayerSuffix(player.getWorld().getName(), player.getName());
     }
+    
+    abstract public void setPlayerSuffix(Player player, String suffix); 
 }
