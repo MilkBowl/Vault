@@ -23,7 +23,7 @@
   
     <target name="compile" description="Compilation target">
     	<echo>Compiling</echo>
-        <javac srcdir="." destdir="bin" debug="on" debuglevel="lines,vars,source" classpathref="classpath" />
+        <javac srcdir="." destdir="bin" debug="on" debuglevel="lines,vars,source" classpathref="classpath" includeantruntime="false" />
     	<copy file="plugin.yml" tofile="bin/plugin.yml" />
     	<replace file="bin/plugin.yml" token="b000" value="b${env.BUILD_NUMBER}" />
     </target>
