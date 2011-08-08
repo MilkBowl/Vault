@@ -29,6 +29,7 @@ import net.milkbowl.vault.economy.plugins.Economy_Essentials;
 import net.milkbowl.vault.economy.plugins.Economy_iConomy4;
 import net.milkbowl.vault.economy.plugins.Economy_iConomy5;
 import net.milkbowl.vault.permission.Permission;
+import net.milkbowl.vault.permission.plugins.Permission_GroupManager;
 import net.milkbowl.vault.permission.plugins.Permission_Permissions;
 import net.milkbowl.vault.permission.plugins.Permission_PermissionsEx;
 
@@ -125,7 +126,15 @@ public class Vault extends JavaPlugin {
         } else {
             log.info(String.format("[%s][Permission] PermissionsEx not found.", getDescription().getName()));
         }
-
+        //Try to load GroupManager
+        if(packageExists(new String[] { "org.anjocaido.groupmanager.GroupManager" })) {
+        	Permission gPerms = new Permission_GroupManager(this);
+        	getServer().getServicesManager().register(net.milkbowl.vault.permission.Permission.class, gPerms, this, ServicePriority.Normal);
+        	log.info(String.format("[%s][Permission] GroupManager found: %s", getDescription().getName(), gPerms.isEnabled() ? "Loaded" : "Waiting"));
+        } else {
+            log.info(String.format("[%s][Permission] GroupManager not found.", getDescription().getName()));
+        }
+        
         // Try to load Permissions (Phoenix)
         if (packageExists(new String[] { "com.nijikokun.bukkit.Permissions.Permissions" })) {
             Permission nPerms = new Permission_Permissions(this);
@@ -134,6 +143,8 @@ public class Vault extends JavaPlugin {
         } else {
             log.info(String.format("[%s][Permission] Permissions (Yetti) not found.", getDescription().getName()));
         }
+        
+        
     }
     
     @Override
