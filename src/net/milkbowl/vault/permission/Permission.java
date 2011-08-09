@@ -38,7 +38,8 @@ public abstract class Permission {
     
     /**
      * Checks if player has a permission node.  (Short for playerHas(...)
-     * @param player Player instance
+     * @param worldName
+     * @param playerName 
      * @param permission Permission node
      * @return Success or Failure
      */

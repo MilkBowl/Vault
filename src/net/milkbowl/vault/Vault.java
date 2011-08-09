@@ -30,7 +30,8 @@ import net.milkbowl.vault.economy.plugins.Economy_iConomy4;
 import net.milkbowl.vault.economy.plugins.Economy_iConomy5;
 import net.milkbowl.vault.permission.Permission;
 import net.milkbowl.vault.permission.plugins.Permission_GroupManager;
-import net.milkbowl.vault.permission.plugins.Permission_Permissions;
+import net.milkbowl.vault.permission.plugins.Permission_Permissions2;
+import net.milkbowl.vault.permission.plugins.Permission_Permissions3;
 import net.milkbowl.vault.permission.plugins.Permission_PermissionsEx;
 
 import org.bukkit.command.Command;
@@ -135,13 +136,22 @@ public class Vault extends JavaPlugin {
             log.info(String.format("[%s][Permission] GroupManager not found.", getDescription().getName()));
         }
         
-        // Try to load Permissions (Phoenix)
-        if (packageExists(new String[] { "com.nijikokun.bukkit.Permissions.Permissions" })) {
-            Permission nPerms = new Permission_Permissions(this);
-            getServer().getServicesManager().register(net.milkbowl.vault.permission.Permission.class, nPerms, this, ServicePriority.Lowest);
-            log.info(String.format("[%s][Permission] Permissions (Yetti) found: %s", getDescription().getName(), nPerms.isEnabled() ? "Loaded" : "Waiting"));
+        // Try to load Permissions (Yeti)
+        if (packageExists(new String[] { "com.nijiko.permissions.ModularControl" })) {
+            Permission nPerms = new Permission_Permissions3(this);
+            getServer().getServicesManager().register(net.milkbowl.vault.permission.Permission.class, nPerms, this, ServicePriority.Low);
+            log.info(String.format("[%s][Permission] Permissions (Yeti) found: %s", getDescription().getName(), nPerms.isEnabled() ? "Loaded" : "Waiting"));
         } else {
-            log.info(String.format("[%s][Permission] Permissions (Yetti) not found.", getDescription().getName()));
+            log.info(String.format("[%s][Permission] Permissions (Yeti) not found.", getDescription().getName()));
+        }
+        
+        //Try to load Permissions (Phoenix)
+        if (packageExists(new String[] { "com.nijiko.permissions.Control"} )) {
+        	Permission oPerms = new Permission_Permissions2(this);
+        	getServer().getServicesManager().register(net.milkbowl.vault.permission.Permission.class, oPerms, this, ServicePriority.Lowest);
+        	log.info(String.format("[%s][Permission] Permissions (Phoenix) found: %s", getDescription().getName(), oPerms.isEnabled() ? "Loaded" : "Waiting"));
+        } else {
+            log.info(String.format("[%s][Permission] Permissions (Phoenix) not found.", getDescription().getName()));
         }
         
         
