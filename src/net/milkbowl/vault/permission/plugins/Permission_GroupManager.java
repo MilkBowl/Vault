@@ -2,9 +2,10 @@ package net.milkbowl.vault.permission.plugins;
 
 import java.util.logging.Logger;
 
+import net.milkbowl.vault.permission.Permission;
+
 import org.anjocaido.groupmanager.GroupManager;
 import org.anjocaido.groupmanager.permissions.AnjoPermissionsHandler;
-import org.bukkit.entity.Player;
 import org.bukkit.event.Event.Priority;
 import org.bukkit.event.Event.Type;
 import org.bukkit.event.server.PluginDisableEvent;
@@ -12,8 +13,6 @@ import org.bukkit.event.server.PluginEnableEvent;
 import org.bukkit.event.server.ServerListener;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.PluginManager;
-
-import net.milkbowl.vault.permission.Permission;
 
 public class Permission_GroupManager extends Permission {
 	private static final Logger log = Logger.getLogger("Minecraft");
@@ -101,12 +100,12 @@ public class Permission_GroupManager extends Permission {
 
 	@Override
 	public boolean playerAdd(String worldName, String playerName, String permission) {
-		return false;
+	    throw new UnsupportedOperationException(getName() + " cannot modify permissions.");
 	}
 
 	@Override
 	public boolean playerRemove(String worldName, String playerName, String permission) {
-		return false;
+	    throw new UnsupportedOperationException(getName() + " cannot modify permissions.");
 	}
 
 	@Override
@@ -116,12 +115,12 @@ public class Permission_GroupManager extends Permission {
 
 	@Override
 	public boolean groupAdd(String worldName, String groupName, String permission) {
-		return false;
+	    throw new UnsupportedOperationException(getName() + " cannot modify permissions.");
 	}
 
 	@Override
 	public boolean groupRemove(String worldName, String groupName, String permission) {
-		return false;
+	    throw new UnsupportedOperationException(getName() + " cannot modify permissions.");
 	}
 
 	@Override
@@ -151,6 +150,7 @@ public class Permission_GroupManager extends Permission {
 
 	@Override
 	public void setPlayerInfoInteger(String world, String playerName, String node, int value) {
+	    throw new UnsupportedOperationException(getName() + " cannot modify permissions.");
 	}
 
 	@Override
@@ -160,6 +160,7 @@ public class Permission_GroupManager extends Permission {
 
 	@Override
 	public void setGroupInfoInteger(String world, String groupName, String node, int value) {
+	    throw new UnsupportedOperationException(getName() + " cannot modify permissions.");
 	}
 
 	@Override
@@ -169,6 +170,7 @@ public class Permission_GroupManager extends Permission {
 
 	@Override
 	public void setPlayerInfoDouble(String world, String playerName, String node, double value) {
+	    throw new UnsupportedOperationException(getName() + " cannot modify permissions.");
 	}
 
 	@Override
@@ -178,6 +180,7 @@ public class Permission_GroupManager extends Permission {
 
 	@Override
 	public void setGroupInfoDouble(String world, String groupName, String node, double value) {
+	    throw new UnsupportedOperationException(getName() + " cannot modify permissions.");
 	}
 
 	@Override
@@ -187,6 +190,7 @@ public class Permission_GroupManager extends Permission {
 
 	@Override
 	public void setPlayerInfoBoolean(String world, String playerName, String node, boolean value) {
+	    throw new UnsupportedOperationException(getName() + " cannot modify permissions.");
 	}
 
 	@Override
@@ -196,6 +200,7 @@ public class Permission_GroupManager extends Permission {
 
 	@Override
 	public void setGroupInfoBoolean(String world, String groupName,String node, boolean value) {
+	    throw new UnsupportedOperationException(getName() + " cannot modify permissions.");
 	}
 
 	@Override
@@ -205,6 +210,7 @@ public class Permission_GroupManager extends Permission {
 
 	@Override
 	public void setPlayerInfoString(String world, String playerName,String node, String value) {
+	    throw new UnsupportedOperationException(getName() + " cannot modify permissions.");
 	}
 
 	@Override
@@ -237,7 +243,12 @@ public class Permission_GroupManager extends Permission {
 	}
 
 	@Override
-	public void setPlayerSuffix(Player player, String suffix) {
+	public void setPlayerSuffix(String world, String player, String suffix) {
+	    throw new UnsupportedOperationException(getName() + " cannot modify permissions.");
 	}
-
+	
+        @Override
+        public void setPlayerPrefix(String world, String player, String prefix) {
+            throw new UnsupportedOperationException(getName() + " cannot modify permissions.");
+        }
 }

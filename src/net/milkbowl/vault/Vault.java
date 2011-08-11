@@ -136,22 +136,22 @@ public class Vault extends JavaPlugin {
             log.info(String.format("[%s][Permission] GroupManager not found.", getDescription().getName()));
         }
         
-        // Try to load Permissions (Yeti)
+        // Try to load Permissions 3 (Yeti)
         if (packageExists(new String[] { "com.nijiko.permissions.ModularControl" })) {
             Permission nPerms = new Permission_Permissions3(this);
             getServer().getServicesManager().register(net.milkbowl.vault.permission.Permission.class, nPerms, this, ServicePriority.Low);
-            log.info(String.format("[%s][Permission] Permissions (Yeti) found: %s", getDescription().getName(), nPerms.isEnabled() ? "Loaded" : "Waiting"));
+            log.info(String.format("[%s][Permission] Permissions 3 (Yeti) found: %s", getDescription().getName(), nPerms.isEnabled() ? "Loaded" : "Waiting"));
         } else {
-            log.info(String.format("[%s][Permission] Permissions (Yeti) not found.", getDescription().getName()));
+            log.info(String.format("[%s][Permission] Permissions 3 (Yeti) not found.", getDescription().getName()));
         }
         
-        //Try to load Permissions (Phoenix)
+        //Try to load Permissions 2 (Phoenix)
         if (packageExists(new String[] { "com.nijiko.permissions.Control"} )) {
         	Permission oPerms = new Permission_Permissions2(this);
         	getServer().getServicesManager().register(net.milkbowl.vault.permission.Permission.class, oPerms, this, ServicePriority.Lowest);
-        	log.info(String.format("[%s][Permission] Permissions (Phoenix) found: %s", getDescription().getName(), oPerms.isEnabled() ? "Loaded" : "Waiting"));
+        	log.info(String.format("[%s][Permission] Permissions 2 (Phoenix) found: %s", getDescription().getName(), oPerms.isEnabled() ? "Loaded" : "Waiting"));
         } else {
-            log.info(String.format("[%s][Permission] Permissions (Phoenix) not found.", getDescription().getName()));
+            log.info(String.format("[%s][Permission] Permissions 2 (Phoenix) not found.", getDescription().getName()));
         }
         
         

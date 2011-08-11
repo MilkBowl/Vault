@@ -39,7 +39,7 @@ import com.nijikokun.bukkit.Permissions.Permissions;
 public class Permission_Permissions3 extends Permission {
     private static final Logger log = Logger.getLogger("Minecraft");
     
-    private String name = "Permissions (Yeti)";
+    private String name = "Permissions 3 (Yeti)";
     private PermissionHandler perms;
     private Plugin plugin = null;
     private PluginManager pluginManager = null;
@@ -284,7 +284,12 @@ public class Permission_Permissions3 extends Permission {
     }
     
     @Override
-    public void setPlayerSuffix(Player player, String suffix) {
-    	this.perms.addUserInfo(player.getWorld().getName(), player.getName(), "suffix", suffix);
+    public void setPlayerSuffix(String world, String player, String suffix) {
+        this.perms.addUserInfo(world, player, "suffix", suffix);
+    }
+    
+    @Override
+    public void setPlayerPrefix(String world, String player, String prefix) {
+        this.perms.addUserInfo(world, player, "prefix", prefix);
     }
 }

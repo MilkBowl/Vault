@@ -391,9 +391,18 @@ public class Permission_PermissionsEx extends Permission {
     }
     
     @Override
-    public void setPlayerSuffix(Player player, String suffix) {
-    	PermissionUser user = PermissionsEx.getPermissionManager().getUser(player);
-    	if (user != null)
-    		user.setSuffix(suffix);
+    public void setPlayerSuffix(String world, String player, String suffix) {
+        PermissionUser user = PermissionsEx.getPermissionManager().getUser(player);
+        if (user != null) {
+                user.setSuffix(suffix);
+        }
+    }
+    
+    @Override
+    public void setPlayerPrefix(String world, String player, String prefix) {
+        PermissionUser user = PermissionsEx.getPermissionManager().getUser(player);
+        if (user != null) {
+                user.setPrefix(prefix);
+        }
     }
 }

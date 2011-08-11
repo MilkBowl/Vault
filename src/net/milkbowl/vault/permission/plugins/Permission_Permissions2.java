@@ -20,7 +20,7 @@ import net.milkbowl.vault.permission.Permission;
 public class Permission_Permissions2 extends Permission {
 	private static final Logger log = Logger.getLogger("Minecraft");
 
-	private String name = "Permissions (Phoenix)";
+	private String name = "Permissions 2 (Phoenix)";
 	private PermissionHandler perms;
 	private Plugin plugin = null;
 	private PluginManager pluginManager = null;
@@ -112,20 +112,17 @@ public class Permission_Permissions2 extends Permission {
 
 	@Override
 	public boolean groupHas(String worldName, String groupName, String permission) {
-		//Unable to directly check group permissions in P2
-		return false;
+	    throw new UnsupportedOperationException(getName() + " cannot modify permissions.");
 	}
 
 	@Override
 	public boolean groupAdd(String worldName, String groupName,String permission) {
-		//Unable to alter group permissions in P2
-		return false;
+	    throw new UnsupportedOperationException(getName() + " cannot modify permissions.");
 	}
 
 	@Override
 	public boolean groupRemove(String worldName, String groupName, String permission) {
-		//Unable to alter group permissions in P2
-		return false;
+	    throw new UnsupportedOperationException(getName() + " cannot modify permissions.");
 	}
 
 	@Override
@@ -135,14 +132,12 @@ public class Permission_Permissions2 extends Permission {
 
 	@Override
 	public boolean playerAddGroup(String worldName, String playerName, String groupName) {
-		//Unable to add groups in P2
-		return false;
+	    throw new UnsupportedOperationException(getName() + " cannot modify permissions.");
 	}
 
 	@Override
 	public boolean playerRemoveGroup(String worldName, String playerName, String groupName) {
-		//Unable to remove groups in P2
-		return false;
+	    throw new UnsupportedOperationException(getName() + " cannot modify permissions.");
 	}
 
 	@Override
@@ -153,7 +148,7 @@ public class Permission_Permissions2 extends Permission {
 
 	@Override
 	public void setPlayerInfoInteger(String world, String playerName, String node, int value) {
-		//Unable to set player info nodes in P2
+	    throw new UnsupportedOperationException(getName() + " cannot modify permissions.");
 	}
 
 	public void setGroupInfo(String world, String groupName, String node, Object value) {
@@ -179,7 +174,7 @@ public class Permission_Permissions2 extends Permission {
 
 	@Override
 	public void setPlayerInfoDouble(String world, String playerName, String node, double value) {
-		//Unable to set player info nodes in P2
+	    throw new UnsupportedOperationException(getName() + " cannot modify permissions.");
 	}
 
 	@Override
@@ -201,7 +196,7 @@ public class Permission_Permissions2 extends Permission {
 
 	@Override
 	public void setPlayerInfoBoolean(String world, String playerName, String node, boolean value) {
-		//Unable to set player info nodes in P2
+	    throw new UnsupportedOperationException(getName() + " cannot modify permissions.");
 	}
 
 	@Override
@@ -222,7 +217,7 @@ public class Permission_Permissions2 extends Permission {
 
 	@Override
 	public void setPlayerInfoString(String world, String playerName, String node, String value) {
-		//Unable to set player info nodes in P2
+	    throw new UnsupportedOperationException(getName() + " cannot modify permissions.");
 	}
 
 	@Override
@@ -256,9 +251,14 @@ public class Permission_Permissions2 extends Permission {
 		return this.perms.getPermissionString(world, playerName, "suffix");
 	}
 
-	@Override
-	public void setPlayerSuffix(Player player, String suffix) {
-		//Unable to set player info nodes in P2
-	}
+        @Override
+        public void setPlayerSuffix(String world, String player, String suffix) {
+            throw new UnsupportedOperationException(getName() + " cannot modify permissions.");
+        }
+        
+        @Override
+        public void setPlayerPrefix(String world, String player, String prefix) {
+            throw new UnsupportedOperationException(getName() + " cannot modify permissions.");
+        }
 
 }
