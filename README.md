@@ -66,7 +66,9 @@ also comes with an Apache Ant build file (build.xml).
 ## Dependencies
 Because Vault provides a bridge to other plugins, their binaries will be
 required to build from.  To ease this, they have been included in the lib
-folder and will be updated from time to time.
+folder and will be updated from time to time.  For plugin developers, it
+is not necessary to use these libraries when implementing Vault.  You will
+only need to compile against Vault.
 
 
 ## Supported Plugins
@@ -77,12 +79,17 @@ Github and we'll get to it at our convenience.
 
  * Economy
    - BOSEconomy (http://forums.bukkit.org/threads/19025/)
-   - iConomy 4 & 5 (http://forums.bukkit.org/threads/40/)
+   - iConomy 4 (http://forums.bukkit.org/threads/40/)
+   - iConomy 5 (http://forums.bukkit.org/threads/40/)
+   - iConomy 6 (http://forums.bukkit.org/threads/40/)
    - 3co (http://forums.bukkit.org/threads/22461/)
+   - Essentials Economy (http://forums.bukkit.org/threads/15312/)
 
  * Permissions
-   - Permissions 3 (http://forums.bukkit.org/threads/18430/)
    - Permissions Ex (http://forums.bukkit.org/threads/18140/)
+   - Permissions 2 (http://forums.bukkit.org/threads/5974/)
+   - Permissions 3 (http://forums.bukkit.org/threads/18430/)
+   - Group Manager (Essentials) (http://forums.bukkit.org/threads/15312/)
 
 
 ## Implementing Vault
