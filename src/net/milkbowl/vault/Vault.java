@@ -28,6 +28,7 @@ import net.milkbowl.vault.economy.plugins.Economy_BOSE;
 import net.milkbowl.vault.economy.plugins.Economy_Essentials;
 import net.milkbowl.vault.economy.plugins.Economy_iConomy4;
 import net.milkbowl.vault.economy.plugins.Economy_iConomy5;
+import net.milkbowl.vault.economy.plugins.Economy_iConomy6;
 import net.milkbowl.vault.permission.Permission;
 import net.milkbowl.vault.permission.plugins.Permission_GroupManager;
 import net.milkbowl.vault.permission.plugins.Permission_Permissions2;
@@ -112,6 +113,15 @@ public class Vault extends JavaPlugin {
             log.info(String.format("[%s][Economy] iConomy 5 found: %s", getDescription().getName(), icon5.isEnabled() ? "Loaded" : "Waiting"));
         } else {
             log.info(String.format("[%s][Economy] iConomy 5 not found.", getDescription().getName()));
+        }
+        
+        // Try to load iConomy 6
+        if (packageExists(new String[] { "com.iCo6.iConomy" })) {
+            Economy icon6 = new Economy_iConomy6(this);
+            getServer().getServicesManager().register(net.milkbowl.vault.economy.Economy.class, icon6, this, ServicePriority.Lowest);
+            log.info(String.format("[%s][Economy] iConomy 6 found: %s", getDescription().getName(), icon6.isEnabled() ? "Loaded" : "Waiting"));
+        } else {
+            log.info(String.format("[%s][Economy] iConomy 6 not found.", getDescription().getName()));
         }
     }
     
