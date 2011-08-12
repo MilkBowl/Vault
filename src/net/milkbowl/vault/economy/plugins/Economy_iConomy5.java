@@ -39,7 +39,7 @@ import com.iConomy.system.Holdings;
 
 public class Economy_iConomy5 implements Economy {
     private static final Logger log = Logger.getLogger("Minecraft");
-    
+
     private String name = "iConomy 5";
     private JavaPlugin plugin = null;
     private PluginManager pluginManager = null;

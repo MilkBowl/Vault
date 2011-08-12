@@ -28,17 +28,18 @@ public class EconomyResponse {
         SUCCESS(1),
         FAILURE(2),
         NOT_IMPLEMENTED(3);
-        
+
         private int id;
+
         ResponseType(int id) {
             this.id = id;
         }
-        
+
         int getId() {
             return id;
         }
     }
-    
+
     /**
      * Amount modified by calling method
      */
@@ -48,15 +49,15 @@ public class EconomyResponse {
      */
     public final double balance;
     /**
-     * Success or failure of call.
-     * Using Enum of ResponseType to determine valid outcomes
+     * Success or failure of call. Using Enum of ResponseType to determine valid
+     * outcomes
      */
     public final ResponseType type;
     /**
      * Error message if the variable 'type' is ResponseType.FAILURE
      */
     public final String errorMessage;
-    
+
     /**
      * Constructor for EconomyResponse
      * @param amount Amount modified during operation
@@ -70,7 +71,7 @@ public class EconomyResponse {
         this.type = type;
         this.errorMessage = errorMessage;
     }
-    
+
     /**
      * Checks if an operation was successful
      * @return Value

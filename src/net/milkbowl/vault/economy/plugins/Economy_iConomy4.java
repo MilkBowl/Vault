@@ -37,24 +37,24 @@ import com.nijiko.coelho.iConomy.system.Account;
 
 public class Economy_iConomy4 implements Economy {
     private static final Logger log = Logger.getLogger("Minecraft");
-    
+
     private String name = "iConomy 4";
     private Plugin plugin = null;
     private PluginManager pluginManager = null;
     protected iConomy economy = null;
     private EconomyServerListener economyServerListener = null;
-    
+
     public Economy_iConomy4(Plugin plugin) {
         this.plugin = plugin;
         this.pluginManager = this.plugin.getServer().getPluginManager();
 
         economyServerListener = new EconomyServerListener(this);
-        
+
         this.pluginManager.registerEvent(Type.PLUGIN_ENABLE, economyServerListener, Priority.Monitor, plugin);
         this.pluginManager.registerEvent(Type.PLUGIN_DISABLE, economyServerListener, Priority.Monitor, plugin);
-        
+
         // Load Plugin in case it was loaded before
-        if(economy == null) {
+        if (economy == null) {
             Plugin ec = plugin.getServer().getPluginManager().getPlugin("iConomy");
             if (ec != null && ec.isEnabled() && ec.getClass().getName().equals("com.nijiko.coelho.iConomy.iConomy.class")) {
                 economy = (iConomy) ec;
@@ -65,7 +65,7 @@ public class Economy_iConomy4 implements Economy {
 
     @Override
     public boolean isEnabled() {
-        if(economy == null) {
+        if (economy == null) {
             return false;
         } else {
             return economy.isEnabled();
@@ -81,7 +81,7 @@ public class Economy_iConomy4 implements Economy {
     public String format(double amount) {
         return iConomy.getBank().format(amount);
     }
-    
+
     public String getMoneyNamePlural() {
         return iConomy.getBank().getCurrency() + "s";
     }
@@ -93,13 +93,13 @@ public class Economy_iConomy4 implements Economy {
     @Override
     public double getBalance(String playerName) {
         final double balance;
-        
+
         balance = getAccountBalance(playerName);
-        
+
         final double fBalance = balance;
         return fBalance;
     }
-    
+
     private double getAccountBalance(String playerName) {
         Account account = iConomy.getBank().getAccount(playerName);
         if (account == null) {
@@ -114,33 +114,33 @@ public class Economy_iConomy4 implements Economy {
         double balance;
         EconomyResponse.ResponseType type;
         String errorMessage = null;
-        
-        if(amount < 0) {
+
+        if (amount < 0) {
             errorMessage = "Cannot withdraw negative funds";
             type = EconomyResponse.ResponseType.FAILURE;
             amount = 0;
             balance = getAccountBalance(playerName);
-            
+
             return new EconomyResponse(amount, balance, type, errorMessage);
         }
         balance = getAccountBalance(playerName);
-        if(balance >= amount) {
+        if (balance >= amount) {
             Account account = iConomy.getBank().getAccount(playerName);
-            if(account == null) {
+            if (account == null) {
                 return new EconomyResponse(0, 0, EconomyResponse.ResponseType.FAILURE, "Could not find account");
             }
             account.subtract(amount);
-            
+
             type = EconomyResponse.ResponseType.SUCCESS;
             balance = getAccountBalance(playerName);
-            
+
             return new EconomyResponse(amount, balance, type, errorMessage);
         } else {
             errorMessage = "Error withdrawing funds";
             type = EconomyResponse.ResponseType.FAILURE;
             amount = 0;
             balance = getAccountBalance(playerName);
-            
+
             return new EconomyResponse(amount, balance, type, errorMessage);
         }
     }
@@ -150,35 +150,35 @@ public class Economy_iConomy4 implements Economy {
         double balance;
         EconomyResponse.ResponseType type;
         String errorMessage = null;
-        
-        if(amount < 0) {
+
+        if (amount < 0) {
             errorMessage = "Cannot deposit negative funds";
             type = EconomyResponse.ResponseType.FAILURE;
             amount = 0;
             balance = getAccountBalance(playerName);
-            
+
             return new EconomyResponse(amount, balance, type, errorMessage);
         }
-        
+
         Account account = iConomy.getBank().getAccount(playerName);
-        if(account == null) {
+        if (account == null) {
             iConomy.getBank().addAccount(playerName);
             account = iConomy.getBank().getAccount(playerName);
         }
         account.add(amount);
         balance = getAccountBalance(playerName);
         type = EconomyResponse.ResponseType.SUCCESS;
-        
+
         return new EconomyResponse(amount, balance, type, errorMessage);
     }
-    
+
     private class EconomyServerListener extends ServerListener {
         Economy_iConomy4 economy = null;
-        
+
         public EconomyServerListener(Economy_iConomy4 economy) {
             this.economy = economy;
         }
-        
+
         public void onPluginEnable(PluginEnableEvent event) {
             if (economy.economy == null) {
                 Plugin iConomy = plugin.getServer().getPluginManager().getPlugin("iConomy");
@@ -189,7 +189,7 @@ public class Economy_iConomy4 implements Economy {
                 }
             }
         }
-        
+
         public void onPluginDisable(PluginDisableEvent event) {
             if (economy.economy != null) {
                 if (event.getPlugin().getDescription().getName().equals("iConomy")) {

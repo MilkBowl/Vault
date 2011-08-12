@@ -38,7 +38,7 @@ import com.nijikokun.bukkit.Permissions.Permissions;
 
 public class Permission_Permissions3 extends Permission {
     private static final Logger log = Logger.getLogger("Minecraft");
-    
+
     private String name = "Permissions 3 (Yeti)";
     private PermissionHandler perms;
     private Plugin plugin = null;
@@ -70,13 +70,13 @@ public class Permission_Permissions3 extends Permission {
 
     @Override
     public boolean isEnabled() {
-        if(permission == null) {
+        if (permission == null) {
             return false;
         } else {
             return permission.isEnabled();
         }
     }
-    
+
     @Override
     public boolean playerInGroup(String worldName, String playerName, String groupName) {
         return this.permission.getHandler().inGroup(worldName, playerName, groupName);
@@ -119,20 +119,20 @@ public class Permission_Permissions3 extends Permission {
 
     @Override
     public int getPlayerInfoInteger(String world, String playerName, String node, int defaultValue) {
-    	Integer i = this.perms.getInfoInteger(world, playerName, node, false);
+        Integer i = this.perms.getInfoInteger(world, playerName, node, false);
         return (i == null) ? defaultValue : i;
     }
 
     @Override
     public double getPlayerInfoDouble(String world, String playerName, String node, double defaultValue) {
-    	Double d = this.perms.getInfoDouble(world, playerName, node, false);
-    	return (d == null) ? defaultValue : d;
+        Double d = this.perms.getInfoDouble(world, playerName, node, false);
+        return (d == null) ? defaultValue : d;
     }
 
     @Override
     public boolean getPlayerInfoBoolean(String world, String playerName, String node, boolean defaultValue) {
-    	Boolean b = this.perms.getInfoBoolean(world, playerName, node, false);
-    	return (b == null) ? defaultValue : b;
+        Boolean b = this.perms.getInfoBoolean(world, playerName, node, false);
+        return (b == null) ? defaultValue : b;
     }
 
     @Override
@@ -178,63 +178,64 @@ public class Permission_Permissions3 extends Permission {
     }
 
     public void setPlayerInfo(String world, String playerName, String node, Object value) {
-    	this.perms.addUserInfo(world, playerName, node, value);
+        this.perms.addUserInfo(world, playerName, node, value);
     }
-    
+
     @Override
     public void setPlayerInfoInteger(String world, String playerName, String node, int value) {
-    	setPlayerInfo(world, playerName, node, value);
+        setPlayerInfo(world, playerName, node, value);
     }
 
     @Override
     public void setPlayerInfoDouble(String world, String playerName, String node, double value) {
-    	setPlayerInfo(world, playerName, node, value);
+        setPlayerInfo(world, playerName, node, value);
     }
 
     @Override
     public void setPlayerInfoBoolean(String world, String playerName, String node, boolean value) {
-    	setPlayerInfo(world, playerName, node, value); 
+        setPlayerInfo(world, playerName, node, value);
     }
 
     @Override
     public void setPlayerInfoString(String world, String playerName, String node, String value) {
-    	setPlayerInfo(world, playerName, node, value);
+        setPlayerInfo(world, playerName, node, value);
     }
 
     @Override
     public int getGroupInfoInteger(String world, String groupName, String node, int defaultValue) {
-    	Integer i = this.perms.getInfoInteger(world, groupName, node, true);
-    	return (i == null) ? defaultValue : i;
+        Integer i = this.perms.getInfoInteger(world, groupName, node, true);
+        return (i == null) ? defaultValue : i;
     }
 
     public void setGroupInfo(String world, String groupName, String node, Object value) {
-    	this.perms.addGroupInfo(world, groupName, node, value);
+        this.perms.addGroupInfo(world, groupName, node, value);
     }
+
     @Override
     public void setGroupInfoInteger(String world, String groupName, String node, int value) {
-    	setGroupInfo(world, groupName, node, value);
+        setGroupInfo(world, groupName, node, value);
     }
 
     @Override
     public double getGroupInfoDouble(String world, String groupName, String node, double defaultValue) {
-    	Double d = this.perms.getInfoDouble(world, groupName, node, true);
-    	return (d == null) ? defaultValue : d;
+        Double d = this.perms.getInfoDouble(world, groupName, node, true);
+        return (d == null) ? defaultValue : d;
     }
 
     @Override
     public void setGroupInfoDouble(String world, String groupName, String node, double value) {
-    	setGroupInfo(world, groupName, node, value);
+        setGroupInfo(world, groupName, node, value);
     }
 
     @Override
     public boolean getGroupInfoBoolean(String world, String groupName, String node, boolean defaultValue) {
-    	Boolean b = this.perms.getInfoBoolean(world, groupName, node, true);
-    	return (b == null) ? defaultValue : b;
+        Boolean b = this.perms.getInfoBoolean(world, groupName, node, true);
+        return (b == null) ? defaultValue : b;
     }
 
     @Override
     public void setGroupInfoBoolean(String world, String groupName, String node, boolean value) {
-    	setGroupInfo(world, groupName, node, value);
+        setGroupInfo(world, groupName, node, value);
     }
 
     @Override
@@ -245,7 +246,7 @@ public class Permission_Permissions3 extends Permission {
 
     @Override
     public void setGroupInfoString(String world, String groupName, String node, String value) {
-    	setGroupInfo(world, groupName, node, value);
+        setGroupInfo(world, groupName, node, value);
     }
 
     @Override
@@ -259,14 +260,14 @@ public class Permission_Permissions3 extends Permission {
         }
     }
 
-	@Override
-	public String[] getPlayerGroups(String world, String playerName) {
-		return this.perms.getGroups(world, playerName);
-	}
-	
-	public String getPrimaryGroup(String world, String playerName) {
-		return this.perms.getPrimaryGroup(world, playerName);
-	}
+    @Override
+    public String[] getPlayerGroups(String world, String playerName) {
+        return this.perms.getGroups(world, playerName);
+    }
+
+    public String getPrimaryGroup(String world, String playerName) {
+        return this.perms.getPrimaryGroup(world, playerName);
+    }
 
     @Override
     public boolean playerHas(String worldName, String playerName, String permission) {
@@ -282,12 +283,12 @@ public class Permission_Permissions3 extends Permission {
     public String getPlayerSuffix(String world, String playerName) {
         return this.perms.getUserSuffix(world, playerName);
     }
-    
+
     @Override
     public void setPlayerSuffix(String world, String player, String suffix) {
         this.perms.addUserInfo(world, player, "suffix", suffix);
     }
-    
+
     @Override
     public void setPlayerPrefix(String world, String player, String prefix) {
         this.perms.addUserInfo(world, player, "prefix", prefix);

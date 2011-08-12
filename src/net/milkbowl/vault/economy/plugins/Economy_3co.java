@@ -35,7 +35,7 @@ import org.bukkit.plugin.PluginManager;
 
 public class Economy_3co implements Economy {
     private static final Logger log = Logger.getLogger("Minecraft");
-    
+
     private String name = "3co";
     private Plugin plugin = null;
     private PluginManager pluginManager = null;
@@ -68,7 +68,7 @@ public class Economy_3co implements Economy {
 
     @Override
     public boolean isEnabled() {
-        if(economy == null) {
+        if (economy == null) {
             return false;
         } else {
             return economy.isEnabled();
@@ -78,7 +78,7 @@ public class Economy_3co implements Economy {
     @Override
     public double getBalance(String playerName) {
         final double balance;
-        
+
         balance = (double) economy.getMoney(plugin.getServer().getPlayer(playerName));
 
         final double fBalance = balance;
@@ -90,24 +90,24 @@ public class Economy_3co implements Economy {
         double balance;
         EconomyResponse.ResponseType type;
         String errorMessage = null;
-        
-        if(amount < 0) {
+
+        if (amount < 0) {
             errorMessage = "Cannot withdraw negative funds";
             type = EconomyResponse.ResponseType.FAILURE;
             amount = 0;
             balance = (double) economy.getMoney(plugin.getServer().getPlayer(playerName));
-            
+
             return new EconomyResponse(balance, balance, type, errorMessage);
         }
-        
+
         amount = Math.ceil(amount);
         balance = (double) economy.getMoney(plugin.getServer().getPlayer(playerName));
-        if(balance - amount < 0) {
+        if (balance - amount < 0) {
             errorMessage = "Insufficient funds";
             type = EconomyResponse.ResponseType.FAILURE;
             amount = 0;
             balance = (double) economy.getMoney(plugin.getServer().getPlayer(playerName));
-            
+
             return new EconomyResponse(balance, balance, type, errorMessage);
         }
         economy.setMoney(plugin.getServer().getPlayer(playerName), (int) (balance - amount));
@@ -122,13 +122,13 @@ public class Economy_3co implements Economy {
         double balance;
         EconomyResponse.ResponseType type;
         String errorMessage = null;
-        
-        if(amount < 0) {
+
+        if (amount < 0) {
             errorMessage = "Cannot deposit negative funds";
             type = EconomyResponse.ResponseType.FAILURE;
             amount = 0;
             balance = (double) economy.getMoney(plugin.getServer().getPlayer(playerName));
-            
+
             return new EconomyResponse(balance, balance, type, errorMessage);
         }
         amount = Math.ceil(amount);
@@ -147,14 +147,14 @@ public class Economy_3co implements Economy {
     public String getMoneyNameSingular() {
         return economy.getSingularCurrency();
     }
-    
+
     private class EconomyServerListener extends ServerListener {
         Economy_3co economy = null;
-        
+
         public EconomyServerListener(Economy_3co economy) {
             this.economy = economy;
         }
-        
+
         public void onPluginEnable(PluginEnableEvent event) {
             if (economy.economy == null) {
                 Plugin eco = plugin.getServer().getPluginManager().getPlugin("3co");
@@ -165,7 +165,7 @@ public class Economy_3co implements Economy {
                 }
             }
         }
-        
+
         public void onPluginDisable(PluginDisableEvent event) {
             if (economy.economy != null) {
                 if (event.getPlugin().getDescription().getName().equals("Essentials")) {

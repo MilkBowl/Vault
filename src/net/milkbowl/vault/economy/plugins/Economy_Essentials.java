@@ -38,22 +38,22 @@ import com.earth2me.essentials.api.UserDoesNotExistException;
 
 public class Economy_Essentials implements Economy {
     private static final Logger log = Logger.getLogger("Minecraft");
-    
+
     private String name = "Essentials Economy";
     private Plugin plugin = null;
     private PluginManager pluginManager = null;
     private Essentials ess = null;
     private EconomyServerListener economyServerListener = null;
-    
+
     public Economy_Essentials(Plugin plugin) {
         this.plugin = plugin;
         pluginManager = this.plugin.getServer().getPluginManager();
 
         economyServerListener = new EconomyServerListener(this);
-        
+
         this.pluginManager.registerEvent(Type.PLUGIN_ENABLE, economyServerListener, Priority.Monitor, plugin);
         this.pluginManager.registerEvent(Type.PLUGIN_DISABLE, economyServerListener, Priority.Monitor, plugin);
-        
+
         // Load Plugin in case it was loaded before
         if (ess == null) {
             Plugin essentials = plugin.getServer().getPluginManager().getPlugin("Essentials");
@@ -62,17 +62,17 @@ public class Economy_Essentials implements Economy {
                 log.info(String.format("[%s][Economy] %s hooked.", plugin.getDescription().getName(), name));
             }
         }
-    }    
-    
+    }
+
     @Override
     public boolean isEnabled() {
-        if(ess == null) {
+        if (ess == null) {
             return false;
         } else {
             return ess.isEnabled();
         }
     }
-    
+
     @Override
     public String getName() {
         return name;
@@ -88,11 +88,11 @@ public class Economy_Essentials implements Economy {
             createPlayerAccount(playerName);
             balance = 0;
         }
-        
+
         final double fBalance = balance;
         return fBalance;
     }
-    
+
     private boolean createPlayerAccount(String playerName) {
         try {
             com.earth2me.essentials.api.Economy.add(playerName, 0);
@@ -109,7 +109,7 @@ public class Economy_Essentials implements Economy {
         double balance;
         EconomyResponse.ResponseType type;
         String errorMessage = null;
-        
+
         try {
             com.earth2me.essentials.api.Economy.subtract(playerName, amount);
             balance = com.earth2me.essentials.api.Economy.getMoney(playerName);
@@ -136,7 +136,7 @@ public class Economy_Essentials implements Economy {
                 errorMessage = "User does not exist";
             }
         }
-        
+
         return new EconomyResponse(amount, balance, type, errorMessage);
     }
 
@@ -145,13 +145,13 @@ public class Economy_Essentials implements Economy {
         double balance;
         EconomyResponse.ResponseType type;
         String errorMessage = null;
-        
+
         try {
             com.earth2me.essentials.api.Economy.add(playerName, amount);
             balance = com.earth2me.essentials.api.Economy.getMoney(playerName);
             type = EconomyResponse.ResponseType.SUCCESS;
         } catch (UserDoesNotExistException e) {
-            if(createPlayerAccount(playerName)) {
+            if (createPlayerAccount(playerName)) {
                 return depositPlayer(playerName, amount);
             } else {
                 amount = 0;
@@ -172,17 +172,17 @@ public class Economy_Essentials implements Economy {
                 errorMessage = "Loan was not permitted";
             }
         }
-        
+
         return new EconomyResponse(amount, balance, type, errorMessage);
     }
-    
+
     private class EconomyServerListener extends ServerListener {
         Economy_Essentials economy = null;
-        
+
         public EconomyServerListener(Economy_Essentials economy) {
             this.economy = economy;
         }
-        
+
         public void onPluginEnable(PluginEnableEvent event) {
             if (economy.ess == null) {
                 Plugin essentials = plugin.getServer().getPluginManager().getPlugin("Essentials");
@@ -193,7 +193,7 @@ public class Economy_Essentials implements Economy {
                 }
             }
         }
-        
+
         public void onPluginDisable(PluginDisableEvent event) {
             if (economy.ess != null) {
                 if (event.getPlugin().getDescription().getName().equals("Essentials")) {
