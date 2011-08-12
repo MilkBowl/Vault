@@ -261,4 +261,24 @@ public class Permission_Permissions2 extends Permission {
             throw new UnsupportedOperationException(getName() + " cannot modify permissions.");
         }
 
+        @Override
+        public String getGroupPrefix(String world, String group) {
+            return perms.getGroupPrefix(world, group);
+        }
+
+        @Override
+        public void setGroupPrefix(String world, String group, String prefix) {
+            throw new UnsupportedOperationException(getName() + " cannot modify permissions.");
+        }
+
+        @Override
+        public String getGroupSuffix(String world, String group) {
+            return perms.getGroupSuffix(world, group);
+        }
+
+        @Override
+        public void setGroupSuffix(String world, String group, String suffix) {
+            throw new UnsupportedOperationException(getName() + " cannot modify permissions.");
+        }
+
 }

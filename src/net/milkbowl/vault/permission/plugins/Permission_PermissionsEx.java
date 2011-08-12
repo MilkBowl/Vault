@@ -405,4 +405,41 @@ public class Permission_PermissionsEx extends Permission {
                 user.setPrefix(prefix);
         }
     }
+
+    @Override
+    public String getGroupPrefix(String world, String group) {
+        PermissionGroup pGroup = PermissionsEx.getPermissionManager().getGroup(group);
+        if(group != null) {
+            return pGroup.getPrefix();
+        } else {
+            return null;
+        }
+    }
+
+    @Override
+    public void setGroupPrefix(String world, String group, String prefix) {
+        PermissionGroup pGroup = PermissionsEx.getPermissionManager().getGroup(group);
+        if(group != null) {
+            pGroup.setPrefix(prefix);
+        }
+        
+    }
+
+    @Override
+    public String getGroupSuffix(String world, String group) {
+        PermissionGroup pGroup = PermissionsEx.getPermissionManager().getGroup(group);
+        if(group != null) {
+            return pGroup.getSuffix();
+        } else {
+            return null;
+        }
+    }
+
+    @Override
+    public void setGroupSuffix(String world, String group, String suffix) {
+        PermissionGroup pGroup = PermissionsEx.getPermissionManager().getGroup(group);
+        if(group != null) {
+            pGroup.setSuffix(suffix);
+        }
+    }
 }

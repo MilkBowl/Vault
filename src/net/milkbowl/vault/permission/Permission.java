@@ -836,4 +836,72 @@ public abstract class Permission {
     public void setPlayerSuffix(Player player, String suffix) {
         setPlayerSuffix(player.getWorld().getName(), player.getName(), suffix);
     }
+    
+    /**
+     * Get group prefix
+     * @param world World name
+     * @param group Group name
+     * @return Prefix
+     */
+    abstract public String getGroupPrefix(String world, String group);
+    /**
+     * Get group prefix
+     * @param world World Object
+     * @param group Group name
+     * @return Prefix
+     */
+    public String getGroupPrefix(World world, String group) {
+        return getGroupPrefix(world.getName(), group);
+    }
+    
+    /**
+     * Set group prefix
+     * @param world World name
+     * @param group Group name
+     * @param prefix Prefix
+     */
+    abstract public void setGroupPrefix(String world, String group, String prefix);
+    /**
+     * Set group prefix
+     * @param world World Object
+     * @param group Group name
+     * @param prefix Prefix
+     */
+    public void setGroupPrefix(World world, String group, String prefix) {
+        setGroupPrefix(world.getName(), group, prefix);
+    }
+    
+    /**
+     * Get group suffix
+     * @param world World name
+     * @param group Group name
+     * @return Suffix
+     */
+    abstract public String getGroupSuffix(String world, String group);
+    /**
+     * Get group suffix
+     * @param world World Object
+     * @param group Group name
+     * @return Suffix
+     */
+    public String getGroupSuffix(World world, String group) {
+        return getGroupSuffix(world.getName(), group);
+    }
+    
+    /**
+     * Set group suffix
+     * @param world World name
+     * @param group Group name
+     * @param suffix Suffix
+     */
+    abstract public void setGroupSuffix(String world, String group, String suffix);
+    /**
+     * Set group suffix
+     * @param world World Object
+     * @param group Group name
+     * @param suffix Suffix
+     */
+    public void setGroupSuffix(World world, String group, String suffix) {
+        setGroupSuffix(world.getName(), group, suffix);
+    }
 }

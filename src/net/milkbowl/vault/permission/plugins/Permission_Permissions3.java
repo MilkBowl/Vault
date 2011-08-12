@@ -292,4 +292,24 @@ public class Permission_Permissions3 extends Permission {
     public void setPlayerPrefix(String world, String player, String prefix) {
         this.perms.addUserInfo(world, player, "prefix", prefix);
     }
+
+    @Override
+    public String getGroupPrefix(String world, String group) {
+        return perms.getGroupPrefix(world, group);
+    }
+
+    @Override
+    public void setGroupPrefix(String world, String group, String prefix) {
+        this.perms.addGroupInfo(world, group, "prefix", prefix);
+    }
+
+    @Override
+    public String getGroupSuffix(String world, String group) {
+        return perms.getGroupSuffix(world, group);
+    }
+
+    @Override
+    public void setGroupSuffix(String world, String group, String suffix) {
+        this.perms.addGroupInfo(world, group, "suffix", suffix);
+    }
 }
