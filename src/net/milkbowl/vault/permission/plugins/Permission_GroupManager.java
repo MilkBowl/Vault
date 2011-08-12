@@ -272,4 +272,9 @@ public class Permission_GroupManager extends Permission {
     public void setGroupSuffix(String world, String group, String suffix) {
         throw new UnsupportedOperationException(getName() + " cannot modify permissions.");
     }
+
+    @Override
+    public boolean playerAddTransient(String world, String player, String permission) {
+        throw new UnsupportedOperationException(getName() + " cannot modify permissions.");
+    }
 }

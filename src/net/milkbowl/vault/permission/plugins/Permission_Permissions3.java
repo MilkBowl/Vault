@@ -296,7 +296,11 @@ public class Permission_Permissions3 extends Permission {
 
     @Override
     public String getGroupPrefix(String world, String group) {
-        return perms.getGroupPrefix(world, group);
+        try {
+            return perms.safeGetGroup(world, group).getPrefix();
+        } catch(Exception e) {
+            return null;
+        }
     }
 
     @Override
@@ -306,11 +310,25 @@ public class Permission_Permissions3 extends Permission {
 
     @Override
     public String getGroupSuffix(String world, String group) {
-        return perms.getGroupSuffix(world, group);
+        try {
+            return perms.safeGetGroup(world, group).getSuffix();
+        } catch(Exception e) {
+            return null;
+        }
     }
 
     @Override
     public void setGroupSuffix(String world, String group, String suffix) {
         this.perms.addGroupInfo(world, group, "suffix", suffix);
+    }
+
+    @Override
+    public boolean playerAddTransient(String world, String player, String permission) {
+        try {
+            perms.safeGetUser(world, player).addTimedPermission(permission, 0);
+            return true;
+        } catch(Exception e) {
+            return false;
+        }
     }
 }

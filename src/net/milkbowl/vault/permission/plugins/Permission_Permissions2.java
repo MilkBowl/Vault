@@ -281,4 +281,9 @@ public class Permission_Permissions2 extends Permission {
         throw new UnsupportedOperationException(getName() + " cannot modify permissions.");
     }
 
+    @Override
+    public boolean playerAddTransient(String world, String player, String permission) {
+        throw new UnsupportedOperationException(getName() + " cannot modify permissions.");
+    }
+
 }

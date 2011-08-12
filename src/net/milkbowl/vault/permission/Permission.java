@@ -127,6 +127,34 @@ public abstract class Permission {
     public boolean playerAdd(Player player, String permission) {
         return playerAdd(player.getWorld().getName(), player.getName(), permission);
     }
+    
+    /**
+     * Add transient permission to a player.
+     * @param world World name
+     * @param player Player name
+     * @param permission Permission node
+     * @return Success or Failure
+     */
+    abstract public boolean playerAddTransient(String world, String player, String permission);
+    /**
+     * Add transient permission to a player.
+     * @param world World Object
+     * @param player Player name
+     * @param permission Permission node
+     * @return Success or Failure
+     */
+    public boolean playerAddTransient(World world, String player, String permission) {
+        return playerAddTransient(world.getName(), player, permission);
+    }
+    /**
+     * Add transient permission to a player.
+     * @param player Player Object
+     * @param permission Permission node
+     * @return Success or Failure
+     */
+    public boolean playerAddTransient(Player player, String permission) {
+        return playerAddTransient(player.getWorld().getName(), player.getName(), permission);
+    }
 
     /**
      * Remove permission from a player.

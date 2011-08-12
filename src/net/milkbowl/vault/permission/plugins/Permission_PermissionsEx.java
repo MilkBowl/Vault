@@ -444,4 +444,15 @@ public class Permission_PermissionsEx extends Permission {
             pGroup.setSuffix(suffix);
         }
     }
+
+    @Override
+    public boolean playerAddTransient(String world, String player, String permission) {
+        PermissionUser pPlayer = PermissionsEx.getPermissionManager().getUser(player);
+        if (pPlayer != null) {
+            pPlayer.addTimedPermission(permission, world, 0);
+            return true;
+        } else {
+            return false;
+        }
+    }
 }
