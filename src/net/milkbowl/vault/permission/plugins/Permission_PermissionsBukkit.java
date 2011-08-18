@@ -19,6 +19,7 @@ import org.bukkit.plugin.PluginManager;
 import com.platymuus.bukkit.permissions.Group;
 import com.platymuus.bukkit.permissions.PermissionsPlugin;
 
+import net.D3GN.MiracleM4n.mChat.mChatAPI;
 import net.milkbowl.vault.permission.Permission;
 
 public class Permission_PermissionsBukkit extends Permission {
@@ -28,6 +29,7 @@ public class Permission_PermissionsBukkit extends Permission {
 	private Plugin plugin = null;
 	private PluginManager pluginManager = null;
 	private PermissionsPlugin perms = null;
+	private mChatAPI mChat = null;
 	private PermissionServerListener permissionServerListener = null;
 	private ConsoleCommandSender ccs;
 
@@ -47,6 +49,14 @@ public class Permission_PermissionsBukkit extends Permission {
 			if (perms != null) {
 				perms = (PermissionsPlugin) perms;
 				log.info(String.format("[%s][Permission] %s hooked.", plugin.getDescription().getName(), name));
+			}
+		}
+		
+		if (mChat == null) {
+			Plugin chat = plugin.getServer().getPluginManager().getPlugin("mChat");
+			if (chat != null) {
+				mChat = net.D3GN.MiracleM4n.mChat.mChat.API;
+				log.info(String.format("[%s][Chat] %s hooked.", plugin.getDescription().getName(), "mChat"));
 			}
 		}
 	}
@@ -70,6 +80,13 @@ public class Permission_PermissionsBukkit extends Permission {
 					}
 				}
 			}
+			if (mChat == null) {
+				Plugin chat = plugin.getServer().getPluginManager().getPlugin("mChat");
+				if (chat != null) {
+					mChat = net.D3GN.MiracleM4n.mChat.mChat.API;
+					log.info(String.format("[%s][Chat] %s hooked.", plugin.getDescription().getName(), "mChat"));
+				}
+			}
 		}
 
 		public void onPluginDisable(PluginDisableEvent event) {
@@ -77,6 +94,12 @@ public class Permission_PermissionsBukkit extends Permission {
 				if (event.getPlugin().getDescription().getName().equals("PermissionsBukkit")) {
 					permission.perms = null;
 					log.info(String.format("[%s][Permission] %s un-hooked.", plugin.getDescription().getName(), permission.name));
+				}
+			}
+			if (mChat != null) {
+				if (event.getPlugin().getDescription().getName().equals("mChat")) {
+					mChat = null;
+					log.info(String.format("[%s][Chat] %s un-hooked.", plugin.getDescription().getName(), "mChat"));
 				}
 			}
 		}
@@ -313,9 +336,6 @@ public class Permission_PermissionsBukkit extends Permission {
 
 	@Override
 	public String getPrimaryGroup(String world, String player) {
-		if (world != null) {
-
-		}
 		if (perms.getPlayerInfo(player).getGroups() != null ) {
 			return perms.getPlayerInfo(player).getGroups().get(0).getName();
 		}
@@ -324,20 +344,29 @@ public class Permission_PermissionsBukkit extends Permission {
 
 	@Override
 	public String getPlayerPrefix(String world, String player) {
-		// TODO Auto-generated method stub
-		return null;
+		if (mChat == null) {
+			throw new UnsupportedOperationException(getName() + " does not support info nodes.");
+		} else if (plugin.getServer().getPlayer(player) == null){
+			throw new UnsupportedOperationException(getName() + " does not support offline node retrieval");
+		} else {
+			return mChat.getPrefix(plugin.getServer().getPlayer(player));
+		}
 	}
 
 	@Override
 	public void setPlayerPrefix(String world, String player, String prefix) {
-		// TODO Auto-generated method stub
 
 	}
 
 	@Override
 	public String getPlayerSuffix(String world, String player) {
-		// TODO Auto-generated method stub
-		return null;
+		if (mChat == null) {
+			throw new UnsupportedOperationException(getName() + " does not support info nodes.");
+		} else if (plugin.getServer().getPlayer(player) == null){
+			throw new UnsupportedOperationException(getName() + " does not support offline node retrieval");
+		} else {
+			return mChat.getSuffix(plugin.getServer().getPlayer(player));
+		}
 	}
 
 	@Override
@@ -348,20 +377,17 @@ public class Permission_PermissionsBukkit extends Permission {
 
 	@Override
 	public String getGroupPrefix(String world, String group) {
-		// TODO Auto-generated method stub
-		return null;
+		throw new UnsupportedOperationException(getName() + " does not support group info nodes.");
 	}
 
 	@Override
 	public void setGroupPrefix(String world, String group, String prefix) {
 		// TODO Auto-generated method stub
-
 	}
 
 	@Override
 	public String getGroupSuffix(String world, String group) {
-		// TODO Auto-generated method stub
-		return null;
+		throw new UnsupportedOperationException(getName() + " does not support group info nodes.");
 	}
 
 	@Override
