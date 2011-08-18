@@ -106,7 +106,10 @@ public class Permission_PermissionsBukkit extends Permission {
 
 	@Override
 	public boolean playerAdd(String world, String player, String permission) {
-		return false;
+		if (world != null) {
+			permission = world + ":" + permission;
+		}
+		return plugin.getServer().dispatchCommand(ccs, "permission player setperm " + player + " " + permission + " true");
 	}
 
 	@Override
@@ -134,8 +137,10 @@ public class Permission_PermissionsBukkit extends Permission {
 
 	@Override
 	public boolean playerRemove(String world, String player, String permission) {
-		// TODO Auto-generated method stub
-		return false;
+		if (world != null) {
+			permission = world + ":" + permission;
+		}
+		return plugin.getServer().dispatchCommand(ccs, "permission player unsetperm " + player + " " + permission);
 	}
 
 	@Override
@@ -165,14 +170,18 @@ public class Permission_PermissionsBukkit extends Permission {
 
 	@Override
 	public boolean groupAdd(String world, String group, String permission) {
-		// TODO Auto-generated method stub
-		return false;
+		if (world != null) {
+			permission = world + ":" + permission;
+		}
+		return plugin.getServer().dispatchCommand(ccs, "permission group setperm " + group + " " + permission + " true");
 	}
 
 	@Override
 	public boolean groupRemove(String world, String group, String permission) {
-		// TODO Auto-generated method stub
-		return false;
+		if (world != null) {
+			permission = world + ":" + permission;
+		}
+		return plugin.getServer().dispatchCommand(ccs, "permission group unsetperm " + group + " " + permission);
 	}
 
 	@Override
@@ -190,14 +199,18 @@ public class Permission_PermissionsBukkit extends Permission {
 
 	@Override
 	public boolean playerAddGroup(String world, String player, String group) {
-		// TODO Auto-generated method stub
-		return false;
+		if (world != null) {
+			throw new UnsupportedOperationException(getName() + " does not support world based groups.");
+		}
+		return plugin.getServer().dispatchCommand(ccs, "permission player addgroup " + group + " " + player);
 	}
 
 	@Override
 	public boolean playerRemoveGroup(String world, String player, String group) {
-		// TODO Auto-generated method stub
-		return false;
+		if (world != null) {
+			throw new UnsupportedOperationException(getName() + " does not support world based groups.");
+		}
+		return plugin.getServer().dispatchCommand(ccs, "permission player removegroup " + group + " " + player);
 	}
 
 	@Override
