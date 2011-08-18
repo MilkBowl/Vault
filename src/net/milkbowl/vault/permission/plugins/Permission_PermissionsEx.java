@@ -455,4 +455,15 @@ public class Permission_PermissionsEx extends Permission {
             return false;
         }
     }
+
+	@Override
+	public boolean playerRemoveTransient(String world, String player, String permission) {
+		PermissionUser pPlayer = PermissionsEx.getPermissionManager().getUser(player);
+		if (pPlayer != null) {
+			pPlayer.removeTimedPermission(permission, world);
+			return true;
+		} else {
+			return false;
+		}
+	}
 }

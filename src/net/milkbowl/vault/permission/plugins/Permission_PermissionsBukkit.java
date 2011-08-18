@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
 
-import org.bukkit.Bukkit;
 import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event.Priority;
@@ -107,9 +106,7 @@ public class Permission_PermissionsBukkit extends Permission {
 
 	@Override
 	public boolean playerAdd(String world, String player, String permission) {
-		if (world == null) {
-			plugin.getServer().dispatchCommand(arg0, arg1)
-		}
+		return false;
 	}
 
 	@Override

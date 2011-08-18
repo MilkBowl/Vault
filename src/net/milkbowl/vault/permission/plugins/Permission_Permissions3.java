@@ -23,7 +23,6 @@ import java.util.logging.Logger;
 
 import net.milkbowl.vault.permission.Permission;
 
-import org.bukkit.entity.Player;
 import org.bukkit.event.Event.Priority;
 import org.bukkit.event.Event.Type;
 import org.bukkit.event.server.PluginDisableEvent;
@@ -331,4 +330,14 @@ public class Permission_Permissions3 extends Permission {
             return false;
         }
     }
+
+	@Override
+	public boolean playerRemoveTransient(String world, String player, String permission) {
+		try {
+			perms.safeGetUser(world, player).removeTimedPermission(permission);
+			return true;
+		} catch (Exception e) {
+			return false;
+		}
+	}
 }
