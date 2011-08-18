@@ -8,6 +8,8 @@ import org.bukkit.event.Event.Type;
 import org.bukkit.event.server.PluginDisableEvent;
 import org.bukkit.event.server.PluginEnableEvent;
 import org.bukkit.event.server.ServerListener;
+import org.bukkit.permissions.PermissionAttachment;
+import org.bukkit.permissions.PermissionAttachmentInfo;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.PluginManager;
 
@@ -283,7 +285,42 @@ public class Permission_Permissions2 extends Permission {
 
     @Override
     public boolean playerAddTransient(String world, String player, String permission) {
-        throw new UnsupportedOperationException(getName() + " cannot modify permissions.");
+		if (world != null) {
+			throw new UnsupportedOperationException(getName() + " does not support World based transient permissions!");
+		}
+		Player p = plugin.getServer().getPlayer(player);
+		if (p == null) {
+			throw new UnsupportedOperationException(getName() + " does not support offline player transient permissions!");
+		}
+		
+		for (PermissionAttachmentInfo paInfo : p.getEffectivePermissions()) {
+			if (paInfo.getAttachment().getPlugin().equals(plugin)) {
+				paInfo.getAttachment().setPermission(permission, true);
+				return true;
+			}
+		}
+		
+		PermissionAttachment attach = p.addAttachment(plugin);
+		attach.setPermission(permission, true);
+		
+		return true;
     }
+
+	@Override
+	public boolean playerRemoveTransient(String world, String player, String permission) {
+		if (world != null) {
+			throw new UnsupportedOperationException(getName() + " does not support World based transient permissions!");
+		}
+		Player p = plugin.getServer().getPlayer(player);
+		if (p == null) {
+			throw new UnsupportedOperationException(getName() + " does not support offline player transient permissions!");
+		}
+		for (PermissionAttachmentInfo paInfo : p.getEffectivePermissions()) {
+			if (paInfo.getAttachment().getPlugin().equals(plugin)) {
+				return paInfo.getAttachment().getPermissions().remove(permission);
+			}
+		}
+		return false;
+	}
 
 }

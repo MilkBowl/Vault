@@ -185,7 +185,37 @@ public abstract class Permission {
     public boolean playerRemove(Player player, String permission) {
         return playerRemove(player.getWorld().getName(), player.getName(), permission);
     }
+    
+    /**
+     * Remove transient permission to a player.
+     * @param world World name
+     * @param player Player name
+     * @param permission Permission node
+     * @return Success or Failure
+     */
+    abstract public boolean playerRemoveTransient(String world, String player, String permission);
+    
+    /**
+     * Remove transient permission from a player.
+     * @param world World name
+     * @param player Player name
+     * @param permission Permission node
+     * @return Success or Failure
+     */
+    public boolean playerRemoveTransient(World world, String player, String permission) {
+        return playerRemoveTransient(world.getName(), player, permission);
+    }
 
+    /**
+     * Remove transient permission from a player.
+     * @param player Player Object
+     * @param permission Permission node
+     * @return Success or Failure
+     */
+    public boolean playerRemoveTransient(Player player, String permission) {
+        return playerRemove(player.getWorld().getName(), player.getName(), permission);
+    }
+    
     /**
      * Checks if group has a permission node.
      * @param world World name
