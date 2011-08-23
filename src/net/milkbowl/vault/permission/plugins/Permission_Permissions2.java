@@ -97,6 +97,11 @@ public class Permission_Permissions2 extends Permission {
 
     @Override
     public boolean playerHas(String worldName, String playerName, String permission) {
+		Player p = plugin.getServer().getPlayer(playerName);
+		if (p != null) {
+			if (p.hasPermission(permission))
+				return true;
+		}
         return this.perms.has(worldName, playerName, permission);
     }
 

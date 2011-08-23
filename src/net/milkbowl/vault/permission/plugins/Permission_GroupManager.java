@@ -99,6 +99,11 @@ public class Permission_GroupManager extends Permission {
 
     @Override
     public boolean playerHas(String worldName, String playerName, String permission) {
+		Player p = plugin.getServer().getPlayer(playerName);
+		if (p != null) {
+			if (p.hasPermission(permission))
+				return true;
+		}
         return perms.has(plugin.getServer().getPlayer(playerName), permission);
     }
 
