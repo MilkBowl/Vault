@@ -93,7 +93,7 @@ public class Permission_Permissions3 extends Permission {
                 Plugin perms = plugin.getServer().getPluginManager().getPlugin("Permissions");
 
                 if (perms != null) {
-                    if (perms.isEnabled()) {
+                    if (perms.isEnabled() && perms.getDescription().getVersion().startsWith("3")) {
                         permission.permission = (Permissions) perms;
                         log.info(String.format("[%s][Permission] %s hooked.", plugin.getDescription().getName(), permission.name));
                     }
