@@ -23,6 +23,7 @@ import java.util.logging.Logger;
 
 import net.milkbowl.vault.permission.Permission;
 
+import org.bukkit.entity.Player;
 import org.bukkit.event.Event.Priority;
 import org.bukkit.event.Event.Type;
 import org.bukkit.event.server.PluginDisableEvent;
@@ -270,6 +271,11 @@ public class Permission_Permissions3 extends Permission {
 
     @Override
     public boolean playerHas(String worldName, String playerName, String permission) {
+		Player p = plugin.getServer().getPlayer(playerName);
+		if (p != null) {
+			if (p.hasPermission(permission))
+				return true;
+		}
         return this.perms.has(worldName, playerName, permission);
     }
 
