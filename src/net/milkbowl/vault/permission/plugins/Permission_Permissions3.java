@@ -50,7 +50,7 @@ public class Permission_Permissions3 extends Permission {
         this.plugin = plugin;
         pluginManager = this.plugin.getServer().getPluginManager();
 
-        permissionServerListener = new PermissionServerListener(this);
+        permissionServerListener = new PermissionServerListener();
 
         this.pluginManager.registerEvent(Type.PLUGIN_ENABLE, permissionServerListener, Priority.Monitor, plugin);
         this.pluginManager.registerEvent(Type.PLUGIN_DISABLE, permissionServerListener, Priority.Monitor, plugin);
@@ -83,30 +83,23 @@ public class Permission_Permissions3 extends Permission {
     }
 
     private class PermissionServerListener extends ServerListener {
-        Permission_Permissions3 permission = null;
-
-        public PermissionServerListener(Permission_Permissions3 permission) {
-            this.permission = permission;
-        }
-
         public void onPluginEnable(PluginEnableEvent event) {
-            if (permission.permission == null) {
-                Plugin perms = plugin.getServer().getPluginManager().getPlugin("Permissions");
-
-                if (perms != null) {
-                    if (perms.isEnabled() && perms.getDescription().getVersion().startsWith("3")) {
-                        permission.permission = (Permissions) perms;
-                        log.info(String.format("[%s][Permission] %s hooked.", plugin.getDescription().getName(), permission.name));
+            if (permission == null) {
+                Plugin perms = event.getPlugin();
+                if(perms.getDescription().getName().equals("Permissions") && perms.getDescription().getVersion().startsWith("3")) {
+                    if (perms.isEnabled()) {
+                        permission = (Permissions) perms;
+                        log.info(String.format("[%s][Permission] %s hooked.", plugin.getDescription().getName(), name));
                     }
                 }
             }
         }
 
         public void onPluginDisable(PluginDisableEvent event) {
-            if (permission.permission != null) {
+            if (permission != null) {
                 if (event.getPlugin().getDescription().getName().equals("Permissions")) {
-                    permission.permission = null;
-                    log.info(String.format("[%s][Permission] %s un-hooked.", plugin.getDescription().getName(), permission.name));
+                    permission = null;
+                    log.info(String.format("[%s][Permission] %s un-hooked.", plugin.getDescription().getName(), name));
                 }
             }
         }
