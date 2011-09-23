@@ -121,10 +121,10 @@ public class Permission_PermissionsBukkit extends Permission {
 
 	@Override
 	public boolean playerHas(String world, String player, String permission) {
-		if (world != null && !world.isEmpty()) {
-			return perms.getPlayerInfo(player).getWorldPermissions(world).get(permission) == null ? false : perms.getPlayerInfo(player).getWorldPermissions(world).get(permission);
-		}
-		return perms.getPlayerInfo(player).getPermissions().get(permission);
+		if (plugin.getServer().getPlayer(player) != null)
+			return plugin.getServer().getPlayer(player).hasPermission(permission);
+		else
+			return false;
 	}
 
 	@Override
