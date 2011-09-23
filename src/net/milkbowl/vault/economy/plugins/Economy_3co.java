@@ -168,7 +168,7 @@ public class Economy_3co implements Economy {
 
         public void onPluginDisable(PluginDisableEvent event) {
             if (economy.economy != null) {
-                if (event.getPlugin().getDescription().getName().equals("Essentials")) {
+                if (event.getPlugin().getDescription().getName().equals("3co")) {
                     economy.economy = null;
                     log.info(String.format("[%s][Economy] %s unhooked.", plugin.getDescription().getName(), economy.name));
                 }
