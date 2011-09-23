@@ -102,7 +102,7 @@ public class Vault extends JavaPlugin {
         // Try to load iConomy 4
         if (packageExists(new String[] { "com.nijiko.coelho.iConomy.iConomy", "com.nijiko.coelho.iConomy.system.Account" })) {
             Economy icon4 = new Economy_iConomy4(this);
-            getServer().getServicesManager().register(net.milkbowl.vault.economy.Economy.class, icon4, this, ServicePriority.Lowest);
+            getServer().getServicesManager().register(net.milkbowl.vault.economy.Economy.class, icon4, this, ServicePriority.High);
             log.info(String.format("[%s][Economy] iConomy 4 found: ", getDescription().getName(), icon4.isEnabled() ? "Loaded" : "Waiting"));
         } else {
             log.info(String.format("[%s][Economy] iConomy 4 not found.", getDescription().getName()));
@@ -111,7 +111,7 @@ public class Vault extends JavaPlugin {
         // Try to load iConomy 5
         if (packageExists(new String[] { "com.iConomy.iConomy", "com.iConomy.system.Account", "com.iConomy.system.Holdings" })) {
             Economy icon5 = new Economy_iConomy5(this);
-            getServer().getServicesManager().register(net.milkbowl.vault.economy.Economy.class, icon5, this, ServicePriority.Lowest);
+            getServer().getServicesManager().register(net.milkbowl.vault.economy.Economy.class, icon5, this, ServicePriority.High);
             log.info(String.format("[%s][Economy] iConomy 5 found: %s", getDescription().getName(), icon5.isEnabled() ? "Loaded" : "Waiting"));
         } else {
             log.info(String.format("[%s][Economy] iConomy 5 not found.", getDescription().getName()));
@@ -120,7 +120,7 @@ public class Vault extends JavaPlugin {
         // Try to load iConomy 6
         if (packageExists(new String[] { "com.iCo6.iConomy" })) {
             Economy icon6 = new Economy_iConomy6(this);
-            getServer().getServicesManager().register(net.milkbowl.vault.economy.Economy.class, icon6, this, ServicePriority.Lowest);
+            getServer().getServicesManager().register(net.milkbowl.vault.economy.Economy.class, icon6, this, ServicePriority.High);
             log.info(String.format("[%s][Economy] iConomy 6 found: %s", getDescription().getName(), icon6.isEnabled() ? "Loaded" : "Waiting"));
         } else {
             log.info(String.format("[%s][Economy] iConomy 6 not found.", getDescription().getName()));
