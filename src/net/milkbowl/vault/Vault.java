@@ -26,6 +26,7 @@ import net.milkbowl.vault.economy.Economy;
 import net.milkbowl.vault.economy.plugins.Economy_3co;
 import net.milkbowl.vault.economy.plugins.Economy_BOSE;
 import net.milkbowl.vault.economy.plugins.Economy_Essentials;
+import net.milkbowl.vault.economy.plugins.Economy_MultiCurrency;
 import net.milkbowl.vault.economy.plugins.Economy_iConomy4;
 import net.milkbowl.vault.economy.plugins.Economy_iConomy5;
 import net.milkbowl.vault.economy.plugins.Economy_iConomy6;
@@ -72,6 +73,15 @@ public class Vault extends JavaPlugin {
      * Attempts to load Economy Addons
      */
     private void loadEconomy() {
+        // Try to load MultiCurrency
+        if (packageExists(new String[] { "me.ashtheking.currency.Currency", "me.ashtheking.currency.CurrencyList" })) {
+            Economy econ = new Economy_MultiCurrency(this);
+            getServer().getServicesManager().register(net.milkbowl.vault.economy.Economy.class, econ, this, ServicePriority.Normal);
+            log.info(String.format("[%s][Economy] MultiCurrency found: %s", getDescription().getName(), econ.isEnabled() ? "Loaded" : "Waiting"));
+        } else {
+            log.info(String.format("[%s][Economy] MultiCurrency not found.", getDescription().getName()));
+        }
+        
         // Try to load 3co
         if (packageExists(new String[] { "me.ic3d.eco.ECO" })) {
             Economy econ = new Economy_3co(this);
