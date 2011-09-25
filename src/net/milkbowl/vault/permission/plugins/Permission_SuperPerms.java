@@ -62,7 +62,6 @@ public class Permission_SuperPerms extends Permission {
 
 	@Override
 	public boolean playerRemove(String world, String player, String permission) {
-		// TODO Auto-generated method stub
 		return false;
 	}
 

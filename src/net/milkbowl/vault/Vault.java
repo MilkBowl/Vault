@@ -144,7 +144,7 @@ public class Vault extends JavaPlugin {
         // Try to load PermissionsEx
         if (packageExists(new String[] { "ru.tehkode.permissions.bukkit.PermissionsEx" })) {
             Permission ePerms = new Permission_PermissionsEx(this);
-            getServer().getServicesManager().register(net.milkbowl.vault.permission.Permission.class, ePerms, this, ServicePriority.High);
+            getServer().getServicesManager().register(net.milkbowl.vault.permission.Permission.class, ePerms, this, ServicePriority.Highest);
             log.info(String.format("[%s][Permission] PermissionsEx found: %s", getDescription().getName(), ePerms.isEnabled() ? "Loaded" : "Waiting"));
         } else {
             log.info(String.format("[%s][Permission] PermissionsEx not found.", getDescription().getName()));
@@ -153,7 +153,7 @@ public class Vault extends JavaPlugin {
         //Try loading PermissionsBukkit
         if (packageExists(new String[] {"com.platymuus.bukkit.permissions.PermissionsPlugin"} )) {
         	Permission pPerms = new Permission_PermissionsBukkit(this);
-        	getServer().getServicesManager().register(net.milkbowl.vault.permission.Permission.class, pPerms, this, ServicePriority.High);
+        	getServer().getServicesManager().register(net.milkbowl.vault.permission.Permission.class, pPerms, this, ServicePriority.Highest);
         	log.info(String.format("[%s][Permission] PermissionsBukkit found: %s", getDescription().getName(), pPerms.isEnabled() ? "Loaded" : "Waiting"));
         } else {
             log.info(String.format("[%s][Permission] PermissionsBukkit not found.", getDescription().getName()));
@@ -170,7 +170,7 @@ public class Vault extends JavaPlugin {
         // Try to load Permissions 3 (Yeti)
         if (packageExists(new String[] { "com.nijiko.permissions.ModularControl" })) {
             Permission nPerms = new Permission_Permissions3(this);
-            getServer().getServicesManager().register(net.milkbowl.vault.permission.Permission.class, nPerms, this, ServicePriority.Normal);
+            getServer().getServicesManager().register(net.milkbowl.vault.permission.Permission.class, nPerms, this, ServicePriority.High);
             log.info(String.format("[%s][Permission] Permissions 3 (Yeti) found: %s", getDescription().getName(), nPerms.isEnabled() ? "Loaded" : "Waiting"));
         } else {
             log.info(String.format("[%s][Permission] Permissions 3 (Yeti) not found.", getDescription().getName()));
@@ -187,6 +187,7 @@ public class Vault extends JavaPlugin {
         
         Permission perms = new Permission_SuperPerms(this);
         getServer().getServicesManager().register(net.milkbowl.vault.permission.Permission.class, perms, this, ServicePriority.Lowest);
+        log.info(String.format("[%s][Permission] SuperPermissions loaded as backup permission system.", getDescription().getName()));
 
     }
 
