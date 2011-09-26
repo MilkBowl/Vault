@@ -62,6 +62,7 @@ public class Economy_iConomy6 implements Economy {
 
                 if (ec != null && ec.isEnabled() && ec.getClass().getName().equals("com.iCo6.iConomy")) {
                     economy.economy = (iConomy) ec;
+                    accounts = new Accounts();
                     log.info(String.format("[%s][Economy] %s hooked.", plugin.getDescription().getName(), economy.name));
                 }
             }
