@@ -188,6 +188,12 @@ public class Permission_PermissionsBukkit extends Permission {
 		if (world != null && !world.isEmpty()) {
 			return perms.getGroup(group).getInfo().getWorldPermissions(world).get(permission) == null ? false : perms.getGroup(group).getInfo().getWorldPermissions(world).get(permission);
 		}
+		if (perms.getGroup(group) == null)
+			return false;
+		else if (perms.getGroup(group).getInfo() == null)
+			return false;
+		else if (perms.getGroup(group).getInfo().getPermissions() == null)
+			return false;
 		return perms.getGroup(group).getInfo().getPermissions().get(permission);
 	}
 
@@ -320,7 +326,7 @@ public class Permission_PermissionsBukkit extends Permission {
 	@Override
 	public String[] getPlayerGroups(String world, String player) {
 		List<String> groupList = new ArrayList<String>();
-		if (world != null) {
+		if (world != null && perms.getPlayerInfo(player) != null) {
 			for (Group group : perms.getPlayerInfo(player).getGroups()) {
 				if (group.getInfo().getWorlds().contains(world)) {
 					groupList.add(group.getName());
@@ -336,7 +342,9 @@ public class Permission_PermissionsBukkit extends Permission {
 
 	@Override
 	public String getPrimaryGroup(String world, String player) {
-		if (perms.getPlayerInfo(player).getGroups() != null ) {
+		if (perms.getPlayerInfo(player) == null)
+			return null;
+		else if (perms.getPlayerInfo(player).getGroups() != null ) {
 			return perms.getPlayerInfo(player).getGroups().get(0).getName();
 		}
 		return null;
