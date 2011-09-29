@@ -178,10 +178,11 @@ public class Economy_3co implements Economy {
 
     @Override
     public String format(double amount) {
+        amount = Math.ceil(amount);
         if (amount == 1) {
-            return String.format("%f %s", amount, getMoneyNameSingular());
+            return String.format("%d %s", (int)amount, getMoneyNameSingular());
         } else {
-            return String.format("%f %s", amount, getMoneyNamePlural());
+            return String.format("%d %s", (int)amount, getMoneyNamePlural());
         }
     }
 }
