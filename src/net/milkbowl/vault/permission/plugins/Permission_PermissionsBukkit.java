@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.logging.Logger;
 
 import org.bukkit.command.ConsoleCommandSender;
+import org.bukkit.craftbukkit.command.ColouredConsoleSender;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event.Priority;
 import org.bukkit.event.Event.Type;
@@ -35,7 +36,7 @@ public class Permission_PermissionsBukkit extends Permission {
 
 	public Permission_PermissionsBukkit(Plugin plugin) {
 		this.plugin = plugin;
-		ccs = new ConsoleCommandSender(plugin.getServer());
+		ccs = ColouredConsoleSender.getInstance();
 		pluginManager = this.plugin.getServer().getPluginManager();
 
 		permissionServerListener = new PermissionServerListener(this);
