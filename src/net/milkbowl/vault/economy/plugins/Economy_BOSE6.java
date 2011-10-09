@@ -34,7 +34,7 @@ import org.bukkit.plugin.PluginManager;
 
 import cosine.boseconomy.BOSEconomy;
 
-public class Economy_BOSE implements Economy {
+public class Economy_BOSE6 implements Economy {
     private static final Logger log = Logger.getLogger("Minecraft");
 
     private String name = "BOSEconomy";
@@ -43,7 +43,7 @@ public class Economy_BOSE implements Economy {
     private BOSEconomy economy = null;
     private EconomyServerListener economyServerListener = null;
 
-    public Economy_BOSE(Plugin plugin) {
+    public Economy_BOSE6(Plugin plugin) {
         this.plugin = plugin;
         pluginManager = this.plugin.getServer().getPluginManager();
 
@@ -55,7 +55,7 @@ public class Economy_BOSE implements Economy {
         // Load Plugin in case it was loaded before
         if (economy == null) {
             Plugin bose = plugin.getServer().getPluginManager().getPlugin("BOSEconomy");
-            if (bose != null && bose.isEnabled()) {
+            if (bose != null && bose.isEnabled() && bose.getDescription().getVersion().startsWith("0.6")) {
                 economy = (BOSEconomy) bose;
                 log.info(String.format("[%s][Economy] %s hooked.", plugin.getDescription().getName(), name));
             }
@@ -166,9 +166,9 @@ public class Economy_BOSE implements Economy {
     }
 
     private class EconomyServerListener extends ServerListener {
-        Economy_BOSE economy = null;
+        Economy_BOSE6 economy = null;
 
-        public EconomyServerListener(Economy_BOSE economy) {
+        public EconomyServerListener(Economy_BOSE6 economy) {
             this.economy = economy;
         }
 
@@ -176,7 +176,7 @@ public class Economy_BOSE implements Economy {
             if (economy.economy == null) {
                 Plugin bose = plugin.getServer().getPluginManager().getPlugin("BOSEconomy");
 
-                if (bose != null && bose.isEnabled()) {
+                if (bose != null && bose.isEnabled() && bose.getDescription().getVersion().startsWith("0.6")) {
                     economy.economy = (BOSEconomy) bose;
                     log.info(String.format("[%s][Economy] %s hooked.", plugin.getDescription().getName(), economy.name));
                 }
@@ -185,7 +185,7 @@ public class Economy_BOSE implements Economy {
 
         public void onPluginDisable(PluginDisableEvent event) {
             if (economy.economy != null) {
-                if (event.getPlugin().getDescription().getName().equals("BOSEconomy")) {
+                if (event.getPlugin().getDescription().getName().equals("BOSEconomy") && event.getPlugin().getDescription().getVersion().startsWith("0.6")) {
                     economy.economy = null;
                     log.info(String.format("[%s][Economy] %s unhooked.", plugin.getDescription().getName(), economy.name));
                 }
