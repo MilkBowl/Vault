@@ -93,11 +93,7 @@ public class Vault extends JavaPlugin {
         }
 
         // Try to load BOSEconomy
-<<<<<<< HEAD
         if (packageExists(new String[] { "cosine.boseconomy.BOSEconomy", "cosine.boseconomy.CommandManager" })) {
-=======
-        if (packageExists(new String[] { "cosine.boseconomy.BOSEconomy" })) {
->>>>>>> upstream/master
             Economy bose6 = new Economy_BOSE6(this);
             getServer().getServicesManager().register(net.milkbowl.vault.economy.Economy.class, bose6, this, ServicePriority.Normal);
             log.info(String.format("[%s][Economy] BOSEconomy6 found: %s", getDescription().getName(), bose6.isEnabled() ? "Loaded" : "Waiting"));
