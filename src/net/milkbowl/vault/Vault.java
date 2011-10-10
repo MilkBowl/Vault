@@ -24,7 +24,8 @@ import java.util.logging.Logger;
 
 import net.milkbowl.vault.economy.Economy;
 import net.milkbowl.vault.economy.plugins.Economy_3co;
-import net.milkbowl.vault.economy.plugins.Economy_BOSE;
+import net.milkbowl.vault.economy.plugins.Economy_BOSE6;
+import net.milkbowl.vault.economy.plugins.Economy_BOSE7;
 import net.milkbowl.vault.economy.plugins.Economy_Essentials;
 import net.milkbowl.vault.economy.plugins.Economy_MultiCurrency;
 import net.milkbowl.vault.economy.plugins.Economy_iConomy4;
@@ -93,13 +94,20 @@ public class Vault extends JavaPlugin {
 
         // Try to load BOSEconomy
         if (packageExists(new String[] { "cosine.boseconomy.BOSEconomy" })) {
-            Economy bose = new Economy_BOSE(this);
-            getServer().getServicesManager().register(net.milkbowl.vault.economy.Economy.class, bose, this, ServicePriority.Normal);
-            log.info(String.format("[%s][Economy] BOSEconomy found: %s", getDescription().getName(), bose.isEnabled() ? "Loaded" : "Waiting"));
+            Economy bose6 = new Economy_BOSE6(this);
+            getServer().getServicesManager().register(net.milkbowl.vault.economy.Economy.class, bose6, this, ServicePriority.Normal);
+            log.info(String.format("[%s][Economy] BOSEconomy6 found: %s", getDescription().getName(), bose6.isEnabled() ? "Loaded" : "Waiting"));
         } else {
-            log.info(String.format("[%s][Economy] BOSEconomy not found.", getDescription().getName()));
+            log.info(String.format("[%s][Economy] BOSEconomy6 not found.", getDescription().getName()));
         }
-
+        // Try to load BOSEconomy
+        if (packageExists(new String[] { "cosine.boseconomy.BOSEconomy" })) {
+            Economy bose7 = new Economy_BOSE7(this);
+            getServer().getServicesManager().register(net.milkbowl.vault.economy.Economy.class, bose7, this, ServicePriority.Normal);
+            log.info(String.format("[%s][Economy] BOSEconomy7 found: %s", getDescription().getName(), bose7.isEnabled() ? "Loaded" : "Waiting"));
+        } else {
+            log.info(String.format("[%s][Economy] BOSEconomy7 not found.", getDescription().getName()));
+        }
         // Try to load Essentials Economy
         if (packageExists(new String[] { "com.earth2me.essentials.api.Economy", "com.earth2me.essentials.api.NoLoanPermittedException", "com.earth2me.essentials.api.UserDoesNotExistException" })) {
             Economy essentials = new Economy_Essentials(this);
