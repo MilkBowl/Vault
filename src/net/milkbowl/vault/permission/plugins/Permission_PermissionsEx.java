@@ -396,7 +396,7 @@ public class Permission_PermissionsEx extends Permission {
     public void setPlayerSuffix(String world, String player, String suffix) {
         PermissionUser user = PermissionsEx.getPermissionManager().getUser(player);
         if (user != null) {
-            user.setSuffix(suffix);
+            user.setSuffix(suffix, world);
         }
     }
 
@@ -404,7 +404,7 @@ public class Permission_PermissionsEx extends Permission {
     public void setPlayerPrefix(String world, String player, String prefix) {
         PermissionUser user = PermissionsEx.getPermissionManager().getUser(player);
         if (user != null) {
-            user.setPrefix(prefix);
+            user.setPrefix(prefix, world);
         }
     }
 
@@ -422,7 +422,7 @@ public class Permission_PermissionsEx extends Permission {
     public void setGroupPrefix(String world, String group, String prefix) {
         PermissionGroup pGroup = PermissionsEx.getPermissionManager().getGroup(group);
         if (group != null) {
-            pGroup.setPrefix(prefix);
+            pGroup.setPrefix(prefix, world);
         }
 
     }
@@ -441,7 +441,7 @@ public class Permission_PermissionsEx extends Permission {
     public void setGroupSuffix(String world, String group, String suffix) {
         PermissionGroup pGroup = PermissionsEx.getPermissionManager().getGroup(group);
         if (group != null) {
-            pGroup.setSuffix(suffix);
+            pGroup.setSuffix(suffix, world);
         }
     }
 
