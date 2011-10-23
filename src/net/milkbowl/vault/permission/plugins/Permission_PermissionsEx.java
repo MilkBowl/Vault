@@ -82,7 +82,7 @@ public class Permission_PermissionsEx extends Permission {
 
     @Override
     public boolean playerHas(Player player, String permission) {
-        return PermissionsEx.has(player, permission);
+        return this.permission.has(player, permission);
     }
 
     @Override
