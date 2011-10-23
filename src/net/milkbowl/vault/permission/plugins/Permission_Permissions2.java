@@ -17,18 +17,17 @@ import org.bukkit.permissions.PermissionAttachmentInfo;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.PluginManager;
 
+import com.nijiko.permissions.Control;
 import com.nijiko.permissions.Group;
-import com.nijiko.permissions.PermissionHandler;
 import com.nijikokun.bukkit.Permissions.Permissions;
 
 import net.milkbowl.vault.permission.Permission;
 
-@SuppressWarnings("deprecation")
 public class Permission_Permissions2 extends Permission {
     private static final Logger log = Logger.getLogger("Minecraft");
 
     private String name = "Permissions 2 (Phoenix)";
-    private PermissionHandler perms;
+    private Control perms;
     private Plugin plugin = null;
     private PluginManager pluginManager = null;
     private Permissions permission = null;
@@ -49,7 +48,7 @@ public class Permission_Permissions2 extends Permission {
             if (perms != null) {
                 if (perms.isEnabled() && perms.getDescription().getVersion().startsWith("2")) {
                     permission = (Permissions) perms;
-                    this.perms = permission.getHandler();
+                    this.perms = (Control) permission.getHandler();
                     log.info(String.format("[%s][Permission] %s hooked.", plugin.getDescription().getName(), name));
                 }
             }
@@ -124,17 +123,19 @@ public class Permission_Permissions2 extends Permission {
 
     @Override
     public boolean groupHas(String worldName, String groupName, String permission) {
-        throw new UnsupportedOperationException(getName() + " cannot modify permissions.");
+    	throw new UnsupportedOperationException(getName() + " cannot get group Permissions.");
     }
 
     @Override
     public boolean groupAdd(String worldName, String groupName, String permission) {
-        throw new UnsupportedOperationException(getName() + " cannot modify permissions.");
+        this.perms.addGroupPermission(worldName, groupName, permission);
+        return true;
     }
 
     @Override
     public boolean groupRemove(String worldName, String groupName, String permission) {
-        throw new UnsupportedOperationException(getName() + " cannot modify permissions.");
+        this.perms.removeGroupPermission(worldName, groupName, permission);
+        return true;
     }
 
     @Override
@@ -144,7 +145,7 @@ public class Permission_Permissions2 extends Permission {
 
     @Override
     public boolean playerAddGroup(String worldName, String playerName, String groupName) {
-        throw new UnsupportedOperationException(getName() + " cannot modify permissions.");
+    	throw new UnsupportedOperationException(getName() + " cannot modify permissions.");
     }
 
     @Override
@@ -164,9 +165,6 @@ public class Permission_Permissions2 extends Permission {
 
     @Override
     public boolean playerAddTransient(String world, String player, String permission) {
-		if (world != null) {
-			throw new UnsupportedOperationException(getName() + " does not support World based transient permissions!");
-		}
 		Player p = plugin.getServer().getPlayer(player);
 		if (p == null) {
 			throw new UnsupportedOperationException(getName() + " does not support offline player transient permissions!");
@@ -187,9 +185,6 @@ public class Permission_Permissions2 extends Permission {
 
 	@Override
 	public boolean playerRemoveTransient(String world, String player, String permission) {
-		if (world != null) {
-			throw new UnsupportedOperationException(getName() + " does not support World based transient permissions!");
-		}
 		Player p = plugin.getServer().getPlayer(player);
 		if (p == null) {
 			throw new UnsupportedOperationException(getName() + " does not support offline player transient permissions!");
