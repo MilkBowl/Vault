@@ -26,7 +26,7 @@ import net.milkbowl.vault.permission.Permission;
 public class Permission_PermissionsBukkit extends Permission {
 	private static final Logger log = Logger.getLogger("Minecraft");
 
-	private String name = "PermissionsBukkit";
+	private final String name = "PermissionsBukkit";
 	private Plugin plugin = null;
 	private PluginManager pluginManager = null;
 	private PermissionsPlugin perms = null;
@@ -138,9 +138,6 @@ public class Permission_PermissionsBukkit extends Permission {
 
 	@Override
 	public boolean playerAddTransient(String world, String player, String permission) {
-		if (world != null) {
-			throw new UnsupportedOperationException(getName() + " does not support World based transient permissions!");
-		}
 		Player p = plugin.getServer().getPlayer(player);
 		if (p == null) {
 			throw new UnsupportedOperationException(getName() + " does not support offline player transient permissions!");
@@ -169,9 +166,6 @@ public class Permission_PermissionsBukkit extends Permission {
 
 	@Override
 	public boolean playerRemoveTransient(String world, String player, String permission) {
-		if (world != null) {
-			throw new UnsupportedOperationException(getName() + " does not support World based transient permissions!");
-		}
 		Player p = plugin.getServer().getPlayer(player);
 		if (p == null) {
 			throw new UnsupportedOperationException(getName() + " does not support offline player transient permissions!");

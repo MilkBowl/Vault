@@ -18,7 +18,7 @@ import net.milkbowl.vault.chat.Chat;
 public class Chat_Permissions3 extends Chat {
 	private static final Logger log = Logger.getLogger("Minecraft");
 
-	private String name = "Permissions 3 (Yeti)";
+	private String name = "Permissions 3 (Yeti) - Chat";
 	private PermissionHandler perms;
 	private Plugin plugin = null;
 	private PluginManager pluginManager = null;

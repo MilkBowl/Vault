@@ -22,6 +22,11 @@ package net.milkbowl.vault;
 import java.util.Collection;
 import java.util.logging.Logger;
 
+import net.milkbowl.vault.chat.Chat;
+import net.milkbowl.vault.chat.plugins.Chat_GroupManager;
+import net.milkbowl.vault.chat.plugins.Chat_Permissions3;
+import net.milkbowl.vault.chat.plugins.Chat_PermissionsEx;
+import net.milkbowl.vault.chat.plugins.Chat_mChat;
 import net.milkbowl.vault.economy.Economy;
 import net.milkbowl.vault.economy.plugins.Economy_3co;
 import net.milkbowl.vault.economy.plugins.Economy_BOSE6;
@@ -64,12 +69,64 @@ public class Vault extends JavaPlugin {
         // Load Vault Addons
         loadEconomy();
         loadPermission();
+        loadChat();
 
         getCommand("vault-info").setExecutor(this);
         getCommand("vault-reload").setExecutor(this);
         log.info(String.format("[%s] Enabled Version %s", getDescription().getName(), getDescription().getVersion()));
     }
 
+    /**
+     * Attempts to load Chat Addons
+     */
+    private void loadChat() {
+    	
+    	// Try to load PermissionsEx
+        if (packageExists(new String[] { "ru.tehkode.permissions.bukkit.PermissionsEx" })) {
+            Chat eChat = new Chat_PermissionsEx(this);
+            getServer().getServicesManager().register(net.milkbowl.vault.chat.Chat.class, eChat, this, ServicePriority.Highest);
+            log.info(String.format("[%s][Chat] PermissionsEx found: %s", getDescription().getName(), eChat.isEnabled() ? "Loaded" : "Waiting"));
+        } else {
+            log.info(String.format("[%s][Chat] PermissionsEx not found.", getDescription().getName()));
+        }
+        
+        //Try loading mChat
+        if (packageExists(new String[] {"net.D3GN.MiracleM4n.mChat"} )) {
+        	Chat mChat = new Chat_mChat(this);
+        	getServer().getServicesManager().register(net.milkbowl.vault.chat.Chat.class, mChat, this, ServicePriority.Highest);
+        	log.info(String.format("[%s][Chat] mChat found: %s", getDescription().getName(), mChat.isEnabled() ? "Loaded" : "Waiting"));
+        } else {
+        	log.info(String.format("[%s][Chat] mChat not found.", getDescription().getName()));
+        }
+        
+        // Try to load GroupManager
+        if (packageExists(new String[] { "org.anjocaido.groupmanager.GroupManager" })) {
+            Chat gPerms = new Chat_GroupManager(this);
+            getServer().getServicesManager().register(net.milkbowl.vault.chat.Chat.class, gPerms, this, ServicePriority.High);
+            log.info(String.format("[%s][Chat] GroupManager found: %s", getDescription().getName(), gPerms.isEnabled() ? "Loaded" : "Waiting"));
+        } else {
+            log.info(String.format("[%s][Chat] GroupManager not found.", getDescription().getName()));
+        }
+
+        // Try to load Permissions 3 (Yeti)
+        if (packageExists(new String[] { "com.nijiko.permissions.ModularControl" })) {
+            Chat nPerms = new Chat_Permissions3(this);
+            getServer().getServicesManager().register(net.milkbowl.vault.chat.Chat.class, nPerms, this, ServicePriority.High);
+            log.info(String.format("[%s][Chat] Permissions 3 (Yeti) found: %s", getDescription().getName(), nPerms.isEnabled() ? "Loaded" : "Waiting"));
+        } else {
+            log.info(String.format("[%s][Chat] Permissions 3 (Yeti) not found.", getDescription().getName()));
+        }
+
+        // Try to load Permissions 2 (Phoenix)
+        if (packageExists(new String[] { "com.nijiko.permissions.Control" })) {
+            Permission oPerms = new Permission_Permissions2(this);
+            getServer().getServicesManager().register(net.milkbowl.vault.permission.Permission.class, oPerms, this, ServicePriority.Low);
+            log.info(String.format("[%s][Chat] Permissions 2 (Phoenix) found: %s", getDescription().getName(), oPerms.isEnabled() ? "Loaded" : "Waiting"));
+        } else {
+            log.info(String.format("[%s][Chat] Permissions 2 (Phoenix) not found.", getDescription().getName()));
+        }
+    }
+    
     /**
      * Attempts to load Economy Addons
      */

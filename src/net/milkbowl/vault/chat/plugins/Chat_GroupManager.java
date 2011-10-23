@@ -18,7 +18,7 @@ import net.milkbowl.vault.chat.Chat;
 public class Chat_GroupManager extends Chat {
 	private static final Logger log = Logger.getLogger("Minecraft");
 
-	private String name = "GroupManager";
+	private final String name = "GroupManager - Chat";
 	private Plugin plugin = null;
 	private PluginManager pluginManager = null;
 	private GroupManager groupManager;

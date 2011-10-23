@@ -18,7 +18,7 @@ import com.nijikokun.bukkit.Permissions.Permissions;
 public class Chat_Permissions2 extends Chat {
     private static final Logger log = Logger.getLogger("Minecraft");
 
-    private String name = "Permissions 2 (Phoenix)";
+    private String name = "Permissions 2 (Phoenix) - Chat";
     private Control perms;
     private Plugin plugin = null;
     private PluginManager pluginManager = null;
