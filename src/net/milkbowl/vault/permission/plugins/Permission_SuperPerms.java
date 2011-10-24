@@ -242,4 +242,9 @@ public class Permission_SuperPerms extends Permission {
 	public void setGroupSuffix(String world, String group, String suffix) {
 		throw new UnsupportedOperationException(getName() + " no data permissions.");
 	}
+
+	@Override
+	public String[] getGroups() {
+		throw new UnsupportedOperationException(getName() + " does not support group listing!");
+	}
 }

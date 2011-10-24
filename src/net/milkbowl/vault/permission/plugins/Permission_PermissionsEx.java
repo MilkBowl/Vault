@@ -466,4 +466,16 @@ public class Permission_PermissionsEx extends Permission {
 			return false;
 		}
 	}
+
+	@Override
+	public String[] getGroups() {
+		PermissionGroup[] groups = PermissionsEx.getPermissionManager().getGroups();
+		if (groups == null || groups.length == 0)
+			return null;
+		String[] groupNames = new String[groups.length];
+		for (int i = 0; i < groups.length; i++) {
+			groupNames[i] = groups[i].getName();
+		}
+		return groupNames;
+	}
 }

@@ -19,10 +19,14 @@
 
 package net.milkbowl.vault.permission.plugins;
 
+import java.util.HashSet;
+import java.util.Set;
 import java.util.logging.Logger;
 
 import net.milkbowl.vault.permission.Permission;
 
+import org.bukkit.Bukkit;
+import org.bukkit.World;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event.Priority;
 import org.bukkit.event.Event.Type;
@@ -338,5 +342,16 @@ public class Permission_Permissions3 extends Permission {
 		} catch (Exception e) {
 			return false;
 		}
+	}
+
+	@Override
+	public String[] getGroups() {
+		Set<String> groupNames = new HashSet<String>();
+		for (World world : Bukkit.getServer().getWorlds()) {
+			for (Group group : perms.getGroups(world.getName())) {
+				groupNames.add(group.getName());
+			}
+		}
+		return groupNames.toArray(new String[0]);
 	}
 }

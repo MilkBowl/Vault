@@ -401,7 +401,16 @@ public class Permission_PermissionsBukkit extends Permission {
 
 	@Override
 	public void setGroupSuffix(String world, String group, String suffix) {
-		// TODO Auto-generated method stub
+		throw new UnsupportedOperationException(getName() + " does not support group info nodes.");
+	}
 
+	@Override
+	public String[] getGroups() {
+		List<String> groupNames = new ArrayList<String>();
+		for (Group group : perms.getAllGroups()) {
+			groupNames.add(group.getName());
+		}
+		
+		return groupNames.toArray(new String[0]);
 	}
 }

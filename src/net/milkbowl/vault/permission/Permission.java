@@ -1019,4 +1019,10 @@ public abstract class Permission {
     public void setGroupSuffix(World world, String group, String suffix) {
         setGroupSuffix(world.getName(), group, suffix);
     }
+    
+    /**
+     * Returns a list of all known groups
+     * @return an Array of String of all groups
+     */
+    abstract public String[] getGroups();
 }
