@@ -107,7 +107,7 @@ public class Chat_bPermissions extends Chat {
 
 	@Override
 	public String getPlayerPrefix(String world, String player) {
-		return chat.getPrefix(player, world);
+		return getPlayerInfoString(player, world, "prefix", null);
 	}
 
 	@Override
@@ -117,7 +117,7 @@ public class Chat_bPermissions extends Chat {
 
 	@Override
 	public String getPlayerSuffix(String world, String player) {
-		return chat.getSuffix(player, world);
+		return getPlayerInfoString(player, world, "suffix", null);
 	}
 
 	@Override
@@ -127,7 +127,7 @@ public class Chat_bPermissions extends Chat {
 
 	@Override
 	public String getGroupPrefix(String world, String group) {
-		return chat.getGroupPrefix(group, world);
+		return getGroupInfoString(group, world, "prefix", null);
 	}
 
 	@Override
@@ -137,7 +137,7 @@ public class Chat_bPermissions extends Chat {
 
 	@Override
 	public String getGroupSuffix(String world, String group) {
-		return chat.getGroupSuffix(group, world);
+		return getGroupInfoString(group, world, "suffix", null);
 	}
 
 	@Override
@@ -256,7 +256,7 @@ public class Chat_bPermissions extends Chat {
 	@Override
 	public String getPlayerInfoString(String world, String player, String node, String defaultValue) {
 		String val = chat.getValue(player, world, node);
-		return val == null ? defaultValue : val;
+		return (val == null || val == "BLANKWORLD") ? defaultValue : val;
 	}
 
 	@Override
@@ -267,7 +267,7 @@ public class Chat_bPermissions extends Chat {
 	@Override
 	public String getGroupInfoString(String world, String group, String node, String defaultValue) {
 		String val = chat.getGroupValue(group, world, node);
-		return val == null ? defaultValue : val;
+		return (val == null || val == "BLANKWORLD") ? defaultValue : val;
 	}
 
 	@Override
