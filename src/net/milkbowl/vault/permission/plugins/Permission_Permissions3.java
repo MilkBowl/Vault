@@ -23,6 +23,7 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.logging.Logger;
 
+import net.milkbowl.vault.Vault;
 import net.milkbowl.vault.permission.Permission;
 
 import org.bukkit.Bukkit;
@@ -45,12 +46,12 @@ public class Permission_Permissions3 extends Permission {
 
     private String name = "Permissions 3 (Yeti)";
     private PermissionHandler perms;
-    private Plugin plugin = null;
+    private Vault plugin = null;
     private PluginManager pluginManager = null;
     private Permissions permission = null;
     private PermissionServerListener permissionServerListener = null;
 
-    public Permission_Permissions3(Plugin plugin) {
+    public Permission_Permissions3(Vault plugin) {
         this.plugin = plugin;
         pluginManager = this.plugin.getServer().getPluginManager();
 

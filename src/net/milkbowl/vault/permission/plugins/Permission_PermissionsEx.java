@@ -21,6 +21,7 @@ package net.milkbowl.vault.permission.plugins;
 
 import java.util.logging.Logger;
 
+import net.milkbowl.vault.Vault;
 import net.milkbowl.vault.permission.Permission;
 
 import org.bukkit.entity.Player;
@@ -40,12 +41,12 @@ public class Permission_PermissionsEx extends Permission {
     private static final Logger log = Logger.getLogger("Minecraft");
 
     private final String name = "PermissionsEx";
-    private Plugin plugin = null;
+    private Vault plugin = null;
     private PluginManager pluginManager = null;
     private PermissionsEx permission = null;
     private PermissionServerListener permissionServerListener = null;
 
-    public Permission_PermissionsEx(Plugin plugin) {
+    public Permission_PermissionsEx(Vault plugin) {
         this.plugin = plugin;
         pluginManager = this.plugin.getServer().getPluginManager();
 
@@ -82,7 +83,7 @@ public class Permission_PermissionsEx extends Permission {
 
     @Override
     public boolean playerHas(Player player, String permission) {
-        return PermissionsEx.has(player, permission);
+        return this.permission.has(player, permission);
     }
 
     @Override

@@ -43,6 +43,7 @@ import net.milkbowl.vault.permission.plugins.Permission_Permissions3;
 import net.milkbowl.vault.permission.plugins.Permission_PermissionsBukkit;
 import net.milkbowl.vault.permission.plugins.Permission_PermissionsEx;
 import net.milkbowl.vault.permission.plugins.Permission_SuperPerms;
+import net.milkbowl.vault.permission.plugins.Permission_bPermissions;
 
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -222,6 +223,13 @@ public class Vault extends JavaPlugin {
         	log.info(String.format("[%s][Permission] PermissionsBukkit found: %s", getDescription().getName(), pPerms.isEnabled() ? "Loaded" : "Waiting"));
         } else {
             log.info(String.format("[%s][Permission] PermissionsBukkit not found.", getDescription().getName()));
+        }
+        if (packageExists(new String[] {"de.bananaco.permissions.worlds.WorldPermissionsManager"} )) {
+        	Permission bPerms = new Permission_bPermissions(this);
+        	getServer().getServicesManager().register(net.milkbowl.vault.permission.Permission.class, bPerms, this, ServicePriority.Highest);
+        	log.info(String.format("[%s][Permission] bPermissions found: %s", getDescription().getName(), bPerms.isEnabled() ? "Loaded" : "Waiting"));
+        } else {
+        	log.info(String.format("[%s][Permission] bPermissions not found.", getDescription().getName()));
         }
         // Try to load GroupManager
         if (packageExists(new String[] { "org.anjocaido.groupmanager.GroupManager" })) {

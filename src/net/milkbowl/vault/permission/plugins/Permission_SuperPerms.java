@@ -39,13 +39,9 @@ public class Permission_SuperPerms extends Permission {
 
 	@Override
 	public boolean playerAddTransient(String world, String player, String permission) {
-		if (world != null) {
-			throw new UnsupportedOperationException(getName() + " does not support World based transient permissions!");
-		}
 		Player p = plugin.getServer().getPlayer(player);
-		if (p == null) {
-			throw new UnsupportedOperationException(getName() + " does not support offline player transient permissions!");
-		}
+		if (p == null)
+			return false;
 		
 		for (PermissionAttachmentInfo paInfo : p.getEffectivePermissions()) {
 			if (paInfo.getAttachment().getPlugin().equals(plugin)) {
@@ -67,13 +63,10 @@ public class Permission_SuperPerms extends Permission {
 
 	@Override
 	public boolean playerRemoveTransient(String world, String player, String permission) {
-		if (world != null) {
-			throw new UnsupportedOperationException(getName() + " does not support World based transient permissions!");
-		}
 		Player p = plugin.getServer().getPlayer(player);
-		if (p == null) {
-			throw new UnsupportedOperationException(getName() + " does not support offline player transient permissions!");
-		}
+		if (p == null)
+			return false;
+		
 		for (PermissionAttachmentInfo paInfo : p.getEffectivePermissions()) {
 			if (paInfo.getAttachment().getPlugin().equals(plugin)) {
 				return paInfo.getAttachment().getPermissions().remove(permission);
@@ -124,6 +117,6 @@ public class Permission_SuperPerms extends Permission {
 
 	@Override
 	public String[] getGroups() {
-		throw new UnsupportedOperationException(getName() + " does not support group listing!");
+		return new String[0];
 	}
 }
