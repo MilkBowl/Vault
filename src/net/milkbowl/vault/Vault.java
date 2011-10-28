@@ -26,6 +26,7 @@ import net.milkbowl.vault.chat.Chat;
 import net.milkbowl.vault.chat.plugins.Chat_GroupManager;
 import net.milkbowl.vault.chat.plugins.Chat_Permissions3;
 import net.milkbowl.vault.chat.plugins.Chat_PermissionsEx;
+import net.milkbowl.vault.chat.plugins.Chat_bPermissions;
 import net.milkbowl.vault.chat.plugins.Chat_mChat;
 import net.milkbowl.vault.economy.Economy;
 import net.milkbowl.vault.economy.plugins.Economy_3co;
@@ -98,6 +99,15 @@ public class Vault extends JavaPlugin {
         	log.info(String.format("[%s][Chat] mChat found: %s", getDescription().getName(), mChat.isEnabled() ? "Loaded" : "Waiting"));
         } else {
         	log.info(String.format("[%s][Chat] mChat not found.", getDescription().getName()));
+        }
+        
+        //try loading bPermissions
+        if (packageExists(new String[] {"de.bananaco.permissions.worlds.WorldPermissionsManager"})) {
+        	Chat bPerms = new Chat_bPermissions(this);
+        	getServer().getServicesManager().register(net.milkbowl.vault.chat.Chat.class, bPerms, this, ServicePriority.High);
+        	log.info(String.format("[%s][Chat] bPermissions found: %s", getDescription().getName(), bPerms.isEnabled() ? "Loaded" : "Waiting"));
+        } else {
+            log.info(String.format("[%s][Chat] bPermissions not found.", getDescription().getName()));
         }
         
         // Try to load GroupManager
