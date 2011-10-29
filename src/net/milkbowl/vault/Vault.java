@@ -39,7 +39,6 @@ import net.milkbowl.vault.economy.plugins.Economy_iConomy5;
 import net.milkbowl.vault.economy.plugins.Economy_iConomy6;
 import net.milkbowl.vault.permission.Permission;
 import net.milkbowl.vault.permission.plugins.Permission_GroupManager;
-import net.milkbowl.vault.permission.plugins.Permission_Permissions2;
 import net.milkbowl.vault.permission.plugins.Permission_Permissions3;
 import net.milkbowl.vault.permission.plugins.Permission_PermissionsBukkit;
 import net.milkbowl.vault.permission.plugins.Permission_PermissionsEx;
@@ -86,7 +85,7 @@ public class Vault extends JavaPlugin {
     	// Try to load PermissionsEx
         if (packageExists(new String[] { "ru.tehkode.permissions.bukkit.PermissionsEx" })) {
             Chat eChat = new Chat_PermissionsEx(this);
-            getServer().getServicesManager().register(net.milkbowl.vault.chat.Chat.class, eChat, this, ServicePriority.Highest);
+            getServer().getServicesManager().register(Chat.class, eChat, this, ServicePriority.Highest);
             log.info(String.format("[%s][Chat] PermissionsEx found: %s", getDescription().getName(), eChat.isEnabled() ? "Loaded" : "Waiting"));
         } else {
             log.info(String.format("[%s][Chat] PermissionsEx not found.", getDescription().getName()));
@@ -95,7 +94,7 @@ public class Vault extends JavaPlugin {
         //Try loading mChat
         if (packageExists(new String[] {"net.D3GN.MiracleM4n.mChat"} )) {
         	Chat mChat = new Chat_mChat(this);
-        	getServer().getServicesManager().register(net.milkbowl.vault.chat.Chat.class, mChat, this, ServicePriority.Highest);
+        	getServer().getServicesManager().register(Chat.class, mChat, this, ServicePriority.Highest);
         	log.info(String.format("[%s][Chat] mChat found: %s", getDescription().getName(), mChat.isEnabled() ? "Loaded" : "Waiting"));
         } else {
         	log.info(String.format("[%s][Chat] mChat not found.", getDescription().getName()));
@@ -104,7 +103,7 @@ public class Vault extends JavaPlugin {
         //try loading bPermissions
         if (packageExists(new String[] {"de.bananaco.permissions.worlds.WorldPermissionsManager"})) {
         	Chat bPerms = new Chat_bPermissions(this);
-        	getServer().getServicesManager().register(net.milkbowl.vault.chat.Chat.class, bPerms, this, ServicePriority.High);
+        	getServer().getServicesManager().register(Chat.class, bPerms, this, ServicePriority.High);
         	log.info(String.format("[%s][Chat] bPermissions found: %s", getDescription().getName(), bPerms.isEnabled() ? "Loaded" : "Waiting"));
         } else {
             log.info(String.format("[%s][Chat] bPermissions not found.", getDescription().getName()));
@@ -113,7 +112,7 @@ public class Vault extends JavaPlugin {
         // Try to load GroupManager
         if (packageExists(new String[] { "org.anjocaido.groupmanager.GroupManager" })) {
             Chat gPerms = new Chat_GroupManager(this);
-            getServer().getServicesManager().register(net.milkbowl.vault.chat.Chat.class, gPerms, this, ServicePriority.High);
+            getServer().getServicesManager().register(Chat.class, gPerms, this, ServicePriority.High);
             log.info(String.format("[%s][Chat] GroupManager found: %s", getDescription().getName(), gPerms.isEnabled() ? "Loaded" : "Waiting"));
         } else {
             log.info(String.format("[%s][Chat] GroupManager not found.", getDescription().getName()));
@@ -122,19 +121,10 @@ public class Vault extends JavaPlugin {
         // Try to load Permissions 3 (Yeti)
         if (packageExists(new String[] { "com.nijiko.permissions.ModularControl" })) {
             Chat nPerms = new Chat_Permissions3(this);
-            getServer().getServicesManager().register(net.milkbowl.vault.chat.Chat.class, nPerms, this, ServicePriority.High);
+            getServer().getServicesManager().register(Chat.class, nPerms, this, ServicePriority.High);
             log.info(String.format("[%s][Chat] Permissions 3 (Yeti) found: %s", getDescription().getName(), nPerms.isEnabled() ? "Loaded" : "Waiting"));
         } else {
             log.info(String.format("[%s][Chat] Permissions 3 (Yeti) not found.", getDescription().getName()));
-        }
-
-        // Try to load Permissions 2 (Phoenix)
-        if (packageExists(new String[] { "com.nijiko.permissions.Control" })) {
-            Permission oPerms = new Permission_Permissions2(this);
-            getServer().getServicesManager().register(net.milkbowl.vault.permission.Permission.class, oPerms, this, ServicePriority.Low);
-            log.info(String.format("[%s][Chat] Permissions 2 (Phoenix) found: %s", getDescription().getName(), oPerms.isEnabled() ? "Loaded" : "Waiting"));
-        } else {
-            log.info(String.format("[%s][Chat] Permissions 2 (Phoenix) not found.", getDescription().getName()));
         }
     }
     
@@ -145,7 +135,7 @@ public class Vault extends JavaPlugin {
         // Try to load MultiCurrency
         if (packageExists(new String[] { "me.ashtheking.currency.Currency", "me.ashtheking.currency.CurrencyList" })) {
             Economy econ = new Economy_MultiCurrency(this);
-            getServer().getServicesManager().register(net.milkbowl.vault.economy.Economy.class, econ, this, ServicePriority.Normal);
+            getServer().getServicesManager().register(Economy.class, econ, this, ServicePriority.Normal);
             log.info(String.format("[%s][Economy] MultiCurrency found: %s", getDescription().getName(), econ.isEnabled() ? "Loaded" : "Waiting"));
         } else {
             log.info(String.format("[%s][Economy] MultiCurrency not found.", getDescription().getName()));
@@ -154,7 +144,7 @@ public class Vault extends JavaPlugin {
         // Try to load 3co
         if (packageExists(new String[] { "me.ic3d.eco.ECO" })) {
             Economy econ = new Economy_3co(this);
-            getServer().getServicesManager().register(net.milkbowl.vault.economy.Economy.class, econ, this, ServicePriority.Normal);
+            getServer().getServicesManager().register(Economy.class, econ, this, ServicePriority.Normal);
             log.info(String.format("[%s][Economy] 3co found: %s", getDescription().getName(), econ.isEnabled() ? "Loaded" : "Waiting"));
         } else {
             log.info(String.format("[%s][Economy] 3co not found.", getDescription().getName()));
@@ -163,7 +153,7 @@ public class Vault extends JavaPlugin {
         // Try to load BOSEconomy
         if (packageExists(new String[] { "cosine.boseconomy.BOSEconomy", "cosine.boseconomy.CommandManager" })) {
             Economy bose6 = new Economy_BOSE6(this);
-            getServer().getServicesManager().register(net.milkbowl.vault.economy.Economy.class, bose6, this, ServicePriority.Normal);
+            getServer().getServicesManager().register(Economy.class, bose6, this, ServicePriority.Normal);
             log.info(String.format("[%s][Economy] BOSEconomy6 found: %s", getDescription().getName(), bose6.isEnabled() ? "Loaded" : "Waiting"));
         } else {
             log.info(String.format("[%s][Economy] BOSEconomy6 not found.", getDescription().getName()));
@@ -206,7 +196,7 @@ public class Vault extends JavaPlugin {
         // Try to load iConomy 6
         if (packageExists(new String[] { "com.iCo6.iConomy" })) {
             Economy icon6 = new Economy_iConomy6(this);
-            getServer().getServicesManager().register(net.milkbowl.vault.economy.Economy.class, icon6, this, ServicePriority.High);
+            getServer().getServicesManager().register(Economy.class, icon6, this, ServicePriority.High);
             log.info(String.format("[%s][Economy] iConomy 6 found: %s", getDescription().getName(), icon6.isEnabled() ? "Loaded" : "Waiting"));
         } else {
             log.info(String.format("[%s][Economy] iConomy 6 not found.", getDescription().getName()));
@@ -220,7 +210,7 @@ public class Vault extends JavaPlugin {
         // Try to load PermissionsEx
         if (packageExists(new String[] { "ru.tehkode.permissions.bukkit.PermissionsEx" })) {
             Permission ePerms = new Permission_PermissionsEx(this);
-            getServer().getServicesManager().register(net.milkbowl.vault.permission.Permission.class, ePerms, this, ServicePriority.Highest);
+            getServer().getServicesManager().register(Permission.class, ePerms, this, ServicePriority.Highest);
             log.info(String.format("[%s][Permission] PermissionsEx found: %s", getDescription().getName(), ePerms.isEnabled() ? "Loaded" : "Waiting"));
         } else {
             log.info(String.format("[%s][Permission] PermissionsEx not found.", getDescription().getName()));
@@ -229,14 +219,14 @@ public class Vault extends JavaPlugin {
         //Try loading PermissionsBukkit
         if (packageExists(new String[] {"com.platymuus.bukkit.permissions.PermissionsPlugin"} )) {
         	Permission pPerms = new Permission_PermissionsBukkit(this);
-        	getServer().getServicesManager().register(net.milkbowl.vault.permission.Permission.class, pPerms, this, ServicePriority.Highest);
+        	getServer().getServicesManager().register(Permission.class, pPerms, this, ServicePriority.Highest);
         	log.info(String.format("[%s][Permission] PermissionsBukkit found: %s", getDescription().getName(), pPerms.isEnabled() ? "Loaded" : "Waiting"));
         } else {
             log.info(String.format("[%s][Permission] PermissionsBukkit not found.", getDescription().getName()));
         }
         if (packageExists(new String[] {"de.bananaco.permissions.worlds.WorldPermissionsManager"} )) {
         	Permission bPerms = new Permission_bPermissions(this);
-        	getServer().getServicesManager().register(net.milkbowl.vault.permission.Permission.class, bPerms, this, ServicePriority.Highest);
+        	getServer().getServicesManager().register(Permission.class, bPerms, this, ServicePriority.Highest);
         	log.info(String.format("[%s][Permission] bPermissions found: %s", getDescription().getName(), bPerms.isEnabled() ? "Loaded" : "Waiting"));
         } else {
         	log.info(String.format("[%s][Permission] bPermissions not found.", getDescription().getName()));
@@ -244,7 +234,7 @@ public class Vault extends JavaPlugin {
         // Try to load GroupManager
         if (packageExists(new String[] { "org.anjocaido.groupmanager.GroupManager" })) {
             Permission gPerms = new Permission_GroupManager(this);
-            getServer().getServicesManager().register(net.milkbowl.vault.permission.Permission.class, gPerms, this, ServicePriority.High);
+            getServer().getServicesManager().register(Permission.class, gPerms, this, ServicePriority.High);
             log.info(String.format("[%s][Permission] GroupManager found: %s", getDescription().getName(), gPerms.isEnabled() ? "Loaded" : "Waiting"));
         } else {
             log.info(String.format("[%s][Permission] GroupManager not found.", getDescription().getName()));
@@ -253,23 +243,14 @@ public class Vault extends JavaPlugin {
         // Try to load Permissions 3 (Yeti)
         if (packageExists(new String[] { "com.nijiko.permissions.ModularControl" })) {
             Permission nPerms = new Permission_Permissions3(this);
-            getServer().getServicesManager().register(net.milkbowl.vault.permission.Permission.class, nPerms, this, ServicePriority.High);
+            getServer().getServicesManager().register(Permission.class, nPerms, this, ServicePriority.High);
             log.info(String.format("[%s][Permission] Permissions 3 (Yeti) found: %s", getDescription().getName(), nPerms.isEnabled() ? "Loaded" : "Waiting"));
         } else {
             log.info(String.format("[%s][Permission] Permissions 3 (Yeti) not found.", getDescription().getName()));
         }
-
-        // Try to load Permissions 2 (Phoenix)
-        if (packageExists(new String[] { "com.nijiko.permissions.Control" })) {
-            Permission oPerms = new Permission_Permissions2(this);
-            getServer().getServicesManager().register(net.milkbowl.vault.permission.Permission.class, oPerms, this, ServicePriority.Low);
-            log.info(String.format("[%s][Permission] Permissions 2 (Phoenix) found: %s", getDescription().getName(), oPerms.isEnabled() ? "Loaded" : "Waiting"));
-        } else {
-            log.info(String.format("[%s][Permission] Permissions 2 (Phoenix) not found.", getDescription().getName()));
-        }
         
         Permission perms = new Permission_SuperPerms(this);
-        getServer().getServicesManager().register(net.milkbowl.vault.permission.Permission.class, perms, this, ServicePriority.Lowest);
+        getServer().getServicesManager().register(Permission.class, perms, this, ServicePriority.Lowest);
         log.info(String.format("[%s][Permission] SuperPermissions loaded as backup permission system.", getDescription().getName()));
 
     }
@@ -293,7 +274,7 @@ public class Vault extends JavaPlugin {
 
             // Get String of Registered Economy Services
             String registeredEcons = null;
-            Collection<RegisteredServiceProvider<Economy>> econs = this.getServer().getServicesManager().getRegistrations(net.milkbowl.vault.economy.Economy.class);
+            Collection<RegisteredServiceProvider<Economy>> econs = this.getServer().getServicesManager().getRegistrations(Economy.class);
             for (RegisteredServiceProvider<Economy> econ : econs) {
                 Economy e = econ.getProvider();
                 if (registeredEcons == null) {
@@ -305,7 +286,7 @@ public class Vault extends JavaPlugin {
 
             // Get String of Registered Permission Services
             String registeredPerms = null;
-            Collection<RegisteredServiceProvider<Permission>> perms = this.getServer().getServicesManager().getRegistrations(net.milkbowl.vault.permission.Permission.class);
+            Collection<RegisteredServiceProvider<Permission>> perms = this.getServer().getServicesManager().getRegistrations(Permission.class);
             for (RegisteredServiceProvider<Permission> perm : perms) {
                 Permission p = perm.getProvider();
                 if (registeredPerms == null) {
@@ -316,8 +297,8 @@ public class Vault extends JavaPlugin {
             }
 
             // Get Economy & Permission primary Services
-            Economy econ = getServer().getServicesManager().getRegistration(net.milkbowl.vault.economy.Economy.class).getProvider();
-            Permission perm = getServer().getServicesManager().getRegistration(net.milkbowl.vault.permission.Permission.class).getProvider();
+            Economy econ = getServer().getServicesManager().getRegistration(Economy.class).getProvider();
+            Permission perm = getServer().getServicesManager().getRegistration(Permission.class).getProvider();
 
             // Send user some info!
             sender.sendMessage(String.format("[%s] Vault v%s Information", getDescription().getName(), getDescription().getVersion()));

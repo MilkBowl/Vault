@@ -141,25 +141,17 @@ public class Permission_Permissions3 extends Permission {
 
     @Override
     public boolean groupAdd(String worldName, String groupName, String permission) {
-        this.perms.addGroupPermission(worldName, groupName, permission);
-        return true;
+        return false;
     }
 
     @Override
     public boolean groupRemove(String worldName, String groupName, String permission) {
-        this.perms.removeGroupPermission(worldName, groupName, permission);
-        return true;
+        return false;
     }
 
     @Override
     public boolean groupHas(String worldName, String groupName, String permission) {
-        try {
-            Group group = this.perms.safeGetGroup(worldName, groupName);
-            return group.hasPermission(permission);
-        } catch (Exception e) {
-            // lowut?
-            return false;
-        }
+    	return false;
     }
 
     @Override
@@ -168,7 +160,7 @@ public class Permission_Permissions3 extends Permission {
     }
 
     public String getPrimaryGroup(String world, String playerName) {
-        return this.perms.getPrimaryGroup(world, playerName);
+    	return getPlayerGroups(world, playerName)[0];
     }
 
     @Override
@@ -184,32 +176,37 @@ public class Permission_Permissions3 extends Permission {
 
     @Override
     public boolean playerAddTransient(String world, String player, String permission) {
-        try {
+        /*try {
             perms.safeGetUser(world, player).addTimedPermission(permission, 0);
             return true;
         } catch(Exception e) {
             return false;
-        }
+        } */
+        return false;
     }
 
 	@Override
 	public boolean playerRemoveTransient(String world, String player, String permission) {
+		/*
 		try {
 			perms.safeGetUser(world, player).removeTimedPermission(permission);
 			return true;
 		} catch (Exception e) {
 			return false;
 		}
+		*/
+		return false;
 	}
 
 	@Override
 	public String[] getGroups() {
-		Set<String> groupNames = new HashSet<String>();
+		
+		Set<String> groupNames = new HashSet<String>();/*
 		for (World world : Bukkit.getServer().getWorlds()) {
 			for (Group group : perms.getGroups(world.getName())) {
 				groupNames.add(group.getName());
 			}
-		}
+		}*/
 		return groupNames.toArray(new String[0]);
 	}
 }
