@@ -88,11 +88,35 @@ public interface Economy {
      */
     public EconomyResponse bankHas(String name, double amount);
     
+    /**
+     * Withdraw an amount from a bank account
+     * @param name
+     * @param amount
+     * @return
+     */
     public EconomyResponse bankWithdraw(String name, double amount);
     
+    /**
+     * Deposit an amount into a bank account
+     * @param name
+     * @param amount
+     * @return
+     */
     public EconomyResponse bankDeposit(String name, double amount);
     
+    /**
+     * Check if a player is the owner of a bank account
+     * @param name
+     * @param playerName
+     * @return
+     */
     public EconomyResponse isBankOwner(String name, String playerName);
     
+    /**
+     * Check if the player is a member of the bank account
+     * @param name
+     * @param playerName
+     * @return
+     */
     public EconomyResponse isBankMember(String name, String playerName);
 }
