@@ -24,6 +24,7 @@ import java.util.logging.Logger;
 import me.ic3d.eco.ECO;
 import net.milkbowl.vault.economy.Economy;
 import net.milkbowl.vault.economy.EconomyResponse;
+import net.milkbowl.vault.economy.EconomyResponse.ResponseType;
 
 import org.bukkit.event.Event.Priority;
 import org.bukkit.event.Event.Type;
@@ -97,7 +98,7 @@ public class Economy_3co implements Economy {
             amount = 0;
             balance = (double) economy.getMoney(plugin.getServer().getPlayer(playerName));
 
-            return new EconomyResponse(balance, balance, type, errorMessage);
+            return new EconomyResponse(amount, balance, type, errorMessage);
         }
 
         amount = Math.ceil(amount);
@@ -108,7 +109,7 @@ public class Economy_3co implements Economy {
             amount = 0;
             balance = (double) economy.getMoney(plugin.getServer().getPlayer(playerName));
 
-            return new EconomyResponse(balance, balance, type, errorMessage);
+            return new EconomyResponse(amount, balance, type, errorMessage);
         }
         economy.setMoney(plugin.getServer().getPlayer(playerName), (int) (balance - amount));
         type = EconomyResponse.ResponseType.SUCCESS;
@@ -129,7 +130,7 @@ public class Economy_3co implements Economy {
             amount = 0;
             balance = (double) economy.getMoney(plugin.getServer().getPlayer(playerName));
 
-            return new EconomyResponse(balance, balance, type, errorMessage);
+            return new EconomyResponse(amount, balance, type, errorMessage);
         }
         amount = Math.ceil(amount);
         balance = (double) economy.getMoney(plugin.getServer().getPlayer(playerName));
@@ -185,4 +186,44 @@ public class Economy_3co implements Economy {
             return String.format("%d %s", (int)amount, getMoneyNamePlural());
         }
     }
+
+	@Override
+	public EconomyResponse createBank(String name, String player) {
+		return new EconomyResponse(0, 0, ResponseType.NOT_IMPLEMENTED, "3co does not support bank accounts!");
+	}
+
+	@Override
+	public EconomyResponse bankHas(String name, double amount) {
+		return new EconomyResponse(0, 0, ResponseType.NOT_IMPLEMENTED, "3co does not support bank accounts!");
+	}
+
+	@Override
+	public EconomyResponse bankWithdraw(String name, double amount) {
+		return new EconomyResponse(0, 0, ResponseType.NOT_IMPLEMENTED, "3co does not support bank accounts!");
+	}
+
+	@Override
+	public EconomyResponse bankDeposit(String name, double amount) {
+		return new EconomyResponse(0, 0, ResponseType.NOT_IMPLEMENTED, "3co does not support bank accounts!");
+	}
+
+	@Override
+	public EconomyResponse getBankOwner(String name) {
+		return new EconomyResponse(0, 0, ResponseType.NOT_IMPLEMENTED, "3co does not support bank accounts!");
+	}
+
+	@Override
+	public boolean has(String playerName, double amount) {
+		return getBalance(playerName) >= amount;
+	}
+
+	@Override
+	public EconomyResponse isBankOwner(String name, String playerName) {
+		return new EconomyResponse(0, 0, ResponseType.NOT_IMPLEMENTED, "3co does not support bank accounts!");
+	}
+
+	@Override
+	public EconomyResponse isBankMember(String name, String playerName) {
+		return new EconomyResponse(0, 0, ResponseType.NOT_IMPLEMENTED, "3co does not support bank accounts!");
+	}
 }
