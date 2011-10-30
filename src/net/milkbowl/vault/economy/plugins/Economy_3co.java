@@ -208,11 +208,6 @@ public class Economy_3co implements Economy {
 	}
 
 	@Override
-	public EconomyResponse getBankOwner(String name) {
-		return new EconomyResponse(0, 0, ResponseType.NOT_IMPLEMENTED, "3co does not support bank accounts!");
-	}
-
-	@Override
 	public boolean has(String playerName, double amount) {
 		return getBalance(playerName) >= amount;
 	}
