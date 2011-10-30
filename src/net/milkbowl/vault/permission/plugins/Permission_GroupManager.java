@@ -159,86 +159,6 @@ public class Permission_GroupManager extends Permission {
     }
 
     @Override
-    public int getPlayerInfoInteger(String world, String playerName, String node, int defaultValue) {
-        return perms.getPermissionInteger(playerName, node);
-    }
-
-    @Override
-    public void setPlayerInfoInteger(String world, String playerName, String node, int value) {
-        throw new UnsupportedOperationException(getName() + " cannot modify permissions.");
-    }
-
-    @Override
-    public int getGroupInfoInteger(String world, String groupName, String node, int defaultValue) {
-        return perms.getGroupPermissionInteger(groupName, node);
-    }
-
-    @Override
-    public void setGroupInfoInteger(String world, String groupName, String node, int value) {
-        throw new UnsupportedOperationException(getName() + " cannot modify permissions.");
-    }
-
-    @Override
-    public double getPlayerInfoDouble(String world, String playerName, String node, double defaultValue) {
-        return perms.getPermissionDouble(playerName, node);
-    }
-
-    @Override
-    public void setPlayerInfoDouble(String world, String playerName, String node, double value) {
-        throw new UnsupportedOperationException(getName() + " cannot modify permissions.");
-    }
-
-    @Override
-    public double getGroupInfoDouble(String world, String groupName, String node, double defaultValue) {
-        return perms.getGroupPermissionDouble(groupName, node);
-    }
-
-    @Override
-    public void setGroupInfoDouble(String world, String groupName, String node, double value) {
-        throw new UnsupportedOperationException(getName() + " cannot modify permissions.");
-    }
-
-    @Override
-    public boolean getPlayerInfoBoolean(String world, String playerName, String node, boolean defaultValue) {
-        return perms.getPermissionBoolean(playerName, node);
-    }
-
-    @Override
-    public void setPlayerInfoBoolean(String world, String playerName, String node, boolean value) {
-        throw new UnsupportedOperationException(getName() + " cannot modify permissions.");
-    }
-
-    @Override
-    public boolean getGroupInfoBoolean(String world, String groupName, String node, boolean defaultValue) {
-        return perms.getGroupPermissionBoolean(groupName, node);
-    }
-
-    @Override
-    public void setGroupInfoBoolean(String world, String groupName, String node, boolean value) {
-        throw new UnsupportedOperationException(getName() + " cannot modify permissions.");
-    }
-
-    @Override
-    public String getPlayerInfoString(String world, String playerName, String node, String defaultValue) {
-        return perms.getPermissionString(playerName, node);
-    }
-
-    @Override
-    public void setPlayerInfoString(String world, String playerName, String node, String value) {
-        throw new UnsupportedOperationException(getName() + " cannot modify permissions.");
-    }
-
-    @Override
-    public String getGroupInfoString(String world, String groupName, String node, String defaultValue) {
-        return perms.getGroupPermissionString(groupName, node);
-    }
-
-    @Override
-    public void setGroupInfoString(String world, String groupName, String node, String value) {
-    	throw new UnsupportedOperationException(getName() + " cannot modify permissions.");
-    }
-
-    @Override
     public String[] getPlayerGroups(String world, String playerName) {
         return perms.getGroups(playerName);
     }
@@ -246,46 +166,6 @@ public class Permission_GroupManager extends Permission {
     @Override
     public String getPrimaryGroup(String world, String playerName) {
         return perms.getGroup(playerName);
-    }
-
-    @Override
-    public String getPlayerPrefix(String world, String playerName) {
-        return perms.getGroupPrefix(getPrimaryGroup(world, playerName));
-    }
-
-    @Override
-    public String getPlayerSuffix(String world, String playerName) {
-        return perms.getGroupSuffix(getPrimaryGroup(world, playerName));
-    }
-
-    @Override
-    public void setPlayerSuffix(String world, String player, String suffix) {
-        throw new UnsupportedOperationException(getName() + " cannot modify permissions.");
-    }
-
-    @Override
-    public void setPlayerPrefix(String world, String player, String prefix) {
-        throw new UnsupportedOperationException(getName() + " cannot modify permissions.");
-    }
-
-    @Override
-    public String getGroupPrefix(String world, String group) {
-        return perms.getGroupPrefix(group);
-    }
-
-    @Override
-    public void setGroupPrefix(String world, String group, String prefix) {
-        throw new UnsupportedOperationException(getName() + " cannot modify permissions.");
-    }
-
-    @Override
-    public String getGroupSuffix(String world, String group) {
-        return perms.getGroupSuffix(group);
-    }
-
-    @Override
-    public void setGroupSuffix(String world, String group, String suffix) {
-        throw new UnsupportedOperationException(getName() + " cannot modify permissions.");
     }
 
     @Override

@@ -26,7 +26,7 @@ import net.milkbowl.vault.permission.Permission;
 public class Permission_PermissionsBukkit extends Permission {
 	private static final Logger log = Logger.getLogger("Minecraft");
 
-	private String name = "PermissionsBukkit";
+	private final String name = "PermissionsBukkit";
 	private Plugin plugin = null;
 	private PluginManager pluginManager = null;
 	private PermissionsPlugin perms = null;
@@ -138,9 +138,6 @@ public class Permission_PermissionsBukkit extends Permission {
 
 	@Override
 	public boolean playerAddTransient(String world, String player, String permission) {
-		if (world != null) {
-			throw new UnsupportedOperationException(getName() + " does not support World based transient permissions!");
-		}
 		Player p = plugin.getServer().getPlayer(player);
 		if (p == null) {
 			throw new UnsupportedOperationException(getName() + " does not support offline player transient permissions!");
@@ -169,9 +166,6 @@ public class Permission_PermissionsBukkit extends Permission {
 
 	@Override
 	public boolean playerRemoveTransient(String world, String player, String permission) {
-		if (world != null) {
-			throw new UnsupportedOperationException(getName() + " does not support World based transient permissions!");
-		}
 		Player p = plugin.getServer().getPlayer(player);
 		if (p == null) {
 			throw new UnsupportedOperationException(getName() + " does not support offline player transient permissions!");
@@ -242,88 +236,7 @@ public class Permission_PermissionsBukkit extends Permission {
 		}
 		return plugin.getServer().dispatchCommand(ccs, "permission player removegroup " + group + " " + player);
 	}
-
-	@Override
-	public int getPlayerInfoInteger(String world, String player, String node, int defaultValue) {
-		throw new UnsupportedOperationException(getName() + " does not support info nodes.");
-	}
-
-	@Override
-	public void setPlayerInfoInteger(String world, String player, String node, int value) {
-		throw new UnsupportedOperationException(getName() + " does not support info nodes.");
-	}
-
-	@Override
-	public int getGroupInfoInteger(String world, String group, String node, int defaultValue) {
-		throw new UnsupportedOperationException(getName() + " does not support info nodes.");
-	}
-
-	@Override
-	public void setGroupInfoInteger(String world, String group, String node,int value) {
-		throw new UnsupportedOperationException(getName() + " does not support info nodes.");
-	}
-
-	@Override
-	public double getPlayerInfoDouble(String world, String player, String node, double defaultValue) {
-		throw new UnsupportedOperationException(getName() + " does not support info nodes.");
-	}
-
-	@Override
-	public void setPlayerInfoDouble(String world, String player, String node, double value) {
-		throw new UnsupportedOperationException(getName() + " does not support info nodes.");
-	}
-
-	@Override
-	public double getGroupInfoDouble(String world, String group, String node, double defaultValue) {
-		throw new UnsupportedOperationException(getName() + " does not support info nodes.");
-	}
-
-	@Override
-	public void setGroupInfoDouble(String world, String group, String node, double value) {
-		throw new UnsupportedOperationException(getName() + " does not support info nodes.");
-	}
-
-	@Override
-	public boolean getPlayerInfoBoolean(String world, String player, String node, boolean defaultValue) {
-		throw new UnsupportedOperationException(getName() + " does not support info nodes.");
-	}
-
-	@Override
-	public void setPlayerInfoBoolean(String world, String player, String node, boolean value) {
-		throw new UnsupportedOperationException(getName() + " does not support info nodes.");
-
-	}
-
-	@Override
-	public boolean getGroupInfoBoolean(String world, String group, String node, boolean defaultValue) {
-		return this.groupHas(world, group, node);
-	}
-
-	@Override
-	public void setGroupInfoBoolean(String world, String group, String node, boolean value) {
-		throw new UnsupportedOperationException(getName() + " does not support info nodes.");
-	}
-
-	@Override
-	public String getPlayerInfoString(String world, String player, String node, String defaultValue) {
-		throw new UnsupportedOperationException(getName() + " does not support info nodes.");
-	}
-
-	@Override
-	public void setPlayerInfoString(String world, String player, String node, String value) {
-		throw new UnsupportedOperationException(getName() + " does not support info nodes.");
-	}
-
-	@Override
-	public String getGroupInfoString(String world, String group, String node, String defaultValue) {
-		throw new UnsupportedOperationException(getName() + " does not support info nodes.");
-	}
-
-	@Override
-	public void setGroupInfoString(String world, String group, String node, String value) {
-		throw new UnsupportedOperationException(getName() + " does not support info nodes.");
-	}
-
+	
 	@Override
 	public String[] getPlayerGroups(String world, String player) {
 		List<String> groupList = new ArrayList<String>();
@@ -349,59 +262,6 @@ public class Permission_PermissionsBukkit extends Permission {
 			return perms.getPlayerInfo(player).getGroups().get(0).getName();
 		}
 		return null;
-	}
-
-	@Override
-	public String getPlayerPrefix(String world, String player) {
-		if (mChat == null) {
-			throw new UnsupportedOperationException(getName() + " does not support info nodes.");
-		} else if (plugin.getServer().getPlayer(player) == null){
-			throw new UnsupportedOperationException(getName() + " does not support offline node retrieval");
-		} else {
-			return mChat.getPrefix(plugin.getServer().getPlayer(player));
-		}
-	}
-
-	@Override
-	public void setPlayerPrefix(String world, String player, String prefix) {
-
-	}
-
-	@Override
-	public String getPlayerSuffix(String world, String player) {
-		if (mChat == null) {
-			throw new UnsupportedOperationException(getName() + " does not support info nodes.");
-		} else if (plugin.getServer().getPlayer(player) == null){
-			throw new UnsupportedOperationException(getName() + " does not support offline node retrieval");
-		} else {
-			return mChat.getSuffix(plugin.getServer().getPlayer(player));
-		}
-	}
-
-	@Override
-	public void setPlayerSuffix(String world, String player, String suffix) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public String getGroupPrefix(String world, String group) {
-		throw new UnsupportedOperationException(getName() + " does not support group info nodes.");
-	}
-
-	@Override
-	public void setGroupPrefix(String world, String group, String prefix) {
-		// TODO Auto-generated method stub
-	}
-
-	@Override
-	public String getGroupSuffix(String world, String group) {
-		throw new UnsupportedOperationException(getName() + " does not support group info nodes.");
-	}
-
-	@Override
-	public void setGroupSuffix(String world, String group, String suffix) {
-		throw new UnsupportedOperationException(getName() + " does not support group info nodes.");
 	}
 
 	@Override

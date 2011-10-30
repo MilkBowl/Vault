@@ -39,13 +39,9 @@ public class Permission_SuperPerms extends Permission {
 
 	@Override
 	public boolean playerAddTransient(String world, String player, String permission) {
-		if (world != null) {
-			throw new UnsupportedOperationException(getName() + " does not support World based transient permissions!");
-		}
 		Player p = plugin.getServer().getPlayer(player);
-		if (p == null) {
-			throw new UnsupportedOperationException(getName() + " does not support offline player transient permissions!");
-		}
+		if (p == null)
+			return false;
 		
 		for (PermissionAttachmentInfo paInfo : p.getEffectivePermissions()) {
 			if (paInfo.getAttachment().getPlugin().equals(plugin)) {
@@ -67,13 +63,10 @@ public class Permission_SuperPerms extends Permission {
 
 	@Override
 	public boolean playerRemoveTransient(String world, String player, String permission) {
-		if (world != null) {
-			throw new UnsupportedOperationException(getName() + " does not support World based transient permissions!");
-		}
 		Player p = plugin.getServer().getPlayer(player);
-		if (p == null) {
-			throw new UnsupportedOperationException(getName() + " does not support offline player transient permissions!");
-		}
+		if (p == null)
+			return false;
+		
 		for (PermissionAttachmentInfo paInfo : p.getEffectivePermissions()) {
 			if (paInfo.getAttachment().getPlugin().equals(plugin)) {
 				return paInfo.getAttachment().getPermissions().remove(permission);
@@ -113,87 +106,6 @@ public class Permission_SuperPerms extends Permission {
 	}
 
 	@Override
-	public int getPlayerInfoInteger(String world, String player, String node, int defaultValue) {
-		throw new UnsupportedOperationException(getName() + " no data permissions.");
-	}
-
-	@Override
-	public void setPlayerInfoInteger(String world, String player, String node, int value) {	
-		throw new UnsupportedOperationException(getName() + " no data permissions.");
-	}
-
-	@Override
-	public int getGroupInfoInteger(String world, String group, String node, int defaultValue) {
-		throw new UnsupportedOperationException(getName() + " no data permissions.");
-	}
-
-	@Override
-	public void setGroupInfoInteger(String world, String group, String node, int value) {	
-		throw new UnsupportedOperationException(getName() + " no data permissions.");
-	}
-
-	@Override
-	public double getPlayerInfoDouble(String world, String player, String node, double defaultValue) {
-		throw new UnsupportedOperationException(getName() + " no data permissions.");
-	}
-
-	@Override
-	public void setPlayerInfoDouble(String world, String player, String node, double value) {	
-		throw new UnsupportedOperationException(getName() + " no data permissions.");
-	}
-
-	@Override
-	public double getGroupInfoDouble(String world, String group, String node, double defaultValue) {
-		throw new UnsupportedOperationException(getName() + " no data permissions.");
-	}
-
-	@Override
-	public void setGroupInfoDouble(String world, String group, String node,double value) {
-		throw new UnsupportedOperationException(getName() + " no data permissions.");
-	}
-
-	@Override
-	public boolean getPlayerInfoBoolean(String world, String player, String node, boolean defaultValue) {
-		throw new UnsupportedOperationException(getName() + " no data permissions.");
-	}
-
-	@Override
-	public void setPlayerInfoBoolean(String world, String player, String node, boolean value) {
-		throw new UnsupportedOperationException(getName() + " no data permissions.");
-	}
-
-	@Override
-	public boolean getGroupInfoBoolean(String world, String group, String node, boolean defaultValue) {
-		throw new UnsupportedOperationException(getName() + " no data permissions.");
-	}
-
-	@Override
-	public void setGroupInfoBoolean(String world, String group, String node, boolean value) {
-		throw new UnsupportedOperationException(getName() + " no data permissions.");
-	}
-
-	@Override
-	public String getPlayerInfoString(String world, String player, String node, String defaultValue) {
-		throw new UnsupportedOperationException(getName() + " no data permissions.");
-	}
-
-	@Override
-	public void setPlayerInfoString(String world, String player, String node, String value) {
-		throw new UnsupportedOperationException(getName() + " no data permissions.");
-		
-	}
-
-	@Override
-	public String getGroupInfoString(String world, String group, String node, String defaultValue) {
-		throw new UnsupportedOperationException(getName() + " no data permissions.");
-	}
-
-	@Override
-	public void setGroupInfoString(String world, String group, String node, String value) {
-		throw new UnsupportedOperationException(getName() + " no data permissions.");
-	}
-
-	@Override
 	public String[] getPlayerGroups(String world, String player) {
 		throw new UnsupportedOperationException(getName() + " no group permissions.");
 	}
@@ -204,47 +116,7 @@ public class Permission_SuperPerms extends Permission {
 	}
 
 	@Override
-	public String getPlayerPrefix(String world, String player) {
-		throw new UnsupportedOperationException(getName() + " no data permissions.");
-	}
-
-	@Override
-	public void setPlayerPrefix(String world, String player, String prefix) {
-		throw new UnsupportedOperationException(getName() + " no data permissions.");
-	}
-
-	@Override
-	public String getPlayerSuffix(String world, String player) {
-		throw new UnsupportedOperationException(getName() + " no data permissions.");
-	}
-
-	@Override
-	public void setPlayerSuffix(String world, String player, String suffix) {
-		throw new UnsupportedOperationException(getName() + " no data permissions.");
-	}
-
-	@Override
-	public String getGroupPrefix(String world, String group) {
-		throw new UnsupportedOperationException(getName() + " no data permissions.");
-	}
-
-	@Override
-	public void setGroupPrefix(String world, String group, String prefix) {
-		throw new UnsupportedOperationException(getName() + " no data permissions.");
-	}
-
-	@Override
-	public String getGroupSuffix(String world, String group) {
-		throw new UnsupportedOperationException(getName() + " no data permissions.");
-	}
-
-	@Override
-	public void setGroupSuffix(String world, String group, String suffix) {
-		throw new UnsupportedOperationException(getName() + " no data permissions.");
-	}
-
-	@Override
 	public String[] getGroups() {
-		throw new UnsupportedOperationException(getName() + " does not support group listing!");
+		return new String[0];
 	}
 }

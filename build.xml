@@ -39,7 +39,7 @@
   </target>
 	
   <target name="javadoc" description="Generate JavaDoc">
-	<javadoc packagenames="net.milkbowl.vault.economy,net.milkbowl.vault.permission"
+	<javadoc packagenames="net.milkbowl.vault.economy,net.milkbowl.vault.permission,net.milkbowl.vault.chat"
 			sourcepath="src"
 			destdir="javadoc"
 			access="public"
