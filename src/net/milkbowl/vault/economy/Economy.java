@@ -50,6 +50,13 @@ public interface Economy {
     public double getBalance(String playerName);
 
     /**
+     * Checks if the player account has the amount
+     * @param playerName
+     * @param amount
+     * @return
+     */
+    public boolean has(String playerName, double amount);
+    /**
      * Withdraw an amount from a player
      * @param playerName Name of player
      * @param amount Amount to withdraw
@@ -64,4 +71,52 @@ public interface Economy {
      * @return Detailed response of transaction
      */
     public EconomyResponse depositPlayer(String playerName, double amount);
+    
+    /**
+     * Creates a bank account with the specified name and the player as the owner
+     * @param name
+     * @param player
+     * @return
+     */
+    public EconomyResponse createBank(String name, String player);
+    
+    /**
+     * Returns true or false whether the bank has the amount specified
+     * @param name
+     * @param amount
+     * @return
+     */
+    public EconomyResponse bankHas(String name, double amount);
+    
+    /**
+     * Withdraw an amount from a bank account
+     * @param name
+     * @param amount
+     * @return
+     */
+    public EconomyResponse bankWithdraw(String name, double amount);
+    
+    /**
+     * Deposit an amount into a bank account
+     * @param name
+     * @param amount
+     * @return
+     */
+    public EconomyResponse bankDeposit(String name, double amount);
+    
+    /**
+     * Check if a player is the owner of a bank account
+     * @param name
+     * @param playerName
+     * @return
+     */
+    public EconomyResponse isBankOwner(String name, String playerName);
+    
+    /**
+     * Check if the player is a member of the bank account
+     * @param name
+     * @param playerName
+     * @return
+     */
+    public EconomyResponse isBankMember(String name, String playerName);
 }

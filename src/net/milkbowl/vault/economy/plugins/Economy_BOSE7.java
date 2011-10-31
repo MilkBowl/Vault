@@ -23,6 +23,7 @@ import java.util.logging.Logger;
 
 import net.milkbowl.vault.economy.Economy;
 import net.milkbowl.vault.economy.EconomyResponse;
+import net.milkbowl.vault.economy.EconomyResponse.ResponseType;
 
 import org.bukkit.event.Event.Priority;
 import org.bukkit.event.Event.Type;
@@ -98,7 +99,7 @@ public class Economy_BOSE7 implements Economy {
             amount = 0;
             balance = (double) economy.getPlayerMoney(playerName);
 
-            return new EconomyResponse(balance, balance, type, errorMessage);
+            return new EconomyResponse(amount, balance, type, errorMessage);
         }
 
         amount = Math.ceil(amount);
@@ -109,7 +110,7 @@ public class Economy_BOSE7 implements Economy {
             amount = 0;
             balance = (double) economy.getPlayerMoney(playerName);
 
-            return new EconomyResponse(balance, balance, type, errorMessage);
+            return new EconomyResponse(amount, balance, type, errorMessage);
         }
         if (economy.setPlayerMoney(playerName, (int) (balance - amount), false)) {
             type = EconomyResponse.ResponseType.SUCCESS;
@@ -138,7 +139,7 @@ public class Economy_BOSE7 implements Economy {
             amount = 0;
             balance = (double) economy.getPlayerMoney(playerName);
 
-            return new EconomyResponse(balance, balance, type, errorMessage);
+            return new EconomyResponse(amount, balance, type, errorMessage);
         }
         amount = Math.ceil(amount);
         balance = (double) economy.getPlayerMoney(playerName);
@@ -153,7 +154,7 @@ public class Economy_BOSE7 implements Economy {
             amount = 0;
             balance = (double) economy.getPlayerMoney(playerName);
 
-            return new EconomyResponse(balance, balance, type, errorMessage);
+            return new EconomyResponse(amount, balance, type, errorMessage);
         }
     }
 
@@ -201,4 +202,71 @@ public class Economy_BOSE7 implements Economy {
             return String.format("%.2f %s", amount, getMoneyNamePlural());
         }
     }
+	@Override
+	public EconomyResponse createBank(String name, String player) {
+		boolean success = economy.addBankOwner(name, player, false);
+		if (success) 
+			return new EconomyResponse(0, economy.getBankMoney(name), ResponseType.SUCCESS, "");
+
+		return new EconomyResponse(0, 0, ResponseType.FAILURE, "Unable to create that bank account.");
+	}
+
+	@Override
+	public EconomyResponse bankHas(String name, double amount) {
+		if (!economy.bankExists(name))
+			return new EconomyResponse(0, 0, ResponseType.FAILURE, "That bank does not exist!");
+
+		double bankMoney = economy.getBankMoney(name);
+		if (bankMoney < amount)
+			return new EconomyResponse(0, bankMoney, ResponseType.FAILURE, "The bank does not have enough money!");
+		else
+			return new EconomyResponse(0, bankMoney, ResponseType.SUCCESS, "");
+
+	}
+
+	@Override
+	public EconomyResponse bankWithdraw(String name, double amount) {
+		EconomyResponse er = bankHas(name, amount);
+		if (!er.transactionSuccess())
+			return er;
+		else {
+			economy.addBankMoney(name, (int) -amount, true);
+			return new EconomyResponse((int) amount, economy.getBankMoney(name), ResponseType.SUCCESS, "");
+		}
+	}
+
+	@Override
+	public EconomyResponse bankDeposit(String name, double amount) {
+		if (!economy.bankExists(name))
+			return new EconomyResponse(amount, 0, ResponseType.FAILURE, "That bank does not exist!");
+		else {
+			economy.addBankMoney(name, (int) amount, true);
+			return new EconomyResponse((int) amount, economy.getBankMoney(name), ResponseType.SUCCESS, "");
+		}
+	}
+
+	@Override
+	public EconomyResponse isBankOwner(String name, String playerName) {
+		if (!economy.bankExists(name))
+			return new EconomyResponse(0, 0, ResponseType.FAILURE, "That bank does not exist!");
+		else if (economy.isBankOwner(name, playerName)) {
+			return new EconomyResponse(0, economy.getBankMoney(name), ResponseType.SUCCESS, "");
+		} else
+			return new EconomyResponse(0, 0, ResponseType.FAILURE, "That player is not a bank owner!");
+	}
+
+	@Override
+	public EconomyResponse isBankMember(String name, String playerName) {
+		if (!economy.bankExists(name))
+			return new EconomyResponse(0, 0, ResponseType.FAILURE, "That bank does not exist!");
+		else if (economy.isBankMember(name, playerName)) {
+			return new EconomyResponse(0, economy.getBankMoney(name), ResponseType.SUCCESS, "");
+		} else
+			return new EconomyResponse(0, 0, ResponseType.FAILURE, "That player is not a bank member!");
+	}
+
+	@Override
+	public boolean has(String playerName, double amount) {
+		return getBalance(playerName) >= amount;
+	}
 }
