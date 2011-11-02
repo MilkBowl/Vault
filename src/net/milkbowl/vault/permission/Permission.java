@@ -213,7 +213,7 @@ public abstract class Permission {
      * @return Success or Failure
      */
     public boolean playerRemoveTransient(Player player, String permission) {
-        return playerRemove(player.getWorld().getName(), player.getName(), permission);
+        return playerRemoveTransient(player.getWorld().getName(), player.getName(), permission);
     }
     
     /**
