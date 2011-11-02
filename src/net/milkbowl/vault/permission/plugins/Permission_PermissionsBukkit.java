@@ -52,7 +52,7 @@ public class Permission_PermissionsBukkit extends Permission {
 				log.info(String.format("[%s][Permission] %s hooked.", plugin.getDescription().getName(), name));
 			}
 		}
-		
+
 		if (mChat == null) {
 			Plugin chat = plugin.getServer().getPluginManager().getPlugin("mChat");
 			if (chat != null) {
@@ -61,7 +61,6 @@ public class Permission_PermissionsBukkit extends Permission {
 			}
 		}
 	}
-
 
 	private class PermissionServerListener extends ServerListener {
 		Permission_PermissionsBukkit permission = null;
@@ -133,7 +132,7 @@ public class Permission_PermissionsBukkit extends Permission {
 		if (world != null) {
 			permission = world + ":" + permission;
 		}
-		return plugin.getServer().dispatchCommand(ccs, "permission player setperm " + player + " " + permission + " true");
+		return plugin.getServer().dispatchCommand(ccs, "permissions player setperm " + player + " " + permission + " true");
 	}
 
 	@Override
@@ -142,17 +141,17 @@ public class Permission_PermissionsBukkit extends Permission {
 		if (p == null) {
 			throw new UnsupportedOperationException(getName() + " does not support offline player transient permissions!");
 		}
-		
+
 		for (PermissionAttachmentInfo paInfo : p.getEffectivePermissions()) {
-			if (paInfo.getAttachment().getPlugin().equals(plugin)) {
+			if (paInfo.getAttachment() != null && paInfo.getAttachment().getPlugin().equals(plugin)) {
 				paInfo.getAttachment().setPermission(permission, true);
 				return true;
 			}
 		}
-		
+
 		PermissionAttachment attach = p.addAttachment(plugin);
 		attach.setPermission(permission, true);
-		
+
 		return true;
 	}
 
@@ -161,7 +160,7 @@ public class Permission_PermissionsBukkit extends Permission {
 		if (world != null) {
 			permission = world + ":" + permission;
 		}
-		return plugin.getServer().dispatchCommand(ccs, "permission player unsetperm " + player + " " + permission);
+		return plugin.getServer().dispatchCommand(ccs, "permissions player unsetperm " + player + " " + permission);
 	}
 
 	@Override
@@ -171,8 +170,9 @@ public class Permission_PermissionsBukkit extends Permission {
 			throw new UnsupportedOperationException(getName() + " does not support offline player transient permissions!");
 		}
 		for (PermissionAttachmentInfo paInfo : p.getEffectivePermissions()) {
-			if (paInfo.getAttachment().getPlugin().equals(plugin)) {
-				return paInfo.getAttachment().getPermissions().remove(permission);
+			if (paInfo.getAttachment() != null && paInfo.getAttachment().getPlugin().equals(plugin)) {
+				paInfo.getAttachment().unsetPermission(permission);
+				return true;
 			}
 		}
 		return false;
@@ -197,7 +197,7 @@ public class Permission_PermissionsBukkit extends Permission {
 		if (world != null) {
 			permission = world + ":" + permission;
 		}
-		return plugin.getServer().dispatchCommand(ccs, "permission group setperm " + group + " " + permission + " true");
+		return plugin.getServer().dispatchCommand(ccs, "permissions group setperm " + group + " " + permission + " true");
 	}
 
 	@Override
@@ -205,7 +205,7 @@ public class Permission_PermissionsBukkit extends Permission {
 		if (world != null) {
 			permission = world + ":" + permission;
 		}
-		return plugin.getServer().dispatchCommand(ccs, "permission group unsetperm " + group + " " + permission);
+		return plugin.getServer().dispatchCommand(ccs, "permissions group unsetperm " + group + " " + permission);
 	}
 
 	@Override
@@ -226,7 +226,7 @@ public class Permission_PermissionsBukkit extends Permission {
 		if (world != null) {
 			throw new UnsupportedOperationException(getName() + " does not support world based groups.");
 		}
-		return plugin.getServer().dispatchCommand(ccs, "permission player addgroup " + group + " " + player);
+		return plugin.getServer().dispatchCommand(ccs, "permissions player addgroup " + group + " " + player);
 	}
 
 	@Override
@@ -234,9 +234,9 @@ public class Permission_PermissionsBukkit extends Permission {
 		if (world != null) {
 			throw new UnsupportedOperationException(getName() + " does not support world based groups.");
 		}
-		return plugin.getServer().dispatchCommand(ccs, "permission player removegroup " + group + " " + player);
+		return plugin.getServer().dispatchCommand(ccs, "permissions player removegroup " + group + " " + player);
 	}
-	
+
 	@Override
 	public String[] getPlayerGroups(String world, String player) {
 		List<String> groupList = new ArrayList<String>();
@@ -270,7 +270,7 @@ public class Permission_PermissionsBukkit extends Permission {
 		for (Group group : perms.getAllGroups()) {
 			groupNames.add(group.getName());
 		}
-		
+
 		return groupNames.toArray(new String[0]);
 	}
 }
