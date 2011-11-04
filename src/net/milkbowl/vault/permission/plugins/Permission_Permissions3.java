@@ -21,13 +21,10 @@ package net.milkbowl.vault.permission.plugins;
 
 import java.util.HashSet;
 import java.util.Set;
-import java.util.logging.Logger;
 
 import net.milkbowl.vault.Vault;
 import net.milkbowl.vault.permission.Permission;
 
-import org.bukkit.Bukkit;
-import org.bukkit.World;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event.Priority;
 import org.bukkit.event.Event.Type;
@@ -37,16 +34,13 @@ import org.bukkit.event.server.ServerListener;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.PluginManager;
 
-import com.nijiko.permissions.Group;
 import com.nijiko.permissions.PermissionHandler;
 import com.nijikokun.bukkit.Permissions.Permissions;
 
 public class Permission_Permissions3 extends Permission {
-    private static final Logger log = Logger.getLogger("Minecraft");
 
     private String name = "Permissions 3 (Yeti)";
     private PermissionHandler perms;
-    private Vault plugin = null;
     private PluginManager pluginManager = null;
     private Permissions permission = null;
     private PermissionServerListener permissionServerListener = null;

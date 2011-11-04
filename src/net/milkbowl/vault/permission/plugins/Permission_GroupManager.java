@@ -3,8 +3,8 @@ package net.milkbowl.vault.permission.plugins;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
-import java.util.logging.Logger;
 
+import net.milkbowl.vault.Vault;
 import net.milkbowl.vault.permission.Permission;
 
 import org.anjocaido.groupmanager.GroupManager;
@@ -24,17 +24,15 @@ import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.PluginManager;
 
 public class Permission_GroupManager extends Permission {
-    private static final Logger log = Logger.getLogger("Minecraft");
 
     private String name = "GroupManager";
-    private Plugin plugin = null;
     private PluginManager pluginManager = null;
     private GroupManager groupManager;
     private AnjoPermissionsHandler perms;
     private PermissionServerListener permissionServerListener = null;
 
     @SuppressWarnings("deprecation")
-    public Permission_GroupManager(Plugin plugin) {
+    public Permission_GroupManager(Vault plugin) {
         this.plugin = plugin;
         pluginManager = this.plugin.getServer().getPluginManager();
 

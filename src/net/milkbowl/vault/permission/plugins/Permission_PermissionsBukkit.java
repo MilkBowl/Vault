@@ -2,18 +2,14 @@ package net.milkbowl.vault.permission.plugins;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Logger;
 
+import org.bukkit.Bukkit;
 import org.bukkit.command.ConsoleCommandSender;
-import org.bukkit.craftbukkit.command.ColouredConsoleSender;
-import org.bukkit.entity.Player;
 import org.bukkit.event.Event.Priority;
 import org.bukkit.event.Event.Type;
 import org.bukkit.event.server.PluginDisableEvent;
 import org.bukkit.event.server.PluginEnableEvent;
 import org.bukkit.event.server.ServerListener;
-import org.bukkit.permissions.PermissionAttachment;
-import org.bukkit.permissions.PermissionAttachmentInfo;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.PluginManager;
 
@@ -21,29 +17,28 @@ import com.platymuus.bukkit.permissions.Group;
 import com.platymuus.bukkit.permissions.PermissionsPlugin;
 
 import net.D3GN.MiracleM4n.mChat.mChatAPI;
+import net.milkbowl.vault.Vault;
 import net.milkbowl.vault.permission.Permission;
 
 public class Permission_PermissionsBukkit extends Permission {
-	private static final Logger log = Logger.getLogger("Minecraft");
 
 	private final String name = "PermissionsBukkit";
-	private Plugin plugin = null;
 	private PluginManager pluginManager = null;
 	private PermissionsPlugin perms = null;
 	private mChatAPI mChat = null;
 	private PermissionServerListener permissionServerListener = null;
 	private ConsoleCommandSender ccs;
 
-	public Permission_PermissionsBukkit(Plugin plugin) {
+	public Permission_PermissionsBukkit(Vault plugin) {
 		this.plugin = plugin;
-		ccs = ColouredConsoleSender.getInstance();
+		ccs = Bukkit.getServer().getConsoleSender();
 		pluginManager = this.plugin.getServer().getPluginManager();
 
 		permissionServerListener = new PermissionServerListener(this);
 
 		this.pluginManager.registerEvent(Type.PLUGIN_ENABLE, permissionServerListener, Priority.Monitor, plugin);
 		this.pluginManager.registerEvent(Type.PLUGIN_DISABLE, permissionServerListener, Priority.Monitor, plugin);
-
+		
 		// Load Plugin in case it was loaded before
 		if (perms == null) {
 			Plugin perms = plugin.getServer().getPluginManager().getPlugin("PermissionsBukkit");
@@ -136,26 +131,6 @@ public class Permission_PermissionsBukkit extends Permission {
 	}
 
 	@Override
-	public boolean playerAddTransient(String world, String player, String permission) {
-		Player p = plugin.getServer().getPlayer(player);
-		if (p == null) {
-			throw new UnsupportedOperationException(getName() + " does not support offline player transient permissions!");
-		}
-
-		for (PermissionAttachmentInfo paInfo : p.getEffectivePermissions()) {
-			if (paInfo.getAttachment() != null && paInfo.getAttachment().getPlugin().equals(plugin)) {
-				paInfo.getAttachment().setPermission(permission, true);
-				return true;
-			}
-		}
-
-		PermissionAttachment attach = p.addAttachment(plugin);
-		attach.setPermission(permission, true);
-
-		return true;
-	}
-
-	@Override
 	public boolean playerRemove(String world, String player, String permission) {
 		if (world != null) {
 			permission = world + ":" + permission;
@@ -163,21 +138,8 @@ public class Permission_PermissionsBukkit extends Permission {
 		return plugin.getServer().dispatchCommand(ccs, "permissions player unsetperm " + player + " " + permission);
 	}
 
-	@Override
-	public boolean playerRemoveTransient(String world, String player, String permission) {
-		Player p = plugin.getServer().getPlayer(player);
-		if (p == null) {
-			throw new UnsupportedOperationException(getName() + " does not support offline player transient permissions!");
-		}
-		for (PermissionAttachmentInfo paInfo : p.getEffectivePermissions()) {
-			if (paInfo.getAttachment() != null && paInfo.getAttachment().getPlugin().equals(plugin)) {
-				paInfo.getAttachment().unsetPermission(permission);
-				return true;
-			}
-		}
-		return false;
-	}
-
+	// use superclass implementation of playerAddTransient() and playerRemoveTransient()
+	
 	@Override
 	public boolean groupHas(String world, String group, String permission) {
 		if (world != null && !world.isEmpty()) {
