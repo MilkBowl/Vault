@@ -19,10 +19,19 @@
 
 package net.milkbowl.vault.permission;
 
+import java.util.logging.Logger;
+
+import net.milkbowl.vault.Vault;
+
 import org.bukkit.World;
 import org.bukkit.entity.Player;
+import org.bukkit.permissions.PermissionAttachment;
+import org.bukkit.permissions.PermissionAttachmentInfo;
 
 public abstract class Permission {
+
+	protected static final Logger log = Logger.getLogger("Minecraft");
+    protected Vault plugin = null;
 
     /**
      * Gets name of permission method
@@ -130,12 +139,34 @@ public abstract class Permission {
     
     /**
      * Add transient permission to a player.
+     * This implementation can be used by any subclass which implements a "pure" superperms plugin, i.e. 
+     * one that only needs the built-in Bukkit API to add transient permissions to a player.  Any subclass
+     * implementing a plugin which provides its own API for this needs to override this method. 
      * @param world World name
      * @param player Player name
      * @param permission Permission node
      * @return Success or Failure
      */
-    abstract public boolean playerAddTransient(String world, String player, String permission);
+    public boolean playerAddTransient(String world, String player, String permission) {
+		Player p = plugin.getServer().getPlayer(player);
+		if (p == null) {
+			throw new UnsupportedOperationException(getName() + " does not support offline player transient permissions!");
+		}
+
+		for (PermissionAttachmentInfo paInfo : p.getEffectivePermissions()) {
+			if (paInfo.getAttachment() != null && paInfo.getAttachment().getPlugin().equals(plugin)) {
+				paInfo.getAttachment().setPermission(permission, true);
+				return true;
+			}
+		}
+
+		PermissionAttachment attach = p.addAttachment(plugin);
+		attach.setPermission(permission, true);
+
+		return true;
+	}
+
+    
     /**
      * Add transient permission to a player.
      * @param world World Object
@@ -187,14 +218,29 @@ public abstract class Permission {
     }
     
     /**
-     * Remove transient permission to a player.
+     * Remove transient permission from a player.
+     * This implementation can be used by any subclass which implements a "pure" superperms plugin, i.e. 
+     * one that only needs the built-in Bukkit API to remove transient permissions from a player.  Any subclass
+     * implementing a plugin which provides its own API for this needs to override this method.
      * @param world World name
      * @param player Player name
      * @param permission Permission node
      * @return Success or Failure
      */
-    abstract public boolean playerRemoveTransient(String world, String player, String permission);
-    
+	public boolean playerRemoveTransient(String world, String player, String permission) {
+		Player p = plugin.getServer().getPlayer(player);
+		if (p == null)
+			return false;
+		
+		for (PermissionAttachmentInfo paInfo : p.getEffectivePermissions()) {
+			if (paInfo.getAttachment() != null && paInfo.getAttachment().getPlugin().equals(plugin)) {
+				paInfo.getAttachment().unsetPermission(permission);
+				return true;
+			}
+		}
+		return false;
+	}
+
     /**
      * Remove transient permission from a player.
      * @param world World name
