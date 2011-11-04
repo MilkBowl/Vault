@@ -1,8 +1,6 @@
 package net.milkbowl.vault.permission.plugins;
 
 import org.bukkit.entity.Player;
-import org.bukkit.permissions.PermissionAttachment;
-import org.bukkit.permissions.PermissionAttachmentInfo;
 
 import net.milkbowl.vault.Vault;
 import net.milkbowl.vault.permission.Permission;
@@ -37,41 +35,10 @@ public class Permission_SuperPerms extends Permission {
 		return false;
 	}
 
-	@Override
-	public boolean playerAddTransient(String world, String player, String permission) {
-		Player p = plugin.getServer().getPlayer(player);
-		if (p == null)
-			return false;
-		
-		for (PermissionAttachmentInfo paInfo : p.getEffectivePermissions()) {
-			if (paInfo.getAttachment().getPlugin().equals(plugin)) {
-				paInfo.getAttachment().setPermission(permission, true);
-				return true;
-			}
-		}
-		
-		PermissionAttachment attach = p.addAttachment(plugin);
-		attach.setPermission(permission, true);
-		
-		return true;
-	}
+	// use superclass implementation of playerAddTransient() and playerRemoveTransient()
 
 	@Override
 	public boolean playerRemove(String world, String player, String permission) {
-		return false;
-	}
-
-	@Override
-	public boolean playerRemoveTransient(String world, String player, String permission) {
-		Player p = plugin.getServer().getPlayer(player);
-		if (p == null)
-			return false;
-		
-		for (PermissionAttachmentInfo paInfo : p.getEffectivePermissions()) {
-			if (paInfo.getAttachment().getPlugin().equals(plugin)) {
-				return paInfo.getAttachment().getPermissions().remove(permission);
-			}
-		}
 		return false;
 	}
 
