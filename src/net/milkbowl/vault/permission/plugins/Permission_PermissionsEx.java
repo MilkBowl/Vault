@@ -84,21 +84,7 @@ public class Permission_PermissionsEx extends Permission {
 
     @Override
     public boolean playerInGroup(String worldName, String playerName, String groupName) {
-        // Try catch the check because we don't know if the objects will
-        // actually exist Good Job on the crap Permissions plugin, why do we
-        // support this again?
-        try {
-            PermissionUser[] userList = PermissionsEx.getPermissionManager().getGroup(groupName).getUsers();
-            for (PermissionUser user : userList) {
-                if (user.getName() == playerName)
-                    return true;
-                else
-                    return false;
-            }
-        } catch (Exception e) {
-            return false;
-        }
-        return false;
+    	return PermissionsEx.getPermissionManager().getUser(playerName).inGroup(groupName);
     }
 
     private class PermissionServerListener extends ServerListener {
@@ -150,14 +136,8 @@ public class Permission_PermissionsEx extends Permission {
 
     @Override
     public boolean playerRemoveGroup(String worldName, String playerName, String groupName) {
-        PermissionGroup group = PermissionsEx.getPermissionManager().getGroup(groupName);
-        PermissionUser user = PermissionsEx.getPermissionManager().getUser(playerName);
-        if (group == null || user == null) {
-            return false;
-        } else {
-            user.removeGroup(group);
-            return true;
-        }
+    	PermissionsEx.getPermissionManager().getUser(playerName).removeGroup(groupName);
+    	return true;
     }
 
     @Override
