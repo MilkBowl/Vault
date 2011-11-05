@@ -188,6 +188,7 @@ public class Vault extends JavaPlugin {
 			Permission ePerms = new Permission_PermissionsEx(this);
 			getServer().getServicesManager().register(Permission.class, ePerms, this, ServicePriority.Highest);
 			log.info(String.format("[%s][Permission] PermissionsEx found: %s", getDescription().getName(), ePerms.isEnabled() ? "Loaded" : "Waiting"));
+			log.info(String.format("[%s] - Warning Using PEX can cause SuperPerms compatibility issues with non-Vault enabled plugins.", getDescription().getName()));
 		}
 
 		//Try loading PermissionsBukkit
