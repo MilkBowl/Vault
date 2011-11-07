@@ -1,7 +1,6 @@
 package net.milkbowl.vault.permission.plugins;
 
 import java.util.List;
-import java.util.logging.Logger;
 
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event.Priority;
@@ -9,8 +8,6 @@ import org.bukkit.event.Event.Type;
 import org.bukkit.event.server.PluginDisableEvent;
 import org.bukkit.event.server.PluginEnableEvent;
 import org.bukkit.event.server.ServerListener;
-import org.bukkit.permissions.PermissionAttachment;
-import org.bukkit.permissions.PermissionAttachmentInfo;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.PluginManager;
 
@@ -22,10 +19,8 @@ import net.milkbowl.vault.Vault;
 import net.milkbowl.vault.permission.Permission;
 
 public class Permission_bPermissions extends Permission {
-	private static final Logger log = Logger.getLogger("Minecraft");
 
 	private String name = "bPermissions";
-	private Vault plugin = null;
 	private PluginManager pluginManager = null;
 	private WorldPermissionsManager perms;
 	private PermissionServerListener permissionServerListener = null;
@@ -96,43 +91,12 @@ public class Permission_bPermissions extends Permission {
 	}
 
 	@Override
-	public boolean playerAddTransient(String world, String player, String permission) {
-		Player p = plugin.getServer().getPlayer(player);
-		if (p == null)
-			return false;
-		
-		for (PermissionAttachmentInfo paInfo : p.getEffectivePermissions()) {
-			if (paInfo.getAttachment().getPlugin().equals(plugin)) {
-				paInfo.getAttachment().setPermission(permission, true);
-				return true;
-			}
-		}
-		
-		PermissionAttachment attach = p.addAttachment(plugin);
-		attach.setPermission(permission, true);
-		
-		return true;
-	}
-
-	@Override
 	public boolean playerRemove(String world, String player, String permission) {
 		throw new UnsupportedOperationException("Player specific permissions are not supported!");
 	}
 
-	@Override
-	public boolean playerRemoveTransient(String world, String player, String permission) {
-		Player p = plugin.getServer().getPlayer(player);
-		if (p == null)
-			return false;
-		
-		for (PermissionAttachmentInfo paInfo : p.getEffectivePermissions()) {
-			if (paInfo.getAttachment().getPlugin().equals(plugin)) {
-				return paInfo.getAttachment().getPermissions().remove(permission);
-			}
-		}
-		return false;
-	}
-
+	// use superclass implementation of playerAddTransient() and playerRemoveTransient()
+	
 	@Override
 	public boolean groupHas(String world, String group, String permission) {
 		if (world == null)
