@@ -2,7 +2,6 @@ package net.milkbowl.vault.permission.plugins;
 
 import java.util.List;
 
-import org.bukkit.entity.Player;
 import org.bukkit.event.Event.Priority;
 import org.bukkit.event.Event.Type;
 import org.bukkit.event.server.PluginDisableEvent;
@@ -13,6 +12,7 @@ import org.bukkit.plugin.PluginManager;
 
 import de.bananaco.permissions.Permissions;
 import de.bananaco.permissions.interfaces.PermissionSet;
+import de.bananaco.permissions.worlds.HasPermission;
 import de.bananaco.permissions.worlds.WorldPermissionsManager;
 
 import net.milkbowl.vault.Vault;
@@ -79,10 +79,14 @@ public class Permission_bPermissions extends Permission {
 
 	@Override
 	public boolean playerHas(String world, String player, String permission) {
-		Player p = plugin.getServer().getPlayer(player);
-		if (p == null)
-			throw new UnsupportedOperationException("Offline Permissions are not supported!");
-		return p.hasPermission(permission);
+		if (world == null)
+			return false;
+		
+		PermissionSet set = perms.getPermissionSet(world);
+		if (set == null)
+			return false;
+		
+		return HasPermission.has(player, world, permission);
 	}
 
 	@Override
