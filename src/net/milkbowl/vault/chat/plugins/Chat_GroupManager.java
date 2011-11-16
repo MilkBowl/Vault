@@ -13,6 +13,7 @@ import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.PluginManager;
 
 import net.milkbowl.vault.chat.Chat;
+import net.milkbowl.vault.permission.Permission;
 
 @SuppressWarnings("deprecation")
 public class Chat_GroupManager extends Chat {
@@ -25,7 +26,8 @@ public class Chat_GroupManager extends Chat {
 	private AnjoPermissionsHandler perms;
 	private PermissionServerListener permissionServerListener = null;
 
-	public Chat_GroupManager(Plugin plugin) {
+	public Chat_GroupManager(Plugin plugin, Permission permissions) {
+		super(permissions);
 		this.plugin = plugin;
 		pluginManager = this.plugin.getServer().getPluginManager();
 

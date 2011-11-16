@@ -1,10 +1,17 @@
 package net.milkbowl.vault.chat;
 
+import net.milkbowl.vault.permission.Permission;
+
 import org.bukkit.World;
 import org.bukkit.entity.Player;
 
 public abstract class Chat {
 	
+	private Permission perms;
+	
+	public Chat(Permission perms) {
+		this.perms = perms;
+	}
     /**
      * Gets name of permission method
      * @return Name of Permission Method
@@ -614,5 +621,103 @@ public abstract class Chat {
      */
     public void setGroupInfoString(World world, String group, String node, String value) {
         setGroupInfoString(world.getName(), group, node, value);
+    }
+    
+    /**
+     * Check if player is member of a group.
+     * @param world World name
+     * @param player Player name
+     * @param group Group name
+     * @return Success or Failure
+     */
+    public boolean playerInGroup(String world, String player, String group) {
+    	return perms.playerInGroup(world, player, group);
+    }
+
+    /**
+     * Check if player is member of a group.
+     * @param world World Object
+     * @param player Player name
+     * @param group Group name
+     * @return Success or Failure
+     */
+    public boolean playerInGroup(World world, String player, String group) {
+        return playerInGroup(world.getName(), player, group);
+    }
+
+    /**
+     * Check if player is member of a group.
+     * @param player Player Object
+     * @param group Group name
+     * @return Success or Failure
+     */
+    public boolean playerInGroup(Player player, String group) {
+        return playerInGroup(player.getWorld().getName(), player.getName(), group);
+    }
+    
+    /**
+     * Gets the list of groups that this player has
+     * @param world World name
+     * @param player Player name
+     * @return Array of groups
+     */
+    public String[] getPlayerGroups(String world, String player) {
+    	return perms.getPlayerGroups(world, player);
+    }
+
+    /**
+     * Gets the list of groups that this player has
+     * @param world World Object
+     * @param player Player name
+     * @return Array of groups
+     */
+    public String[] getPlayerGroups(World world, String player) {
+        return getPlayerGroups(world.getName(), player);
+    }
+
+    /**
+     * Gets the list of groups that this player has
+     * @param player Player Object
+     * @return Array of groups
+     */
+    public String[] getPlayerGroups(Player player) {
+        return getPlayerGroups(player.getWorld().getName(), player.getName());
+    }
+    
+    /**
+     * Gets players primary group
+     * @param world World name
+     * @param player Player name
+     * @return Players primary group
+     */
+    public String getPrimaryGroup(String world, String player) {
+    	return perms.getPrimaryGroup(world, player);
+    }
+    
+    /**
+     * Gets players primary group
+     * @param world World Object
+     * @param player Player name
+     * @return Players primary group
+     */
+    public String getPrimaryGroup(World world, String player) {
+        return getPrimaryGroup(world.getName(), player);
+    }
+
+    /**
+     * Get players primary group
+     * @param player Player Object
+     * @return Players primary group
+     */
+    public String getPrimaryGroup(Player player) {
+        return getPrimaryGroup(player.getWorld().getName(), player.getName());
+    }
+    
+    /**
+     * Returns a list of all known groups
+     * @return an Array of String of all groups
+     */
+    public String[] getGroups() {
+    	return perms.getGroups();
     }
 }

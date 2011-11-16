@@ -15,6 +15,7 @@ import de.bananaco.permissions.info.InfoReader;
 
 import net.milkbowl.vault.Vault;
 import net.milkbowl.vault.chat.Chat;
+import net.milkbowl.vault.permission.Permission;
 
 public class Chat_bPermissions extends Chat {
 	private static final Logger log = Logger.getLogger("Minecraft");
@@ -23,7 +24,8 @@ public class Chat_bPermissions extends Chat {
 	InfoReader chat;
 	private PermissionServerListener permissionServerListener = null;
 
-	public Chat_bPermissions(Vault plugin) {
+	public Chat_bPermissions(Vault plugin, Permission perms) {
+		super(perms);
 		this.plugin = plugin;
 
 		permissionServerListener = new PermissionServerListener(this);
@@ -35,12 +37,12 @@ public class Chat_bPermissions extends Chat {
 		if (chat == null) {
 			Plugin p = plugin.getServer().getPluginManager().getPlugin("bPermissions");
 			if (p != null) {
-				Permissions perms = (Permissions) p;
+				Permissions permissions = (Permissions) p;
 				Field f;
 				try {
-					f = perms.getClass().getField(name);
+					f = permissions.getClass().getField(name);
 					f.setAccessible(true);
-					chat = (InfoReader) f.get(perms);
+					chat = (InfoReader) f.get(permissions);
 				} catch (SecurityException e) {
 					return;
 				} catch (NoSuchFieldException e) {

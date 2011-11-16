@@ -14,6 +14,7 @@ import org.bukkit.plugin.PluginManager;
 
 import net.D3GN.MiracleM4n.mChat.mChatAPI;
 import net.milkbowl.vault.chat.Chat;
+import net.milkbowl.vault.permission.Permission;
 
 public class Chat_mChat extends Chat {
 	private static final Logger log = Logger.getLogger("Minecraft");
@@ -23,7 +24,8 @@ public class Chat_mChat extends Chat {
 	private mChatAPI mChat = null;
 	private PermissionServerListener permissionServerListener = null;
 	
-	public Chat_mChat(Plugin plugin) {
+	public Chat_mChat(Plugin plugin, Permission permissions) {
+		super(permissions);
 		this.plugin = plugin;
 		pluginManager = this.plugin.getServer().getPluginManager();
 		

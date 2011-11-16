@@ -81,38 +81,38 @@ public class Vault extends JavaPlugin {
 	 * Attempts to load Chat Addons
 	 */
 	private void loadChat() {
-
+		Permission perms = getServer().getServicesManager().getRegistration(Permission.class).getProvider();
 		// Try to load PermissionsEx
 		if (packageExists(new String[] { "ru.tehkode.permissions.bukkit.PermissionsEx" })) {
-			Chat eChat = new Chat_PermissionsEx(this);
+			Chat eChat = new Chat_PermissionsEx(this, perms);
 			getServer().getServicesManager().register(Chat.class, eChat, this, ServicePriority.Highest);
 			log.info(String.format("[%s][Chat] PermissionsEx found: %s", getDescription().getName(), eChat.isEnabled() ? "Loaded" : "Waiting"));
 		}
 
 		//Try loading mChat
 		if (packageExists(new String[] {"net.D3GN.MiracleM4n.mChat"} )) {
-			Chat mChat = new Chat_mChat(this);
+			Chat mChat = new Chat_mChat(this, perms);
 			getServer().getServicesManager().register(Chat.class, mChat, this, ServicePriority.Highest);
 			log.info(String.format("[%s][Chat] mChat found: %s", getDescription().getName(), mChat.isEnabled() ? "Loaded" : "Waiting"));
 		}
 
 		//try loading bPermissions
 		if (packageExists(new String[] {"de.bananaco.permissions.worlds.WorldPermissionsManager"})) {
-			Chat bPerms = new Chat_bPermissions(this);
+			Chat bPerms = new Chat_bPermissions(this, perms);
 			getServer().getServicesManager().register(Chat.class, bPerms, this, ServicePriority.High);
 			log.info(String.format("[%s][Chat] bPermissions found: %s", getDescription().getName(), bPerms.isEnabled() ? "Loaded" : "Waiting"));
 		}
 
 		// Try to load GroupManager
 		if (packageExists(new String[] { "org.anjocaido.groupmanager.GroupManager" })) {
-			Chat gPerms = new Chat_GroupManager(this);
+			Chat gPerms = new Chat_GroupManager(this, perms);
 			getServer().getServicesManager().register(Chat.class, gPerms, this, ServicePriority.High);
 			log.info(String.format("[%s][Chat] GroupManager found: %s", getDescription().getName(), gPerms.isEnabled() ? "Loaded" : "Waiting"));
 		}
 
 		// Try to load Permissions 3 (Yeti)
 		if (packageExists(new String[] { "com.nijiko.permissions.ModularControl" })) {
-			Chat nPerms = new Chat_Permissions3(this);
+			Chat nPerms = new Chat_Permissions3(this, perms);
 			getServer().getServicesManager().register(Chat.class, nPerms, this, ServicePriority.High);
 			log.info(String.format("[%s][Chat] Permissions 3 (Yeti) found: %s", getDescription().getName(), nPerms.isEnabled() ? "Loaded" : "Waiting"));
 		}

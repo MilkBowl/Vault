@@ -14,6 +14,7 @@ import ru.tehkode.permissions.PermissionGroup;
 import ru.tehkode.permissions.PermissionUser;
 import ru.tehkode.permissions.bukkit.PermissionsEx;
 import net.milkbowl.vault.chat.Chat;
+import net.milkbowl.vault.permission.Permission;
 
 public class Chat_PermissionsEx extends Chat {
 	private static final Logger log = Logger.getLogger("Minecraft");
@@ -24,7 +25,8 @@ public class Chat_PermissionsEx extends Chat {
     private PermissionsEx chat = null;
     private PermissionServerListener permissionServerListener = null;
 
-    public Chat_PermissionsEx(Plugin plugin) {
+    public Chat_PermissionsEx(Plugin plugin, Permission permissions) {
+    	super(permissions);
         this.plugin = plugin;
         pluginManager = this.plugin.getServer().getPluginManager();
 

@@ -14,6 +14,7 @@ import com.nijiko.permissions.PermissionHandler;
 import com.nijikokun.bukkit.Permissions.Permissions;
 
 import net.milkbowl.vault.chat.Chat;
+import net.milkbowl.vault.permission.Permission;
 
 public class Chat_Permissions3 extends Chat {
 	private static final Logger log = Logger.getLogger("Minecraft");
@@ -25,7 +26,8 @@ public class Chat_Permissions3 extends Chat {
 	private Permissions chat = null;
 	private PermissionServerListener permissionServerListener = null;
 
-	public Chat_Permissions3(Plugin plugin) {
+	public Chat_Permissions3(Plugin plugin, Permission permissions) {
+		super(permissions);
 		this.plugin = plugin;
 		pluginManager = this.plugin.getServer().getPluginManager();
 
