@@ -25,6 +25,8 @@ import java.util.Set;
 import net.milkbowl.vault.Vault;
 import net.milkbowl.vault.permission.Permission;
 
+import org.bukkit.Bukkit;
+import org.bukkit.World;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event.Priority;
 import org.bukkit.event.Event.Type;
@@ -34,13 +36,14 @@ import org.bukkit.event.server.ServerListener;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.PluginManager;
 
-import com.nijiko.permissions.PermissionHandler;
+import com.nijiko.permissions.Group;
+import com.nijiko.permissions.ModularControl;
 import com.nijikokun.bukkit.Permissions.Permissions;
 
 public class Permission_Permissions3 extends Permission {
 
     private String name = "Permissions 3 (Yeti)";
-    private PermissionHandler perms;
+    private ModularControl perms;
     private PluginManager pluginManager = null;
     private Permissions permission = null;
     private PermissionServerListener permissionServerListener = null;
@@ -60,7 +63,7 @@ public class Permission_Permissions3 extends Permission {
             if (perms != null) {
                 if (perms.isEnabled() && perms.getDescription().getVersion().startsWith("3")) {
                     permission = (Permissions) perms;
-                    this.perms = permission.getHandler();
+                    this.perms = (ModularControl) permission.getHandler();
                     log.info(String.format("[%s][Permission] %s hooked.", plugin.getDescription().getName(), name));
                 }
             }
@@ -84,10 +87,11 @@ public class Permission_Permissions3 extends Permission {
     private class PermissionServerListener extends ServerListener {
         public void onPluginEnable(PluginEnableEvent event) {
             if (permission == null) {
-                Plugin perms = event.getPlugin();
-                if(perms.getDescription().getName().equals("Permissions") && perms.getDescription().getVersion().startsWith("3")) {
-                    if (perms.isEnabled()) {
-                        permission = (Permissions) perms;
+                Plugin permi = event.getPlugin();
+                if(permi.getDescription().getName().equals("Permissions") && permi.getDescription().getVersion().startsWith("3")) {
+                    if (permi.isEnabled()) {
+                        permission = (Permissions) permi;
+                        perms = (ModularControl) permission.getHandler();
                         log.info(String.format("[%s][Permission] %s hooked.", plugin.getDescription().getName(), name));
                     }
                 }
@@ -98,6 +102,7 @@ public class Permission_Permissions3 extends Permission {
             if (permission != null) {
                 if (event.getPlugin().getDescription().getName().equals("Permissions")) {
                     permission = null;
+                    perms = null;
                     log.info(String.format("[%s][Permission] %s un-hooked.", plugin.getDescription().getName(), name));
                 }
             }
@@ -111,14 +116,38 @@ public class Permission_Permissions3 extends Permission {
 
     @Override
     public boolean playerAddGroup(String worldName, String playerName, String groupName) {
-        // Not certain if this is possible in P3
-        return false;
+    	if (worldName == null)
+    		throw new UnsupportedOperationException("Permissions 3 does not support null world values.");
+    	
+    	Group g = perms.getGroupObject(worldName, groupName);
+    	if (g == null) {
+    		return false;
+    	}
+    	try {
+			perms.safeGetUser(worldName, playerName).addParent(g);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return false;
+		}
+        return true;
     }
 
     @Override
     public boolean playerRemoveGroup(String worldName, String playerName, String groupName) {
-        // Not certain if this is possible in P3
-        return false;
+    	if (worldName == null)
+    		throw new UnsupportedOperationException("Permissions 3 does not support null world values.");
+    	
+    	Group g = perms.getGroupObject(worldName, groupName);
+    	if (g == null) {
+    		return false;
+    	}
+        try {
+			perms.safeGetUser(worldName, playerName).removeParent(g);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return false;
+		}
+        return true;
     }
 
     @Override
@@ -135,17 +164,31 @@ public class Permission_Permissions3 extends Permission {
 
     @Override
     public boolean groupAdd(String worldName, String groupName, String permission) {
-        return false;
+    	if (worldName == null)
+    		throw new UnsupportedOperationException("Permissions 3 does not support null world values.");
+    	
+    	perms.addGroupPermission(worldName, groupName, permission);
+        return true;
     }
 
     @Override
     public boolean groupRemove(String worldName, String groupName, String permission) {
-        return false;
+    	if (worldName == null)
+    		throw new UnsupportedOperationException("Permissions 3 does not support null world values.");
+    	perms.removeGroupPermission(worldName, groupName, permission);
+        return true;
     }
 
     @Override
     public boolean groupHas(String worldName, String groupName, String permission) {
-    	return false;
+    	if (worldName == null)
+    		return false;
+    	try {
+			return perms.safeGetGroup(worldName, groupName).hasPermission(permission);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return false;
+		}
     }
 
     @Override
@@ -170,37 +213,39 @@ public class Permission_Permissions3 extends Permission {
 
     @Override
     public boolean playerAddTransient(String world, String player, String permission) {
-        /*try {
-            perms.safeGetUser(world, player).addTimedPermission(permission, 0);
+    	if (world == null)
+    		throw new UnsupportedOperationException("Permissions 3 does not support null world values.");
+    	
+        try {
+            perms.safeGetUser(world, player).addTransientPermission(permission);
             return true;
         } catch(Exception e) {
             return false;
-        } */
-        return false;
+        }
     }
 
 	@Override
 	public boolean playerRemoveTransient(String world, String player, String permission) {
-		/*
+		if (world == null)
+	    	throw new UnsupportedOperationException("Permissions 3 does not support null world values.");
+
 		try {
-			perms.safeGetUser(world, player).removeTimedPermission(permission);
+			perms.safeGetUser(world, player).removeTransientPermission(permission);
 			return true;
 		} catch (Exception e) {
 			return false;
 		}
-		*/
-		return false;
 	}
 
 	@Override
 	public String[] getGroups() {
 		
-		Set<String> groupNames = new HashSet<String>();/*
+		Set<String> groupNames = new HashSet<String>();
 		for (World world : Bukkit.getServer().getWorlds()) {
 			for (Group group : perms.getGroups(world.getName())) {
 				groupNames.add(group.getName());
 			}
-		}*/
+		}
 		return groupNames.toArray(new String[0]);
 	}
 }
