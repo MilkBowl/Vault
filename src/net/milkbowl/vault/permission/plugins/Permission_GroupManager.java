@@ -9,6 +9,8 @@ import net.milkbowl.vault.permission.Permission;
 
 import org.anjocaido.groupmanager.GroupManager;
 import org.anjocaido.groupmanager.data.Group;
+import org.anjocaido.groupmanager.data.User;
+import org.anjocaido.groupmanager.dataholder.OverloadedWorldHolder;
 import org.anjocaido.groupmanager.permissions.AnjoPermissionsHandler;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
@@ -113,27 +115,71 @@ public class Permission_GroupManager extends Permission {
 
     @Override
     public boolean playerAdd(String worldName, String playerName, String permission) {
-        throw new UnsupportedOperationException(getName() + " cannot modify permissions.");
+        OverloadedWorldHolder owh = groupManager.getWorldsHolder().getWorldData(worldName);
+        if (owh == null)
+        	return false;
+        
+        User user = owh.getUser(playerName);
+        if (user == null)
+        	return false;
+        
+        user.addPermission(permission);
+        return true;
     }
 
     @Override
     public boolean playerRemove(String worldName, String playerName, String permission) {
-        throw new UnsupportedOperationException(getName() + " cannot modify permissions.");
+        OverloadedWorldHolder owh = groupManager.getWorldsHolder().getWorldData(worldName);
+        if (owh == null)
+        	return false;
+        
+        User user = owh.getUser(playerName);
+        if (user == null)
+        	return false;
+        
+        user.removePermission(permission);
+        return true;
     }
 
     @Override
     public boolean groupHas(String worldName, String groupName, String permission) {
-        return false;
+    	OverloadedWorldHolder owh = groupManager.getWorldsHolder().getWorldData(worldName);
+    	if (owh == null)
+    		return false;
+        
+    	Group group = owh.getGroup(groupName);
+    	if (group == null)
+    		return false;
+    	
+    	return group.hasSamePermissionNode(permission);
     }
 
     @Override
     public boolean groupAdd(String worldName, String groupName, String permission) {
-        throw new UnsupportedOperationException(getName() + " cannot modify permissions.");
+    	OverloadedWorldHolder owh = groupManager.getWorldsHolder().getWorldData(worldName);
+    	if (owh == null)
+    		return false;
+        
+    	Group group = owh.getGroup(groupName);
+    	if (group == null)
+    		return false;
+    	
+    	group.addPermission(permission);
+    	return true;
     }
 
     @Override
     public boolean groupRemove(String worldName, String groupName, String permission) {
-        throw new UnsupportedOperationException(getName() + " cannot modify permissions.");
+    	OverloadedWorldHolder owh = groupManager.getWorldsHolder().getWorldData(worldName);
+    	if (owh == null)
+    		return false;
+        
+    	Group group = owh.getGroup(groupName);
+    	if (group == null)
+    		return false;
+    	
+    	group.removePermission(permission);
+    	return true;
     }
 
     @Override
@@ -153,7 +199,7 @@ public class Permission_GroupManager extends Permission {
 
     @Override
     public boolean playerRemoveGroup(String worldName, String playerName, String groupName) {
-        return false;
+    	return false;
     }
 
     @Override
