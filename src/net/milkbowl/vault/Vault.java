@@ -27,6 +27,7 @@ import net.milkbowl.vault.chat.plugins.Chat_GroupManager;
 import net.milkbowl.vault.chat.plugins.Chat_Permissions3;
 import net.milkbowl.vault.chat.plugins.Chat_PermissionsEx;
 import net.milkbowl.vault.chat.plugins.Chat_bPermissions;
+import net.milkbowl.vault.chat.plugins.Chat_iChat;
 import net.milkbowl.vault.chat.plugins.Chat_mChat;
 import net.milkbowl.vault.economy.Economy;
 import net.milkbowl.vault.economy.plugins.Economy_3co;
@@ -115,6 +116,13 @@ public class Vault extends JavaPlugin {
 			Chat nPerms = new Chat_Permissions3(this, perms);
 			getServer().getServicesManager().register(Chat.class, nPerms, this, ServicePriority.High);
 			log.info(String.format("[%s][Chat] Permissions 3 (Yeti) found: %s", getDescription().getName(), nPerms.isEnabled() ? "Loaded" : "Waiting"));
+		}
+		
+		// Try to load iChat
+		if (packageExists(new String[] { "ru.tehkode.permissions.bukkit.PermissionsEx" })) {
+			Chat iChat = new Chat_iChat(this, perms);
+			getServer().getServicesManager().register(Chat.class, iChat, this, ServicePriority.Lowest);
+			log.info(String.format("[%s][Chat] PermissionsEx found: %s", getDescription().getName(), iChat.isEnabled() ? "Loaded" : "Waiting"));
 		}
 	}
 
