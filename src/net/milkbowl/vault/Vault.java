@@ -119,7 +119,7 @@ public class Vault extends JavaPlugin {
 		}
 		
 		// Try to load iChat
-		if (packageExists(new String[] { "ru.tehkode.permissions.bukkit.PermissionsEx" })) {
+		if (packageExists(new String[] { "net.TheDgtl.iChat.iChat" })) {
 			Chat iChat = new Chat_iChat(this, perms);
 			getServer().getServicesManager().register(Chat.class, iChat, this, ServicePriority.Lowest);
 			log.info(String.format("[%s][Chat] PermissionsEx found: %s", getDescription().getName(), iChat.isEnabled() ? "Loaded" : "Waiting"));
