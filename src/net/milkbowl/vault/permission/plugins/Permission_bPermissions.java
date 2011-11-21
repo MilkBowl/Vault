@@ -91,12 +91,28 @@ public class Permission_bPermissions extends Permission {
 
 	@Override
 	public boolean playerAdd(String world, String player, String permission) {
-		throw new UnsupportedOperationException("Player specific permissions are not supported!");
+		if (world == null)
+			return false;
+		
+		PermissionSet set = perms.getPermissionSet(world);
+		if (set == null)
+			return false;
+	
+		set.addGroup(player, "p:" + permission);
+		return true;
 	}
 
 	@Override
 	public boolean playerRemove(String world, String player, String permission) {
-		throw new UnsupportedOperationException("Player specific permissions are not supported!");
+		if (world == null)
+			return false;
+		
+		PermissionSet set = perms.getPermissionSet(world);
+		if (set == null)
+			return false;
+		
+		set.removeGroup(player, "p:" + permission);
+		return true;
 	}
 
 	// use superclass implementation of playerAddTransient() and playerRemoveTransient()
