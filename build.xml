@@ -1,5 +1,5 @@
 <?xml version="1.0" ?>
-<project default="main">
+<project default="main" xmlns:artifact="antlib:org.apache.maven.artifact.ant">
 
     <property environment="env"/>
 
@@ -7,7 +7,7 @@
         <fileset dir="lib" includes="**/*.jar"/>
     </path>
 	
-    <target name="main" depends="clean, compile, compress, javadoc" description="Main target">
+    <target name="main" depends="clean, compile, compress, maven, javadoc" description="Main target">
         <echo>Building the .jar file.</echo>
     </target>
 	
@@ -56,4 +56,12 @@
 		</bottom>
 	</javadoc>
   </target>
+
+  <target name ="maven" depends="compress">
+  	<artifact:install file="Vault.jar" pomRefId="maven_pom"/>
+  </target>
+
+  <artifact:pom id="maven_pom" file="pom.xml"/>
+  <path id="maven-ant-tasks.classpath" path="lib/maven-ant-tasks-2.1.3.jar" />
+  <typedef resource="org/apache/maven/artifact/ant/antlib.xml" uri="antlib:org.apache.maven.artifact.ant" classpathref="maven-ant-tasks.classpath" />
 </project>
