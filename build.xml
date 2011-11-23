@@ -7,7 +7,7 @@
         <fileset dir="lib" includes="**/*.jar"/>
     </path>
 	
-    <target name="main" depends="clean, compile, compress, maven, javadoc" description="Main target">
+    <target name="main" depends="clean, compile, compress, javadoc" description="Main target">
         <echo>Building the .jar file.</echo>
     </target>
 	
@@ -57,7 +57,7 @@
 	</javadoc>
   </target>
 
-  <target name ="maven" depends="compress">
+  <target name ="main_maven" depends="main" description="Main target + maven install">
   	<artifact:install file="Vault.jar" pomRefId="maven_pom"/>
   </target>
 
