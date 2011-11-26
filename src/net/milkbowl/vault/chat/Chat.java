@@ -5,6 +5,10 @@ import net.milkbowl.vault.permission.Permission;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
 
+/**
+ * The main Chat API - allows for Prefix/Suffix nodes along with generic Info nodes if the linked Chat system supports them
+ *
+ */
 public abstract class Chat {
 	
 	private Permission perms;

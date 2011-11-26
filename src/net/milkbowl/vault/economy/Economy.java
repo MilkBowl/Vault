@@ -19,6 +19,10 @@
 
 package net.milkbowl.vault.economy;
 
+/**
+ * The main economy API
+ *
+ */
 public interface Economy {
 
     /**

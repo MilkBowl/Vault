@@ -28,6 +28,10 @@ import org.bukkit.entity.Player;
 import org.bukkit.permissions.PermissionAttachment;
 import org.bukkit.permissions.PermissionAttachmentInfo;
 
+/**
+ * The main Permission API - allows for group and player based permission tests
+ *
+ */
 public abstract class Permission {
 
 	protected static final Logger log = Logger.getLogger("Minecraft");
