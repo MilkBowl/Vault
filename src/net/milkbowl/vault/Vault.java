@@ -34,6 +34,7 @@ import net.milkbowl.vault.economy.plugins.Economy_3co;
 import net.milkbowl.vault.economy.plugins.Economy_BOSE6;
 import net.milkbowl.vault.economy.plugins.Economy_BOSE7;
 import net.milkbowl.vault.economy.plugins.Economy_Essentials;
+import net.milkbowl.vault.economy.plugins.Economy_MineConomy;
 import net.milkbowl.vault.economy.plugins.Economy_MultiCurrency;
 import net.milkbowl.vault.economy.plugins.Economy_iConomy4;
 import net.milkbowl.vault.economy.plugins.Economy_iConomy5;
@@ -136,7 +137,14 @@ public class Vault extends JavaPlugin {
 			getServer().getServicesManager().register(Economy.class, econ, this, ServicePriority.Normal);
 			log.info(String.format("[%s][Economy] MultiCurrency found: %s", getDescription().getName(), econ.isEnabled() ? "Loaded" : "Waiting"));
 		}
-
+		
+		//Try Loading MineConomy
+		if (packageExists(new String[] { "me.mjolnir.mineconomy.MineConomy" })) {
+			Economy econ = new Economy_MineConomy(this);
+			getServer().getServicesManager().register(Economy.class, econ, this, ServicePriority.Normal);
+			log.info(String.format("[%s][Economy] MineConomy found: %s", getDescription().getName(), econ.isEnabled() ? "Loaded" : "Waiting"));
+			
+		}
 		// Try to load 3co
 		if (packageExists(new String[] { "me.ic3d.eco.ECO" })) {
 			Economy econ = new Economy_3co(this);
