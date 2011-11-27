@@ -36,6 +36,7 @@ import net.milkbowl.vault.economy.plugins.Economy_BOSE7;
 import net.milkbowl.vault.economy.plugins.Economy_Essentials;
 import net.milkbowl.vault.economy.plugins.Economy_MineConomy;
 import net.milkbowl.vault.economy.plugins.Economy_MultiCurrency;
+import net.milkbowl.vault.economy.plugins.Economy_eWallet;
 import net.milkbowl.vault.economy.plugins.Economy_iConomy4;
 import net.milkbowl.vault.economy.plugins.Economy_iConomy5;
 import net.milkbowl.vault.economy.plugins.Economy_iConomy6;
@@ -145,6 +146,14 @@ public class Vault extends JavaPlugin {
 			log.info(String.format("[%s][Economy] MineConomy found: %s", getDescription().getName(), econ.isEnabled() ? "Loaded" : "Waiting"));
 			
 		}
+		
+		//Try loading eWallet
+		if (packageExists(new String[] { "me.ethan.eWallet.ECO" })) {
+			Economy econ = new Economy_eWallet(this);
+			getServer().getServicesManager().register(Economy.class, econ, this, ServicePriority.Normal);
+			log.info(String.format("[%s][Economy] eWallet found: %s", getDescription().getName(), econ.isEnabled() ? "Loaded" : "Waiting"));
+		}
+		
 		// Try to load 3co
 		if (packageExists(new String[] { "me.ic3d.eco.ECO" })) {
 			Economy econ = new Economy_3co(this);
