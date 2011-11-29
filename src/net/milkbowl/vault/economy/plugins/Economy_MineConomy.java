@@ -126,31 +126,36 @@ public class Economy_MineConomy implements Economy {
 
 	@Override
 	public EconomyResponse createBank(String name, String player) {
-		return new EconomyResponse(0, 0, ResponseType.NOT_IMPLEMENTED, "3co does not support bank accounts!");
+		return new EconomyResponse(0, 0, ResponseType.NOT_IMPLEMENTED, "MineConomy does not support bank accounts!");
 	}
 
 	@Override
 	public EconomyResponse bankHas(String name, double amount) {
-		return new EconomyResponse(0, 0, ResponseType.NOT_IMPLEMENTED, "3co does not support bank accounts!");
+		return new EconomyResponse(0, 0, ResponseType.NOT_IMPLEMENTED, "MineConomy does not support bank accounts!");
 	}
 
 	@Override
 	public EconomyResponse bankWithdraw(String name, double amount) {
-		return new EconomyResponse(0, 0, ResponseType.NOT_IMPLEMENTED, "3co does not support bank accounts!");
+		return new EconomyResponse(0, 0, ResponseType.NOT_IMPLEMENTED, "MineConomy does not support bank accounts!");
 	}
 
 	@Override
 	public EconomyResponse bankDeposit(String name, double amount) {
-		return new EconomyResponse(0, 0, ResponseType.NOT_IMPLEMENTED, "3co does not support bank accounts!");
+		return new EconomyResponse(0, 0, ResponseType.NOT_IMPLEMENTED, "MineConomy does not support bank accounts!");
 	}
 	
 	@Override
 	public EconomyResponse isBankOwner(String name, String playerName) {
-		return new EconomyResponse(0, 0, ResponseType.NOT_IMPLEMENTED, "3co does not support bank accounts!");
+		return new EconomyResponse(0, 0, ResponseType.NOT_IMPLEMENTED, "MineConomy does not support bank accounts!");
 	}
 
 	@Override
 	public EconomyResponse isBankMember(String name, String playerName) {
-		return new EconomyResponse(0, 0, ResponseType.NOT_IMPLEMENTED, "3co does not support bank accounts!");
+		return new EconomyResponse(0, 0, ResponseType.NOT_IMPLEMENTED, "MineConomy does not support bank accounts!");
+	}
+
+	@Override
+	public EconomyResponse bankBalance(String name) {
+		return new EconomyResponse(0, 0, ResponseType.NOT_IMPLEMENTED, "MineConomy does not support bank accounts!");
 	}
 }

@@ -198,4 +198,9 @@ public class Economy_iConomy5 implements Economy {
 	public EconomyResponse isBankMember(String name, String playerName) {
 		return new EconomyResponse(0, 0, ResponseType.NOT_IMPLEMENTED, "iConomy5 does not support single bank accounts!");
 	}
+
+	@Override
+	public EconomyResponse bankBalance(String name) {
+		return new EconomyResponse(0, 0, ResponseType.NOT_IMPLEMENTED, "iConomy5 does not support single bank accounts!");
+	}
 }

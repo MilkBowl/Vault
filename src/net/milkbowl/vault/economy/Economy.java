@@ -85,6 +85,13 @@ public interface Economy {
     public EconomyResponse createBank(String name, String player);
     
     /**
+     * Returns the amount the bank has
+     * @param name
+     * @return
+     */
+    public EconomyResponse bankBalance(String name);
+    
+    /**
      * Returns true or false whether the bank has the amount specified
      * @param name
      * @param amount

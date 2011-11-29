@@ -160,4 +160,9 @@ public class Economy_eWallet implements Economy {
 	public EconomyResponse isBankMember(String name, String playerName) {
 		return new EconomyResponse(0, 0, ResponseType.NOT_IMPLEMENTED, "3co does not support bank accounts!");
 	}
+
+	@Override
+	public EconomyResponse bankBalance(String name) {
+		return new EconomyResponse(0, 0, ResponseType.NOT_IMPLEMENTED, "3co does not support bank accounts!");
+	}
 }

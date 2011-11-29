@@ -264,7 +264,16 @@ public class Economy_BOSE7 implements Economy {
 		} else
 			return new EconomyResponse(0, 0, ResponseType.FAILURE, "That player is not a bank member!");
 	}
+	
+	@Override
+	public EconomyResponse bankBalance(String name) {
+		if (!economy.bankExists(name))
+			return new EconomyResponse(0, 0, ResponseType.FAILURE, "That bank does not exist!");
 
+		double bankMoney = economy.getBankMoney(name);
+		return new EconomyResponse(0, bankMoney, ResponseType.SUCCESS, null);
+	}
+	
 	@Override
 	public boolean has(String playerName, double amount) {
 		return getBalance(playerName) >= amount;

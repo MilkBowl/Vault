@@ -189,4 +189,12 @@ public class Economy_iConomy6 implements Economy {
 		return new EconomyResponse(0, 0, ResponseType.NOT_IMPLEMENTED, "iConomy 6 does not support Bank members.");
 	}
 
+	@Override
+	public EconomyResponse bankBalance(String name) {
+		if (!accounts.exists(name))
+			return new EconomyResponse(0, 0, ResponseType.FAILURE, "There is no bank account with that name");
+		else
+			return new EconomyResponse(0, accounts.get(name).getHoldings().getBalance(), ResponseType.SUCCESS, null);
+	}
+
 }
