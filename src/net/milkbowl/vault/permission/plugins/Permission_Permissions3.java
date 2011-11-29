@@ -42,7 +42,7 @@ import com.nijikokun.bukkit.Permissions.Permissions;
 
 public class Permission_Permissions3 extends Permission {
 
-    private String name = "Permissions 3 (Yeti)";
+    private String name = "Permissions3";
     private ModularControl perms;
     private PluginManager pluginManager = null;
     private Permissions permission = null;
