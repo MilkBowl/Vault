@@ -117,7 +117,7 @@ public class Permission_Permissions3 extends Permission {
     @Override
     public boolean playerAddGroup(String worldName, String playerName, String groupName) {
     	if (worldName == null)
-    		throw new UnsupportedOperationException("Permissions 3 does not support null world values.");
+    		worldName = "*";
     	
     	Group g = perms.getGroupObject(worldName, groupName);
     	if (g == null) {
@@ -135,7 +135,7 @@ public class Permission_Permissions3 extends Permission {
     @Override
     public boolean playerRemoveGroup(String worldName, String playerName, String groupName) {
     	if (worldName == null)
-    		throw new UnsupportedOperationException("Permissions 3 does not support null world values.");
+    		worldName = "*";
     	
     	Group g = perms.getGroupObject(worldName, groupName);
     	if (g == null) {
@@ -165,7 +165,7 @@ public class Permission_Permissions3 extends Permission {
     @Override
     public boolean groupAdd(String worldName, String groupName, String permission) {
     	if (worldName == null)
-    		throw new UnsupportedOperationException("Permissions 3 does not support null world values.");
+    		worldName = "*";
     	
     	perms.addGroupPermission(worldName, groupName, permission);
         return true;
@@ -174,7 +174,7 @@ public class Permission_Permissions3 extends Permission {
     @Override
     public boolean groupRemove(String worldName, String groupName, String permission) {
     	if (worldName == null)
-    		throw new UnsupportedOperationException("Permissions 3 does not support null world values.");
+    		worldName = "*";
     	perms.removeGroupPermission(worldName, groupName, permission);
         return true;
     }
@@ -182,7 +182,7 @@ public class Permission_Permissions3 extends Permission {
     @Override
     public boolean groupHas(String worldName, String groupName, String permission) {
     	if (worldName == null)
-    		return false;
+    		worldName = "*";
     	try {
 			return perms.safeGetGroup(worldName, groupName).hasPermission(permission);
 		} catch (Exception e) {
@@ -212,31 +212,60 @@ public class Permission_Permissions3 extends Permission {
 
 
     @Override
-    public boolean playerAddTransient(String world, String player, String permission) {
-    	if (world == null)
-    		throw new UnsupportedOperationException("Permissions 3 does not support null world values.");
-    	
+    public boolean playerAddTransient(String player, String permission) {
+    	return playerAddTransient(null, player, permission);
+    }
+    
+	@Override
+	public boolean playerAddTransient(Player player, String permission) {
+		return playerAddTransient(null, player.getName(), permission);
+	}
+	
+	@Override
+    public boolean playerAddTransient(String worldName, Player player, String permission) {
+    	return playerAddTransient(worldName, player.getName(), permission);
+    }
+    
+	@Override
+    public boolean playerAddTransient(String worldName, String player, String permission) {
+    	if (worldName == null)
+    		worldName = "*";
         try {
-            perms.safeGetUser(world, player).addTransientPermission(permission);
+            perms.safeGetUser(worldName, player).addTransientPermission(permission);
             return true;
         } catch(Exception e) {
             return false;
         }
     }
+    
+	@Override
+	public boolean playerRemoveTransient(String player, String permission) {
+		return playerRemoveTransient(null, player, permission);
+	}
 
 	@Override
-	public boolean playerRemoveTransient(String world, String player, String permission) {
-		if (world == null)
-	    	throw new UnsupportedOperationException("Permissions 3 does not support null world values.");
-
+	public boolean playerRemoveTransient(Player player, String permission) {
+		return playerRemoveTransient(null, player.getName(), permission);
+	}
+	
+	@Override
+    public boolean playerRemoveTransient(String worldName, Player player, String permission) {
+    	return playerRemoveTransient(worldName, player.getName(), permission);
+    }
+    
+	@Override
+	public boolean playerRemoveTransient(String worldName, String player, String permission) {
+		if (worldName == null)
+			worldName = "*";
+		
 		try {
-			perms.safeGetUser(world, player).removeTransientPermission(permission);
+			perms.safeGetUser(worldName, player).removeTransientPermission(permission);
 			return true;
 		} catch (Exception e) {
 			return false;
 		}
 	}
-
+	
 	@Override
 	public String[] getGroups() {
 		
@@ -247,5 +276,10 @@ public class Permission_Permissions3 extends Permission {
 			}
 		}
 		return groupNames.toArray(new String[0]);
+	}
+
+	@Override
+	public boolean hasSuperPermsCompat() {
+		return false;
 	}
 }

@@ -241,4 +241,9 @@ public class Permission_bPermissions extends Permission {
 	public String[] getGroups() {
 		throw new UnsupportedOperationException("bPermissions does not support server-wide groups");
 	}
+
+	@Override
+	public boolean hasSuperPermsCompat() {
+		return true;
+	}
 }

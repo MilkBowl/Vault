@@ -235,4 +235,9 @@ public class Permission_PermissionsBukkit extends Permission {
 
 		return groupNames.toArray(new String[0]);
 	}
+
+	@Override
+	public boolean hasSuperPermsCompat() {
+		return true;
+	}
 }

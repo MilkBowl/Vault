@@ -224,27 +224,57 @@ public class Permission_PermissionsEx extends Permission {
             return false;
         }
     }
-
+    
     @Override
-    public boolean playerAddTransient(String world, String player, String permission) {
+    public boolean playerAddTransient(String worldName, String player, String permission) {
         PermissionUser pPlayer = PermissionsEx.getPermissionManager().getUser(player);
         if (pPlayer != null) {
-            pPlayer.addTimedPermission(permission, world, 0);
+            pPlayer.addTimedPermission(permission, worldName, 0);
             return true;
         } else {
             return false;
         }
     }
+    
+    @Override
+    public boolean playerAddTransient(String worldName, Player player, String permission) {
+    	return playerAddTransient(worldName, player.getName(), permission);
+    }
+    
+    @Override
+    public boolean playerAddTransient(String player, String permission) {
+    	return playerAddTransient(null, player, permission);
+    }
+    
+    @Override
+    public boolean playerAddTransient(Player player, String permission) {
+    	return playerAddTransient(null, player.getName(), permission);
+    }
 
-	@Override
-	public boolean playerRemoveTransient(String world, String player, String permission) {
+    @Override
+    public boolean playerRemoveTransient(String worldName, String player, String permission) {
 		PermissionUser pPlayer = PermissionsEx.getPermissionManager().getUser(player);
 		if (pPlayer != null) {
-			pPlayer.removeTimedPermission(permission, world);
+			pPlayer.removeTimedPermission(permission, worldName);
 			return true;
 		} else {
 			return false;
 		}
+    }
+    
+    @Override
+    public boolean playerRemoveTransient(Player player, String permission) {
+    	return playerRemoveTransient(null, player.getName(), permission);
+    }
+    
+    @Override
+    public boolean playerRemoveTransient(String worldName, Player player, String permission) {
+    	return playerRemoveTransient(worldName, player.getName(), permission);
+    }
+    
+	@Override
+	public boolean playerRemoveTransient(String player, String permission) {
+		return playerRemoveTransient(null, player, permission);
 	}
 
 	@Override
@@ -257,5 +287,10 @@ public class Permission_PermissionsEx extends Permission {
 			groupNames[i] = groups[i].getName();
 		}
 		return groupNames;
+	}
+
+	@Override
+	public boolean hasSuperPermsCompat() {
+		return true;
 	}
 }

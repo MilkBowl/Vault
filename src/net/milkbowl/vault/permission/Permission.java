@@ -48,7 +48,13 @@ public abstract class Permission {
      * @return Success or Failure
      */
     abstract public boolean isEnabled();
-
+    
+    /**
+     * Returns if the permission system is or attempts to be compatible with super-perms.
+     * @return True if this permission implementation works with super-perms
+     */
+    abstract public boolean hasSuperPermsCompat();
+    
     /**
      * Checks if player has a permission node. (Short for playerHas(...)
      * @param world World name
@@ -151,36 +157,14 @@ public abstract class Permission {
      * @param permission Permission node
      * @return Success or Failure
      */
-    public boolean playerAddTransient(String world, String player, String permission) {
+    public boolean playerAddTransient(String player, String permission) {
 		Player p = plugin.getServer().getPlayer(player);
 		if (p == null) {
 			throw new UnsupportedOperationException(getName() + " does not support offline player transient permissions!");
 		}
-
-		for (PermissionAttachmentInfo paInfo : p.getEffectivePermissions()) {
-			if (paInfo.getAttachment() != null && paInfo.getAttachment().getPlugin().equals(plugin)) {
-				paInfo.getAttachment().setPermission(permission, true);
-				return true;
-			}
-		}
-
-		PermissionAttachment attach = p.addAttachment(plugin);
-		attach.setPermission(permission, true);
-
-		return true;
+		return playerAddTransient(p, permission);
 	}
 
-    
-    /**
-     * Add transient permission to a player.
-     * @param world World Object
-     * @param player Player name
-     * @param permission Permission node
-     * @return Success or Failure
-     */
-    public boolean playerAddTransient(World world, String player, String permission) {
-        return playerAddTransient(world.getName(), player, permission);
-    }
     /**
      * Add transient permission to a player.
      * @param player Player Object
@@ -188,9 +172,71 @@ public abstract class Permission {
      * @return Success or Failure
      */
     public boolean playerAddTransient(Player player, String permission) {
-        return playerAddTransient(player.getWorld().getName(), player.getName(), permission);
+		for (PermissionAttachmentInfo paInfo : player.getEffectivePermissions()) {
+			if (paInfo.getAttachment() != null && paInfo.getAttachment().getPlugin().equals(plugin)) {
+				paInfo.getAttachment().setPermission(permission, true);
+				return true;
+			}
+		}
+
+		PermissionAttachment attach = player.addAttachment(plugin);
+		attach.setPermission(permission, true);
+
+		return true;
     }
 
+    /**
+     * Adds a world specific transient permission to the player - ONLY WORKS IN PEX/P3 - otherwise it defaults to GLOBAL!
+     * @param world
+     * @param player
+     * @param permission
+     * @return
+     */
+    public boolean playerAddTransient(String worldName, Player player, String permission) {
+    	return playerAddTransient(player, permission);
+    }
+    
+    /**
+     * Adds a world specific transient permission to the player - ONLY WORKS IN PEX/P3 - otherwise it defaults to GLOBAL!
+     * @param world
+     * @param player
+     * @param permission
+     * @return
+     */
+    public boolean playerAddTransient(String worldName, String player, String permission) {
+		Player p = plugin.getServer().getPlayer(player);
+		if (p == null) {
+			throw new UnsupportedOperationException(getName() + " does not support offline player transient permissions!");
+		}
+		return playerAddTransient(p, permission);
+    }
+    
+    /**
+     * Removes a world specific transient permission from the player - Only works in PEX/P3 - otherwise it defaults to Global!
+     * @param world
+     * @param player
+     * @param permission
+     * @return
+     */
+	public boolean playerRemoveTransient(String worldName, String player, String permission) {
+		Player p = plugin.getServer().getPlayer(player);
+		if (p == null)
+			return false;
+		
+		return playerRemoveTransient(p, permission);
+	}
+	
+    /**
+     * Removes a world specific transient permission from the player - Only works in PEX/P3 - otherwise it defaults to Global!
+     * @param worldName
+     * @param player
+     * @param permission
+     * @return
+     */
+    public boolean playerRemoveTransient(String worldName, Player player, String permission) {
+    	return playerRemoveTransient(player, permission);
+    }
+    
     /**
      * Remove permission from a player.
      * @param world World name
@@ -231,30 +277,13 @@ public abstract class Permission {
      * @param permission Permission node
      * @return Success or Failure
      */
-	public boolean playerRemoveTransient(String world, String player, String permission) {
+	public boolean playerRemoveTransient(String player, String permission) {
 		Player p = plugin.getServer().getPlayer(player);
 		if (p == null)
 			return false;
 		
-		for (PermissionAttachmentInfo paInfo : p.getEffectivePermissions()) {
-			if (paInfo.getAttachment() != null && paInfo.getAttachment().getPlugin().equals(plugin)) {
-				paInfo.getAttachment().unsetPermission(permission);
-				return true;
-			}
-		}
-		return false;
+		return playerRemoveTransient(p, permission);
 	}
-
-    /**
-     * Remove transient permission from a player.
-     * @param world World name
-     * @param player Player name
-     * @param permission Permission node
-     * @return Success or Failure
-     */
-    public boolean playerRemoveTransient(World world, String player, String permission) {
-        return playerRemoveTransient(world.getName(), player, permission);
-    }
 
     /**
      * Remove transient permission from a player.
@@ -263,7 +292,13 @@ public abstract class Permission {
      * @return Success or Failure
      */
     public boolean playerRemoveTransient(Player player, String permission) {
-        return playerRemoveTransient(player.getWorld().getName(), player.getName(), permission);
+		for (PermissionAttachmentInfo paInfo : player.getEffectivePermissions()) {
+			if (paInfo.getAttachment() != null && paInfo.getAttachment().getPlugin().equals(plugin)) {
+				paInfo.getAttachment().unsetPermission(permission);
+				return true;
+			}
+		}
+		return false;
     }
     
     /**

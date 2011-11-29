@@ -86,4 +86,9 @@ public class Permission_SuperPerms extends Permission {
 	public String[] getGroups() {
 		return new String[0];
 	}
+
+	@Override
+	public boolean hasSuperPermsCompat() {
+		return true;
+	}
 }
