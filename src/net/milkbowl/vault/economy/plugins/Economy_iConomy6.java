@@ -189,4 +189,12 @@ public class Economy_iConomy6 implements Economy {
 		return new EconomyResponse(0, 0, ResponseType.NOT_IMPLEMENTED, "iConomy 6 does not support Bank members.");
 	}
 
+	public EconomyResponse remove(String name, String playerName){
+		if(accounts.remove(name)){
+			return new EconomyResponse(0, 0, ResponseType.SUCCESS, "");
+		}else{
+			return new EconomyResponse(0, 0, ResponseType.FAILURE, "There was an error removing the account");
+		}
+		
+	}
 }

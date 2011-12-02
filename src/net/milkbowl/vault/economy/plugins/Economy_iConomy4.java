@@ -235,4 +235,13 @@ public class Economy_iConomy4 implements Economy {
 	public EconomyResponse isBankMember(String name, String playerName) {
 		return new EconomyResponse(0, 0, ResponseType.NOT_IMPLEMENTED, "iConomy4 does not support bank accounts!");
 	}
+	
+	public EconomyResponse remove(String name, String playerName){
+		iConomy.getBank().getAccount(name).remove();
+		if(iConomy.getBank().hasAccount(name)){
+			return new EconomyResponse(0, 0, ResponseType.FAILURE, "There was an error removing the account");
+		}else{
+			return new EconomyResponse(0, 0, ResponseType.SUCCESS, "");
+		}
+	}
 }
