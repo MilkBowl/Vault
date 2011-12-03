@@ -77,6 +77,11 @@ public class Vault extends JavaPlugin {
 
 	@Override
 	public void onEnable() {
+		try {
+			updateCheck();
+		} catch (Exception e) {
+			// ignore exceptions
+		}
 		// Load Vault Addons
 		loadEconomy();
 		loadPermission();
@@ -333,7 +338,7 @@ public class Vault extends JavaPlugin {
 		}
 	}
 	
-	public void needsUpdate() throws Exception {
+	public void updateCheck() throws Exception {
 		String pluginUrlString = "http://dev.bukkit.org/server-mods/vault/files.rss";
 		try {
 			URL url = new URL(pluginUrlString);
