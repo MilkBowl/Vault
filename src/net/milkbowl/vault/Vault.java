@@ -36,6 +36,7 @@ import net.milkbowl.vault.economy.Economy;
 import net.milkbowl.vault.economy.plugins.Economy_3co;
 import net.milkbowl.vault.economy.plugins.Economy_BOSE6;
 import net.milkbowl.vault.economy.plugins.Economy_BOSE7;
+import net.milkbowl.vault.economy.plugins.Economy_EconXP;
 import net.milkbowl.vault.economy.plugins.Economy_Essentials;
 import net.milkbowl.vault.economy.plugins.Economy_MineConomy;
 import net.milkbowl.vault.economy.plugins.Economy_MultiCurrency;
@@ -214,6 +215,13 @@ public class Vault extends JavaPlugin {
 			getServer().getServicesManager().register(Economy.class, icon6, this, ServicePriority.High);
 			log.info(String.format("[%s][Economy] iConomy 6 found: %s", getDescription().getName(), icon6.isEnabled() ? "Loaded" : "Waiting"));
 		}
+		
+		//Try loading EconXP
+        if (packageExists(new String[] { "ca.agnate.EconXP.EconXP" })) {
+            Economy econ = new Economy_EconXP(this);
+            getServer().getServicesManager().register(Economy.class, econ, this, ServicePriority.Normal);
+            log.info(String.format("[%s][Economy] EconXP found: %s", getDescription().getName(), econ.isEnabled() ? "Loaded" : "Waiting"));
+        }
 	}
 
 	/**
