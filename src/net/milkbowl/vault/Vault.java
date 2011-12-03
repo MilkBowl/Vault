@@ -366,7 +366,6 @@ public class Vault extends JavaPlugin {
 					log.warning("Update Vault at: http://dev.bukkit.org/server-mods/vault");
 				}
 			}
-
 		}
 		catch (Exception localException) {
 		}
