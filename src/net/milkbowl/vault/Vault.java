@@ -19,8 +19,11 @@
 
 package net.milkbowl.vault;
 
+import java.net.URL;
 import java.util.Collection;
 import java.util.logging.Logger;
+
+import javax.xml.parsers.DocumentBuilderFactory;
 
 import net.milkbowl.vault.chat.Chat;
 import net.milkbowl.vault.chat.plugins.Chat_GroupManager;
@@ -55,6 +58,10 @@ import org.bukkit.entity.Player;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.ServicePriority;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
 
 public class Vault extends JavaPlugin {
 
@@ -119,7 +126,7 @@ public class Vault extends JavaPlugin {
 			getServer().getServicesManager().register(Chat.class, nPerms, this, ServicePriority.High);
 			log.info(String.format("[%s][Chat] Permissions 3 (Yeti) found: %s", getDescription().getName(), nPerms.isEnabled() ? "Loaded" : "Waiting"));
 		}
-		
+
 		// Try to load iChat
 		if (packageExists(new String[] { "net.TheDgtl.iChat.iChat" })) {
 			Chat iChat = new Chat_iChat(this, perms);
@@ -138,22 +145,22 @@ public class Vault extends JavaPlugin {
 			getServer().getServicesManager().register(Economy.class, econ, this, ServicePriority.Normal);
 			log.info(String.format("[%s][Economy] MultiCurrency found: %s", getDescription().getName(), econ.isEnabled() ? "Loaded" : "Waiting"));
 		}
-		
+
 		//Try Loading MineConomy
 		if (packageExists(new String[] { "me.mjolnir.mineconomy.MineConomy" })) {
 			Economy econ = new Economy_MineConomy(this);
 			getServer().getServicesManager().register(Economy.class, econ, this, ServicePriority.Normal);
 			log.info(String.format("[%s][Economy] MineConomy found: %s", getDescription().getName(), econ.isEnabled() ? "Loaded" : "Waiting"));
-			
+
 		}
-		
+
 		//Try loading eWallet
 		if (packageExists(new String[] { "me.ethan.eWallet.ECO" })) {
 			Economy econ = new Economy_eWallet(this);
 			getServer().getServicesManager().register(Economy.class, econ, this, ServicePriority.Normal);
 			log.info(String.format("[%s][Economy] eWallet found: %s", getDescription().getName(), econ.isEnabled() ? "Loaded" : "Waiting"));
 		}
-		
+
 		// Try to load 3co
 		if (packageExists(new String[] { "me.ic3d.eco.ECO" })) {
 			Economy econ = new Economy_3co(this);
@@ -325,4 +332,31 @@ public class Vault extends JavaPlugin {
 			return false;
 		}
 	}
+	
+	public void needsUpdate() throws Exception {
+		String pluginUrlString = "http://dev.bukkit.org/server-mods/vault/files.rss";
+		try {
+			URL url = new URL(pluginUrlString);
+			Document doc = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(url.openConnection().getInputStream());
+			doc.getDocumentElement().normalize();
+			NodeList nodes = doc.getElementsByTagName("item");
+			Node firstNode = nodes.item(0);
+			if (firstNode.getNodeType() == 1) {
+				Element firstElement = (Element)firstNode;
+				NodeList firstElementTagName = firstElement.getElementsByTagName("title");
+				Element firstNameElement = (Element) firstElementTagName.item(0);
+				NodeList firstNodes = firstNameElement.getChildNodes();
+				String newVersion = firstNodes.item(0).getNodeValue();
+				String oldVersion = getDescription().getVersion().substring(0, 5);
+				if (!newVersion.contains(oldVersion)) {
+					log.warning(newVersion + " is out! You are running v" + oldVersion);
+					log.warning("Update Vault at: http://dev.bukkit.org/server-mods/vault");
+				}
+			}
+
+		}
+		catch (Exception localException) {
+		}
+	}
 }
+
