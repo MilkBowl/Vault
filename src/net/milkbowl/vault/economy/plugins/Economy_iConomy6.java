@@ -190,7 +190,7 @@ public class Economy_iConomy6 implements Economy {
 	}
 
 	public EconomyResponse remove(String name, String playerName){
-		if(accounts.remove(name)){
+		if(accounts.remove(playerName)){
 			return new EconomyResponse(0, 0, ResponseType.SUCCESS, "");
 		}else{
 			return new EconomyResponse(0, 0, ResponseType.FAILURE, "There was an error removing the account");

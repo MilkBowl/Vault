@@ -237,8 +237,8 @@ public class Economy_iConomy4 implements Economy {
 	}
 	
 	public EconomyResponse remove(String name, String playerName){
-		iConomy.getBank().getAccount(name).remove();
-		if(iConomy.getBank().hasAccount(name)){
+		iConomy.getBank().getAccount(playerName).remove();
+		if(iConomy.getBank().hasAccount(playerName)){
 			return new EconomyResponse(0, 0, ResponseType.FAILURE, "There was an error removing the account");
 		}else{
 			return new EconomyResponse(0, 0, ResponseType.SUCCESS, "");

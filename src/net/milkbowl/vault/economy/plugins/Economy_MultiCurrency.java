@@ -224,4 +224,13 @@ public class Economy_MultiCurrency implements Economy {
 	public EconomyResponse isBankMember(String name, String playerName) {
 		return new EconomyResponse(0, 0, ResponseType.NOT_IMPLEMENTED, "MultiCurrency does not support bank accounts");
 	}
+	
+	public EconomyResponse remove(String name, String playerName){
+		if(CurrencyList.remove(playerName)){
+			return new EconomyResponse(0, 0, ResponseType.SUCCESS, "");
+		}else{
+			return new EconomyResponse(0, 0, ResponseType.FAILURE, "There was an error removing the account");
+		}
+		
+	}
 }

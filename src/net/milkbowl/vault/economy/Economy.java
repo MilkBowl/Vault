@@ -119,4 +119,13 @@ public interface Economy {
      * @return
      */
     public EconomyResponse isBankMember(String name, String playerName);
+    
+    /**
+     * Remove the players bank account if account exists
+     * @param name
+     * @param playerName
+     * @return
+     */
+
+    public EconomyResponse remove(String name, String playerName);
 }

@@ -270,4 +270,13 @@ public class Economy_BOSE6 implements Economy {
 		} else
 			return new EconomyResponse(0, 0, ResponseType.FAILURE, "That player is not a bank member!");
 	}
+	
+	public EconomyResponse remove(String name, String playerName){
+		economy.removeBank(playerName);
+		if(economy.bankExists(playerName)){
+			return new EconomyResponse(0, 0, ResponseType.FAILURE, "There was an error removing the account");
+		}else{
+			return new EconomyResponse(0, 0, ResponseType.SUCCESS, "");
+		}
+	}
 }

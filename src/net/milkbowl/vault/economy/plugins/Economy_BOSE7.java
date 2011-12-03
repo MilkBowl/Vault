@@ -269,4 +269,13 @@ public class Economy_BOSE7 implements Economy {
 	public boolean has(String playerName, double amount) {
 		return getBalance(playerName) >= amount;
 	}
+	
+	public EconomyResponse remove(String name, String playerName){
+		economy.removeBank(playerName);
+		if(economy.bankExists(playerName)){
+			return new EconomyResponse(0, 0, ResponseType.FAILURE, "There was an error removing the account");
+		}else{
+			return new EconomyResponse(0, 0, ResponseType.SUCCESS, "");
+		}
+	}
 }

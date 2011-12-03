@@ -2,5 +2,20 @@
 <classpath>
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.6"/>
+	<classpathentry kind="lib" path="lib/3co.jar"/>
+	<classpathentry kind="lib" path="lib/BOSEconomy6.jar"/>
+	<classpathentry kind="lib" path="lib/BOSEconomy7.jar"/>
+	<classpathentry kind="lib" path="lib/bpermissions.jar"/>
+	<classpathentry kind="lib" path="lib/craftbukkit-0.0.1-SNAPSHOT.jar"/>
+	<classpathentry kind="lib" path="lib/Essentials.jar"/>
+	<classpathentry kind="lib" path="lib/EssentialsGroupManager.jar"/>
+	<classpathentry kind="lib" path="lib/iConomy4.jar"/>
+	<classpathentry kind="lib" path="lib/iConomy5.jar"/>
+	<classpathentry kind="lib" path="lib/iConomy6.jar"/>
+	<classpathentry kind="lib" path="lib/mChat.jar"/>
+	<classpathentry kind="lib" path="lib/MultiCurrency.jar"/>
+	<classpathentry kind="lib" path="lib/Permissions.jar"/>
+	<classpathentry kind="lib" path="lib/PermissionsBukkit-1.2.jar"/>
+	<classpathentry kind="lib" path="lib/PermissionsEx.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
