@@ -56,8 +56,8 @@ public class Chat_iChat extends Chat {
 			if (this.chat.iChat == null) {
 				Plugin chat = plugin.getServer().getPluginManager().getPlugin("iChat");
 				if (chat != null) {
-					this.chat.iChat = ((iChat) plugin).API;
-					log.info(String.format("[%s][Chat] %s hooked.", plugin.getDescription().getName(), "iChat"));
+					this.chat.iChat = ((iChat) chat).API;
+					log.info(String.format("[%s][Chat] %s hooked.", chat.getDescription().getName(), "iChat"));
 				}
 			}
 		}
