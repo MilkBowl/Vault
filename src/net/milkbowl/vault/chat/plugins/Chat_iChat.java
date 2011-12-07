@@ -39,8 +39,8 @@ public class Chat_iChat extends Chat {
 		if (iChat == null) {
 			Plugin chat = plugin.getServer().getPluginManager().getPlugin("iChat");
 			if (chat != null) {
-				iChat = ((iChat) plugin).API;
-				log.info(String.format("[%s][Chat] %s hooked.", plugin.getDescription().getName(), "iChat"));
+				iChat = ((iChat) chat).API;
+				log.info(String.format("[%s][Chat] %s hooked.", chat.getDescription().getName(), "iChat"));
 			}
 		}
 	}
@@ -213,8 +213,7 @@ public class Chat_iChat extends Chat {
 
 	@Override
 	public boolean getGroupInfoBoolean(String world, String group, String node, boolean defaultValue) {
-		// TODO Auto-generated method stub
-		return false;
+	    throw new UnsupportedOperationException("iChat does not support group info nodes!");
 	}
 
 	@Override
