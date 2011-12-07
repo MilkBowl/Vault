@@ -1,8 +1,7 @@
 name: Vault
 main: net.milkbowl.vault.Vault
 version: 1.1.8-b000
-author: Cereal
-softdepend: [ iConomy, BOSEconomy, Essentials, EconXP, eWallet, 3co, MineConomy, MultiCurrency, iChat, mChat, bPermissions, GroupManager, Permissions, PermissionsBukkit, PermissionsEx ]
+author: Cereal, Sleaker
 description: >
              Abstraction Library for Bukkit Plugins
 commands:
