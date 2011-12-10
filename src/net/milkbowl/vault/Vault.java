@@ -72,6 +72,7 @@ public class Vault extends JavaPlugin {
 
     private static final Logger log = Logger.getLogger("Minecraft");
     private Permission perms;
+    private String newVersion;
     
     @Override
     public void onDisable() {
@@ -84,7 +85,7 @@ public class Vault extends JavaPlugin {
     @Override
     public void onEnable() {
         try {
-            String newVersion = updateCheck();
+            newVersion = updateCheck();
             String oldVersion = getDescription().getVersion().substring(0, 5);
             if (!oldVersion.equalsIgnoreCase(newVersion)) {
                 log.warning(newVersion + " is out! You are running " + oldVersion);
@@ -101,6 +102,24 @@ public class Vault extends JavaPlugin {
         getCommand("vault-info").setExecutor(this);
         getCommand("vault-reload").setExecutor(this);
         this.getServer().getPluginManager().registerEvent(Type.PLAYER_JOIN, new VaultPlayerListener(), Priority.Monitor, this);
+        
+        // Schedule to check the version every 30 minutes for an update. Tis is to update the most recent 
+        // version so if an admin reconnects they will be warned about newer versions.
+        this.getServer().getScheduler().scheduleAsyncRepeatingTask(this, new Runnable() {
+
+            @Override
+            public void run() {
+                try {
+                    String version = updateCheck();
+                    setVersion(version);
+                } catch (Exception e) {
+                    // ignore exceptions
+                }
+            }
+            
+        }, 36000, 36000);
+        
+        
         log.info(String.format("[%s] Enabled Version %s", getDescription().getName(), getDescription().getVersion()));
     }
 
@@ -337,7 +356,11 @@ public class Vault extends JavaPlugin {
             return true;
         }
     }
-
+    
+    public synchronized void setVersion(String newVersion) {
+        this.newVersion = newVersion;
+    }
+    
     /**
      * Determines if all packages in a String array are within the Classpath
      * This is the best way to determine if a specific plugin exists and will be
@@ -356,7 +379,7 @@ public class Vault extends JavaPlugin {
             return false;
         }
     }
-
+    
     public String updateCheck() throws Exception {
         String pluginUrlString = "http://dev.bukkit.org/server-mods/vault/files.rss";
         try {
@@ -386,7 +409,6 @@ public class Vault extends JavaPlugin {
             Player player = event.getPlayer();
             if (perms.has(player, "vault.admin")) {
                 try {
-                    String newVersion = updateCheck();
                     String oldVersion = getDescription().getVersion().substring(0, 5);
                     if (!newVersion.contains(oldVersion)) {
                         player.sendMessage(newVersion + " is out! You are running " + oldVersion);
@@ -399,4 +421,5 @@ public class Vault extends JavaPlugin {
         }
     }
 }
+
 
