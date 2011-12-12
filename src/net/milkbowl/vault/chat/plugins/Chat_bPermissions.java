@@ -1,6 +1,5 @@
 package net.milkbowl.vault.chat.plugins;
 
-import java.lang.reflect.Field;
 import java.util.logging.Logger;
 
 import org.bukkit.event.Event.Priority;
@@ -37,21 +36,7 @@ public class Chat_bPermissions extends Chat {
 		if (chat == null) {
 			Plugin p = plugin.getServer().getPluginManager().getPlugin("bPermissions");
 			if (p != null) {
-				Permissions permissions = (Permissions) p;
-				Field f;
-				try {
-					f = permissions.getClass().getField(name);
-					f.setAccessible(true);
-					chat = (InfoReader) f.get(permissions);
-				} catch (SecurityException e) {
-					return;
-				} catch (NoSuchFieldException e) {
-					return;
-				} catch (IllegalArgumentException e) {
-					e.printStackTrace();
-				} catch (IllegalAccessException e) {
-					e.printStackTrace();
-				}
+				chat = Permissions.getInfoReader();
 				log.info(String.format("[%s][Chat] %s hooked.", plugin.getDescription().getName(), "bPermissions"));
 			}
 		}
@@ -68,21 +53,7 @@ public class Chat_bPermissions extends Chat {
 			if (this.chat.chat == null) {
 				Plugin chat = plugin.getServer().getPluginManager().getPlugin("bPermissions");
 				if (chat != null) {
-					Permissions perms = (Permissions) chat;
-					Field f;
-					try {
-						f = perms.getClass().getField(name);
-						f.setAccessible(true);
-						this.chat.chat = (InfoReader) f.get(perms);
-					} catch (SecurityException e) {
-						return;
-					} catch (NoSuchFieldException e) {
-						return;
-					} catch (IllegalArgumentException e) {
-						e.printStackTrace();
-					} catch (IllegalAccessException e) {
-						e.printStackTrace();
-					}
+				    this.chat.chat = Permissions.getInfoReader();
 					log.info(String.format("[%s][Chat] %s hooked.", plugin.getDescription().getName(), "bPermissions"));
 				}
 			}
