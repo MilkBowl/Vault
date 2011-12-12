@@ -84,16 +84,6 @@ public class Vault extends JavaPlugin {
 
     @Override
     public void onEnable() {
-        try {
-            newVersion = updateCheck();
-            String oldVersion = getDescription().getVersion().substring(0, 5);
-            if (!oldVersion.equalsIgnoreCase(newVersion)) {
-                log.warning(newVersion + " is out! You are running " + oldVersion);
-                log.warning("Update Vault at: http://dev.bukkit.org/server-mods/vault");
-            }
-        } catch (Exception e) {
-            // ignore exceptions
-        }
         // Load Vault Addons
         loadEconomy();
         loadPermission();
@@ -103,21 +93,25 @@ public class Vault extends JavaPlugin {
         getCommand("vault-reload").setExecutor(this);
         this.getServer().getPluginManager().registerEvent(Type.PLAYER_JOIN, new VaultPlayerListener(), Priority.Monitor, this);
         
-        // Schedule to check the version every 30 minutes for an update. Tis is to update the most recent 
+        // Schedule to check the version every 30 minutes for an update. This is to update the most recent 
         // version so if an admin reconnects they will be warned about newer versions.
         this.getServer().getScheduler().scheduleAsyncRepeatingTask(this, new Runnable() {
 
             @Override
             public void run() {
                 try {
-                    String version = updateCheck();
-                    setVersion(version);
+                    newVersion = updateCheck();
+                    String oldVersion = getDescription().getVersion().substring(0, 5);
+                    if (!newVersion.contains(oldVersion)) {
+                        log.warning(newVersion + " is out! You are running " + oldVersion);
+                        log.warning("Update Vault at: http://dev.bukkit.org/server-mods/vault");
+                    }
                 } catch (Exception e) {
                     // ignore exceptions
                 }
             }
             
-        }, 36000, 36000);
+        }, 0, 36000);
         
         
         log.info(String.format("[%s] Enabled Version %s", getDescription().getName(), getDescription().getVersion()));
