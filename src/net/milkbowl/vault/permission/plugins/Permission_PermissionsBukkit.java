@@ -188,7 +188,7 @@ public class Permission_PermissionsBukkit extends Permission {
 		if (world != null) {
 			throw new UnsupportedOperationException(getName() + " does not support world based groups.");
 		}
-		return plugin.getServer().dispatchCommand(ccs, "permissions player addgroup " + group + " " + player);
+		return plugin.getServer().dispatchCommand(ccs, "permissions player addgroup " + player + " " + group);
 	}
 
 	@Override
@@ -196,7 +196,7 @@ public class Permission_PermissionsBukkit extends Permission {
 		if (world != null) {
 			throw new UnsupportedOperationException(getName() + " does not support world based groups.");
 		}
-		return plugin.getServer().dispatchCommand(ccs, "permissions player removegroup " + group + " " + player);
+		return plugin.getServer().dispatchCommand(ccs, "permissions player removegroup " + player + " " + group);
 	}
 
 	@Override
