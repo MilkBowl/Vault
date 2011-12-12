@@ -80,7 +80,7 @@ public class Chat_bPermissions extends Chat {
 
 	@Override
 	public String getPlayerPrefix(String world, String player) {
-		return getPlayerInfoString(player, world, "prefix", null);
+	    return chat.getPrefix(player, world);
 	}
 
 	@Override
@@ -90,7 +90,7 @@ public class Chat_bPermissions extends Chat {
 
 	@Override
 	public String getPlayerSuffix(String world, String player) {
-		return getPlayerInfoString(player, world, "suffix", null);
+	    return chat.getSuffix(player, world);
 	}
 
 	@Override
@@ -100,7 +100,7 @@ public class Chat_bPermissions extends Chat {
 
 	@Override
 	public String getGroupPrefix(String world, String group) {
-		return getGroupInfoString(group, world, "prefix", null);
+	    return chat.getGroupPrefix(group, world);
 	}
 
 	@Override
@@ -110,7 +110,7 @@ public class Chat_bPermissions extends Chat {
 
 	@Override
 	public String getGroupSuffix(String world, String group) {
-		return getGroupInfoString(group, world, "suffix", null);
+	    return chat.getGroupSuffix(group, world);
 	}
 
 	@Override
