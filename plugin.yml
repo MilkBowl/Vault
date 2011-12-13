@@ -14,3 +14,4 @@ commands:
     description: Reloads Vault
     usage: |
            /<command> - Reloads Vault
+load: STARTUP
