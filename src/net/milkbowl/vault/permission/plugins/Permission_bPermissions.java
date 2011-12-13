@@ -97,8 +97,8 @@ public class Permission_bPermissions extends Permission {
 		PermissionSet set = perms.getPermissionSet(world);
 		if (set == null)
 			return false;
-	
-		set.addGroup(player, "p:" + permission);
+		
+		set.addPlayerNode(permission, player);
 		return true;
 	}
 
@@ -111,7 +111,7 @@ public class Permission_bPermissions extends Permission {
 		if (set == null)
 			return false;
 		
-		set.removeGroup(player, "p:" + permission);
+		set.removePlayerNode(permission, player);
 		return true;
 	}
 
