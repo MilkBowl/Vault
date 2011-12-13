@@ -24,6 +24,7 @@ import java.util.logging.Logger;
 import net.milkbowl.vault.Vault;
 
 import org.bukkit.World;
+import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.permissions.PermissionAttachment;
 import org.bukkit.permissions.PermissionAttachmentInfo;
@@ -77,6 +78,17 @@ public abstract class Permission {
         return playerHas(world.getName(), player, permission);
     }
 
+    /**
+     * Checks if a CommandSender has a permission node.
+     * For easy checking of a commandsender
+     * @param sender
+     * @param permission
+     * @return true if the sender has the permission
+     */
+    public boolean has(CommandSender sender, String permission) {
+        return sender.hasPermission(permission);
+    }
+    
     /**
      * Checks if player has a permission node. (Short for playerHas(...)
      * @param player Player Object

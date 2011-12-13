@@ -27,6 +27,8 @@ import net.milkbowl.vault.permission.Permission;
 
 import org.bukkit.Bukkit;
 import org.bukkit.World;
+import org.bukkit.command.CommandSender;
+import org.bukkit.craftbukkit.command.ColouredConsoleSender;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event.Priority;
 import org.bukkit.event.Event.Type;
@@ -112,6 +114,15 @@ public class Permission_Permissions3 extends Permission {
     @Override
     public String getName() {
         return name;
+    }
+
+    @Override
+    public boolean has(CommandSender sender, String permission) {
+        if (sender.isOp() || sender instanceof ColouredConsoleSender) {
+            return true;
+        } else {
+            return has(((Player) sender).getWorld().getName(), sender.getName(), permission);
+        }
     }
 
     @Override
