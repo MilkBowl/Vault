@@ -84,7 +84,7 @@ public abstract class Permission {
      * @return Success or Failure
      */
     public boolean has(Player player, String permission) {
-        return playerHas(player.getWorld().getName(), player.getName(), permission);
+        return player.hasPermission(permission);
     }
 
     /**

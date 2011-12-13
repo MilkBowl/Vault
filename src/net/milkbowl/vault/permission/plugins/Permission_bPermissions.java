@@ -76,7 +76,7 @@ public class Permission_bPermissions extends Permission {
 	public boolean isEnabled() {
 		return this.perms != null;
 	}
-
+	
 	@Override
 	public boolean playerHas(String world, String player, String permission) {
 		if (world == null)
