@@ -1,6 +1,6 @@
 name: Vault
 main: net.milkbowl.vault.Vault
-version: 1.1.8-b000
+version: 1.1.9-b000
 authors: [Cereal, Sleaker]
 website: http://dev.bukkit.org/server-mods/vault
 description: >
