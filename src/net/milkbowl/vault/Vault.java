@@ -73,6 +73,7 @@ public class Vault extends JavaPlugin {
     private static final Logger log = Logger.getLogger("Minecraft");
     private Permission perms;
     private String newVersion;
+    private String currentVersion;
     
     @Override
     public void onDisable() {
@@ -84,6 +85,7 @@ public class Vault extends JavaPlugin {
 
     @Override
     public void onEnable() {
+        currentVersion = getDescription().getVersion().substring(0, 5);
         // Load Vault Addons
         loadEconomy();
         loadPermission();
@@ -100,7 +102,7 @@ public class Vault extends JavaPlugin {
             @Override
             public void run() {
                 try {
-                    newVersion = updateCheck();
+                    newVersion = updateCheck(currentVersion);
                     String oldVersion = getDescription().getVersion().substring(0, 5);
                     if (!newVersion.contains(oldVersion)) {
                         log.warning(newVersion + " is out! You are running " + oldVersion);
@@ -374,7 +376,7 @@ public class Vault extends JavaPlugin {
         }
     }
     
-    public String updateCheck() throws Exception {
+    public String updateCheck(String currentVersion) throws Exception {
         String pluginUrlString = "http://dev.bukkit.org/server-mods/vault/files.rss";
         try {
             URL url = new URL(pluginUrlString);
@@ -391,9 +393,8 @@ public class Vault extends JavaPlugin {
             }
         }
         catch (Exception localException) {
-            return getDescription().getVersion().substring(0, 5);
         }
-        return getDescription().getVersion().substring(0, 5);
+        return currentVersion;
     }
     
     public class VaultPlayerListener extends PlayerListener {
