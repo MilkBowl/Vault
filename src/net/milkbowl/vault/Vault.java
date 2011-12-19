@@ -29,6 +29,7 @@ import net.milkbowl.vault.chat.Chat;
 import net.milkbowl.vault.chat.plugins.Chat_GroupManager;
 import net.milkbowl.vault.chat.plugins.Chat_Permissions3;
 import net.milkbowl.vault.chat.plugins.Chat_PermissionsEx;
+import net.milkbowl.vault.chat.plugins.Chat_Towny;
 import net.milkbowl.vault.chat.plugins.Chat_bPermissions;
 import net.milkbowl.vault.chat.plugins.Chat_iChat;
 import net.milkbowl.vault.chat.plugins.Chat_mChat;
@@ -161,8 +162,15 @@ public class Vault extends JavaPlugin {
         // Try to load iChat
         if (packageExists(new String[] { "net.TheDgtl.iChat.iChat" })) {
             Chat iChat = new Chat_iChat(this, perms);
-            getServer().getServicesManager().register(Chat.class, iChat, this, ServicePriority.Lowest);
-            log.info(String.format("[%s][Chat] PermissionsEx found: %s", getDescription().getName(), iChat.isEnabled() ? "Loaded" : "Waiting"));
+            getServer().getServicesManager().register(Chat.class, iChat, this, ServicePriority.Low);
+            log.info(String.format("[%s][Chat] iChat found: %s", getDescription().getName(), iChat.isEnabled() ? "Loaded" : "Waiting"));
+        }
+        
+        //Try to load Towny Chat
+        if (packageExists(new String[] {"com.palmergames.bukkit.towny;"})) {
+            Chat townChat = new Chat_Towny(this, perms);
+            getServer().getServicesManager().register(Chat.class, townChat, this, ServicePriority.Lowest);
+            log.info(String.format("[%s][Chat] Towny found: %s", getDescription().getName(), townChat.isEnabled() ? "Loaded" : "Waiting"));
         }
     }
 
@@ -258,7 +266,6 @@ public class Vault extends JavaPlugin {
             Permission ePerms = new Permission_PermissionsEx(this);
             getServer().getServicesManager().register(Permission.class, ePerms, this, ServicePriority.Highest);
             log.info(String.format("[%s][Permission] PermissionsEx found: %s", getDescription().getName(), ePerms.isEnabled() ? "Loaded" : "Waiting"));
-            log.info(String.format("[%s] - Warning Using PEX can cause SuperPerms compatibility issues with non-Vault enabled plugins.", getDescription().getName()));
         }
 
         //Try loading PermissionsBukkit
