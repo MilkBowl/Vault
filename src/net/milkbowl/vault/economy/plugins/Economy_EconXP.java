@@ -1,5 +1,7 @@
 package net.milkbowl.vault.economy.plugins;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Logger;
 
 import org.bukkit.OfflinePlayer;
@@ -189,4 +191,9 @@ public class Economy_EconXP implements Economy {
 	public EconomyResponse bankBalance(String name) {
 		return new EconomyResponse(0, 0, ResponseType.NOT_IMPLEMENTED, "EconXP does not support bank accounts!");
 	}
+	
+    @Override
+    public List<String> getBanks() {
+        return new ArrayList<String>();
+    }
 }

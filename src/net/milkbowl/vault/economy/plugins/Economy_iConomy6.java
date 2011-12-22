@@ -1,5 +1,6 @@
 package net.milkbowl.vault.economy.plugins;
 
+import java.util.List;
 import java.util.logging.Logger;
 
 import org.bukkit.event.Event.Priority;
@@ -196,5 +197,9 @@ public class Economy_iConomy6 implements Economy {
 		else
 			return new EconomyResponse(0, accounts.get(name).getHoldings().getBalance(), ResponseType.SUCCESS, null);
 	}
-
+	
+    @Override
+    public List<String> getBanks() {
+        throw new UnsupportedOperationException("iConomy does not support listing of bank accounts");
+    }
 }

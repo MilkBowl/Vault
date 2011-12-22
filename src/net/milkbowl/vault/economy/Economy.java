@@ -19,6 +19,8 @@
 
 package net.milkbowl.vault.economy;
 
+import java.util.List;
+
 /**
  * The main economy API
  *
@@ -130,4 +132,10 @@ public interface Economy {
      * @return
      */
     public EconomyResponse isBankMember(String name, String playerName);
+
+    /**
+     * Gets the list of banks
+     * @return the List of Banks
+     */
+    public List<String> getBanks();
 }

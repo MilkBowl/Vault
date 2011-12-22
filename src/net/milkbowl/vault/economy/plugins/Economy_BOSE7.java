@@ -19,6 +19,7 @@
 
 package net.milkbowl.vault.economy.plugins;
 
+import java.util.List;
 import java.util.logging.Logger;
 
 import net.milkbowl.vault.economy.Economy;
@@ -81,7 +82,7 @@ public class Economy_BOSE7 implements Economy {
     public double getBalance(String playerName) {
         final double balance;
 
-        balance = (double) economy.getPlayerMoney(playerName);
+        balance = economy.getPlayerMoneyDouble(playerName);
 
         final double fBalance = balance;
         return fBalance;
@@ -97,31 +98,30 @@ public class Economy_BOSE7 implements Economy {
             errorMessage = "Cannot withdraw negative funds";
             type = EconomyResponse.ResponseType.FAILURE;
             amount = 0;
-            balance = (double) economy.getPlayerMoney(playerName);
+            balance = economy.getPlayerMoneyDouble(playerName);
 
             return new EconomyResponse(amount, balance, type, errorMessage);
         }
 
         amount = Math.ceil(amount);
-        balance = (double) economy.getPlayerMoney(playerName);
+        balance = economy.getPlayerMoneyDouble(playerName);
         if (balance - amount < 0) {
             errorMessage = "Insufficient funds";
             type = EconomyResponse.ResponseType.FAILURE;
             amount = 0;
-            balance = (double) economy.getPlayerMoney(playerName);
 
             return new EconomyResponse(amount, balance, type, errorMessage);
         }
-        if (economy.setPlayerMoney(playerName, (int) (balance - amount), false)) {
+        if (economy.setPlayerMoney(playerName, balance - amount, false)) {
             type = EconomyResponse.ResponseType.SUCCESS;
-            balance = (double) economy.getPlayerMoney(playerName);
+            balance = economy.getPlayerMoneyDouble(playerName);
 
             return new EconomyResponse(amount, balance, type, errorMessage);
         } else {
             errorMessage = "Error withdrawing funds";
             type = EconomyResponse.ResponseType.FAILURE;
             amount = 0;
-            balance = (double) economy.getPlayerMoney(playerName);
+            balance = economy.getPlayerMoneyDouble(playerName);
 
             return new EconomyResponse(amount, balance, type, errorMessage);
         }
@@ -137,22 +137,21 @@ public class Economy_BOSE7 implements Economy {
             errorMessage = "Cannot deposit negative funds";
             type = EconomyResponse.ResponseType.FAILURE;
             amount = 0;
-            balance = (double) economy.getPlayerMoney(playerName);
 
-            return new EconomyResponse(amount, balance, type, errorMessage);
+            return new EconomyResponse(amount, economy.getPlayerMoneyDouble(playerName), type, errorMessage);
         }
         amount = Math.ceil(amount);
-        balance = (double) economy.getPlayerMoney(playerName);
-        if (economy.setPlayerMoney(playerName, (int) (balance + amount), false)) {
+        balance = economy.getPlayerMoneyDouble(playerName);
+        if (economy.setPlayerMoney(playerName, balance + amount, false)) {
             type = EconomyResponse.ResponseType.SUCCESS;
-            balance = (double) economy.getPlayerMoney(playerName);
+            balance = economy.getPlayerMoneyDouble(playerName);
 
             return new EconomyResponse(amount, balance, type, errorMessage);
         } else {
             errorMessage = "Error withdrawing funds";
             type = EconomyResponse.ResponseType.FAILURE;
             amount = 0;
-            balance = (double) economy.getPlayerMoney(playerName);
+            balance = economy.getPlayerMoneyDouble(playerName);
 
             return new EconomyResponse(amount, balance, type, errorMessage);
         }
@@ -202,11 +201,12 @@ public class Economy_BOSE7 implements Economy {
             return String.format("%.2f %s", amount, getMoneyNamePlural());
         }
     }
+    
 	@Override
 	public EconomyResponse createBank(String name, String player) {
 		boolean success = economy.addBankOwner(name, player, false);
 		if (success) 
-			return new EconomyResponse(0, economy.getBankMoney(name), ResponseType.SUCCESS, "");
+			return new EconomyResponse(0, economy.getBankMoneyDouble(name), ResponseType.SUCCESS, "");
 
 		return new EconomyResponse(0, 0, ResponseType.FAILURE, "Unable to create that bank account.");
 	}
@@ -216,7 +216,7 @@ public class Economy_BOSE7 implements Economy {
 		if (!economy.bankExists(name))
 			return new EconomyResponse(0, 0, ResponseType.FAILURE, "That bank does not exist!");
 
-		double bankMoney = economy.getBankMoney(name);
+		double bankMoney = economy.getBankMoneyDouble(name);
 		if (bankMoney < amount)
 			return new EconomyResponse(0, bankMoney, ResponseType.FAILURE, "The bank does not have enough money!");
 		else
@@ -230,8 +230,8 @@ public class Economy_BOSE7 implements Economy {
 		if (!er.transactionSuccess())
 			return er;
 		else {
-			economy.addBankMoney(name, (int) -amount, true);
-			return new EconomyResponse((int) amount, economy.getBankMoney(name), ResponseType.SUCCESS, "");
+			economy.addBankMoney(name, -amount, true);
+			return new EconomyResponse(amount, economy.getBankMoneyDouble(name), ResponseType.SUCCESS, "");
 		}
 	}
 
@@ -240,8 +240,8 @@ public class Economy_BOSE7 implements Economy {
 		if (!economy.bankExists(name))
 			return new EconomyResponse(amount, 0, ResponseType.FAILURE, "That bank does not exist!");
 		else {
-			economy.addBankMoney(name, (int) amount, true);
-			return new EconomyResponse((int) amount, economy.getBankMoney(name), ResponseType.SUCCESS, "");
+			economy.addBankMoney(name,  amount, true);
+			return new EconomyResponse(amount, economy.getBankMoneyDouble(name), ResponseType.SUCCESS, "");
 		}
 	}
 
@@ -250,7 +250,7 @@ public class Economy_BOSE7 implements Economy {
 		if (!economy.bankExists(name))
 			return new EconomyResponse(0, 0, ResponseType.FAILURE, "That bank does not exist!");
 		else if (economy.isBankOwner(name, playerName)) {
-			return new EconomyResponse(0, economy.getBankMoney(name), ResponseType.SUCCESS, "");
+			return new EconomyResponse(0, economy.getBankMoneyDouble(name), ResponseType.SUCCESS, "");
 		} else
 			return new EconomyResponse(0, 0, ResponseType.FAILURE, "That player is not a bank owner!");
 	}
@@ -260,7 +260,7 @@ public class Economy_BOSE7 implements Economy {
 		if (!economy.bankExists(name))
 			return new EconomyResponse(0, 0, ResponseType.FAILURE, "That bank does not exist!");
 		else if (economy.isBankMember(name, playerName)) {
-			return new EconomyResponse(0, economy.getBankMoney(name), ResponseType.SUCCESS, "");
+			return new EconomyResponse(0, economy.getBankMoneyDouble(name), ResponseType.SUCCESS, "");
 		} else
 			return new EconomyResponse(0, 0, ResponseType.FAILURE, "That player is not a bank member!");
 	}
@@ -270,8 +270,13 @@ public class Economy_BOSE7 implements Economy {
 		if (!economy.bankExists(name))
 			return new EconomyResponse(0, 0, ResponseType.FAILURE, "That bank does not exist!");
 
-		double bankMoney = economy.getBankMoney(name);
+		double bankMoney = economy.getBankMoneyDouble(name);
 		return new EconomyResponse(0, bankMoney, ResponseType.SUCCESS, null);
+	}
+	
+	@Override
+	public List<String> getBanks() {
+	    return economy.getBankList();
 	}
 	
 	@Override

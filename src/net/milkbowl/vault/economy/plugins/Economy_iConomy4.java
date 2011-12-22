@@ -19,6 +19,8 @@
 
 package net.milkbowl.vault.economy.plugins;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Logger;
 
 import net.milkbowl.vault.economy.Economy;
@@ -93,12 +95,7 @@ public class Economy_iConomy4 implements Economy {
 
     @Override
     public double getBalance(String playerName) {
-        final double balance;
-
-        balance = getAccountBalance(playerName);
-
-        final double fBalance = balance;
-        return fBalance;
+        return getAccountBalance(playerName);
     }
 
     private double getAccountBalance(String playerName) {
@@ -240,4 +237,9 @@ public class Economy_iConomy4 implements Economy {
 	public EconomyResponse bankBalance(String name) {
 		return new EconomyResponse(0, 0, ResponseType.NOT_IMPLEMENTED, "iConomy4 does not support bank accounts!");
 	}
+	
+    @Override
+    public List<String> getBanks() {
+        return new ArrayList<String>();
+    }
 }

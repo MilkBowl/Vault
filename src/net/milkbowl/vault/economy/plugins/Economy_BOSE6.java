@@ -19,6 +19,7 @@
 
 package net.milkbowl.vault.economy.plugins;
 
+import java.util.List;
 import java.util.logging.Logger;
 
 import net.milkbowl.vault.economy.Economy;
@@ -35,6 +36,7 @@ import org.bukkit.plugin.PluginManager;
 
 import cosine.boseconomy.BOSEconomy;
 
+@SuppressWarnings("deprecation")
 public class Economy_BOSE6 implements Economy {
 	private static final Logger log = Logger.getLogger("Minecraft");
 
@@ -77,14 +79,9 @@ public class Economy_BOSE6 implements Economy {
 		}
 	}
 
-	@Override
+    @Override
 	public double getBalance(String playerName) {
-		final double balance;
-
-		balance = (double) economy.getPlayerMoney(playerName);
-
-		final double fBalance = balance;
-		return fBalance;
+		return (double) economy.getPlayerMoney(playerName);
 	}
 
 	@Override
@@ -113,7 +110,6 @@ public class Economy_BOSE6 implements Economy {
 			errorMessage = "Insufficient funds";
 			type = EconomyResponse.ResponseType.FAILURE;
 			amount = 0;
-			balance = (double) economy.getPlayerMoney(playerName);
 
 			return new EconomyResponse(balance, balance, type, errorMessage);
 		}
@@ -279,4 +275,9 @@ public class Economy_BOSE6 implements Economy {
 		double bankMoney = economy.getBankMoney(name);
 		return new EconomyResponse(0, bankMoney, ResponseType.SUCCESS, null);
 	}
+
+    @Override
+    public List<String> getBanks() {
+        return economy.getBankList();
+    }
 }

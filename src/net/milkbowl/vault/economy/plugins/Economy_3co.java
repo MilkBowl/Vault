@@ -19,6 +19,8 @@
 
 package net.milkbowl.vault.economy.plugins;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Logger;
 
 import me.ic3d.eco.ECO;
@@ -226,4 +228,9 @@ public class Economy_3co implements Economy {
 	public EconomyResponse bankBalance(String name) {
 		return new EconomyResponse(0, 0, ResponseType.NOT_IMPLEMENTED, "3co does not support bank accounts!");
 	}
+
+    @Override
+    public List<String> getBanks() {
+        return new ArrayList<String>();
+    }
 }
