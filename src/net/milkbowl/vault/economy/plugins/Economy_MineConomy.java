@@ -107,7 +107,7 @@ public class Economy_MineConomy implements Economy {
 			return new EconomyResponse(0, balance, ResponseType.FAILURE, "Cannot withdraw negative funds");
 		} else if (balance >= amount) {
 			double finalBalance = balance - amount;
-			Accounting.write(playerName, finalBalance, MineConomy.accounts);
+			Accounting.setBalance(playerName, finalBalance, MineConomy.accounts);
 			return new EconomyResponse(amount, finalBalance, ResponseType.SUCCESS, null);
 		} else {
 			return new EconomyResponse(0, balance, ResponseType.FAILURE, "Insufficient funds");
@@ -121,7 +121,7 @@ public class Economy_MineConomy implements Economy {
 			return new EconomyResponse(0, balance, ResponseType.FAILURE, "Cannot deposit negative funds");
 		} else {
 			balance += amount;
-			Accounting.write(playerName, balance, MineConomy.accounts);
+			Accounting.setBalance(playerName, balance, MineConomy.accounts);
 			return new EconomyResponse(amount, balance, ResponseType.SUCCESS, null);
 		}
 	}
