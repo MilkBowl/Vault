@@ -3,6 +3,7 @@ main: net.milkbowl.vault.Vault
 version: 1.2.0-b000
 authors: [Cereal, Sleaker]
 website: http://dev.bukkit.org/server-mods/vault
+load: startup
 description: >
              Abstraction Library for Bukkit Plugins
 commands:
