@@ -184,15 +184,14 @@
 				    <reportOutputDirectory>${project.basedir}</reportOutputDirectory>
                     <destDir>javadoc</destDir>
 				    <show>public</show>
+				    <windowtitle>Vault</windowtitle>
 				    <verbose>false</verbose>
 				    <author>true</author>
 				    <version>true</version>
-	                <groups>
-	                    <group>
-	                        <title>Packages</title>
-	                        <packages>net.milkbowl.vault.economy:net.milkbowl.vault.permission:net.milkbowl.vault.chat</packages>
-	                    </group>
-	                </groups>
+			        <bottom>
+			            <![CDATA[<b>MilkBukkit, 2011</b>]]>
+			        </bottom>
+			        <excludePackageNames>net.milkbowl.vault:net.milkbowl.vault.chat.*:net.milkbowl.vault.economy.*:net.milkbowl.vault.permission.*</excludePackageNames>
 				</configuration>
 			</plugin>
 		</plugins>
