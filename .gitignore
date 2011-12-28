@@ -8,3 +8,4 @@
 .settings
 javadoc
 Vault.jar
+/target
