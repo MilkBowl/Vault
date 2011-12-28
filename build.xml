@@ -1,5 +1,5 @@
 <?xml version="1.0" ?>
-<project default="main" xmlns:artifact="antlib:org.apache.maven.artifact.ant">
+<project default="main">
 
     <property environment="env"/>
 
