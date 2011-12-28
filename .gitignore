@@ -8,4 +8,5 @@
 .settings
 javadoc
 Vault.jar
+/Vault.iml
 /target
