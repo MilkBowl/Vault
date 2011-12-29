@@ -181,8 +181,9 @@
 				<artifactId>maven-javadoc-plugin</artifactId>
 				<version>2.8</version>
 				<configuration>
-				    <reportOutputDirectory>${project.basedir}</reportOutputDirectory>
-                    <destDir>javadoc</destDir>
+				    <outputDirectory>/var/www/javadoc</outputDirectory>
+				    <reportOutputDirectory>/var/www/javadoc</reportOutputDirectory>
+                    <destDir>vault</destDir>
 				    <show>public</show>
 				    <windowtitle>Vault</windowtitle>
 				    <verbose>false</verbose>
