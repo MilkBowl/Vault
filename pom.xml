@@ -184,7 +184,7 @@
 				    <execution>
 				        <id>install-javadocs</id>
 				        <goals>
-				            <goal>install</goal>
+				            <goal>javadoc</goal>
 				        </goals>
 				    </execution>
 				</executions>
