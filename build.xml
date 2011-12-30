@@ -7,6 +7,10 @@
         <fileset dir="lib" includes="**/*.jar"/>
     </path>
 	
+	<target name="jdoc" depends="clean, javadoc" description="Main javadoc">
+	    <echo>Building and Archiving the Javadocs</echo>
+	</target>
+	
     <target name="main" depends="clean, compile, compress, javadoc" description="Main target">
         <echo>Building the .jar file.</echo>
     </target>
@@ -41,7 +45,7 @@
   <target name="javadoc" description="Generate JavaDoc">
 	<javadoc packagenames="net.milkbowl.vault.economy,net.milkbowl.vault.permission,net.milkbowl.vault.chat"
 			sourcepath="src"
-			destdir="javadoc"
+			destdir="/var/www/javadoc/vault"
 			access="public"
 			windowtitle="Vault"
 			verbose="false"
