@@ -21,6 +21,13 @@
 			<systemPath>${project.basedir}/lib/3co.jar</systemPath>
 		</dependency>
 		<dependency>
+		    <groupId>is.currency</groupId>
+		    <artifactId>Currency</artifactId>
+		    <version>0.3</version>
+		    <scope>system</scope>
+		    <systemPath>${project.basedir}/lib/CurrencyCore.jar</systemPath>
+		</dependency>
+		<dependency>
 			<groupId>cosine.boseconomy.BOSEconomy</groupId>
 			<artifactId>BOSEconomy</artifactId>
 			<version>0.7.3</version>

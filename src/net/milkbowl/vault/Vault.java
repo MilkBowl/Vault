@@ -37,6 +37,7 @@ import net.milkbowl.vault.economy.Economy;
 import net.milkbowl.vault.economy.plugins.Economy_3co;
 import net.milkbowl.vault.economy.plugins.Economy_BOSE6;
 import net.milkbowl.vault.economy.plugins.Economy_BOSE7;
+import net.milkbowl.vault.economy.plugins.Economy_CurrencyCore;
 import net.milkbowl.vault.economy.plugins.Economy_EconXP;
 import net.milkbowl.vault.economy.plugins.Economy_Essentials;
 import net.milkbowl.vault.economy.plugins.Economy_MineConomy;
@@ -220,7 +221,14 @@ public class Vault extends JavaPlugin {
             getServer().getServicesManager().register(net.milkbowl.vault.economy.Economy.class, bose7, this, ServicePriority.Normal);
             log.info(String.format("[%s][Economy] BOSEconomy7 found: %s", getDescription().getName(), bose7.isEnabled() ? "Loaded" : "Waiting"));
         }
-
+        
+        //Try to load CurrencyCore
+        if (packageExists(new String[] { "is.currency.Currency" })) {
+            Economy cCore = new Economy_CurrencyCore(this);
+            getServer().getServicesManager().register(net.milkbowl.vault.economy.Economy.class, cCore, this, ServicePriority.Normal);
+            log.info(String.format("[%s][Economy] CurrencyCore found: %s", getDescription().getName(), cCore.isEnabled() ? "Loaded" : "Waiting"));
+        }
+        
         // Try to load Essentials Economy
         if (packageExists(new String[] { "com.earth2me.essentials.api.Economy", "com.earth2me.essentials.api.NoLoanPermittedException", "com.earth2me.essentials.api.UserDoesNotExistException" })) {
             Economy essentials = new Economy_Essentials(this);

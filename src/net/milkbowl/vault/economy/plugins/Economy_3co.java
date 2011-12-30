@@ -34,25 +34,22 @@ import org.bukkit.event.server.PluginDisableEvent;
 import org.bukkit.event.server.PluginEnableEvent;
 import org.bukkit.event.server.ServerListener;
 import org.bukkit.plugin.Plugin;
-import org.bukkit.plugin.PluginManager;
 
 public class Economy_3co implements Economy {
     private static final Logger log = Logger.getLogger("Minecraft");
 
     private String name = "3co";
     private Plugin plugin = null;
-    private PluginManager pluginManager = null;
     private ECO economy = null;
     private EconomyServerListener economyServerListener = null;
 
     public Economy_3co(Plugin plugin) {
         this.plugin = plugin;
-        pluginManager = this.plugin.getServer().getPluginManager();
 
         economyServerListener = new EconomyServerListener(this);
 
-        this.pluginManager.registerEvent(Type.PLUGIN_ENABLE, economyServerListener, Priority.Monitor, plugin);
-        this.pluginManager.registerEvent(Type.PLUGIN_DISABLE, economyServerListener, Priority.Monitor, plugin);
+        this.plugin.getServer().getPluginManager().registerEvent(Type.PLUGIN_ENABLE, economyServerListener, Priority.Monitor, plugin);
+        this.plugin.getServer().getPluginManager().registerEvent(Type.PLUGIN_DISABLE, economyServerListener, Priority.Monitor, plugin);
 
         // Load Plugin in case it was loaded before
         if (economy == null) {
