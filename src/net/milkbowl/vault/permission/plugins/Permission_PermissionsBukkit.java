@@ -16,7 +16,6 @@ import org.bukkit.plugin.PluginManager;
 import com.platymuus.bukkit.permissions.Group;
 import com.platymuus.bukkit.permissions.PermissionsPlugin;
 
-import net.D3GN.MiracleM4n.mChat.mChatAPI;
 import net.milkbowl.vault.Vault;
 import net.milkbowl.vault.permission.Permission;
 
@@ -25,7 +24,6 @@ public class Permission_PermissionsBukkit extends Permission {
 	private final String name = "PermissionsBukkit";
 	private PluginManager pluginManager = null;
 	private PermissionsPlugin perms = null;
-	private mChatAPI mChat = null;
 	private PermissionServerListener permissionServerListener = null;
 	private ConsoleCommandSender ccs;
 
@@ -45,14 +43,6 @@ public class Permission_PermissionsBukkit extends Permission {
 			if (perms != null) {
 				perms = (PermissionsPlugin) perms;
 				log.info(String.format("[%s][Permission] %s hooked.", plugin.getDescription().getName(), name));
-			}
-		}
-
-		if (mChat == null) {
-			Plugin chat = plugin.getServer().getPluginManager().getPlugin("mChat");
-			if (chat != null) {
-				mChat = net.D3GN.MiracleM4n.mChat.mChat.API;
-				log.info(String.format("[%s][Chat] %s hooked.", plugin.getDescription().getName(), "mChat"));
 			}
 		}
 	}
@@ -75,13 +65,6 @@ public class Permission_PermissionsBukkit extends Permission {
 					}
 				}
 			}
-			if (mChat == null) {
-				Plugin chat = plugin.getServer().getPluginManager().getPlugin("mChat");
-				if (chat != null) {
-					mChat = net.D3GN.MiracleM4n.mChat.mChat.API;
-					log.info(String.format("[%s][Chat] %s hooked.", plugin.getDescription().getName(), "mChat"));
-				}
-			}
 		}
 
 		public void onPluginDisable(PluginDisableEvent event) {
@@ -89,12 +72,6 @@ public class Permission_PermissionsBukkit extends Permission {
 				if (event.getPlugin().getDescription().getName().equals("PermissionsBukkit")) {
 					permission.perms = null;
 					log.info(String.format("[%s][Permission] %s un-hooked.", plugin.getDescription().getName(), permission.name));
-				}
-			}
-			if (mChat != null) {
-				if (event.getPlugin().getDescription().getName().equals("mChat")) {
-					mChat = null;
-					log.info(String.format("[%s][Chat] %s un-hooked.", plugin.getDescription().getName(), "mChat"));
 				}
 			}
 		}
@@ -186,7 +163,7 @@ public class Permission_PermissionsBukkit extends Permission {
 	@Override
 	public boolean playerAddGroup(String world, String player, String group) {
 		if (world != null) {
-			throw new UnsupportedOperationException(getName() + " does not support world based groups.");
+			return false;
 		}
 		return plugin.getServer().dispatchCommand(ccs, "permissions player addgroup " + player + " " + group);
 	}
@@ -194,7 +171,7 @@ public class Permission_PermissionsBukkit extends Permission {
 	@Override
 	public boolean playerRemoveGroup(String world, String player, String group) {
 		if (world != null) {
-			throw new UnsupportedOperationException(getName() + " does not support world based groups.");
+			return false;
 		}
 		return plugin.getServer().dispatchCommand(ccs, "permissions player removegroup " + player + " " + group);
 	}

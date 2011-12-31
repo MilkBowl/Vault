@@ -8,7 +8,6 @@ import org.bukkit.event.server.PluginDisableEvent;
 import org.bukkit.event.server.PluginEnableEvent;
 import org.bukkit.event.server.ServerListener;
 import org.bukkit.plugin.Plugin;
-import org.bukkit.plugin.PluginManager;
 
 import de.bananaco.permissions.Permissions;
 import de.bananaco.permissions.interfaces.PermissionSet;
@@ -20,230 +19,226 @@ import net.milkbowl.vault.permission.Permission;
 
 public class Permission_bPermissions extends Permission {
 
-	private String name = "bPermissions";
-	private PluginManager pluginManager = null;
-	private WorldPermissionsManager perms;
-	private PermissionServerListener permissionServerListener = null;
+    private String name = "bPermissions";
+    private WorldPermissionsManager perms;
+    private PermissionServerListener permissionServerListener = null;
 
-	public Permission_bPermissions(Vault plugin) {
-		this.plugin = plugin;
-		pluginManager = this.plugin.getServer().getPluginManager();
+    public Permission_bPermissions(Vault plugin) {
+        this.plugin = plugin;
 
-		permissionServerListener = new PermissionServerListener();
+        permissionServerListener = new PermissionServerListener();
 
-		this.pluginManager.registerEvent(Type.PLUGIN_ENABLE, permissionServerListener, Priority.Monitor, plugin);
-		this.pluginManager.registerEvent(Type.PLUGIN_DISABLE, permissionServerListener, Priority.Monitor, plugin);
+        this.plugin.getServer().getPluginManager().registerEvent(Type.PLUGIN_ENABLE, permissionServerListener, Priority.Monitor, plugin);
+        this.plugin.getServer().getPluginManager().registerEvent(Type.PLUGIN_DISABLE, permissionServerListener, Priority.Monitor, plugin);
 
-		// Load Plugin in case it was loaded before
-		if (perms == null) {
-			Plugin p = plugin.getServer().getPluginManager().getPlugin("bPermissions");
-			if (p != null) {
-				perms = Permissions.getWorldPermissionsManager();
-				log.info(String.format("[%s][Permission] %s hooked.", plugin.getDescription().getName(), name));
-			}
-		}
-	}
+        // Load Plugin in case it was loaded before
+        if (perms == null) {
+            Plugin p = plugin.getServer().getPluginManager().getPlugin("bPermissions");
+            if (p != null) {
+                perms = Permissions.getWorldPermissionsManager();
+                log.info(String.format("[%s][Permission] %s hooked.", plugin.getDescription().getName(), name));
+            }
+        }
+    }
 
-	private class PermissionServerListener extends ServerListener {
-		public void onPluginEnable(PluginEnableEvent event) {
-			if (perms == null) {
-				Plugin p = event.getPlugin();
-				if(p.getDescription().getName().equals("bPermissions")) {
-					if (p.isEnabled()) {
-						perms = Permissions.getWorldPermissionsManager();
-						log.info(String.format("[%s][Permission] %s hooked.", plugin.getDescription().getName(), name));
-					}
-				}
-			}
-		}
+    private class PermissionServerListener extends ServerListener {
+        public void onPluginEnable(PluginEnableEvent event) {
+            if (perms == null) {
+                Plugin p = event.getPlugin();
+                if(p.getDescription().getName().equals("bPermissions") && p.isEnabled()) {
+                    perms = Permissions.getWorldPermissionsManager();
+                    log.info(String.format("[%s][Permission] %s hooked.", plugin.getDescription().getName(), name));
+                }
+            }
+        }
 
-		public void onPluginDisable(PluginDisableEvent event) {
-			if (perms != null) {
-				if (event.getPlugin().getDescription().getName().equals("bPermissions")) {
-					perms = null;
-					log.info(String.format("[%s][Permission] %s un-hooked.", plugin.getDescription().getName(), name));
-				}
-			}
-		}
-	}
+        public void onPluginDisable(PluginDisableEvent event) {
+            if (perms != null) {
+                if (event.getPlugin().getDescription().getName().equals("bPermissions")) {
+                    perms = null;
+                    log.info(String.format("[%s][Permission] %s un-hooked.", plugin.getDescription().getName(), name));
+                }
+            }
+        }
+    }
 
-	@Override
-	public String getName() {
-		return name;
-	}
+    @Override
+    public String getName() {
+        return name;
+    }
 
-	@Override
-	public boolean isEnabled() {
-		return this.perms != null;
-	}
-	
-	@Override
-	public boolean playerHas(String world, String player, String permission) {
-		if (world == null)
-			return false;
-		
-		PermissionSet set = perms.getPermissionSet(world);
-		if (set == null)
-			return false;
-		
-		return HasPermission.has(player, world, permission);
-	}
+    @Override
+    public boolean isEnabled() {
+        return this.perms != null;
+    }
 
-	@Override
-	public boolean playerAdd(String world, String player, String permission) {
-		if (world == null)
-			return false;
-		
-		PermissionSet set = perms.getPermissionSet(world);
-		if (set == null)
-			return false;
-		
-		set.addPlayerNode(permission, player);
-		return true;
-	}
+    @Override
+    public boolean playerHas(String world, String player, String permission) {
+        if (world == null)
+            return false;
 
-	@Override
-	public boolean playerRemove(String world, String player, String permission) {
-		if (world == null)
-			return false;
-		
-		PermissionSet set = perms.getPermissionSet(world);
-		if (set == null)
-			return false;
-		
-		set.removePlayerNode(permission, player);
-		return true;
-	}
+        PermissionSet set = perms.getPermissionSet(world);
+        if (set == null)
+            return false;
 
-	// use superclass implementation of playerAddTransient() and playerRemoveTransient()
-	
-	@Override
-	public boolean groupHas(String world, String group, String permission) {
-		if (world == null)
-			return false;
-		
-		PermissionSet set = perms.getPermissionSet(world);
-		if (set == null)
-			return false;
-		
-		if (set.getGroupNodes(group) == null)
-			return false;
-		
-		return set.getGroupNodes(group).contains(permission);
-	}
+        return HasPermission.has(player, world, permission);
+    }
 
-	@Override
-	public boolean groupAdd(String world, String group, String permission) {
-		if (world == null)
-			return false;
-		
-		PermissionSet set = perms.getPermissionSet(world);
-		if (set == null)
-			return false;
-		
-		if (set.getGroupNodes(group) == null)
-			return false;
-		
-		set.addNode(permission, group);
-		return true;
-	}
+    @Override
+    public boolean playerAdd(String world, String player, String permission) {
+        if (world == null)
+            return false;
 
-	@Override
-	public boolean groupRemove(String world, String group, String permission) {
-		if (world == null)
-			return false;
-		
-		PermissionSet set = perms.getPermissionSet(world);
-		if (set == null)
-			return false;
-		
-		if (set.getGroupNodes(group) == null)
-			return false;
-		
-		set.removeNode(permission, group);
-		return true;
-	}
+        PermissionSet set = perms.getPermissionSet(world);
+        if (set == null)
+            return false;
 
-	@Override
-	public boolean playerInGroup(String world, String player, String group) {
-		if (world == null)
-			return false;
-		
-		PermissionSet set = perms.getPermissionSet(world);
-		if (set == null)
-			return false;
-		
-		if (set.getGroups(player) == null)
-			return false;
-		
-		return set.getGroups(player).contains(group);
-	}
+        set.addPlayerNode(permission, player);
+        return true;
+    }
 
-	@Override
-	public boolean playerAddGroup(String world, String player, String group) {
-		if (world == null)
-			return false;
-		
-		PermissionSet set = perms.getPermissionSet(world);
-		if (set == null)
-			return false;
-		
-		if (set.getGroupNodes(group) == null)
-			return false;
-		
-		set.addGroup(player, group);
-		return true;
-	}
+    @Override
+    public boolean playerRemove(String world, String player, String permission) {
+        if (world == null)
+            return false;
 
-	@Override
-	public boolean playerRemoveGroup(String world, String player, String group) {
-		if (world == null)
-			return false;
-		
-		PermissionSet set = perms.getPermissionSet(world);
-		if (set == null)
-			return false;
-		
-		set.removeGroup(player, group);
-		return true;
-	}
+        PermissionSet set = perms.getPermissionSet(world);
+        if (set == null)
+            return false;
 
-	@Override
-	public String[] getPlayerGroups(String world, String player) {
-		if (world == null)
-			return null;
-		
-		PermissionSet set = perms.getPermissionSet(world);
-		if (set == null)
-			return null;
-		
-		List<String> groups = set.getGroups(player);
-		return groups == null ? null : groups.toArray(new String[0]);
-	}
+        set.removePlayerNode(permission, player);
+        return true;
+    }
 
-	@Override
-	public String getPrimaryGroup(String world, String player) {
-		if (world == null)
-			return null;
-		
-		PermissionSet set = perms.getPermissionSet(world);
-		if (set == null)
-			return null;
-		
-		List<String> groups = set.getGroups(player);
-		if (groups == null || groups.isEmpty())
-			return null;
-		else
-			return groups.get(0);
-	}
+    // use superclass implementation of playerAddTransient() and playerRemoveTransient()
 
-	@Override
-	public String[] getGroups() {
-		throw new UnsupportedOperationException("bPermissions does not support server-wide groups");
-	}
+    @Override
+    public boolean groupHas(String world, String group, String permission) {
+        if (world == null)
+            return false;
 
-	@Override
-	public boolean hasSuperPermsCompat() {
-		return true;
-	}
+        PermissionSet set = perms.getPermissionSet(world);
+        if (set == null)
+            return false;
+
+        if (set.getGroupNodes(group) == null)
+            return false;
+
+        return set.getGroupNodes(group).contains(permission);
+    }
+
+    @Override
+    public boolean groupAdd(String world, String group, String permission) {
+        if (world == null)
+            return false;
+
+        PermissionSet set = perms.getPermissionSet(world);
+        if (set == null)
+            return false;
+
+        if (set.getGroupNodes(group) == null)
+            return false;
+
+        set.addNode(permission, group);
+        return true;
+    }
+
+    @Override
+    public boolean groupRemove(String world, String group, String permission) {
+        if (world == null)
+            return false;
+
+        PermissionSet set = perms.getPermissionSet(world);
+        if (set == null)
+            return false;
+
+        if (set.getGroupNodes(group) == null)
+            return false;
+
+        set.removeNode(permission, group);
+        return true;
+    }
+
+    @Override
+    public boolean playerInGroup(String world, String player, String group) {
+        if (world == null)
+            return false;
+
+        PermissionSet set = perms.getPermissionSet(world);
+        if (set == null)
+            return false;
+
+        if (set.getGroups(player) == null)
+            return false;
+
+        return set.getGroups(player).contains(group);
+    }
+
+    @Override
+    public boolean playerAddGroup(String world, String player, String group) {
+        if (world == null)
+            return false;
+
+        PermissionSet set = perms.getPermissionSet(world);
+        if (set == null)
+            return false;
+
+        if (set.getGroupNodes(group) == null)
+            return false;
+
+        set.addGroup(player, group);
+        return true;
+    }
+
+    @Override
+    public boolean playerRemoveGroup(String world, String player, String group) {
+        if (world == null)
+            return false;
+
+        PermissionSet set = perms.getPermissionSet(world);
+        if (set == null)
+            return false;
+
+        set.removeGroup(player, group);
+        return true;
+    }
+
+    @Override
+    public String[] getPlayerGroups(String world, String player) {
+        if (world == null)
+            return null;
+
+        PermissionSet set = perms.getPermissionSet(world);
+        if (set == null)
+            return null;
+
+        List<String> groups = set.getGroups(player);
+        return groups == null ? null : groups.toArray(new String[0]);
+    }
+
+    @Override
+    public String getPrimaryGroup(String world, String player) {
+        if (world == null)
+            return null;
+
+        PermissionSet set = perms.getPermissionSet(world);
+        if (set == null)
+            return null;
+
+        List<String> groups = set.getGroups(player);
+        if (groups == null || groups.isEmpty())
+            return null;
+        else
+            return groups.get(0);
+    }
+
+    @Override
+    public String[] getGroups() {
+        throw new UnsupportedOperationException("bPermissions does not support server-wide groups");
+    }
+
+    @Override
+    public boolean hasSuperPermsCompat() {
+        return true;
+    }
 }
