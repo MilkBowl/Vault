@@ -14,6 +14,13 @@
 			<version>1.0.1-R2-SNAPSHOT</version>
 		</dependency>
 		<dependency>
+		    <groupId>org.tyrannyofheaven.bukkit</groupId>
+            <artifactId>zPermissions</artifactId>
+            <version>0.9.5-SNAPSHOT</version>
+            <scope>system</scope>
+            <systemPath>${project.basedir}/lib/zPermissions-0.9.5.jar</systemPath>
+		</dependency>
+		<dependency>
 			<groupId>me.ic3d.eco</groupId>
 			<artifactId>ECO</artifactId>
 			<version>2.0</version>
