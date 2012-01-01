@@ -132,16 +132,12 @@ public class Economy_iConomy6 implements Economy {
     @Override
     public EconomyResponse depositPlayer(String playerName, double amount) {
         double balance;
-        EconomyResponse.ResponseType type;
-        String errorMessage = null;
 
-        Account account = accounts.get(playerName);
-        Holdings holdings = account.getHoldings();
+        Holdings holdings = accounts.get(playerName).getHoldings();
         holdings.add(amount);
         balance = holdings.getBalance();
-        type = EconomyResponse.ResponseType.SUCCESS;
 
-        return new EconomyResponse(amount, balance, type, errorMessage);
+        return new EconomyResponse(amount, balance, ResponseType.SUCCESS, null);
     }
 
 	@Override

@@ -111,9 +111,10 @@ public class Economy_CurrencyCore implements Economy {
             return new EconomyResponse(0.0, 0.0, ResponseType.FAILURE, "That account does not exist");
         } else if (!account.hasBalance(amount)) {
             return new EconomyResponse(0.0, account.getBalance(), ResponseType.FAILURE, "Insufficient funds");  
+        } else {
+            account.subtractBalance(amount);
+            return new EconomyResponse(amount, account.getBalance(), ResponseType.SUCCESS, "");
         }
-        account.subtractBalance(amount);
-        return new EconomyResponse(amount, account.getBalance(), ResponseType.SUCCESS, "");
     }
 
     @Override
@@ -137,11 +138,12 @@ public class Economy_CurrencyCore implements Economy {
 
     @Override
     public EconomyResponse bankBalance(String name) {
-        if (this.currency.getAccountManager().hasAccount(name)) {
-            return new EconomyResponse(0, getBalance(name), ResponseType.FAILURE, "That account already exists.");
+        AccountContext account = this.currency.getAccountManager().getAccount(name);
+
+        if (account == null) {
+            return new EconomyResponse(0, 0, ResponseType.FAILURE, "That account does not exists.");
         }
-        this.currency.getAccountManager().createAccount(name);
-        return new EconomyResponse(0, 0, ResponseType.SUCCESS, "");
+        return new EconomyResponse(0, account.getBalance(), ResponseType.SUCCESS, "");
     }
 
     @Override
