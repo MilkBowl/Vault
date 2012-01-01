@@ -53,6 +53,7 @@ import net.milkbowl.vault.permission.plugins.Permission_PermissionsBukkit;
 import net.milkbowl.vault.permission.plugins.Permission_PermissionsEx;
 import net.milkbowl.vault.permission.plugins.Permission_SuperPerms;
 import net.milkbowl.vault.permission.plugins.Permission_bPermissions;
+import net.milkbowl.vault.permission.plugins.Permission_zPermissions;
 
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -289,7 +290,14 @@ public class Vault extends JavaPlugin {
             getServer().getServicesManager().register(Permission.class, bPerms, this, ServicePriority.Highest);
             log.info(String.format("[%s][Permission] bPermissions found: %s", getDescription().getName(), bPerms.isEnabled() ? "Loaded" : "Waiting"));
         }
-
+        
+        //Try to load zPermission
+        if (packageExists(new String[] {"org.tyrannyofheaven.bukkit.zPermissions"})) {
+            Permission zPerms = new Permission_zPermissions(this);
+            getServer().getServicesManager().register(Permission.class, zPerms, this, ServicePriority.Highest);
+            log.info(String.format("[%s][Permission] GroupManager found: %s", getDescription().getName(), zPerms.isEnabled() ? "Loaded" : "Waiting"));
+        }
+        
         // Try to load GroupManager
         if (packageExists(new String[] { "org.anjocaido.groupmanager.GroupManager" })) {
             Permission gPerms = new Permission_GroupManager(this);
