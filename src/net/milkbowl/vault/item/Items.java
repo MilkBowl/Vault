@@ -21,8 +21,8 @@
 package net.milkbowl.vault.item;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -31,7 +31,7 @@ import org.bukkit.inventory.ItemStack;
 
 public class Items {
 
-    private static final List<ItemInfo> items = Collections.synchronizedList(new ArrayList<ItemInfo>());
+    private static final List<ItemInfo> items = new CopyOnWriteArrayList<ItemInfo>();
 
     static {
         items.add(new ItemInfo("Grass", new String[][]{{"gras"}}, Material.GRASS));
