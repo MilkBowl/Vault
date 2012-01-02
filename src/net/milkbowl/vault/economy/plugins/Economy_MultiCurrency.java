@@ -236,4 +236,9 @@ public class Economy_MultiCurrency implements Economy {
     public List<String> getBanks() {
         return new ArrayList<String>();
     }
+    
+    @Override
+    public boolean hasBankSupport() {
+        return false;
+    }
 }

@@ -283,4 +283,9 @@ public class Economy_BOSE7 implements Economy {
 	public boolean has(String playerName, double amount) {
 		return getBalance(playerName) >= amount;
 	}
+
+    @Override
+    public boolean hasBankSupport() {
+        return true;
+    }
 }

@@ -198,4 +198,9 @@ public class Economy_iConomy6 implements Economy {
     public List<String> getBanks() {
         throw new UnsupportedOperationException("iConomy does not support listing of bank accounts");
     }
+    
+    @Override
+    public boolean hasBankSupport() {
+        return true;
+    }
 }

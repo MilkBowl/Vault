@@ -165,4 +165,9 @@ public class Economy_MineConomy implements Economy {
     public List<String> getBanks() {
         return new ArrayList<String>();
     }
+    
+    @Override
+    public boolean hasBankSupport() {
+        return false;
+    }
 }

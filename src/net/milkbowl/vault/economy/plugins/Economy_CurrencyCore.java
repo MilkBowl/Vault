@@ -196,5 +196,9 @@ public class Economy_CurrencyCore implements Economy {
     public List<String> getBanks() {
         return Arrays.asList(this.currency.getAccountManager().getAccounts());
     }
-
+    
+    @Override
+    public boolean hasBankSupport() {
+        return true;
+    }
 }

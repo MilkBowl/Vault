@@ -242,4 +242,9 @@ public class Economy_iConomy4 implements Economy {
     public List<String> getBanks() {
         return new ArrayList<String>();
     }
+    
+    @Override
+    public boolean hasBankSupport() {
+        return false;
+    }
 }

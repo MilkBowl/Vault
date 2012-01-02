@@ -40,6 +40,12 @@ public interface Economy {
     public String getName();
 
     /**
+     * Returns true if the given implementation supports banks.
+     * @return true if the implementation supports banks
+     */
+    public abstract boolean hasBankSupport();
+    
+    /**
      * Format amount into a human readable String This provides translation into
      * economy specific formatting to improve consistency between plugins.
      * Should be used when possible.

@@ -280,4 +280,9 @@ public class Economy_BOSE6 implements Economy {
     public List<String> getBanks() {
         return economy.getBankList();
     }
+
+    @Override
+    public boolean hasBankSupport() {
+        return true;
+    }
 }
