@@ -116,7 +116,7 @@ public class Vault extends JavaPlugin {
                 }
             }
             
-        }, 0, 36000);
+        }, 0, 432000);
         
         
         log.info(String.format("[%s] Enabled Version %s", getDescription().getName(), getDescription().getVersion()));
