@@ -214,7 +214,7 @@
 			        <bottom>
 			            <![CDATA[<b>MilkBukkit, 2011</b>]]>
 			        </bottom>
-			        <excludePackageNames>net.milkbowl.vault:net.milkbowl.vault.chat.*:net.milkbowl.vault.economy.*:net.milkbowl.vault.permission.*</excludePackageNames>
+			        <excludePackageNames>net.milkbowl.vault.chat.*:net.milkbowl.vault.economy.*:net.milkbowl.vault.permission.*</excludePackageNames>
 				</configuration>
 			</plugin>
 		</plugins>
