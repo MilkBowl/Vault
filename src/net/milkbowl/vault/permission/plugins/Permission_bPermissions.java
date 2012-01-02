@@ -74,13 +74,6 @@ public class Permission_bPermissions extends Permission {
 
     @Override
     public boolean playerHas(String world, String player, String permission) {
-        if (world == null)
-            return false;
-
-        PermissionSet set = perms.getPermissionSet(world);
-        if (set == null)
-            return false;
-
         return HasPermission.has(player, world, permission);
     }
 
