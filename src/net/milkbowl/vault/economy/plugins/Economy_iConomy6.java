@@ -203,4 +203,9 @@ public class Economy_iConomy6 implements Economy {
     public boolean hasBankSupport() {
         return true;
     }
+
+    @Override
+    public boolean hasAccount(String playerName) {
+        return accounts.exists(playerName);
+    }
 }

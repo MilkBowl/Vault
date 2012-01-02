@@ -260,4 +260,9 @@ public class Economy_Essentials implements Economy {
     public boolean hasBankSupport() {
         return false;
     }
+
+    @Override
+    public boolean hasAccount(String playerName) {
+        return com.earth2me.essentials.api.Economy.playerExists(playerName);
+    }
 }

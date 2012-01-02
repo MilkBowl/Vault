@@ -241,4 +241,9 @@ public class Economy_MultiCurrency implements Economy {
     public boolean hasBankSupport() {
         return false;
     }
+
+    @Override
+    public boolean hasAccount(String playerName) {
+        return true;
+    }
 }

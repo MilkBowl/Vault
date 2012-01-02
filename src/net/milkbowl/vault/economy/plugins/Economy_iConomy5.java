@@ -210,4 +210,9 @@ public class Economy_iConomy5 implements Economy {
     public boolean hasBankSupport() {
         return false;
     }
+
+    @Override
+    public boolean hasAccount(String playerName) {
+        return iConomy.getAccount(playerName) != null;
+    }
 }

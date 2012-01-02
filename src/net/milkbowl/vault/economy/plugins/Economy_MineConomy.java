@@ -170,4 +170,9 @@ public class Economy_MineConomy implements Economy {
     public boolean hasBankSupport() {
         return false;
     }
+
+    @Override
+    public boolean hasAccount(String playerName) {
+        return Accounting.containsKey(playerName, MineConomy.accounts);
+    }
 }

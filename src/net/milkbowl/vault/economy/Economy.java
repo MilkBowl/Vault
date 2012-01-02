@@ -55,6 +55,16 @@ public interface Economy {
     public String format(double amount);
 
     /**
+     * Checks if this player has an account on the server yet
+     * This will always return true if the player has joined the server at least once
+     * as all major economy plugins auto-generate a player account when the player joins the server
+     * @param playerName
+     * @return if the player has an account
+     */
+    public boolean hasAccount(String playerName);
+    
+    
+    /**
      * Gets balance of a player
      * @param playerName
      * @return Amount currently held in players account

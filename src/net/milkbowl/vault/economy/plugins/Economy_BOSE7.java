@@ -288,4 +288,9 @@ public class Economy_BOSE7 implements Economy {
     public boolean hasBankSupport() {
         return true;
     }
+
+    @Override
+    public boolean hasAccount(String playerName) {
+        return economy.playerRegistered(playerName, false);
+    }
 }

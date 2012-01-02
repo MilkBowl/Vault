@@ -177,4 +177,9 @@ public class Economy_eWallet implements Economy {
     public boolean hasBankSupport() {
         return false;
     }
+
+    @Override
+    public boolean hasAccount(String playerName) {
+        return econ.hasAccount(playerName);
+    }
 }

@@ -201,4 +201,9 @@ public class Economy_CurrencyCore implements Economy {
     public boolean hasBankSupport() {
         return true;
     }
+
+    @Override
+    public boolean hasAccount(String playerName) {
+        return this.currency.getAccountManager().getAccount(playerName) != null;
+    }
 }

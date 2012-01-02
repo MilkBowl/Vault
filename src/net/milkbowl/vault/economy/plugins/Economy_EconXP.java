@@ -201,4 +201,9 @@ public class Economy_EconXP implements Economy {
     public boolean hasBankSupport() {
         return false;
     }
+
+    @Override
+    public boolean hasAccount(String playerName) {
+        return econ.getPlayer(playerName) != null;
+    }
 }

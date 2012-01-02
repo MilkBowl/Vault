@@ -25,5 +25,4 @@ public abstract class Regions {
     abstract public boolean canBuild(Player player);
     
     abstract public boolean canUse(Player player);
-    
 }

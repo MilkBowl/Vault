@@ -235,4 +235,9 @@ public class Economy_3co implements Economy {
     public boolean hasBankSupport() {
         return false;
     }
+
+    @Override
+    public boolean hasAccount(String playerName) {
+        return economy.hasAccount(plugin.getServer().getPlayer(playerName));
+    }
 }
