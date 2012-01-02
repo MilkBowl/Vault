@@ -15,17 +15,17 @@ import org.bukkit.permissions.PermissionAttachmentInfo;
 import org.bukkit.plugin.Plugin;
 import org.tyrannyofheaven.bukkit.zPermissions.ZPermissionsPlugin;
 
+import net.milkbowl.vault.Vault;
 import net.milkbowl.vault.permission.Permission;
 
 public class Permission_zPermissions extends Permission {
 
     private static final String name = "zPermissions";
     private ZPermissionsPlugin perms;
-    private final Plugin plugin;
     private PermissionServerListener permissionServerListener = null;
     private ConsoleCommandSender ccs;
 
-    public Permission_zPermissions(Plugin plugin) {
+    public Permission_zPermissions(Vault plugin) {
         this.plugin = plugin;
         ccs = Bukkit.getServer().getConsoleSender();
         permissionServerListener = new PermissionServerListener();
