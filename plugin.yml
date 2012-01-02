@@ -15,3 +15,8 @@ commands:
     description: Reloads Vault
     usage: |
            /<command> - Reloads Vault
+
+permissions:
+  vault.admin:
+    description: Notifies the player when vault is in need of an update.
+    default: op
