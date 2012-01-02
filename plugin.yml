@@ -1,7 +1,7 @@
 name: Vault
 main: net.milkbowl.vault.Vault
-version: 1.2.2-b000
-authors: [Cereal, Sleaker]
+version: 1.2.3-b000
+authors: [cereal, Sleaker, mung3r]
 website: http://dev.bukkit.org/server-mods/vault
 load: startup
 description: >
