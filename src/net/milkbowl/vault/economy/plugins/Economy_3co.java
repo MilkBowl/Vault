@@ -21,6 +21,7 @@ package net.milkbowl.vault.economy.plugins;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import me.ic3d.eco.ECO;
@@ -45,7 +46,7 @@ public class Economy_3co implements Economy {
 
     public Economy_3co(Plugin plugin) {
         this.plugin = plugin;
-
+        log.log(Level.SEVERE, "3c0 is an extremely outdated plugin and can not be used reliably for economy! You should update to a modern economy plugin!");
         economyServerListener = new EconomyServerListener(this);
 
         this.plugin.getServer().getPluginManager().registerEvent(Type.PLUGIN_ENABLE, economyServerListener, Priority.Monitor, plugin);
