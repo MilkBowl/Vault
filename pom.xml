@@ -151,6 +151,13 @@
         	<artifactId>PermissionsEx</artifactId>
         	<version>1.18</version>
         </dependency>
+        <dependency>
+        	<groupId>com.herocraftonline.HeroTitles</groupId>
+        	<artifactId>HeroTitles</artifactId>
+        	<scope>system</scope>
+        	<version>0.0.1</version>
+        	<systemPath>${project.basedir}/lib/HeroTitles.jar</systemPath>
+        </dependency>
 	</dependencies>
 	<build>
 		<resources>

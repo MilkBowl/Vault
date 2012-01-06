@@ -40,7 +40,7 @@ public class Chat_iChat extends Chat {
 			Plugin chat = plugin.getServer().getPluginManager().getPlugin("iChat");
 			if (chat != null) {
 				iChat = ((iChat) chat).API;
-				log.info(String.format("[%s][Chat] %s hooked.", chat.getDescription().getName(), "iChat"));
+				log.info(String.format("[%s][Chat] %s hooked.", plugin.getDescription().getName(), "iChat"));
 			}
 		}
 	}
@@ -57,7 +57,7 @@ public class Chat_iChat extends Chat {
 				Plugin chat = plugin.getServer().getPluginManager().getPlugin("iChat");
 				if (chat != null) {
 					this.chat.iChat = ((iChat) chat).API;
-					log.info(String.format("[%s][Chat] %s hooked.", chat.getDescription().getName(), "iChat"));
+					log.info(String.format("[%s][Chat] %s hooked.", plugin.getDescription().getName(), "iChat"));
 				}
 			}
 		}
