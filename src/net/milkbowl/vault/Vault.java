@@ -173,13 +173,13 @@ public class Vault extends JavaPlugin {
         }
         
         //Try to load Towny Chat
-        if (packageExists(new String[] {"com.palmergames.bukkit.towny;"})) {
+        if (packageExists(new String[] { "com.palmergames.bukkit.towny.Towny" })) {
             Chat townChat = new Chat_Towny(this, perms);
             sm.register(Chat.class, townChat, this, ServicePriority.Lowest);
             log.info(String.format("[%s][Chat] Towny found: %s", getDescription().getName(), townChat.isEnabled() ? "Loaded" : "Waiting"));
         }
         
-        if (packageExists(new String[] {"com.herocraftonline.herotitles"} )) {
+        if (packageExists(new String[] { "com.herocraftonline.herotitles.HeroTitles" } )) {
             Chat htChat = new Chat_HeroTitles(this, perms, sm.getRegistration(Chat.class).getProvider());
             sm.register(Chat.class, htChat, this, ServicePriority.Highest);
             log.info(String.format("[%s][Chat] HeroTitles found: %s", getDescription().getName(), htChat.isEnabled() ? "Loaded" : "Waiting"));
