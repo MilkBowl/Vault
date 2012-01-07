@@ -106,7 +106,10 @@ package com.example.plugin;
 import java.util.logging.Logger;
 
 import net.milkbowl.vault.Vault;
+import net.milkbowl.vault.chat.Chat;
+import net.milkbowl.vault.economy.Economy;
 import net.milkbowl.vault.economy.EconomyResponse;
+import net.milkbowl.vault.permission.Permission;
 
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -117,29 +120,45 @@ import org.bukkit.plugin.java.JavaPlugin;
 public class ExamplePlugin extends JavaPlugin {
     
     private static final Logger log = Logger.getLogger("Minecraft");
-    private Vault vault = null;
+    public static Economy econ = null;
+    public static Permission perms = null;
+    public static Chat chat = null;
 
     @Override
     public void onDisable() {
-        log.info(String.format("[%s] Disabled Version %s", getDescription().getName(), getDescription().getVersion()));
+        log.info(Level.INFO, String.format("[%s] Disabled Version %s", getDescription().getName(), getDescription().getVersion()));
     }
 
     @Override
     public void onEnable() {
-        Plugin x = this.getServer().getPluginManager().getPlugin("Vault");
-        if(x != null & x instanceof Vault) {
-            vault = (Vault) x;
-            log.info(String.format("[%s] Enabled Version %s", getDescription().getName(), getDescription().getVersion()));
-        } else {
-            /**
-             * Throw error & disable because we have Vault set as a dependency, you could give a download link
-             * or even download it for the user.  This is all up to you as a developer to decide the best option
-             * for your users!  For our example, we assume that our audience (developers) can find the Vault
-             * plugin and properly install it.  It's usually a bad idea however.
-             */
-            log.warning(String.format("[%s] Vault was _NOT_ found! Disabling plugin.", getDescription().getName()));
-            getPluginLoader().disablePlugin(this);
+        if (!setupEconomy() ) {
+            log.info(Level.SEVERE, String.format("[%s] - Disabled due to no Vault dependency found!", getDescription().getName()));
+            getServer().getPluginManager().disablePlugin(this);
+            return;
         }
+        setupPermission();
+        setupChat();
+    }
+    
+    private boolean setupEconomy() {
+        if (getServer().getPluginManager().getPlugin("Vault") == null) {
+            return false;
+        }
+        RegisteredServiceProvider<Economy> rsp = getServer().getServicesManager().getRegistration(Economy.class);
+        econ = rsp.getProvider();
+        return econ != null;
+    }
+    
+    private boolean setupChat() {
+        RegistereredServiceProvider<Chat> rsp = getServer().getServicesManager().getRegistration(Chat.class);
+        chat = rsp.getProvider();
+        return chat != null;
+    }
+    
+    private boolean setupPermissions() {
+        RegisteredServiceProvider<Permission> rsp = getServer().getServicesManager().getRegistration(Permission.class);
+        perms = rsp.getProvider();
+        return perms != null;
     }
     
     public boolean onCommand(CommandSender sender, Command command, String commandLabel, String[] args) {
@@ -153,16 +172,16 @@ public class ExamplePlugin extends JavaPlugin {
         if(command.getLabel().equals("test-economy")) {
             // Lets give the player 1.05 currency (note that SOME economic plugins require rounding!
             sender.sendMessage(String.format("You have %s", vault.getEconomy().format(vault.getEconomy().getBalance(player.getName()).amount)));
-            EconomyResponse r = vault.getEconomy().depositPlayer(player.getName(), 1.05);
+            EconomyResponse r = econ.depositPlayer(player.getName(), 1.05);
             if(r.transactionSuccess()) {
-                sender.sendMessage(String.format("You were given %s and now have %s", vault.getEconomy().format(r.amount), vault.getEconomy().format(r.balance)));
+                sender.sendMessage(String.format("You were given %s and now have %s", econ.format(r.amount), econ.format(r.balance)));
             } else {
                 sender.sendMessage(String.format("An error occured: %s", r.errorMessage));
             }
             return true;
         } else if(command.getLabel().equals("test-permission")) {
             // Lets test if user has the node "example.plugin.awesome" to determine if they are awesome or just suck
-            if(vault.getPermission().hasPermission(player, "example.plugin.awesome", false)) {
+            if(perms.hasPermission(player, "example.plugin.awesome", false)) {
                 sender.sendMessage("You are awesome!");
             } else {
                 sender.sendMessage("You suck!");
