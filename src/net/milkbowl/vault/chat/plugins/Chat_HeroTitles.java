@@ -85,7 +85,10 @@ public class Chat_HeroTitles extends Chat {
 
     @Override
     public String getPlayerPrefix(String world, String player) {
-        return PlayerTitleManager.getTitlePrefix(player).data;
+        if (PlayerTitleManager.getTitlePrefix(player) != null) {
+            return PlayerTitleManager.getTitlePrefix(player).data;
+        }
+        return "";
     }
 
     @Override
@@ -95,7 +98,10 @@ public class Chat_HeroTitles extends Chat {
 
     @Override
     public String getPlayerSuffix(String world, String player) {
-        return PlayerTitleManager.getTitleSuffix(player).data;
+        if (PlayerTitleManager.getTitleSuffix(player) != null) {
+            return PlayerTitleManager.getTitleSuffix(player).data;
+        }
+        return "";
     }
 
     @Override
@@ -161,7 +167,7 @@ public class Chat_HeroTitles extends Chat {
     public void setGroupInfoInteger(String world, String group, String node, int value) {
         if (subChat != null)
             subChat.setGroupInfoInteger(world, group, node, value);
-        
+
         throw new UnsupportedOperationException("HeroTitles does not support info nodes!");
     }
 
@@ -194,7 +200,7 @@ public class Chat_HeroTitles extends Chat {
     public void setGroupInfoDouble(String world, String group, String node, double value) {
         if (subChat != null)
             subChat.setGroupInfoDouble(world, group, node, value);
-        
+
         throw new UnsupportedOperationException("HeroTitles does not support info nodes!");
     }
 
@@ -227,14 +233,14 @@ public class Chat_HeroTitles extends Chat {
     public void setGroupInfoBoolean(String world, String group, String node, boolean value) {
         if (subChat != null)
             subChat.setGroupInfoBoolean(world, group, node, value);
-        
+
         throw new UnsupportedOperationException("HeroTitles does not support info nodes!");
     }
 
     @Override
     public String getPlayerInfoString(String world, String player, String node, String defaultValue) {
         if (node.equals("color"))
-            return PlayerTitleManager.getTitleColor(player).toString();
+            return PlayerTitleManager.getTitleColor(player) != null ? PlayerTitleManager.getTitleColor(player).toString() : "";
 
         if (subChat != null)
             return subChat.getPlayerInfoString(world, player, node, defaultValue);
@@ -262,7 +268,7 @@ public class Chat_HeroTitles extends Chat {
     public void setGroupInfoString(String world, String group, String node, String value) {
         if (subChat != null)
             subChat.setGroupInfoString(world, group, node, value);
-        
+
         throw new UnsupportedOperationException("HeroTitles does not support info nodes!");
     }
 }
