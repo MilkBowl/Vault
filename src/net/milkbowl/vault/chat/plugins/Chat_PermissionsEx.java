@@ -226,7 +226,7 @@ public class Chat_PermissionsEx extends Chat {
     public String getPlayerPrefix(String world, String playerName) {
         PermissionUser user = PermissionsEx.getPermissionManager().getUser(playerName);
         if (user != null) {
-            return user.getPrefix();
+            return user.getPrefix(world);
         } else {
             return null;
         }
@@ -236,7 +236,7 @@ public class Chat_PermissionsEx extends Chat {
     public String getPlayerSuffix(String world, String playerName) {
         PermissionUser user = PermissionsEx.getPermissionManager().getUser(playerName);
         if (user != null) {
-            return user.getSuffix();
+            return user.getSuffix(world);
         } else {
             return null;
         }
@@ -262,7 +262,7 @@ public class Chat_PermissionsEx extends Chat {
     public String getGroupPrefix(String world, String group) {
         PermissionGroup pGroup = PermissionsEx.getPermissionManager().getGroup(group);
         if (group != null) {
-            return pGroup.getPrefix();
+            return pGroup.getPrefix(world);
         } else {
             return null;
         }
@@ -281,7 +281,7 @@ public class Chat_PermissionsEx extends Chat {
     public String getGroupSuffix(String world, String group) {
         PermissionGroup pGroup = PermissionsEx.getPermissionManager().getGroup(group);
         if (group != null) {
-            return pGroup.getSuffix();
+            return pGroup.getSuffix(world);
         } else {
             return null;
         }
