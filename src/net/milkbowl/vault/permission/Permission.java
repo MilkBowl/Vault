@@ -64,6 +64,9 @@ public abstract class Permission {
      * @return Success or Failure
      */
     public boolean has(String world, String player, String permission) {
+        if (world == null) {
+            return playerHas((String) null, player, permission);
+        }
         return playerHas(world, player, permission);
     }
 
@@ -75,6 +78,9 @@ public abstract class Permission {
      * @return Success or Failure
      */
     public boolean has(World world, String player, String permission) {
+        if (world == null) {
+            return playerHas((String) null, player, permission);
+        }
         return playerHas(world.getName(), player, permission);
     }
 
@@ -116,6 +122,9 @@ public abstract class Permission {
      * @return Success or Failure
      */
     public boolean playerHas(World world, String player, String permission) {
+        if (world == null) {
+            return playerHas((String) null, player, permission);
+        }
         return playerHas(world.getName(), player, permission);
     }
 
@@ -146,6 +155,9 @@ public abstract class Permission {
      * @return Success or Failure
      */
     public boolean playerAdd(World world, String player, String permission) {
+        if (world == null) {
+            return playerAdd((String) null, player, permission);
+        }
         return playerAdd(world.getName(), player, permission);
     }
 
@@ -266,6 +278,9 @@ public abstract class Permission {
      * @return Success or Failure
      */
     public boolean playerRemove(World world, String player, String permission) {
+        if (world == null) {
+            return playerRemove((String) null, player, permission);
+        }
         return playerRemove(world.getName(), player, permission);
     }
 
@@ -330,6 +345,9 @@ public abstract class Permission {
      * @return Success or Failure
      */
     public boolean groupHas(World world, String group, String permission) {
+        if (world == null) {
+            return groupHas((String) null, group, permission);
+        }
         return groupHas(world.getName(), group, permission);
     }
 
@@ -350,6 +368,9 @@ public abstract class Permission {
      * @return Success or Failure
      */
     public boolean groupAdd(World world, String group, String permission) {
+        if (world == null) {
+            return groupAdd((String) null, group, permission);
+        }
         return groupAdd(world.getName(), group, permission);
     }
 
@@ -370,6 +391,9 @@ public abstract class Permission {
      * @return Success or Failure
      */
     public boolean groupRemove(World world, String group, String permission) {
+        if (world == null) {
+            return groupRemove((String) null, group, permission);
+        }
         return groupRemove(world.getName(), group, permission);
     }
 
@@ -390,6 +414,9 @@ public abstract class Permission {
      * @return Success or Failure
      */
     public boolean playerInGroup(World world, String player, String group) {
+        if (world == null) {
+            return playerInGroup((String) null, player, group);
+        }
         return playerInGroup(world.getName(), player, group);
     }
 
@@ -420,6 +447,9 @@ public abstract class Permission {
      * @return Success or Failure
      */
     public boolean playerAddGroup(World world, String player, String group) {
+        if (world == null) {
+            return playerAddGroup((String) null, player, group);
+        }
         return playerAddGroup(world.getName(), player, group);
     }
 
@@ -450,6 +480,9 @@ public abstract class Permission {
      * @return Success or Failure
      */
     public boolean playerRemoveGroup(World world, String player, String group) {
+        if (world == null) {
+            return playerRemoveGroup((String) null, player, group);
+        }
         return playerRemoveGroup(world.getName(), player, group);
     }
 
@@ -478,6 +511,9 @@ public abstract class Permission {
      * @return Array of groups
      */
     public String[] getPlayerGroups(World world, String player) {
+        if (world == null) {
+            return getPlayerGroups((String) null, player);
+        }
         return getPlayerGroups(world.getName(), player);
     }
 
@@ -505,6 +541,9 @@ public abstract class Permission {
      * @return Players primary group
      */
     public String getPrimaryGroup(World world, String player) {
+        if (world == null) {
+            return getPrimaryGroup((String) null, player);
+        }
         return getPrimaryGroup(world.getName(), player);
     }
 
