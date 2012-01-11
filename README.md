@@ -84,6 +84,7 @@ Github and we'll get to it at our convenience.
    - iConomy 6 (http://forums.bukkit.org/threads/40/)
    - 3co (http://forums.bukkit.org/threads/22461/)
    - Essentials Economy (http://forums.bukkit.org/threads/15312/)
+   - Craftconomy (http://dev.bukkit.org/server-mods/craftconomy/)
 
  * Permissions
    - Permissions Ex (http://forums.bukkit.org/threads/18140/)
