@@ -23,7 +23,7 @@ import net.milkbowl.vault.economy.EconomyResponse.ResponseType;
 public class Economy_Craftconomy implements Economy {
     private static final Logger log = Logger.getLogger("Minecraft");
 
-    private String name = "iConomy 6";
+    private String name = "Craftconomy";
     private JavaPlugin plugin = null;
     private PluginManager pluginManager = null;
     protected Craftconomy economy = null;
