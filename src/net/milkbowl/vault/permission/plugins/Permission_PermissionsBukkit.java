@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.bukkit.Bukkit;
+import org.bukkit.command.Command;
 import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.event.Event.Priority;
 import org.bukkit.event.Event.Type;
@@ -26,6 +27,7 @@ public class Permission_PermissionsBukkit extends Permission {
 	private PermissionsPlugin perms = null;
 	private PermissionServerListener permissionServerListener = null;
 	private ConsoleCommandSender ccs;
+	private Command permCommand = null;
 
 	public Permission_PermissionsBukkit(Vault plugin) {
 		this.plugin = plugin;
@@ -42,6 +44,7 @@ public class Permission_PermissionsBukkit extends Permission {
 			Plugin perms = plugin.getServer().getPluginManager().getPlugin("PermissionsBukkit");
 			if (perms != null) {
 				perms = (PermissionsPlugin) perms;
+				permCommand = this.perms.getCommand("permissions");
 				log.info(String.format("[%s][Permission] %s hooked.", plugin.getDescription().getName(), name));
 			}
 		}
@@ -61,6 +64,7 @@ public class Permission_PermissionsBukkit extends Permission {
 				if (perms != null) {
 					if (perms.isEnabled()) {
 						permission.perms = (PermissionsPlugin) perms;
+						permCommand = permission.perms.getCommand("permissions");
 						log.info(String.format("[%s][Permission] %s hooked.", plugin.getDescription().getName(), permission.name));
 					}
 				}
@@ -136,7 +140,7 @@ public class Permission_PermissionsBukkit extends Permission {
 		if (world != null) {
 			permission = world + ":" + permission;
 		}
-		return plugin.getServer().dispatchCommand(ccs, "permissions group setperm " + group + " " + permission + " true");
+		return perms.onCommand(ccs, permCommand, "permissions", new String[] {"group", "setperm", group, permission, "true"});
 	}
 
 	@Override
@@ -144,7 +148,7 @@ public class Permission_PermissionsBukkit extends Permission {
 		if (world != null) {
 			permission = world + ":" + permission;
 		}
-		return plugin.getServer().dispatchCommand(ccs, "permissions group unsetperm " + group + " " + permission);
+		return perms.onCommand(ccs, permCommand, "permissions", new String[] {"group", "unsetperm", group, permission});
 	}
 
 	@Override
@@ -165,7 +169,7 @@ public class Permission_PermissionsBukkit extends Permission {
 		if (world != null) {
 			return false;
 		}
-		return plugin.getServer().dispatchCommand(ccs, "permissions player addgroup " + player + " " + group);
+		return perms.onCommand(ccs, permCommand, "permissions", new String[] {"player", "addgroup", player, group});
 	}
 
 	@Override
@@ -173,7 +177,7 @@ public class Permission_PermissionsBukkit extends Permission {
 		if (world != null) {
 			return false;
 		}
-		return plugin.getServer().dispatchCommand(ccs, "permissions player removegroup " + player + " " + group);
+		return perms.onCommand(ccs, permCommand, "permissions", new String[] {"player", "removegroup", player, group});
 	}
 
 	@Override
