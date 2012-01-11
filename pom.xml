@@ -158,6 +158,13 @@
         	<version>0.0.1</version>
         	<systemPath>${project.basedir}/lib/HeroTitles.jar</systemPath>
         </dependency>
+        <dependency>
+        	<groupId>me.greatman.Craftconomy</groupId>
+        	<artifactId>Craftconomy</artifactId>
+        	<scope>system</scope>
+        	<version>1.0.0</version>
+        	<systemPath>${project.basedir}/lib/Craftconomy-1.0.0-SNAPSHOT.jar</systemPath>
+        </dependency>
 	</dependencies>
 	<build>
 		<resources>
