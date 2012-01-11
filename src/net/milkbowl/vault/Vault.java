@@ -277,7 +277,7 @@ public class Vault extends JavaPlugin {
         }
         
         //Try loading Craftconomy
-        if (packageExists(new String[] { "com.greatman.Craftconomy.Craftconomy" })) {
+        if (packageExists(new String[] { "me.greatman.Craftconomy.Craftconomy" })) {
             Economy econ = new Economy_Craftconomy(this);
             sm.register(Economy.class, econ, this, ServicePriority.Normal);
             log.info(String.format("[%s][Economy] Craftconomy found: %s", getDescription().getName(), econ.isEnabled() ? "Loaded" : "Waiting"));
