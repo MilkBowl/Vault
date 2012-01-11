@@ -158,6 +158,13 @@
         	<version>0.0.1</version>
         	<systemPath>${project.basedir}/lib/HeroTitles.jar</systemPath>
         </dependency>
+        <dependency>
+        	<groupId>de.bananaco.permissions.Permissions</groupId>
+        	<artifactId>bPermissions2</artifactId>
+        	<version>2.6.3</version>
+        	<scope>system</scope>
+        	<systemPath>${project.basedir}/lib/bpermissions2.jar</systemPath>
+        </dependency>
 	</dependencies>
 	<build>
 		<resources>
