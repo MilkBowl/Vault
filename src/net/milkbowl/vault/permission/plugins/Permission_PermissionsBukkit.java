@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.bukkit.Bukkit;
-import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.event.Event.Priority;
 import org.bukkit.event.Event.Type;
 import org.bukkit.event.server.PluginDisableEvent;
@@ -25,11 +24,9 @@ public class Permission_PermissionsBukkit extends Permission {
 	private PluginManager pluginManager = null;
 	private PermissionsPlugin perms = null;
 	private PermissionServerListener permissionServerListener = null;
-	private ConsoleCommandSender ccs;
 
 	public Permission_PermissionsBukkit(Vault plugin) {
 		this.plugin = plugin;
-		ccs = Bukkit.getServer().getConsoleSender();
 		pluginManager = this.plugin.getServer().getPluginManager();
 
 		permissionServerListener = new PermissionServerListener(this);
@@ -104,7 +101,7 @@ public class Permission_PermissionsBukkit extends Permission {
 		if (world != null) {
 			permission = world + ":" + permission;
 		}
-		return plugin.getServer().dispatchCommand(ccs, "permissions player setperm " + player + " " + permission + " true");
+		return plugin.getServer().dispatchCommand(Bukkit.getServer().getConsoleSender(), "permissions player setperm " + player + " " + permission + " true");
 	}
 
 	@Override
@@ -112,7 +109,7 @@ public class Permission_PermissionsBukkit extends Permission {
 		if (world != null) {
 			permission = world + ":" + permission;
 		}
-		return plugin.getServer().dispatchCommand(ccs, "permissions player unsetperm " + player + " " + permission);
+		return plugin.getServer().dispatchCommand(Bukkit.getServer().getConsoleSender(), "permissions player unsetperm " + player + " " + permission);
 	}
 
 	// use superclass implementation of playerAddTransient() and playerRemoveTransient()
@@ -136,7 +133,7 @@ public class Permission_PermissionsBukkit extends Permission {
 		if (world != null) {
 			permission = world + ":" + permission;
 		}
-		return plugin.getServer().dispatchCommand(ccs, "permissions group setperm " + group + " " + permission + " true");
+		return plugin.getServer().dispatchCommand(Bukkit.getServer().getConsoleSender(), "permissions group setperm " + group + " " + permission + " true");
 	}
 
 	@Override
@@ -144,7 +141,7 @@ public class Permission_PermissionsBukkit extends Permission {
 		if (world != null) {
 			permission = world + ":" + permission;
 		}
-		return plugin.getServer().dispatchCommand(ccs, "permissions group unsetperm " + group + " " + permission);
+		return plugin.getServer().dispatchCommand(Bukkit.getServer().getConsoleSender(), "permissions group unsetperm " + group + " " + permission);
 	}
 
 	@Override
@@ -165,7 +162,7 @@ public class Permission_PermissionsBukkit extends Permission {
 		if (world != null) {
 			return false;
 		}
-		return plugin.getServer().dispatchCommand(ccs, "permissions player addgroup " + player + " " + group);
+		return plugin.getServer().dispatchCommand(Bukkit.getServer().getConsoleSender(), "permissions player addgroup " + player + " " + group);
 	}
 
 	@Override
@@ -173,7 +170,7 @@ public class Permission_PermissionsBukkit extends Permission {
 		if (world != null) {
 			return false;
 		}
-		return plugin.getServer().dispatchCommand(ccs, "permissions player removegroup " + player + " " + group);
+		return plugin.getServer().dispatchCommand(Bukkit.getServer().getConsoleSender(), "permissions player removegroup " + player + " " + group);
 	}
 
 	@Override
