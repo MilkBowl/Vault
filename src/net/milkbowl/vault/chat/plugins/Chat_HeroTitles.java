@@ -21,14 +21,12 @@ public class Chat_HeroTitles extends Chat {
     private final Logger log = Logger.getLogger("Minecraft");
     private final String name = "HeroTitles";
     private PermissionServerListener permissionServerListener;
-    private Chat subChat;
     private HeroTitles chat;
     private Plugin plugin = null;
 
-    public Chat_HeroTitles(Plugin plugin, Permission perms, Chat subChat) {
+    public Chat_HeroTitles(Plugin plugin, Permission perms) {
         super(perms);
         this.plugin = plugin;
-        this.subChat = subChat;
         PluginManager pluginManager = this.plugin.getServer().getPluginManager();
 
         permissionServerListener = new PermissionServerListener(this);
@@ -111,129 +109,84 @@ public class Chat_HeroTitles extends Chat {
 
     @Override
     public String getGroupPrefix(String world, String group) {
-        if (subChat != null)
-            return subChat.getGroupPrefix(world, group);
-
         throw new UnsupportedOperationException("HeroTitles does not support info nodes!");
     }
 
     @Override
     public void setGroupPrefix(String world, String group, String prefix) {
-        if (subChat != null)
-            subChat.setGroupPrefix(world, group, prefix);
-
         throw new UnsupportedOperationException("HeroTitles does not support info nodes!");
     }
 
     @Override
     public String getGroupSuffix(String world, String group) {
-        if (subChat != null)
-            return subChat.getGroupSuffix(world, group);
-
         throw new UnsupportedOperationException("HeroTitles does not support info nodes!");
     }
 
     @Override
     public void setGroupSuffix(String world, String group, String suffix) {
-        if (subChat != null)
-            subChat.setGroupSuffix(world, group, suffix);
+        throw new UnsupportedOperationException("HeroTitles does not support info nodes!");
     }
 
     @Override
     public int getPlayerInfoInteger(String world, String player, String node, int defaultValue) {
-        if (subChat != null)
-            return subChat.getPlayerInfoInteger(world, player, node, defaultValue);
-
         throw new UnsupportedOperationException("HeroTitles does not support info nodes!");
     }
 
     @Override
     public void setPlayerInfoInteger(String world, String player, String node, int value) {
-        if (subChat != null)
-            subChat.setPlayerInfoInteger(world, player, node, value);
 
         throw new UnsupportedOperationException("HeroTitles does not support info nodes!");
     }
 
     @Override
     public int getGroupInfoInteger(String world, String group, String node, int defaultValue) {
-        if (subChat != null)
-            return subChat.getGroupInfoInteger(world, group, node, defaultValue);
-
         throw new UnsupportedOperationException("HeroTitles does not support info nodes!");
     }
 
     @Override
     public void setGroupInfoInteger(String world, String group, String node, int value) {
-        if (subChat != null)
-            subChat.setGroupInfoInteger(world, group, node, value);
-
         throw new UnsupportedOperationException("HeroTitles does not support info nodes!");
     }
 
     @Override
     public double getPlayerInfoDouble(String world, String player, String node, double defaultValue) {
-        if (subChat != null)
-            return subChat.getPlayerInfoDouble(world, player, node, defaultValue);
-
         throw new UnsupportedOperationException("HeroTitles does not support info nodes!");
     }
 
     @Override
     public void setPlayerInfoDouble(String world, String player, String node, double value) {
-        if (subChat != null)
-            subChat.setPlayerInfoDouble(world, player, node, value);
-
         throw new UnsupportedOperationException("HeroTitles does not support info nodes!");
 
     }
 
     @Override
     public double getGroupInfoDouble(String world, String group, String node, double defaultValue) {
-        if (subChat != null)
-            return subChat.getGroupInfoDouble(world, group, node, defaultValue);
-
         throw new UnsupportedOperationException("HeroTitles does not support info nodes!");
     }
 
     @Override
     public void setGroupInfoDouble(String world, String group, String node, double value) {
-        if (subChat != null)
-            subChat.setGroupInfoDouble(world, group, node, value);
-
         throw new UnsupportedOperationException("HeroTitles does not support info nodes!");
     }
 
     @Override
     public boolean getPlayerInfoBoolean(String world, String player, String node, boolean defaultValue) {
-        if (subChat != null)
-            return subChat.getPlayerInfoBoolean(world, player, node, defaultValue);
-
         throw new UnsupportedOperationException("HeroTitles does not support info nodes!");
     }
 
     @Override
     public void setPlayerInfoBoolean(String world, String player, String node, boolean value) {
-        if (subChat != null)
-            subChat.setPlayerInfoBoolean(world, player, node, value);
-
         throw new UnsupportedOperationException("HeroTitles does not support info nodes!");
 
     }
 
     @Override
     public boolean getGroupInfoBoolean(String world, String group, String node, boolean defaultValue) {
-        if (subChat != null)
-            return subChat.getGroupInfoBoolean(world, group, node, defaultValue);
-
         throw new UnsupportedOperationException("HeroTitles does not support info nodes!");
     }
 
     @Override
     public void setGroupInfoBoolean(String world, String group, String node, boolean value) {
-        if (subChat != null)
-            subChat.setGroupInfoBoolean(world, group, node, value);
-
         throw new UnsupportedOperationException("HeroTitles does not support info nodes!");
     }
 
@@ -242,33 +195,21 @@ public class Chat_HeroTitles extends Chat {
         if (node.equals("color"))
             return PlayerTitleManager.getTitleColor(player) != null ? PlayerTitleManager.getTitleColor(player).toString() : "";
 
-        if (subChat != null)
-            return subChat.getPlayerInfoString(world, player, node, defaultValue);
-
         throw new UnsupportedOperationException("HeroTitles does not support info nodes!");
     }
 
     @Override
     public void setPlayerInfoString(String world, String player, String node, String value) {
-        if (subChat != null)
-            subChat.setPlayerInfoString(world, player, node, value);
-
         throw new UnsupportedOperationException("HeroTitles does not support info nodes!");
     }
 
     @Override
     public String getGroupInfoString(String world, String group, String node, String defaultValue) {
-        if (subChat != null)
-            return subChat.getGroupInfoString(world, group, node, defaultValue);
-
         throw new UnsupportedOperationException("HeroTitles does not support info nodes!");
     }
 
     @Override
     public void setGroupInfoString(String world, String group, String node, String value) {
-        if (subChat != null)
-            subChat.setGroupInfoString(world, group, node, value);
-
         throw new UnsupportedOperationException("HeroTitles does not support info nodes!");
     }
 }

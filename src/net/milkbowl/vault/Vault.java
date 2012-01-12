@@ -181,7 +181,7 @@ public class Vault extends JavaPlugin {
         }
         
         if (packageExists(new String[] { "com.herocraftonline.herotitles.HeroTitles" } )) {
-            Chat htChat = new Chat_HeroTitles(this, perms, sm.getRegistration(Chat.class).getProvider());
+            Chat htChat = new Chat_HeroTitles(this, perms);
             sm.register(Chat.class, htChat, this, ServicePriority.Highest);
             log.info(String.format("[%s][Chat] HeroTitles found: %s", getDescription().getName(), htChat.isEnabled() ? "Loaded" : "Waiting"));
         }
