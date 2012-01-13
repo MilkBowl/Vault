@@ -165,6 +165,13 @@
         	<scope>system</scope>
         	<systemPath>${project.basedir}/lib/bpermissions2.jar</systemPath>
         </dependency>
+        <dependency>
+        	<groupId>com.dthielke.starburst</groupId>
+        	<artifactId>Starburst</artifactId>
+        	<version>1.0.0</version>
+        	<scope>system</scope>
+        	<systemPath>${project.basedir}/lib/Starburst.jar</systemPath>
+        </dependency>
 	</dependencies>
 	<build>
 		<resources>

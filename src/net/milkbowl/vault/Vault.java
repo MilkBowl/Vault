@@ -52,6 +52,7 @@ import net.milkbowl.vault.permission.plugins.Permission_GroupManager;
 import net.milkbowl.vault.permission.plugins.Permission_Permissions3;
 import net.milkbowl.vault.permission.plugins.Permission_PermissionsBukkit;
 import net.milkbowl.vault.permission.plugins.Permission_PermissionsEx;
+import net.milkbowl.vault.permission.plugins.Permission_Starburst;
 import net.milkbowl.vault.permission.plugins.Permission_SuperPerms;
 import net.milkbowl.vault.permission.plugins.Permission_bPermissions;
 import net.milkbowl.vault.permission.plugins.Permission_bPermissions2;
@@ -281,6 +282,13 @@ public class Vault extends JavaPlugin {
      * Attempts to load Permission Addons
      */
     private void loadPermission() {
+        //Try to load Starburst
+        if (packageExists(new String[] { "com.dthielke.starburst.StarburstPlugin" })) {
+            Permission sPerms = new Permission_Starburst(this);
+            sm.register(Permission.class, sPerms, this, ServicePriority.Highest);
+            log.info(String.format("[%s][Permission] Starburst found: %s", getDescription().getName(), sPerms.isEnabled() ? "Loaded" : "Waiting"));
+        }
+        
         // Try to load PermissionsEx
         if (packageExists(new String[] { "ru.tehkode.permissions.bukkit.PermissionsEx" })) {
             Permission ePerms = new Permission_PermissionsEx(this);
