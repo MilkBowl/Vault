@@ -154,7 +154,11 @@ public class Permission_PermissionsBukkit extends Permission {
 			}
 			return false;
 		}
-		return perms.getGroup(group).getPlayers().contains(player);
+		Group g = perms.getGroup(group);
+		if (g == null) {
+		    return false;
+		}
+		return g.getPlayers().contains(player);
 	}
 
 	@Override
