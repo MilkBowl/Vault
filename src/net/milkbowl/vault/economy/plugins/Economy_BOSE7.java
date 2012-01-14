@@ -103,7 +103,6 @@ public class Economy_BOSE7 implements Economy {
             return new EconomyResponse(amount, balance, type, errorMessage);
         }
 
-        amount = Math.ceil(amount);
         balance = economy.getPlayerMoneyDouble(playerName);
         if (balance - amount < 0) {
             errorMessage = "Insufficient funds";
@@ -140,7 +139,6 @@ public class Economy_BOSE7 implements Economy {
 
             return new EconomyResponse(amount, economy.getPlayerMoneyDouble(playerName), type, errorMessage);
         }
-        amount = Math.ceil(amount);
         balance = economy.getPlayerMoneyDouble(playerName);
         if (economy.setPlayerMoney(playerName, balance + amount, false)) {
             type = EconomyResponse.ResponseType.SUCCESS;
