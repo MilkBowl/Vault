@@ -25,7 +25,7 @@ public class VaultEco implements Method {
 
         return false;
     }
-    
+
     public String getName() {
         return this.vault.getDescription().getName();
     }
@@ -90,7 +90,7 @@ public class VaultEco implements Method {
 
     public void setPlugin(Plugin plugin) {
         this.vault = (Vault) plugin;
-        RegisteredServiceProvider<Economy> economyProvider = this.vault.getServer().getServicesManager().getRegistration(net.milkbowl.vault.economy.Economy.class);
+        RegisteredServiceProvider<Economy> economyProvider = this.vault.getServer().getServicesManager().getRegistration(Economy.class);
         if (economyProvider != null) {
             this.economy = economyProvider.getProvider();
         }
@@ -113,6 +113,7 @@ public class VaultEco implements Method {
             if(!this.economy.withdrawPlayer(this.name, this.balance()).transactionSuccess()) {
                 return false;
             }
+
             if(amount == 0) {
                 return true;
             }
