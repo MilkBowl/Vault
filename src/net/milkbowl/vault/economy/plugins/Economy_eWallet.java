@@ -182,4 +182,13 @@ public class Economy_eWallet implements Economy {
     public boolean hasAccount(String playerName) {
         return econ.hasAccount(playerName);
     }
+
+    @Override
+    public boolean createPlayerAccount(String playerName) {
+        if (hasAccount(playerName)) {
+            return false;
+        }
+        econ.createAccount(playerName, 0);
+        return true;
+    }
 }

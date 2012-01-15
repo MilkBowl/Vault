@@ -206,4 +206,13 @@ public class Economy_CurrencyCore implements Economy {
     public boolean hasAccount(String playerName) {
         return this.currency.getAccountManager().getAccount(playerName) != null;
     }
+
+    @Override
+    public boolean createPlayerAccount(String playerName) {
+        if (this.currency.getAccountManager().getAccount(playerName) != null) {
+            return false;
+        }
+        this.currency.getAccountManager().createAccount(playerName);
+        return true;
+    }
 }

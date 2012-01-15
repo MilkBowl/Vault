@@ -175,4 +175,13 @@ public class Economy_MineConomy implements Economy {
     public boolean hasAccount(String playerName) {
         return Accounting.containsKey(playerName, MineConomy.accounts);
     }
+
+    @Override
+    public boolean createPlayerAccount(String playerName) {
+        if (hasAccount(playerName)) {
+            return false;
+        }
+        Accounting.setBalance(playerName, 0, MineConomy.accounts);
+        return true;
+    }
 }

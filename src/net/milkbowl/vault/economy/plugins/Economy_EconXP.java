@@ -206,4 +206,9 @@ public class Economy_EconXP implements Economy {
     public boolean hasAccount(String playerName) {
         return econ.getPlayer(playerName) != null;
     }
+
+    @Override
+    public boolean createPlayerAccount(String playerName) {
+        return false;
+    }
 }

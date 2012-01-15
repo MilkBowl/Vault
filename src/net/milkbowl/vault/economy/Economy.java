@@ -154,4 +154,10 @@ public interface Economy {
      * @return the List of Banks
      */
     public List<String> getBanks();
+    
+    /**
+     * Attempts to create a player account for the given player
+     * @return if the account creation was successful
+     */
+    public boolean createPlayerAccount(String playerName);
 }

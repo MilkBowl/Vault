@@ -246,4 +246,9 @@ public class Economy_MultiCurrency implements Economy {
     public boolean hasAccount(String playerName) {
         return true;
     }
+
+    @Override
+    public boolean createPlayerAccount(String playerName) {
+        return false;
+    }
 }

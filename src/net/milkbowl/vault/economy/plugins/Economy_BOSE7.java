@@ -291,4 +291,12 @@ public class Economy_BOSE7 implements Economy {
     public boolean hasAccount(String playerName) {
         return economy.playerRegistered(playerName, false);
     }
+    
+    @Override
+    public boolean createPlayerAccount(String playerName) {
+        if (economy.playerRegistered(playerName, false)) {
+            return false;
+        }
+        return economy.registerPlayer(playerName);
+    }
 }

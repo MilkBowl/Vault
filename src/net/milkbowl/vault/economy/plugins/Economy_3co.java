@@ -29,6 +29,8 @@ import net.milkbowl.vault.economy.Economy;
 import net.milkbowl.vault.economy.EconomyResponse;
 import net.milkbowl.vault.economy.EconomyResponse.ResponseType;
 
+import org.bukkit.Bukkit;
+import org.bukkit.entity.Player;
 import org.bukkit.event.Event.Priority;
 import org.bukkit.event.Event.Type;
 import org.bukkit.event.server.PluginDisableEvent;
@@ -240,5 +242,15 @@ public class Economy_3co implements Economy {
     @Override
     public boolean hasAccount(String playerName) {
         return economy.hasAccount(plugin.getServer().getPlayer(playerName));
+    }
+
+    @Override
+    public boolean createPlayerAccount(String playerName) {
+        Player p = Bukkit.getPlayer(playerName);
+        if (p == null) {
+            return false;
+        }
+        economy.createAccount(p, 0);
+        return true;
     }
 }

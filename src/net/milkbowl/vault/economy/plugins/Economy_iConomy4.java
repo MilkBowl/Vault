@@ -252,4 +252,13 @@ public class Economy_iConomy4 implements Economy {
     public boolean hasAccount(String playerName) {
         return iConomy.getBank().hasAccount(playerName);
     }
+
+    @Override
+    public boolean createPlayerAccount(String playerName) {
+        if (hasAccount(playerName)) {
+            return false;
+        }
+        iConomy.getBank().addAccount(playerName);
+        return true;
+    }
 }

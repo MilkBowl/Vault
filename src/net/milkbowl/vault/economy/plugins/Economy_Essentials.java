@@ -95,7 +95,8 @@ public class Economy_Essentials implements Economy {
         return balance;
     }
 
-    private boolean createPlayerAccount(String playerName) {
+    @Override
+    public boolean createPlayerAccount(String playerName) {
         try {
             com.earth2me.essentials.api.Economy.add(playerName, 0);
             return true;

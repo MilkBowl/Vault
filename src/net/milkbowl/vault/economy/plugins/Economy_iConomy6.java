@@ -208,4 +208,12 @@ public class Economy_iConomy6 implements Economy {
     public boolean hasAccount(String playerName) {
         return accounts.exists(playerName);
     }
+
+    @Override
+    public boolean createPlayerAccount(String playerName) {
+        if (hasAccount(playerName)) {
+            return false;
+        }
+        return accounts.create(playerName);
+    }
 }

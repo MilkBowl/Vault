@@ -22,7 +22,7 @@ public class VaultEco implements Method {
         if (hasAccount(name)) {
             return false;
         }
-        
+
         return false;
     }
     
