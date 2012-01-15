@@ -213,6 +213,6 @@ public class Economy_iConomy5 implements Economy {
 
     @Override
     public boolean hasAccount(String playerName) {
-        return iConomy.getAccount(playerName) != null;
+        return iConomy.hasAccount(playerName);
     }
 }

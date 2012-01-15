@@ -172,6 +172,12 @@
         	<scope>system</scope>
         	<systemPath>${project.basedir}/lib/Starburst.jar</systemPath>
         </dependency>
+        <dependency>
+        	<groupId>com.niji.register</groupId>
+        	<artifactId>Register</artifactId>
+        	<scope>system</scope>
+        	<systemPath>${project.basedir}/lib/Register.jar</systemPath>
+        </dependency>
 	</dependencies>
 	<build>
 		<resources>
