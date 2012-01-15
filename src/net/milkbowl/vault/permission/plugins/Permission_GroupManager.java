@@ -184,12 +184,7 @@ public class Permission_GroupManager extends Permission {
 
     @Override
     public boolean playerInGroup(String worldName, String playerName, String groupName) {
-        String[] groups = perms.getGroups(playerName);
-        for (String group : groups)
-            if (group.equalsIgnoreCase(groupName))
-                return true;
-
-        return false;
+        return perms.inGroup(playerName, worldName);
     }
 
     @Override
