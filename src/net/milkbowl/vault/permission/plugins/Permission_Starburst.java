@@ -1,5 +1,7 @@
 package net.milkbowl.vault.permission.plugins;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 import net.milkbowl.vault.Vault;
@@ -8,11 +10,13 @@ import net.milkbowl.vault.permission.Permission;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.World;
+import org.bukkit.entity.Player;
 import org.bukkit.event.Event.Priority;
 import org.bukkit.event.Event.Type;
 import org.bukkit.event.server.PluginDisableEvent;
 import org.bukkit.event.server.PluginEnableEvent;
 import org.bukkit.event.server.ServerListener;
+import org.bukkit.permissions.PermissionAttachmentInfo;
 import org.bukkit.plugin.Plugin;
 
 import com.dthielke.starburst.Group;
@@ -196,6 +200,11 @@ public class Permission_Starburst extends Permission {
 
     @Override
     public boolean playerInGroup(String world, String player, String group) {
+        Player p = Bukkit.getServer().getPlayer(player);
+        if (p != null) {
+            return p.hasPermission("group." + group);
+        }
+        
         OfflinePlayer op = Bukkit.getOfflinePlayer(player);
         if (op == null) {
             return false;
@@ -261,28 +270,17 @@ public class Permission_Starburst extends Permission {
 
     @Override
     public String[] getPlayerGroups(String world, String player) {
-        OfflinePlayer op = Bukkit.getOfflinePlayer(player);
-        if (op == null) {
-            return null;
+        Player p = Bukkit.getServer().getPlayer(player);
+        if (p == null)
+            throw new UnsupportedOperationException(getName() + " does not support offline player resolution.");
+
+        List<String> groups = new ArrayList<String>();
+        for (PermissionAttachmentInfo pai : p.getEffectivePermissions()) {
+            if (!pai.getPermission().startsWith("group.") || !pai.getValue())
+                continue;
+            groups.add(pai.getPermission().substring(6));
         }
-        GroupSet set;
-        World w = Bukkit.getWorld(world);
-        if (w != null) {
-            set = perms.getGroupManager().getDefaultGroupSet();
-        } else {
-            set = perms.getGroupManager().getWorldSet(w);
-        }
-        User u = set.getUser(op);
-        if (u == null) {
-            return null;
-        }
-        String[] s = new String[u.getChildren().size()];
-        int i = 0;
-        for (Group g : u.getChildren()) {
-            s[i] = g.getName();
-            i++;
-        }
-        return s;
+        return groups.toArray(new String[0]);
     }
 
     @Override
