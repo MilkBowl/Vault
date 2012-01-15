@@ -161,7 +161,7 @@ public class Permission_Starburst extends Permission {
             return false;
         }
         Map<String, Boolean> effective = g.aggregatePermissions();
-        return effective.containsKey(permission) ? effective.get(permission) : false;
+        return effective.containsKey(permission.toLowerCase()) ? effective.get(permission.toLowerCase()) : false;
     }
 
     @Override
