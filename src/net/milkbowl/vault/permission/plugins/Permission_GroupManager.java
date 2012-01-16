@@ -177,7 +177,7 @@ public class Permission_GroupManager extends Permission {
     	Group group = owh.getGroup(groupName);
     	if (group == null)
     		return false;
-    	
+
     	group.removePermission(permission);
     	return true;
     }

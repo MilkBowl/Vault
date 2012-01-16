@@ -19,6 +19,8 @@
 
 package net.milkbowl.vault;
 
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.net.URL;
 import java.util.Collection;
 import java.util.logging.Logger;
@@ -66,6 +68,8 @@ import org.bukkit.event.Event.Priority;
 import org.bukkit.event.Event.Type;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerListener;
+import org.bukkit.event.server.PluginEnableEvent;
+import org.bukkit.event.server.ServerListener;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.ServicePriority;
 import org.bukkit.plugin.ServicesManager;
@@ -74,6 +78,8 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
+
+import com.nijikokun.register.payment.Methods;
 
 public class Vault extends JavaPlugin {
 
@@ -103,6 +109,7 @@ public class Vault extends JavaPlugin {
         getCommand("vault-info").setExecutor(this);
         getCommand("vault-reload").setExecutor(this);
         this.getServer().getPluginManager().registerEvent(Type.PLAYER_JOIN, new VaultPlayerListener(), Priority.Monitor, this);
+        this.getServer().getPluginManager().registerEvent(Type.PLUGIN_ENABLE, new VaultPluginListener(), Priority.Monitor, this);
         
         // Schedule to check the version every 30 minutes for an update. This is to update the most recent 
         // version so if an admin reconnects they will be warned about newer versions.
@@ -463,6 +470,36 @@ public class Vault extends JavaPlugin {
                 }
             }
         }
+    }
+    
+    public class VaultPluginListener extends ServerListener {
+
+        @Override
+        public void onPluginEnable(PluginEnableEvent event) {
+            if (event.getPlugin().getDescription().getName().equals("Register")) {
+                try {
+                    Method m = Methods.class.getMethod("addMethod", Methods.class);
+                    m.setAccessible(true);
+                    m.invoke(null, "Vault", new net.milkbowl.vault.VaultEco());
+                    if (!Methods.setPreferred("Vault")) {
+                        log.info("Unable to hook register");
+                    } else {
+                        log.info("[Vault] - Successfully injected Vault methods into Register.");
+                    }
+                } catch (SecurityException e) {
+                    log.info("Unable to hook register");
+                } catch (NoSuchMethodException e) {
+                    log.info("Unable to hook register");
+                } catch (IllegalArgumentException e) {
+                    log.info("Unable to hook register");
+                } catch (IllegalAccessException e) {
+                    log.info("Unable to hook register");
+                } catch (InvocationTargetException e) {
+                    log.info("Unable to hook register");
+                }
+            }
+        }
+        
     }
 }
 
