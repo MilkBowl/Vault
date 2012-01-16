@@ -88,7 +88,7 @@ public class Vault extends JavaPlugin {
     private String newVersion;
     private String currentVersion;
     private ServicesManager sm;
-    
+
     @Override
     public void onDisable() {
         // Remove all Service Registrations
@@ -110,7 +110,7 @@ public class Vault extends JavaPlugin {
         getCommand("vault-reload").setExecutor(this);
         this.getServer().getPluginManager().registerEvent(Type.PLAYER_JOIN, new VaultPlayerListener(), Priority.Monitor, this);
         this.getServer().getPluginManager().registerEvent(Type.PLUGIN_ENABLE, new VaultPluginListener(), Priority.Monitor, this);
-        
+
         // Schedule to check the version every 30 minutes for an update. This is to update the most recent 
         // version so if an admin reconnects they will be warned about newer versions.
         this.getServer().getScheduler().scheduleAsyncRepeatingTask(this, new Runnable() {
@@ -128,10 +128,10 @@ public class Vault extends JavaPlugin {
                     // ignore exceptions
                 }
             }
-            
+
         }, 0, 432000);
-        
-        
+
+
         log.info(String.format("[%s] Enabled Version %s", getDescription().getName(), getDescription().getVersion()));
     }
 
@@ -152,14 +152,14 @@ public class Vault extends JavaPlugin {
             sm.register(Chat.class, mChat, this, ServicePriority.Highest);
             log.info(String.format("[%s][Chat] mChat found: %s", getDescription().getName(), mChat.isEnabled() ? "Loaded" : "Waiting"));
         }
-        
+
         //try loading bPermissions
         if (packageExists(new String[] {"de.bananaco.permissions.info.InfoReader"})) {
             Chat bPerms = new Chat_bPermissions(this, perms);
             sm.register(Chat.class, bPerms, this, ServicePriority.Normal);
             log.info(String.format("[%s][Chat] bPermissions found: %s", getDescription().getName(), bPerms.isEnabled() ? "Loaded" : "Waiting"));
         }
-        
+
         // Try to load GroupManager
         if (packageExists(new String[] { "org.anjocaido.groupmanager.GroupManager" })) {
             Chat gPerms = new Chat_GroupManager(this, perms);
@@ -180,14 +180,14 @@ public class Vault extends JavaPlugin {
             sm.register(Chat.class, iChat, this, ServicePriority.Low);
             log.info(String.format("[%s][Chat] iChat found: %s", getDescription().getName(), iChat.isEnabled() ? "Loaded" : "Waiting"));
         }
-        
+
         //Try to load Towny Chat
         if (packageExists(new String[] { "com.palmergames.bukkit.towny.Towny" })) {
             Chat townChat = new Chat_Towny(this, perms);
             sm.register(Chat.class, townChat, this, ServicePriority.Lowest);
             log.info(String.format("[%s][Chat] Towny found: %s", getDescription().getName(), townChat.isEnabled() ? "Loaded" : "Waiting"));
         }
-        
+
         if (packageExists(new String[] { "com.herocraftonline.herotitles.HeroTitles" } )) {
             Chat htChat = new Chat_HeroTitles(this, perms);
             sm.register(Chat.class, htChat, this, ServicePriority.Highest);
@@ -241,14 +241,14 @@ public class Vault extends JavaPlugin {
             sm.register(net.milkbowl.vault.economy.Economy.class, bose7, this, ServicePriority.Normal);
             log.info(String.format("[%s][Economy] BOSEconomy7 found: %s", getDescription().getName(), bose7.isEnabled() ? "Loaded" : "Waiting"));
         }
-        
+
         //Try to load CurrencyCore
         if (packageExists(new String[] { "is.currency.Currency" })) {
             Economy cCore = new Economy_CurrencyCore(this);
             sm.register(net.milkbowl.vault.economy.Economy.class, cCore, this, ServicePriority.Normal);
             log.info(String.format("[%s][Economy] CurrencyCore found: %s", getDescription().getName(), cCore.isEnabled() ? "Loaded" : "Waiting"));
         }
-        
+
         // Try to load Essentials Economy
         if (packageExists(new String[] { "com.earth2me.essentials.api.Economy", "com.earth2me.essentials.api.NoLoanPermittedException", "com.earth2me.essentials.api.UserDoesNotExistException" })) {
             Economy essentials = new Economy_Essentials(this);
@@ -295,7 +295,7 @@ public class Vault extends JavaPlugin {
             sm.register(Permission.class, sPerms, this, ServicePriority.Highest);
             log.info(String.format("[%s][Permission] Starburst found: %s", getDescription().getName(), sPerms.isEnabled() ? "Loaded" : "Waiting"));
         }
-        
+
         // Try to load PermissionsEx
         if (packageExists(new String[] { "ru.tehkode.permissions.bukkit.PermissionsEx" })) {
             Permission ePerms = new Permission_PermissionsEx(this);
@@ -309,28 +309,28 @@ public class Vault extends JavaPlugin {
             sm.register(Permission.class, pPerms, this, ServicePriority.Highest);
             log.info(String.format("[%s][Permission] PermissionsBukkit found: %s", getDescription().getName(), pPerms.isEnabled() ? "Loaded" : "Waiting"));
         }
-        
+
         //try loading bPermissions2
         if (packageExists(new String[] {"de.bananaco.bpermissions.api.WorldManager"})) {
             Permission bPerms = new Permission_bPermissions2(this);
             sm.register(Permission.class, bPerms, this, ServicePriority.Highest);
             log.info(String.format("[%s][Chat] bPermissions found: %s", getDescription().getName(), bPerms.isEnabled() ? "Loaded" : "Waiting"));
         }
-        
+
         //Try to load bPermissions
         if (packageExists(new String[] {"de.bananaco.permissions.SuperPermissionHandler"})) {
             Permission bPerms = new Permission_bPermissions(this);
             sm.register(Permission.class, bPerms, this, ServicePriority.Highest);
             log.info(String.format("[%s][Permission] bPermissions found: %s", getDescription().getName(), bPerms.isEnabled() ? "Loaded" : "Waiting"));
         }
-        
+
         //Try to load zPermission
         if (packageExists(new String[] {"org.tyrannyofheaven.bukkit.zPermissions"})) {
             Permission zPerms = new Permission_zPermissions(this);
             sm.register(Permission.class, zPerms, this, ServicePriority.Highest);
             log.info(String.format("[%s][Permission] GroupManager found: %s", getDescription().getName(), zPerms.isEnabled() ? "Loaded" : "Waiting"));
         }
-        
+
         // Try to load GroupManager
         if (packageExists(new String[] { "org.anjocaido.groupmanager.GroupManager" })) {
             Permission gPerms = new Permission_GroupManager(this);
@@ -347,7 +347,7 @@ public class Vault extends JavaPlugin {
         Permission perms = new Permission_SuperPerms(this);
         sm.register(Permission.class, perms, this, ServicePriority.Lowest);
         log.info(String.format("[%s][Permission] SuperPermissions loaded as backup permission system.", getDescription().getName()));
-        
+
         this.perms = sm.getRegistration(Permission.class).getProvider();
     }
 
@@ -408,11 +408,11 @@ public class Vault extends JavaPlugin {
             return true;
         }
     }
-    
+
     public synchronized void setVersion(String newVersion) {
         this.newVersion = newVersion;
     }
-    
+
     /**
      * Determines if all packages in a String array are within the Classpath
      * This is the best way to determine if a specific plugin exists and will be
@@ -431,7 +431,7 @@ public class Vault extends JavaPlugin {
             return false;
         }
     }
-    
+
     public String updateCheck(String currentVersion) throws Exception {
         String pluginUrlString = "http://dev.bukkit.org/server-mods/vault/files.rss";
         try {
@@ -452,9 +452,9 @@ public class Vault extends JavaPlugin {
         }
         return currentVersion;
     }
-    
+
     public class VaultPlayerListener extends PlayerListener {
-        
+
         @Override
         public void onPlayerJoin(PlayerJoinEvent event) {
             Player player = event.getPlayer();
@@ -471,35 +471,36 @@ public class Vault extends JavaPlugin {
             }
         }
     }
-    
+
     public class VaultPluginListener extends ServerListener {
 
         @Override
         public void onPluginEnable(PluginEnableEvent event) {
             if (event.getPlugin().getDescription().getName().equals("Register")) {
-                try {
-                    Method m = Methods.class.getMethod("addMethod", Methods.class);
-                    m.setAccessible(true);
-                    m.invoke(null, "Vault", new net.milkbowl.vault.VaultEco());
-                    if (!Methods.setPreferred("Vault")) {
+                if (!Methods.hasMethod()) {
+                    try {
+                        Method m = Methods.class.getMethod("addMethod", Methods.class);
+                        m.setAccessible(true);
+                        m.invoke(null, "Vault", new net.milkbowl.vault.VaultEco());
+                        if (!Methods.setPreferred("Vault")) {
+                            log.info("Unable to hook register");
+                        } else {
+                            log.info("[Vault] - Successfully injected Vault methods into Register.");
+                        }
+                    } catch (SecurityException e) {
                         log.info("Unable to hook register");
-                    } else {
-                        log.info("[Vault] - Successfully injected Vault methods into Register.");
+                    } catch (NoSuchMethodException e) {
+                        log.info("Unable to hook register");
+                    } catch (IllegalArgumentException e) {
+                        log.info("Unable to hook register");
+                    } catch (IllegalAccessException e) {
+                        log.info("Unable to hook register");
+                    } catch (InvocationTargetException e) {
+                        log.info("Unable to hook register");
                     }
-                } catch (SecurityException e) {
-                    log.info("Unable to hook register");
-                } catch (NoSuchMethodException e) {
-                    log.info("Unable to hook register");
-                } catch (IllegalArgumentException e) {
-                    log.info("Unable to hook register");
-                } catch (IllegalAccessException e) {
-                    log.info("Unable to hook register");
-                } catch (InvocationTargetException e) {
-                    log.info("Unable to hook register");
                 }
             }
         }
-        
     }
 }
 
