@@ -40,6 +40,7 @@ import net.milkbowl.vault.economy.Economy;
 import net.milkbowl.vault.economy.plugins.Economy_3co;
 import net.milkbowl.vault.economy.plugins.Economy_BOSE6;
 import net.milkbowl.vault.economy.plugins.Economy_BOSE7;
+import net.milkbowl.vault.economy.plugins.Economy_Craftconomy;
 import net.milkbowl.vault.economy.plugins.Economy_CurrencyCore;
 import net.milkbowl.vault.economy.plugins.Economy_EconXP;
 import net.milkbowl.vault.economy.plugins.Economy_Essentials;
@@ -214,6 +215,13 @@ public class Vault extends JavaPlugin {
 
         }
 
+        //Try Loading Craftconomy
+        if (packageExists(new String[] {"me.greatman.Craftconomy.Craftconomy"})) {
+            Economy econ = new Economy_Craftconomy(this);
+            sm.register(Economy.class, econ, this, ServicePriority.Normal);
+            log.info(String.format("[%s][Economy] CraftConomy found: %s", getDescription().getName(), econ.isEnabled() ? "Loaded" : "Waiting"));
+        }
+        
         //Try loading eWallet
         if (packageExists(new String[] { "me.ethan.eWallet.ECO" })) {
             Economy econ = new Economy_eWallet(this);

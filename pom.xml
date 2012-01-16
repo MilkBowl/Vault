@@ -179,6 +179,13 @@
         	<systemPath>${project.basedir}/lib/Register.jar</systemPath>
         	<version>1.5</version>
         </dependency>
+        <dependency>
+        	<groupId>me.greatman.Craftconomy</groupId>
+        	<artifactId>Craftconomy</artifactId>
+        	<version>1.0.0</version>
+        	<scope>system</scope>
+        	<systemPath>${project.basedir}/lib/Craftconomy.jar</systemPath>
+        </dependency>
 	</dependencies>
 	<build>
 		<resources>
