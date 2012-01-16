@@ -97,14 +97,10 @@ public class Economy_Essentials implements Economy {
 
     @Override
     public boolean createPlayerAccount(String playerName) {
-        try {
-            com.earth2me.essentials.api.Economy.add(playerName, 0);
-            return true;
-        } catch (UserDoesNotExistException e1) {
-            return false;
-        } catch (NoLoanPermittedException e1) {
+        if (hasAccount(playerName)) {
             return false;
         }
+        return com.earth2me.essentials.api.Economy.createNPC(playerName);
     }
 
     @Override
