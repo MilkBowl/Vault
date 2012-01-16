@@ -484,7 +484,7 @@ public class Vault extends JavaPlugin {
 
         @Override
         public void onPluginEnable(PluginEnableEvent event) {
-            if (event.getPlugin().getDescription().getName().equals("Register")) {
+            if (event.getPlugin().getDescription().getName().equals("Register") && packageExists(new String[] {"com.nijikokun.register.payment.Methods"})) {
                 if (!Methods.hasMethod()) {
                     try {
                         Method m = Methods.class.getMethod("addMethod", Methods.class);
