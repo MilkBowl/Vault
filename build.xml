@@ -44,7 +44,7 @@
   </target>
 	
   <target name="javadoc" description="Generate JavaDoc">
-	<javadoc packagenames="net.milkbowl.vault.economy,net.milkbowl.vault.permission,net.milkbowl.vault.chat"
+	<javadoc packagenames="net.milkbowl.vault.economy,net.milkbowl.vault.permission,net.milkbowl.vault.chat,net.milkbowl.vault.item"
 			sourcepath="src"
 			destdir="/var/www/javadoc/vault"
 			access="public"
