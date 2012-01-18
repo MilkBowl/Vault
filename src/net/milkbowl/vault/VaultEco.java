@@ -55,12 +55,11 @@ public class VaultEco implements Method {
     }
 
     public boolean hasBankAccount(String bank, String name) {
-        return this.economy.isBankOwner(bank, name).transactionSuccess()
-                || this.economy.isBankMember(bank, name).transactionSuccess();
+        return this.economy.isBankOwner(bank, name).transactionSuccess() || this.economy.isBankMember(bank, name).transactionSuccess();
     }
 
     public boolean createAccount(String name) {
-        return this.economy.createBank(name, "").transactionSuccess();
+        return this.economy.createPlayerAccount(name);
     }
 
     public boolean createAccount(String name, double balance) {
