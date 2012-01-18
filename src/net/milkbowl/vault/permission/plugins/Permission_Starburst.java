@@ -1,24 +1,26 @@
 package net.milkbowl.vault.permission.plugins;
 
-import com.dthielke.starburst.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
+
 import net.milkbowl.vault.Vault;
 import net.milkbowl.vault.permission.Permission;
+
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
-import org.bukkit.World;
-import org.bukkit.entity.Player;
 import org.bukkit.event.Event.Priority;
 import org.bukkit.event.Event.Type;
 import org.bukkit.event.server.PluginDisableEvent;
 import org.bukkit.event.server.PluginEnableEvent;
 import org.bukkit.event.server.ServerListener;
-import org.bukkit.permissions.PermissionAttachmentInfo;
 import org.bukkit.plugin.Plugin;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import com.dthielke.starburst.Group;
+import com.dthielke.starburst.GroupManager;
+import com.dthielke.starburst.GroupSet;
+import com.dthielke.starburst.StarburstPlugin;
+import com.dthielke.starburst.User;
 
 public class Permission_Starburst extends Permission {
     private StarburstPlugin perms;
