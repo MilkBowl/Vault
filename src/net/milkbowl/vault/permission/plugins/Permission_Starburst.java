@@ -1,14 +1,11 @@
 package net.milkbowl.vault.permission.plugins;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
-
+import com.dthielke.starburst.*;
 import net.milkbowl.vault.Vault;
 import net.milkbowl.vault.permission.Permission;
-
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
+import org.bukkit.entity.Player;
 import org.bukkit.event.Event.Priority;
 import org.bukkit.event.Event.Type;
 import org.bukkit.event.server.PluginDisableEvent;
@@ -16,11 +13,9 @@ import org.bukkit.event.server.PluginEnableEvent;
 import org.bukkit.event.server.ServerListener;
 import org.bukkit.plugin.Plugin;
 
-import com.dthielke.starburst.Group;
-import com.dthielke.starburst.GroupManager;
-import com.dthielke.starburst.GroupSet;
-import com.dthielke.starburst.StarburstPlugin;
-import com.dthielke.starburst.User;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
 
 public class Permission_Starburst extends Permission {
     private StarburstPlugin perms;
@@ -87,7 +82,7 @@ public class Permission_Starburst extends Permission {
         OfflinePlayer op = Bukkit.getOfflinePlayer(player);
         GroupSet set = perms.getGroupManager().getWorldSet(Bukkit.getWorld(world));
         User user = set.getUser(op);
-        
+
         Set<Group> children = user.getChildren(true);
         List<String> groups = new ArrayList<String>();
         for (Group child : children) {
@@ -218,6 +213,14 @@ public class Permission_Starburst extends Permission {
     @Override
     public boolean playerHas(String world, String player, String permission) {
         OfflinePlayer op = Bukkit.getOfflinePlayer(player);
+
+        if (op.isOnline()) {
+            Player p = (Player) op;
+            if (p.getWorld().getName().equalsIgnoreCase(world)) {
+                return p.hasPermission(permission);
+            }
+        }
+
         GroupSet set = perms.getGroupManager().getWorldSet(Bukkit.getWorld(world));
         Group user = set.getUser(op);
         return user.hasPermission(permission, true);
