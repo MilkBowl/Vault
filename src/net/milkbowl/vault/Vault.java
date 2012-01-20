@@ -120,9 +120,8 @@ public class Vault extends JavaPlugin {
             public void run() {
                 try {
                     newVersion = updateCheck(currentVersion);
-                    String oldVersion = getDescription().getVersion().substring(0, 5);
-                    if (!newVersion.contains(oldVersion)) {
-                        log.warning(newVersion + " is out! You are running " + oldVersion);
+                    if (!newVersion.contains(currentVersion)) {
+                        log.warning(newVersion + " is out! You are running " + currentVersion);
                         log.warning("Update Vault at: http://dev.bukkit.org/server-mods/vault");
                     }
                 } catch (Exception e) {
