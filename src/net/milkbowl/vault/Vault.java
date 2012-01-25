@@ -65,12 +65,11 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.entity.Player;
-import org.bukkit.event.Event.Priority;
-import org.bukkit.event.Event.Type;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
+import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
-import org.bukkit.event.player.PlayerListener;
 import org.bukkit.event.server.PluginEnableEvent;
-import org.bukkit.event.server.ServerListener;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.ServicePriority;
 import org.bukkit.plugin.ServicesManager;
@@ -109,8 +108,7 @@ public class Vault extends JavaPlugin {
 
         getCommand("vault-info").setExecutor(this);
         getCommand("vault-reload").setExecutor(this);
-        this.getServer().getPluginManager().registerEvent(Type.PLAYER_JOIN, new VaultPlayerListener(), Priority.Monitor, this);
-        this.getServer().getPluginManager().registerEvent(Type.PLUGIN_ENABLE, new VaultPluginListener(), Priority.Monitor, this);
+        getServer().getPluginManager().registerEvents(new VaultListener(), this);
 
         // Schedule to check the version every 30 minutes for an update. This is to update the most recent 
         // version so if an admin reconnects they will be warned about newer versions.
@@ -460,9 +458,9 @@ public class Vault extends JavaPlugin {
         return currentVersion;
     }
 
-    public class VaultPlayerListener extends PlayerListener {
+    public class VaultListener implements Listener {
 
-        @Override
+        @EventHandler(priority = EventPriority.MONITOR)
         public void onPlayerJoin(PlayerJoinEvent event) {
             Player player = event.getPlayer();
             if (perms.has(player, "vault.admin")) {
@@ -477,11 +475,8 @@ public class Vault extends JavaPlugin {
                 }
             }
         }
-    }
-
-    public class VaultPluginListener extends ServerListener {
-
-        @Override
+        
+        @EventHandler(priority = EventPriority.MONITOR)
         public void onPluginEnable(PluginEnableEvent event) {
             if (event.getPlugin().getDescription().getName().equals("Register") && packageExists(new String[] {"com.nijikokun.register.payment.Methods"})) {
                 if (!Methods.hasMethod()) {

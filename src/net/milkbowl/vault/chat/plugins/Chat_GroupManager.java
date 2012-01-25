@@ -2,18 +2,18 @@ package net.milkbowl.vault.chat.plugins;
 
 import java.util.logging.Logger;
 
-import org.anjocaido.groupmanager.GroupManager;
-import org.anjocaido.groupmanager.permissions.AnjoPermissionsHandler;
-import org.bukkit.event.Event.Priority;
-import org.bukkit.event.Event.Type;
-import org.bukkit.event.server.PluginDisableEvent;
-import org.bukkit.event.server.PluginEnableEvent;
-import org.bukkit.event.server.ServerListener;
-import org.bukkit.plugin.Plugin;
-import org.bukkit.plugin.PluginManager;
-
 import net.milkbowl.vault.chat.Chat;
 import net.milkbowl.vault.permission.Permission;
+
+import org.anjocaido.groupmanager.GroupManager;
+import org.anjocaido.groupmanager.permissions.AnjoPermissionsHandler;
+import org.bukkit.Bukkit;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
+import org.bukkit.event.Listener;
+import org.bukkit.event.server.PluginDisableEvent;
+import org.bukkit.event.server.PluginEnableEvent;
+import org.bukkit.plugin.Plugin;
 
 @SuppressWarnings("deprecation")
 public class Chat_GroupManager extends Chat {
@@ -21,20 +21,14 @@ public class Chat_GroupManager extends Chat {
 
 	private final String name = "GroupManager - Chat";
 	private Plugin plugin = null;
-	private PluginManager pluginManager = null;
 	private GroupManager groupManager;
 	private AnjoPermissionsHandler perms;
-	private PermissionServerListener permissionServerListener = null;
+
 
 	public Chat_GroupManager(Plugin plugin, Permission permissions) {
 		super(permissions);
 		this.plugin = plugin;
-		pluginManager = this.plugin.getServer().getPluginManager();
-
-		permissionServerListener = new PermissionServerListener(this);
-
-		this.pluginManager.registerEvent(Type.PLUGIN_ENABLE, permissionServerListener, Priority.Monitor, plugin);
-		this.pluginManager.registerEvent(Type.PLUGIN_DISABLE, permissionServerListener, Priority.Monitor, plugin);
+		Bukkit.getServer().getPluginManager().registerEvents(new PermissionServerListener(this), plugin);
 
 		// Load Plugin in case it was loaded before
 		if (groupManager == null) {
@@ -49,13 +43,14 @@ public class Chat_GroupManager extends Chat {
 		}
 	}
 
-	private class PermissionServerListener extends ServerListener {
+	public class PermissionServerListener implements Listener {
 		Chat_GroupManager chat = null;
 
 		public PermissionServerListener(Chat_GroupManager chat) {
 			this.chat = chat;
 		}
 
+		@EventHandler(priority = EventPriority.MONITOR)
 		public void onPluginEnable(PluginEnableEvent event) {
 			if (chat.groupManager == null) {
 				Plugin perms = plugin.getServer().getPluginManager().getPlugin("GroupManager");
@@ -70,6 +65,7 @@ public class Chat_GroupManager extends Chat {
 			}
 		}
 
+		@EventHandler(priority = EventPriority.MONITOR)
 		public void onPluginDisable(PluginDisableEvent event) {
 			if (chat.groupManager != null) {
 				if (event.getPlugin().getDescription().getName().equals("GroupManager")) {

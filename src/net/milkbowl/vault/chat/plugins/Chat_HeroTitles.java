@@ -2,37 +2,32 @@ package net.milkbowl.vault.chat.plugins;
 
 import java.util.logging.Logger;
 
-import org.bukkit.event.Event.Priority;
-import org.bukkit.event.Event.Type;
+import net.milkbowl.vault.chat.Chat;
+import net.milkbowl.vault.permission.Permission;
+
+import org.bukkit.Bukkit;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
+import org.bukkit.event.Listener;
 import org.bukkit.event.server.PluginDisableEvent;
 import org.bukkit.event.server.PluginEnableEvent;
-import org.bukkit.event.server.ServerListener;
 import org.bukkit.plugin.Plugin;
-import org.bukkit.plugin.PluginManager;
 
 import com.herocraftonline.herotitles.HeroTitles;
 import com.herocraftonline.herotitles.PlayerTitleManager;
-
-import net.milkbowl.vault.chat.Chat;
-import net.milkbowl.vault.permission.Permission;
 
 public class Chat_HeroTitles extends Chat {
 
     private final Logger log = Logger.getLogger("Minecraft");
     private final String name = "HeroTitles";
-    private PermissionServerListener permissionServerListener;
     private HeroTitles chat;
     private Plugin plugin = null;
 
     public Chat_HeroTitles(Plugin plugin, Permission perms) {
         super(perms);
         this.plugin = plugin;
-        PluginManager pluginManager = this.plugin.getServer().getPluginManager();
 
-        permissionServerListener = new PermissionServerListener(this);
-
-        pluginManager.registerEvent(Type.PLUGIN_ENABLE, permissionServerListener, Priority.Monitor, plugin);
-        pluginManager.registerEvent(Type.PLUGIN_DISABLE, permissionServerListener, Priority.Monitor, plugin);
+        Bukkit.getServer().getPluginManager().registerEvents(new PermissionServerListener(this), plugin);
 
         // Load Plugin in case it was loaded before
         if (this.chat == null) {
@@ -44,13 +39,14 @@ public class Chat_HeroTitles extends Chat {
         }
     }
 
-    private class PermissionServerListener extends ServerListener {
+    public class PermissionServerListener implements Listener {
         Chat_HeroTitles chat = null;
 
         public PermissionServerListener(Chat_HeroTitles chat) {
             this.chat = chat;
         }
 
+        @EventHandler(priority = EventPriority.MONITOR)
         public void onPluginEnable(PluginEnableEvent event) {
             if (this.chat.chat == null) {
                 Plugin chat = plugin.getServer().getPluginManager().getPlugin("HeroTitles");
@@ -61,6 +57,7 @@ public class Chat_HeroTitles extends Chat {
             }
         }
 
+        @EventHandler(priority = EventPriority.MONITOR)
         public void onPluginDisable(PluginDisableEvent event) {
             if (this.chat.chat != null) {
                 if (event.getPlugin().getDescription().getName().equals("HeroTitles")) {

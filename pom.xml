@@ -11,7 +11,7 @@
 		<dependency>
 			<groupId>org.bukkit</groupId>
 			<artifactId>craftbukkit</artifactId>
-			<version>1.0.1-R2-SNAPSHOT</version>
+			<version>1.1-R1</version>
 		</dependency>
 		<dependency>
 		    <groupId>org.tyrannyofheaven.bukkit</groupId>

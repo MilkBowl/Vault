@@ -2,19 +2,19 @@ package net.milkbowl.vault.chat.plugins;
 
 import java.util.logging.Logger;
 
-import org.bukkit.event.Event.Priority;
-import org.bukkit.event.Event.Type;
+import net.milkbowl.vault.chat.Chat;
+import net.milkbowl.vault.permission.Permission;
+
+import org.bukkit.Bukkit;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
+import org.bukkit.event.Listener;
 import org.bukkit.event.server.PluginDisableEvent;
 import org.bukkit.event.server.PluginEnableEvent;
-import org.bukkit.event.server.ServerListener;
 import org.bukkit.plugin.Plugin;
-import org.bukkit.plugin.PluginManager;
 
 import com.nijiko.permissions.PermissionHandler;
 import com.nijikokun.bukkit.Permissions.Permissions;
-
-import net.milkbowl.vault.chat.Chat;
-import net.milkbowl.vault.permission.Permission;
 
 public class Chat_Permissions3 extends Chat {
 	private static final Logger log = Logger.getLogger("Minecraft");
@@ -22,19 +22,13 @@ public class Chat_Permissions3 extends Chat {
 	private String name = "Permissions 3 (Yeti) - Chat";
 	private PermissionHandler perms;
 	private Plugin plugin = null;
-	private PluginManager pluginManager = null;
 	private Permissions chat = null;
-	private PermissionServerListener permissionServerListener = null;
 
 	public Chat_Permissions3(Plugin plugin, Permission permissions) {
 		super(permissions);
 		this.plugin = plugin;
-		pluginManager = this.plugin.getServer().getPluginManager();
 
-		permissionServerListener = new PermissionServerListener();
-
-		this.pluginManager.registerEvent(Type.PLUGIN_ENABLE, permissionServerListener, Priority.Monitor, plugin);
-		this.pluginManager.registerEvent(Type.PLUGIN_DISABLE, permissionServerListener, Priority.Monitor, plugin);
+		Bukkit.getServer().getPluginManager().registerEvents(new PermissionServerListener(), plugin);
 
 		// Load Plugin in case it was loaded before
 		if (chat == null) {
@@ -48,7 +42,10 @@ public class Chat_Permissions3 extends Chat {
 			}
 		}
 	}
-	private class PermissionServerListener extends ServerListener {
+	
+	public class PermissionServerListener implements Listener {
+	    
+	    @EventHandler(priority = EventPriority.MONITOR)
 		public void onPluginEnable(PluginEnableEvent event) {
 			if (chat == null) {
 				Plugin perms = event.getPlugin();
@@ -61,6 +58,7 @@ public class Chat_Permissions3 extends Chat {
 			}
 		}
 
+	    @EventHandler(priority = EventPriority.MONITOR)
 		public void onPluginDisable(PluginDisableEvent event) {
 			if (chat != null) {
 				if (event.getPlugin().getDescription().getName().equals("Permissions")) {

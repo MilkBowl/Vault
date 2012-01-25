@@ -2,35 +2,32 @@ package net.milkbowl.vault.chat.plugins;
 
 import java.util.logging.Logger;
 
-import org.bukkit.event.Event.Priority;
-import org.bukkit.event.Event.Type;
+import net.milkbowl.vault.Vault;
+import net.milkbowl.vault.chat.Chat;
+import net.milkbowl.vault.permission.Permission;
+
+import org.bukkit.Bukkit;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
+import org.bukkit.event.Listener;
 import org.bukkit.event.server.PluginDisableEvent;
 import org.bukkit.event.server.PluginEnableEvent;
-import org.bukkit.event.server.ServerListener;
 import org.bukkit.plugin.Plugin;
 
 import de.bananaco.permissions.Permissions;
 import de.bananaco.permissions.info.InfoReader;
-
-import net.milkbowl.vault.Vault;
-import net.milkbowl.vault.chat.Chat;
-import net.milkbowl.vault.permission.Permission;
 
 public class Chat_bPermissions extends Chat {
 	private static final Logger log = Logger.getLogger("Minecraft");
 	private final String name = "bInfo";
 	private Vault plugin = null;
 	InfoReader chat;
-	private PermissionServerListener permissionServerListener = null;
 
 	public Chat_bPermissions(Vault plugin, Permission perms) {
 		super(perms);
 		this.plugin = plugin;
-
-		permissionServerListener = new PermissionServerListener(this);
-
-		plugin.getServer().getPluginManager().registerEvent(Type.PLUGIN_ENABLE, permissionServerListener, Priority.Monitor, plugin);
-		plugin.getServer().getPluginManager().registerEvent(Type.PLUGIN_DISABLE, permissionServerListener, Priority.Monitor, plugin);
+		
+		Bukkit.getServer().getPluginManager().registerEvents(new PermissionServerListener(this), plugin);
 
 		// Load Plugin in case it was loaded before
 		if (chat == null) {
@@ -42,13 +39,14 @@ public class Chat_bPermissions extends Chat {
 		}
 	}
 
-	private class PermissionServerListener extends ServerListener {
+	public class PermissionServerListener implements Listener {
 		Chat_bPermissions chat = null;
 
 		public PermissionServerListener(Chat_bPermissions chat) {
 			this.chat = chat;
 		}
 
+		@EventHandler(priority = EventPriority.MONITOR)
 		public void onPluginEnable(PluginEnableEvent event) {
 			if (this.chat.chat == null) {
 				Plugin chat = plugin.getServer().getPluginManager().getPlugin("bPermissions");
@@ -59,6 +57,7 @@ public class Chat_bPermissions extends Chat {
 			}
 		}
 
+		@EventHandler(priority = EventPriority.MONITOR)
 		public void onPluginDisable(PluginDisableEvent event) {
 			if (this.chat.chat != null) {
 				if (event.getPlugin().getDescription().getName().equals("bPermissions")) {

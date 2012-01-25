@@ -2,38 +2,32 @@ package net.milkbowl.vault.chat.plugins;
 
 import java.util.logging.Logger;
 
-import org.bukkit.entity.Player;
-import org.bukkit.event.Event.Priority;
-import org.bukkit.event.Event.Type;
-import org.bukkit.event.server.PluginDisableEvent;
-import org.bukkit.event.server.PluginEnableEvent;
-import org.bukkit.event.server.ServerListener;
-import org.bukkit.plugin.Plugin;
-import org.bukkit.plugin.PluginManager;
-
-import net.TheDgtl.iChat.iChatAPI;
 import net.TheDgtl.iChat.iChat;
+import net.TheDgtl.iChat.iChatAPI;
 import net.milkbowl.vault.chat.Chat;
 import net.milkbowl.vault.permission.Permission;
+
+import org.bukkit.Bukkit;
+import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
+import org.bukkit.event.Listener;
+import org.bukkit.event.server.PluginDisableEvent;
+import org.bukkit.event.server.PluginEnableEvent;
+import org.bukkit.plugin.Plugin;
 
 public class Chat_iChat extends Chat {
 
 	private static final Logger log = Logger.getLogger("Minecraft");
 	private final String name = "iChat";
 	private Plugin plugin = null;
-	private PluginManager pluginManager = null;
 	private iChatAPI iChat = null;
-	private PermissionServerListener permissionServerListener = null;
 
 	public Chat_iChat(Plugin plugin, Permission perms) {
 		super(perms);
 		this.plugin = plugin;
-		pluginManager = this.plugin.getServer().getPluginManager();
-		
-		permissionServerListener = new PermissionServerListener(this);
 
-		this.pluginManager.registerEvent(Type.PLUGIN_ENABLE, permissionServerListener, Priority.Monitor, plugin);
-		this.pluginManager.registerEvent(Type.PLUGIN_DISABLE, permissionServerListener, Priority.Monitor, plugin);
+		Bukkit.getServer().getPluginManager().registerEvents(new PermissionServerListener(this), plugin);
 
 		// Load Plugin in case it was loaded before
 		if (iChat == null) {
@@ -45,13 +39,14 @@ public class Chat_iChat extends Chat {
 		}
 	}
 
-	private class PermissionServerListener extends ServerListener {
+	public class PermissionServerListener implements Listener {
 		Chat_iChat chat = null;
 
 		public PermissionServerListener(Chat_iChat chat) {
 			this.chat = chat;
 		}
 
+		@EventHandler(priority = EventPriority.MONITOR)
 		public void onPluginEnable(PluginEnableEvent event) {
 			if (this.chat.iChat == null) {
 				Plugin chat = plugin.getServer().getPluginManager().getPlugin("iChat");
@@ -62,6 +57,7 @@ public class Chat_iChat extends Chat {
 			}
 		}
 
+		@EventHandler(priority = EventPriority.MONITOR)
 		public void onPluginDisable(PluginDisableEvent event) {
 			if (this.chat.iChat != null) {
 				if (event.getPlugin().getDescription().getName().equals("iChat")) {

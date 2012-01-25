@@ -2,20 +2,21 @@ package net.milkbowl.vault.chat.plugins;
 
 import java.util.logging.Logger;
 
-import org.bukkit.event.Event.Priority;
-import org.bukkit.event.Event.Type;
+import net.milkbowl.vault.Vault;
+import net.milkbowl.vault.chat.Chat;
+import net.milkbowl.vault.permission.Permission;
+
+import org.bukkit.Bukkit;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
+import org.bukkit.event.Listener;
 import org.bukkit.event.server.PluginDisableEvent;
 import org.bukkit.event.server.PluginEnableEvent;
-import org.bukkit.event.server.ServerListener;
 import org.bukkit.plugin.Plugin;
 
 import com.palmergames.bukkit.towny.NotRegisteredException;
 import com.palmergames.bukkit.towny.Towny;
 import com.palmergames.bukkit.towny.object.Resident;
-
-import net.milkbowl.vault.Vault;
-import net.milkbowl.vault.chat.Chat;
-import net.milkbowl.vault.permission.Permission;
 
 public class Chat_Towny extends Chat {
 
@@ -23,17 +24,14 @@ public class Chat_Towny extends Chat {
     private final String name = "Towny";
     private Towny towny;
     private Vault plugin;
-    private PermissionServerListener permissionServerListener;
+
 
     public Chat_Towny(Vault plugin, Permission perms) {
         super(perms);
         this.plugin = plugin;
+
+        Bukkit.getServer().getPluginManager().registerEvents(new PermissionServerListener(this), plugin);
         
-        permissionServerListener = new PermissionServerListener(this);
-
-        plugin.getServer().getPluginManager().registerEvent(Type.PLUGIN_ENABLE, permissionServerListener, Priority.Monitor, plugin);
-        plugin.getServer().getPluginManager().registerEvent(Type.PLUGIN_DISABLE, permissionServerListener, Priority.Monitor, plugin);
-
         // Load Plugin in case it was loaded before
         if (towny == null) {
             Plugin p = plugin.getServer().getPluginManager().getPlugin("Towny");
@@ -44,13 +42,14 @@ public class Chat_Towny extends Chat {
         }
     }
 
-    private class PermissionServerListener extends ServerListener {
+    public class PermissionServerListener implements Listener {
         Chat_Towny chat = null;
 
         public PermissionServerListener(Chat_Towny chat) {
             this.chat = chat;
         }
-
+        
+        @EventHandler(priority = EventPriority.MONITOR)
         public void onPluginEnable(PluginEnableEvent event) {
             if (this.chat.towny == null) {
                 Plugin towny = plugin.getServer().getPluginManager().getPlugin("Towny");
@@ -61,6 +60,7 @@ public class Chat_Towny extends Chat {
             }
         }
 
+        @EventHandler(priority = EventPriority.MONITOR)
         public void onPluginDisable(PluginDisableEvent event) {
             if (this.chat.towny != null) {
                 if (event.getPlugin().getDescription().getName().equals("Towny")) {
