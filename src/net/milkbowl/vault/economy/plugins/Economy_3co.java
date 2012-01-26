@@ -31,11 +31,11 @@ import net.milkbowl.vault.economy.EconomyResponse.ResponseType;
 
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
-import org.bukkit.event.Event.Priority;
-import org.bukkit.event.Event.Type;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
+import org.bukkit.event.Listener;
 import org.bukkit.event.server.PluginDisableEvent;
 import org.bukkit.event.server.PluginEnableEvent;
-import org.bukkit.event.server.ServerListener;
 import org.bukkit.plugin.Plugin;
 
 public class Economy_3co implements Economy {
@@ -44,15 +44,11 @@ public class Economy_3co implements Economy {
     private String name = "3co";
     private Plugin plugin = null;
     private ECO economy = null;
-    private EconomyServerListener economyServerListener = null;
 
     public Economy_3co(Plugin plugin) {
         this.plugin = plugin;
         log.log(Level.SEVERE, "3c0 is an extremely outdated plugin and can not be used reliably for economy! You should update to a modern economy plugin!");
-        economyServerListener = new EconomyServerListener(this);
-
-        this.plugin.getServer().getPluginManager().registerEvent(Type.PLUGIN_ENABLE, economyServerListener, Priority.Monitor, plugin);
-        this.plugin.getServer().getPluginManager().registerEvent(Type.PLUGIN_DISABLE, economyServerListener, Priority.Monitor, plugin);
+        Bukkit.getServer().getPluginManager().registerEvents(new EconomyServerListener(this), plugin);
 
         // Load Plugin in case it was loaded before
         if (economy == null) {
@@ -151,13 +147,14 @@ public class Economy_3co implements Economy {
         return economy.getSingularCurrency();
     }
 
-    private class EconomyServerListener extends ServerListener {
+    public class EconomyServerListener implements Listener {
         Economy_3co economy = null;
 
         public EconomyServerListener(Economy_3co economy) {
             this.economy = economy;
         }
 
+        @EventHandler(priority = EventPriority.MONITOR)
         public void onPluginEnable(PluginEnableEvent event) {
             if (economy.economy == null) {
                 Plugin eco = plugin.getServer().getPluginManager().getPlugin("3co");
@@ -169,6 +166,7 @@ public class Economy_3co implements Economy {
             }
         }
 
+        @EventHandler(priority = EventPriority.MONITOR)
         public void onPluginDisable(PluginDisableEvent event) {
             if (economy.economy != null) {
                 if (event.getPlugin().getDescription().getName().equals("3co")) {

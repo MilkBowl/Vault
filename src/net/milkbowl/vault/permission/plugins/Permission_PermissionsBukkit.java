@@ -3,36 +3,28 @@ package net.milkbowl.vault.permission.plugins;
 import java.util.ArrayList;
 import java.util.List;
 
+import net.milkbowl.vault.Vault;
+import net.milkbowl.vault.permission.Permission;
+
 import org.bukkit.Bukkit;
-import org.bukkit.event.Event.Priority;
-import org.bukkit.event.Event.Type;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
+import org.bukkit.event.Listener;
 import org.bukkit.event.server.PluginDisableEvent;
 import org.bukkit.event.server.PluginEnableEvent;
-import org.bukkit.event.server.ServerListener;
 import org.bukkit.plugin.Plugin;
-import org.bukkit.plugin.PluginManager;
 
 import com.platymuus.bukkit.permissions.Group;
 import com.platymuus.bukkit.permissions.PermissionsPlugin;
 
-import net.milkbowl.vault.Vault;
-import net.milkbowl.vault.permission.Permission;
-
 public class Permission_PermissionsBukkit extends Permission {
 
 	private final String name = "PermissionsBukkit";
-	private PluginManager pluginManager = null;
 	private PermissionsPlugin perms = null;
-	private PermissionServerListener permissionServerListener = null;
 
 	public Permission_PermissionsBukkit(Vault plugin) {
 		this.plugin = plugin;
-		pluginManager = this.plugin.getServer().getPluginManager();
-
-		permissionServerListener = new PermissionServerListener(this);
-
-		this.pluginManager.registerEvent(Type.PLUGIN_ENABLE, permissionServerListener, Priority.Monitor, plugin);
-		this.pluginManager.registerEvent(Type.PLUGIN_DISABLE, permissionServerListener, Priority.Monitor, plugin);
+		Bukkit.getServer().getPluginManager().registerEvents(new PermissionServerListener(this), plugin);
 		
 		// Load Plugin in case it was loaded before
 		if (perms == null) {
@@ -44,13 +36,14 @@ public class Permission_PermissionsBukkit extends Permission {
 		}
 	}
 
-	private class PermissionServerListener extends ServerListener {
+	public class PermissionServerListener implements Listener {
 		Permission_PermissionsBukkit permission = null;
 
 		public PermissionServerListener(Permission_PermissionsBukkit permission) {
 			this.permission = permission;
 		}
 
+		@EventHandler(priority = EventPriority.MONITOR)
 		public void onPluginEnable(PluginEnableEvent event) {
 			if (permission.perms == null) {
 				Plugin perms = plugin.getServer().getPluginManager().getPlugin("PermissionsBukkit");
@@ -64,6 +57,7 @@ public class Permission_PermissionsBukkit extends Permission {
 			}
 		}
 
+		@EventHandler(priority = EventPriority.MONITOR)
 		public void onPluginDisable(PluginDisableEvent event) {
 			if (permission.perms != null) {
 				if (event.getPlugin().getDescription().getName().equals("PermissionsBukkit")) {

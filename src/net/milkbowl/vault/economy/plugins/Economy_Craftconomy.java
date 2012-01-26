@@ -3,40 +3,32 @@ package net.milkbowl.vault.economy.plugins;
 import java.util.List;
 import java.util.logging.Logger;
 
-import org.bukkit.event.Event.Priority;
-import org.bukkit.event.Event.Type;
-import org.bukkit.event.server.PluginDisableEvent;
-import org.bukkit.event.server.PluginEnableEvent;
-import org.bukkit.event.server.ServerListener;
-import org.bukkit.plugin.Plugin;
-import org.bukkit.plugin.PluginManager;
-import org.bukkit.plugin.java.JavaPlugin;
-
 import me.greatman.Craftconomy.Account;
 import me.greatman.Craftconomy.AccountHandler;
 import me.greatman.Craftconomy.Craftconomy;
-
 import net.milkbowl.vault.economy.Economy;
 import net.milkbowl.vault.economy.EconomyResponse;
 import net.milkbowl.vault.economy.EconomyResponse.ResponseType;
+
+import org.bukkit.Bukkit;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
+import org.bukkit.event.Listener;
+import org.bukkit.event.server.PluginDisableEvent;
+import org.bukkit.event.server.PluginEnableEvent;
+import org.bukkit.plugin.Plugin;
+import org.bukkit.plugin.java.JavaPlugin;
 
 public class Economy_Craftconomy implements Economy {
     private static final Logger log = Logger.getLogger("Minecraft");
 
     private String name = "Craftconomy";
     private JavaPlugin plugin = null;
-    private PluginManager pluginManager = null;
     protected Craftconomy economy = null;
-    private EconomyServerListener economyServerListener = null;
 
     public Economy_Craftconomy(JavaPlugin plugin) {
         this.plugin = plugin;
-        this.pluginManager = this.plugin.getServer().getPluginManager();
-
-        economyServerListener = new EconomyServerListener(this);
-
-        this.pluginManager.registerEvent(Type.PLUGIN_ENABLE, economyServerListener, Priority.Monitor, plugin);
-        this.pluginManager.registerEvent(Type.PLUGIN_DISABLE, economyServerListener, Priority.Monitor, plugin);
+        Bukkit.getServer().getPluginManager().registerEvents(new EconomyServerListener(this), plugin);
 
         // Load Plugin in case it was loaded before
         if (economy == null) {
@@ -48,13 +40,14 @@ public class Economy_Craftconomy implements Economy {
         }
     }
 
-    private class EconomyServerListener extends ServerListener {
+    public class EconomyServerListener implements Listener {
         Economy_Craftconomy economy = null;
 
         public EconomyServerListener(Economy_Craftconomy economy) {
             this.economy = economy;
         }
 
+        @EventHandler(priority = EventPriority.MONITOR)
         public void onPluginEnable(PluginEnableEvent event) {
             if (economy.economy == null) {
                 Plugin ec = plugin.getServer().getPluginManager().getPlugin("Craftconomy");
@@ -66,6 +59,7 @@ public class Economy_Craftconomy implements Economy {
             }
         }
 
+        @EventHandler(priority = EventPriority.MONITOR)
         public void onPluginDisable(PluginDisableEvent event) {
             if (economy.economy != null) {
                 if (event.getPlugin().getDescription().getName().equals("Craftconomy")) {

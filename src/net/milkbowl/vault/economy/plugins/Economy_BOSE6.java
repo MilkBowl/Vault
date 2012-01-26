@@ -26,13 +26,13 @@ import net.milkbowl.vault.economy.Economy;
 import net.milkbowl.vault.economy.EconomyResponse;
 import net.milkbowl.vault.economy.EconomyResponse.ResponseType;
 
-import org.bukkit.event.Event.Priority;
-import org.bukkit.event.Event.Type;
+import org.bukkit.Bukkit;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
+import org.bukkit.event.Listener;
 import org.bukkit.event.server.PluginDisableEvent;
 import org.bukkit.event.server.PluginEnableEvent;
-import org.bukkit.event.server.ServerListener;
 import org.bukkit.plugin.Plugin;
-import org.bukkit.plugin.PluginManager;
 
 import cosine.boseconomy.BOSEconomy;
 
@@ -42,18 +42,11 @@ public class Economy_BOSE6 implements Economy {
 
 	private String name = "BOSEconomy";
 	private Plugin plugin = null;
-	private PluginManager pluginManager = null;
 	private BOSEconomy economy = null;
-	private EconomyServerListener economyServerListener = null;
 
 	public Economy_BOSE6(Plugin plugin) {
 		this.plugin = plugin;
-		pluginManager = this.plugin.getServer().getPluginManager();
-
-		economyServerListener = new EconomyServerListener(this);
-
-		this.pluginManager.registerEvent(Type.PLUGIN_ENABLE, economyServerListener, Priority.Monitor, plugin);
-		this.pluginManager.registerEvent(Type.PLUGIN_DISABLE, economyServerListener, Priority.Monitor, plugin);
+		Bukkit.getServer().getPluginManager().registerEvents(new EconomyServerListener(this), plugin);
 
 		// Load Plugin in case it was loaded before
 		if (economy == null) {
@@ -167,13 +160,14 @@ public class Economy_BOSE6 implements Economy {
 		return economy.getMoneyName();
 	}
 
-	private class EconomyServerListener extends ServerListener {
+	public class EconomyServerListener implements Listener {
 		Economy_BOSE6 economy = null;
 
 		public EconomyServerListener(Economy_BOSE6 economy) {
 			this.economy = economy;
 		}
 
+		@EventHandler(priority = EventPriority.MONITOR)
 		public void onPluginEnable(PluginEnableEvent event) {
 			if (economy.economy == null) {
 				Plugin bose = plugin.getServer().getPluginManager().getPlugin("BOSEconomy");
@@ -184,7 +178,8 @@ public class Economy_BOSE6 implements Economy {
 				}
 			}
 		}
-
+		
+		@EventHandler(priority = EventPriority.MONITOR)
 		public void onPluginDisable(PluginDisableEvent event) {
 			if (economy.economy != null) {
 				if (event.getPlugin().getDescription().getName().equals("BOSEconomy") && event.getPlugin().getDescription().getVersion().startsWith("0.6")) {

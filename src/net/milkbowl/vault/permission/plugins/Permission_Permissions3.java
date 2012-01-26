@@ -30,13 +30,12 @@ import org.bukkit.World;
 import org.bukkit.command.CommandSender;
 import org.bukkit.craftbukkit.command.ColouredConsoleSender;
 import org.bukkit.entity.Player;
-import org.bukkit.event.Event.Priority;
-import org.bukkit.event.Event.Type;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
+import org.bukkit.event.Listener;
 import org.bukkit.event.server.PluginDisableEvent;
 import org.bukkit.event.server.PluginEnableEvent;
-import org.bukkit.event.server.ServerListener;
 import org.bukkit.plugin.Plugin;
-import org.bukkit.plugin.PluginManager;
 
 import com.nijiko.permissions.Group;
 import com.nijiko.permissions.ModularControl;
@@ -46,18 +45,11 @@ public class Permission_Permissions3 extends Permission {
 
     private String name = "Permissions3";
     private ModularControl perms;
-    private PluginManager pluginManager = null;
     private Permissions permission = null;
-    private PermissionServerListener permissionServerListener = null;
 
     public Permission_Permissions3(Vault plugin) {
         this.plugin = plugin;
-        pluginManager = this.plugin.getServer().getPluginManager();
-
-        permissionServerListener = new PermissionServerListener();
-
-        this.pluginManager.registerEvent(Type.PLUGIN_ENABLE, permissionServerListener, Priority.Monitor, plugin);
-        this.pluginManager.registerEvent(Type.PLUGIN_DISABLE, permissionServerListener, Priority.Monitor, plugin);
+        Bukkit.getServer().getPluginManager().registerEvents(new PermissionServerListener(), plugin);
 
         // Load Plugin in case it was loaded before
         if (permission == null) {
@@ -86,7 +78,9 @@ public class Permission_Permissions3 extends Permission {
         return this.permission.getHandler().inGroup(worldName, playerName, groupName);
     }
 
-    private class PermissionServerListener extends ServerListener {
+    public class PermissionServerListener implements Listener {
+        
+        @EventHandler(priority = EventPriority.MONITOR)
         public void onPluginEnable(PluginEnableEvent event) {
             if (permission == null) {
                 Plugin permi = event.getPlugin();
@@ -100,6 +94,7 @@ public class Permission_Permissions3 extends Permission {
             }
         }
 
+        @EventHandler(priority = EventPriority.MONITOR)
         public void onPluginDisable(PluginDisableEvent event) {
             if (permission != null) {
                 if (event.getPlugin().getDescription().getName().equals("Permissions")) {

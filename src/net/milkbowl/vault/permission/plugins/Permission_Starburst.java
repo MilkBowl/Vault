@@ -1,28 +1,35 @@
 package net.milkbowl.vault.permission.plugins;
 
-import com.dthielke.starburst.*;
-import net.milkbowl.vault.Vault;
-import net.milkbowl.vault.permission.Permission;
-import org.bukkit.Bukkit;
-import org.bukkit.OfflinePlayer;
-import org.bukkit.entity.Player;
-import org.bukkit.event.Event.Priority;
-import org.bukkit.event.Event.Type;
-import org.bukkit.event.server.PluginDisableEvent;
-import org.bukkit.event.server.PluginEnableEvent;
-import org.bukkit.event.server.ServerListener;
-import org.bukkit.plugin.Plugin;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
+import net.milkbowl.vault.Vault;
+import net.milkbowl.vault.permission.Permission;
+
+import org.bukkit.Bukkit;
+import org.bukkit.OfflinePlayer;
+import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
+import org.bukkit.event.Listener;
+import org.bukkit.event.server.PluginDisableEvent;
+import org.bukkit.event.server.PluginEnableEvent;
+import org.bukkit.plugin.Plugin;
+
+import com.dthielke.starburst.Group;
+import com.dthielke.starburst.GroupManager;
+import com.dthielke.starburst.GroupSet;
+import com.dthielke.starburst.StarburstPlugin;
+import com.dthielke.starburst.User;
+
 public class Permission_Starburst extends Permission {
     private StarburstPlugin perms;
     private String name = "Starburst";
-    private PermissionServerListener permissionServerListener;
 
-    private class PermissionServerListener extends ServerListener {
+    public class PermissionServerListener implements Listener {
+
+        @EventHandler(priority = EventPriority.MONITOR)
         public void onPluginEnable(PluginEnableEvent event) {
             if (perms == null) {
                 Plugin p = event.getPlugin();
@@ -33,6 +40,7 @@ public class Permission_Starburst extends Permission {
             }
         }
 
+        @EventHandler(priority = EventPriority.MONITOR)
         public void onPluginDisable(PluginDisableEvent event) {
             if (perms != null) {
                 if (event.getPlugin().getDescription().getName().equals("bPermissions")) {
@@ -45,11 +53,7 @@ public class Permission_Starburst extends Permission {
 
     public Permission_Starburst(Vault plugin) {
         this.plugin = plugin;
-
-        permissionServerListener = new PermissionServerListener();
-
-        this.plugin.getServer().getPluginManager().registerEvent(Type.PLUGIN_ENABLE, permissionServerListener, Priority.Monitor, plugin);
-        this.plugin.getServer().getPluginManager().registerEvent(Type.PLUGIN_DISABLE, permissionServerListener, Priority.Monitor, plugin);
+        Bukkit.getServer().getPluginManager().registerEvents(new PermissionServerListener(), plugin);
 
         // Load Plugin in case it was loaded before
         if (perms == null) {

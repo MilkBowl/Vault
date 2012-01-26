@@ -15,33 +15,25 @@ import org.anjocaido.groupmanager.permissions.AnjoPermissionsHandler;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
-import org.bukkit.event.Event.Priority;
-import org.bukkit.event.Event.Type;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
+import org.bukkit.event.Listener;
 import org.bukkit.event.server.PluginDisableEvent;
 import org.bukkit.event.server.PluginEnableEvent;
-import org.bukkit.event.server.ServerListener;
 import org.bukkit.permissions.PermissionAttachment;
 import org.bukkit.permissions.PermissionAttachmentInfo;
 import org.bukkit.plugin.Plugin;
-import org.bukkit.plugin.PluginManager;
 
 public class Permission_GroupManager extends Permission {
 
     private String name = "GroupManager";
-    private PluginManager pluginManager = null;
     private GroupManager groupManager;
     private AnjoPermissionsHandler perms;
-    private PermissionServerListener permissionServerListener = null;
 
     @SuppressWarnings("deprecation")
     public Permission_GroupManager(Vault plugin) {
         this.plugin = plugin;
-        pluginManager = this.plugin.getServer().getPluginManager();
-
-        permissionServerListener = new PermissionServerListener(this);
-
-        this.pluginManager.registerEvent(Type.PLUGIN_ENABLE, permissionServerListener, Priority.Monitor, plugin);
-        this.pluginManager.registerEvent(Type.PLUGIN_DISABLE, permissionServerListener, Priority.Monitor, plugin);
+        Bukkit.getServer().getPluginManager().registerEvents(new PermissionServerListener(this), plugin);
 
         // Load Plugin in case it was loaded before
         if (groupManager == null) {
@@ -56,7 +48,7 @@ public class Permission_GroupManager extends Permission {
         }
     }
 
-    private class PermissionServerListener extends ServerListener {
+    public class PermissionServerListener implements Listener {
         Permission_GroupManager permission = null;
 
         public PermissionServerListener(Permission_GroupManager permission) {
@@ -64,6 +56,7 @@ public class Permission_GroupManager extends Permission {
         }
 
         @SuppressWarnings("deprecation")
+        @EventHandler(priority = EventPriority.MONITOR)
         public void onPluginEnable(PluginEnableEvent event) {
             if (permission.groupManager == null) {
                 Plugin perms = plugin.getServer().getPluginManager().getPlugin("GroupManager");
@@ -78,6 +71,7 @@ public class Permission_GroupManager extends Permission {
             }
         }
 
+        @EventHandler(priority = EventPriority.MONITOR)
         public void onPluginDisable(PluginDisableEvent event) {
             if (permission.groupManager != null) {
                 if (event.getPlugin().getDescription().getName().equals("GroupManager")) {

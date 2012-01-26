@@ -27,13 +27,13 @@ import net.milkbowl.vault.economy.Economy;
 import net.milkbowl.vault.economy.EconomyResponse;
 import net.milkbowl.vault.economy.EconomyResponse.ResponseType;
 
-import org.bukkit.event.Event.Priority;
-import org.bukkit.event.Event.Type;
+import org.bukkit.Bukkit;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
+import org.bukkit.event.Listener;
 import org.bukkit.event.server.PluginDisableEvent;
 import org.bukkit.event.server.PluginEnableEvent;
-import org.bukkit.event.server.ServerListener;
 import org.bukkit.plugin.Plugin;
-import org.bukkit.plugin.PluginManager;
 
 import com.earth2me.essentials.Essentials;
 import com.earth2me.essentials.api.NoLoanPermittedException;
@@ -44,18 +44,11 @@ public class Economy_Essentials implements Economy {
 
     private String name = "Essentials Economy";
     private Plugin plugin = null;
-    private PluginManager pluginManager = null;
     private Essentials ess = null;
-    private EconomyServerListener economyServerListener = null;
 
     public Economy_Essentials(Plugin plugin) {
         this.plugin = plugin;
-        pluginManager = this.plugin.getServer().getPluginManager();
-
-        economyServerListener = new EconomyServerListener(this);
-
-        this.pluginManager.registerEvent(Type.PLUGIN_ENABLE, economyServerListener, Priority.Monitor, plugin);
-        this.pluginManager.registerEvent(Type.PLUGIN_DISABLE, economyServerListener, Priority.Monitor, plugin);
+        Bukkit.getServer().getPluginManager().registerEvents(new EconomyServerListener(this), plugin);
 
         // Load Plugin in case it was loaded before
         if (ess == null) {
@@ -175,13 +168,14 @@ public class Economy_Essentials implements Economy {
         return new EconomyResponse(amount, balance, type, errorMessage);
     }
 
-    private class EconomyServerListener extends ServerListener {
+    public class EconomyServerListener implements Listener {
         Economy_Essentials economy = null;
 
         public EconomyServerListener(Economy_Essentials economy) {
             this.economy = economy;
         }
 
+        @EventHandler(priority = EventPriority.MONITOR)
         public void onPluginEnable(PluginEnableEvent event) {
             if (economy.ess == null) {
                 Plugin essentials = plugin.getServer().getPluginManager().getPlugin("Essentials");
@@ -193,6 +187,7 @@ public class Economy_Essentials implements Economy {
             }
         }
 
+        @EventHandler(priority = EventPriority.MONITOR)
         public void onPluginDisable(PluginDisableEvent event) {
             if (economy.ess != null) {
                 if (event.getPlugin().getDescription().getName().equals("Essentials")) {

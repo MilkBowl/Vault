@@ -22,14 +22,14 @@ package net.milkbowl.vault.permission.plugins;
 import net.milkbowl.vault.Vault;
 import net.milkbowl.vault.permission.Permission;
 
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
-import org.bukkit.event.Event.Priority;
-import org.bukkit.event.Event.Type;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
+import org.bukkit.event.Listener;
 import org.bukkit.event.server.PluginDisableEvent;
 import org.bukkit.event.server.PluginEnableEvent;
-import org.bukkit.event.server.ServerListener;
 import org.bukkit.plugin.Plugin;
-import org.bukkit.plugin.PluginManager;
 
 import ru.tehkode.permissions.PermissionGroup;
 import ru.tehkode.permissions.PermissionUser;
@@ -38,18 +38,11 @@ import ru.tehkode.permissions.bukkit.PermissionsEx;
 public class Permission_PermissionsEx extends Permission {
 
     private final String name = "PermissionsEx";
-    private PluginManager pluginManager = null;
     private PermissionsEx permission = null;
-    private PermissionServerListener permissionServerListener = null;
 
     public Permission_PermissionsEx(Vault plugin) {
         this.plugin = plugin;
-        pluginManager = this.plugin.getServer().getPluginManager();
-
-        permissionServerListener = new PermissionServerListener(this);
-
-        this.pluginManager.registerEvent(Type.PLUGIN_ENABLE, permissionServerListener, Priority.Monitor, plugin);
-        this.pluginManager.registerEvent(Type.PLUGIN_DISABLE, permissionServerListener, Priority.Monitor, plugin);
+        Bukkit.getServer().getPluginManager().registerEvents(new PermissionServerListener(this), plugin);
 
         // Load Plugin in case it was loaded before
         if (permission == null) {
@@ -95,13 +88,14 @@ public class Permission_PermissionsEx extends Permission {
     	return PermissionsEx.getPermissionManager().getUser(playerName).inGroup(groupName);
     }
 
-    private class PermissionServerListener extends ServerListener {
+    public class PermissionServerListener implements Listener {
         Permission_PermissionsEx permission = null;
 
         public PermissionServerListener(Permission_PermissionsEx permission) {
             this.permission = permission;
         }
 
+        @EventHandler(priority = EventPriority.MONITOR)
         public void onPluginEnable(PluginEnableEvent event) {
             if (permission.permission == null) {
                 Plugin perms = plugin.getServer().getPluginManager().getPlugin("PermissionsEx");
@@ -123,6 +117,7 @@ public class Permission_PermissionsEx extends Permission {
             }
         }
 
+        @EventHandler(priority = EventPriority.MONITOR)
         public void onPluginDisable(PluginDisableEvent event) {
             if (permission.permission != null) {
                 if (event.getPlugin().getDescription().getName().equals("PermissionsEx")) {

@@ -1,10 +1,14 @@
 package net.milkbowl.vault.permission.plugins;
 
-import org.bukkit.event.Event.Priority;
-import org.bukkit.event.Event.Type;
+import net.milkbowl.vault.Vault;
+import net.milkbowl.vault.permission.Permission;
+
+import org.bukkit.Bukkit;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
+import org.bukkit.event.Listener;
 import org.bukkit.event.server.PluginDisableEvent;
 import org.bukkit.event.server.PluginEnableEvent;
-import org.bukkit.event.server.ServerListener;
 import org.bukkit.plugin.Plugin;
 
 import de.bananaco.bpermissions.api.Group;
@@ -12,23 +16,16 @@ import de.bananaco.bpermissions.api.User;
 import de.bananaco.bpermissions.api.World;
 import de.bananaco.bpermissions.api.WorldManager;
 
-import net.milkbowl.vault.Vault;
-import net.milkbowl.vault.permission.Permission;
-
 public class Permission_bPermissions2 extends Permission {
 
     private String name = "bPermissions2";
     private WorldManager perms;
-    private PermissionServerListener permissionServerListener = null;
 
     public Permission_bPermissions2(Vault plugin) {
         this.plugin = plugin;
-
-        permissionServerListener = new PermissionServerListener();
-
-        this.plugin.getServer().getPluginManager().registerEvent(Type.PLUGIN_ENABLE, permissionServerListener, Priority.Monitor, plugin);
-        this.plugin.getServer().getPluginManager().registerEvent(Type.PLUGIN_DISABLE, permissionServerListener, Priority.Monitor, plugin);
-
+        
+        Bukkit.getServer().getPluginManager().registerEvents(new PermissionServerListener(), plugin);
+        
         // Load Plugin in case it was loaded before
         if (perms == null) {
             Plugin p = plugin.getServer().getPluginManager().getPlugin("bPermissions");
@@ -39,7 +36,9 @@ public class Permission_bPermissions2 extends Permission {
         }
     }
 
-    private class PermissionServerListener extends ServerListener {
+    public class PermissionServerListener implements Listener {
+        
+        @EventHandler(priority = EventPriority.MONITOR)
         public void onPluginEnable(PluginEnableEvent event) {
             if (perms == null) {
                 Plugin p = event.getPlugin();
@@ -50,6 +49,7 @@ public class Permission_bPermissions2 extends Permission {
             }
         }
 
+        @EventHandler(priority = EventPriority.MONITOR)
         public void onPluginDisable(PluginDisableEvent event) {
             if (perms != null) {
                 if (event.getPlugin().getDescription().getName().equals("bPermissions")) {

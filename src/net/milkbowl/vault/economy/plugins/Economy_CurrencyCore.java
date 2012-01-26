@@ -7,32 +7,29 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.logging.Logger;
 
-import org.bukkit.event.Event.Priority;
-import org.bukkit.event.Event.Type;
-import org.bukkit.event.server.PluginDisableEvent;
-import org.bukkit.event.server.PluginEnableEvent;
-import org.bukkit.event.server.ServerListener;
-import org.bukkit.plugin.Plugin;
-
 import net.milkbowl.vault.economy.Economy;
 import net.milkbowl.vault.economy.EconomyResponse;
 import net.milkbowl.vault.economy.EconomyResponse.ResponseType;
+
+import org.bukkit.Bukkit;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
+import org.bukkit.event.Listener;
+import org.bukkit.event.server.PluginDisableEvent;
+import org.bukkit.event.server.PluginEnableEvent;
+import org.bukkit.plugin.Plugin;
 
 public class Economy_CurrencyCore implements Economy {
 
     private Currency currency;
     private static final Logger log = Logger.getLogger("Minecraft");
     private final Plugin plugin;
-    private EconomyServerListener economyServerListener = null;
     private final String name = "CurrencyCore";
 
     public Economy_CurrencyCore(Plugin plugin) {
         this.plugin = plugin;
-        economyServerListener = new EconomyServerListener(this);
-
-        this.plugin.getServer().getPluginManager().registerEvent(Type.PLUGIN_ENABLE, economyServerListener, Priority.Monitor, plugin);
-        this.plugin.getServer().getPluginManager().registerEvent(Type.PLUGIN_DISABLE, economyServerListener, Priority.Monitor, plugin);
-
+        Bukkit.getServer().getPluginManager().registerEvents(new EconomyServerListener(this), plugin);
+        
         // Load Plugin in case it was loaded before
         if(currency == null) {
             Plugin currencyPlugin = plugin.getServer().getPluginManager().getPlugin("CurrencyCore");
@@ -43,7 +40,7 @@ public class Economy_CurrencyCore implements Economy {
         }
     }
 
-    private class EconomyServerListener extends ServerListener {
+    public class EconomyServerListener implements Listener {
 
         private Economy_CurrencyCore economy = null;
 
@@ -51,6 +48,7 @@ public class Economy_CurrencyCore implements Economy {
             this.economy = economy;     
         }
 
+        @EventHandler(priority = EventPriority.MONITOR)
         public void onPluginEnable(PluginEnableEvent event) {
             if(this.economy.currency == null) {
                 Plugin currencyPlugin = plugin.getServer().getPluginManager().getPlugin("CurrencyCore");
@@ -61,6 +59,7 @@ public class Economy_CurrencyCore implements Economy {
             }
         }
 
+        @EventHandler(priority = EventPriority.MONITOR)
         public void onPluginDisable(PluginDisableEvent event) {
             if (this.economy.currency != null) {
                 if (event.getPlugin().getDescription().getName().equals("CurrencyCore")) {

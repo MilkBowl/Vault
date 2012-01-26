@@ -2,11 +2,15 @@ package net.milkbowl.vault.permission.plugins;
 
 import java.util.List;
 
-import org.bukkit.event.Event.Priority;
-import org.bukkit.event.Event.Type;
+import net.milkbowl.vault.Vault;
+import net.milkbowl.vault.permission.Permission;
+
+import org.bukkit.Bukkit;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
+import org.bukkit.event.Listener;
 import org.bukkit.event.server.PluginDisableEvent;
 import org.bukkit.event.server.PluginEnableEvent;
-import org.bukkit.event.server.ServerListener;
 import org.bukkit.plugin.Plugin;
 
 import de.bananaco.permissions.Permissions;
@@ -14,23 +18,15 @@ import de.bananaco.permissions.interfaces.PermissionSet;
 import de.bananaco.permissions.worlds.HasPermission;
 import de.bananaco.permissions.worlds.WorldPermissionsManager;
 
-import net.milkbowl.vault.Vault;
-import net.milkbowl.vault.permission.Permission;
-
 public class Permission_bPermissions extends Permission {
 
     private String name = "bPermissions";
     private WorldPermissionsManager perms;
-    private PermissionServerListener permissionServerListener = null;
 
     public Permission_bPermissions(Vault plugin) {
         this.plugin = plugin;
-
-        permissionServerListener = new PermissionServerListener();
-
-        this.plugin.getServer().getPluginManager().registerEvent(Type.PLUGIN_ENABLE, permissionServerListener, Priority.Monitor, plugin);
-        this.plugin.getServer().getPluginManager().registerEvent(Type.PLUGIN_DISABLE, permissionServerListener, Priority.Monitor, plugin);
-
+        Bukkit.getServer().getPluginManager().registerEvents(new PermissionServerListener(), plugin);
+        
         // Load Plugin in case it was loaded before
         if (perms == null) {
             Plugin p = plugin.getServer().getPluginManager().getPlugin("bPermissions");
@@ -41,7 +37,9 @@ public class Permission_bPermissions extends Permission {
         }
     }
 
-    private class PermissionServerListener extends ServerListener {
+    public class PermissionServerListener implements Listener {
+        
+        @EventHandler(priority = EventPriority.MONITOR)
         public void onPluginEnable(PluginEnableEvent event) {
             if (perms == null) {
                 Plugin p = event.getPlugin();
@@ -52,6 +50,7 @@ public class Permission_bPermissions extends Permission {
             }
         }
 
+        @EventHandler(priority = EventPriority.MONITOR)
         public void onPluginDisable(PluginDisableEvent event) {
             if (perms != null) {
                 if (event.getPlugin().getDescription().getName().equals("bPermissions")) {

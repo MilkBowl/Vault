@@ -23,38 +23,30 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
 
+import me.ashtheking.currency.Currency;
+import me.ashtheking.currency.CurrencyList;
 import net.milkbowl.vault.economy.Economy;
 import net.milkbowl.vault.economy.EconomyResponse;
 import net.milkbowl.vault.economy.EconomyResponse.ResponseType;
 
-import org.bukkit.event.Event.Priority;
-import org.bukkit.event.Event.Type;
+import org.bukkit.Bukkit;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
+import org.bukkit.event.Listener;
 import org.bukkit.event.server.PluginDisableEvent;
 import org.bukkit.event.server.PluginEnableEvent;
-import org.bukkit.event.server.ServerListener;
 import org.bukkit.plugin.Plugin;
-import org.bukkit.plugin.PluginManager;
-
-import me.ashtheking.currency.Currency;
-import me.ashtheking.currency.CurrencyList;
 
 public class Economy_MultiCurrency implements Economy {
     private static final Logger log = Logger.getLogger("Minecraft");
 
     private String name = "MultiCurrency";
     private Plugin plugin = null;
-    private PluginManager pluginManager = null;
     private Currency economy = null;
-    private EconomyServerListener economyServerListener = null;
 
     public Economy_MultiCurrency(Plugin plugin) {
         this.plugin = plugin;
-        pluginManager = this.plugin.getServer().getPluginManager();
-
-        economyServerListener = new EconomyServerListener(this);
-
-        this.pluginManager.registerEvent(Type.PLUGIN_ENABLE, economyServerListener, Priority.Monitor, plugin);
-        this.pluginManager.registerEvent(Type.PLUGIN_DISABLE, economyServerListener, Priority.Monitor, plugin);
+        Bukkit.getServer().getPluginManager().registerEvents(new EconomyServerListener(this), plugin);
 
         // Load Plugin in case it was loaded before
         if (economy == null) {
@@ -159,13 +151,14 @@ public class Economy_MultiCurrency implements Economy {
         }
     }
 
-    private class EconomyServerListener extends ServerListener {
+    public class EconomyServerListener implements Listener {
         Economy_MultiCurrency economy = null;
 
         public EconomyServerListener(Economy_MultiCurrency economy) {
             this.economy = economy;
         }
 
+        @EventHandler(priority = EventPriority.MONITOR)
         public void onPluginEnable(PluginEnableEvent event) {
             if (economy.economy == null) {
                 Plugin mcur = plugin.getServer().getPluginManager().getPlugin("MultiCurrency");
@@ -177,6 +170,7 @@ public class Economy_MultiCurrency implements Economy {
             }
         }
 
+        @EventHandler(priority = EventPriority.MONITOR)
         public void onPluginDisable(PluginDisableEvent event) {
             if (economy.economy != null) {
                 if (event.getPlugin().getDescription().getName().equals("MultiCurrency")) {
