@@ -44,7 +44,7 @@ public interface Economy {
      * @return true if the implementation supports banks
      */
     public abstract boolean hasBankSupport();
-    
+
     /**
      * Format amount into a human readable String This provides translation into
      * economy specific formatting to improve consistency between plugins.
@@ -62,8 +62,8 @@ public interface Economy {
      * @return if the player has an account
      */
     public boolean hasAccount(String playerName);
-    
-    
+
+
     /**
      * Gets balance of a player
      * @param playerName
@@ -93,7 +93,7 @@ public interface Economy {
      * @return Detailed response of transaction
      */
     public EconomyResponse depositPlayer(String playerName, double amount);
-    
+
     /**
      * Creates a bank account with the specified name and the player as the owner
      * @param name
@@ -101,14 +101,21 @@ public interface Economy {
      * @return
      */
     public EconomyResponse createBank(String name, String player);
-    
+
+    /**
+     * Deletes a bank account with the specified name.
+     * @param name
+     * @return if the operation completed successfully
+     */
+    public EconomyResponse deleteBank(String name);
+
     /**
      * Returns the amount the bank has
      * @param name
      * @return
      */
     public EconomyResponse bankBalance(String name);
-    
+
     /**
      * Returns true or false whether the bank has the amount specified
      * @param name
@@ -116,7 +123,7 @@ public interface Economy {
      * @return
      */
     public EconomyResponse bankHas(String name, double amount);
-    
+
     /**
      * Withdraw an amount from a bank account
      * @param name
@@ -124,7 +131,7 @@ public interface Economy {
      * @return
      */
     public EconomyResponse bankWithdraw(String name, double amount);
-    
+
     /**
      * Deposit an amount into a bank account
      * @param name
@@ -132,7 +139,7 @@ public interface Economy {
      * @return
      */
     public EconomyResponse bankDeposit(String name, double amount);
-    
+
     /**
      * Check if a player is the owner of a bank account
      * @param name
@@ -140,7 +147,7 @@ public interface Economy {
      * @return
      */
     public EconomyResponse isBankOwner(String name, String playerName);
-    
+
     /**
      * Check if the player is a member of the bank account
      * @param name
@@ -154,7 +161,7 @@ public interface Economy {
      * @return the List of Banks
      */
     public List<String> getBanks();
-    
+
     /**
      * Attempts to create a player account for the given player
      * @return if the account creation was successful

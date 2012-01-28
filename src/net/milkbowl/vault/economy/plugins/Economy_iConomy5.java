@@ -156,51 +156,56 @@ public class Economy_iConomy5 implements Economy {
         return iConomy.format(amount);
     }
 
-	@Override
-	public boolean has(String playerName, double amount) {
-		return getBalance(playerName) >= amount;
-	}
+    @Override
+    public boolean has(String playerName, double amount) {
+        return getBalance(playerName) >= amount;
+    }
 
-	@Override
-	public EconomyResponse createBank(String name, String player) {
-		return new EconomyResponse(0, 0, ResponseType.NOT_IMPLEMENTED, "iConomy5 does not support single account banks!");
-	}
+    @Override
+    public EconomyResponse createBank(String name, String player) {
+        return new EconomyResponse(0, 0, ResponseType.NOT_IMPLEMENTED, "iConomy5 does not support single account banks!");
+    }
 
-	@Override
-	public EconomyResponse bankHas(String name, double amount) {
-		return new EconomyResponse(0, 0, ResponseType.NOT_IMPLEMENTED, "iConomy5 does not support single bank accounts!");
-	}
+    @Override
+    public EconomyResponse deleteBank(String name) {
+        return new EconomyResponse(0, 0, ResponseType.NOT_IMPLEMENTED, "iConomy5 does not support bank accounts!");
+    }
 
-	@Override
-	public EconomyResponse bankWithdraw(String name, double amount) {
-		return new EconomyResponse(0, 0, ResponseType.NOT_IMPLEMENTED, "iConomy5 does not support single bank accounts!");
-	}
+    @Override
+    public EconomyResponse bankHas(String name, double amount) {
+        return new EconomyResponse(0, 0, ResponseType.NOT_IMPLEMENTED, "iConomy5 does not support single bank accounts!");
+    }
 
-	@Override
-	public EconomyResponse bankDeposit(String name, double amount) {
-		return new EconomyResponse(0, 0, ResponseType.NOT_IMPLEMENTED, "iConomy5 does not support single bank accounts!");
-	}
+    @Override
+    public EconomyResponse bankWithdraw(String name, double amount) {
+        return new EconomyResponse(0, 0, ResponseType.NOT_IMPLEMENTED, "iConomy5 does not support single bank accounts!");
+    }
 
-	@Override
-	public EconomyResponse isBankOwner(String name, String playerName) {
-		return new EconomyResponse(0, 0, ResponseType.NOT_IMPLEMENTED, "iConomy5 does not support single bank accounts!");
-	}
+    @Override
+    public EconomyResponse bankDeposit(String name, double amount) {
+        return new EconomyResponse(0, 0, ResponseType.NOT_IMPLEMENTED, "iConomy5 does not support single bank accounts!");
+    }
 
-	@Override
-	public EconomyResponse isBankMember(String name, String playerName) {
-		return new EconomyResponse(0, 0, ResponseType.NOT_IMPLEMENTED, "iConomy5 does not support single bank accounts!");
-	}
+    @Override
+    public EconomyResponse isBankOwner(String name, String playerName) {
+        return new EconomyResponse(0, 0, ResponseType.NOT_IMPLEMENTED, "iConomy5 does not support single bank accounts!");
+    }
 
-	@Override
-	public EconomyResponse bankBalance(String name) {
-		return new EconomyResponse(0, 0, ResponseType.NOT_IMPLEMENTED, "iConomy5 does not support single bank accounts!");
-	}
-	
+    @Override
+    public EconomyResponse isBankMember(String name, String playerName) {
+        return new EconomyResponse(0, 0, ResponseType.NOT_IMPLEMENTED, "iConomy5 does not support single bank accounts!");
+    }
+
+    @Override
+    public EconomyResponse bankBalance(String name) {
+        return new EconomyResponse(0, 0, ResponseType.NOT_IMPLEMENTED, "iConomy5 does not support single bank accounts!");
+    }
+
     @Override
     public List<String> getBanks() {
         return new ArrayList<String>();
     }
-    
+
     @Override
     public boolean hasBankSupport() {
         return false;

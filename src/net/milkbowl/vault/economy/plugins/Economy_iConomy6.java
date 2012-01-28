@@ -135,65 +135,74 @@ public class Economy_iConomy6 implements Economy {
         return new EconomyResponse(amount, balance, ResponseType.SUCCESS, null);
     }
 
-	@Override
-	public boolean has(String playerName, double amount) {
-		return getBalance(playerName) >= amount;
-	}
+    @Override
+    public boolean has(String playerName, double amount) {
+        return getBalance(playerName) >= amount;
+    }
 
-	@Override
-	public EconomyResponse createBank(String name, String player) {
-		if (accounts.exists(name))
-			return new EconomyResponse(0, accounts.get(name).getHoldings().getBalance(), ResponseType.FAILURE, "That account already exists.");
+    @Override
+    public EconomyResponse createBank(String name, String player) {
+        if (accounts.exists(name))
+            return new EconomyResponse(0, accounts.get(name).getHoldings().getBalance(), ResponseType.FAILURE, "That account already exists.");
 
-		boolean created = accounts.create(name);
-		if (created)
-			return new EconomyResponse(0, 0, ResponseType.SUCCESS, "");
-		else 
-			return new EconomyResponse(0, 0, ResponseType.FAILURE, "There was an error creating the account");
-			
-	}
+        boolean created = accounts.create(name);
+        if (created)
+            return new EconomyResponse(0, 0, ResponseType.SUCCESS, "");
+        else 
+            return new EconomyResponse(0, 0, ResponseType.FAILURE, "There was an error creating the account");
 
-	@Override
-	public EconomyResponse bankHas(String name, double amount) {
-		if (has(name, amount))
-			return new EconomyResponse(0, amount, ResponseType.SUCCESS, "");
-		else
-			return new EconomyResponse(0, accounts.get(name).getHoldings().getBalance(), ResponseType.FAILURE, "The account does not have enough!");
-	}
+    }
 
-	@Override
-	public EconomyResponse bankWithdraw(String name, double amount) {
-		return withdrawPlayer(name, amount);
-	}
+    @Override
+    public EconomyResponse deleteBank(String name) {
+        if (accounts.exists(name)) {
+            accounts.remove(name);
+            return new EconomyResponse(0, 0, ResponseType.SUCCESS, "");
+        }
+        return new EconomyResponse(0, 0, ResponseType.FAILURE, "That bank account does not exist.");
+    }
 
-	@Override
-	public EconomyResponse bankDeposit(String name, double amount) {
-		return depositPlayer(name, amount);
-	}
+    @Override
+    public EconomyResponse bankHas(String name, double amount) {
+        if (has(name, amount))
+            return new EconomyResponse(0, amount, ResponseType.SUCCESS, "");
+        else
+            return new EconomyResponse(0, accounts.get(name).getHoldings().getBalance(), ResponseType.FAILURE, "The account does not have enough!");
+    }
 
-	@Override
-	public EconomyResponse isBankOwner(String name, String playerName) {
-		return new EconomyResponse(0, 0, ResponseType.NOT_IMPLEMENTED, "iConomy 6 does not support Bank owners.");
-	}
+    @Override
+    public EconomyResponse bankWithdraw(String name, double amount) {
+        return withdrawPlayer(name, amount);
+    }
 
-	@Override
-	public EconomyResponse isBankMember(String name, String playerName) {
-		return new EconomyResponse(0, 0, ResponseType.NOT_IMPLEMENTED, "iConomy 6 does not support Bank members.");
-	}
+    @Override
+    public EconomyResponse bankDeposit(String name, double amount) {
+        return depositPlayer(name, amount);
+    }
 
-	@Override
-	public EconomyResponse bankBalance(String name) {
-		if (!accounts.exists(name))
-			return new EconomyResponse(0, 0, ResponseType.FAILURE, "There is no bank account with that name");
-		else
-			return new EconomyResponse(0, accounts.get(name).getHoldings().getBalance(), ResponseType.SUCCESS, null);
-	}
-	
+    @Override
+    public EconomyResponse isBankOwner(String name, String playerName) {
+        return new EconomyResponse(0, 0, ResponseType.NOT_IMPLEMENTED, "iConomy 6 does not support Bank owners.");
+    }
+
+    @Override
+    public EconomyResponse isBankMember(String name, String playerName) {
+        return new EconomyResponse(0, 0, ResponseType.NOT_IMPLEMENTED, "iConomy 6 does not support Bank members.");
+    }
+
+    @Override
+    public EconomyResponse bankBalance(String name) {
+        if (!accounts.exists(name))
+            return new EconomyResponse(0, 0, ResponseType.FAILURE, "There is no bank account with that name");
+        else
+            return new EconomyResponse(0, accounts.get(name).getHoldings().getBalance(), ResponseType.SUCCESS, null);
+    }
+
     @Override
     public List<String> getBanks() {
         throw new UnsupportedOperationException("iConomy does not support listing of bank accounts");
     }
-    
+
     @Override
     public boolean hasBankSupport() {
         return true;

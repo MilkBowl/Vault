@@ -29,7 +29,7 @@ public class Economy_CurrencyCore implements Economy {
     public Economy_CurrencyCore(Plugin plugin) {
         this.plugin = plugin;
         Bukkit.getServer().getPluginManager().registerEvents(new EconomyServerListener(this), plugin);
-        
+
         // Load Plugin in case it was loaded before
         if(currency == null) {
             Plugin currencyPlugin = plugin.getServer().getPluginManager().getPlugin("CurrencyCore");
@@ -136,6 +136,15 @@ public class Economy_CurrencyCore implements Economy {
     }
 
     @Override
+    public EconomyResponse deleteBank(String name) {
+        if (this.currency.getAccountManager().hasAccount(name)) {
+            this.currency.getAccountManager().removeAccount(name);
+            return new EconomyResponse(0, 0, ResponseType.SUCCESS, "");
+        }
+        return new EconomyResponse(0, 0, ResponseType.FAILURE, "That account does not exist!");
+    }
+
+    @Override
     public EconomyResponse bankBalance(String name) {
         AccountContext account = this.currency.getAccountManager().getAccount(name);
 
@@ -195,7 +204,7 @@ public class Economy_CurrencyCore implements Economy {
     public List<String> getBanks() {
         return Arrays.asList(this.currency.getAccountManager().getAccounts());
     }
-    
+
     @Override
     public boolean hasBankSupport() {
         return true;

@@ -133,11 +133,20 @@ public class Economy_Craftconomy implements Economy {
     }
 
     @Override
+    public EconomyResponse deleteBank(String name) {
+        if (AccountHandler.exists(name)) {
+            AccountHandler.delete(AccountHandler.getAccount(name));
+            return new EconomyResponse(0, 0, ResponseType.SUCCESS, "");
+        }
+        return new EconomyResponse(0, 0, ResponseType.FAILURE, "Thank bank account does not exist!");
+    }
+
+    @Override
     public EconomyResponse bankHas(String name, double amount) {
         if (!AccountHandler.exists(name)) {
             return new EconomyResponse(0, 0, ResponseType.FAILURE, "Account does not exists!");
         }
-        
+
         double balance = AccountHandler.getAccount(name).getBank().getBalance();
         if ( balance >= amount) {
             return new EconomyResponse(0, balance, ResponseType.SUCCESS, "");
