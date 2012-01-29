@@ -14,15 +14,15 @@ import org.bukkit.event.server.PluginDisableEvent;
 import org.bukkit.event.server.PluginEnableEvent;
 import org.bukkit.plugin.Plugin;
 
-import de.bananaco.permissions.Permissions;
-import de.bananaco.permissions.info.InfoReader;
+import de.bananaco.bpermissions.api.ApiLayer;
+import de.bananaco.bpermissions.api.util.CalculableType;
 
 public class Chat_bPermissions extends Chat {
 	private static final Logger log = Logger.getLogger("Minecraft");
 	private final String name = "bInfo";
 	private Vault plugin = null;
-	InfoReader chat;
-
+	private boolean hooked = false;
+	
 	public Chat_bPermissions(Vault plugin, Permission perms) {
 		super(perms);
 		this.plugin = plugin;
@@ -30,10 +30,10 @@ public class Chat_bPermissions extends Chat {
 		Bukkit.getServer().getPluginManager().registerEvents(new PermissionServerListener(this), plugin);
 
 		// Load Plugin in case it was loaded before
-		if (chat == null) {
+		if (!hooked) {
 			Plugin p = plugin.getServer().getPluginManager().getPlugin("bPermissions");
 			if (p != null) {
-				chat = Permissions.getInfoReader();
+				hooked = true;
 				log.info(String.format("[%s][Chat] %s hooked.", plugin.getDescription().getName(), "bPermissions"));
 			}
 		}
@@ -48,10 +48,10 @@ public class Chat_bPermissions extends Chat {
 
 		@EventHandler(priority = EventPriority.MONITOR)
 		public void onPluginEnable(PluginEnableEvent event) {
-			if (this.chat.chat == null) {
+			if (!hooked) {
 				Plugin chat = plugin.getServer().getPluginManager().getPlugin("bPermissions");
 				if (chat != null) {
-				    this.chat.chat = Permissions.getInfoReader();
+				    hooked = true;
 					log.info(String.format("[%s][Chat] %s hooked.", plugin.getDescription().getName(), "bPermissions"));
 				}
 			}
@@ -59,9 +59,9 @@ public class Chat_bPermissions extends Chat {
 
 		@EventHandler(priority = EventPriority.MONITOR)
 		public void onPluginDisable(PluginDisableEvent event) {
-			if (this.chat.chat != null) {
+			if (hooked) {
 				if (event.getPlugin().getDescription().getName().equals("bPermissions")) {
-					this.chat.chat = null;
+					hooked = false;
 					log.info(String.format("[%s][Chat] %s un-hooked.", plugin.getDescription().getName(), "bPermissions"));
 				}
 			}
@@ -74,47 +74,47 @@ public class Chat_bPermissions extends Chat {
 
 	@Override
 	public boolean isEnabled() {
-		return chat != null;
+		return hooked;
 	}
 
 	@Override
 	public String getPlayerPrefix(String world, String player) {
-	    return chat.getPrefix(player, world);
+	    return ApiLayer.getValue(world, CalculableType.USER, player, "prefix");
 	}
 
 	@Override
 	public void setPlayerPrefix(String world, String player, String prefix) {
-		throw new UnsupportedOperationException("bPermissions does not support altering info nodes");
+		ApiLayer.setValue(world, CalculableType.USER, player, "prefix", prefix);
 	}
 
 	@Override
 	public String getPlayerSuffix(String world, String player) {
-	    return chat.getSuffix(player, world);
+		return ApiLayer.getValue(world, CalculableType.USER, player, "suffix");
 	}
 
 	@Override
 	public void setPlayerSuffix(String world, String player, String suffix) {
-		throw new UnsupportedOperationException("bPermissions does not support altering info nodes");
+		ApiLayer.setValue(world, CalculableType.USER, player, "suffix", suffix);
 	}
 
 	@Override
 	public String getGroupPrefix(String world, String group) {
-	    return chat.getGroupPrefix(group, world);
+		return ApiLayer.getValue(world, CalculableType.GROUP, group, "prefix");
 	}
 
 	@Override
 	public void setGroupPrefix(String world, String group, String prefix) {
-		throw new UnsupportedOperationException("bPermissions does not support altering info nodes");
+		ApiLayer.setValue(world, CalculableType.GROUP, group, "prefix", prefix);
 	}
 
 	@Override
 	public String getGroupSuffix(String world, String group) {
-	    return chat.getGroupSuffix(group, world);
+		return ApiLayer.getValue(world, CalculableType.GROUP, group, "suffix");
 	}
 
 	@Override
 	public void setGroupSuffix(String world, String group, String suffix) {
-		throw new UnsupportedOperationException("bPermissions does not support altering info nodes");
+		ApiLayer.setValue(world, CalculableType.GROUP, group, "suffix", suffix);
 	}
 
 	@Override
@@ -132,7 +132,7 @@ public class Chat_bPermissions extends Chat {
 
 	@Override
 	public void setPlayerInfoInteger(String world, String player, String node, int value) {
-		throw new UnsupportedOperationException("bPermissions does not support altering info nodes");
+		ApiLayer.setValue(world, CalculableType.USER, player, node, String.valueOf(value));
 	}
 
 	@Override
@@ -150,7 +150,7 @@ public class Chat_bPermissions extends Chat {
 
 	@Override
 	public void setGroupInfoInteger(String world, String group, String node, int value) {
-		throw new UnsupportedOperationException("bPermissions does not support altering info nodes");
+		ApiLayer.setValue(world, CalculableType.GROUP, group, node, String.valueOf(value));
 	}
 
 	@Override
@@ -168,7 +168,7 @@ public class Chat_bPermissions extends Chat {
 
 	@Override
 	public void setPlayerInfoDouble(String world, String player, String node, double value) {
-		throw new UnsupportedOperationException("bPermissions does not support altering info nodes");
+		ApiLayer.setValue(world, CalculableType.USER, player, node, String.valueOf(value));
 	}
 
 	@Override
@@ -186,7 +186,7 @@ public class Chat_bPermissions extends Chat {
 
 	@Override
 	public void setGroupInfoDouble(String world, String group, String node, double value) {
-		throw new UnsupportedOperationException("bPermissions does not support altering info nodes");
+		ApiLayer.setValue(world, CalculableType.GROUP, group, node, String.valueOf(value));
 	}
 
 	@Override
@@ -204,7 +204,7 @@ public class Chat_bPermissions extends Chat {
 
 	@Override
 	public void setPlayerInfoBoolean(String world, String player, String node, boolean value) {
-		throw new UnsupportedOperationException("bPermissions does not support altering info nodes");
+		ApiLayer.setValue(world, CalculableType.USER, player, node, String.valueOf(value));
 	}
 
 	@Override
@@ -222,28 +222,28 @@ public class Chat_bPermissions extends Chat {
 
 	@Override
 	public void setGroupInfoBoolean(String world, String group, String node, boolean value) {
-		throw new UnsupportedOperationException("bPermissions does not support altering info nodes");
+		ApiLayer.setValue(world, CalculableType.GROUP, group, node, String.valueOf(value));;
 	}
 
 	@Override
 	public String getPlayerInfoString(String world, String player, String node, String defaultValue) {
-		String val = chat.getValue(player, world, node);
-		return (val == null || val == "BLANKWORLD") ? defaultValue : val;
+		String val = ApiLayer.getValue(world, CalculableType.USER, player, node);
+		return (val == null || val == "BLANKWORLD" || val == "") ? defaultValue : val;
 	}
 
 	@Override
 	public void setPlayerInfoString(String world, String player, String node, String value) {
-		throw new UnsupportedOperationException("bPermissions does not support altering info nodes");
+		ApiLayer.setValue(world, CalculableType.USER, player, node, value);
 	}
 
 	@Override
 	public String getGroupInfoString(String world, String group, String node, String defaultValue) {
-		String val = chat.getGroupValue(group, world, node);
-		return (val == null || val == "BLANKWORLD") ? defaultValue : val;
+		String val = ApiLayer.getValue(world, CalculableType.GROUP, group, node);
+		return (val == null || val == "BLANKWORLD" || val == "") ? defaultValue : val;
 	}
 
 	@Override
 	public void setGroupInfoString(String world, String group, String node, String value) {
-		throw new UnsupportedOperationException("bPermissions does not support altering info nodes");
+		ApiLayer.setValue(world, CalculableType.GROUP, group, node, value);
 	}
 }
