@@ -1,5 +1,8 @@
 package net.milkbowl.vault.permission.plugins;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import net.milkbowl.vault.Vault;
 import net.milkbowl.vault.permission.Permission;
 
@@ -11,15 +14,16 @@ import org.bukkit.event.server.PluginDisableEvent;
 import org.bukkit.event.server.PluginEnableEvent;
 import org.bukkit.plugin.Plugin;
 
-import de.bananaco.bpermissions.api.Group;
-import de.bananaco.bpermissions.api.User;
+import de.bananaco.bpermissions.api.ApiLayer;
 import de.bananaco.bpermissions.api.World;
 import de.bananaco.bpermissions.api.WorldManager;
+import de.bananaco.bpermissions.api.util.Calculable;
+import de.bananaco.bpermissions.api.util.CalculableType;
 
 public class Permission_bPermissions2 extends Permission {
 
     private String name = "bPermissions2";
-    private WorldManager perms;
+    private boolean hooked = false;
 
     public Permission_bPermissions2(Vault plugin) {
         this.plugin = plugin;
@@ -27,10 +31,10 @@ public class Permission_bPermissions2 extends Permission {
         Bukkit.getServer().getPluginManager().registerEvents(new PermissionServerListener(), plugin);
         
         // Load Plugin in case it was loaded before
-        if (perms == null) {
+        if (!hooked) {
             Plugin p = plugin.getServer().getPluginManager().getPlugin("bPermissions");
             if (p != null) {
-                perms = WorldManager.getInstance();
+                hooked = true;
                 log.info(String.format("[%s][Permission] %s hooked.", plugin.getDescription().getName(), name));
             }
         }
@@ -40,10 +44,10 @@ public class Permission_bPermissions2 extends Permission {
         
         @EventHandler(priority = EventPriority.MONITOR)
         public void onPluginEnable(PluginEnableEvent event) {
-            if (perms == null) {
+            if (!hooked) {
                 Plugin p = event.getPlugin();
                 if(p.getDescription().getName().equals("bPermissions") && p.isEnabled()) {
-                    perms = WorldManager.getInstance();
+                    hooked = true;
                     log.info(String.format("[%s][Permission] %s hooked.", plugin.getDescription().getName(), name));
                 }
             }
@@ -51,9 +55,9 @@ public class Permission_bPermissions2 extends Permission {
 
         @EventHandler(priority = EventPriority.MONITOR)
         public void onPluginDisable(PluginDisableEvent event) {
-            if (perms != null) {
+            if (hooked) {
                 if (event.getPlugin().getDescription().getName().equals("bPermissions")) {
-                    perms = null;
+                    hooked = false;
                     log.info(String.format("[%s][Permission] %s un-hooked.", plugin.getDescription().getName(), name));
                 }
             }
@@ -67,44 +71,23 @@ public class Permission_bPermissions2 extends Permission {
 
     @Override
     public boolean isEnabled() {
-        return this.perms != null;
+        return hooked;
     }
 
     @Override
     public boolean playerHas(String world, String player, String permission) {
-        World w = perms.getWorld(world);
-        if (w == null) {
-            return false;
-        }
-        User user = w.getUser(player);
-        return user == null ? false : user.hasPermission(permission);
+        return ApiLayer.hasPermission(world, CalculableType.USER, player, permission);
     }
 
     @Override
     public boolean playerAdd(String world, String player, String permission) {
-        World w = perms.getWorld(world);
-        if (w == null) {
-            return false;
-        }
-        User user = w.getUser(player);
-        if (user == null) {
-            return false;
-        }
-        user.addPermission(permission, true);
-        return true;
+        ApiLayer.addPermission(world, CalculableType.USER, player, de.bananaco.bpermissions.api.util.Permission.loadFromString(permission));
+    	return true;
     }
 
     @Override
     public boolean playerRemove(String world, String player, String permission) {
-        World w = perms.getWorld(world);
-        if (w == null) {
-            return false;
-        }
-        User user = w.getUser(player);
-        if (user == null) {
-            return false;
-        }
-        user.removePermission(permission);
+        ApiLayer.removePermission(world, CalculableType.USER, player, permission);
         return true;
     }
 
@@ -112,91 +95,41 @@ public class Permission_bPermissions2 extends Permission {
 
     @Override
     public boolean groupHas(String world, String group, String permission) {
-        World w = perms.getWorld(world);
-        if (w == null) {
-            return false;
-        }
-        Group g = w.getGroup(group);
-        return g != null ? g.getPermissionsAsString().contains(permission) : false;
+        return ApiLayer.hasPermission(world, CalculableType.GROUP, group, permission);
     }
 
     @Override
     public boolean groupAdd(String world, String group, String permission) {
-        World w = perms.getWorld(world);
-        if (w == null) {
-            return false;
-        }
-        Group g = w.getGroup(group);
-        if (g == null) {
-            return false;
-        }
-        g.addPermission(permission, true);
-        return true;
+    	ApiLayer.addPermission(world, CalculableType.GROUP, group, de.bananaco.bpermissions.api.util.Permission.loadFromString(permission));
+    	return true;
     }
 
     @Override
     public boolean groupRemove(String world, String group, String permission) {
-        World w = perms.getWorld(world);
-        if (w == null) {
-            return false;
-        }
-        Group g = w.getGroup(group);
-        if (g == null) {
-            return false;
-        }
-        g.removePermission(permission);
+        ApiLayer.removePermission(world, CalculableType.GROUP, group, permission);
         return true;
     }
 
     @Override
     public boolean playerInGroup(String world, String player, String group) {
-        World w = perms.getWorld(world);
-        if (w == null) {
-            return false;
-        }
-        User user = w.getUser(player);
-        return user != null ? user.getGroupsAsString().contains(group) : false;
-        
+        return ApiLayer.hasGroup(world, CalculableType.USER, player, group);
     }
 
     @Override
     public boolean playerAddGroup(String world, String player, String group) {
-        World w = perms.getWorld(world);
-        if (w == null) {
-            return false;
-        }
-        User user = w.getUser(player);
-        if (user == null) {
-            return false;
-        }
-        
-        user.addGroup(group);
+        ApiLayer.addGroup(world, CalculableType.USER, player, group);
         return true;
     }
 
     @Override
     public boolean playerRemoveGroup(String world, String player, String group) {
-        World w = perms.getWorld(world);
-        if (w == null) {
-            return false;
-        }
-        User user = w.getUser(player);
-        if (user == null) {
-            return false;
-        }
-
-        user.removeGroup(group);
+        ApiLayer.removeGroup(world, CalculableType.USER, player, group);
         return true;
     }
 
     @Override
     public String[] getPlayerGroups(String world, String player) {
-        World w = perms.getWorld(world);
-        if (w == null) {
-            return null;
-        }
-        User user = w.getUser(player);
-        return user != null ? user.getGroupsAsString().toArray(new String[0]) : null;
+        return ApiLayer.getGroups(world, CalculableType.USER, name);
     }
 
     @Override
@@ -207,7 +140,17 @@ public class Permission_bPermissions2 extends Permission {
 
     @Override
     public String[] getGroups() {
-        throw new UnsupportedOperationException("bPermissions does not support server-wide groups");
+        String[] groups = null;
+        Set<String> gSet = new HashSet<String>();
+        for(World world : WorldManager.getInstance().getAllWorlds()) {
+        	Set<Calculable> gr = world.getAll(CalculableType.GROUP);
+        	for(Calculable c : gr) {
+        		gSet.add(c.getNameLowerCase());
+        	}
+        }
+        // Convert to String
+        groups = gSet.toArray(new String[gSet.size()]);
+        return groups;
     }
 
     @Override
