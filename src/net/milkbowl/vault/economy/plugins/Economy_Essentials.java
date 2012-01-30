@@ -103,6 +103,10 @@ public class Economy_Essentials implements Economy {
         String errorMessage = null;
 
         try {
+            balance = com.earth2me.essentials.api.Economy.getMoney(playerName);
+            if (balance - amount < 0) {
+                return new EconomyResponse(0, balance, ResponseType.FAILURE, "Not enough funds!");
+            }
             com.earth2me.essentials.api.Economy.subtract(playerName, amount);
             balance = com.earth2me.essentials.api.Economy.getMoney(playerName);
             type = EconomyResponse.ResponseType.SUCCESS;
