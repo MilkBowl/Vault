@@ -34,6 +34,7 @@ import net.milkbowl.vault.chat.plugins.Chat_Permissions3;
 import net.milkbowl.vault.chat.plugins.Chat_PermissionsEx;
 import net.milkbowl.vault.chat.plugins.Chat_Towny;
 import net.milkbowl.vault.chat.plugins.Chat_bPermissions;
+import net.milkbowl.vault.chat.plugins.Chat_bPermissions2;
 import net.milkbowl.vault.chat.plugins.Chat_iChat;
 import net.milkbowl.vault.chat.plugins.Chat_mChat;
 import net.milkbowl.vault.economy.Economy;
@@ -151,6 +152,13 @@ public class Vault extends JavaPlugin {
             log.info(String.format("[%s][Chat] mChat found: %s", getDescription().getName(), mChat.isEnabled() ? "Loaded" : "Waiting"));
         }
 
+        //try loading bPermssions 2
+        if (packageExists(new String[] {"de.bananaco.bpermissions.api.ApiLayer"})) {
+            Chat bPerms = new Chat_bPermissions2(this, perms);
+            sm.register(Chat.class, bPerms, this, ServicePriority.High);
+            log.info(String.format("[%s][Chat] bPermissions2 found: %s", getDescription().getName(), bPerms.isEnabled() ? "Loaded" : "Waiting"));
+        }
+
         //try loading bPermissions
         if (packageExists(new String[] {"de.bananaco.permissions.info.InfoReader"})) {
             Chat bPerms = new Chat_bPermissions(this, perms);
@@ -218,7 +226,7 @@ public class Vault extends JavaPlugin {
             sm.register(Economy.class, econ, this, ServicePriority.Normal);
             log.info(String.format("[%s][Economy] CraftConomy found: %s", getDescription().getName(), econ.isEnabled() ? "Loaded" : "Waiting"));
         }
-        
+
         //Try loading eWallet
         if (packageExists(new String[] { "me.ethan.eWallet.ECO" })) {
             Economy econ = new Economy_eWallet(this);
@@ -322,18 +330,18 @@ public class Vault extends JavaPlugin {
             log.info(String.format("[%s][Chat] bPermissions found: %s", getDescription().getName(), bPerms.isEnabled() ? "Loaded" : "Waiting"));
         }
 
-        //Try to load bPermissions
-        if (packageExists(new String[] {"de.bananaco.permissions.SuperPermissionHandler"})) {
-            Permission bPerms = new Permission_bPermissions(this);
-            sm.register(Permission.class, bPerms, this, ServicePriority.Highest);
-            log.info(String.format("[%s][Permission] bPermissions found: %s", getDescription().getName(), bPerms.isEnabled() ? "Loaded" : "Waiting"));
-        }
-
         //Try to load zPermission
         if (packageExists(new String[] {"org.tyrannyofheaven.bukkit.zPermissions"})) {
             Permission zPerms = new Permission_zPermissions(this);
             sm.register(Permission.class, zPerms, this, ServicePriority.Highest);
             log.info(String.format("[%s][Permission] GroupManager found: %s", getDescription().getName(), zPerms.isEnabled() ? "Loaded" : "Waiting"));
+        }
+
+        //Try to load bPermissions
+        if (packageExists(new String[] {"de.bananaco.permissions.SuperPermissionHandler"})) {
+            Permission bPerms = new Permission_bPermissions(this);
+            sm.register(Permission.class, bPerms, this, ServicePriority.High);
+            log.info(String.format("[%s][Permission] bPermissions found: %s", getDescription().getName(), bPerms.isEnabled() ? "Loaded" : "Waiting"));
         }
 
         // Try to load GroupManager
@@ -475,7 +483,7 @@ public class Vault extends JavaPlugin {
                 }
             }
         }
-        
+
         @EventHandler(priority = EventPriority.MONITOR)
         public void onPluginEnable(PluginEnableEvent event) {
             if (event.getPlugin().getDescription().getName().equals("Register") && packageExists(new String[] {"com.nijikokun.register.payment.Methods"})) {
