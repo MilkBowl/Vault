@@ -112,6 +112,13 @@
 			<systemPath>${project.basedir}/lib/mChat.jar</systemPath>
 		</dependency>
 		<dependency>
+            <groupId>in.mDev</groupId>
+            <artifactId>mChatSuite</artifactId>
+            <version>DEV</version>
+            <scope>system</scope>
+            <systemPath>${project.basedir}/lib/mChatSuite-DEV.jar</systemPath>
+        </dependency>
+		<dependency>
 			<groupId>me.mjolnir.mineconomy.MineConomy</groupId>
 			<artifactId>MineConomy</artifactId>
 			<version>1.0.4</version>
