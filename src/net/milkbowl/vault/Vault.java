@@ -153,17 +153,16 @@ public class Vault extends JavaPlugin {
         }
 
         //try loading bPermssions 2
-        if (packageExists(new String[] {"de.bananaco.bpermissions.api.ApiLayer"})) {
-            Chat bPerms = new Chat_bPermissions2(this, perms);
-            sm.register(Chat.class, bPerms, this, ServicePriority.High);
-            log.info(String.format("[%s][Chat] bPermissions2 found: %s", getDescription().getName(), bPerms.isEnabled() ? "Loaded" : "Waiting"));
-        }
-
-        //try loading bPermissions
         if (packageExists(new String[] {"de.bananaco.permissions.info.InfoReader"})) {
-            Chat bPerms = new Chat_bPermissions(this, perms);
-            sm.register(Chat.class, bPerms, this, ServicePriority.Normal);
-            log.info(String.format("[%s][Chat] bPermissions found: %s", getDescription().getName(), bPerms.isEnabled() ? "Loaded" : "Waiting"));
+            if (packageExists(new String[] {"de.bananaco.bpermissions.api.ApiLayer"})) {
+                Chat bPerms = new Chat_bPermissions2(this, perms);
+                sm.register(Chat.class, bPerms, this, ServicePriority.High);
+                log.info(String.format("[%s][Chat] bPermissions2 found: %s", getDescription().getName(), bPerms.isEnabled() ? "Loaded" : "Waiting"));
+            } else  {
+                Chat bPerms = new Chat_bPermissions(this, perms);
+                sm.register(Chat.class, bPerms, this, ServicePriority.Normal);
+                log.info(String.format("[%s][Chat] bPermissions found: %s", getDescription().getName(), bPerms.isEnabled() ? "Loaded" : "Waiting"));
+            }
         }
 
         // Try to load GroupManager
