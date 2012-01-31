@@ -110,12 +110,14 @@ public class Permission_GroupManager extends Permission {
     @Override
     public boolean playerAdd(String worldName, String playerName, String permission) {
         OverloadedWorldHolder owh = groupManager.getWorldsHolder().getWorldData(worldName);
-        if (owh == null)
+        if (owh == null) {
         	return false;
+        }
         
         User user = owh.getUser(playerName);
-        if (user == null)
+        if (user == null) {
         	return false;
+        }
         
         user.addPermission(permission);
         return true;
@@ -124,12 +126,14 @@ public class Permission_GroupManager extends Permission {
     @Override
     public boolean playerRemove(String worldName, String playerName, String permission) {
         OverloadedWorldHolder owh = groupManager.getWorldsHolder().getWorldData(worldName);
-        if (owh == null)
+        if (owh == null) {
         	return false;
+        }
         
         User user = owh.getUser(playerName);
-        if (user == null)
+        if (user == null) {
         	return false;
+        }
         
         user.removePermission(permission);
         return true;
@@ -138,12 +142,14 @@ public class Permission_GroupManager extends Permission {
     @Override
     public boolean groupHas(String worldName, String groupName, String permission) {
     	OverloadedWorldHolder owh = groupManager.getWorldsHolder().getWorldData(worldName);
-    	if (owh == null)
+    	if (owh == null) {
     		return false;
+    	}
         
     	Group group = owh.getGroup(groupName);
-    	if (group == null)
+    	if (group == null) {
     		return false;
+    	}
     	
     	return group.hasSamePermissionNode(permission);
     }
@@ -151,12 +157,14 @@ public class Permission_GroupManager extends Permission {
     @Override
     public boolean groupAdd(String worldName, String groupName, String permission) {
     	OverloadedWorldHolder owh = groupManager.getWorldsHolder().getWorldData(worldName);
-    	if (owh == null)
+    	if (owh == null) {
     		return false;
+    	}
         
     	Group group = owh.getGroup(groupName);
-    	if (group == null)
+    	if (group == null) {
     		return false;
+    	}
     	
     	group.addPermission(permission);
     	return true;
@@ -165,12 +173,14 @@ public class Permission_GroupManager extends Permission {
     @Override
     public boolean groupRemove(String worldName, String groupName, String permission) {
     	OverloadedWorldHolder owh = groupManager.getWorldsHolder().getWorldData(worldName);
-    	if (owh == null)
+    	if (owh == null) {
     		return false;
+    	}
         
     	Group group = owh.getGroup(groupName);
-    	if (group == null)
+    	if (group == null) {
     		return false;
+    	}
 
     	group.removePermission(permission);
     	return true;
@@ -183,12 +193,46 @@ public class Permission_GroupManager extends Permission {
 
     @Override
     public boolean playerAddGroup(String worldName, String playerName, String groupName) {
-        return false;
+        OverloadedWorldHolder owh = groupManager.getWorldsHolder().getWorldData(worldName);
+        if (owh == null) {
+            return false;
+        }
+        User user = owh.getUser(playerName);
+        if (user == null) {
+            return false;
+        }
+        Group group = owh.getGroup(groupName);
+        if (group == null) {
+            return false;
+        }
+        if (user.getGroup().equals(owh.getDefaultGroup())) {
+            user.setGroup(group);
+        } else {
+            user.addSubGroup(group);
+        }
+        return true;
     }
 
     @Override
     public boolean playerRemoveGroup(String worldName, String playerName, String groupName) {
-    	return false;
+        OverloadedWorldHolder owh = groupManager.getWorldsHolder().getWorldData(worldName);
+        if (owh == null) {
+            return false;
+        }
+        User user = owh.getUser(playerName);
+        if (user == null) {
+            return false;
+        }
+        if (user.getGroup().getName().equalsIgnoreCase(groupName)) {
+            user.setGroup(owh.getDefaultGroup());
+            return true;
+        } else {
+            Group group = owh.getGroup(groupName);
+            if (group == null) {
+                return false;
+            }
+            return user.removeSubGroup(group);
+        }
     }
 
     @Override
