@@ -118,9 +118,6 @@ public class Metrics {
             return;
         }
 
-        // First tell the server about us
-        postPlugin(plugin, false);
-
         // Ping the server in intervals
         plugin.getServer().getScheduler().scheduleAsyncRepeatingTask(plugin, new Runnable() {
             public void run() {
