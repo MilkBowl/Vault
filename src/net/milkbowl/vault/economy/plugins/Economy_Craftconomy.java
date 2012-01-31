@@ -6,6 +6,8 @@ import java.util.logging.Logger;
 import me.greatman.Craftconomy.Account;
 import me.greatman.Craftconomy.AccountHandler;
 import me.greatman.Craftconomy.Craftconomy;
+import me.greatman.Craftconomy.CurrencyHandler;
+import me.greatman.Craftconomy.utils.Config;
 import net.milkbowl.vault.economy.Economy;
 import net.milkbowl.vault.economy.EconomyResponse;
 import net.milkbowl.vault.economy.EconomyResponse.ResponseType;
@@ -86,13 +88,13 @@ public class Economy_Craftconomy implements Economy {
 
     @Override
     public String format(double amount) {
-        return Craftconomy.format(amount);
+        return Craftconomy.format(amount, CurrencyHandler.getCurrency(Config.currencyDefault, true));
     }
 
     @Override
     public double getBalance(String playerName) {
         if (AccountHandler.exists(playerName)) {
-            return AccountHandler.getAccount(playerName).getBalance();
+            return AccountHandler.getAccount(playerName).getDefaultBalance();
         } else {
             return 0;
         }
@@ -106,7 +108,7 @@ public class Economy_Craftconomy implements Economy {
             balance = account.substractMoney(amount);
             return new EconomyResponse(amount, balance, ResponseType.SUCCESS, "");
         } else {
-            return new EconomyResponse(0, account.getBalance(), ResponseType.FAILURE, "Insufficient funds");
+            return new EconomyResponse(0, account.getDefaultBalance(), ResponseType.FAILURE, "Insufficient funds");
         }
     }
 
@@ -114,7 +116,7 @@ public class Economy_Craftconomy implements Economy {
     public EconomyResponse depositPlayer(String playerName, double amount) {
         Account account = AccountHandler.getAccount(playerName);
         account.addMoney(amount);
-        return new EconomyResponse(amount, account.getBalance(), ResponseType.SUCCESS, null);
+        return new EconomyResponse(amount, account.getDefaultBalance(), ResponseType.SUCCESS, null);
     }
 
     @Override
@@ -124,80 +126,42 @@ public class Economy_Craftconomy implements Economy {
 
     @Override
     public EconomyResponse createBank(String name, String player) {
-        if (AccountHandler.exists(name)) {
-            return new EconomyResponse(0, AccountHandler.getAccount(player).getBalance(), ResponseType.FAILURE, "That account already exists.");
-        }
-        AccountHandler.getAccount(name);
-        return new EconomyResponse(0, 0, ResponseType.SUCCESS, "");
-
+        return new EconomyResponse(0, 0, ResponseType.NOT_IMPLEMENTED, "Craftconomy does not support Banks.");
     }
 
     @Override
     public EconomyResponse deleteBank(String name) {
-        if (AccountHandler.exists(name)) {
-            AccountHandler.delete(AccountHandler.getAccount(name));
-            return new EconomyResponse(0, 0, ResponseType.SUCCESS, "");
-        }
-        return new EconomyResponse(0, 0, ResponseType.FAILURE, "Thank bank account does not exist!");
+        return new EconomyResponse(0, 0, ResponseType.NOT_IMPLEMENTED, "Craftconomy does not support Banks.");
     }
 
     @Override
     public EconomyResponse bankHas(String name, double amount) {
-        if (!AccountHandler.exists(name)) {
-            return new EconomyResponse(0, 0, ResponseType.FAILURE, "Account does not exists!");
-        }
-
-        double balance = AccountHandler.getAccount(name).getBank().getBalance();
-        if ( balance >= amount) {
-            return new EconomyResponse(0, balance, ResponseType.SUCCESS, "");
-        } else {
-            return new EconomyResponse(0, balance, ResponseType.FAILURE, "The account does not have enough!");
-        }
+        return new EconomyResponse(0, 0, ResponseType.NOT_IMPLEMENTED, "Craftconomy does not support Banks.");
     }
 
     @Override
     public EconomyResponse bankWithdraw(String name, double amount) {
-        double balance;
-        if (!AccountHandler.exists(name)) {
-            return new EconomyResponse(0, 0, ResponseType.FAILURE, "Account does not exists!");
-        }
-
-        Account account = AccountHandler.getAccount(name);
-        if (account.getBank().hasEnough(amount)) {
-            balance = account.getBank().substractMoney(amount);
-            return new EconomyResponse(amount, balance, ResponseType.SUCCESS, "");
-        } else {
-            balance = account.getBank().getBalance();
-            return new EconomyResponse(0, balance, ResponseType.FAILURE, "Insufficient funds");
-        }
+        return new EconomyResponse(0, 0, ResponseType.NOT_IMPLEMENTED, "Craftconomy does not support Banks.");
     }
 
     @Override
     public EconomyResponse bankDeposit(String name, double amount) {
-        if (!AccountHandler.exists(name)) {
-            return new EconomyResponse(0, 0, ResponseType.FAILURE, "Account does not exists!");
-        }
-        Account account = AccountHandler.getAccount(name);
-        return new EconomyResponse(amount, account.getBank().addMoney(amount), EconomyResponse.ResponseType.SUCCESS, "");
+        return new EconomyResponse(0, 0, ResponseType.NOT_IMPLEMENTED, "Craftconomy does not support Banks.");
     }
 
     @Override
     public EconomyResponse isBankOwner(String name, String playerName) {
-        return new EconomyResponse(0, 0, ResponseType.NOT_IMPLEMENTED, "Craftconomy does not support Bank owners.");
+        return new EconomyResponse(0, 0, ResponseType.NOT_IMPLEMENTED, "Craftconomy does not support Banks.");
     }
 
     @Override
     public EconomyResponse isBankMember(String name, String playerName) {
-        return new EconomyResponse(0, 0, ResponseType.NOT_IMPLEMENTED, "Craftconomy does not support Bank members.");
+        return new EconomyResponse(0, 0, ResponseType.NOT_IMPLEMENTED, "Craftconomy does not support Banks.");
     }
 
     @Override
     public EconomyResponse bankBalance(String name) {
-        if (!AccountHandler.exists(name)) {
-            return new EconomyResponse(0, 0, ResponseType.FAILURE, "There is no bank account with that name");
-        } else {
-            return new EconomyResponse(0, AccountHandler.getAccount(name).getBank().getBalance(), ResponseType.SUCCESS, null);
-        }
+        return new EconomyResponse(0, 0, ResponseType.NOT_IMPLEMENTED, "Craftconomy does not support Banks.");
     }
 
     @Override
@@ -207,7 +171,7 @@ public class Economy_Craftconomy implements Economy {
 
     @Override
     public boolean hasBankSupport() {
-        return true;
+        return false;
     }
 
     @Override
