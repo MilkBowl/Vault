@@ -19,6 +19,7 @@
 
 package net.milkbowl.vault;
 
+import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.net.URL;
@@ -87,6 +88,7 @@ public class Vault extends JavaPlugin {
     private String newVersion;
     private String currentVersion;
     private ServicesManager sm;
+    private Metrics metrics;
 
     @Override
     public void onDisable() {
@@ -128,7 +130,12 @@ public class Vault extends JavaPlugin {
 
         }, 0, 432000);
 
-
+        try {
+            metrics = new Metrics(getDescription().getVersion());
+            metrics.beginMeasuringPlugin(this);
+        } catch (IOException e) {
+            // ignore exception
+        }
         log.info(String.format("[%s] Enabled Version %s", getDescription().getName(), getDescription().getVersion()));
     }
 
