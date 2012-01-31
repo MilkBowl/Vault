@@ -20,6 +20,7 @@
 package net.milkbowl.vault.economy.plugins;
 
 import java.util.List;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import net.milkbowl.vault.economy.Economy;
@@ -47,7 +48,7 @@ public class Economy_BOSE6 implements Economy {
     public Economy_BOSE6(Plugin plugin) {
         this.plugin = plugin;
         Bukkit.getServer().getPluginManager().registerEvents(new EconomyServerListener(this), plugin);
-
+        log.log(Level.SEVERE, "BOSEconomy6 is an extremely outdated plugin and can not be used reliably for economy! You should update the more recent and maintained BOSEconomy7 for compatibility!");
         // Load Plugin in case it was loaded before
         if (economy == null) {
             Plugin bose = plugin.getServer().getPluginManager().getPlugin("BOSEconomy");
