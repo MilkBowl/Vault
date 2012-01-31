@@ -3,7 +3,6 @@ package net.milkbowl.vault.economy.plugins;
 import is.currency.Currency;
 import is.currency.syst.AccountContext;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -138,7 +137,7 @@ public class Economy_CurrencyCore implements Economy {
     @Override
     public EconomyResponse deleteBank(String name) {
         if (this.currency.getAccountManager().hasAccount(name)) {
-            this.currency.getAccountManager().removeAccount(name);
+            this.currency.getAccountManager().deleteAccount(name);
             return new EconomyResponse(0, 0, ResponseType.SUCCESS, "");
         }
         return new EconomyResponse(0, 0, ResponseType.FAILURE, "That account does not exist!");
@@ -202,7 +201,7 @@ public class Economy_CurrencyCore implements Economy {
 
     @Override
     public List<String> getBanks() {
-        return Arrays.asList(this.currency.getAccountManager().getAccounts());
+        return this.currency.getAccountManager().getAccountList();
     }
 
     @Override
