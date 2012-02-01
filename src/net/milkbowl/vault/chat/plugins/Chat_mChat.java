@@ -183,13 +183,11 @@ public class Chat_mChat extends Chat {
     @Override
     public boolean getPlayerInfoBoolean(String world, String player, String node, boolean defaultValue) {
         String s = getPlayerInfoString(world, player, node, null);
-        if (s == null)
+        if (s == null) {
             return defaultValue;
-
-        try {
-            return Boolean.valueOf(s);
-        } catch (NumberFormatException e) {
-            return defaultValue;
+        } else {
+            Boolean val = Boolean.valueOf(s);
+            return val != null ? val : defaultValue;
         }
     }
 

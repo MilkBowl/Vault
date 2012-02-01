@@ -198,8 +198,10 @@ public class Chat_iChat extends Chat {
 		String val = getPlayerInfoString(world, player, node, null);
 		if (val == null)
 			return defaultValue;
-
-		return Boolean.valueOf(val);
+		else {
+		    Boolean v = Boolean.valueOf(val);
+		    return v != null ? v : defaultValue;
+		}
 	}
 
 	@Override

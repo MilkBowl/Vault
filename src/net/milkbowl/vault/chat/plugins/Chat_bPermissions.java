@@ -192,13 +192,11 @@ public class Chat_bPermissions extends Chat {
 	@Override
 	public boolean getPlayerInfoBoolean(String world, String player, String node, boolean defaultValue) {
 		String s = getPlayerInfoString(world, player, node, null);
-		if (s == null)
+		if (s == null) {
 			return defaultValue;
-		try {
-			boolean b = Boolean.valueOf(s);
-			return b;
-		} catch (NumberFormatException e) {
-			return defaultValue;
+		} else {
+            Boolean val = Boolean.valueOf(s);
+            return val != null ? val : defaultValue;
 		}
 	}
 
@@ -212,11 +210,9 @@ public class Chat_bPermissions extends Chat {
 		String s = getGroupInfoString(world, group, node, null);
 		if (s == null)
 			return defaultValue;
-		try {
-			boolean b = Boolean.valueOf(s);
-			return b;
-		} catch (NumberFormatException e) {
-			return defaultValue;
+		else {
+            Boolean val = Boolean.valueOf(s);
+            return val != null ? val : defaultValue;
 		}
 	}
 
