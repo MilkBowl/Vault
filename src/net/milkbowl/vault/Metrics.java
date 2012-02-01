@@ -37,10 +37,19 @@ import java.io.UnsupportedEncodingException;
 import java.net.URL;
 import java.net.URLConnection;
 import java.net.URLEncoder;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.LinkedHashSet;
+import java.util.Map;
+import java.util.Set;
 import java.util.UUID;
+
+import net.milkbowl.vault.chat.Chat;
+import net.milkbowl.vault.economy.Economy;
 
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.permissions.Permission;
 import org.bukkit.plugin.Plugin;
 
 /**
@@ -83,6 +92,11 @@ public class Metrics {
      */
     private String guid;
 
+    /**
+     * A map of the custom data plotters for plugins
+     */
+    private Map<Plugin, Set<Plotter>> customData = Collections.synchronizedMap(new HashMap<Plugin, Set<Plotter>>());
+
 
     private final String pluginVersion;
 
@@ -105,6 +119,71 @@ public class Metrics {
 
         // Load the guid then
         guid = configuration.getString("guid");
+    }
+
+    public void findCustomData(Vault plugin) {
+        // Add our Economy plotters
+        Economy econ = Bukkit.getServer().getServicesManager().getRegistration(Economy.class).getProvider();
+        final String econName = econ != null ? econ.getName() : "No Economy";
+        addCustomData(plugin, new Metrics.Plotter() {
+
+            @Override
+            public String getColumnName() {
+                return econName;
+            }
+
+            @Override
+            public int getValue() {
+                return 1;
+            }
+        });
+        
+        // Add our permission Plotters
+        final String permName = Bukkit.getServer().getServicesManager().getRegistration(Permission.class).getProvider().getName();
+        addCustomData(plugin, new Metrics.Plotter() {
+
+            @Override
+            public String getColumnName() {
+                return permName;
+            }
+
+            @Override
+            public int getValue() {
+                return 1;
+            }
+        });
+        
+        Chat chat = Bukkit.getServer().getServicesManager().getRegistration(Chat.class).getProvider();
+        final String chatName = chat != null ? chat.getName() : "No Chat";
+        // Add our Chat Plotters
+        addCustomData(plugin, new Metrics.Plotter() {
+
+            @Override
+            public String getColumnName() {
+                return chatName;
+            }
+
+            @Override
+            public int getValue() {
+                return 1;
+            }
+        });
+    }
+    /**
+     * Adds a custom data plotter for a given plugin
+     *
+     * @param plugin
+     * @param plotter
+     */
+    public synchronized void addCustomData(Plugin plugin, Plotter plotter) {
+        Set<Plotter> plotters = customData.get(plugin);
+
+        if (plotters == null) {
+            plotters = Collections.synchronizedSet(new LinkedHashSet<Plotter>());
+            customData.put(plugin, plotters);
+        }
+
+        plotters.add(plotter);
     }
 
     /**
@@ -151,6 +230,16 @@ public class Metrics {
             data += '&' + encode("ping") + '=' + encode("true");
         }
 
+        // Add any custom data (if applicable)
+        Set<Plotter> plotters = customData.get(plugin);
+
+        if (plotters != null) {
+            for (Plotter plotter : plotters) {
+                data += "&" + encode ("Custom" + plotter.getColumnName())
+                        + "=" + encode(Integer.toString(plotter.getValue()));
+            }
+        }
+
         // Create the url
         URL url = new URL(BASE_URL + String.format(REPORT_URL, "Vault"));
 
@@ -187,4 +276,39 @@ public class Metrics {
         return URLEncoder.encode(text, "UTF-8");
     }
 
+    /**
+     * Interface used to collect custom data for a plugin
+     */
+    public static abstract class Plotter {
+
+        /**
+         * Get the column name for the plotted point
+         *
+         * @return the plotted point's column name
+         */
+        public abstract String getColumnName();
+
+        /**
+         * Get the current value for the plotted point
+         *
+         * @return
+         */
+        public abstract int getValue();
+
+        @Override
+        public int hashCode() {
+            return getColumnName().hashCode() + getValue();
+        }
+
+        @Override
+        public boolean equals(Object object) {
+            if (!(object instanceof Plotter)) {
+                return false;
+            }
+
+            Plotter plotter = (Plotter) object;
+            return plotter.getColumnName().equals(getColumnName()) && plotter.getValue() == getValue();
+        }
+
+    }
 }

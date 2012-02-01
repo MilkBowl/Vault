@@ -130,8 +130,10 @@ public class Vault extends JavaPlugin {
 
         }, 0, 432000);
 
+        // Load up the Plugin metrics
         try {
             metrics = new Metrics(getDescription().getVersion());
+            metrics.findCustomData(this);
             metrics.beginMeasuringPlugin(this);
         } catch (IOException e) {
             // ignore exception
