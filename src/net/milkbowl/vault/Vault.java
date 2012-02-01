@@ -35,6 +35,7 @@ import net.milkbowl.vault.chat.plugins.Chat_Permissions3;
 import net.milkbowl.vault.chat.plugins.Chat_PermissionsEx;
 import net.milkbowl.vault.chat.plugins.Chat_Towny;
 import net.milkbowl.vault.chat.plugins.Chat_bPermissions;
+import net.milkbowl.vault.chat.plugins.Chat_bPermissions2;
 import net.milkbowl.vault.chat.plugins.Chat_iChat;
 import net.milkbowl.vault.chat.plugins.Chat_mChat;
 import net.milkbowl.vault.economy.Economy;
@@ -59,6 +60,7 @@ import net.milkbowl.vault.permission.plugins.Permission_PermissionsEx;
 import net.milkbowl.vault.permission.plugins.Permission_Starburst;
 import net.milkbowl.vault.permission.plugins.Permission_SuperPerms;
 import net.milkbowl.vault.permission.plugins.Permission_bPermissions;
+import net.milkbowl.vault.permission.plugins.Permission_bPermissions2;
 import net.milkbowl.vault.permission.plugins.Permission_zPermissions;
 
 import org.bukkit.command.Command;
@@ -161,16 +163,15 @@ public class Vault extends JavaPlugin {
 
         //try loading bPermssions 2
         if (packageExists(new String[] {"de.bananaco.permissions.info.InfoReader"})) {
-            /* bPerms2 APILayer is not working at the moment
-             * if (packageExists(new String[] {"de.bananaco.bpermissions.api.ApiLayer"})) {
+            if (packageExists(new String[] {"de.bananaco.bpermissions.api.ApiLayer"})) {
                 Chat bPerms = new Chat_bPermissions2(this, perms);
                 sm.register(Chat.class, bPerms, this, ServicePriority.High);
                 log.info(String.format("[%s][Chat] bPermissions2 found: %s", getDescription().getName(), bPerms.isEnabled() ? "Loaded" : "Waiting"));
-            } else  { */
+            } else  { 
                 Chat bPerms = new Chat_bPermissions(this, perms);
                 sm.register(Chat.class, bPerms, this, ServicePriority.Normal);
                 log.info(String.format("[%s][Chat] bPermissions found: %s", getDescription().getName(), bPerms.isEnabled() ? "Loaded" : "Waiting"));
-            //}
+            }
         }
 
         // Try to load GroupManager
@@ -330,14 +331,14 @@ public class Vault extends JavaPlugin {
             log.info(String.format("[%s][Permission] PermissionsBukkit found: %s", getDescription().getName(), pPerms.isEnabled() ? "Loaded" : "Waiting"));
         }
         
-        /*
+        
         //try loading bPermissions2
         if (packageExists(new String[] {"de.bananaco.bpermissions.api.WorldManager"})) {
             Permission bPerms = new Permission_bPermissions2(this);
             sm.register(Permission.class, bPerms, this, ServicePriority.Highest);
             log.info(String.format("[%s][Chat] bPermissions found: %s", getDescription().getName(), bPerms.isEnabled() ? "Loaded" : "Waiting"));
         }
-         */
+         
         //Try to load zPermission
         if (packageExists(new String[] {"org.tyrannyofheaven.bukkit.zPermissions"})) {
             Permission zPerms = new Permission_zPermissions(this);
