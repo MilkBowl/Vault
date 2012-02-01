@@ -133,20 +133,8 @@ public class Vault extends JavaPlugin {
         // Load up the Plugin metrics
         try {
             metrics = new Metrics(getDescription().getVersion());
-            final Vault plugin = this;
-            this.getServer().getScheduler().scheduleSyncDelayedTask(this, new Runnable() {
-                @Override
-                public void run() {
-                    metrics.findCustomData(plugin);
-                    try {
-                        metrics.beginMeasuringPlugin(plugin);
-                    } catch (IOException e) {
-                        // ignore
-                    }
-                }
-                
-            }, 10);
-
+            metrics.findCustomData(this);
+            metrics.beginMeasuringPlugin(this);
         } catch (IOException e) {
             // ignore exception
         }
