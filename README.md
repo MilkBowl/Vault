@@ -30,15 +30,8 @@ So, what features do I _think_ you'll like the most?
 
 
 ## Permissions
-None!  Vault has no permission nodes itself.
-
-
-## Advanced Configuration
-It isn't implemented yet, but the goal is to allow disabling of specific
-plugins by their namespace in a <bukkit-dir>/plugins/Vault/vault.properties
-configuration file.  It won't be necessary except for really oddball
-situations.
-
+ * vault.admin
+   - Determines if a player should recieve the update notices
 
 ## License
 Copyright (C) 2011 Morgan Humes <morgan@lanaddict.com>
@@ -78,17 +71,28 @@ a patch with the necessary changes.  Additionally you can create an issue on
 Github and we'll get to it at our convenience.
 
  * Economy
-   - BOSEconomy (http://forums.bukkit.org/threads/19025/)
+   - BOSEconomy 6 (http://forums.bukkit.org/threads/19025/)
+   - BOSEconomy 7
    - iConomy 4 (http://forums.bukkit.org/threads/40/)
    - iConomy 5 (http://forums.bukkit.org/threads/40/)
    - iConomy 6 (http://forums.bukkit.org/threads/40/)
    - 3co (http://forums.bukkit.org/threads/22461/)
+   - CurrencyCore
+   - CraftConomy
+   - MineConomy
+   - EconXP
+   - eWallet
+   - MuliCurrency
    - Essentials Economy (http://forums.bukkit.org/threads/15312/)
 
  * Permissions
    - Permissions Ex (http://forums.bukkit.org/threads/18140/)
-   - Permissions 2 (http://forums.bukkit.org/threads/5974/)
    - Permissions 3 (http://forums.bukkit.org/threads/18430/)
+   - bPermissions
+   - bPermissions 2
+   - PermissionsBukkit
+   - zPermissions
+   - SuperPerms
    - Group Manager (Essentials) (http://forums.bukkit.org/threads/15312/)
 
 
