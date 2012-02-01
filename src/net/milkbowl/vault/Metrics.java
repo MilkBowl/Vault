@@ -51,6 +51,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.permissions.Permission;
 import org.bukkit.plugin.Plugin;
+import org.bukkit.plugin.RegisteredServiceProvider;
 
 /**
  * Tooling to post to metrics.griefcraft.com
@@ -123,7 +124,11 @@ public class Metrics {
 
     public void findCustomData(Vault plugin) {
         // Add our Economy plotters
-        Economy econ = Bukkit.getServer().getServicesManager().getRegistration(Economy.class).getProvider();
+        RegisteredServiceProvider<Economy> rspEcon = Bukkit.getServer().getServicesManager().getRegistration(Economy.class);
+        Economy econ = null;
+        if (rspEcon != null) {
+            econ = rspEcon.getProvider();
+        }
         final String econName = econ != null ? econ.getName() : "No Economy";
         addCustomData(plugin, new Metrics.Plotter() {
 
@@ -153,7 +158,11 @@ public class Metrics {
             }
         });
         
-        Chat chat = Bukkit.getServer().getServicesManager().getRegistration(Chat.class).getProvider();
+        RegisteredServiceProvider<Chat> rspChat = Bukkit.getServer().getServicesManager().getRegistration(Chat.class);
+        Chat chat = null;
+        if (rspChat != null) {
+            chat = rspChat.getProvider();
+        }
         final String chatName = chat != null ? chat.getName() : "No Chat";
         // Add our Chat Plotters
         addCustomData(plugin, new Metrics.Plotter() {
