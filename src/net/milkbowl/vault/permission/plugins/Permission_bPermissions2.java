@@ -129,7 +129,7 @@ public class Permission_bPermissions2 extends Permission {
 
     @Override
     public String[] getPlayerGroups(String world, String player) {
-        return ApiLayer.getGroups(world, CalculableType.USER, name);
+        return ApiLayer.getGroups(world, CalculableType.USER, player);
     }
 
     @Override
