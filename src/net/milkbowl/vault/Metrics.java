@@ -101,6 +101,8 @@ public class Metrics {
 
     private final String pluginVersion;
 
+    private boolean firstRun = true;
+
     public Metrics(String version) throws IOException {
         this.pluginVersion = version;
 
@@ -142,7 +144,7 @@ public class Metrics {
                 return 1;
             }
         });
-        
+
         // Add our permission Plotters
         final String permName = Bukkit.getServer().getServicesManager().getRegistration(Permission.class).getProvider().getName();
         addCustomData(plugin, new Metrics.Plotter() {
@@ -157,7 +159,7 @@ public class Metrics {
                 return 1;
             }
         });
-        
+
         RegisteredServiceProvider<Chat> rspChat = Bukkit.getServer().getServicesManager().getRegistration(Chat.class);
         Chat chat = null;
         if (rspChat != null) {
@@ -210,7 +212,8 @@ public class Metrics {
         plugin.getServer().getScheduler().scheduleAsyncRepeatingTask(plugin, new Runnable() {
             public void run() {
                 try {
-                    postPlugin(plugin, true);
+                    postPlugin(plugin);
+                    firstRun = false;
                 } catch (IOException e) {
                     //Ignore exceptions - otherwise we freak server admins out
                 }
@@ -225,7 +228,7 @@ public class Metrics {
      *
      * @param plugin
      */
-    private void postPlugin(Plugin plugin, boolean isPing) throws IOException {
+    private void postPlugin(Plugin plugin) throws IOException {
         // Construct the post data
         String response = "ERR No response";
         String data = encode("guid") + '=' + encode(guid)
@@ -235,7 +238,7 @@ public class Metrics {
                 + '&' + encode("revision") + '=' + encode(REVISION + "");
 
         // If we're pinging, append it
-        if (isPing) {
+        if (firstRun) {
             data += '&' + encode("ping") + '=' + encode("true");
         }
 
