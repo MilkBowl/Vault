@@ -58,6 +58,7 @@ public class Permission_Permissions3 extends Permission {
                 if (perms.isEnabled() && perms.getDescription().getVersion().startsWith("3")) {
                     permission = (Permissions) perms;
                     this.perms = (ModularControl) permission.getHandler();
+                    log.severe("Your permission system is outdated and no longer fully supported! It is highly advised to update!");
                     log.info(String.format("[%s][Permission] %s hooked.", plugin.getDescription().getName(), name));
                 }
             }
