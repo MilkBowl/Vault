@@ -48,10 +48,11 @@ public class Chat_Permissions3 extends Chat {
 	    @EventHandler(priority = EventPriority.MONITOR)
 		public void onPluginEnable(PluginEnableEvent event) {
 			if (chat == null) {
-				Plugin perms = event.getPlugin();
-				if(perms.getDescription().getName().equals("Permissions") && perms.getDescription().getVersion().startsWith("3")) {
-					if (perms.isEnabled()) {
-						chat = (Permissions) perms;
+				Plugin permChat = event.getPlugin();
+				if(permChat.getDescription().getName().equals("Permissions") && permChat.getDescription().getVersion().startsWith("3")) {
+					if (permChat.isEnabled()) {
+						chat = (Permissions) permChat;
+						perms = chat.getHandler();
 						log.info(String.format("[%s][Permission] %s hooked.", plugin.getDescription().getName(), name));
 					}
 				}
@@ -63,6 +64,7 @@ public class Chat_Permissions3 extends Chat {
 			if (chat != null) {
 				if (event.getPlugin().getDescription().getName().equals("Permissions")) {
 					chat = null;
+					perms = null;
 					log.info(String.format("[%s][Permission] %s un-hooked.", plugin.getDescription().getName(), name));
 				}
 			}
