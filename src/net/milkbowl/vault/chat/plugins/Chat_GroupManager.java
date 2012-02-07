@@ -171,12 +171,12 @@ public class Chat_GroupManager extends Chat {
 	}
 	@Override
 	public String getPlayerPrefix(String world, String playerName) {
-		return perms.getGroupPrefix(getPrimaryGroup(world, playerName));
+	    return getPlayerInfoString(world, playerName, "prefix", "");
 	}
 
 	@Override
 	public String getPlayerSuffix(String world, String playerName) {
-		return perms.getGroupSuffix(getPrimaryGroup(world, playerName));
+	    return getPlayerInfoString(world, playerName, "suffix", "");
 	}
 
 	@Override
