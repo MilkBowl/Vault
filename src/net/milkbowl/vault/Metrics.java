@@ -238,7 +238,7 @@ public class Metrics {
                 + '&' + encode("revision") + '=' + encode(REVISION + "");
 
         // If we're pinging, append it
-        if (firstRun) {
+        if (!firstRun) {
             data += '&' + encode("ping") + '=' + encode("true");
         }
 
