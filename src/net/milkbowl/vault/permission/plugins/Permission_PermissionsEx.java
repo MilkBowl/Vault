@@ -74,16 +74,6 @@ public class Permission_PermissionsEx extends Permission {
     }
 
     @Override
-    public boolean has(Player player, String permission) {
-        return playerHas(player, permission);
-    }
-
-    @Override
-    public boolean playerHas(Player player, String permission) {
-        return this.permission.has(player, permission);
-    }
-
-    @Override
     public boolean playerInGroup(String worldName, String playerName, String groupName) {
     	return PermissionsEx.getPermissionManager().getUser(playerName).inGroup(groupName);
     }
