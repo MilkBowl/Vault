@@ -188,12 +188,18 @@ public class Permission_GroupManager extends Permission {
 
     @Override
     public boolean playerInGroup(String worldName, String playerName, String groupName) {
-        return perms.inGroup(playerName, worldName);
+        return perms.inGroup(playerName, groupName);
     }
 
     @Override
     public boolean playerAddGroup(String worldName, String playerName, String groupName) {
-        OverloadedWorldHolder owh = groupManager.getWorldsHolder().getWorldData(worldName);
+        OverloadedWorldHolder owh;
+        if (worldName == null) {
+            owh = groupManager.getWorldsHolder().getWorldDataByPlayerName(playerName);
+        }
+        else {
+            owh = groupManager.getWorldsHolder().getWorldData(worldName);
+        }
         if (owh == null) {
             return false;
         }
@@ -207,6 +213,8 @@ public class Permission_GroupManager extends Permission {
         }
         if (user.getGroup().equals(owh.getDefaultGroup())) {
             user.setGroup(group);
+        } else if (group.getInherits().contains(user.getGroup().getName().toLowerCase())) {
+            user.setGroup(group);
         } else {
             user.addSubGroup(group);
         }
@@ -215,7 +223,13 @@ public class Permission_GroupManager extends Permission {
 
     @Override
     public boolean playerRemoveGroup(String worldName, String playerName, String groupName) {
-        OverloadedWorldHolder owh = groupManager.getWorldsHolder().getWorldData(worldName);
+        OverloadedWorldHolder owh;
+        if (worldName == null) {
+            owh = groupManager.getWorldsHolder().getWorldDataByPlayerName(playerName);
+        }
+        else {
+            owh = groupManager.getWorldsHolder().getWorldData(worldName);
+        }
         if (owh == null) {
             return false;
         }
