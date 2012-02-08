@@ -24,7 +24,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 public class Economy_Craftconomy implements Economy {
     private static final Logger log = Logger.getLogger("Minecraft");
 
-    private String name = "Craftconomy";
+    private final String name = "Craftconomy";
     private JavaPlugin plugin = null;
     protected Craftconomy economy = null;
 

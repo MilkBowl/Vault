@@ -22,7 +22,7 @@ import ca.agnate.EconXP.EconXP;
 public class Economy_EconXP implements Economy {
     private static final Logger log = Logger.getLogger("Minecraft");
 
-    private String name = "EconXP";
+    private final String name = "EconXP";
     private Plugin plugin = null;
     private EconXP econ = null;
 

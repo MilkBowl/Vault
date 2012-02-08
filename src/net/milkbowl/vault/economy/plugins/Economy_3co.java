@@ -41,7 +41,7 @@ import org.bukkit.plugin.Plugin;
 public class Economy_3co implements Economy {
     private static final Logger log = Logger.getLogger("Minecraft");
 
-    private String name = "3co";
+    private final String name = "3co";
     private Plugin plugin = null;
     private ECO economy = null;
 

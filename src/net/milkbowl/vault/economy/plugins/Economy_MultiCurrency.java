@@ -40,7 +40,7 @@ import org.bukkit.plugin.Plugin;
 public class Economy_MultiCurrency implements Economy {
     private static final Logger log = Logger.getLogger("Minecraft");
 
-    private String name = "MultiCurrency";
+    private final String name = "MultiCurrency";
     private Plugin plugin = null;
     private Currency economy = null;
 

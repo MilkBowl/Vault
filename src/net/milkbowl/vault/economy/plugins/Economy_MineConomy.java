@@ -21,7 +21,7 @@ import org.bukkit.plugin.Plugin;
 public class Economy_MineConomy implements Economy {
     private static final Logger log = Logger.getLogger("Minecraft");
 
-    private String name = "MineConomy";
+    private final String name = "MineConomy";
     private Plugin plugin = null;
     private MineConomy econ = null;
 

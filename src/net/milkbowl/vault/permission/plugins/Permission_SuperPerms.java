@@ -7,7 +7,7 @@ import net.milkbowl.vault.permission.Permission;
 
 public class Permission_SuperPerms extends Permission {
 
-	private String name = "SuperPerms";
+	private final String name = "SuperPerms";
 	
 	public Permission_SuperPerms(Vault plugin) {
 		this.plugin = plugin;

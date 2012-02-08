@@ -22,7 +22,7 @@ import de.bananaco.bpermissions.api.util.CalculableType;
 
 public class Permission_bPermissions2 extends Permission {
 
-    private String name = "bPermissions2";
+    private final String name = "bPermissions2";
     private boolean hooked = false;
 
     public Permission_bPermissions2(Vault plugin) {

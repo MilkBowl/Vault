@@ -42,7 +42,7 @@ import com.earth2me.essentials.api.UserDoesNotExistException;
 public class Economy_Essentials implements Economy {
     private static final Logger log = Logger.getLogger("Minecraft");
 
-    private String name = "Essentials Economy";
+    private final String name = "Essentials Economy";
     private Plugin plugin = null;
     private Essentials ess = null;
 

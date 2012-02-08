@@ -20,7 +20,7 @@ import org.bukkit.plugin.Plugin;
 public class Economy_eWallet implements Economy {
     private static final Logger log = Logger.getLogger("Minecraft");
 
-    private String name = "eWallet";
+    private final String name = "eWallet";
     private Plugin plugin = null;
     private ECO econ = null;
 

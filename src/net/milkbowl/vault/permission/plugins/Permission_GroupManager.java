@@ -26,7 +26,7 @@ import org.bukkit.plugin.Plugin;
 
 public class Permission_GroupManager extends Permission {
 
-    private String name = "GroupManager";
+    private final String name = "GroupManager";
     private GroupManager groupManager;
     private AnjoPermissionsHandler perms;
 

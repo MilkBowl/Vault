@@ -39,7 +39,7 @@ import cosine.boseconomy.BOSEconomy;
 public class Economy_BOSE7 implements Economy {
     private static final Logger log = Logger.getLogger("Minecraft");
 
-    private String name = "BOSEconomy";
+    private final String name = "BOSEconomy";
     private Plugin plugin = null;
     private BOSEconomy economy = null;
 

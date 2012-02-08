@@ -25,7 +25,7 @@ import com.dthielke.starburst.User;
 
 public class Permission_Starburst extends Permission {
     private StarburstPlugin perms;
-    private String name = "Starburst";
+    private final String name = "Starburst";
 
     public class PermissionServerListener implements Listener {
 

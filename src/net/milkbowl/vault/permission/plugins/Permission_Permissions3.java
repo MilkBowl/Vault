@@ -43,7 +43,7 @@ import com.nijikokun.bukkit.Permissions.Permissions;
 
 public class Permission_Permissions3 extends Permission {
 
-    private String name = "Permissions3";
+    private final String name = "Permissions3";
     private ModularControl perms;
     private Permissions permission = null;
 

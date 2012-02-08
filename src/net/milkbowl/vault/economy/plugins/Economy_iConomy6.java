@@ -24,7 +24,7 @@ import com.iCo6.system.Holdings;
 public class Economy_iConomy6 implements Economy {
     private static final Logger log = Logger.getLogger("Minecraft");
 
-    private String name = "iConomy 6";
+    private final String name = "iConomy 6";
     private JavaPlugin plugin = null;
     protected iConomy economy = null;
     private Accounts accounts;

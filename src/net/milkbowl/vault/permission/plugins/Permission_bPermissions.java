@@ -20,7 +20,7 @@ import de.bananaco.permissions.worlds.WorldPermissionsManager;
 
 public class Permission_bPermissions extends Permission {
 
-    private String name = "bPermissions";
+    private final String name = "bPermissions";
     private WorldPermissionsManager perms;
 
     public Permission_bPermissions(Vault plugin) {

@@ -20,9 +20,9 @@ import org.tyrannyofheaven.bukkit.zPermissions.ZPermissionsPlugin;
 
 public class Permission_zPermissions extends Permission {
 
-    private static final String name = "zPermissions";
+    private final String name = "zPermissions";
     private ZPermissionsPlugin perms;
-    private ConsoleCommandSender ccs;
+    private final ConsoleCommandSender ccs;
 
     public Permission_zPermissions(Vault plugin) {
         this.plugin = plugin;
