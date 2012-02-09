@@ -6,6 +6,8 @@ import net.milkbowl.vault.chat.Chat;
 import net.milkbowl.vault.permission.Permission;
 
 import org.anjocaido.groupmanager.GroupManager;
+import org.anjocaido.groupmanager.data.User;
+import org.anjocaido.groupmanager.dataholder.OverloadedWorldHolder;
 import org.anjocaido.groupmanager.permissions.AnjoPermissionsHandler;
 import org.bukkit.Bukkit;
 import org.bukkit.event.EventHandler;
@@ -15,7 +17,6 @@ import org.bukkit.event.server.PluginDisableEvent;
 import org.bukkit.event.server.PluginEnableEvent;
 import org.bukkit.plugin.Plugin;
 
-@SuppressWarnings("deprecation")
 public class Chat_GroupManager extends Chat {
 	private static final Logger log = Logger.getLogger("Minecraft");
 
@@ -92,12 +93,24 @@ public class Chat_GroupManager extends Chat {
 	}
 	@Override
 	public int getPlayerInfoInteger(String world, String playerName, String node, int defaultValue) {
-		return perms.getPermissionInteger(playerName, node);
+        OverloadedWorldHolder owh;
+        if (world == null) {
+            owh = groupManager.getWorldsHolder().getWorldDataByPlayerName(playerName);
+        }
+        else {
+            owh = groupManager.getWorldsHolder().getWorldData(world);
+        }
+        User user = owh.getUser(playerName);
+        if (user == null) {
+            return defaultValue;
+        }
+        Integer val = user.getVariables().getVarInteger(node);
+		return val != null ? val : defaultValue;
 	}
 
 	@Override
 	public void setPlayerInfoInteger(String world, String playerName, String node, int value) {
-		throw new UnsupportedOperationException(getName() + " cannot modify permissions.");
+	    setPlayerValue(world, playerName, node, value);
 	}
 
 	@Override
@@ -112,15 +125,27 @@ public class Chat_GroupManager extends Chat {
 
 	@Override
 	public double getPlayerInfoDouble(String world, String playerName, String node, double defaultValue) {
-		return perms.getPermissionDouble(playerName, node);
+        OverloadedWorldHolder owh;
+        if (world == null) {
+            owh = groupManager.getWorldsHolder().getWorldDataByPlayerName(playerName);
+        }
+        else {
+            owh = groupManager.getWorldsHolder().getWorldData(world);
+        }
+        User user = owh.getUser(playerName);
+        if (user == null) {
+            return defaultValue;
+        }
+        Double val = user.getVariables().getVarDouble(node);
+        return val != null ? val : defaultValue;
 	}
 
 	@Override
 	public void setPlayerInfoDouble(String world, String playerName, String node, double value) {
-		throw new UnsupportedOperationException(getName() + " cannot modify permissions.");
+	    setPlayerValue(world, playerName, node, value);
 	}
 
-	@Override
+    @Override
 	public double getGroupInfoDouble(String world, String groupName, String node, double defaultValue) {
 		return perms.getGroupPermissionDouble(groupName, node);
 	}
@@ -132,12 +157,24 @@ public class Chat_GroupManager extends Chat {
 
 	@Override
 	public boolean getPlayerInfoBoolean(String world, String playerName, String node, boolean defaultValue) {
-		return perms.getPermissionBoolean(playerName, node);
+        OverloadedWorldHolder owh;
+        if (world == null) {
+            owh = groupManager.getWorldsHolder().getWorldDataByPlayerName(playerName);
+        }
+        else {
+            owh = groupManager.getWorldsHolder().getWorldData(world);
+        }
+        User user = owh.getUser(playerName);
+        if (user == null) {
+            return defaultValue;
+        }
+        Boolean val = user.getVariables().getVarBoolean(node);
+        return val != null ? val : defaultValue;
 	}
 
 	@Override
 	public void setPlayerInfoBoolean(String world, String playerName, String node, boolean value) {
-		throw new UnsupportedOperationException(getName() + " cannot modify permissions.");
+		setPlayerValue(world, playerName, node, value);
 	}
 
 	@Override
@@ -152,12 +189,24 @@ public class Chat_GroupManager extends Chat {
 
 	@Override
 	public String getPlayerInfoString(String world, String playerName, String node, String defaultValue) {
-		return perms.getPermissionString(playerName, node);
+        OverloadedWorldHolder owh;
+        if (world == null) {
+            owh = groupManager.getWorldsHolder().getWorldDataByPlayerName(playerName);
+        }
+        else {
+            owh = groupManager.getWorldsHolder().getWorldData(world);
+        }
+        User user = owh.getUser(playerName);
+        if (user == null) {
+            return defaultValue;
+        }
+        String val = user.getVariables().getVarString(node);
+        return val != null ? val : defaultValue;
 	}
 
 	@Override
 	public void setPlayerInfoString(String world, String playerName, String node, String value) {
-		throw new UnsupportedOperationException(getName() + " cannot modify permissions.");
+	    setPlayerValue(world, playerName, node, value);
 	}
 
 	@Override
@@ -211,5 +260,20 @@ public class Chat_GroupManager extends Chat {
 	
     public String getPrimaryGroup(String world, String playerName) {
         return perms.getGroup(playerName);
+    }
+    
+    private void setPlayerValue(String world, String playerName, String node, Object value) {
+        OverloadedWorldHolder owh;
+        if (world == null) {
+            owh = groupManager.getWorldsHolder().getWorldDataByPlayerName(playerName);
+        }
+        else {
+            owh = groupManager.getWorldsHolder().getWorldData(world);
+        }
+        User user = owh.getUser(playerName);
+        if (user == null) {
+            return;
+        }
+        user.getVariables().addVar(node, value);
     }
 }

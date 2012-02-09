@@ -92,7 +92,7 @@ public class Permission_GroupManager extends Permission {
     public boolean playerHas(String worldName, String playerName, String permission) {
         OverloadedWorldHolder owh;
         if (worldName == null) {
-            owh = groupManager.getWorldsHolder().getDefaultWorld();
+            owh = groupManager.getWorldsHolder().getWorldDataByPlayerName(playerName);
         }
         else {
             owh = groupManager.getWorldsHolder().getWorldData(worldName);
