@@ -77,11 +77,11 @@ Github and we'll get to it at our convenience.
    - iConomy 5 (http://forums.bukkit.org/threads/40/)
    - iConomy 6 (http://forums.bukkit.org/threads/40/)
    - 3co (http://forums.bukkit.org/threads/22461/)
-   - CurrencyCore
-   - CraftConomy
-   - MineConomy
-   - EconXP
-   - eWallet
+   - CurrencyCore (http://dev.bukkit.org/server-mods/currency/)
+   - CraftConomy (http://dev.bukkit.org/server-mods/craftconomy/)
+   - MineConomy (http://dev.bukkit.org/server-mods/mineconomy/)
+   - EconXP (http://dev.bukkit.org/server-mods/econxp/)
+   - eWallet (http://dev.bukkit.org/server-mods/ewallet/)
    - MuliCurrency
    - Essentials Economy (http://forums.bukkit.org/threads/15312/)
 
@@ -89,7 +89,7 @@ Github and we'll get to it at our convenience.
    - Permissions Ex (http://forums.bukkit.org/threads/18140/)
    - Permissions 3 (http://forums.bukkit.org/threads/18430/)
    - bPermissions
-   - bPermissions 2
+   - bPermissions 2 (http://dev.bukkit.org/server-mods/bpermissions/)
    - PermissionsBukkit
    - zPermissions
    - SuperPerms
