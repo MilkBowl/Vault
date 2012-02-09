@@ -30,7 +30,6 @@ public class Permission_GroupManager extends Permission {
     private GroupManager groupManager;
     private AnjoPermissionsHandler perms;
 
-    @SuppressWarnings("deprecation")
     public Permission_GroupManager(Vault plugin) {
         this.plugin = plugin;
         Bukkit.getServer().getPluginManager().registerEvents(new PermissionServerListener(this), plugin);
@@ -41,7 +40,6 @@ public class Permission_GroupManager extends Permission {
             if (perms != null) {
                 if (perms.isEnabled()) {
                     groupManager = (GroupManager) perms;
-                    this.perms = groupManager.getPermissionHandler();
                     log.info(String.format("[%s][Permission] %s hooked.", plugin.getDescription().getName(), name));
                 }
             }
@@ -55,7 +53,6 @@ public class Permission_GroupManager extends Permission {
             this.permission = permission;
         }
 
-        @SuppressWarnings("deprecation")
         @EventHandler(priority = EventPriority.MONITOR)
         public void onPluginEnable(PluginEnableEvent event) {
             if (permission.groupManager == null) {
@@ -64,7 +61,6 @@ public class Permission_GroupManager extends Permission {
                 if (perms != null) {
                     if (perms.isEnabled()) {
                         permission.groupManager = (GroupManager) perms;
-                        permission.perms = groupManager.getPermissionHandler();
                         log.info(String.format("[%s][Permission] %s hooked.", plugin.getDescription().getName(), permission.name));
                     }
                 }
@@ -76,7 +72,6 @@ public class Permission_GroupManager extends Permission {
             if (permission.groupManager != null) {
                 if (event.getPlugin().getDescription().getName().equals("GroupManager")) {
                     permission.groupManager = null;
-                    permission.perms = null;
                     log.info(String.format("[%s][Permission] %s un-hooked.", plugin.getDescription().getName(), permission.name));
                 }
             }
@@ -90,105 +85,150 @@ public class Permission_GroupManager extends Permission {
 
     @Override
     public boolean isEnabled() {
-        if (groupManager == null) {
-            return false;
-        } else {
-            return groupManager.isEnabled();
-        }
+        return groupManager != null && groupManager.isEnabled();
     }
 
     @Override
     public boolean playerHas(String worldName, String playerName, String permission) {
-		Player p = plugin.getServer().getPlayer(playerName);
-		if (p != null) {
-			if (p.hasPermission(permission))
-				return true;
-		}
-        return perms.has(plugin.getServer().getPlayer(playerName), permission);
+        OverloadedWorldHolder owh;
+        if (worldName == null) {
+            owh = groupManager.getWorldsHolder().getDefaultWorld();
+        }
+        else {
+            owh = groupManager.getWorldsHolder().getWorldData(worldName);
+        }
+        if (owh == null) {
+            return false;
+        }
+        User user = owh.getUser(playerName);
+        if (user == null) {
+            return false;
+        } else {
+            return user.hasSamePermissionNode(permission);
+        }
     }
 
     @Override
     public boolean playerAdd(String worldName, String playerName, String permission) {
-        OverloadedWorldHolder owh = groupManager.getWorldsHolder().getWorldData(worldName);
-        if (owh == null) {
-        	return false;
+        OverloadedWorldHolder owh;
+        if (worldName == null) {
+            owh = groupManager.getWorldsHolder().getWorldDataByPlayerName(playerName);
+        } else {
+            owh = groupManager.getWorldsHolder().getWorldData(worldName);
         }
-        
+        if (owh == null) {
+            return false;
+        }
+
         User user = owh.getUser(playerName);
         if (user == null) {
-        	return false;
+            return false;
         }
-        
+
         user.addPermission(permission);
         return true;
     }
 
     @Override
     public boolean playerRemove(String worldName, String playerName, String permission) {
-        OverloadedWorldHolder owh = groupManager.getWorldsHolder().getWorldData(worldName);
-        if (owh == null) {
-        	return false;
+        OverloadedWorldHolder owh;
+        if (worldName == null) {
+            owh = groupManager.getWorldsHolder().getWorldDataByPlayerName(playerName);
+        } else {
+            owh = groupManager.getWorldsHolder().getWorldData(worldName);
         }
-        
+        if (owh == null) {
+            return false;
+        }
+
         User user = owh.getUser(playerName);
         if (user == null) {
-        	return false;
+            return false;
         }
-        
+
         user.removePermission(permission);
         return true;
     }
 
     @Override
     public boolean groupHas(String worldName, String groupName, String permission) {
-    	OverloadedWorldHolder owh = groupManager.getWorldsHolder().getWorldData(worldName);
-    	if (owh == null) {
-    		return false;
-    	}
-        
-    	Group group = owh.getGroup(groupName);
-    	if (group == null) {
-    		return false;
-    	}
-    	
-    	return group.hasSamePermissionNode(permission);
+        OverloadedWorldHolder owh;
+        if (worldName == null) {
+            owh = groupManager.getWorldsHolder().getDefaultWorld();
+        } else {
+            owh = groupManager.getWorldsHolder().getWorldData(worldName);
+        }
+        if (owh == null) {
+            return false;
+        }
+
+        Group group = owh.getGroup(groupName);
+        if (group == null) {
+            return false;
+        }
+
+        return group.hasSamePermissionNode(permission);
     }
 
     @Override
     public boolean groupAdd(String worldName, String groupName, String permission) {
-    	OverloadedWorldHolder owh = groupManager.getWorldsHolder().getWorldData(worldName);
-    	if (owh == null) {
-    		return false;
-    	}
-        
-    	Group group = owh.getGroup(groupName);
-    	if (group == null) {
-    		return false;
-    	}
-    	
-    	group.addPermission(permission);
-    	return true;
+        OverloadedWorldHolder owh;
+        if (worldName == null) {
+            owh = groupManager.getWorldsHolder().getDefaultWorld();
+        } else {
+            owh = groupManager.getWorldsHolder().getWorldData(worldName);
+        }
+        if (owh == null) {
+            return false;
+        }
+
+        Group group = owh.getGroup(groupName);
+        if (group == null) {
+            return false;
+        }
+
+        group.addPermission(permission);
+        return true;
     }
 
     @Override
     public boolean groupRemove(String worldName, String groupName, String permission) {
-    	OverloadedWorldHolder owh = groupManager.getWorldsHolder().getWorldData(worldName);
-    	if (owh == null) {
-    		return false;
-    	}
-        
-    	Group group = owh.getGroup(groupName);
-    	if (group == null) {
-    		return false;
-    	}
+        OverloadedWorldHolder owh;
+        if (worldName == null) {
+            owh = groupManager.getWorldsHolder().getDefaultWorld();
+        } else {
+            owh = groupManager.getWorldsHolder().getWorldData(worldName);
+        }
+        if (owh == null) {
+            return false;
+        }
 
-    	group.removePermission(permission);
-    	return true;
+        Group group = owh.getGroup(groupName);
+        if (group == null) {
+            return false;
+        }
+
+        group.removePermission(permission);
+        return true;
     }
 
     @Override
     public boolean playerInGroup(String worldName, String playerName, String groupName) {
-        return perms.inGroup(playerName, groupName);
+        OverloadedWorldHolder owh;
+        if (worldName == null) {
+            owh = groupManager.getWorldsHolder().getWorldDataByPlayerName(playerName);
+        }
+        else {
+            owh = groupManager.getWorldsHolder().getWorldData(worldName);
+        }
+        if (owh == null) {
+            return false;
+        }
+        User user = owh.getUser(playerName);
+        if (user == null) {
+            return false;
+        }
+        return user.getGroup().getName().equalsIgnoreCase(groupName) || user.subGroupListStringCopy().contains(groupName);
     }
 
     @Override
@@ -261,58 +301,58 @@ public class Permission_GroupManager extends Permission {
 
     @Override
     public boolean playerAddTransient(String world, String player, String permission) {
-		if (world != null) {
-			throw new UnsupportedOperationException(getName() + " does not support World based transient permissions!");
-		}
-		Player p = plugin.getServer().getPlayer(player);
-		if (p == null) {
-			throw new UnsupportedOperationException(getName() + " does not support offline player transient permissions!");
-		}
-		
-		for (PermissionAttachmentInfo paInfo : p.getEffectivePermissions()) {
-			if (paInfo.getAttachment().getPlugin().equals(plugin)) {
-				paInfo.getAttachment().setPermission(permission, true);
-				return true;
-			}
-		}
-		
-		PermissionAttachment attach = p.addAttachment(plugin);
-		attach.setPermission(permission, true);
-		
-		return true;
+        if (world != null) {
+            throw new UnsupportedOperationException(getName() + " does not support World based transient permissions!");
+        }
+        Player p = plugin.getServer().getPlayer(player);
+        if (p == null) {
+            throw new UnsupportedOperationException(getName() + " does not support offline player transient permissions!");
+        }
+
+        for (PermissionAttachmentInfo paInfo : p.getEffectivePermissions()) {
+            if (paInfo.getAttachment().getPlugin().equals(plugin)) {
+                paInfo.getAttachment().setPermission(permission, true);
+                return true;
+            }
+        }
+
+        PermissionAttachment attach = p.addAttachment(plugin);
+        attach.setPermission(permission, true);
+
+        return true;
     }
 
-	@Override
-	public boolean playerRemoveTransient(String world, String player, String permission) {
-		if (world != null) {
-			throw new UnsupportedOperationException(getName() + " does not support World based transient permissions!");
-		}
-		Player p = plugin.getServer().getPlayer(player);
-		if (p == null) {
-			throw new UnsupportedOperationException(getName() + " does not support offline player transient permissions!");
-		}
-		for (PermissionAttachmentInfo paInfo : p.getEffectivePermissions()) {
-			if (paInfo.getAttachment().getPlugin().equals(plugin)) {
-				return paInfo.getAttachment().getPermissions().remove(permission);
-			}
-		}
-		return false;
-	}
+    @Override
+    public boolean playerRemoveTransient(String world, String player, String permission) {
+        if (world != null) {
+            throw new UnsupportedOperationException(getName() + " does not support World based transient permissions!");
+        }
+        Player p = plugin.getServer().getPlayer(player);
+        if (p == null) {
+            throw new UnsupportedOperationException(getName() + " does not support offline player transient permissions!");
+        }
+        for (PermissionAttachmentInfo paInfo : p.getEffectivePermissions()) {
+            if (paInfo.getAttachment().getPlugin().equals(plugin)) {
+                return paInfo.getAttachment().getPermissions().remove(permission);
+            }
+        }
+        return false;
+    }
 
-	@Override
-	public String[] getGroups() {
-		Set<String> groupNames = new HashSet<String>();
-		for (World world : Bukkit.getServer().getWorlds()) {
-			Collection<Group> groups = groupManager.getWorldsHolder().getWorldData(world.getName()).getGroupList();
-			for (Group group : groups) {
-				groupNames.add(group.getName());
-			}
-		}
-		return groupNames.toArray(new String[0]);
-	}
+    @Override
+    public String[] getGroups() {
+        Set<String> groupNames = new HashSet<String>();
+        for (World world : Bukkit.getServer().getWorlds()) {
+            Collection<Group> groups = groupManager.getWorldsHolder().getWorldData(world.getName()).getGroupList();
+            for (Group group : groups) {
+                groupNames.add(group.getName());
+            }
+        }
+        return groupNames.toArray(new String[0]);
+    }
 
-	@Override
-	public boolean hasSuperPermsCompat() {
-		return true;
-	}
+    @Override
+    public boolean hasSuperPermsCompat() {
+        return true;
+    }
 }
