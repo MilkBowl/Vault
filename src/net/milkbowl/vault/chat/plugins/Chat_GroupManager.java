@@ -24,7 +24,6 @@ public class Chat_GroupManager extends Chat {
 	private final String name = "GroupManager - Chat";
 	private Plugin plugin = null;
 	private GroupManager groupManager;
-	private AnjoPermissionsHandler perms;
 
 
 	public Chat_GroupManager(Plugin plugin, Permission permissions) {
@@ -38,7 +37,6 @@ public class Chat_GroupManager extends Chat {
 			if (perms != null) {
 				if (perms.isEnabled()) {
 					groupManager = (GroupManager) perms;
-					this.perms = groupManager.getPermissionHandler();
 					log.info(String.format("[%s][Permission] %s hooked.", plugin.getDescription().getName(), name));
 				}
 			}
@@ -60,7 +58,6 @@ public class Chat_GroupManager extends Chat {
 				if (perms != null) {
 					if (perms.isEnabled()) {
 						chat.groupManager = (GroupManager) perms;
-						chat.perms = groupManager.getPermissionHandler();
 						log.info(String.format("[%s][Permission] %s hooked.", plugin.getDescription().getName(), chat.name));
 					}
 				}
@@ -72,7 +69,6 @@ public class Chat_GroupManager extends Chat {
 			if (chat.groupManager != null) {
 				if (event.getPlugin().getDescription().getName().equals("GroupManager")) {
 					chat.groupManager = null;
-					chat.perms = null;
 					log.info(String.format("[%s][Permission] %s un-hooked.", plugin.getDescription().getName(), chat.name));
 				}
 			}
