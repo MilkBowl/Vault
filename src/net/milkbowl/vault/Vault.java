@@ -30,7 +30,6 @@ import javax.xml.parsers.DocumentBuilderFactory;
 
 import net.milkbowl.vault.chat.Chat;
 import net.milkbowl.vault.chat.plugins.Chat_GroupManager;
-import net.milkbowl.vault.chat.plugins.Chat_HeroTitles;
 import net.milkbowl.vault.chat.plugins.Chat_Permissions3;
 import net.milkbowl.vault.chat.plugins.Chat_PermissionsEx;
 import net.milkbowl.vault.chat.plugins.Chat_Towny;
@@ -200,12 +199,6 @@ public class Vault extends JavaPlugin {
             Chat townChat = new Chat_Towny(this, perms);
             sm.register(Chat.class, townChat, this, ServicePriority.Lowest);
             log.info(String.format("[%s][Chat] Towny found: %s", getDescription().getName(), townChat.isEnabled() ? "Loaded" : "Waiting"));
-        }
-
-        if (packageExists(new String[] { "com.herocraftonline.herotitles.HeroTitles" } )) {
-            Chat htChat = new Chat_HeroTitles(this, perms);
-            sm.register(Chat.class, htChat, this, ServicePriority.Highest);
-            log.info(String.format("[%s][Chat] HeroTitles found: %s", getDescription().getName(), htChat.isEnabled() ? "Loaded" : "Waiting"));
         }
     }
 
