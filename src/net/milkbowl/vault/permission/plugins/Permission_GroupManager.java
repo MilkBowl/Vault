@@ -28,7 +28,6 @@ public class Permission_GroupManager extends Permission {
 
     private final String name = "GroupManager";
     private GroupManager groupManager;
-    private AnjoPermissionsHandler perms;
 
     public Permission_GroupManager(Vault plugin) {
         this.plugin = plugin;
@@ -90,22 +89,17 @@ public class Permission_GroupManager extends Permission {
 
     @Override
     public boolean playerHas(String worldName, String playerName, String permission) {
-        OverloadedWorldHolder owh;
+        AnjoPermissionsHandler handler;
         if (worldName == null) {
-            owh = groupManager.getWorldsHolder().getWorldDataByPlayerName(playerName);
+            handler = groupManager.getWorldsHolder().getWorldPermissionsByPlayerName(playerName);
         }
         else {
-            owh = groupManager.getWorldsHolder().getWorldData(worldName);
+            handler = groupManager.getWorldsHolder().getWorldPermissions(worldName);
         }
-        if (owh == null) {
+        if (handler == null) {
             return false;
         }
-        User user = owh.getUser(playerName);
-        if (user == null) {
-            return false;
-        } else {
-            return user.hasSamePermissionNode(permission);
-        }
+        return handler.permission(playerName, permission);
     }
 
     @Override
@@ -214,21 +208,17 @@ public class Permission_GroupManager extends Permission {
 
     @Override
     public boolean playerInGroup(String worldName, String playerName, String groupName) {
-        OverloadedWorldHolder owh;
+        AnjoPermissionsHandler handler;
         if (worldName == null) {
-            owh = groupManager.getWorldsHolder().getWorldDataByPlayerName(playerName);
+            handler = groupManager.getWorldsHolder().getWorldPermissionsByPlayerName(playerName);
         }
         else {
-            owh = groupManager.getWorldsHolder().getWorldData(worldName);
+            handler = groupManager.getWorldsHolder().getWorldPermissions(worldName);
         }
-        if (owh == null) {
+        if (handler == null) {
             return false;
         }
-        User user = owh.getUser(playerName);
-        if (user == null) {
-            return false;
-        }
-        return user.getGroup().getName().equalsIgnoreCase(groupName) || user.subGroupListStringCopy().contains(groupName);
+        return handler.inGroup(playerName, groupName);
     }
 
     @Override
@@ -290,13 +280,27 @@ public class Permission_GroupManager extends Permission {
     }
 
     @Override
-    public String[] getPlayerGroups(String world, String playerName) {
-        return perms.getGroups(playerName);
+    public String[] getPlayerGroups(String worldName, String playerName) {
+        AnjoPermissionsHandler handler;
+        if (worldName == null) {
+            handler = groupManager.getWorldsHolder().getWorldPermissionsByPlayerName(playerName);
+        }
+        else {
+            handler = groupManager.getWorldsHolder().getWorldPermissions(worldName);
+        }
+        return handler.getGroups(playerName);
     }
 
     @Override
-    public String getPrimaryGroup(String world, String playerName) {
-        return perms.getGroup(playerName);
+    public String getPrimaryGroup(String worldName, String playerName) {
+        AnjoPermissionsHandler handler;
+        if (worldName == null) {
+            handler = groupManager.getWorldsHolder().getWorldPermissionsByPlayerName(playerName);
+        }
+        else {
+            handler = groupManager.getWorldsHolder().getWorldPermissions(worldName);
+        }
+        return handler.getGroup(playerName);
     }
 
     @Override
