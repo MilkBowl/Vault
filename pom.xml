@@ -11,7 +11,7 @@
 		<dependency>
 			<groupId>org.bukkit</groupId>
 			<artifactId>craftbukkit</artifactId>
-			<version>1.1-R2</version>
+			<version>1.1-R3</version>
 		</dependency>
 		<dependency>
 			<groupId>org.tyrannyofheaven.bukkit</groupId>
@@ -156,7 +156,7 @@
 		<dependency>
 			<groupId>ru.tehkode</groupId>
 			<artifactId>PermissionsEx</artifactId>
-			<version>1.18</version>
+			<version>1.20-SNAPSHOT</version>
 		</dependency>
 		<dependency>
 			<groupId>de.bananaco.permissions.Permissions</groupId>
@@ -283,7 +283,7 @@ iConomy 4,5,6 BOSEconomy 6/7, EssentialsEcon, 3Co, MultiConomy, MineConomy, Econ
 		</repository>
 		<repository>
 			<id>tehkode-repo</id>
-			<url>http://repo.tehkode.ru/repository/repo/</url>
+			<url>http://repo.tehkode.ru/repository/bukkit-plugins/</url>
 		</repository>
 	</repositories>
 </project>
