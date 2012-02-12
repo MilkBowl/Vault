@@ -13,6 +13,20 @@
 			<artifactId>craftbukkit</artifactId>
 			<version>1.1-R3</version>
 		</dependency>
+        <dependency>
+            <groupId>com.sk89q.worldguard</groupId>
+            <artifactId>worldguard</artifactId>
+            <version>5.5</version>
+            <scope>system</scope>
+            <systemPath>${project.basedir}/lib/WorldGuard5.5.jar</systemPath>
+        </dependency>
+        <dependency>
+            <groupId>com.sk89q.worldedit</groupId>
+            <artifactId>worldedit</artifactId>
+            <version>5.2</version>
+            <scope>system</scope>
+            <systemPath>${project.basedir}/lib/WorldEdit.jar</systemPath>
+        </dependency>
 		<dependency>
 			<groupId>org.tyrannyofheaven.bukkit</groupId>
 			<artifactId>zPermissions</artifactId>
