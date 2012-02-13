@@ -1,6 +1,6 @@
 package net.milkbowl.vault.regions.plugins;
 
-
+import static com.sk89q.worldguard.bukkit.BukkitUtil.toVector;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -22,8 +22,10 @@ import org.bukkit.event.server.PluginEnableEvent;
 import org.bukkit.plugin.Plugin;
 
 import com.sk89q.worldedit.BlockVector;
+import com.sk89q.worldedit.Vector;
 import com.sk89q.worldguard.LocalPlayer;
 import com.sk89q.worldguard.bukkit.WorldGuardPlugin;
+import com.sk89q.worldguard.protection.ApplicableRegionSet;
 import com.sk89q.worldguard.protection.flags.DefaultFlag;
 import com.sk89q.worldguard.protection.flags.Flag;
 import com.sk89q.worldguard.protection.managers.RegionManager;
@@ -77,7 +79,7 @@ public class Regions_WorldGuard extends Regions {
 		for(World w : Bukkit.getWorlds()) {
 			manager = wG.getGlobalRegionManager().get(w);
 			for(Entry<String, ProtectedRegion> r : manager.getRegions().entrySet()) {
-				if(r.getValue().getMembers().contains((LocalPlayer) player) || r.getValue().getOwners().contains((LocalPlayer) player)) {
+				if(r.getValue().getMembers().contains(wG.wrapPlayer(player)) || r.getValue().getOwners().contains(wG.wrapPlayer(player))) {
 					ret.add(r.getKey());
 				}
 			}
@@ -205,6 +207,18 @@ public class Regions_WorldGuard extends Regions {
         	 }
         }
     }
+
+	@Override
+	public boolean canUse(Player player) {
+		return canUse(player, player.getLocation());
+	}
+	@Override
+	public boolean canUse(Player player, Location location) {
+		LocalPlayer localPlayer = wG.wrapPlayer(player);
+		Vector vec = toVector(location);
+		ApplicableRegionSet set = wG.getGlobalRegionManager().get(location.getWorld()).getApplicableRegions(vec);
+		return set.allows(DefaultFlag.USE) || set.canBuild(localPlayer);
+	}
 
 
 }

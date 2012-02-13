@@ -45,4 +45,9 @@ public abstract class Regions {
     abstract public Location getFirstCorner(String region);
     
     abstract public Location getSecondCorner(String region);
+    
+    abstract public boolean canUse(Player player);
+    
+    abstract public boolean canUse(Player player, Location location);
+    
 }
