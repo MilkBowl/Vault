@@ -61,6 +61,8 @@ import net.milkbowl.vault.permission.plugins.Permission_SuperPerms;
 import net.milkbowl.vault.permission.plugins.Permission_bPermissions;
 import net.milkbowl.vault.permission.plugins.Permission_bPermissions2;
 import net.milkbowl.vault.permission.plugins.Permission_zPermissions;
+import net.milkbowl.vault.regions.Regions;
+import net.milkbowl.vault.regions.plugins.Regions_WorldGuard;
 
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -107,6 +109,7 @@ public class Vault extends JavaPlugin {
         loadEconomy();
         loadPermission();
         loadChat();
+        loadRegions();
 
         getCommand("vault-info").setExecutor(this);
         getCommand("vault-reload").setExecutor(this);
@@ -364,6 +367,17 @@ public class Vault extends JavaPlugin {
         log.info(String.format("[%s][Permission] SuperPermissions loaded as backup permission system.", getDescription().getName()));
 
         this.perms = sm.getRegistration(Permission.class).getProvider();
+    }
+    /**
+     * Loads regions
+     */
+    private void loadRegions() {
+    	//Try to load WorldGuard
+    	if(packageExists(new String[] { "com.sk89q.worldguard.bukkit.WorldGuardPlugin"})) {
+    		Regions wGuard = new Regions_WorldGuard(this);
+    		sm.register(Regions.class, wGuard, this, ServicePriority.High);
+    		log.info(String.format("[%s][Regions] WorldGuard found: %s", getDescription().getName(), wGuard.isEnabled() ? "Loaded" : "Waiting"));
+    	}
     }
 
     @Override
