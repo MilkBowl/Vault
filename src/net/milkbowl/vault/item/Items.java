@@ -34,6 +34,7 @@ public class Items {
     private static final List<ItemInfo> items = new CopyOnWriteArrayList<ItemInfo>();
 
     static {
+        items.add(new ItemInfo("Stone", new String[][]{{"ston"}, {"smoo", "sto"}}, Material.STONE));
         items.add(new ItemInfo("Grass", new String[][]{{"gras"}}, Material.GRASS));
         items.add(new ItemInfo("Dirt", new String[][]{{"dirt"}}, Material.DIRT));
         items.add(new ItemInfo("Cobblestone", new String[][]{{"cobb", "sto"}, {"cobb"}}, Material.COBBLESTONE));
