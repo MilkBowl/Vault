@@ -192,7 +192,7 @@ public class Permission_PermissionsBukkit extends Permission {
 	public String getPrimaryGroup(String world, String player) {
 		if (perms.getPlayerInfo(player) == null)
 			return null;
-		else if (perms.getPlayerInfo(player).getGroups() != null ) {
+		else if (perms.getPlayerInfo(player).getGroups() != null && !perms.getPlayerInfo(player).getGroups().isEmpty() ) {
 			return perms.getPlayerInfo(player).getGroups().get(0).getName();
 		}
 		return null;
