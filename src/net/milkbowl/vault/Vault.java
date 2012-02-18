@@ -86,8 +86,8 @@ public class Vault extends JavaPlugin {
 
     private static final Logger log = Logger.getLogger("Minecraft");
     private Permission perms;
-    private String newVersion;
-    private String currentVersion;
+    private int newVersion;
+    private int currentVersion;
     private ServicesManager sm;
     private Metrics metrics;
 
@@ -101,7 +101,7 @@ public class Vault extends JavaPlugin {
 
     @Override
     public void onEnable() {
-        currentVersion = getDescription().getVersion().substring(0, 5);
+        currentVersion = Integer.valueOf(getDescription().getVersion().substring(0, 5).replace(".", ""));
         sm = getServer().getServicesManager();
         // Load Vault Addons
         loadEconomy();
@@ -120,8 +120,8 @@ public class Vault extends JavaPlugin {
             public void run() {
                 try {
                     newVersion = updateCheck(currentVersion);
-                    if (!newVersion.contains(currentVersion)) {
-                        log.warning(newVersion + " is out! You are running " + currentVersion);
+                    if (newVersion > currentVersion) {
+                        log.warning("Vault " + newVersion + " is out! You are running: Vault " + currentVersion);
                         log.warning("Update Vault at: http://dev.bukkit.org/server-mods/vault");
                     }
                 } catch (Exception e) {
@@ -424,7 +424,7 @@ public class Vault extends JavaPlugin {
         }
     }
 
-    public synchronized void setVersion(String newVersion) {
+    public synchronized void setVersion(int newVersion) {
         this.newVersion = newVersion;
     }
 
@@ -447,7 +447,7 @@ public class Vault extends JavaPlugin {
         }
     }
 
-    public String updateCheck(String currentVersion) throws Exception {
+    public int updateCheck(int currentVersion) throws Exception {
         String pluginUrlString = "http://dev.bukkit.org/server-mods/vault/files.rss";
         try {
             URL url = new URL(pluginUrlString);
@@ -460,7 +460,7 @@ public class Vault extends JavaPlugin {
                 NodeList firstElementTagName = firstElement.getElementsByTagName("title");
                 Element firstNameElement = (Element) firstElementTagName.item(0);
                 NodeList firstNodes = firstNameElement.getChildNodes();
-                return firstNodes.item(0).getNodeValue();
+                return Integer.valueOf(firstNodes.item(0).getNodeValue().replace("Vault", "").replace(".", "").trim());
             }
         }
         catch (Exception localException) {
@@ -476,7 +476,7 @@ public class Vault extends JavaPlugin {
             if (perms.has(player, "vault.admin")) {
                 try {
                     String oldVersion = getDescription().getVersion().substring(0, 5);
-                    if (!newVersion.contains(oldVersion)) {
+                    if (newVersion > currentVersion) {
                         player.sendMessage(newVersion + " is out! You are running " + oldVersion);
                         player.sendMessage("Update Vault at: http://dev.bukkit.org/server-mods/vault");
                     }

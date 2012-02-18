@@ -211,8 +211,7 @@ public class Permission_GroupManager extends Permission {
         AnjoPermissionsHandler handler;
         if (worldName == null) {
             handler = groupManager.getWorldsHolder().getWorldPermissionsByPlayerName(playerName);
-        }
-        else {
+        } else {
             handler = groupManager.getWorldsHolder().getWorldPermissions(worldName);
         }
         if (handler == null) {
@@ -226,8 +225,7 @@ public class Permission_GroupManager extends Permission {
         OverloadedWorldHolder owh;
         if (worldName == null) {
             owh = groupManager.getWorldsHolder().getWorldDataByPlayerName(playerName);
-        }
-        else {
+        } else {
             owh = groupManager.getWorldsHolder().getWorldData(worldName);
         }
         if (owh == null) {
@@ -256,8 +254,7 @@ public class Permission_GroupManager extends Permission {
         OverloadedWorldHolder owh;
         if (worldName == null) {
             owh = groupManager.getWorldsHolder().getWorldDataByPlayerName(playerName);
-        }
-        else {
+        } else {
             owh = groupManager.getWorldsHolder().getWorldData(worldName);
         }
         if (owh == null) {
@@ -284,8 +281,7 @@ public class Permission_GroupManager extends Permission {
         AnjoPermissionsHandler handler;
         if (worldName == null) {
             handler = groupManager.getWorldsHolder().getWorldPermissionsByPlayerName(playerName);
-        }
-        else {
+        } else {
             handler = groupManager.getWorldsHolder().getWorldPermissions(worldName);
         }
         return handler.getGroups(playerName);
@@ -296,8 +292,7 @@ public class Permission_GroupManager extends Permission {
         AnjoPermissionsHandler handler;
         if (worldName == null) {
             handler = groupManager.getWorldsHolder().getWorldPermissionsByPlayerName(playerName);
-        }
-        else {
+        } else {
             handler = groupManager.getWorldsHolder().getWorldPermissions(worldName);
         }
         return handler.getGroup(playerName);
