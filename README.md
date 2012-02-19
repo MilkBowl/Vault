@@ -149,6 +149,9 @@ public class ExamplePlugin extends JavaPlugin {
             return false;
         }
         RegisteredServiceProvider<Economy> rsp = getServer().getServicesManager().getRegistration(Economy.class);
+        if (rsp == null) {
+            return false;
+        }
         econ = rsp.getProvider();
         return econ != null;
     }
