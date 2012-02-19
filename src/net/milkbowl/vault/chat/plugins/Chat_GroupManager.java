@@ -266,12 +266,30 @@ public class Chat_GroupManager extends Chat {
 
     @Override
     public String getPlayerPrefix(String worldName, String playerName) {
-        return getPlayerInfoString(worldName, playerName, "prefix", "");
+        AnjoPermissionsHandler handler;
+        if (worldName == null) {
+            handler = groupManager.getWorldsHolder().getWorldPermissionsByPlayerName(playerName);
+        } else {
+            handler = groupManager.getWorldsHolder().getWorldPermissions(worldName);
+        }
+        if (handler == null) {
+            return "";
+        }
+        return handler.getUserPrefix(playerName);
     }
 
     @Override
     public String getPlayerSuffix(String worldName, String playerName) {
-        return getPlayerInfoString(worldName, playerName, "suffix", "");
+        AnjoPermissionsHandler handler;
+        if (worldName == null) {
+            handler = groupManager.getWorldsHolder().getWorldPermissionsByPlayerName(playerName);
+        } else {
+            handler = groupManager.getWorldsHolder().getWorldPermissions(worldName);
+        }
+        if (handler == null) {
+            return "";
+        }
+        return handler.getUserSuffix(playerName);
     }
 
     @Override
