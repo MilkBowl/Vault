@@ -34,7 +34,7 @@ public class Chat_bPermissions2 extends Chat {
             Plugin p = plugin.getServer().getPluginManager().getPlugin("bPermissions");
             if (p != null) {
                 hooked = true;
-                log.info(String.format("[%s][Chat] %s hooked.", plugin.getDescription().getName(), "bPermissions"));
+                log.info(String.format("[%s][Chat] %s hooked.", plugin.getDescription().getName(), "bPermissions2"));
             }
         }
     }
