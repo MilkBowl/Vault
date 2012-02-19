@@ -22,11 +22,11 @@ public class Chat_bPermissions2 extends Chat {
     private final String name = "bInfo";
     private Vault plugin = null;
     private boolean hooked = false;
-    
+
     public Chat_bPermissions2(Vault plugin, Permission perms) {
         super(perms);
         this.plugin = plugin;
-        
+
         Bukkit.getServer().getPluginManager().registerEvents(new PermissionServerListener(this), plugin);
 
         // Load Plugin in case it was loaded before
@@ -52,7 +52,7 @@ public class Chat_bPermissions2 extends Chat {
                 Plugin chat = plugin.getServer().getPluginManager().getPlugin("bPermissions");
                 if (chat != null) {
                     hooked = true;
-                    log.info(String.format("[%s][Chat] %s hooked.", plugin.getDescription().getName(), "bPermissions"));
+                    log.info(String.format("[%s][Chat] %s hooked.", plugin.getDescription().getName(), "bPermissions2"));
                 }
             }
         }
@@ -62,11 +62,12 @@ public class Chat_bPermissions2 extends Chat {
             if (hooked) {
                 if (event.getPlugin().getDescription().getName().equals("bPermissions")) {
                     hooked = false;
-                    log.info(String.format("[%s][Chat] %s un-hooked.", plugin.getDescription().getName(), "bPermissions"));
+                    log.info(String.format("[%s][Chat] %s un-hooked.", plugin.getDescription().getName(), "bPermissions2"));
                 }
             }
         }
     }
+
     @Override
     public String getName() {
         return name;
