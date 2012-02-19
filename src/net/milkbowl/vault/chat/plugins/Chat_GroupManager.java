@@ -108,7 +108,7 @@ public class Chat_GroupManager extends Chat {
     public int getPlayerInfoInteger(String worldName, String playerName, String node, int defaultValue) {
         AnjoPermissionsHandler handler;
         if (worldName == null) {
-            handler = groupManager.getWorldsHolder().getDefaultWorld().getPermissionsHandler();
+            handler = groupManager.getWorldsHolder().getWorldPermissionsByPlayerName(playerName);
         } else {
             handler = groupManager.getWorldsHolder().getWorldPermissions(worldName);
         }
@@ -148,7 +148,7 @@ public class Chat_GroupManager extends Chat {
     public double getPlayerInfoDouble(String worldName, String playerName, String node, double defaultValue) {
         AnjoPermissionsHandler handler;
         if (worldName == null) {
-            handler = groupManager.getWorldsHolder().getDefaultWorld().getPermissionsHandler();
+            handler = groupManager.getWorldsHolder().getWorldPermissionsByPlayerName(playerName);
         } else {
             handler = groupManager.getWorldsHolder().getWorldPermissions(worldName);
         }
@@ -188,7 +188,7 @@ public class Chat_GroupManager extends Chat {
     public boolean getPlayerInfoBoolean(String worldName, String playerName, String node, boolean defaultValue) {
         AnjoPermissionsHandler handler;
         if (worldName == null) {
-            handler = groupManager.getWorldsHolder().getDefaultWorld().getPermissionsHandler();
+            handler = groupManager.getWorldsHolder().getWorldPermissionsByPlayerName(playerName);
         } else {
             handler = groupManager.getWorldsHolder().getWorldPermissions(worldName);
         }
@@ -228,7 +228,7 @@ public class Chat_GroupManager extends Chat {
     public String getPlayerInfoString(String worldName, String playerName, String node, String defaultValue) {
         AnjoPermissionsHandler handler;
         if (worldName == null) {
-            handler = groupManager.getWorldsHolder().getDefaultWorld().getPermissionsHandler();
+            handler = groupManager.getWorldsHolder().getWorldPermissionsByPlayerName(playerName);
         } else {
             handler = groupManager.getWorldsHolder().getWorldPermissions(worldName);
         }
