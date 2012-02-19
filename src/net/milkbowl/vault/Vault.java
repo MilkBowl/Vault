@@ -161,16 +161,17 @@ public class Vault extends JavaPlugin {
         }
 
         //try loading bPermssions 2
+        if (packageExists(new String[] {"de.bananaco.bpermissions.api.ApiLayer"})) {
+            Chat bPerms = new Chat_bPermissions2(this, perms);
+            sm.register(Chat.class, bPerms, this, ServicePriority.High);
+            log.info(String.format("[%s][Chat] bPermissions2 found: %s", getDescription().getName(), bPerms.isEnabled() ? "Loaded" : "Waiting"));
+        } 
+
+        // try loading bPermissions 1
         if (packageExists(new String[] {"de.bananaco.permissions.info.InfoReader"})) {
-            if (packageExists(new String[] {"de.bananaco.bpermissions.api.ApiLayer"})) {
-                Chat bPerms = new Chat_bPermissions2(this, perms);
-                sm.register(Chat.class, bPerms, this, ServicePriority.High);
-                log.info(String.format("[%s][Chat] bPermissions2 found: %s", getDescription().getName(), bPerms.isEnabled() ? "Loaded" : "Waiting"));
-            } else  { 
-                Chat bPerms = new Chat_bPermissions(this, perms);
-                sm.register(Chat.class, bPerms, this, ServicePriority.Normal);
-                log.info(String.format("[%s][Chat] bPermissions found: %s", getDescription().getName(), bPerms.isEnabled() ? "Loaded" : "Waiting"));
-            }
+            Chat bPerms = new Chat_bPermissions(this, perms);
+            sm.register(Chat.class, bPerms, this, ServicePriority.Normal);
+            log.info(String.format("[%s][Chat] bPermissions found: %s", getDescription().getName(), bPerms.isEnabled() ? "Loaded" : "Waiting"));
         }
 
         // Try to load GroupManager
@@ -323,15 +324,15 @@ public class Vault extends JavaPlugin {
             sm.register(Permission.class, pPerms, this, ServicePriority.Highest);
             log.info(String.format("[%s][Permission] PermissionsBukkit found: %s", getDescription().getName(), pPerms.isEnabled() ? "Loaded" : "Waiting"));
         }
-        
-        
+
+
         //try loading bPermissions2
         if (packageExists(new String[] {"de.bananaco.bpermissions.api.WorldManager"})) {
             Permission bPerms = new Permission_bPermissions2(this);
             sm.register(Permission.class, bPerms, this, ServicePriority.Highest);
             log.info(String.format("[%s][Chat] bPermissions found: %s", getDescription().getName(), bPerms.isEnabled() ? "Loaded" : "Waiting"));
         }
-         
+
         //Try to load zPermission
         if (packageExists(new String[] {"org.tyrannyofheaven.bukkit.zPermissions"})) {
             Permission zPerms = new Permission_zPermissions(this);
