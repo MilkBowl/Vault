@@ -1,22 +1,18 @@
-/**
- * Copyright (C) 2011 Morgan Humes <morgan@lanaddict.com>
- * 
- * This program is free software; you can redistribute it and/or
- * modify it under the terms of the GNU General Public License
- * as published by the Free Software Foundation; either version 2
- * of the License, or (at your option) any later version.
- * 
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- * 
- * You should have received a copy of the GNU General Public License
- * along with this program; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
- * 
- */
+/* This file is part of Vault.
 
+    Vault is free software: you can redistribute it and/or modify
+    it under the terms of the GNU Lesser General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    Vault is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU Lesser General Public License for more details.
+
+    You should have received a copy of the GNU Lesser General Public License
+    along with Vault.  If not, see <http://www.gnu.org/licenses/>.
+ */
 package net.milkbowl.vault;
 
 import java.io.IOException;
@@ -45,6 +41,7 @@ import net.milkbowl.vault.economy.plugins.Economy_Craftconomy;
 import net.milkbowl.vault.economy.plugins.Economy_CurrencyCore;
 import net.milkbowl.vault.economy.plugins.Economy_EconXP;
 import net.milkbowl.vault.economy.plugins.Economy_Essentials;
+import net.milkbowl.vault.economy.plugins.Economy_McMoney;
 import net.milkbowl.vault.economy.plugins.Economy_MineConomy;
 import net.milkbowl.vault.economy.plugins.Economy_MultiCurrency;
 import net.milkbowl.vault.economy.plugins.Economy_eWallet;
@@ -220,6 +217,13 @@ public class Vault extends JavaPlugin {
             sm.register(Economy.class, econ, this, ServicePriority.Normal);
             log.info(String.format("[%s][Economy] MineConomy found: %s", getDescription().getName(), econ.isEnabled() ? "Loaded" : "Waiting"));
 
+        }
+
+        //Try Loading McMoney
+        if (packageExists(new String[] {"boardinggamer.mcmoney.McMoneyAPI"})) {
+            Economy econ = new Economy_McMoney(this);
+            sm.register(Economy.class, econ, this, ServicePriority.Normal);
+            log.info(String.format("[%s][Economy] McMoney found: %s", getDescription().getName(), econ.isEnabled() ? "Loaded" : "Waiting"));
         }
 
         //Try Loading Craftconomy

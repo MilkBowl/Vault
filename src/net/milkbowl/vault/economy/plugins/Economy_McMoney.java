@@ -12,7 +12,7 @@
 
     You should have received a copy of the GNU Lesser General Public License
     along with Vault.  If not, see <http://www.gnu.org/licenses/>.
- */
+*/
 package net.milkbowl.vault.economy.plugins;
 
 import java.util.ArrayList;
@@ -30,39 +30,27 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.server.PluginDisableEvent;
 import org.bukkit.event.server.PluginEnableEvent;
 import org.bukkit.plugin.Plugin;
-import org.bukkit.plugin.java.JavaPlugin;
 
-import com.iConomy.iConomy;
-import com.iConomy.system.Account;
-import com.iConomy.system.Holdings;
+import boardinggamer.mcmoney.McMoneyAPI;
 
-public class Economy_iConomy5 implements Economy {
+public class Economy_McMoney implements Economy {
     private static final Logger log = Logger.getLogger("Minecraft");
 
-    private final String name = "iConomy 5";
-    private JavaPlugin plugin = null;
-    protected iConomy economy = null;
+    private final String name = "McMoney";
+    private Plugin plugin = null;
+    private McMoneyAPI economy = null;
 
-    public Economy_iConomy5(JavaPlugin plugin) {
+    public Economy_McMoney(Plugin plugin) {
         this.plugin = plugin;
         Bukkit.getServer().getPluginManager().registerEvents(new EconomyServerListener(this), plugin);
 
         // Load Plugin in case it was loaded before
         if (economy == null) {
-            Plugin ec = plugin.getServer().getPluginManager().getPlugin("iConomy");
-            if (ec != null && ec.isEnabled() && ec.getClass().getName().equals("com.iConomy.iConomy")) {
-                economy = (iConomy) ec;
+            Plugin econ = plugin.getServer().getPluginManager().getPlugin("McMoney");
+            if (econ != null && econ.isEnabled()) {
+                economy = McMoneyAPI.getInstance();
                 log.info(String.format("[%s][Economy] %s hooked.", plugin.getDescription().getName(), name));
             }
-        }
-    }
-
-    @Override
-    public boolean isEnabled() {
-        if (economy == null) {
-            return false;
-        } else {
-            return economy.isEnabled();
         }
     }
 
@@ -71,66 +59,60 @@ public class Economy_iConomy5 implements Economy {
         return name;
     }
 
-    private double getAccountBalance(String playerName) {
-        return iConomy.getAccount(playerName).getHoldings().balance();
+    @Override
+    public boolean isEnabled() {
+        return economy != null;
     }
 
     @Override
     public double getBalance(String playerName) {
-        return getAccountBalance(playerName);
+        return economy.getMoney(playerName);
     }
 
     @Override
     public EconomyResponse withdrawPlayer(String playerName, double amount) {
-        double balance;
-        EconomyResponse.ResponseType type;
-        String errorMessage = null;
-
-        Account account = iConomy.getAccount(playerName);
-        Holdings holdings = account.getHoldings();
-        if (holdings.hasEnough(amount)) {
-            holdings.subtract(amount);
-            balance = getAccountBalance(playerName);
-            type = EconomyResponse.ResponseType.SUCCESS;
-            return new EconomyResponse(amount, balance, type, errorMessage);
-        } else {
-            amount = 0;
-            balance = getAccountBalance(playerName);
-            type = EconomyResponse.ResponseType.FAILURE;
-            errorMessage = "Insufficient funds";
-            return new EconomyResponse(amount, balance, type, errorMessage);
+        double balance = economy.getMoney(playerName);
+        if (amount < 0) {
+            return new EconomyResponse(0, balance, ResponseType.FAILURE, "Cannot withdraw negative funds");
+        } else if (balance - amount < 0) {
+            return new EconomyResponse(0, balance, ResponseType.FAILURE, "Insufficient funds");
         }
+        economy.removeMoney(playerName, amount);
+        return new EconomyResponse(amount, economy.getMoney(playerName), ResponseType.SUCCESS, "");
     }
 
     @Override
     public EconomyResponse depositPlayer(String playerName, double amount) {
-        double balance;
-        EconomyResponse.ResponseType type;
-        String errorMessage = null;
+        double balance = economy.getMoney(playerName);
+        if (amount < 0) {
+            return new EconomyResponse(0, balance, ResponseType.FAILURE, "Cannot deposit negative funds");
+        }
+        economy.addMoney(playerName, amount);
+        return new EconomyResponse(amount, economy.getMoney(playerName), ResponseType.SUCCESS, "");
+    }
 
-        Account account = iConomy.getAccount(playerName);
-        Holdings holdings = account.getHoldings();
-        holdings.add(amount);
-        balance = getAccountBalance(playerName);
-        type = EconomyResponse.ResponseType.SUCCESS;
+    public String getMoneyNamePlural() {
+        return economy.moneyNamePlural();
+    }
 
-        return new EconomyResponse(amount, balance, type, errorMessage);
+    public String getMoneyNameSingular() {
+        return economy.moneyNameSingle();
     }
 
     public class EconomyServerListener implements Listener {
-        Economy_iConomy5 economy = null;
+        Economy_McMoney economy = null;
 
-        public EconomyServerListener(Economy_iConomy5 economy) {
+        public EconomyServerListener(Economy_McMoney economy) {
             this.economy = economy;
         }
 
         @EventHandler(priority = EventPriority.MONITOR)
         public void onPluginEnable(PluginEnableEvent event) {
             if (economy.economy == null) {
-                Plugin ec = plugin.getServer().getPluginManager().getPlugin("iConomy");
+                Plugin eco = plugin.getServer().getPluginManager().getPlugin("McMoney");
 
-                if (ec != null && ec.isEnabled() && ec.getClass().getName().equals("com.iConomy.iConomy")) {
-                    economy.economy = (iConomy) ec;
+                if (eco != null && eco.isEnabled()) {
+                    economy.economy = McMoneyAPI.getInstance();
                     log.info(String.format("[%s][Economy] %s hooked.", plugin.getDescription().getName(), economy.name));
                 }
             }
@@ -139,7 +121,7 @@ public class Economy_iConomy5 implements Economy {
         @EventHandler(priority = EventPriority.MONITOR)
         public void onPluginDisable(PluginDisableEvent event) {
             if (economy.economy != null) {
-                if (event.getPlugin().getDescription().getName().equals("iConomy")) {
+                if (event.getPlugin().getDescription().getName().equals("McMoney")) {
                     economy.economy = null;
                     log.info(String.format("[%s][Economy] %s unhooked.", plugin.getDescription().getName(), economy.name));
                 }
@@ -149,7 +131,37 @@ public class Economy_iConomy5 implements Economy {
 
     @Override
     public String format(double amount) {
-        return iConomy.format(amount);
+        amount = Math.ceil(amount);
+        if (amount == 1) {
+            return String.format("%d %s", (int)amount, getMoneyNameSingular());
+        } else {
+            return String.format("%d %s", (int)amount, getMoneyNamePlural());
+        }
+    }
+
+    @Override
+    public EconomyResponse createBank(String name, String player) {
+        return new EconomyResponse(0, 0, ResponseType.NOT_IMPLEMENTED, "McMoney does not support bank accounts!");
+    }
+
+    @Override
+    public EconomyResponse deleteBank(String name) {
+        return new EconomyResponse(0, 0, ResponseType.NOT_IMPLEMENTED, "McMoney does not support bank accounts!");
+    }
+
+    @Override
+    public EconomyResponse bankHas(String name, double amount) {
+        return new EconomyResponse(0, 0, ResponseType.NOT_IMPLEMENTED, "McMoney does not support bank accounts!");
+    }
+
+    @Override
+    public EconomyResponse bankWithdraw(String name, double amount) {
+        return new EconomyResponse(0, 0, ResponseType.NOT_IMPLEMENTED, "McMoney does not support bank accounts!");
+    }
+
+    @Override
+    public EconomyResponse bankDeposit(String name, double amount) {
+        return new EconomyResponse(0, 0, ResponseType.NOT_IMPLEMENTED, "McMoney does not support bank accounts!");
     }
 
     @Override
@@ -158,43 +170,18 @@ public class Economy_iConomy5 implements Economy {
     }
 
     @Override
-    public EconomyResponse createBank(String name, String player) {
-        return new EconomyResponse(0, 0, ResponseType.NOT_IMPLEMENTED, "iConomy5 does not support single account banks!");
-    }
-
-    @Override
-    public EconomyResponse deleteBank(String name) {
-        return new EconomyResponse(0, 0, ResponseType.NOT_IMPLEMENTED, "iConomy5 does not support bank accounts!");
-    }
-
-    @Override
-    public EconomyResponse bankHas(String name, double amount) {
-        return new EconomyResponse(0, 0, ResponseType.NOT_IMPLEMENTED, "iConomy5 does not support single bank accounts!");
-    }
-
-    @Override
-    public EconomyResponse bankWithdraw(String name, double amount) {
-        return new EconomyResponse(0, 0, ResponseType.NOT_IMPLEMENTED, "iConomy5 does not support single bank accounts!");
-    }
-
-    @Override
-    public EconomyResponse bankDeposit(String name, double amount) {
-        return new EconomyResponse(0, 0, ResponseType.NOT_IMPLEMENTED, "iConomy5 does not support single bank accounts!");
-    }
-
-    @Override
     public EconomyResponse isBankOwner(String name, String playerName) {
-        return new EconomyResponse(0, 0, ResponseType.NOT_IMPLEMENTED, "iConomy5 does not support single bank accounts!");
+        return new EconomyResponse(0, 0, ResponseType.NOT_IMPLEMENTED, "McMoney does not support bank accounts!");
     }
 
     @Override
     public EconomyResponse isBankMember(String name, String playerName) {
-        return new EconomyResponse(0, 0, ResponseType.NOT_IMPLEMENTED, "iConomy5 does not support single bank accounts!");
+        return new EconomyResponse(0, 0, ResponseType.NOT_IMPLEMENTED, "McMoney does not support bank accounts!");
     }
 
     @Override
     public EconomyResponse bankBalance(String name) {
-        return new EconomyResponse(0, 0, ResponseType.NOT_IMPLEMENTED, "iConomy5 does not support single bank accounts!");
+        return new EconomyResponse(0, 0, ResponseType.NOT_IMPLEMENTED, "McMoney does not support bank accounts!");
     }
 
     @Override
@@ -209,15 +196,15 @@ public class Economy_iConomy5 implements Economy {
 
     @Override
     public boolean hasAccount(String playerName) {
-        return iConomy.hasAccount(playerName);
+        return economy.playerExists(playerName);
     }
 
     @Override
     public boolean createPlayerAccount(String playerName) {
-        if (hasAccount(playerName)) {
-            return false;
+        if (!hasAccount(playerName)) {
+            economy.setMoney(playerName, 0.0);
+            return true;
         }
-        iConomy.getAccount(playerName);
-        return true;
+        return false;
     }
 }
