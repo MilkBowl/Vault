@@ -45,7 +45,7 @@ public class Economy_iConomy4 implements Economy {
     public Economy_iConomy4(Plugin plugin) {
         this.plugin = plugin;
         Bukkit.getServer().getPluginManager().registerEvents(new EconomyServerListener(this), plugin);
-        log.log(Level.SEVERE, "iConomy4 is an extremely outdated plugin and can not be used reliably for economy! You should update to a modern economy plugin!");
+        log.log(Level.SEVERE, "iConomy4 is outdated and WILL BREAK in CB-R5+ - It is highly recommended to update to a new economy plugin and use Vaults conversion!");
         // Load Plugin in case it was loaded before
         if (economy == null) {
             Plugin ec = plugin.getServer().getPluginManager().getPlugin("iConomy");

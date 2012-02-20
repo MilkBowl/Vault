@@ -566,5 +566,3 @@ public class Vault extends JavaPlugin {
         }
     }
 }
-
-

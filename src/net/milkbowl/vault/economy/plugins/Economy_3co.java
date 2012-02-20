@@ -43,7 +43,7 @@ public class Economy_3co implements Economy {
 
     public Economy_3co(Plugin plugin) {
         this.plugin = plugin;
-        log.log(Level.SEVERE, "3c0 is an extremely outdated plugin and can not be used reliably for economy! You should update to a modern economy plugin!");
+        log.log(Level.SEVERE, "3co is outdated and WILL BREAK in CB-R5+ - It is highly recommended to update to a new economy plugin and use Vaults conversion!");
         Bukkit.getServer().getPluginManager().registerEvents(new EconomyServerListener(this), plugin);
 
         // Load Plugin in case it was loaded before
