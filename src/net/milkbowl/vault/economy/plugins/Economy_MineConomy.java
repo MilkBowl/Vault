@@ -100,6 +100,16 @@ public class Economy_MineConomy implements Economy {
     }
 
     @Override
+    public String currencyNameSingular() {
+        return "";
+    }
+
+    @Override
+    public String currencyNamePlural() {
+        return "";
+    }
+
+    @Override
     public double getBalance(String playerName) {
         return Accounting.getBalance(playerName, MineConomy.accounts);
     }

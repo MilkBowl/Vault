@@ -31,6 +31,7 @@ import org.bukkit.event.server.PluginEnableEvent;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import com.iCo6.Constants;
 import com.iCo6.iConomy;
 import com.iCo6.system.Account;
 import com.iCo6.system.Accounts;
@@ -107,6 +108,16 @@ public class Economy_iConomy6 implements Economy {
     @Override
     public String format(double amount) {
         return iConomy.format(amount);
+    }
+
+    @Override
+    public String currencyNameSingular() {
+        return Constants.Nodes.Major.getStringList().get(0);
+    }
+
+    @Override
+    public String currencyNamePlural() {
+        return Constants.Nodes.Major.getStringList().get(1);
     }
 
     @Override

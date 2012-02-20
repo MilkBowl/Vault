@@ -40,7 +40,7 @@ public interface Economy {
      * Returns true if the given implementation supports banks.
      * @return true if the implementation supports banks
      */
-    public abstract boolean hasBankSupport();
+    public boolean hasBankSupport();
 
     /**
      * Format amount into a human readable String This provides translation into
@@ -50,6 +50,23 @@ public interface Economy {
      * @return Human readable string describing amount
      */
     public String format(double amount);
+
+    /**
+     * Returns the name of the currency in plural form.
+     * If the economy being used does not support currency names then an empty string will be returned.
+     * 
+     * @return name of the currency (plural)
+     */
+    public String currencyNamePlural();
+
+
+    /**
+     * Returns the name of the currency in singular form.
+     * If the economy being used does not support currency names then an empty string will be returned.
+     * 
+     * @return name of the currency (singular)
+     */
+    public String currencyNameSingular();
 
     /**
      * Checks if this player has an account on the server yet

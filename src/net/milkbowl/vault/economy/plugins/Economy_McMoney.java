@@ -12,7 +12,7 @@
 
     You should have received a copy of the GNU Lesser General Public License
     along with Vault.  If not, see <http://www.gnu.org/licenses/>.
-*/
+ */
 package net.milkbowl.vault.economy.plugins;
 
 import java.util.ArrayList;
@@ -91,11 +91,13 @@ public class Economy_McMoney implements Economy {
         return new EconomyResponse(amount, economy.getMoney(playerName), ResponseType.SUCCESS, "");
     }
 
-    public String getMoneyNamePlural() {
+    @Override
+    public String currencyNamePlural() {
         return economy.moneyNamePlural();
     }
 
-    public String getMoneyNameSingular() {
+    @Override
+    public String currencyNameSingular() {
         return economy.moneyNameSingle();
     }
 
@@ -133,9 +135,9 @@ public class Economy_McMoney implements Economy {
     public String format(double amount) {
         amount = Math.ceil(amount);
         if (amount == 1) {
-            return String.format("%d %s", (int)amount, getMoneyNameSingular());
+            return String.format("%d %s", (int)amount, currencyNameSingular());
         } else {
-            return String.format("%d %s", (int)amount, getMoneyNamePlural());
+            return String.format("%d %s", (int)amount, currencyNamePlural());
         }
     }
 

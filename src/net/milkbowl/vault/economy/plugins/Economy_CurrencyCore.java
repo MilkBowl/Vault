@@ -98,6 +98,16 @@ public class Economy_CurrencyCore implements Economy {
     public String format(double amount) {
         return this.currency.getFormatHelper().format(amount);
     }
+    
+    @Override
+    public String currencyNamePlural() {
+        return currency.getCurrencyConfig().getCurrencyMajor().get(1);
+    }
+    
+    @Override
+    public String currencyNameSingular() {
+        return currency.getCurrencyConfig().getCurrencyMajor().get(0);
+    }
 
     @Override
     public double getBalance(String playerName) {

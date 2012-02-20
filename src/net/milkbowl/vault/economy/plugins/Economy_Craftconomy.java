@@ -110,6 +110,16 @@ public class Economy_Craftconomy implements Economy {
     }
 
     @Override
+    public String currencyNameSingular() {
+        return CurrencyHandler.getCurrency(Config.currencyDefault, true).getName();
+    }
+    
+    @Override
+    public String currencyNamePlural() {
+        return CurrencyHandler.getCurrency(Config.currencyDefault, true).getName();
+    }
+
+    @Override
     public double getBalance(String playerName) {
         if (AccountHandler.exists(playerName)) {
             return AccountHandler.getAccount(playerName).getDefaultBalance();
@@ -144,108 +154,108 @@ public class Economy_Craftconomy implements Economy {
 
     @Override
     public EconomyResponse createBank(String name, String player) {
-    	boolean success = BankHandler.create(name, player);
+        boolean success = BankHandler.create(name, player);
         if (success) {
             return new EconomyResponse(0, 0, ResponseType.SUCCESS, "");
         }
-        
+
         return new EconomyResponse(0, 0, ResponseType.FAILURE, "Unable to create that bank account.");
     }
 
     @Override
     public EconomyResponse deleteBank(String name) {
-    	boolean success = BankHandler.delete(name);
-    	if (success) {
-    		return new EconomyResponse(0, 0, ResponseType.SUCCESS, "");
-    	}
-    	        
-    	return new EconomyResponse(0, 0, ResponseType.FAILURE, "Unable to create that bank account.");
+        boolean success = BankHandler.delete(name);
+        if (success) {
+            return new EconomyResponse(0, 0, ResponseType.SUCCESS, "");
+        }
+
+        return new EconomyResponse(0, 0, ResponseType.FAILURE, "Unable to create that bank account.");
     }
 
     @Override
     public EconomyResponse bankHas(String name, double amount) {
-    	
-    	if (BankHandler.exists(name))
-    	{
-    		Bank bank = BankHandler.getBank(name);
-    		if (bank.hasEnough(amount))
-    			return new EconomyResponse(0, 0, ResponseType.SUCCESS, "");
-    		else
-    			return new EconomyResponse(0, bank.getDefaultBalance(), ResponseType.FAILURE, "The bank does not have enough money!");
-    	}
-    	return new EconomyResponse(0, 0, ResponseType.FAILURE, "That bank does not exist!");
+
+        if (BankHandler.exists(name))
+        {
+            Bank bank = BankHandler.getBank(name);
+            if (bank.hasEnough(amount))
+                return new EconomyResponse(0, 0, ResponseType.SUCCESS, "");
+            else
+                return new EconomyResponse(0, bank.getDefaultBalance(), ResponseType.FAILURE, "The bank does not have enough money!");
+        }
+        return new EconomyResponse(0, 0, ResponseType.FAILURE, "That bank does not exist!");
     }
 
     @Override
     public EconomyResponse bankWithdraw(String name, double amount) {
-    	EconomyResponse er = bankHas(name, amount);
+        EconomyResponse er = bankHas(name, amount);
         if (!er.transactionSuccess())
             return er;
         else
         {
-        	if (BankHandler.exists(name))
-        	{
-        		Bank bank = BankHandler.getBank(name);
-        		double balance = bank.substractMoney(amount);
-        		return new EconomyResponse(0, balance, ResponseType.SUCCESS, "");
-        	}
-        	return new EconomyResponse(0, 0, ResponseType.FAILURE, "That bank does not exist!");
+            if (BankHandler.exists(name))
+            {
+                Bank bank = BankHandler.getBank(name);
+                double balance = bank.substractMoney(amount);
+                return new EconomyResponse(0, balance, ResponseType.SUCCESS, "");
+            }
+            return new EconomyResponse(0, 0, ResponseType.FAILURE, "That bank does not exist!");
         }
-    	
+
     }
 
     @Override
     public EconomyResponse bankDeposit(String name, double amount) {
-    	if (BankHandler.exists(name))
-    	{
-    		Bank bank = BankHandler.getBank(name);
-    		double balance = bank.addMoney(amount);
-    		return new EconomyResponse(0, balance, ResponseType.SUCCESS, "");
-    	}
-    	return new EconomyResponse(0, 0, ResponseType.FAILURE, "That bank does not exist!");
+        if (BankHandler.exists(name))
+        {
+            Bank bank = BankHandler.getBank(name);
+            double balance = bank.addMoney(amount);
+            return new EconomyResponse(0, balance, ResponseType.SUCCESS, "");
+        }
+        return new EconomyResponse(0, 0, ResponseType.FAILURE, "That bank does not exist!");
     }
 
     @Override
     public EconomyResponse isBankOwner(String name, String playerName) {
         if (BankHandler.exists(name))
         {
-        	Bank bank = BankHandler.getBank(name);
-        	if (bank.getOwner().equals(playerName))
-        	{
-        		return new EconomyResponse(0, bank.getDefaultBalance(), ResponseType.SUCCESS, "");
-        	}
-        	return new EconomyResponse(0, 0, ResponseType.FAILURE, "This player is not the owner of the bank!");
+            Bank bank = BankHandler.getBank(name);
+            if (bank.getOwner().equals(playerName))
+            {
+                return new EconomyResponse(0, bank.getDefaultBalance(), ResponseType.SUCCESS, "");
+            }
+            return new EconomyResponse(0, 0, ResponseType.FAILURE, "This player is not the owner of the bank!");
         }
         return new EconomyResponse(0, 0, ResponseType.FAILURE, "That bank does not exist!");
     }
 
     @Override
     public EconomyResponse isBankMember(String name, String playerName) {
-    	EconomyResponse er = isBankOwner(name,playerName);
-    	if (er.transactionSuccess())
-    		return er;
-    	else
-    	{
-    		if (BankHandler.exists(name))
-    		{
-    			Bank bank = BankHandler.getBank(name);
-    			Iterator<String> iterator = bank.getMembers().iterator();
-    			while(iterator.hasNext())
-    			{
-    				if (iterator.next().equals(playerName))
-    					return new EconomyResponse(0,bank.getDefaultBalance(), ResponseType.SUCCESS, "");
-    			}
-    			
-    		}
-    		return new EconomyResponse(0, 0, ResponseType.FAILURE, "This player is not a member of the bank!");
-    	}
+        EconomyResponse er = isBankOwner(name,playerName);
+        if (er.transactionSuccess())
+            return er;
+        else
+        {
+            if (BankHandler.exists(name))
+            {
+                Bank bank = BankHandler.getBank(name);
+                Iterator<String> iterator = bank.getMembers().iterator();
+                while(iterator.hasNext())
+                {
+                    if (iterator.next().equals(playerName))
+                        return new EconomyResponse(0,bank.getDefaultBalance(), ResponseType.SUCCESS, "");
+                }
+
+            }
+            return new EconomyResponse(0, 0, ResponseType.FAILURE, "This player is not a member of the bank!");
+        }
     }
 
     @Override
     public EconomyResponse bankBalance(String name) {
         if (BankHandler.exists(name))
         {
-        	return new EconomyResponse(0, BankHandler.getBank(name).getDefaultBalance(), ResponseType.SUCCESS, "");
+            return new EconomyResponse(0, BankHandler.getBank(name).getDefaultBalance(), ResponseType.SUCCESS, "");
         }
         return new EconomyResponse(0, 0, ResponseType.FAILURE, "That bank does not exist!");
     }

@@ -59,9 +59,10 @@ import net.milkbowl.vault.permission.plugins.Permission_bPermissions;
 import net.milkbowl.vault.permission.plugins.Permission_bPermissions2;
 import net.milkbowl.vault.permission.plugins.Permission_zPermissions;
 
+import org.bukkit.Bukkit;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
-import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -107,6 +108,7 @@ public class Vault extends JavaPlugin {
 
         getCommand("vault-info").setExecutor(this);
         getCommand("vault-reload").setExecutor(this);
+        getCommand("vault-convert").setExecutor(this);
         getServer().getPluginManager().registerEvents(new VaultListener(), this);
 
         // Schedule to check the version every 30 minutes for an update. This is to update the most recent 
@@ -380,53 +382,97 @@ public class Vault extends JavaPlugin {
             if (!p.isOp()) {
                 return true;
             }
-        } else if (!(sender instanceof ConsoleCommandSender)) {
-            // Check if NOT console
-            // Ignore it if not originated from Console!
-            return true;
         }
 
-        if (command.getLabel().equals("vault-info")) {
-
-            // Get String of Registered Economy Services
-            String registeredEcons = null;
-            Collection<RegisteredServiceProvider<Economy>> econs = this.getServer().getServicesManager().getRegistrations(Economy.class);
-            for (RegisteredServiceProvider<Economy> econ : econs) {
-                Economy e = econ.getProvider();
-                if (registeredEcons == null) {
-                    registeredEcons = e.getName();
-                } else {
-                    registeredEcons += ", " + e.getName();
-                }
-            }
-
-            // Get String of Registered Permission Services
-            String registeredPerms = null;
-            Collection<RegisteredServiceProvider<Permission>> perms = this.getServer().getServicesManager().getRegistrations(Permission.class);
-            for (RegisteredServiceProvider<Permission> perm : perms) {
-                Permission p = perm.getProvider();
-                if (registeredPerms == null) {
-                    registeredPerms = p.getName();
-                } else {
-                    registeredPerms += ", " + p.getName();
-                }
-            }
-
-            // Get Economy & Permission primary Services
-            Economy econ = getServer().getServicesManager().getRegistration(Economy.class).getProvider();
-            Permission perm = getServer().getServicesManager().getRegistration(Permission.class).getProvider();
-
-            // Send user some info!
-            sender.sendMessage(String.format("[%s] Vault v%s Information", getDescription().getName(), getDescription().getVersion()));
-            sender.sendMessage(String.format("[%s] Economy: %s [%s]", getDescription().getName(), econ.getName(), registeredEcons));
-            sender.sendMessage(String.format("[%s] Permission: %s [%s]", getDescription().getName(), perm.getName(), registeredPerms));
+        if (command.getName().equalsIgnoreCase("vault-info")) {
+            infoCommand(sender);
             return true;
-        } else {
+        } else if (command.getName().equalsIgnoreCase("vault-convert")) {
+            convertCommand(sender, args);
+            return true;
+        }else {
             // Show help
             sender.sendMessage("Vault Commands:");
             sender.sendMessage("  /vault-info - Displays information about Vault");
+            sender.sendMessage(" /vault-convert [economy1] [economy2] - Converts from one Economy to another");
             return true;
         }
+    }
+
+    private void convertCommand(CommandSender sender, String[] args) {
+        Collection<RegisteredServiceProvider<Economy>> econs = this.getServer().getServicesManager().getRegistrations(Economy.class);
+        if (econs == null || econs.size() < 2) {
+            sender.sendMessage("You must have at least 2 economies loaded to convert.");
+            return;
+        } else if (args.length != 2) {
+            sender.sendMessage("You must specify only the economy to convert from and the economy to convert to. (without spaces)");
+            return;
+        }
+        Economy econ1 = null;
+        Economy econ2 = null;
+        for (RegisteredServiceProvider<Economy> econ : econs) {
+            String econName = econ.getProvider().getName().replace(" ", "");
+            if (econName.equalsIgnoreCase(args[0])) {
+                econ1 = econ.getProvider();
+            } else if (econName.equalsIgnoreCase(args[1])) {
+                econ2 = econ.getProvider();
+            }
+        }
+        
+        if (econ1 == null) {
+            sender.sendMessage("Could not find " + args[0] + " loaded on the server, check your spelling");
+            return;
+        } else if (econ2 == null) {
+            sender.sendMessage("Could not find " + args[1] + " loaded on the server, check your spelling");
+            return;
+        }
+        
+        sender.sendMessage("This may take some time to convert, expect server lag.");
+        for (OfflinePlayer op : Bukkit.getServer().getOfflinePlayers()) {
+            String pName = op.getName();
+            if (econ1.hasAccount(pName)) {
+                if (econ2.hasAccount(pName)) {
+                    continue;
+                }
+                econ2.createPlayerAccount(pName);
+                econ2.depositPlayer(pName, econ1.getBalance(pName));
+            }
+        }
+    }
+
+    private void infoCommand(CommandSender sender) {
+        // Get String of Registered Economy Services
+        String registeredEcons = null;
+        Collection<RegisteredServiceProvider<Economy>> econs = this.getServer().getServicesManager().getRegistrations(Economy.class);
+        for (RegisteredServiceProvider<Economy> econ : econs) {
+            Economy e = econ.getProvider();
+            if (registeredEcons == null) {
+                registeredEcons = e.getName();
+            } else {
+                registeredEcons += ", " + e.getName();
+            }
+        }
+
+        // Get String of Registered Permission Services
+        String registeredPerms = null;
+        Collection<RegisteredServiceProvider<Permission>> perms = this.getServer().getServicesManager().getRegistrations(Permission.class);
+        for (RegisteredServiceProvider<Permission> perm : perms) {
+            Permission p = perm.getProvider();
+            if (registeredPerms == null) {
+                registeredPerms = p.getName();
+            } else {
+                registeredPerms += ", " + p.getName();
+            }
+        }
+
+        // Get Economy & Permission primary Services
+        Economy econ = getServer().getServicesManager().getRegistration(Economy.class).getProvider();
+        Permission perm = getServer().getServicesManager().getRegistration(Permission.class).getProvider();
+
+        // Send user some info!
+        sender.sendMessage(String.format("[%s] Vault v%s Information", getDescription().getName(), getDescription().getVersion()));
+        sender.sendMessage(String.format("[%s] Economy: %s [%s]", getDescription().getName(), econ.getName(), registeredEcons));
+        sender.sendMessage(String.format("[%s] Permission: %s [%s]", getDescription().getName(), perm.getName(), registeredPerms));
     }
 
     public synchronized void setVersion(int newVersion) {

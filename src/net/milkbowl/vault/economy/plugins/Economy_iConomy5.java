@@ -35,6 +35,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 import com.iConomy.iConomy;
 import com.iConomy.system.Account;
 import com.iConomy.system.Holdings;
+import com.iConomy.util.Constants;
 
 public class Economy_iConomy5 implements Economy {
     private static final Logger log = Logger.getLogger("Minecraft");
@@ -150,6 +151,24 @@ public class Economy_iConomy5 implements Economy {
     @Override
     public String format(double amount) {
         return iConomy.format(amount);
+    }
+
+    @Override
+    public String currencyNameSingular() {
+        try {
+            return Constants.Major.get(0);
+        } catch (Exception e) {
+            return "";
+        }
+    }
+
+    @Override
+    public String currencyNamePlural() {
+        try {
+            return Constants.Major.get(1);
+        } catch (Exception e) {
+            return "";
+        }
     }
 
     @Override

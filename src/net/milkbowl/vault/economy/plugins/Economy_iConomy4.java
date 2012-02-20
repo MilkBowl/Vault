@@ -75,11 +75,13 @@ public class Economy_iConomy4 implements Economy {
         return iConomy.getBank().format(amount);
     }
 
-    public String getMoneyNamePlural() {
+    @Override
+    public String currencyNamePlural() {
         return iConomy.getBank().getCurrency() + "s";
     }
 
-    public String getMoneyNameSingular() {
+    @Override
+    public String currencyNameSingular() {
         return iConomy.getBank().getCurrency();
     }
 

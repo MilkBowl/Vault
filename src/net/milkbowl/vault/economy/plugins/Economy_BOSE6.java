@@ -149,11 +149,13 @@ public class Economy_BOSE6 implements Economy {
         }
     }
 
-    public String getMoneyNamePlural() {
+    @Override
+    public String currencyNamePlural() {
         return economy.getMoneyNamePlural();
     }
 
-    public String getMoneyNameSingular() {
+    @Override
+    public String currencyNameSingular() {
         return economy.getMoneyName();
     }
 
@@ -190,9 +192,9 @@ public class Economy_BOSE6 implements Economy {
     @Override
     public String format(double amount) {
         if (amount == 1) {
-            return String.format("%.0f %s", amount, getMoneyNameSingular());
+            return String.format("%.0f %s", amount, currencyNameSingular());
         } else {
-            return String.format("%.2f %s", amount, getMoneyNamePlural());
+            return String.format("%.2f %s", amount, currencyNamePlural());
         }
     }
 

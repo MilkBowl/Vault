@@ -104,6 +104,16 @@ public class Economy_eWallet implements Economy {
     }
 
     @Override
+    public String currencyNameSingular() {
+        return econ.singularCurrency;
+    }
+
+    @Override
+    public String currencyNamePlural() {
+        return econ.pluralCurrency;
+    }
+
+    @Override
     public double getBalance(String playerName) {
         Integer i = econ.getMoney(playerName);
         return i == null ? 0 : i;

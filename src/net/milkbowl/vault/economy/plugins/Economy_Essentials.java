@@ -200,6 +200,16 @@ public class Economy_Essentials implements Economy {
     }
 
     @Override
+    public String currencyNameSingular() {
+        return "";
+    }
+
+    @Override
+    public String currencyNamePlural() {
+        return "";
+    }
+
+    @Override
     public boolean has(String playerName, double amount) {
         return getBalance(playerName) >= amount;
     }

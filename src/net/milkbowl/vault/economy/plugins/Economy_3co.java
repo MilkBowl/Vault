@@ -135,11 +135,13 @@ public class Economy_3co implements Economy {
         return new EconomyResponse(amount, balance, type, errorMessage);
     }
 
-    public String getMoneyNamePlural() {
+    @Override
+    public String currencyNamePlural() {
         return economy.getPluralCurrency();
     }
 
-    public String getMoneyNameSingular() {
+    @Override
+    public String currencyNameSingular() {
         return economy.getSingularCurrency();
     }
 
@@ -177,9 +179,9 @@ public class Economy_3co implements Economy {
     public String format(double amount) {
         amount = Math.ceil(amount);
         if (amount == 1) {
-            return String.format("%d %s", (int)amount, getMoneyNameSingular());
+            return String.format("%d %s", (int)amount, currencyNameSingular());
         } else {
-            return String.format("%d %s", (int)amount, getMoneyNamePlural());
+            return String.format("%d %s", (int)amount, currencyNamePlural());
         }
     }
 

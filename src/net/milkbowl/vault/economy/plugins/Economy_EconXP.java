@@ -103,6 +103,16 @@ public class Economy_EconXP implements Economy {
     }
 
     @Override
+    public String currencyNamePlural() {
+        return "experience";
+    }
+
+    @Override
+    public String currencyNameSingular() {
+        return "experience";
+    }
+
+    @Override
     public double getBalance(String playerName) {
         OfflinePlayer player = econ.getPlayer(playerName);
 

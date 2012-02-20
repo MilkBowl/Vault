@@ -179,7 +179,17 @@ public class Economy_MultiCurrency implements Economy {
 
     @Override
     public String format(double amount) {   
-        return String.format("%.2f %s", amount, "Currency");
+        return String.format("%.2f %s", amount, "currency");
+    }
+
+    @Override
+    public String currencyNameSingular() {
+        return "currency";
+    }
+
+    @Override
+    public String currencyNamePlural() {
+        return "currency";
     }
 
     @Override
