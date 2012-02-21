@@ -15,9 +15,10 @@
 */
 package net.milkbowl.vault.chat.plugins;
 
-import in.mDev.MiracleM4n.mChatSuite.MInfoReader;
-import in.mDev.MiracleM4n.mChatSuite.MInfoWriter;
 import in.mDev.MiracleM4n.mChatSuite.mChatSuite;
+import in.mDev.MiracleM4n.mChatSuite.api.InfoType;
+import in.mDev.MiracleM4n.mChatSuite.api.MInfoReader;
+import in.mDev.MiracleM4n.mChatSuite.api.MInfoWriter;
 
 import java.util.logging.Logger;
 
@@ -246,11 +247,10 @@ public class Chat_mChatSuite extends Chat {
     }
     
     private void setPlayerInfoValue(String world, String player, String node, Object value) {
-        if (world == null) {
-            mWriter.addPlayerInfoVar(player, node, value.toString());
+        if (world != null) {
+            mWriter.setWorldVar(player, InfoType.USER, world, node, value.toString());
         } else {
-            mWriter.addPlayerWorld(player, world);
-            mWriter.addPlayerWorldVar(player, world, node, value.toString());
+            mWriter.setInfoVar(player, InfoType.USER, node, value.toString());
         }
     }
     

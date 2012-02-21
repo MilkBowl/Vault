@@ -33,6 +33,7 @@ import net.milkbowl.vault.chat.plugins.Chat_bPermissions;
 import net.milkbowl.vault.chat.plugins.Chat_bPermissions2;
 import net.milkbowl.vault.chat.plugins.Chat_iChat;
 import net.milkbowl.vault.chat.plugins.Chat_mChat;
+import net.milkbowl.vault.chat.plugins.Chat_mChatSuite;
 import net.milkbowl.vault.economy.Economy;
 import net.milkbowl.vault.economy.plugins.Economy_3co;
 import net.milkbowl.vault.economy.plugins.Economy_BOSE6;
@@ -146,56 +147,63 @@ public class Vault extends JavaPlugin {
      */
     private void loadChat() {
         // Try to load PermissionsEx
-        if (packageExists(new String[] { "ru.tehkode.permissions.bukkit.PermissionsEx" })) {
+        if (packageExists("ru.tehkode.permissions.bukkit.PermissionsEx")) {
             Chat eChat = new Chat_PermissionsEx(this, perms);
             sm.register(Chat.class, eChat, this, ServicePriority.Highest);
             log.info(String.format("[%s][Chat] PermissionsEx found: %s", getDescription().getName(), eChat.isEnabled() ? "Loaded" : "Waiting"));
         }
 
+        //Try loading mChatSuite
+        if (packageExists("in.mDev.MiracleM4n.mChatSuite.mChatSuite")) {
+            Chat mChat = new Chat_mChatSuite(this, perms);
+            sm.register(Chat.class, mChat, this, ServicePriority.Highest);
+            log.info(String.format("[%s][Chat] mChatSuite found: %s", getDescription().getName(), mChat.isEnabled() ? "Loaded" : "Waiting"));
+        }
+
         //Try loading mChat
-        if (packageExists(new String[] {"net.D3GN.MiracleM4n.mChat"} )) {
+        if (packageExists("net.D3GN.MiracleM4n.mChat")) {
             Chat mChat = new Chat_mChat(this, perms);
             sm.register(Chat.class, mChat, this, ServicePriority.Highest);
             log.info(String.format("[%s][Chat] mChat found: %s", getDescription().getName(), mChat.isEnabled() ? "Loaded" : "Waiting"));
         }
 
         //try loading bPermssions 2
-        if (packageExists(new String[] {"de.bananaco.bpermissions.api.ApiLayer"})) {
+        if (packageExists("de.bananaco.bpermissions.api.ApiLayer")) {
             Chat bPerms = new Chat_bPermissions2(this, perms);
             sm.register(Chat.class, bPerms, this, ServicePriority.High);
             log.info(String.format("[%s][Chat] bPermissions2 found: %s", getDescription().getName(), bPerms.isEnabled() ? "Loaded" : "Waiting"));
         } 
 
         // try loading bPermissions 1
-        if (packageExists(new String[] {"de.bananaco.permissions.info.InfoReader"})) {
+        if (packageExists("de.bananaco.permissions.info.InfoReader")) {
             Chat bPerms = new Chat_bPermissions(this, perms);
             sm.register(Chat.class, bPerms, this, ServicePriority.Normal);
             log.info(String.format("[%s][Chat] bPermissions found: %s", getDescription().getName(), bPerms.isEnabled() ? "Loaded" : "Waiting"));
         }
 
         // Try to load GroupManager
-        if (packageExists(new String[] { "org.anjocaido.groupmanager.GroupManager" })) {
+        if (packageExists("org.anjocaido.groupmanager.GroupManager")) {
             Chat gPerms = new Chat_GroupManager(this, perms);
             sm.register(Chat.class, gPerms, this, ServicePriority.Normal);
             log.info(String.format("[%s][Chat] GroupManager found: %s", getDescription().getName(), gPerms.isEnabled() ? "Loaded" : "Waiting"));
         }
 
         // Try to load Permissions 3 (Yeti)
-        if (packageExists(new String[] { "com.nijiko.permissions.ModularControl" })) {
+        if (packageExists("com.nijiko.permissions.ModularControl")) {
             Chat nPerms = new Chat_Permissions3(this, perms);
             sm.register(Chat.class, nPerms, this, ServicePriority.Normal);
             log.info(String.format("[%s][Chat] Permissions 3 (Yeti) found: %s", getDescription().getName(), nPerms.isEnabled() ? "Loaded" : "Waiting"));
         }
 
         // Try to load iChat
-        if (packageExists(new String[] { "net.TheDgtl.iChat.iChat" })) {
+        if (packageExists("net.TheDgtl.iChat.iChat")) {
             Chat iChat = new Chat_iChat(this, perms);
             sm.register(Chat.class, iChat, this, ServicePriority.Low);
             log.info(String.format("[%s][Chat] iChat found: %s", getDescription().getName(), iChat.isEnabled() ? "Loaded" : "Waiting"));
         }
 
         //Try to load Towny Chat
-        if (packageExists(new String[] { "com.palmergames.bukkit.towny.Towny" })) {
+        if (packageExists("com.palmergames.bukkit.towny.Towny")) {
             Chat townChat = new Chat_Towny(this, perms);
             sm.register(Chat.class, townChat, this, ServicePriority.Lowest);
             log.info(String.format("[%s][Chat] Towny found: %s", getDescription().getName(), townChat.isEnabled() ? "Loaded" : "Waiting"));
@@ -207,14 +215,14 @@ public class Vault extends JavaPlugin {
      */
     private void loadEconomy() {
         // Try to load MultiCurrency
-        if (packageExists(new String[] { "me.ashtheking.currency.Currency", "me.ashtheking.currency.CurrencyList" })) {
+        if (packageExists("me.ashtheking.currency.Currency", "me.ashtheking.currency.CurrencyList")) {
             Economy econ = new Economy_MultiCurrency(this);
             sm.register(Economy.class, econ, this, ServicePriority.Normal);
             log.info(String.format("[%s][Economy] MultiCurrency found: %s", getDescription().getName(), econ.isEnabled() ? "Loaded" : "Waiting"));
         }
 
         //Try Loading MineConomy
-        if (packageExists(new String[] { "me.mjolnir.mineconomy.MineConomy" })) {
+        if (packageExists("me.mjolnir.mineconomy.MineConomy")) {
             Economy econ = new Economy_MineConomy(this);
             sm.register(Economy.class, econ, this, ServicePriority.Normal);
             log.info(String.format("[%s][Economy] MineConomy found: %s", getDescription().getName(), econ.isEnabled() ? "Loaded" : "Waiting"));
@@ -222,84 +230,84 @@ public class Vault extends JavaPlugin {
         }
 
         //Try Loading McMoney
-        if (packageExists(new String[] {"boardinggamer.mcmoney.McMoneyAPI"})) {
+        if (packageExists("boardinggamer.mcmoney.McMoneyAPI")) {
             Economy econ = new Economy_McMoney(this);
             sm.register(Economy.class, econ, this, ServicePriority.Normal);
             log.info(String.format("[%s][Economy] McMoney found: %s", getDescription().getName(), econ.isEnabled() ? "Loaded" : "Waiting"));
         }
 
         //Try Loading Craftconomy
-        if (packageExists(new String[] {"me.greatman.Craftconomy.Craftconomy"})) {
+        if (packageExists("me.greatman.Craftconomy.Craftconomy")) {
             Economy econ = new Economy_Craftconomy(this);
             sm.register(Economy.class, econ, this, ServicePriority.Normal);
             log.info(String.format("[%s][Economy] CraftConomy found: %s", getDescription().getName(), econ.isEnabled() ? "Loaded" : "Waiting"));
         }
 
         //Try loading eWallet
-        if (packageExists(new String[] { "me.ethan.eWallet.ECO" })) {
+        if (packageExists("me.ethan.eWallet.ECO")) {
             Economy econ = new Economy_eWallet(this);
             sm.register(Economy.class, econ, this, ServicePriority.Normal);
             log.info(String.format("[%s][Economy] eWallet found: %s", getDescription().getName(), econ.isEnabled() ? "Loaded" : "Waiting"));
         }
 
         // Try to load 3co
-        if (packageExists(new String[] { "me.ic3d.eco.ECO" })) {
+        if (packageExists("me.ic3d.eco.ECO")) {
             Economy econ = new Economy_3co(this);
             sm.register(Economy.class, econ, this, ServicePriority.Normal);
             log.info(String.format("[%s][Economy] 3co found: %s", getDescription().getName(), econ.isEnabled() ? "Loaded" : "Waiting"));
         }
 
         // Try to load BOSEconomy
-        if (packageExists(new String[] { "cosine.boseconomy.BOSEconomy", "cosine.boseconomy.CommandManager" })) {
+        if (packageExists("cosine.boseconomy.BOSEconomy", "cosine.boseconomy.CommandManager")) {
             Economy bose6 = new Economy_BOSE6(this);
             sm.register(Economy.class, bose6, this, ServicePriority.Normal);
             log.info(String.format("[%s][Economy] BOSEconomy6 found: %s", getDescription().getName(), bose6.isEnabled() ? "Loaded" : "Waiting"));
         }
 
         // Try to load BOSEconomy
-        if (packageExists(new String[] { "cosine.boseconomy.BOSEconomy", "cosine.boseconomy.CommandHandler" })) {
+        if (packageExists("cosine.boseconomy.BOSEconomy", "cosine.boseconomy.CommandHandler")) {
             Economy bose7 = new Economy_BOSE7(this);
             sm.register(net.milkbowl.vault.economy.Economy.class, bose7, this, ServicePriority.Normal);
             log.info(String.format("[%s][Economy] BOSEconomy7 found: %s", getDescription().getName(), bose7.isEnabled() ? "Loaded" : "Waiting"));
         }
 
         //Try to load CurrencyCore
-        if (packageExists(new String[] { "is.currency.Currency" })) {
+        if (packageExists("is.currency.Currency")) {
             Economy cCore = new Economy_CurrencyCore(this);
             sm.register(net.milkbowl.vault.economy.Economy.class, cCore, this, ServicePriority.Normal);
             log.info(String.format("[%s][Economy] CurrencyCore found: %s", getDescription().getName(), cCore.isEnabled() ? "Loaded" : "Waiting"));
         }
 
         // Try to load Essentials Economy
-        if (packageExists(new String[] { "com.earth2me.essentials.api.Economy", "com.earth2me.essentials.api.NoLoanPermittedException", "com.earth2me.essentials.api.UserDoesNotExistException" })) {
+        if (packageExists("com.earth2me.essentials.api.Economy", "com.earth2me.essentials.api.NoLoanPermittedException", "com.earth2me.essentials.api.UserDoesNotExistException")) {
             Economy essentials = new Economy_Essentials(this);
             sm.register(net.milkbowl.vault.economy.Economy.class, essentials, this, ServicePriority.Low);
             log.info(String.format("[%s][Economy] Essentials Economy found: %s", getDescription().getName(), essentials.isEnabled() ? "Loaded" : "Waiting"));
         }
 
         // Try to load iConomy 4
-        if (packageExists(new String[] { "com.nijiko.coelho.iConomy.iConomy", "com.nijiko.coelho.iConomy.system.Account" })) {
+        if (packageExists("com.nijiko.coelho.iConomy.iConomy", "com.nijiko.coelho.iConomy.system.Account")) {
             Economy icon4 = new Economy_iConomy4(this);
             sm.register(net.milkbowl.vault.economy.Economy.class, icon4, this, ServicePriority.High);
             log.info(String.format("[%s][Economy] iConomy 4 found: ", getDescription().getName(), icon4.isEnabled() ? "Loaded" : "Waiting"));
         }
 
         // Try to load iConomy 5
-        if (packageExists(new String[] { "com.iConomy.iConomy", "com.iConomy.system.Account", "com.iConomy.system.Holdings" })) {
+        if (packageExists("com.iConomy.iConomy", "com.iConomy.system.Account", "com.iConomy.system.Holdings")) {
             Economy icon5 = new Economy_iConomy5(this);
             sm.register(net.milkbowl.vault.economy.Economy.class, icon5, this, ServicePriority.High);
             log.info(String.format("[%s][Economy] iConomy 5 found: %s", getDescription().getName(), icon5.isEnabled() ? "Loaded" : "Waiting"));
         }
 
         // Try to load iConomy 6
-        if (packageExists(new String[] { "com.iCo6.iConomy" })) {
+        if (packageExists("com.iCo6.iConomy")) {
             Economy icon6 = new Economy_iConomy6(this);
             sm.register(Economy.class, icon6, this, ServicePriority.High);
             log.info(String.format("[%s][Economy] iConomy 6 found: %s", getDescription().getName(), icon6.isEnabled() ? "Loaded" : "Waiting"));
         }
 
         //Try loading EconXP
-        if (packageExists(new String[] { "ca.agnate.EconXP.EconXP" })) {
+        if (packageExists("ca.agnate.EconXP.EconXP")) {
             Economy econ = new Economy_EconXP(this);
             sm.register(Economy.class, econ, this, ServicePriority.Normal);
             log.info(String.format("[%s][Economy] EconXP found: %s", getDescription().getName(), econ.isEnabled() ? "Loaded" : "Waiting"));
@@ -311,21 +319,21 @@ public class Vault extends JavaPlugin {
      */
     private void loadPermission() {
         //Try to load Starburst
-        if (packageExists(new String[] { "com.dthielke.starburst.StarburstPlugin" })) {
+        if (packageExists("com.dthielke.starburst.StarburstPlugin")) {
             Permission sPerms = new Permission_Starburst(this);
             sm.register(Permission.class, sPerms, this, ServicePriority.Highest);
             log.info(String.format("[%s][Permission] Starburst found: %s", getDescription().getName(), sPerms.isEnabled() ? "Loaded" : "Waiting"));
         }
 
         // Try to load PermissionsEx
-        if (packageExists(new String[] { "ru.tehkode.permissions.bukkit.PermissionsEx" })) {
+        if (packageExists("ru.tehkode.permissions.bukkit.PermissionsEx")) {
             Permission ePerms = new Permission_PermissionsEx(this);
             sm.register(Permission.class, ePerms, this, ServicePriority.Highest);
             log.info(String.format("[%s][Permission] PermissionsEx found: %s", getDescription().getName(), ePerms.isEnabled() ? "Loaded" : "Waiting"));
         }
 
         //Try loading PermissionsBukkit
-        if (packageExists(new String[] {"com.platymuus.bukkit.permissions.PermissionsPlugin"} )) {
+        if (packageExists("com.platymuus.bukkit.permissions.PermissionsPlugin")) {
             Permission pPerms = new Permission_PermissionsBukkit(this);
             sm.register(Permission.class, pPerms, this, ServicePriority.Highest);
             log.info(String.format("[%s][Permission] PermissionsBukkit found: %s", getDescription().getName(), pPerms.isEnabled() ? "Loaded" : "Waiting"));
@@ -333,34 +341,34 @@ public class Vault extends JavaPlugin {
 
 
         //try loading bPermissions2
-        if (packageExists(new String[] {"de.bananaco.bpermissions.api.WorldManager"})) {
+        if (packageExists("de.bananaco.bpermissions.api.WorldManager")) {
             Permission bPerms = new Permission_bPermissions2(this);
             sm.register(Permission.class, bPerms, this, ServicePriority.Highest);
             log.info(String.format("[%s][Chat] bPermissions found: %s", getDescription().getName(), bPerms.isEnabled() ? "Loaded" : "Waiting"));
         }
 
         //Try to load zPermission
-        if (packageExists(new String[] {"org.tyrannyofheaven.bukkit.zPermissions"})) {
+        if (packageExists("org.tyrannyofheaven.bukkit.zPermissions")) {
             Permission zPerms = new Permission_zPermissions(this);
             sm.register(Permission.class, zPerms, this, ServicePriority.Highest);
             log.info(String.format("[%s][Permission] GroupManager found: %s", getDescription().getName(), zPerms.isEnabled() ? "Loaded" : "Waiting"));
         }
 
         //Try to load bPermissions
-        if (packageExists(new String[] {"de.bananaco.permissions.SuperPermissionHandler"})) {
+        if (packageExists("de.bananaco.permissions.SuperPermissionHandler")) {
             Permission bPerms = new Permission_bPermissions(this);
             sm.register(Permission.class, bPerms, this, ServicePriority.High);
             log.info(String.format("[%s][Permission] bPermissions found: %s", getDescription().getName(), bPerms.isEnabled() ? "Loaded" : "Waiting"));
         }
 
         // Try to load GroupManager
-        if (packageExists(new String[] { "org.anjocaido.groupmanager.GroupManager" })) {
+        if (packageExists("org.anjocaido.groupmanager.GroupManager")) {
             Permission gPerms = new Permission_GroupManager(this);
             sm.register(Permission.class, gPerms, this, ServicePriority.High);
             log.info(String.format("[%s][Permission] GroupManager found: %s", getDescription().getName(), gPerms.isEnabled() ? "Loaded" : "Waiting"));
         }
         // Try to load Permissions 3 (Yeti)
-        if (packageExists(new String[] { "com.nijiko.permissions.ModularControl" })) {
+        if (packageExists("com.nijiko.permissions.ModularControl")) {
             Permission nPerms = new Permission_Permissions3(this);
             sm.register(Permission.class, nPerms, this, ServicePriority.High);
             log.info(String.format("[%s][Permission] Permissions 3 (Yeti) found: %s", getDescription().getName(), nPerms.isEnabled() ? "Loaded" : "Waiting"));
@@ -394,7 +402,7 @@ public class Vault extends JavaPlugin {
             // Show help
             sender.sendMessage("Vault Commands:");
             sender.sendMessage("  /vault-info - Displays information about Vault");
-            sender.sendMessage(" /vault-convert [economy1] [economy2] - Converts from one Economy to another");
+            sender.sendMessage("  /vault-convert [economy1] [economy2] - Converts from one Economy to another");
             return true;
         }
     }
@@ -418,7 +426,7 @@ public class Vault extends JavaPlugin {
                 econ2 = econ.getProvider();
             }
         }
-        
+
         if (econ1 == null) {
             sender.sendMessage("Could not find " + args[0] + " loaded on the server, check your spelling");
             return;
@@ -426,7 +434,7 @@ public class Vault extends JavaPlugin {
             sender.sendMessage("Could not find " + args[1] + " loaded on the server, check your spelling");
             return;
         }
-        
+
         sender.sendMessage("This may take some time to convert, expect server lag.");
         for (OfflinePlayer op : Bukkit.getServer().getOfflinePlayers()) {
             String pName = op.getName();
@@ -487,7 +495,7 @@ public class Vault extends JavaPlugin {
      * @param packages String Array of package names to check
      * @return Success or Failure
      */
-    private static boolean packageExists(String[] packages) {
+    private static boolean packageExists(String...packages) {
         try {
             for (String pkg : packages) {
                 Class.forName(pkg);
