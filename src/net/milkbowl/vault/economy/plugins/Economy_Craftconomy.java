@@ -116,7 +116,7 @@ public class Economy_Craftconomy implements Economy {
     
     @Override
     public String currencyNamePlural() {
-        return CurrencyHandler.getCurrency(Config.currencyDefault, true).getName();
+        return CurrencyHandler.getCurrency(Config.currencyDefault, true).getNamePlural();
     }
 
     @Override
