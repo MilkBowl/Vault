@@ -16,7 +16,6 @@
 package net.milkbowl.vault.economy.plugins;
 
 import java.util.List;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import net.milkbowl.vault.economy.Economy;
@@ -49,7 +48,6 @@ public class Economy_iConomy6 implements Economy {
     public Economy_iConomy6(JavaPlugin plugin) {
         this.plugin = plugin;
         Bukkit.getServer().getPluginManager().registerEvents(new EconomyServerListener(this), plugin);
-        log.log(Level.SEVERE, "iConomy6 is outdated and WILL BREAK in CB-R5+ - It is highly recommended to update to a new economy plugin and use Vaults conversion!");
         // Load Plugin in case it was loaded before
         if (economy == null) {
             Plugin ec = plugin.getServer().getPluginManager().getPlugin("iConomy");
