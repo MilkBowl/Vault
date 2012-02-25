@@ -133,7 +133,14 @@ public class Vault extends JavaPlugin {
 
         // Load up the Plugin metrics
         try {
-            metrics = new Metrics(getDescription().getVersion());
+            String authors = "";
+            for (String author : this.getDescription().getAuthors()) {
+                authors += author + ", ";
+            }
+            if (!authors.isEmpty()) {
+                authors = authors.substring(0, authors.length() - 2);
+            }
+            metrics = new Metrics(getDescription().getVersion(), authors);
             metrics.findCustomData(this);
             metrics.beginMeasuringPlugin(this);
         } catch (IOException e) {
