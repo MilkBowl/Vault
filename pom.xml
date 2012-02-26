@@ -16,9 +16,9 @@
 		<dependency>
 			<groupId>org.tyrannyofheaven.bukkit</groupId>
 			<artifactId>zPermissions</artifactId>
-			<version>0.9.5-SNAPSHOT</version>
+			<version>0.9.7</version>
 			<scope>system</scope>
-			<systemPath>${project.basedir}/lib/zPermissions-0.9.5.jar</systemPath>
+			<systemPath>${project.basedir}/lib/zPermissions.jar</systemPath>
 		</dependency>
 		<dependency>
 			<groupId>me.ic3d.eco</groupId>
@@ -30,7 +30,7 @@
 		<dependency>
 			<groupId>is.currency</groupId>
 			<artifactId>Currency</artifactId>
-			<version>0.3</version>
+			<version>0.6</version>
 			<scope>system</scope>
 			<systemPath>${project.basedir}/lib/CurrencyCore.jar</systemPath>
 		</dependency>
@@ -107,7 +107,7 @@
 		<dependency>
 			<groupId>com.iCo6.iConomy</groupId>
 			<artifactId>iConomy</artifactId>
-			<version>6.0</version>
+			<version>6.0.9b</version>
 			<scope>system</scope>
 			<systemPath>${project.basedir}/lib/iConomy6.jar</systemPath>
 		</dependency>
@@ -168,7 +168,7 @@
 		<dependency>
 			<groupId>de.bananaco.permissions.Permissions</groupId>
 			<artifactId>bPermissions2</artifactId>
-			<version>2.6.3</version>
+			<version>2.9.0</version>
 			<scope>system</scope>
 			<systemPath>${project.basedir}/lib/bpermissions2.jar</systemPath>
 		</dependency>
@@ -189,7 +189,7 @@
 		<dependency>
 			<groupId>me.greatman.Craftconomy</groupId>
 			<artifactId>Craftconomy</artifactId>
-			<version>1.0.0</version>
+			<version>2.3.1</version>
 			<scope>system</scope>
 			<systemPath>${project.basedir}/lib/Craftconomy.jar</systemPath>
 		</dependency>
