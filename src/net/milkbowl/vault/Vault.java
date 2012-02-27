@@ -100,7 +100,7 @@ public class Vault extends JavaPlugin {
 
     @Override
     public void onEnable() {
-        currentVersion = Double.valueOf(getDescription().getVersion().split("-")[0].replaceFirst(".", ""));
+        currentVersion = Double.valueOf(getDescription().getVersion().split("-")[0].replaceFirst("\\.", ""));
         sm = getServer().getServicesManager();
         // Load Vault Addons
         loadEconomy();
