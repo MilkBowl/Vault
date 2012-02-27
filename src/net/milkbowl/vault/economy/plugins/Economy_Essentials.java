@@ -211,7 +211,11 @@ public class Economy_Essentials implements Economy {
 
     @Override
     public boolean has(String playerName, double amount) {
-        return getBalance(playerName) >= amount;
+        try {
+            return com.earth2me.essentials.api.Economy.hasEnough(playerName, amount);
+        } catch (UserDoesNotExistException e) {
+            return false;
+        }
     }
 
     @Override
