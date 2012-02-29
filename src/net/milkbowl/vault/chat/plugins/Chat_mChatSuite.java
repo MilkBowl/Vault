@@ -104,7 +104,7 @@ public class Chat_mChatSuite extends Chat {
 
     @Override
     public String getPlayerPrefix(String world, String player) {
-        return mReader.getRawPrefix(player, world);
+        return mReader.getPrefix(player, InfoType.USER, world);
     }
 
     @Override
@@ -114,7 +114,7 @@ public class Chat_mChatSuite extends Chat {
 
     @Override
     public String getPlayerSuffix(String world, String player) {
-        return mReader.getRawSuffix(player, world);
+        return mReader.getSuffix(player, InfoType.USER, world);
     }
 
     @Override
@@ -124,22 +124,22 @@ public class Chat_mChatSuite extends Chat {
 
     @Override
     public String getGroupPrefix(String world, String group) {
-        throw new UnsupportedOperationException("mChat does not support group info nodes");
+        return mReader.getPrefix(group, InfoType.GROUP, world);
     }
 
     @Override
     public void setGroupPrefix(String world, String group, String prefix) {
-        throw new UnsupportedOperationException("mChat does not support group info nodes");
+        setGroupInfoValue(world, group, "prefix", prefix);
     }
 
     @Override
     public String getGroupSuffix(String world, String group) {
-        throw new UnsupportedOperationException("mChat does not support group info nodes");
+        return mReader.getSuffix(group, InfoType.GROUP, world);
     }
 
     @Override
     public void setGroupSuffix(String world, String group, String suffix) {
-        throw new UnsupportedOperationException("mChat does not support group info nodes");
+        setGroupInfoValue(world, group, "suffix", suffix);
     }
 
     @Override
@@ -162,12 +162,20 @@ public class Chat_mChatSuite extends Chat {
 
     @Override
     public int getGroupInfoInteger(String world, String group, String node, int defaultValue) {
-        throw new UnsupportedOperationException("mChat does not support group info nodes");
+        String val = getGroupInfoValue(world, group, node);
+        if (val == null || val.equals("")) {
+            return defaultValue;
+        }
+        try {
+            return Integer.parseInt(val);
+        } catch (NumberFormatException e) {
+            return defaultValue;
+        }
     }
 
     @Override
     public void setGroupInfoInteger(String world, String group, String node, int value) {
-        throw new UnsupportedOperationException("mChat does not support group info nodes");
+        setGroupInfoValue(world, group, node, value);
     }
 
     @Override
@@ -190,12 +198,20 @@ public class Chat_mChatSuite extends Chat {
 
     @Override
     public double getGroupInfoDouble(String world, String group, String node,double defaultValue) {
-        throw new UnsupportedOperationException("mChat does not support group info nodes");
+        String val = getGroupInfoValue(world, group, node);
+        if (val == null || val.equals("")) {
+            return defaultValue;
+        }
+        try {
+            return Double.parseDouble(val);
+        } catch (NumberFormatException e) {
+            return defaultValue;
+        }
     }
 
     @Override
     public void setGroupInfoDouble(String world, String group, String node, double value) {
-        throw new UnsupportedOperationException("mChat does not support group info nodes");
+        setGroupInfoValue(world, group, node, value);
     }
 
     @Override
@@ -204,11 +220,7 @@ public class Chat_mChatSuite extends Chat {
         if (val == null || val.equals("")) {
             return defaultValue;
         }
-        try {
-            return Boolean.parseBoolean(val);
-        } catch (NumberFormatException e) {
-            return defaultValue;
-        }
+        return Boolean.parseBoolean(val);
     }
 
     @Override
@@ -218,17 +230,26 @@ public class Chat_mChatSuite extends Chat {
 
     @Override
     public boolean getGroupInfoBoolean(String world, String group, String node, boolean defaultValue) {
-        throw new UnsupportedOperationException("mChat does not support group info nodes");
+        String val = getGroupInfoValue(world, group, node);
+        if (val == null || val.equals("")) {
+            return defaultValue;
+        }
+        return Boolean.valueOf(val);
     }
 
     @Override
     public void setGroupInfoBoolean(String world, String group, String node, boolean value) {
-        throw new UnsupportedOperationException("mChat does not support group info nodes");
+        setGroupInfoValue(world, group, node, value);
     }
 
     @Override
     public String getPlayerInfoString(String world, String player, String node, String defaultValue) {
-        return getPlayerInfoValue(world, player, node);
+        String val = getPlayerInfoValue(world, player, node);
+        if (val == null) {
+            return defaultValue;
+        } else {
+            return val;
+        }
     }
 
     @Override
@@ -238,12 +259,17 @@ public class Chat_mChatSuite extends Chat {
 
     @Override
     public String getGroupInfoString(String world, String group, String node, String defaultValue) {
-        throw new UnsupportedOperationException("mChat does not support group info nodes");
+        String val = getGroupInfoValue(world, group, node);
+        if (val == null) {
+            return defaultValue;
+        } else {
+            return val;
+        }
     }
 
     @Override
     public void setGroupInfoString(String world, String group, String node, String value) {
-        throw new UnsupportedOperationException("mChat does not support group info nodes");
+        setGroupInfoValue(world, group, node, value);
     }
     
     private void setPlayerInfoValue(String world, String player, String node, Object value) {
@@ -254,7 +280,18 @@ public class Chat_mChatSuite extends Chat {
         }
     }
     
+    private void setGroupInfoValue(String world, String group, String node, Object value) {
+        if (world != null) {
+            mWriter.setWorldVar(group, InfoType.GROUP, world, node, value);
+        } else {
+            mWriter.setInfoVar(group, InfoType.GROUP, node, value);
+        }
+    }
     private String getPlayerInfoValue(String world, String player, String node) {
-        return mReader.getRawInfo(player, world, node);
+        return mReader.getInfo(player, InfoType.USER, world, node);
+    }
+    
+    private String getGroupInfoValue(String world, String group, String node) {
+        return mReader.getInfo(group, InfoType.GROUP, world, node);
     }
 }
