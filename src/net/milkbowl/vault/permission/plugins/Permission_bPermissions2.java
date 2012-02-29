@@ -150,7 +150,7 @@ public class Permission_bPermissions2 extends Permission {
     @Override
     public String getPrimaryGroup(String world, String player) {
         String[] groups = getPlayerGroups(world, player);
-        return groups != null ? groups[0] : null;
+        return groups != null && groups.length > 0 ? groups[0] : null;
     }
 
     @Override
