@@ -34,11 +34,10 @@ public class VaultEco implements Method {
 
     @Override
     public boolean createAccount(String name, Double amount) {
-        if (hasAccount(name)) {
+        if(!this.economy.createBank(name, "").transactionSuccess()) {
             return false;
         }
-
-        return false;
+        return this.economy.bankDeposit(name, amount).transactionSuccess();
     }
 
     public String getName() {
@@ -75,13 +74,6 @@ public class VaultEco implements Method {
 
     public boolean createAccount(String name) {
         return this.economy.createPlayerAccount(name);
-    }
-
-    public boolean createAccount(String name, double balance) {
-        if(!this.economy.createBank(name, "").transactionSuccess()) {
-            return false;
-        }
-        return this.economy.bankDeposit(name, balance).transactionSuccess();
     }
 
     public MethodAccount getAccount(String name) {
