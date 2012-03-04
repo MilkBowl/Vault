@@ -17,7 +17,6 @@ package net.milkbowl.vault.permission.plugins;
 
 import java.util.HashSet;
 import java.util.Set;
-import java.util.logging.Level;
 
 import net.milkbowl.vault.Vault;
 import net.milkbowl.vault.permission.Permission;
@@ -47,7 +46,7 @@ public class Permission_Permissions3 extends Permission {
     public Permission_Permissions3(Vault plugin) {
         this.plugin = plugin;
         Bukkit.getServer().getPluginManager().registerEvents(new PermissionServerListener(), plugin);
-        log.log(Level.SEVERE, "Permissions3 is outdated and WILL BREAK in CB-R5+ - It is highly recommended to update to a new permission plugin!");
+
         // Load Plugin in case it was loaded before
         if (permission == null) {
             Plugin perms = plugin.getServer().getPluginManager().getPlugin("Permissions");
