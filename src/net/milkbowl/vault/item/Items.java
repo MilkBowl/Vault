@@ -37,6 +37,7 @@ public class Items {
         items.add(new ItemInfo("Sapling", new String[][]{{"sapling"}}, Material.SAPLING));
         items.add(new ItemInfo("Redwood Sapling", new String[][]{{"sapling", "red"}}, Material.SAPLING, (short) 1));
         items.add(new ItemInfo("Birch Sapling", new String[][]{{"sapling", "birch"}}, Material.SAPLING, (short) 2));
+        items.add(new ItemInfo("Jungle Sapling", new String[][]{{"sapling", "jungle"}}, Material.SAPLING, (short) 3));
         items.add(new ItemInfo("Bedrock", new String[][]{{"rock"}}, Material.BEDROCK));
         items.add(new ItemInfo("Water", new String[][]{{"water"}}, Material.WATER));
         items.add(new ItemInfo("Lava", new String[][]{{"lava"}}, Material.LAVA));
@@ -48,12 +49,15 @@ public class Items {
         items.add(new ItemInfo("Log", new String[][]{{"log"}}, Material.LOG));
         items.add(new ItemInfo("Redwood Log", new String[][]{{"red", "log"}, {"red", "wood"}}, Material.LOG, (short) 1));
         items.add(new ItemInfo("Birch Log", new String[][]{{"birch"}, {"birch", "log"}}, Material.LOG, (short) 2));
+        items.add(new ItemInfo("Jungle Log", new String[][]{{"jung", "log"}}, Material.LOG, (short) 3));
         items.add(new ItemInfo("Leaves Block", new String[][]{{"blo", "leaf"}, {"blo", "leaves"}}, Material.LEAVES));
         items.add(new ItemInfo("Redwood Leaves Block", new String[][]{{"blo", "lea", "red"}}, Material.LEAVES, (short) 1));
         items.add(new ItemInfo("Birch Leaves Block", new String[][]{{"blo", "lea", "birch"}}, Material.LEAVES, (short) 2));
+        items.add(new ItemInfo("Jungle Leaves Block", new String[][]{{"blo", "lea", "jung"}}, Material.LEAVES, (short) 3));
         items.add(new ItemInfo("Leaves", new String[][]{{"leaf"}, {"leaves"}}, Material.LEAVES, (short) 4));
         items.add(new ItemInfo("Redwood Leaves", new String[][]{{"lea", "red"}}, Material.LEAVES, (short) 5));
         items.add(new ItemInfo("Birch Leaves", new String[][]{{"lea", "birch"}}, Material.LEAVES, (short) 6));
+        items.add(new ItemInfo("Jungle Leaves", new String[][]{{"lea", "jung"}}, Material.LEAVES, (short) 7));
         items.add(new ItemInfo("Sponge", new String[][]{{"sponge"}}, Material.SPONGE));
         items.add(new ItemInfo("Glass", new String[][]{{"glas"}, {"sili"}}, Material.GLASS));
         items.add(new ItemInfo("Lapis Lazuli Ore", new String[][]{{"laz", "ore"}, {"ore", "lapi"}}, Material.LAPIS_ORE));
@@ -151,6 +155,7 @@ public class Items {
         items.add(new ItemInfo("Melon Block", new String[][]{{"melon"}}, Material.MELON_BLOCK));
         items.add(new ItemInfo("Mossy Stone Brick", new String[][]{{"moss", "sto", "bri"}, {"moss", "smoo", "bri"}, {"moss", "smoo"}, {"moss", "sto"}}, Material.SMOOTH_BRICK, (short) 1));
         items.add(new ItemInfo("Cracked Stone Brick", new String[][]{{"cra", "sto", "bri"}, {"cra", "sto"}, {"cra", "smoo", "bri"}, {"cra", "smoo"}}, Material.SMOOTH_BRICK, (short) 2));
+        items.add(new ItemInfo("Circle Stone Brick", new String[][]{{"circ", "sto", "bri"}, {"cir", "sto"}, {"cir", "smoo", "bri"}}, Material.SMOOTH_BRICK, (short) 3));
         items.add(new ItemInfo("Brick Stairs", new String[][]{{"stair", "bri"}}, Material.BRICK_STAIRS));
         items.add(new ItemInfo("Fence Gate", new String[][]{{"gate", "fen"}, {"gate"}}, Material.FENCE_GATE));
         items.add(new ItemInfo("Vines", new String[][]{{"vine"}, {"ivy"}}, Material.VINE));
@@ -403,6 +408,7 @@ public class Items {
         items.add(new ItemInfo("strad Disc", new String[][] {{"strad", "disc"}, {"strad", "reco"}, {"9", "disc"}, {"9", "reco"}}, Material.RECORD_9));
         items.add(new ItemInfo("ward Disc", new String[][] {{"ward", "disc"}, {"ward", "reco"}, {"10", "disc"}, {"10", "reco"}}, Material.RECORD_10));
         items.add(new ItemInfo("11 Disc", new String[][] {{"11", "disc"}, {"11", "reco"}}, Material.RECORD_11));
+        items.add(new ItemInfo("Redstone Lamp", new String[][] {{"lamp"}, {"lamp", "red", "sto"}}, Material.REDSTONE_LAMP_OFF));
     }
 
     public static ItemInfo itemById(int typeId) {
