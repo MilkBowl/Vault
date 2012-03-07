@@ -33,7 +33,6 @@ import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import com.iConomy.iConomy;
-import com.iConomy.system.Account;
 import com.iConomy.system.Holdings;
 import com.iConomy.util.Constants;
 
@@ -82,39 +81,19 @@ public class Economy_iConomy5 implements Economy {
 
     @Override
     public EconomyResponse withdrawPlayer(String playerName, double amount) {
-        double balance;
-        EconomyResponse.ResponseType type;
-        String errorMessage = null;
-
-        Account account = iConomy.getAccount(playerName);
-        Holdings holdings = account.getHoldings();
+        Holdings holdings = iConomy.getAccount(playerName).getHoldings();
         if (holdings.hasEnough(amount)) {
             holdings.subtract(amount);
-            balance = getAccountBalance(playerName);
-            type = EconomyResponse.ResponseType.SUCCESS;
-            return new EconomyResponse(amount, balance, type, errorMessage);
+            return new EconomyResponse(amount, getAccountBalance(playerName), ResponseType.SUCCESS, null);
         } else {
-            amount = 0;
-            balance = getAccountBalance(playerName);
-            type = EconomyResponse.ResponseType.FAILURE;
-            errorMessage = "Insufficient funds";
-            return new EconomyResponse(amount, balance, type, errorMessage);
+            return new EconomyResponse(0, getAccountBalance(playerName), ResponseType.FAILURE, "Insufficient funds");
         }
     }
 
     @Override
     public EconomyResponse depositPlayer(String playerName, double amount) {
-        double balance;
-        EconomyResponse.ResponseType type;
-        String errorMessage = null;
-
-        Account account = iConomy.getAccount(playerName);
-        Holdings holdings = account.getHoldings();
-        holdings.add(amount);
-        balance = getAccountBalance(playerName);
-        type = EconomyResponse.ResponseType.SUCCESS;
-
-        return new EconomyResponse(amount, balance, type, errorMessage);
+        iConomy.getAccount(playerName).getHoldings().add(amount);
+        return new EconomyResponse(amount, getAccountBalance(playerName), EconomyResponse.ResponseType.SUCCESS, null);
     }
 
     public class EconomyServerListener implements Listener {
