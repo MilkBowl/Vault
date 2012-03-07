@@ -92,8 +92,9 @@ public class Economy_iConomy5 implements Economy {
 
     @Override
     public EconomyResponse depositPlayer(String playerName, double amount) {
-        iConomy.getAccount(playerName).getHoldings().add(amount);
-        return new EconomyResponse(amount, getAccountBalance(playerName), EconomyResponse.ResponseType.SUCCESS, null);
+        Holdings holdings = iConomy.getAccount(playerName).getHoldings();
+        holdings.add(amount);
+        return new EconomyResponse(amount, holdings.balance(), EconomyResponse.ResponseType.SUCCESS, null);
     }
 
     public class EconomyServerListener implements Listener {

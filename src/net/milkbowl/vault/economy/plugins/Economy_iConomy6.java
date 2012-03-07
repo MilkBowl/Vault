@@ -33,7 +33,6 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import com.iCo6.Constants;
 import com.iCo6.iConomy;
-import com.iCo6.system.Account;
 import com.iCo6.system.Accounts;
 import com.iCo6.system.Holdings;
 
@@ -129,35 +128,20 @@ public class Economy_iConomy6 implements Economy {
 
     @Override
     public EconomyResponse withdrawPlayer(String playerName, double amount) {
-        double balance;
-        EconomyResponse.ResponseType type;
-        String errorMessage = null;
-
-        Account account = accounts.get(playerName);
-        Holdings holdings = account.getHoldings();
+        Holdings holdings = accounts.get(playerName).getHoldings();
         if (holdings.hasEnough(amount)) {
             holdings.subtract(amount);
-            balance = holdings.getBalance();
-            type = EconomyResponse.ResponseType.SUCCESS;
-            return new EconomyResponse(amount, balance, type, errorMessage);
+            return new EconomyResponse(amount, holdings.getBalance(), ResponseType.SUCCESS, null);
         } else {
-            amount = 0;
-            balance = holdings.getBalance();
-            type = EconomyResponse.ResponseType.FAILURE;
-            errorMessage = "Insufficient funds";
-            return new EconomyResponse(amount, balance, type, errorMessage);
+            return new EconomyResponse(0, holdings.getBalance(), ResponseType.FAILURE, "Insufficient funds");
         }
     }
 
     @Override
     public EconomyResponse depositPlayer(String playerName, double amount) {
-        double balance;
-
         Holdings holdings = accounts.get(playerName).getHoldings();
         holdings.add(amount);
-        balance = holdings.getBalance();
-
-        return new EconomyResponse(amount, balance, ResponseType.SUCCESS, null);
+        return new EconomyResponse(amount, holdings.getBalance(), ResponseType.SUCCESS, null);
     }
 
     @Override
@@ -167,14 +151,15 @@ public class Economy_iConomy6 implements Economy {
 
     @Override
     public EconomyResponse createBank(String name, String player) {
-        if (accounts.exists(name))
+        if (accounts.exists(name)) {
             return new EconomyResponse(0, accounts.get(name).getHoldings().getBalance(), ResponseType.FAILURE, "That account already exists.");
-
+        }
         boolean created = accounts.create(name);
-        if (created)
+        if (created) {
             return new EconomyResponse(0, 0, ResponseType.SUCCESS, "");
-        else 
+        } else { 
             return new EconomyResponse(0, 0, ResponseType.FAILURE, "There was an error creating the account");
+        }
 
     }
 
@@ -189,10 +174,11 @@ public class Economy_iConomy6 implements Economy {
 
     @Override
     public EconomyResponse bankHas(String name, double amount) {
-        if (has(name, amount))
+        if (has(name, amount)) {
             return new EconomyResponse(0, amount, ResponseType.SUCCESS, "");
-        else
+        } else {
             return new EconomyResponse(0, accounts.get(name).getHoldings().getBalance(), ResponseType.FAILURE, "The account does not have enough!");
+        }
     }
 
     @Override
@@ -217,10 +203,11 @@ public class Economy_iConomy6 implements Economy {
 
     @Override
     public EconomyResponse bankBalance(String name) {
-        if (!accounts.exists(name))
+        if (!accounts.exists(name)) {
             return new EconomyResponse(0, 0, ResponseType.FAILURE, "There is no bank account with that name");
-        else
+        } else {
             return new EconomyResponse(0, accounts.get(name).getHoldings().getBalance(), ResponseType.SUCCESS, null);
+        }
     }
 
     @Override
