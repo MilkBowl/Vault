@@ -394,9 +394,12 @@ public class Items {
         items.add(new ItemInfo("Cow Spawn Egg", new String[][] {{"cow", "egg"}}, Material.MONSTER_EGG, (short) 92));
         items.add(new ItemInfo("Chicken Spawn Egg", new String[][] {{"chick", "egg"}}, Material.MONSTER_EGG, (short) 93));
         items.add(new ItemInfo("Squid Spawn Egg", new String[][] {{"squ", "egg"}}, Material.MONSTER_EGG, (short) 94));
-        items.add(new ItemInfo("Wolf Spawn Egg", new String[][] {{"wolf", "egg"}}, Material.MONSTER_EGG, (short )95));
+        items.add(new ItemInfo("Wolf Spawn Egg", new String[][] {{"wolf", "egg"}}, Material.MONSTER_EGG, (short) 95));
         items.add(new ItemInfo("Mooshroom Spawn Egg", new String[][] {{"moo", "room", "egg"}, {"mush", "cow", "egg"}}, Material.MONSTER_EGG, (short) 96));
+        items.add(new ItemInfo("Ocelot Spawn Egg", new String[][] {{"oce", "egg"}}, Material.MONSTER_EGG, (short) 98));
         items.add(new ItemInfo("Villager Spawn Egg", new String[][] {{"vill", "egg"}, {"testi", "egg"}}, Material.MONSTER_EGG, (short) 120));
+        items.add(new ItemInfo("Bottle 'o Enchanting", new String[][] {{"bot", "ench"}, {"bot", "xp"}}, Material.EXP_BOTTLE));
+        items.add(new ItemInfo("Fire Charge", new String[][] {{"fir", "char"}}, Material.FIREBALL));
         items.add(new ItemInfo("Gold Music Disc", new String[][]{{"dis", "gol"}, {"rec", "gol"}}, Material.GOLD_RECORD));
         items.add(new ItemInfo("Green Music Disc", new String[][]{{"dis", "gre"}, {"rec", "gre"}}, Material.GREEN_RECORD));
         items.add(new ItemInfo("blocks Disc", new String[][] {{"block", "disc"}, {"block", "reco"}, {"3", "disc"}, {"3", "reco"}}, Material.RECORD_3));
