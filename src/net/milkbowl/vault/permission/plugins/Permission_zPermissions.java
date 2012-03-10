@@ -15,6 +15,7 @@
  */
 package net.milkbowl.vault.permission.plugins;
 
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -32,11 +33,15 @@ import org.bukkit.event.server.PluginEnableEvent;
 import org.bukkit.permissions.PermissionAttachmentInfo;
 import org.bukkit.plugin.Plugin;
 import org.tyrannyofheaven.bukkit.zPermissions.ZPermissionsPlugin;
+import org.tyrannyofheaven.bukkit.zPermissions.dao.PermissionDao;
+import org.tyrannyofheaven.bukkit.zPermissions.model.Entry;
+import org.tyrannyofheaven.bukkit.zPermissions.model.PermissionEntity;
 
 public class Permission_zPermissions extends Permission {
 
     private final String name = "zPermissions";
-    private ZPermissionsPlugin perms;
+    private ZPermissionsPlugin perms = null;
+    private PermissionDao dao = null;
     private final ConsoleCommandSender ccs;
 
     public Permission_zPermissions(Vault plugin) {
@@ -48,6 +53,16 @@ public class Permission_zPermissions extends Permission {
             Plugin p = plugin.getServer().getPluginManager().getPlugin("zPermissions");
             if (p != null) {
                 perms = (ZPermissionsPlugin) p;
+                try {
+                    Field f = perms.getClass().getField("dao");
+                    f.setAccessible(true);
+                    dao = (PermissionDao) f.get(perms);
+                } catch (SecurityException e) {
+                } catch (NoSuchFieldException e) {
+                } catch (IllegalArgumentException e) {
+                } catch (IllegalAccessException e) {
+                }
+                
                 log.info(String.format("[%s][Permission] %s hooked.", plugin.getDescription().getName(), name));
             }
         }
@@ -61,6 +76,15 @@ public class Permission_zPermissions extends Permission {
                 Plugin p = event.getPlugin();
                 if(p.getDescription().getName().equals("zPermissions") && p.isEnabled()) {
                     perms = (ZPermissionsPlugin) p;
+                    try {
+                        Field f = perms.getClass().getField("dao");
+                        f.setAccessible(true);
+                        dao = (PermissionDao) f.get(perms);
+                    } catch (SecurityException e) {
+                    } catch (NoSuchFieldException e) {
+                    } catch (IllegalArgumentException e) {
+                    } catch (IllegalAccessException e) {
+                    }
                     log.info(String.format("[%s][Permission] %s hooked.", plugin.getDescription().getName(), name));
                 }
             }
@@ -71,7 +95,7 @@ public class Permission_zPermissions extends Permission {
             if (perms != null) {
                 if (event.getPlugin().getDescription().getName().equals("zPermissions")) {
                     perms = null;
-                    perms = null;
+                    dao = null;
                     log.info(String.format("[%s][Permission] %s un-hooked.", plugin.getDescription().getName(), name));
                 }
             }
@@ -100,23 +124,35 @@ public class Permission_zPermissions extends Permission {
     @Override
     public boolean playerHas(String world, String player, String permission) {
         Player p = Bukkit.getServer().getPlayer(player);
-        if (p == null)
-            throw new UnsupportedOperationException(getName() + " does not support offline player resolution.");
-        else
+        if (p == null) {
+            if (dao != null) {
+                PermissionEntity entity = dao.getEntity(player, false);
+                for (Entry e : entity.getPermissions()) {
+                    if (e.getPermission().equalsIgnoreCase(permission)) {
+                        return true;
+                    }
+                }
+                return false;
+            }
+            return false;
+        } else {
             return playerHas(p, permission);
+        }
     }
 
     @Override
     public boolean playerAdd(String world, String player, String permission) {
-        if (world != null)
+        if (world != null) {
             return false;
+        }
         return plugin.getServer().dispatchCommand(ccs, "permissions player set " + player + " " + permission);
     }
 
     @Override
     public boolean playerRemove(String world, String player, String permission) {
-        if (world != null)
+        if (world != null) {
             return false;
+        }
         return plugin.getServer().dispatchCommand(ccs, "permissions player unset " + player + " " + permission);
     }
 
@@ -127,47 +163,55 @@ public class Permission_zPermissions extends Permission {
 
     @Override
     public boolean groupAdd(String world, String group, String permission) {
-        if (world != null)
+        if (world != null) {
             return false;
+        }
         return plugin.getServer().dispatchCommand(ccs, "permissions group set " + group + " " + permission);
     }
 
     @Override
     public boolean groupRemove(String world, String group, String permission) {
-        if (world != null)
+        if (world != null) {
             return false;
+        }
         return plugin.getServer().dispatchCommand(ccs, "permissions group unset " + group + " " + permission);
     }
 
     @Override
     public boolean playerInGroup(String world, String player, String group) {
         Player p = Bukkit.getServer().getPlayer(player);
-        if (p == null)
-            throw new UnsupportedOperationException(getName() + " does not support offline player resolution.");
-
+        if (p == null) {
+            if (dao != null) {
+                return dao.getMembers(group).contains(player);
+            } else {
+                return false;
+            }
+        }
         return p.hasPermission("group." + group);
     }
 
     @Override
     public boolean playerAddGroup(String world, String player, String group) {
-        if (world != null)
+        if (world != null) {
             return false;
+        }
         return plugin.getServer().dispatchCommand(ccs, "permissions group add " + player);
     }
 
     @Override
     public boolean playerRemoveGroup(String world, String player, String group) {
-        if (world != null)
+        if (world != null) {
             return false;
+        }
         return plugin.getServer().dispatchCommand(ccs, "permissions group remove " + player);
     }
 
     @Override
     public String[] getPlayerGroups(String world, String player) {
         Player p = Bukkit.getServer().getPlayer(player);
-        if (p == null)
+        if (p == null) {
             throw new UnsupportedOperationException(getName() + " does not support offline player resolution.");
-
+        }
         List<String> groups = new ArrayList<String>();
         for (PermissionAttachmentInfo pai : p.getEffectivePermissions()) {
             if (!pai.getPermission().startsWith("group.") || !pai.getValue())
