@@ -30,7 +30,7 @@
 		<dependency>
 			<groupId>is.currency</groupId>
 			<artifactId>Currency</artifactId>
-			<version>0.6</version>
+			<version>0.61</version>
 			<scope>system</scope>
 			<systemPath>${project.basedir}/lib/CurrencyCore.jar</systemPath>
 		</dependency>
@@ -51,7 +51,7 @@
 		<dependency>
 			<groupId>ca.agnate.EconXP.EconXP</groupId>
 			<artifactId>EconXP</artifactId>
-			<version>0.2.1</version>
+			<version>0.4.1</version>
 			<scope>system</scope>
 			<systemPath>${project.basedir}/lib/EconXP.jar</systemPath>
 		</dependency>
