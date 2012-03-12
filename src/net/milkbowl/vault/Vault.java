@@ -36,6 +36,7 @@ import net.milkbowl.vault.chat.plugins.Chat_mChat;
 import net.milkbowl.vault.chat.plugins.Chat_mChatSuite;
 import net.milkbowl.vault.economy.Economy;
 import net.milkbowl.vault.economy.plugins.Economy_3co;
+import net.milkbowl.vault.economy.plugins.Economy_AEco;
 import net.milkbowl.vault.economy.plugins.Economy_BOSE6;
 import net.milkbowl.vault.economy.plugins.Economy_BOSE7;
 import net.milkbowl.vault.economy.plugins.Economy_Craftconomy;
@@ -235,7 +236,14 @@ public class Vault extends JavaPlugin {
             log.info(String.format("[%s][Economy] MineConomy found: %s", getDescription().getName(), econ.isEnabled() ? "Loaded" : "Waiting"));
 
         }
-
+        
+        //Try Loading AEco
+        if (packageExists("org.neocraft.AEco.AEco")) {
+            Economy econ = new Economy_AEco(this);
+            sm.register(Economy.class, econ, this, ServicePriority.Normal);
+            log.info(String.format("[%s][Economy] AEco found: %s", getDescription().getName(), econ.isEnabled() ? "Loaded" : "Waiting"));
+        }
+        
         //Try Loading McMoney
         if (packageExists("boardinggamer.mcmoney.McMoneyAPI")) {
             Economy econ = new Economy_McMoney(this);
