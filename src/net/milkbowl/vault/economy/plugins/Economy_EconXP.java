@@ -17,6 +17,7 @@ package net.milkbowl.vault.economy.plugins;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import net.milkbowl.vault.economy.Economy;
@@ -44,7 +45,7 @@ public class Economy_EconXP implements Economy {
     public Economy_EconXP(Plugin plugin) {
         this.plugin = plugin;
         Bukkit.getServer().getPluginManager().registerEvents(new EconomyServerListener(this), plugin);
-
+        log.log(Level.WARNING, "EconXP is an integer only economy, you may notice inconsistencies with accounts if you do not setup your other econ using plugins accordingly!");
         // Load Plugin in case it was loaded before
         if (econ == null) {
             Plugin econ = plugin.getServer().getPluginManager().getPlugin("EconXP");

@@ -19,6 +19,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import net.milkbowl.vault.economy.Economy;
@@ -45,7 +46,7 @@ public class Economy_AEco implements Economy {
     public Economy_AEco(Plugin plugin) {
         this.plugin = plugin;
         Bukkit.getServer().getPluginManager().registerEvents(new EconomyServerListener(this), plugin);
-
+        log.log(Level.WARNING, "AEco is an integer only economy, you may notice inconsistencies with accounts if you do not setup your other econ using plugins accordingly!");
         // Load Plugin in case it was loaded before
         if (economy == null) {
             Plugin econ = plugin.getServer().getPluginManager().getPlugin("AEco");
@@ -127,6 +128,12 @@ public class Economy_AEco implements Economy {
 
                 if (eco != null && eco.isEnabled()) {
                     economy.economy = AEco.ECONOMY;
+                    try {
+                        createWallet = economy.getClass().getMethod("createWallet", String.class);
+                        createWallet.setAccessible(true);
+                    } catch (SecurityException e) {
+                    } catch (NoSuchMethodException e) {
+                    }
                     log.info(String.format("[%s][Economy] %s hooked.", plugin.getDescription().getName(), economy.name));
                 }
             }
