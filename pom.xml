@@ -156,9 +156,9 @@
 		<dependency>
 			<groupId>com.platymuus.bukkit.permissions.PermissionsPlugin</groupId>
 			<artifactId>PermissionsBukkit</artifactId>
-			<version>1.2</version>
+			<version>1.6</version>
 			<scope>system</scope>
-			<systemPath>${project.basedir}/lib/PermissionsBukkit-1.2.jar</systemPath>
+			<systemPath>${project.basedir}/lib/PermissionsBukkit.jar</systemPath>
 		</dependency>
 		<dependency>
 			<groupId>com.palmergames.bukkit.towny.Towny</groupId>

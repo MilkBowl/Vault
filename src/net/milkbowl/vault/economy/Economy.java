@@ -44,8 +44,8 @@ public interface Economy {
 
     /**
      * Format amount into a human readable String This provides translation into
-     * economy specific formatting to improve consistency between plugins.
-     * Should be used when possible.
+     * economy specific formatting to improve consistency between plugins.  
+     *
      * @param amount
      * @return Human readable string describing amount
      */
