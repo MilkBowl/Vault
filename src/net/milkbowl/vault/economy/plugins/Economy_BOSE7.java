@@ -79,68 +79,34 @@ public class Economy_BOSE7 implements Economy {
 
     @Override
     public EconomyResponse withdrawPlayer(String playerName, double amount) {
-        double balance;
-        EconomyResponse.ResponseType type;
-        String errorMessage = null;
-
         if (amount < 0) {
-            errorMessage = "Cannot withdraw negative funds";
-            type = EconomyResponse.ResponseType.FAILURE;
-            amount = 0;
-            balance = economy.getPlayerMoneyDouble(playerName);
-
-            return new EconomyResponse(amount, balance, type, errorMessage);
+            return new EconomyResponse(0, economy.getPlayerMoneyDouble(playerName), ResponseType.FAILURE, "Cannot withdraw negative funds");
         }
 
-        balance = economy.getPlayerMoneyDouble(playerName);
-        if (balance - amount < 0) {
-            errorMessage = "Insufficient funds";
-            type = EconomyResponse.ResponseType.FAILURE;
-            amount = 0;
-
-            return new EconomyResponse(amount, balance, type, errorMessage);
+        if (!has(playerName, amount)) {
+            return new EconomyResponse(0, economy.getPlayerMoneyDouble(playerName), ResponseType.FAILURE, "Insufficient funds");
         }
+        
+        double balance = economy.getPlayerMoneyDouble(playerName);
         if (economy.setPlayerMoney(playerName, balance - amount, false)) {
-            type = EconomyResponse.ResponseType.SUCCESS;
             balance = economy.getPlayerMoneyDouble(playerName);
-
-            return new EconomyResponse(amount, balance, type, errorMessage);
+            return new EconomyResponse(amount, balance, ResponseType.SUCCESS, "");
         } else {
-            errorMessage = "Error withdrawing funds";
-            type = EconomyResponse.ResponseType.FAILURE;
-            amount = 0;
-            balance = economy.getPlayerMoneyDouble(playerName);
-
-            return new EconomyResponse(amount, balance, type, errorMessage);
+              return new EconomyResponse(0, balance, ResponseType.FAILURE, "Error withdrawing funds");
         }
     }
 
     @Override
     public EconomyResponse depositPlayer(String playerName, double amount) {
-        double balance;
-        EconomyResponse.ResponseType type;
-        String errorMessage = null;
-
         if (amount < 0) {
-            errorMessage = "Cannot deposit negative funds";
-            type = EconomyResponse.ResponseType.FAILURE;
-            amount = 0;
-
-            return new EconomyResponse(amount, economy.getPlayerMoneyDouble(playerName), type, errorMessage);
+            return new EconomyResponse(0, economy.getPlayerMoneyDouble(playerName), ResponseType.FAILURE, "Cannot deposit negative funds");
         }
-        balance = economy.getPlayerMoneyDouble(playerName);
+        double balance = economy.getPlayerMoneyDouble(playerName);
         if (economy.setPlayerMoney(playerName, balance + amount, false)) {
-            type = EconomyResponse.ResponseType.SUCCESS;
             balance = economy.getPlayerMoneyDouble(playerName);
-
-            return new EconomyResponse(amount, balance, type, errorMessage);
+            return new EconomyResponse(amount, balance, ResponseType.SUCCESS, "");
         } else {
-            errorMessage = "Error withdrawing funds";
-            type = EconomyResponse.ResponseType.FAILURE;
-            amount = 0;
-            balance = economy.getPlayerMoneyDouble(playerName);
-
-            return new EconomyResponse(amount, balance, type, errorMessage);
+            return new EconomyResponse(0, balance, ResponseType.FAILURE, "Error depositing funds");
         }
     }
 
