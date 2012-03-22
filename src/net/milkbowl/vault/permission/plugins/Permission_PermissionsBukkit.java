@@ -30,6 +30,7 @@ import org.bukkit.event.server.PluginEnableEvent;
 import org.bukkit.plugin.Plugin;
 
 import com.platymuus.bukkit.permissions.Group;
+import com.platymuus.bukkit.permissions.PermissionInfo;
 import com.platymuus.bukkit.permissions.PermissionsPlugin;
 
 public class Permission_PermissionsBukkit extends Permission {
@@ -189,7 +190,8 @@ public class Permission_PermissionsBukkit extends Permission {
 	@Override
 	public String[] getPlayerGroups(String world, String player) {
 		List<String> groupList = new ArrayList<String>();
-		if (world != null && perms.getPlayerInfo(player) != null) {
+		PermissionInfo info = perms.getPlayerInfo(player);
+		if (world != null && info != null) {
 			for (Group group : perms.getPlayerInfo(player).getGroups()) {
 				if (group.getInfo().getWorlds().contains(world)) {
 					groupList.add(group.getName());
@@ -197,8 +199,10 @@ public class Permission_PermissionsBukkit extends Permission {
 			}
 			return groupList.toArray(new String[0]);
 		}
-		for (Group group : perms.getPlayerInfo(player).getGroups()) {
-			groupList.add(group.getName());
+		if (info != null) {
+			for (Group group : info.getGroups()) {
+				groupList.add(group.getName());
+			}
 		}
 		return groupList.toArray(new String[0]);
 	}
