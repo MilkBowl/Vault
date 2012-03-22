@@ -120,10 +120,11 @@ public class Economy_iConomy6 implements Economy {
 
     @Override
     public double getBalance(String playerName) {
-        if (accounts.exists(playerName))
+        if (accounts.exists(playerName)) {
             return accounts.get(playerName).getHoldings().getBalance();
-        else
+        } else {
             return 0;
+        }
     }
 
     @Override

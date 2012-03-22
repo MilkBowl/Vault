@@ -34,6 +34,9 @@ public class Items {
         items.add(new ItemInfo("Dirt", new String[][]{{"dirt"}}, Material.DIRT));
         items.add(new ItemInfo("Cobblestone", new String[][]{{"cobb", "sto"}, {"cobb"}}, Material.COBBLESTONE));
         items.add(new ItemInfo("Wooden Plank", new String[][]{{"wood"}, {"wood", "plank"}}, Material.WOOD));
+        items.add(new ItemInfo("Pine Plank", new String[][]{{"pine", "plank"}, {"pine", "wood"}}, Material.WOOD, (short) 1));
+        items.add(new ItemInfo("Birch Plank", new String[][]{{"birch", "plank"}, {"birch", "wood"}}, Material.WOOD, (short) 2));
+        items.add(new ItemInfo("Jungle Plank", new String[][]{{"jung", "plank"}, {"jung", "wood"}}, Material.WOOD, (short) 3));
         items.add(new ItemInfo("Sapling", new String[][]{{"sapling"}}, Material.SAPLING));
         items.add(new ItemInfo("Redwood Sapling", new String[][]{{"sapling", "red"}}, Material.SAPLING, (short) 1));
         items.add(new ItemInfo("Birch Sapling", new String[][]{{"sapling", "birch"}}, Material.SAPLING, (short) 2));
