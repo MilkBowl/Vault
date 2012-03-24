@@ -363,10 +363,10 @@ public class Vault extends JavaPlugin {
         }
 
         //Try to load zPermission
-        if (packageExists("org.tyrannyofheaven.bukkit.zPermissions")) {
+        if (packageExists("org.tyrannyofheaven.bukkit.zPermissions.ZPermissionsPlugin")) {
             Permission zPerms = new Permission_zPermissions(this);
             sm.register(Permission.class, zPerms, this, ServicePriority.Highest);
-            log.info(String.format("[%s][Permission] GroupManager found: %s", getDescription().getName(), zPerms.isEnabled() ? "Loaded" : "Waiting"));
+            log.info(String.format("[%s][Permission] zPermissions found: %s", getDescription().getName(), zPerms.isEnabled() ? "Loaded" : "Waiting"));
         }
 
         //Try to load bPermissions
