@@ -15,14 +15,15 @@
  */
 package net.milkbowl.vault.permission.plugins;
 
-import java.lang.reflect.Field;
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import net.milkbowl.vault.Vault;
 import net.milkbowl.vault.permission.Permission;
 
 import org.bukkit.Bukkit;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -30,41 +31,23 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.server.PluginDisableEvent;
 import org.bukkit.event.server.PluginEnableEvent;
-import org.bukkit.permissions.PermissionAttachmentInfo;
-import org.bukkit.plugin.Plugin;
-import org.tyrannyofheaven.bukkit.zPermissions.ZPermissionsPlugin;
-import org.tyrannyofheaven.bukkit.zPermissions.dao.PermissionDao;
-import org.tyrannyofheaven.bukkit.zPermissions.model.Entry;
-import org.tyrannyofheaven.bukkit.zPermissions.model.PermissionEntity;
+import org.tyrannyofheaven.bukkit.zPermissions.ZPermissionsService;
 
 public class Permission_zPermissions extends Permission {
 
     private final String name = "zPermissions";
-    private ZPermissionsPlugin perms = null;
-    private PermissionDao dao = null;
+    private ZPermissionsService service;
     private final ConsoleCommandSender ccs;
 
     public Permission_zPermissions(Vault plugin) {
         this.plugin = plugin;
         ccs = Bukkit.getServer().getConsoleSender();
         Bukkit.getServer().getPluginManager().registerEvents(new PermissionServerListener(), plugin);
-        // Load Plugin in case it was loaded before
-        if (perms == null) {
-            Plugin p = plugin.getServer().getPluginManager().getPlugin("zPermissions");
-            if (p != null) {
-                perms = (ZPermissionsPlugin) p;
-                try {
-                    Field f = perms.getClass().getField("dao");
-                    f.setAccessible(true);
-                    dao = (PermissionDao) f.get(perms);
-                } catch (SecurityException e) {
-                } catch (NoSuchFieldException e) {
-                } catch (IllegalArgumentException e) {
-                } catch (IllegalAccessException e) {
-                }
-                
+        // Load service in case it was loaded before
+        if (service == null) {
+            service = plugin.getServer().getServicesManager().load(ZPermissionsService.class);
+            if (service != null)
                 log.info(String.format("[%s][Permission] %s hooked.", plugin.getDescription().getName(), name));
-            }
         }
     }
 
@@ -72,30 +55,18 @@ public class Permission_zPermissions extends Permission {
         
         @EventHandler(priority = EventPriority.MONITOR)
         public void onPluginEnable(PluginEnableEvent event) {
-            if (perms == null) {
-                Plugin p = event.getPlugin();
-                if(p.getDescription().getName().equals("zPermissions") && p.isEnabled()) {
-                    perms = (ZPermissionsPlugin) p;
-                    try {
-                        Field f = perms.getClass().getField("dao");
-                        f.setAccessible(true);
-                        dao = (PermissionDao) f.get(perms);
-                    } catch (SecurityException e) {
-                    } catch (NoSuchFieldException e) {
-                    } catch (IllegalArgumentException e) {
-                    } catch (IllegalAccessException e) {
-                    }
+            if (service == null) {
+                service = plugin.getServer().getServicesManager().load(ZPermissionsService.class);
+                if (service != null)
                     log.info(String.format("[%s][Permission] %s hooked.", plugin.getDescription().getName(), name));
-                }
             }
         }
 
         @EventHandler(priority = EventPriority.MONITOR)
         public void onPluginDisable(PluginDisableEvent event) {
-            if (perms != null) {
+            if (service != null) {
                 if (event.getPlugin().getDescription().getName().equals("zPermissions")) {
-                    perms = null;
-                    dao = null;
+                    service = null;
                     log.info(String.format("[%s][Permission] %s un-hooked.", plugin.getDescription().getName(), name));
                 }
             }
@@ -109,11 +80,7 @@ public class Permission_zPermissions extends Permission {
 
     @Override
     public boolean isEnabled() {
-        if (perms == null) {
-            return false;
-        } else {
-            return perms.isEnabled();
-        }
+        return service != null;
     }
 
     @Override
@@ -125,15 +92,17 @@ public class Permission_zPermissions extends Permission {
     public boolean playerHas(String world, String player, String permission) {
         Player p = Bukkit.getServer().getPlayer(player);
         if (p == null) {
-            if (dao != null) {
-                PermissionEntity entity = dao.getEntity(player, false);
-                for (Entry e : entity.getPermissions()) {
-                    if (e.getPermission().equalsIgnoreCase(permission)) {
-                        return true;
-                    }
-                }
-                return false;
+            Map<String, Boolean> perms = service.getPlayerPermissions(world, null, player);
+            Boolean value = perms.get(permission.toLowerCase());
+            if (value != null)
+                return value;
+            // Use default at this point
+            org.bukkit.permissions.Permission perm = Bukkit.getPluginManager().getPermission(permission);
+            if (perm != null) {
+                OfflinePlayer op = Bukkit.getServer().getOfflinePlayer(player);
+                return perm.getDefault().getValue(op != null ? op.isOp() : false);
             }
+            // Have no clue
             return false;
         } else {
             return playerHas(p, permission);
@@ -145,7 +114,7 @@ public class Permission_zPermissions extends Permission {
         if (world != null) {
             return false;
         }
-        return plugin.getServer().dispatchCommand(ccs, "permissions player set " + player + " " + permission);
+        return plugin.getServer().dispatchCommand(ccs, "permissions player " + player + " set " + permission);
     }
 
     @Override
@@ -153,11 +122,20 @@ public class Permission_zPermissions extends Permission {
         if (world != null) {
             return false;
         }
-        return plugin.getServer().dispatchCommand(ccs, "permissions player unset " + player + " " + permission);
+        return plugin.getServer().dispatchCommand(ccs, "permissions player " + player + " unset " + permission);
     }
 
     @Override
     public boolean groupHas(String world, String group, String permission) {
+        Map<String, Boolean> perms = service.getGroupPermissions(world, null, group);
+        Boolean value = perms.get(permission.toLowerCase());
+        if (value != null)
+            return value;
+        // Use default, if possible
+        org.bukkit.permissions.Permission perm = Bukkit.getPluginManager().getPermission(permission);
+        if (perm != null)
+            return perm.getDefault().getValue(false); // OP flag assumed to be false...
+        // Who knows...
         return false;
     }
 
@@ -166,7 +144,7 @@ public class Permission_zPermissions extends Permission {
         if (world != null) {
             return false;
         }
-        return plugin.getServer().dispatchCommand(ccs, "permissions group set " + group + " " + permission);
+        return plugin.getServer().dispatchCommand(ccs, "permissions group " + group + " set " + permission);
     }
 
     @Override
@@ -174,20 +152,19 @@ public class Permission_zPermissions extends Permission {
         if (world != null) {
             return false;
         }
-        return plugin.getServer().dispatchCommand(ccs, "permissions group unset " + group + " " + permission);
+        return plugin.getServer().dispatchCommand(ccs, "permissions group " + group + " unset " + permission);
     }
 
     @Override
     public boolean playerInGroup(String world, String player, String group) {
-        Player p = Bukkit.getServer().getPlayer(player);
-        if (p == null) {
-            if (dao != null) {
-                return dao.getMembers(group).contains(player);
-            } else {
-                return false;
+        Set<String> groups = service.getPlayerGroups(player);
+        // Groups are case-insensitive...
+        for (String g : groups) {
+            if (g.equalsIgnoreCase(group)) {
+                return true;
             }
         }
-        return p.hasPermission("group." + group);
+        return false;
     }
 
     @Override
@@ -195,7 +172,7 @@ public class Permission_zPermissions extends Permission {
         if (world != null) {
             return false;
         }
-        return plugin.getServer().dispatchCommand(ccs, "permissions group add " + player);
+        return plugin.getServer().dispatchCommand(ccs, "permissions group " + group + " add " + player);
     }
 
     @Override
@@ -203,31 +180,26 @@ public class Permission_zPermissions extends Permission {
         if (world != null) {
             return false;
         }
-        return plugin.getServer().dispatchCommand(ccs, "permissions group remove " + player);
+        return plugin.getServer().dispatchCommand(ccs, "permissions group " + group + " remove " + player);
     }
 
     @Override
     public String[] getPlayerGroups(String world, String player) {
-        Player p = Bukkit.getServer().getPlayer(player);
-        if (p == null) {
-            throw new UnsupportedOperationException(getName() + " does not support offline player resolution.");
-        }
-        List<String> groups = new ArrayList<String>();
-        for (PermissionAttachmentInfo pai : p.getEffectivePermissions()) {
-            if (!pai.getPermission().startsWith("group.") || !pai.getValue())
-                continue;
-            groups.add(pai.getPermission().substring(6));
-        }
-        return groups.toArray(new String[0]);
+        return service.getPlayerGroups(player).toArray(new String[0]);
     }
 
     @Override
     public String getPrimaryGroup(String world, String player) {
-        throw new UnsupportedOperationException(getName() + " does not support primary group resolution.");
+        // Has no concept of primary group... use highest-priority assigned group instead
+        List<String> groups = service.getPlayerAssignedGroups(player);
+        if (!groups.isEmpty())
+            return groups.get(0);
+        else
+            return null;
     }
 
     @Override
     public String[] getGroups() {
-        throw new UnsupportedOperationException(getName() + " does not support group resolution.");
+        return service.getAllGroups().toArray(new String[0]);
     }
 }
