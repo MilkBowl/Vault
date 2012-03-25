@@ -130,7 +130,7 @@
 			<artifactId>mChatSuite</artifactId>
 			<version>DEV</version>
 			<scope>system</scope>
-			<systemPath>${project.basedir}/lib/mChatSuite-DEV.jar</systemPath>
+			<systemPath>${project.basedir}/lib/mChatSuite.jar</systemPath>
 		</dependency>
 		<dependency>
 			<groupId>me.mjolnir.mineconomy.MineConomy</groupId>

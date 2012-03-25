@@ -16,10 +16,9 @@
 package net.milkbowl.vault.chat.plugins;
 
 import in.mDev.MiracleM4n.mChatSuite.mChatSuite;
+import in.mDev.MiracleM4n.mChatSuite.api.InfoReader;
 import in.mDev.MiracleM4n.mChatSuite.api.InfoType;
-import in.mDev.MiracleM4n.mChatSuite.api.MInfoReader;
-import in.mDev.MiracleM4n.mChatSuite.api.MInfoWriter;
-
+import in.mDev.MiracleM4n.mChatSuite.api.InfoWriter;
 import java.util.logging.Logger;
 
 import net.milkbowl.vault.chat.Chat;
@@ -38,8 +37,8 @@ public class Chat_mChatSuite extends Chat {
     private final String name = "mChatSuite";
     private Plugin plugin = null;
     private mChatSuite mChat = null;
-    private MInfoReader mReader = null;
-    private MInfoWriter mWriter = null;
+    private InfoReader mReader = null;
+    private InfoWriter mWriter = null;
 
     public Chat_mChatSuite(Plugin plugin, Permission permissions) {
         super(permissions);
