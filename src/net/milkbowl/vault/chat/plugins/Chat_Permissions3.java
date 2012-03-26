@@ -52,7 +52,7 @@ public class Chat_Permissions3 extends Chat {
 				if (perms.isEnabled() && perms.getDescription().getVersion().startsWith("3")) {
 					chat = (Permissions) perms;
 					this.perms = chat.getHandler();
-					log.info(String.format("[%s][Permission] %s hooked.", plugin.getDescription().getName(), name));
+					log.info(String.format("[%s][Chat] %s hooked.", plugin.getDescription().getName(), name));
 				}
 			}
 		}
@@ -68,7 +68,7 @@ public class Chat_Permissions3 extends Chat {
 					if (permChat.isEnabled()) {
 						chat = (Permissions) permChat;
 						perms = chat.getHandler();
-						log.info(String.format("[%s][Permission] %s hooked.", plugin.getDescription().getName(), name));
+						log.info(String.format("[%s][Chat] %s hooked.", plugin.getDescription().getName(), name));
 					}
 				}
 			}
@@ -80,7 +80,7 @@ public class Chat_Permissions3 extends Chat {
 				if (event.getPlugin().getDescription().getName().equals("Permissions")) {
 					chat = null;
 					perms = null;
-					log.info(String.format("[%s][Permission] %s un-hooked.", plugin.getDescription().getName(), name));
+					log.info(String.format("[%s][Chat] %s un-hooked.", plugin.getDescription().getName(), name));
 				}
 			}
 		}

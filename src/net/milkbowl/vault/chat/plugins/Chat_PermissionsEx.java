@@ -51,7 +51,7 @@ public class Chat_PermissionsEx extends Chat {
             if (perms != null) {
                 if (perms.isEnabled()) {
                     chat = (PermissionsEx) perms;
-                    log.info(String.format("[%s][Permission] %s hooked.", plugin.getDescription().getName(), name));
+                    log.info(String.format("[%s][Chat] %s hooked.", plugin.getDescription().getName(), name));
                 }
             }
         }
@@ -72,7 +72,7 @@ public class Chat_PermissionsEx extends Chat {
                 if (perms != null) {
                     if (perms.isEnabled()) {
                         chat.chat = (PermissionsEx) perms;
-                        log.info(String.format("[%s][Permission] %s hooked.", plugin.getDescription().getName(), chat.name));
+                        log.info(String.format("[%s][Chat] %s hooked.", plugin.getDescription().getName(), chat.name));
                     }
                 }
             }
@@ -83,7 +83,7 @@ public class Chat_PermissionsEx extends Chat {
             if (chat.chat != null) {
                 if (event.getPlugin().getDescription().getName().equals("PermissionsEx")) {
                     chat.chat = null;
-                    log.info(String.format("[%s][Permission] %s un-hooked.", plugin.getDescription().getName(), chat.name));
+                    log.info(String.format("[%s][Chat] %s un-hooked.", plugin.getDescription().getName(), chat.name));
                 }
             }
         }

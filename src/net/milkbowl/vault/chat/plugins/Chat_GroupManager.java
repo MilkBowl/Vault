@@ -51,7 +51,7 @@ public class Chat_GroupManager extends Chat {
             if (perms != null) {
                 if (perms.isEnabled()) {
                     groupManager = (GroupManager) perms;
-                    log.info(String.format("[%s][Permission] %s hooked.", plugin.getDescription().getName(), name));
+                    log.info(String.format("[%s][Chat] %s hooked.", plugin.getDescription().getName(), name));
                 }
             }
         }
@@ -73,7 +73,7 @@ public class Chat_GroupManager extends Chat {
                 if (perms != null) {
                     if (perms.isEnabled()) {
                         chat.groupManager = (GroupManager) perms;
-                        log.info(String.format("[%s][Permission] %s hooked.", plugin.getDescription().getName(), chat.name));
+                        log.info(String.format("[%s][Chat] %s hooked.", plugin.getDescription().getName(), chat.name));
                     }
                 }
             }
@@ -84,7 +84,7 @@ public class Chat_GroupManager extends Chat {
             if (chat.groupManager != null) {
                 if (event.getPlugin().getDescription().getName().equals("GroupManager")) {
                     chat.groupManager = null;
-                    log.info(String.format("[%s][Permission] %s un-hooked.", plugin.getDescription().getName(), chat.name));
+                    log.info(String.format("[%s][Chat] %s un-hooked.", plugin.getDescription().getName(), chat.name));
                 }
             }
         }
