@@ -172,9 +172,8 @@ public class Chat_Permissions3 extends Chat {
 
     @Override
     public int getGroupInfoInteger(String world, String groupName, String node, int defaultValue) {
-        //Integer i = this.perms.getInfoInteger(world, groupName, node, true);
-        //return (i == null) ? defaultValue : i;
-        return defaultValue;
+        int i = this.perms.getGroupPermissionInteger(world, groupName, node);
+        return i != -1 ? i : defaultValue;
     }
 
 
@@ -189,9 +188,8 @@ public class Chat_Permissions3 extends Chat {
 
     @Override
     public double getGroupInfoDouble(String world, String groupName, String node, double defaultValue) {
-        //Double d = this.perms.getInfoDouble(world, groupName, node, true);
-        //return (d == null) ? defaultValue : d;
-        return defaultValue;
+        double d = this.perms.getGroupPermissionDouble(world, groupName, node);
+        return d != -1.0d ? d : defaultValue;
     }
 
     @Override
@@ -201,9 +199,7 @@ public class Chat_Permissions3 extends Chat {
 
     @Override
     public boolean getGroupInfoBoolean(String world, String groupName, String node, boolean defaultValue) {
-        //Boolean b = this.perms.getInfoBoolean(world, groupName, node, true);
-        //return (b == null) ? defaultValue : b;
-        return defaultValue;
+        return this.perms.getGroupPermissionBoolean(world, groupName, node);
     }
 
     @Override
@@ -213,9 +209,8 @@ public class Chat_Permissions3 extends Chat {
 
     @Override
     public String getGroupInfoString(String world, String groupName, String node, String defaultValue) {
-        //String s = this.perms.getInfoString(world, groupName, node, true);
-        //return (s == null) ? defaultValue : s;
-        return null;
+        String s = this.perms.getGroupPermissionString(world, groupName, node);
+        return s != null ? s : defaultValue;
     }
 
     @Override
@@ -225,11 +220,7 @@ public class Chat_Permissions3 extends Chat {
 
     @Override
     public String getGroupPrefix(String world, String group) {
-        //try {
-        //	return perms.safeGetGroup(world, group).getPrefix();
-        //} catch(Exception e) {
-        return null;
-        //}
+        return this.getGroupPrefix(world, group);
     }
 
     @Override
@@ -239,12 +230,7 @@ public class Chat_Permissions3 extends Chat {
 
     @Override
     public String getGroupSuffix(String world, String group) {
-        /*
-		try {
-			return perms.safeGetGroup(world, group).getSuffix();
-		} catch(Exception e) { */
-        return null;
-        //} 
+        return this.getGroupSuffix(world, group);
     }
 
     @Override
