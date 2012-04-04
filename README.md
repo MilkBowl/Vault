@@ -155,7 +155,7 @@ public class ExamplePlugin extends JavaPlugin {
     }
     
     private boolean setupChat() {
-        RegistereredServiceProvider<Chat> rsp = getServer().getServicesManager().getRegistration(Chat.class);
+        RegisteredServiceProvider<Chat> rsp = getServer().getServicesManager().getRegistration(Chat.class);
         chat = rsp.getProvider();
         return chat != null;
     }
