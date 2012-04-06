@@ -231,10 +231,10 @@ public class Vault extends JavaPlugin {
 
         //Try Loading MineConomy
         if (packageExists("me.mjolnir.mineconomy.MineConomy")) {
-            Economy econ = new Economy_MineConomy(this);
-            sm.register(Economy.class, econ, this, ServicePriority.Normal);
-            log.info(String.format("[%s][Economy] MineConomy found: %s", getDescription().getName(), econ.isEnabled() ? "Loaded" : "Waiting"));
-
+           // Economy econ = new Economy_MineConomy(this);
+            //sm.register(Economy.class, econ, this, ServicePriority.Normal);
+            //log.info(String.format("[%s][Economy] MineConomy found: %s", getDescription().getName(), econ.isEnabled() ? "Loaded" : "Waiting"));
+            log.info(String.format("[%s][Economy] MineConomy found but is no longer supported!", getDescription().getName()));
         }
         
         //Try Loading AEco

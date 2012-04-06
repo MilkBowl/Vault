@@ -19,8 +19,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
 
-import me.mjolnir.mineconomy.Accounting;
 import me.mjolnir.mineconomy.MineConomy;
+import me.mjolnir.mineconomy.internal.Accounting;
 import net.milkbowl.vault.economy.Economy;
 import net.milkbowl.vault.economy.EconomyResponse;
 import net.milkbowl.vault.economy.EconomyResponse.ResponseType;
@@ -111,7 +111,8 @@ public class Economy_MineConomy implements Economy {
 
     @Override
     public double getBalance(String playerName) {
-        return Accounting.getBalance(playerName, MineConomy.accounts);
+        // return Accounting.getBalance(playerName, MineConomy.accounts);
+        return 0.0;
     }
 
     @Override
@@ -126,7 +127,7 @@ public class Economy_MineConomy implements Economy {
             return new EconomyResponse(0, balance, ResponseType.FAILURE, "Cannot withdraw negative funds");
         } else if (balance >= amount) {
             double finalBalance = balance - amount;
-            Accounting.setBalance(playerName, finalBalance, MineConomy.accounts);
+            //Accounting.setBalance(playerName, finalBalance, MineConomy.accounts);
             return new EconomyResponse(amount, finalBalance, ResponseType.SUCCESS, null);
         } else {
             return new EconomyResponse(0, balance, ResponseType.FAILURE, "Insufficient funds");
@@ -140,7 +141,7 @@ public class Economy_MineConomy implements Economy {
             return new EconomyResponse(0, balance, ResponseType.FAILURE, "Cannot deposit negative funds");
         } else {
             balance += amount;
-            Accounting.setBalance(playerName, balance, MineConomy.accounts);
+            //Accounting.setBalance(playerName, balance, MineConomy.accounts);
             return new EconomyResponse(amount, balance, ResponseType.SUCCESS, null);
         }
     }
@@ -197,7 +198,8 @@ public class Economy_MineConomy implements Economy {
 
     @Override
     public boolean hasAccount(String playerName) {
-        return Accounting.containsKey(playerName, MineConomy.accounts);
+      //  return Accounting.containsKey(playerName, MineConomy.accounts);
+        return true;
     }
 
     @Override
@@ -205,7 +207,7 @@ public class Economy_MineConomy implements Economy {
         if (hasAccount(playerName)) {
             return false;
         }
-        Accounting.setBalance(playerName, 0, MineConomy.accounts);
+       // Accounting.setBalance(playerName, 0, MineConomy.accounts);
         return true;
     }
 }
