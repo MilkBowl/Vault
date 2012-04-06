@@ -413,7 +413,7 @@ public class Vault extends JavaPlugin {
         } else if (command.getName().equalsIgnoreCase("vault-convert")) {
             convertCommand(sender, args);
             return true;
-        }else {
+        } else {
             // Show help
             sender.sendMessage("Vault Commands:");
             sender.sendMessage("  /vault-info - Displays information about Vault");

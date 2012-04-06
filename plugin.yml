@@ -11,10 +11,6 @@ commands:
     description: Displays information about Vault 
     usage: |
            /<command> - Displays Vault information
-  vault-reload:
-    description: Reloads Vault
-    usage: |
-           /<command> - Reloads Vault
   vault-convert:
     description: Converts all data in economy1 and dumps it into economy2
     usage: |
