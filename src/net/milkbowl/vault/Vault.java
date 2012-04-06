@@ -109,7 +109,6 @@ public class Vault extends JavaPlugin {
         loadChat();
 
         getCommand("vault-info").setExecutor(this);
-        getCommand("vault-reload").setExecutor(this);
         getCommand("vault-convert").setExecutor(this);
         getServer().getPluginManager().registerEvents(new VaultListener(), this);
 
