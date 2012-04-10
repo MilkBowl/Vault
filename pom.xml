@@ -170,7 +170,9 @@
 		<dependency>
 			<groupId>ru.tehkode</groupId>
 			<artifactId>PermissionsEx</artifactId>
-			<version>1.20-SNAPSHOT</version>
+			<version>1.19.2</version>
+			<scope>system</scope>
+			<systemPath>${project.basedir}/lib/PermissionsEx.jar</systemPath>
 		</dependency>
 		<dependency>
 			<groupId>de.bananaco.permissions.Permissions</groupId>
@@ -294,10 +296,6 @@ iConomy 4,5,6 BOSEconomy 6/7, EssentialsEcon, 3Co, MultiConomy, MineConomy, Econ
 		<repository>
 			<id>bukkit-repo</id>
 			<url>http://repo.bukkit.org/content/groups/public/</url>
-		</repository>
-		<repository>
-			<id>tehkode-repo</id>
-			<url>http://repo.tehkode.ru/repository/bukkit-plugins/</url>
 		</repository>
 	</repositories>
 </project>

@@ -90,13 +90,14 @@ public class ItemInfo {
     
     @Override
     public boolean equals(Object obj) {
-        if (obj == null)
+        if (obj == null) {
             return false;
-        else if (this == obj)
+        } else if (this == obj) {
             return true;
-        else if (!(obj instanceof ItemInfo))
+        } else if (!(obj instanceof ItemInfo)) {
             return false;
-        else
+        } else {
             return ((ItemInfo) obj).material == this.material && ((ItemInfo) obj).subTypeId == this.subTypeId;
+        }
     }
 }
