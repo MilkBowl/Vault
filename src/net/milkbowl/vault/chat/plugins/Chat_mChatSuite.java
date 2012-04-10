@@ -16,9 +16,9 @@
 package net.milkbowl.vault.chat.plugins;
 
 import in.mDev.MiracleM4n.mChatSuite.mChatSuite;
-import in.mDev.MiracleM4n.mChatSuite.api.InfoReader;
-import in.mDev.MiracleM4n.mChatSuite.api.InfoType;
-import in.mDev.MiracleM4n.mChatSuite.api.InfoWriter;
+import in.mDev.MiracleM4n.mChatSuite.api.Reader;
+import in.mDev.MiracleM4n.mChatSuite.api.Writer;
+import in.mDev.MiracleM4n.mChatSuite.types.InfoType;
 import java.util.logging.Logger;
 
 import net.milkbowl.vault.chat.Chat;
@@ -37,8 +37,8 @@ public class Chat_mChatSuite extends Chat {
     private final String name = "mChatSuite";
     private Plugin plugin = null;
     private mChatSuite mChat = null;
-    private InfoReader mReader = null;
-    private InfoWriter mWriter = null;
+    private Reader mReader = null;
+    private Writer mWriter = null;
 
     public Chat_mChatSuite(Plugin plugin, Permission permissions) {
         super(permissions);
@@ -77,7 +77,7 @@ public class Chat_mChatSuite extends Chat {
                 }
             }
         }
-        
+
         @EventHandler(priority = EventPriority.MONITOR)
         public void onPluginDisable(PluginDisableEvent event) {
             if (this.chat.mChat != null) {
@@ -270,7 +270,7 @@ public class Chat_mChatSuite extends Chat {
     public void setGroupInfoString(String world, String group, String node, String value) {
         setGroupInfoValue(world, group, node, value);
     }
-    
+
     private void setPlayerInfoValue(String world, String player, String node, Object value) {
         if (world != null) {
             mWriter.setWorldVar(player, InfoType.USER, world, node, value.toString());
@@ -278,7 +278,7 @@ public class Chat_mChatSuite extends Chat {
             mWriter.setInfoVar(player, InfoType.USER, node, value.toString());
         }
     }
-    
+
     private void setGroupInfoValue(String world, String group, String node, Object value) {
         if (world != null) {
             mWriter.setWorldVar(group, InfoType.GROUP, world, node, value);
@@ -289,7 +289,7 @@ public class Chat_mChatSuite extends Chat {
     private String getPlayerInfoValue(String world, String player, String node) {
         return mReader.getInfo(player, InfoType.USER, world, node);
     }
-    
+
     private String getGroupInfoValue(String world, String group, String node) {
         return mReader.getInfo(group, InfoType.GROUP, world, node);
     }
