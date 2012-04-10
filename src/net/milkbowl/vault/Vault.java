@@ -230,19 +230,18 @@ public class Vault extends JavaPlugin {
 
         //Try Loading MineConomy
         if (packageExists("me.mjolnir.mineconomy.MineConomy")) {
-           // Economy econ = new Economy_MineConomy(this);
-            //sm.register(Economy.class, econ, this, ServicePriority.Normal);
-            //log.info(String.format("[%s][Economy] MineConomy found: %s", getDescription().getName(), econ.isEnabled() ? "Loaded" : "Waiting"));
-            log.info(String.format("[%s][Economy] MineConomy found but is no longer supported!", getDescription().getName()));
+            Economy econ = new Economy_MineConomy(this);
+            sm.register(Economy.class, econ, this, ServicePriority.Normal);
+            log.info(String.format("[%s][Economy] MineConomy found: %s", getDescription().getName(), econ.isEnabled() ? "Loaded" : "Waiting"));
         }
-        
+
         //Try Loading AEco
         if (packageExists("org.neocraft.AEco.AEco")) {
             Economy econ = new Economy_AEco(this);
             sm.register(Economy.class, econ, this, ServicePriority.Normal);
             log.info(String.format("[%s][Economy] AEco found: %s", getDescription().getName(), econ.isEnabled() ? "Loaded" : "Waiting"));
         }
-        
+
         //Try Loading McMoney
         if (packageExists("boardinggamer.mcmoney.McMoneyAPI")) {
             Economy econ = new Economy_McMoney(this);
