@@ -171,8 +171,6 @@
 			<groupId>ru.tehkode</groupId>
 			<artifactId>PermissionsEx</artifactId>
 			<version>1.20-SNAPSHOT</version>
-            <scope>system</scope>
-            <systemPath>${project.basedir}/lib/PermissionsEx.jar</systemPath>
 		</dependency>
 		<dependency>
 			<groupId>de.bananaco.permissions.Permissions</groupId>
