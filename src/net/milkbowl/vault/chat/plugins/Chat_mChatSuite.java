@@ -51,8 +51,8 @@ public class Chat_mChatSuite extends Chat {
             Plugin chat = plugin.getServer().getPluginManager().getPlugin("mChatSuite");
             if (chat != null) {
                 mChat = (mChatSuite) chat;
-                mReader = mChat.getInfoReader();
-                mWriter = mChat.getInfoWriter();
+                mReader = mChat.getReader();
+                mWriter = mChat.getWriter();
                 log.info(String.format("[%s][Chat] %s hooked.", plugin.getDescription().getName(), "mChatSuite"));
             }
         }
@@ -71,8 +71,8 @@ public class Chat_mChatSuite extends Chat {
                 Plugin chat = plugin.getServer().getPluginManager().getPlugin("mChat");
                 if (chat != null) {
                     this.chat.mChat = (mChatSuite) chat;
-                    mReader = mChat.getInfoReader();
-                    mWriter = mChat.getInfoWriter();
+                    mReader = mChat.getReader();
+                    mWriter = mChat.getWriter();
                     log.info(String.format("[%s][Chat] %s hooked.", plugin.getDescription().getName(), "mChat"));
                 }
             }
