@@ -198,10 +198,14 @@ public class Permission_PermissionsEx extends Permission {
 
     @Override
     public String getPrimaryGroup(String world, String playerName) {
-        if (PermissionsEx.getPermissionManager().getUser(playerName).getGroupsNames().length > 0)
-            return PermissionsEx.getPermissionManager().getUser(playerName).getGroupsNames()[0];
-        else
+        PermissionUser user = PermissionsEx.getPermissionManager().getUser(playerName);
+        if (user == null) {
             return null;
+        } else if (user.getGroupsNames(world).length > 0) {
+            return user.getGroupsNames(world)[0];
+        } else {
+            return null;
+        }
     }
 
     @Override
