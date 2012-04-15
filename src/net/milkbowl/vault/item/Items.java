@@ -67,6 +67,8 @@ public class Items {
         items.add(new ItemInfo("Lapis Lazuli Block", new String[][]{{"lazu", "bl"}, {"blo", "lapi"}}, Material.LAPIS_BLOCK));
         items.add(new ItemInfo("Dispenser", new String[][]{{"dispen"}}, Material.DISPENSER));
         items.add(new ItemInfo("Sandstone", new String[][]{{"sand", "st"}}, Material.SANDSTONE));
+        items.add(new ItemInfo("Decorative Sandstone", new String[][]{{"dec", "sand", "sto"}}, Material.SANDSTONE, (short) 1));
+        items.add(new ItemInfo("Smooth Sandstone", new String[][]{{"smoo", "sand", "sto"}}, Material.SANDSTONE, (short) 2));
         items.add(new ItemInfo("Note Block", new String[][]{{"note"}}, Material.NOTE_BLOCK));
         items.add(new ItemInfo("Bed Block", new String[][]{{"block", "bed"}}, Material.BED_BLOCK));
         items.add(new ItemInfo("Powered Rail", new String[][]{{"rail", "pow"}, {"trac", "pow"}, {"boost"}}, Material.POWERED_RAIL));
