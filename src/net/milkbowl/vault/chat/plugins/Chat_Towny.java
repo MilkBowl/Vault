@@ -32,6 +32,7 @@ import org.bukkit.plugin.Plugin;
 import com.palmergames.bukkit.towny.NotRegisteredException;
 import com.palmergames.bukkit.towny.Towny;
 import com.palmergames.bukkit.towny.object.Resident;
+import com.palmergames.bukkit.towny.object.TownyUniverse;
 
 public class Chat_Towny extends Chat {
 
@@ -99,7 +100,7 @@ public class Chat_Towny extends Chat {
     @Override
     public String getPlayerPrefix(String world, String player) {
         try {
-            Resident r = towny.getTownyUniverse().getResident(player);
+            Resident r = TownyUniverse.getDataSource().getResident(player);
             return r.getTitle();
         } catch (NotRegisteredException e) {
         }
@@ -114,7 +115,7 @@ public class Chat_Towny extends Chat {
     @Override
     public String getPlayerSuffix(String world, String player) {
         try {
-            Resident r = towny.getTownyUniverse().getResident(player);
+            Resident r = TownyUniverse.getDataSource().getResident(player);
             return r.getSurname();
         } catch (NotRegisteredException e) {
         }
@@ -129,7 +130,7 @@ public class Chat_Towny extends Chat {
     @Override
     public String getGroupPrefix(String world, String group) {
         try {
-            return towny.getTownyUniverse().getTown(group).getTag();
+            return TownyUniverse.getDataSource().getTown(group).getTag();
         } catch (NotRegisteredException e) {
         }
         return "";
