@@ -186,7 +186,7 @@ public class ExamplePlugin extends JavaPlugin {
             return true;
         } else if(command.getLabel().equals("test-permission")) {
             // Lets test if user has the node "example.plugin.awesome" to determine if they are awesome or just suck
-            if(perms.hasPermission(player, "example.plugin.awesome")) {
+            if(perms.has(player, "example.plugin.awesome")) {
                 sender.sendMessage("You are awesome!");
             } else {
                 sender.sendMessage("You suck!");
