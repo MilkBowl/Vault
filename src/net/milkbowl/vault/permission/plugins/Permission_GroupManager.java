@@ -299,6 +299,9 @@ public class Permission_GroupManager extends Permission {
         } else {
             handler = groupManager.getWorldsHolder().getWorldPermissions(worldName);
         }
+        if (handler == null) {
+            return null;
+        }
         return handler.getGroups(playerName);
     }
 
@@ -309,6 +312,9 @@ public class Permission_GroupManager extends Permission {
             handler = groupManager.getWorldsHolder().getWorldPermissionsByPlayerName(playerName);
         } else {
             handler = groupManager.getWorldsHolder().getWorldPermissions(worldName);
+        }
+        if (handler == null) {
+            return null;
         }
         return handler.getGroup(playerName);
     }
@@ -357,7 +363,14 @@ public class Permission_GroupManager extends Permission {
     public String[] getGroups() {
         Set<String> groupNames = new HashSet<String>();
         for (World world : Bukkit.getServer().getWorlds()) {
-            Collection<Group> groups = groupManager.getWorldsHolder().getWorldData(world.getName()).getGroupList();
+            OverloadedWorldHolder owh = groupManager.getWorldsHolder().getWorldData(world.getName());
+            if (owh == null) {
+                continue;
+            }
+            Collection<Group> groups = owh.getGroupList();
+            if (groups == null) {
+                continue;
+            }
             for (Group group : groups) {
                 groupNames.add(group.getName());
             }
