@@ -486,6 +486,17 @@ public class Vault extends JavaPlugin {
             }
         }
 
+        String registeredChats = null;
+        Collection<RegisteredServiceProvider<Chat>> chats = this.getServer().getServicesManager().getRegistrations(Chat.class);
+        for (RegisteredServiceProvider<Chat> chat : chats) {
+            Chat c = chat.getProvider();
+            if (registeredChats == null) {
+                registeredChats = c.getName();
+            } else {
+                registeredChats += ", " + c.getName();
+            }
+        }
+        
         // Get Economy & Permission primary Services
         RegisteredServiceProvider<Economy> rsp = getServer().getServicesManager().getRegistration(Economy.class);
         Economy econ = null;
@@ -497,11 +508,16 @@ public class Vault extends JavaPlugin {
         if (rspp != null) {
             perm = rspp.getProvider();
         }
-
+        Chat chat = null;
+        RegisteredServiceProvider<Chat> rspc = getServer().getServicesManager().getRegistration(Chat.class);
+        if (rspc != null) {
+            chat = rspc.getProvider();
+        }
         // Send user some info!
         sender.sendMessage(String.format("[%s] Vault v%s Information", getDescription().getName(), getDescription().getVersion()));
         sender.sendMessage(String.format("[%s] Economy: %s [%s]", getDescription().getName(), econ == null ? "None" : econ.getName(), registeredEcons));
         sender.sendMessage(String.format("[%s] Permission: %s [%s]", getDescription().getName(), perm == null ? "None" : perm.getName(), registeredPerms));
+        sender.sendMessage(String.format("[%s] Chat: %s [%s]", getDescription().getName(), chat == null ? "None" : chat.getName(), registeredChats));
     }
 
     /**
