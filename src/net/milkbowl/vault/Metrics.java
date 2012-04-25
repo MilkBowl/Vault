@@ -331,8 +331,8 @@ public class Metrics {
         // close resources
         writer.close();
         reader.close();
-
-        if (response.startsWith("ERR")) {
+        
+        if (response == null || response.startsWith("ERR")) {
             throw new IOException(response); //Throw the exception
         } else {
             // Is this the first update this hour?
