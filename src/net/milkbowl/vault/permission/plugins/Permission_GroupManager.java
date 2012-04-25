@@ -299,7 +299,7 @@ public class Permission_GroupManager extends Permission {
         } else {
             handler = groupManager.getWorldsHolder().getWorldPermissions(worldName);
         }
-        return handler.getGroups(playerName);
+        return handler == null ? new String[0] : handler.getGroups(playerName);
     }
 
     @Override
@@ -310,7 +310,7 @@ public class Permission_GroupManager extends Permission {
         } else {
             handler = groupManager.getWorldsHolder().getWorldPermissions(worldName);
         }
-        return handler.getGroup(playerName);
+        return handler == null ? "" : handler.getGroup(playerName);
     }
 
     @Override
