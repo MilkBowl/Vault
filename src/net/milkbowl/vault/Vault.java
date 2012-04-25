@@ -487,13 +487,21 @@ public class Vault extends JavaPlugin {
         }
 
         // Get Economy & Permission primary Services
-        Economy econ = getServer().getServicesManager().getRegistration(Economy.class).getProvider();
-        Permission perm = getServer().getServicesManager().getRegistration(Permission.class).getProvider();
+        RegisteredServiceProvider<Economy> rsp = getServer().getServicesManager().getRegistration(Economy.class);
+        Economy econ = null;
+        if (rsp != null) {
+            econ = rsp.getProvider();
+        }
+        Permission perm = null;
+        RegisteredServiceProvider<Permission> rspp = getServer().getServicesManager().getRegistration(Permission.class);
+        if (rspp != null) {
+            perm = rspp.getProvider();
+        }
 
         // Send user some info!
         sender.sendMessage(String.format("[%s] Vault v%s Information", getDescription().getName(), getDescription().getVersion()));
-        sender.sendMessage(String.format("[%s] Economy: %s [%s]", getDescription().getName(), econ.getName(), registeredEcons));
-        sender.sendMessage(String.format("[%s] Permission: %s [%s]", getDescription().getName(), perm.getName(), registeredPerms));
+        sender.sendMessage(String.format("[%s] Economy: %s [%s]", getDescription().getName(), econ == null ? "None" : econ.getName(), registeredEcons));
+        sender.sendMessage(String.format("[%s] Permission: %s [%s]", getDescription().getName(), perm == null ? "None" : perm.getName(), registeredPerms));
     }
 
     /**
