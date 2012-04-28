@@ -23,7 +23,12 @@ import net.milkbowl.vault.Vault;
 import net.milkbowl.vault.permission.Permission;
 import org.bukkit.Bukkit;
 import org.bukkit.command.ConsoleCommandSender;
-import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
+import org.bukkit.event.Listener;
+import org.bukkit.event.server.PluginDisableEvent;
+import org.bukkit.event.server.PluginEnableEvent;
+import org.bukkit.plugin.Plugin;
 
 public class Permission_SimplyPerms extends Permission{
 
@@ -33,12 +38,45 @@ public class Permission_SimplyPerms extends Permission{
     
     public Permission_SimplyPerms(Vault plugin) {
         this.plugin = plugin;
+        Bukkit.getServer().getPluginManager().registerEvents(new PermissionServerListener(this), plugin);
         ccs = Bukkit.getServer().getConsoleSender();
         // Load service in case it was loaded before
         if (service == null) {
             service = plugin.getServer().getServicesManager().load(SimplyPlugin.class);
             if (service != null)
                 log.info(String.format("[%s][Permission] %s hooked.", plugin.getDescription().getName(), name));
+        }
+    }
+    
+    public class PermissionServerListener implements Listener {
+        Permission_SimplyPerms permission = null;
+
+        public PermissionServerListener(Permission_SimplyPerms permission) {
+            this.permission = permission;
+        }
+
+        @EventHandler(priority = EventPriority.MONITOR)
+        public void onPluginEnable(PluginEnableEvent event) {
+            if (permission.service == null) {
+                Plugin perms = plugin.getServer().getPluginManager().getPlugin("SimplyPerms");
+
+                if (perms != null) {
+                    if (perms.isEnabled()) {
+                        permission.service = (SimplyPlugin) perms;
+                        log.info(String.format("[%s][Permission] %s hooked.", plugin.getDescription().getName(), permission.name));
+                    }
+                }
+            }
+        }
+
+        @EventHandler(priority = EventPriority.MONITOR)
+        public void onPluginDisable(PluginDisableEvent event) {
+            if (permission.service != null) {
+                if (event.getPlugin().getDescription().getName().equals("SimplyPerms")) {
+                    permission.service = null;
+                    log.info(String.format("[%s][Permission] %s un-hooked.", plugin.getDescription().getName(), permission.name));
+                }
+            }
         }
     }
     
