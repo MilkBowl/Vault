@@ -55,6 +55,7 @@ import net.milkbowl.vault.permission.plugins.Permission_GroupManager;
 import net.milkbowl.vault.permission.plugins.Permission_Permissions3;
 import net.milkbowl.vault.permission.plugins.Permission_PermissionsBukkit;
 import net.milkbowl.vault.permission.plugins.Permission_PermissionsEx;
+import net.milkbowl.vault.permission.plugins.Permission_SimplyPerms;
 import net.milkbowl.vault.permission.plugins.Permission_Starburst;
 import net.milkbowl.vault.permission.plugins.Permission_SuperPerms;
 import net.milkbowl.vault.permission.plugins.Permission_bPermissions;
@@ -352,6 +353,12 @@ public class Vault extends JavaPlugin {
             log.info(String.format("[%s][Permission] PermissionsBukkit found: %s", getDescription().getName(), pPerms.isEnabled() ? "Loaded" : "Waiting"));
         }
 
+        //Try loading SimplyPerms
+        if (packageExists("net.crystalyx.bukkit.simplyperms.SimplyPlugin")) {
+            Permission sPerms = new Permission_SimplyPerms(this);
+            sm.register(Permission.class, sPerms, this, ServicePriority.Highest);
+            log.info(String.format("[%s][Permission] SimplyPerms found: %s", getDescription().getName(), sPerms.isEnabled() ? "Loaded" : "Waiting"));
+        }
 
         //try loading bPermissions2
         if (packageExists("de.bananaco.bpermissions.api.WorldManager")) {

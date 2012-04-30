@@ -202,6 +202,13 @@
 			<scope>system</scope>
 			<systemPath>${project.basedir}/lib/Craftconomy.jar</systemPath>
 		</dependency>
+		<dependency>
+		    <groupId>net.crystalyx.bukkit.simplyperms</groupId>
+		    <artifactId>SimplyPerms</artifactId>
+		    <version>1.6.2</version>
+		    <scope>system</scope>
+		    <systemPath>${project.basedir}/lib/SimplyPerms.jar</systemPath>
+		</dependency>
 	</dependencies>
 	<build>
 		<resources>
