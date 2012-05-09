@@ -154,67 +154,102 @@ public class Vault extends JavaPlugin {
      * Attempts to load Chat Addons
      */
     private void loadChat() {
-        // Try to load PermissionsEx
-        if (packageExists("ru.tehkode.permissions.bukkit.PermissionsEx")) {
-            Chat eChat = new Chat_PermissionsEx(this, perms);
-            sm.register(Chat.class, eChat, this, ServicePriority.Highest);
-            log.info(String.format("[%s][Chat] PermissionsEx found: %s", getDescription().getName(), eChat.isEnabled() ? "Loaded" : "Waiting"));
+        try {
+            // Try to load PermissionsEx
+            if (packageExists("ru.tehkode.permissions.bukkit.PermissionsEx")) {
+                Chat eChat = new Chat_PermissionsEx(this, perms);
+                sm.register(Chat.class, eChat, this, ServicePriority.Highest);
+                log.info(String.format("[%s][Chat] PermissionsEx found: %s", getDescription().getName(), eChat.isEnabled() ? "Loaded" : "Waiting"));
+            }
+        } catch (Exception e) {
+            log.severe(String.format("There was an error hooking %s - check to make sure you're using a compatible version!", "PEX Chat"));
+        }
+        try {
+            //Try loading mChatSuite
+            if (packageExists("in.mDev.MiracleM4n.mChatSuite.mChatSuite")) {
+                Chat mChat = new Chat_mChatSuite(this, perms);
+                sm.register(Chat.class, mChat, this, ServicePriority.Highest);
+                log.info(String.format("[%s][Chat] mChatSuite found: %s", getDescription().getName(), mChat.isEnabled() ? "Loaded" : "Waiting"));
+            }
+        } catch (Exception e) {
+            log.severe(String.format("There was an error hooking %s - check to make sure you're using a compatible version!", "mChatSuite"));
         }
 
-        //Try loading mChatSuite
-        if (packageExists("in.mDev.MiracleM4n.mChatSuite.mChatSuite")) {
-            Chat mChat = new Chat_mChatSuite(this, perms);
-            sm.register(Chat.class, mChat, this, ServicePriority.Highest);
-            log.info(String.format("[%s][Chat] mChatSuite found: %s", getDescription().getName(), mChat.isEnabled() ? "Loaded" : "Waiting"));
+        try {
+            //Try loading mChat
+            if (packageExists("net.D3GN.MiracleM4n.mChat")) {
+                Chat mChat = new Chat_mChat(this, perms);
+                sm.register(Chat.class, mChat, this, ServicePriority.Highest);
+                log.info(String.format("[%s][Chat] mChat found: %s", getDescription().getName(), mChat.isEnabled() ? "Loaded" : "Waiting"));
+            }
+        } catch (Exception e) {
+            log.severe(String.format("There was an error hooking %s - check to make sure you're using a compatible version!", "mChat"));
         }
 
-        //Try loading mChat
-        if (packageExists("net.D3GN.MiracleM4n.mChat")) {
-            Chat mChat = new Chat_mChat(this, perms);
-            sm.register(Chat.class, mChat, this, ServicePriority.Highest);
-            log.info(String.format("[%s][Chat] mChat found: %s", getDescription().getName(), mChat.isEnabled() ? "Loaded" : "Waiting"));
+        try {
+            //try loading bPermssions 2
+            if (packageExists("de.bananaco.bpermissions.api.ApiLayer")) {
+                Chat bPerms = new Chat_bPermissions2(this, perms);
+                sm.register(Chat.class, bPerms, this, ServicePriority.High);
+                log.info(String.format("[%s][Chat] bPermissions2 found: %s", getDescription().getName(), bPerms.isEnabled() ? "Loaded" : "Waiting"));
+            } 
+        } catch (Exception e) {
+            log.severe(String.format("There was an error hooking %s - check to make sure you're using a compatible version!", "bPerms2 Chat"));
         }
 
-        //try loading bPermssions 2
-        if (packageExists("de.bananaco.bpermissions.api.ApiLayer")) {
-            Chat bPerms = new Chat_bPermissions2(this, perms);
-            sm.register(Chat.class, bPerms, this, ServicePriority.High);
-            log.info(String.format("[%s][Chat] bPermissions2 found: %s", getDescription().getName(), bPerms.isEnabled() ? "Loaded" : "Waiting"));
-        } 
-
-        // try loading bPermissions 1
-        if (packageExists("de.bananaco.permissions.info.InfoReader")) {
-            Chat bPerms = new Chat_bPermissions(this, perms);
-            sm.register(Chat.class, bPerms, this, ServicePriority.Normal);
-            log.info(String.format("[%s][Chat] bPermissions found: %s", getDescription().getName(), bPerms.isEnabled() ? "Loaded" : "Waiting"));
+        try {
+            // try loading bPermissions 1
+            if (packageExists("de.bananaco.permissions.info.InfoReader")) {
+                Chat bPerms = new Chat_bPermissions(this, perms);
+                sm.register(Chat.class, bPerms, this, ServicePriority.Normal);
+                log.info(String.format("[%s][Chat] bPermissions found: %s", getDescription().getName(), bPerms.isEnabled() ? "Loaded" : "Waiting"));
+            }
+        } catch (Exception e) {
+            log.severe(String.format("There was an error hooking %s - check to make sure you're using a compatible version!", "bPerms chat"));
         }
 
-        // Try to load GroupManager
-        if (packageExists("org.anjocaido.groupmanager.GroupManager")) {
-            Chat gPerms = new Chat_GroupManager(this, perms);
-            sm.register(Chat.class, gPerms, this, ServicePriority.Normal);
-            log.info(String.format("[%s][Chat] GroupManager found: %s", getDescription().getName(), gPerms.isEnabled() ? "Loaded" : "Waiting"));
+        try {
+            // Try to load GroupManager
+            if (packageExists("org.anjocaido.groupmanager.GroupManager")) {
+                Chat gPerms = new Chat_GroupManager(this, perms);
+                sm.register(Chat.class, gPerms, this, ServicePriority.Normal);
+                log.info(String.format("[%s][Chat] GroupManager found: %s", getDescription().getName(), gPerms.isEnabled() ? "Loaded" : "Waiting"));
+            }
+        } catch (Exception e) {
+            log.severe(String.format("There was an error hooking %s - check to make sure you're using a compatible version!", "GM Chat"));
         }
 
-        // Try to load Permissions 3 (Yeti)
-        if (packageExists("com.nijiko.permissions.ModularControl")) {
-            Chat nPerms = new Chat_Permissions3(this, perms);
-            sm.register(Chat.class, nPerms, this, ServicePriority.Normal);
-            log.info(String.format("[%s][Chat] Permissions 3 (Yeti) found: %s", getDescription().getName(), nPerms.isEnabled() ? "Loaded" : "Waiting"));
+        try {
+            // Try to load Permissions 3 (Yeti)
+            if (packageExists("com.nijiko.permissions.ModularControl")) {
+                Chat nPerms = new Chat_Permissions3(this, perms);
+                sm.register(Chat.class, nPerms, this, ServicePriority.Normal);
+                log.info(String.format("[%s][Chat] Permissions 3 (Yeti) found: %s", getDescription().getName(), nPerms.isEnabled() ? "Loaded" : "Waiting"));
+            }
+        } catch (Exception e) {
+            log.severe(String.format("There was an error hooking %s - check to make sure you're using a compatible version!", "Permissions 3 Chat"));
         }
 
-        // Try to load iChat
-        if (packageExists("net.TheDgtl.iChat.iChat")) {
-            Chat iChat = new Chat_iChat(this, perms);
-            sm.register(Chat.class, iChat, this, ServicePriority.Low);
-            log.info(String.format("[%s][Chat] iChat found: %s", getDescription().getName(), iChat.isEnabled() ? "Loaded" : "Waiting"));
+        try {
+            // Try to load iChat
+            if (packageExists("net.TheDgtl.iChat.iChat")) {
+                Chat iChat = new Chat_iChat(this, perms);
+                sm.register(Chat.class, iChat, this, ServicePriority.Low);
+                log.info(String.format("[%s][Chat] iChat found: %s", getDescription().getName(), iChat.isEnabled() ? "Loaded" : "Waiting"));
+            }
+        } catch (Exception e) {
+            log.severe(String.format("There was an error hooking %s - check to make sure you're using a compatible version!", "iChat"));
         }
 
-        //Try to load Towny Chat
-        if (packageExists("com.palmergames.bukkit.towny.Towny")) {
-            Chat townChat = new Chat_Towny(this, perms);
-            sm.register(Chat.class, townChat, this, ServicePriority.Lowest);
-            log.info(String.format("[%s][Chat] Towny found: %s", getDescription().getName(), townChat.isEnabled() ? "Loaded" : "Waiting"));
+        try {
+            //Try to load Towny Chat
+            if (packageExists("com.palmergames.bukkit.towny.Towny")) {
+                Chat townChat = new Chat_Towny(this, perms);
+                sm.register(Chat.class, townChat, this, ServicePriority.Lowest);
+                log.info(String.format("[%s][Chat] Towny found: %s", getDescription().getName(), townChat.isEnabled() ? "Loaded" : "Waiting"));
+            }
+        } catch (Exception e) {
+            log.severe(String.format("There was an error hooking %s - check to make sure you're using a compatible version!", "Towny Chat"));
         }
     }
 
@@ -222,109 +257,170 @@ public class Vault extends JavaPlugin {
      * Attempts to load Economy Addons
      */
     private void loadEconomy() {
-        // Try to load MultiCurrency
-        if (packageExists("me.ashtheking.currency.Currency", "me.ashtheking.currency.CurrencyList")) {
-            Economy econ = new Economy_MultiCurrency(this);
-            sm.register(Economy.class, econ, this, ServicePriority.Normal);
-            log.info(String.format("[%s][Economy] MultiCurrency found: %s", getDescription().getName(), econ.isEnabled() ? "Loaded" : "Waiting"));
+        try {
+            // Try to load MultiCurrency
+            if (packageExists("me.ashtheking.currency.Currency", "me.ashtheking.currency.CurrencyList")) {
+                Economy econ = new Economy_MultiCurrency(this);
+                sm.register(Economy.class, econ, this, ServicePriority.Normal);
+                log.info(String.format("[%s][Economy] MultiCurrency found: %s", getDescription().getName(), econ.isEnabled() ? "Loaded" : "Waiting"));
+            }
+        } catch (Exception e) {
+            log.severe(String.format("There was an error hooking %s - check to make sure you're using a compatible version!", "MultiCurrency"));
         }
 
-        //Try Loading MineConomy
-        if (packageExists("me.mjolnir.mineconomy.MineConomy")) {
-            Economy econ = new Economy_MineConomy(this);
-            sm.register(Economy.class, econ, this, ServicePriority.Normal);
-            log.info(String.format("[%s][Economy] MineConomy found: %s", getDescription().getName(), econ.isEnabled() ? "Loaded" : "Waiting"));
+        try {
+            //Try Loading MineConomy
+            if (packageExists("me.mjolnir.mineconomy.MineConomy")) {
+                Economy econ = new Economy_MineConomy(this);
+                sm.register(Economy.class, econ, this, ServicePriority.Normal);
+                log.info(String.format("[%s][Economy] MineConomy found: %s", getDescription().getName(), econ.isEnabled() ? "Loaded" : "Waiting"));
+            }
+        } catch (Exception e) {
+            log.severe(String.format("There was an error hooking %s - check to make sure you're using a compatible version!", "MineConomy"));
         }
 
-        //Try Loading AEco
-        if (packageExists("org.neocraft.AEco.AEco")) {
-            Economy econ = new Economy_AEco(this);
-            sm.register(Economy.class, econ, this, ServicePriority.Normal);
-            log.info(String.format("[%s][Economy] AEco found: %s", getDescription().getName(), econ.isEnabled() ? "Loaded" : "Waiting"));
+
+        try {
+            //Try Loading AEco
+            if (packageExists("org.neocraft.AEco.AEco")) {
+                Economy econ = new Economy_AEco(this);
+                sm.register(Economy.class, econ, this, ServicePriority.Normal);
+                log.info(String.format("[%s][Economy] AEco found: %s", getDescription().getName(), econ.isEnabled() ? "Loaded" : "Waiting"));
+            }
+        } catch (Exception e) {
+            log.severe(String.format("There was an error hooking %s - check to make sure you're using a compatible version!", "AEco"));
         }
 
-        //Try Loading McMoney
-        if (packageExists("boardinggamer.mcmoney.McMoneyAPI")) {
-            Economy econ = new Economy_McMoney(this);
-            sm.register(Economy.class, econ, this, ServicePriority.Normal);
-            log.info(String.format("[%s][Economy] McMoney found: %s", getDescription().getName(), econ.isEnabled() ? "Loaded" : "Waiting"));
+        try {
+            //Try Loading McMoney
+            if (packageExists("boardinggamer.mcmoney.McMoneyAPI")) {
+                Economy econ = new Economy_McMoney(this);
+                sm.register(Economy.class, econ, this, ServicePriority.Normal);
+                log.info(String.format("[%s][Economy] McMoney found: %s", getDescription().getName(), econ.isEnabled() ? "Loaded" : "Waiting"));
+            }
+        } catch (Exception e) {
+            log.severe(String.format("There was an error hooking %s - check to make sure you're using a compatible version!", "McMoney"));
         }
 
-        //Try Loading Craftconomy
-        if (packageExists("me.greatman.Craftconomy.Craftconomy")) {
-            Economy econ = new Economy_Craftconomy(this);
-            sm.register(Economy.class, econ, this, ServicePriority.Normal);
-            log.info(String.format("[%s][Economy] CraftConomy found: %s", getDescription().getName(), econ.isEnabled() ? "Loaded" : "Waiting"));
+        try {
+            //Try Loading Craftconomy
+            if (packageExists("me.greatman.Craftconomy.Craftconomy")) {
+                Economy econ = new Economy_Craftconomy(this);
+                sm.register(Economy.class, econ, this, ServicePriority.Normal);
+                log.info(String.format("[%s][Economy] CraftConomy found: %s", getDescription().getName(), econ.isEnabled() ? "Loaded" : "Waiting"));
+            }
+        } catch (Exception e) {
+            log.severe(String.format("There was an error hooking %s - check to make sure you're using a compatible version!", "CraftConomy"));
         }
 
-        //Try loading eWallet
-        if (packageExists("me.ethan.eWallet.ECO")) {
-            Economy econ = new Economy_eWallet(this);
-            sm.register(Economy.class, econ, this, ServicePriority.Normal);
-            log.info(String.format("[%s][Economy] eWallet found: %s", getDescription().getName(), econ.isEnabled() ? "Loaded" : "Waiting"));
+        try {
+            //Try loading eWallet
+            if (packageExists("me.ethan.eWallet.ECO")) {
+                Economy econ = new Economy_eWallet(this);
+                sm.register(Economy.class, econ, this, ServicePriority.Normal);
+                log.info(String.format("[%s][Economy] eWallet found: %s", getDescription().getName(), econ.isEnabled() ? "Loaded" : "Waiting"));
+            }
+        } catch (Exception e) {
+            log.severe(String.format("There was an error hooking %s - check to make sure you're using a compatible version!", "eWallet"));
         }
 
-        // Try to load 3co
-        if (packageExists("me.ic3d.eco.ECO")) {
-            Economy econ = new Economy_3co(this);
-            sm.register(Economy.class, econ, this, ServicePriority.Normal);
-            log.info(String.format("[%s][Economy] 3co found: %s", getDescription().getName(), econ.isEnabled() ? "Loaded" : "Waiting"));
+        try {
+            // Try to load 3co
+            if (packageExists("me.ic3d.eco.ECO")) {
+                Economy econ = new Economy_3co(this);
+                sm.register(Economy.class, econ, this, ServicePriority.Normal);
+                log.info(String.format("[%s][Economy] 3co found: %s", getDescription().getName(), econ.isEnabled() ? "Loaded" : "Waiting"));
+            }
+        } catch (Exception e) {
+            log.severe(String.format("There was an error hooking %s - check to make sure you're using a compatible version!", "3co"));
         }
 
-        // Try to load BOSEconomy
-        if (packageExists("cosine.boseconomy.BOSEconomy", "cosine.boseconomy.CommandManager")) {
-            Economy bose6 = new Economy_BOSE6(this);
-            sm.register(Economy.class, bose6, this, ServicePriority.Normal);
-            log.info(String.format("[%s][Economy] BOSEconomy6 found: %s", getDescription().getName(), bose6.isEnabled() ? "Loaded" : "Waiting"));
+        try {
+            // Try to load BOSEconomy
+            if (packageExists("cosine.boseconomy.BOSEconomy", "cosine.boseconomy.CommandManager")) {
+                Economy bose6 = new Economy_BOSE6(this);
+                sm.register(Economy.class, bose6, this, ServicePriority.Normal);
+                log.info(String.format("[%s][Economy] BOSEconomy6 found: %s", getDescription().getName(), bose6.isEnabled() ? "Loaded" : "Waiting"));
+            }
+        } catch (Exception e) {
+            log.severe(String.format("There was an error hooking %s - check to make sure you're using a compatible version!", "BOSEconomy6"));
         }
 
-        // Try to load BOSEconomy
-        if (packageExists("cosine.boseconomy.BOSEconomy", "cosine.boseconomy.CommandHandler")) {
-            Economy bose7 = new Economy_BOSE7(this);
-            sm.register(net.milkbowl.vault.economy.Economy.class, bose7, this, ServicePriority.Normal);
-            log.info(String.format("[%s][Economy] BOSEconomy7 found: %s", getDescription().getName(), bose7.isEnabled() ? "Loaded" : "Waiting"));
+        try {
+            // Try to load BOSEconomy
+            if (packageExists("cosine.boseconomy.BOSEconomy", "cosine.boseconomy.CommandHandler")) {
+                Economy bose7 = new Economy_BOSE7(this);
+                sm.register(net.milkbowl.vault.economy.Economy.class, bose7, this, ServicePriority.Normal);
+                log.info(String.format("[%s][Economy] BOSEconomy7 found: %s", getDescription().getName(), bose7.isEnabled() ? "Loaded" : "Waiting"));
+            }
+        } catch (Exception e) {
+            log.severe(String.format("There was an error hooking %s - check to make sure you're using a compatible version!", "BOSEconomy7"));
         }
 
-        //Try to load CurrencyCore
-        if (packageExists("is.currency.Currency")) {
-            Economy cCore = new Economy_CurrencyCore(this);
-            sm.register(net.milkbowl.vault.economy.Economy.class, cCore, this, ServicePriority.Normal);
-            log.info(String.format("[%s][Economy] CurrencyCore found: %s", getDescription().getName(), cCore.isEnabled() ? "Loaded" : "Waiting"));
+        try {
+            //Try to load CurrencyCore
+            if (packageExists("is.currency.Currency")) {
+                Economy cCore = new Economy_CurrencyCore(this);
+                sm.register(net.milkbowl.vault.economy.Economy.class, cCore, this, ServicePriority.Normal);
+                log.info(String.format("[%s][Economy] CurrencyCore found: %s", getDescription().getName(), cCore.isEnabled() ? "Loaded" : "Waiting"));
+            }
+        } catch (Exception e) {
+            log.severe(String.format("There was an error hooking %s - check to make sure you're using a compatible version!", "CurrencyCore"));
         }
 
-        // Try to load Essentials Economy
-        if (packageExists("com.earth2me.essentials.api.Economy", "com.earth2me.essentials.api.NoLoanPermittedException", "com.earth2me.essentials.api.UserDoesNotExistException")) {
-            Economy essentials = new Economy_Essentials(this);
-            sm.register(net.milkbowl.vault.economy.Economy.class, essentials, this, ServicePriority.Low);
-            log.info(String.format("[%s][Economy] Essentials Economy found: %s", getDescription().getName(), essentials.isEnabled() ? "Loaded" : "Waiting"));
+        try {
+            // Try to load Essentials Economy
+            if (packageExists("com.earth2me.essentials.api.Economy", "com.earth2me.essentials.api.NoLoanPermittedException", "com.earth2me.essentials.api.UserDoesNotExistException")) {
+                Economy essentials = new Economy_Essentials(this);
+                sm.register(net.milkbowl.vault.economy.Economy.class, essentials, this, ServicePriority.Low);
+                log.info(String.format("[%s][Economy] Essentials Economy found: %s", getDescription().getName(), essentials.isEnabled() ? "Loaded" : "Waiting"));
+            }
+        } catch (Exception e) {
+            log.severe(String.format("There was an error hooking %s - check to make sure you're using a compatible version!", "Essentials Economy"));
         }
 
-        // Try to load iConomy 4
-        if (packageExists("com.nijiko.coelho.iConomy.iConomy", "com.nijiko.coelho.iConomy.system.Account")) {
-            Economy icon4 = new Economy_iConomy4(this);
-            sm.register(net.milkbowl.vault.economy.Economy.class, icon4, this, ServicePriority.High);
-            log.info(String.format("[%s][Economy] iConomy 4 found: ", getDescription().getName(), icon4.isEnabled() ? "Loaded" : "Waiting"));
+        try {
+            // Try to load iConomy 4
+            if (packageExists("com.nijiko.coelho.iConomy.iConomy", "com.nijiko.coelho.iConomy.system.Account")) {
+                Economy icon4 = new Economy_iConomy4(this);
+                sm.register(net.milkbowl.vault.economy.Economy.class, icon4, this, ServicePriority.High);
+                log.info(String.format("[%s][Economy] iConomy 4 found: ", getDescription().getName(), icon4.isEnabled() ? "Loaded" : "Waiting"));
+            }
+        } catch (Exception e) {
+            log.severe(String.format("There was an error hooking %s - check to make sure you're using a compatible version!", "iConomy 4"));
         }
 
-        // Try to load iConomy 5
-        if (packageExists("com.iConomy.iConomy", "com.iConomy.system.Account", "com.iConomy.system.Holdings")) {
-            Economy icon5 = new Economy_iConomy5(this);
-            sm.register(net.milkbowl.vault.economy.Economy.class, icon5, this, ServicePriority.High);
-            log.info(String.format("[%s][Economy] iConomy 5 found: %s", getDescription().getName(), icon5.isEnabled() ? "Loaded" : "Waiting"));
+        try {
+            // Try to load iConomy 5
+            if (packageExists("com.iConomy.iConomy", "com.iConomy.system.Account", "com.iConomy.system.Holdings")) {
+                Economy icon5 = new Economy_iConomy5(this);
+                sm.register(net.milkbowl.vault.economy.Economy.class, icon5, this, ServicePriority.High);
+                log.info(String.format("[%s][Economy] iConomy 5 found: %s", getDescription().getName(), icon5.isEnabled() ? "Loaded" : "Waiting"));
+            }
+        } catch (Exception e) {
+            log.severe(String.format("There was an error hooking %s - check to make sure you're using a compatible version!", "iConomy 5"));
         }
 
-        // Try to load iConomy 6
-        if (packageExists("com.iCo6.iConomy")) {
-            Economy icon6 = new Economy_iConomy6(this);
-            sm.register(Economy.class, icon6, this, ServicePriority.High);
-            log.info(String.format("[%s][Economy] iConomy 6 found: %s", getDescription().getName(), icon6.isEnabled() ? "Loaded" : "Waiting"));
+        try {
+            // Try to load iConomy 6
+            if (packageExists("com.iCo6.iConomy")) {
+                Economy icon6 = new Economy_iConomy6(this);
+                sm.register(Economy.class, icon6, this, ServicePriority.High);
+                log.info(String.format("[%s][Economy] iConomy 6 found: %s", getDescription().getName(), icon6.isEnabled() ? "Loaded" : "Waiting"));
+            }
+        } catch (Exception e) {
+            log.severe(String.format("There was an error hooking %s - check to make sure you're using a compatible version!", "iConomy 6"));
         }
 
-        //Try loading EconXP
-        if (packageExists("ca.agnate.EconXP.EconXP")) {
-            Economy econ = new Economy_EconXP(this);
-            sm.register(Economy.class, econ, this, ServicePriority.Normal);
-            log.info(String.format("[%s][Economy] EconXP found: %s", getDescription().getName(), econ.isEnabled() ? "Loaded" : "Waiting"));
+        try {
+            //Try loading EconXP
+            if (packageExists("ca.agnate.EconXP.EconXP")) {
+                Economy econ = new Economy_EconXP(this);
+                sm.register(Economy.class, econ, this, ServicePriority.Normal);
+                log.info(String.format("[%s][Economy] EconXP found: %s", getDescription().getName(), econ.isEnabled() ? "Loaded" : "Waiting"));
+            }
+        } catch (Exception e) {
+            log.severe(String.format("There was an error hooking %s - check to make sure you're using a compatible version!", "EconXP"));
         }
     }
 
@@ -332,66 +428,103 @@ public class Vault extends JavaPlugin {
      * Attempts to load Permission Addons
      */
     private void loadPermission() {
-        //Try to load Starburst
-        if (packageExists("com.dthielke.starburst.StarburstPlugin")) {
-            Permission sPerms = new Permission_Starburst(this);
-            sm.register(Permission.class, sPerms, this, ServicePriority.Highest);
-            log.info(String.format("[%s][Permission] Starburst found: %s", getDescription().getName(), sPerms.isEnabled() ? "Loaded" : "Waiting"));
+        try {
+            //Try to load Starburst
+            if (packageExists("com.dthielke.starburst.StarburstPlugin")) {
+                Permission sPerms = new Permission_Starburst(this);
+                sm.register(Permission.class, sPerms, this, ServicePriority.Highest);
+                log.info(String.format("[%s][Permission] Starburst found: %s", getDescription().getName(), sPerms.isEnabled() ? "Loaded" : "Waiting"));
+            }
+        } catch (Exception e) {
+            log.severe(String.format("There was an error hooking %s - check to make sure you're using a compatible version!", "Starburst"));
         }
 
-        // Try to load PermissionsEx
-        if (packageExists("ru.tehkode.permissions.bukkit.PermissionsEx")) {
-            Permission ePerms = new Permission_PermissionsEx(this);
-            sm.register(Permission.class, ePerms, this, ServicePriority.Highest);
-            log.info(String.format("[%s][Permission] PermissionsEx found: %s", getDescription().getName(), ePerms.isEnabled() ? "Loaded" : "Waiting"));
+        try {
+            // Try to load PermissionsEx
+            if (packageExists("ru.tehkode.permissions.bukkit.PermissionsEx")) {
+                Permission ePerms = new Permission_PermissionsEx(this);
+                sm.register(Permission.class, ePerms, this, ServicePriority.Highest);
+                log.info(String.format("[%s][Permission] PermissionsEx found: %s", getDescription().getName(), ePerms.isEnabled() ? "Loaded" : "Waiting"));
+            }
+        } catch (Exception e) {
+            log.severe(String.format("There was an error hooking %s - check to make sure you're using a compatible version!", "PermissionsEX"));
         }
 
-        //Try loading PermissionsBukkit
-        if (packageExists("com.platymuus.bukkit.permissions.PermissionsPlugin")) {
-            Permission pPerms = new Permission_PermissionsBukkit(this);
-            sm.register(Permission.class, pPerms, this, ServicePriority.Highest);
-            log.info(String.format("[%s][Permission] PermissionsBukkit found: %s", getDescription().getName(), pPerms.isEnabled() ? "Loaded" : "Waiting"));
+        try {
+            //Try loading PermissionsBukkit
+            if (packageExists("com.platymuus.bukkit.permissions.PermissionsPlugin")) {
+                Permission pPerms = new Permission_PermissionsBukkit(this);
+                sm.register(Permission.class, pPerms, this, ServicePriority.Highest);
+                log.info(String.format("[%s][Permission] PermissionsBukkit found: %s", getDescription().getName(), pPerms.isEnabled() ? "Loaded" : "Waiting"));
+            }
+        } catch (Exception e) {
+            log.severe(String.format("There was an error hooking %s - check to make sure you're using a compatible version!", "PermissionsBukkit"));
         }
 
-        //Try loading SimplyPerms
-        if (packageExists("net.crystalyx.bukkit.simplyperms.SimplyPlugin")) {
-            Permission sPerms = new Permission_SimplyPerms(this);
-            sm.register(Permission.class, sPerms, this, ServicePriority.Highest);
-            log.info(String.format("[%s][Permission] SimplyPerms found: %s", getDescription().getName(), sPerms.isEnabled() ? "Loaded" : "Waiting"));
+        try {
+            //Try loading SimplyPerms
+            if (packageExists("net.crystalyx.bukkit.simplyperms.SimplyPlugin")) {
+                Permission sPerms = new Permission_SimplyPerms(this);
+                sm.register(Permission.class, sPerms, this, ServicePriority.Highest);
+                log.info(String.format("[%s][Permission] SimplyPerms found: %s", getDescription().getName(), sPerms.isEnabled() ? "Loaded" : "Waiting"));
+            }
+        } catch (Exception e) {
+            log.severe(String.format("There was an error hooking %s - check to make sure you're using a compatible version!", "SimplyPerms"));
         }
 
-        //try loading bPermissions2
-        if (packageExists("de.bananaco.bpermissions.api.WorldManager")) {
-            Permission bPerms = new Permission_bPermissions2(this);
-            sm.register(Permission.class, bPerms, this, ServicePriority.Highest);
-            log.info(String.format("[%s][Chat] bPermissions found: %s", getDescription().getName(), bPerms.isEnabled() ? "Loaded" : "Waiting"));
+        try {
+            //try loading bPermissions2
+            if (packageExists("de.bananaco.bpermissions.api.WorldManager")) {
+                Permission bPerms = new Permission_bPermissions2(this);
+                sm.register(Permission.class, bPerms, this, ServicePriority.Highest);
+                log.info(String.format("[%s][Chat] bPermissions found: %s", getDescription().getName(), bPerms.isEnabled() ? "Loaded" : "Waiting"));
+            }
+        } catch (Exception e) {
+            log.severe(String.format("There was an error hooking %s - check to make sure you're using a compatible version!", "bPermissions 2"));
         }
 
-        //Try to load zPermission
-        if (packageExists("org.tyrannyofheaven.bukkit.zPermissions.ZPermissionsPlugin")) {
-            Permission zPerms = new Permission_zPermissions(this);
-            sm.register(Permission.class, zPerms, this, ServicePriority.Highest);
-            log.info(String.format("[%s][Permission] zPermissions found: %s", getDescription().getName(), zPerms.isEnabled() ? "Loaded" : "Waiting"));
+        try {
+            //Try to load zPermission
+            if (packageExists("org.tyrannyofheaven.bukkit.zPermissions.ZPermissionsPlugin")) {
+                Permission zPerms = new Permission_zPermissions(this);
+                sm.register(Permission.class, zPerms, this, ServicePriority.Highest);
+                log.info(String.format("[%s][Permission] zPermissions found: %s", getDescription().getName(), zPerms.isEnabled() ? "Loaded" : "Waiting"));
+            }
+        } catch (Exception e) {
+            log.severe(String.format("There was an error hooking %s - check to make sure you're using a compatible version!", "zPermissions"));
         }
 
-        //Try to load bPermissions
-        if (packageExists("de.bananaco.permissions.SuperPermissionHandler")) {
-            Permission bPerms = new Permission_bPermissions(this);
-            sm.register(Permission.class, bPerms, this, ServicePriority.High);
-            log.info(String.format("[%s][Permission] bPermissions found: %s", getDescription().getName(), bPerms.isEnabled() ? "Loaded" : "Waiting"));
+        try {
+            //Try to load bPermissions
+            if (packageExists("de.bananaco.permissions.SuperPermissionHandler")) {
+                Permission bPerms = new Permission_bPermissions(this);
+                sm.register(Permission.class, bPerms, this, ServicePriority.High);
+                log.info(String.format("[%s][Permission] bPermissions found: %s", getDescription().getName(), bPerms.isEnabled() ? "Loaded" : "Waiting"));
+            }
+        } catch (Exception e) {
+            log.severe(String.format("There was an error hooking %s - check to make sure you're using a compatible version!", "bPermissions"));
         }
 
-        // Try to load GroupManager
-        if (packageExists("org.anjocaido.groupmanager.GroupManager")) {
-            Permission gPerms = new Permission_GroupManager(this);
-            sm.register(Permission.class, gPerms, this, ServicePriority.High);
-            log.info(String.format("[%s][Permission] GroupManager found: %s", getDescription().getName(), gPerms.isEnabled() ? "Loaded" : "Waiting"));
+        try {
+            // Try to load GroupManager
+            if (packageExists("org.anjocaido.groupmanager.GroupManager")) {
+                Permission gPerms = new Permission_GroupManager(this);
+                sm.register(Permission.class, gPerms, this, ServicePriority.High);
+                log.info(String.format("[%s][Permission] GroupManager found: %s", getDescription().getName(), gPerms.isEnabled() ? "Loaded" : "Waiting"));
+            }
+        } catch (Exception e) {
+            log.severe(String.format("There was an error hooking %s - check to make sure you're using a compatible version!", "GroupManager"));
         }
-        // Try to load Permissions 3 (Yeti)
-        if (packageExists("com.nijiko.permissions.ModularControl")) {
-            Permission nPerms = new Permission_Permissions3(this);
-            sm.register(Permission.class, nPerms, this, ServicePriority.High);
-            log.info(String.format("[%s][Permission] Permissions 3 (Yeti) found: %s", getDescription().getName(), nPerms.isEnabled() ? "Loaded" : "Waiting"));
+
+        try {
+            // Try to load Permissions 3 (Yeti)
+            if (packageExists("com.nijiko.permissions.ModularControl")) {
+                Permission nPerms = new Permission_Permissions3(this);
+                sm.register(Permission.class, nPerms, this, ServicePriority.High);
+                log.info(String.format("[%s][Permission] Permissions 3 (Yeti) found: %s", getDescription().getName(), nPerms.isEnabled() ? "Loaded" : "Waiting"));
+            }
+        } catch (Exception e) {
+            log.severe(String.format("There was an error hooking %s - check to make sure you're using a compatible version!", "Permissions 3"));
         }
 
         Permission perms = new Permission_SuperPerms(this);
@@ -503,7 +636,7 @@ public class Vault extends JavaPlugin {
                 registeredChats += ", " + c.getName();
             }
         }
-        
+
         // Get Economy & Permission primary Services
         RegisteredServiceProvider<Economy> rsp = getServer().getServicesManager().getRegistration(Economy.class);
         Economy econ = null;
