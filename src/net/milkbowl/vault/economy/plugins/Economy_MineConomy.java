@@ -22,7 +22,10 @@ import java.util.logging.Logger;
 import me.mjolnir.mineconomy.MineConomy;
 import me.mjolnir.mineconomy.exceptions.AccountNameConflictException;
 import me.mjolnir.mineconomy.exceptions.NoAccountException;
+import me.mjolnir.mineconomy.exceptions.BankNameConflictException;
+import me.mjolnir.mineconomy.exceptions.NoBankException;
 import me.mjolnir.mineconomy.internal.MCCom;
+
 import net.milkbowl.vault.economy.Economy;
 import net.milkbowl.vault.economy.EconomyResponse;
 import net.milkbowl.vault.economy.EconomyResponse.ResponseType;
@@ -99,11 +102,11 @@ public class Economy_MineConomy implements Economy {
     }
 
     public String currencyNameSingular() {
-        return "";
+        return MCCom.getDefaultCurrency();
     }
 
     public String currencyNamePlural() {
-        return "";
+        return MCCom.getDefaultCurrency();
     }
 
     public double getBalance(String playerName) {
@@ -172,52 +175,77 @@ public class Economy_MineConomy implements Economy {
 
     @Override
     public EconomyResponse createBank(String name, String player) {
-        return new EconomyResponse(0.0D, 0.0D, ResponseType.NOT_IMPLEMENTED, "MineConomy does not support bank accounts!");
+        
+        try
+        {
+            MCCom.createBank();
+            return new EconomyResponse(0, 0, ResponseType.SUCCESS, "");
+        }
+        catch(BankNameConflictException e)
+        {
+            return new EconomyResponse(0, 0, ResponseType.FAILURE, "That bank already exists");
+        }
     }
 
     @Override
     public EconomyResponse deleteBank(String name) {
-        return new EconomyResponse(0.0D, 0.0D, ResponseType.NOT_IMPLEMENTED, "MineConomy does not support bank accounts!");
+        
+        try
+        {
+            MCCom.deleteBank(name);
+            return new EconomyResponse(0, 0, ResponseType.SUCCESS, "");
+        }
+        catch (NoBankException e)
+        {
+            return new EconomyResponse(0, 0, ResponseType.FAILURE, "That bank does not exist");
+        }
     }
 
     @Override
     public EconomyResponse bankHas(String name, double amount) {
-        return new EconomyResponse(0.0D, 0.0D, ResponseType.NOT_IMPLEMENTED, "MineConomy does not support bank accounts!");
+        return new EconomyResponse(0.0D, 0.0D, ResponseType.NOT_IMPLEMENTED, "MineConomy banks do not have overall funds!");
     }
 
     @Override
     public EconomyResponse bankWithdraw(String name, double amount) {
-        return new EconomyResponse(0.0D, 0.0D, ResponseType.NOT_IMPLEMENTED, "MineConomy does not support bank accounts!");
+        return new EconomyResponse(0.0D, 0.0D, ResponseType.NOT_IMPLEMENTED, "MineConomy banks do not have overall funds!");
     }
 
     @Override
     public EconomyResponse bankDeposit(String name, double amount) {
-        return new EconomyResponse(0.0D, 0.0D, ResponseType.NOT_IMPLEMENTED, "MineConomy does not support bank accounts!");
+        return new EconomyResponse(0.0D, 0.0D, ResponseType.NOT_IMPLEMENTED, "MineConomy banks do not have overall funds!");
     }
 
     @Override
     public EconomyResponse isBankOwner(String name, String playerName) {
-        return new EconomyResponse(0.0D, 0.0D, ResponseType.NOT_IMPLEMENTED, "MineConomy does not support bank accounts!");
+        return new EconomyResponse(0.0D, 0.0D, ResponseType.NOT_IMPLEMENTED, "MineConomy does not support bank owners!");
     }
 
     @Override
     public EconomyResponse isBankMember(String name, String playerName) {
-        return new EconomyResponse(0.0D, 0.0D, ResponseType.NOT_IMPLEMENTED, "MineConomy does not support bank accounts!");
+        if (MCCom.accountExists(name, playerName))
+        {
+            return new EconomyResponse(0, 0, ResponseType.SUCCESS, "");
+        }
+        else
+        {
+            return new EconomyResponse(0, 0, ResponseType.FAILURE, "That bank or account does not exist");
+        }
     }
 
     @Override
     public EconomyResponse bankBalance(String name) {
-        return new EconomyResponse(0.0D, 0.0D, ResponseType.NOT_IMPLEMENTED, "MineConomy does not support bank accounts!");
+        return new EconomyResponse(0.0D, 0.0D, ResponseType.NOT_IMPLEMENTED, "MineConomy banks do not have overall funds!");
     }
 
     @Override
     public List<String> getBanks() {
-        return new ArrayList<String>();
+        return MCCom.getBanks();
     }
 
     @Override
     public boolean hasBankSupport() {
-        return false;
+        return true;
     }
 
     @Override
