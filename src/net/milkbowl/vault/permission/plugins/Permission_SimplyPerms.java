@@ -113,6 +113,7 @@ public class Permission_SimplyPerms extends Permission{
         } else {
             this.perms.addPlayerPermission(player, permission, true);
         }
+        this.perms.refreshPermissions();
         return true;
     }
 
@@ -124,6 +125,7 @@ public class Permission_SimplyPerms extends Permission{
         } else {
             this.perms.removePlayerPermission(player, permission);
         }
+        this.perms.refreshPermissions();
         return true;
     }
 
@@ -142,6 +144,7 @@ public class Permission_SimplyPerms extends Permission{
         } else {
             this.perms.addGroupPermission(group, permission, true);
         }
+        this.perms.refreshPermissions();
         return true;
     }
 
@@ -154,6 +157,7 @@ public class Permission_SimplyPerms extends Permission{
         } else {
             this.perms.removeGroupPermission(group, permission);
         }
+        this.perms.refreshPermissions();
         return true;
     }
 
@@ -178,6 +182,7 @@ public class Permission_SimplyPerms extends Permission{
     public boolean playerAddGroup(String world, String player, String group) {
         group = group.toLowerCase();
         this.perms.addPlayerGroup(player, group);
+        this.perms.refreshPermissions();
         return true;
     }
 
@@ -185,6 +190,7 @@ public class Permission_SimplyPerms extends Permission{
     public boolean playerRemoveGroup(String world, String player, String group) {
         group = group.toLowerCase();
         this.perms.removePlayerGroup(player, group);
+        this.perms.refreshPermissions();
         return true;
     }
 
