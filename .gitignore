@@ -10,3 +10,6 @@ javadoc
 Vault.jar
 /Vault.iml
 /target
+/bin
+/lib
+.git
