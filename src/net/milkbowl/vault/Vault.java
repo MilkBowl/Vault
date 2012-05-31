@@ -256,7 +256,7 @@ public class Vault extends JavaPlugin {
         
         try {
             //try to load DroxPerms Chat
-            if (packageExists("de.hydrox.bukkit.DroxPerms")) {
+            if (packageExists("de.hydrox.bukkit.DroxPerms.DroxPerms")) {
                 Chat droxChat = new Chat_DroxPerms(this, perms);
                 sm.register(Chat.class, droxChat, this, ServicePriority.Lowest);
                 log.info(String.format("[%s][Chat] DroxPerms found: %s", getDescription().getName(), droxChat.isEnabled() ? "Loaded" : "Waiting"));
@@ -542,7 +542,7 @@ public class Vault extends JavaPlugin {
         
         try {
             //Try to load DroxPerms
-            if (packageExists("de.hydrox.bukkit.DroxPerms")) {
+            if (packageExists("de.hydrox.bukkit.DroxPerms.DroxPerms")) {
                 Permission dPerms = new Permission_DroxPerms(this);
                 sm.register(Permission.class, dPerms, this, ServicePriority.High);
                 log.info(String.format("[%s][Permission] DroxPerms found: %s", getDescription().getName(), dPerms.isEnabled() ? "Loaded" : "Waiting"));
