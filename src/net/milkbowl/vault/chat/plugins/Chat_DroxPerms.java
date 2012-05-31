@@ -24,7 +24,7 @@ public class Chat_DroxPerms extends Chat {
 			DroxPerms p = (DroxPerms) plugin.getServer().getPluginManager().getPlugin("DroxPerms");
 			if (p != null) {
 				API = p.getAPI();
-				log.info(String.format("[%s][Chat] %s hooked.", plugin.getDescription().getName(), "bPermissions"));
+				log.info(String.format("[%s][Chat] %s hooked.", plugin.getDescription().getName(), name));
 			}
 		}
 	}
