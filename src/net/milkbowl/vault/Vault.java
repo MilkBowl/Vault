@@ -34,6 +34,7 @@ import net.milkbowl.vault.chat.plugins.Chat_bPermissions2;
 import net.milkbowl.vault.chat.plugins.Chat_iChat;
 import net.milkbowl.vault.chat.plugins.Chat_mChat;
 import net.milkbowl.vault.chat.plugins.Chat_mChatSuite;
+import net.milkbowl.vault.chat.plugins.Chat_DroxPerms;
 import net.milkbowl.vault.economy.Economy;
 import net.milkbowl.vault.economy.plugins.Economy_3co;
 import net.milkbowl.vault.economy.plugins.Economy_AEco;
@@ -61,6 +62,7 @@ import net.milkbowl.vault.permission.plugins.Permission_SuperPerms;
 import net.milkbowl.vault.permission.plugins.Permission_bPermissions;
 import net.milkbowl.vault.permission.plugins.Permission_bPermissions2;
 import net.milkbowl.vault.permission.plugins.Permission_zPermissions;
+import net.milkbowl.vault.permission.plugins.Permission_DroxPerms;
 
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
@@ -250,6 +252,17 @@ public class Vault extends JavaPlugin {
             }
         } catch (Exception e) {
             log.severe(String.format("There was an error hooking %s - check to make sure you're using a compatible version!", "Towny Chat"));
+        }
+        
+        try {
+            //try to load DroxPerms Chat
+            if (packageExists("de.hydrox.bukkit.DroxPerms")) {
+                Chat droxChat = new Chat_DroxPerms(this, perms);
+                sm.register(Chat.class, droxChat, this, ServicePriority.Lowest);
+                log.info(String.format("[%s][Chat] DroxPerms found: %s", getDescription().getName(), droxChat.isEnabled() ? "Loaded" : "Waiting"));
+            }
+        } catch (Exception e) {
+            log.severe(String.format("There was an error loading %s - Are you using an up-to-date version?", "DroxPerms"));
         }
     }
 
@@ -525,6 +538,17 @@ public class Vault extends JavaPlugin {
             }
         } catch (Exception e) {
             log.severe(String.format("There was an error hooking %s - check to make sure you're using a compatible version!", "Permissions 3"));
+        }
+        
+        try {
+            //Try to load DroxPerms
+            if (packageExists("de.hydrox.bukkit.DroxPerms")) {
+                Permission dPerms = new Permission_DroxPerms(this);
+                sm.register(Permission.class, dPerms, this, ServicePriority.High);
+                log.info(String.format("[%s][Permission] DroxPerms found: %s", getDescription().getName(), dPerms.isEnabled() ? "Loaded" : "Waiting"));
+            }
+        } catch (Exception e) {
+            log.severe(String.format("There was an error hooking %s - Are you using a compatible version?", "DroxPerms"));
         }
 
         Permission perms = new Permission_SuperPerms(this);
