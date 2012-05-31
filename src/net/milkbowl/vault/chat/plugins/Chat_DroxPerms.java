@@ -7,6 +7,12 @@ import net.milkbowl.vault.chat.Chat;
 import net.milkbowl.vault.permission.Permission;
 import de.hydrox.bukkit.DroxPerms.DroxPerms;
 import de.hydrox.bukkit.DroxPerms.DroxPermsAPI;
+import org.bukkit.Bukkit;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
+import org.bukkit.event.Listener;
+import org.bukkit.event.server.PluginEnableEvent;
+import org.bukkit.plugin.Plugin;
 
 public class Chat_DroxPerms extends Chat {
     private static final Logger log = Logger.getLogger("Minecraft");
@@ -27,7 +33,21 @@ public class Chat_DroxPerms extends Chat {
 				log.info(String.format("[%s][Chat] %s hooked.", plugin.getDescription().getName(), name));
 			}
 		}
+                Bukkit.getServer().getPluginManager().registerEvents(new PermissionServerListener(), plugin);
 	}
+         public class PermissionServerListener implements Listener {
+            @EventHandler(priority = EventPriority.MONITOR)
+            public void onPluginEnable(PluginEnableEvent event) {
+                if (API == null) {
+                    Plugin permPlugin = event.getPlugin();
+                    if (permPlugin.getDescription().getName().equals("DroxPerms")) {
+                        DroxPerms dPerms = (DroxPerms)permPlugin;
+                        API = dPerms.getAPI();
+                        log.info(String.format("[%s][Chat] %s hooked.", plugin.getDescription().getName(), name));
+                    }
+                }
+            }
+         }
 	
 	@Override
 	public String getName() {
