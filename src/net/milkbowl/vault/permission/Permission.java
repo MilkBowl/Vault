@@ -54,6 +54,9 @@ public abstract class Permission {
     
     /**
      * Checks if player has a permission node. (Short for playerHas(...)
+     * Supports NULL value for World if the permission system registered supports global permissions.
+     * But May return odd values if the servers registered permission system does not have a global permission store.
+     * 
      * @param world World name
      * @param player Player name
      * @param permission Permission node
@@ -68,6 +71,9 @@ public abstract class Permission {
 
     /**
      * Checks if player has a permission node. (Short for playerHas(...)
+     * Supports NULL value for World if the permission system registered supports global permissions.
+     * But May return odd values if the servers registered permission system does not have a global permission store.
+     * 
      * @param world World Object
      * @param player Player name
      * @param permission Permission node
@@ -82,6 +88,9 @@ public abstract class Permission {
 
     /**
      * Checks if a CommandSender has a permission node.
+     * This will return the result of bukkits, generic .hasPermission() method and is identical in all cases.
+     * This method will explicitly fail if the registered permission system does not register permissions in bukkit.
+     * 
      * For easy checking of a commandsender
      * @param sender
      * @param permission
@@ -103,6 +112,9 @@ public abstract class Permission {
 
     /**
      * Checks if player has a permission node.
+     * Supports NULL value for World if the permission system registered supports global permissions.
+     * But May return odd values if the servers registered permission system does not have a global permission store.
+     * 
      * @param world World name
      * @param player Player name
      * @param permission Permission node
@@ -112,6 +124,9 @@ public abstract class Permission {
 
     /**
      * Checks if player has a permission node.
+     * Supports NULL value for World if the permission system registered supports global permissions.
+     * But May return odd values if the servers registered permission system does not have a global permission store.
+     * 
      * @param world World Object
      * @param player Player name
      * @param permission Permission node
@@ -136,6 +151,9 @@ public abstract class Permission {
 
     /**
      * Add permission to a player.
+     * Supports NULL value for World if the permission system registered supports global permissions.
+     * But May return odd values if the servers registered permission system does not have a global permission store.
+     * 
      * @param world World name
      * @param player Player name
      * @param permission Permission node
@@ -145,6 +163,9 @@ public abstract class Permission {
 
     /**
      * Add permission to a player.
+     * Supports NULL value for World if the permission system registered supports global permissions.
+     * But May return odd values if the servers registered permission system does not have a global permission store.
+     * 
      * @param world World Object
      * @param player Player name
      * @param permission Permission node
@@ -158,7 +179,9 @@ public abstract class Permission {
     }
 
     /**
-     * Add permission to a player.
+     * Add permission to a player ONLY for the world the player is currently on.
+     * This is a world-specific operation, if you want to add global permission you must explicitly use NULL for the world.
+     * 
      * @param player Player Object
      * @param permission Permission node
      * @return Success or Failure
@@ -172,12 +195,13 @@ public abstract class Permission {
      * This implementation can be used by any subclass which implements a "pure" superperms plugin, i.e. 
      * one that only needs the built-in Bukkit API to add transient permissions to a player.  Any subclass
      * implementing a plugin which provides its own API for this needs to override this method. 
+     * 
      * @param world World name
      * @param player Player name
      * @param permission Permission node
      * @return Success or Failure
      */
-    public boolean playerAddTransient(String player, String permission) {
+    public boolean playerAddTransient(String player, String permission) throws UnsupportedOperationException {
 		Player p = plugin.getServer().getPlayer(player);
 		if (p == null) {
 			throw new UnsupportedOperationException(getName() + " does not support offline player transient permissions!");
@@ -187,6 +211,8 @@ public abstract class Permission {
 
     /**
      * Add transient permission to a player.
+     * This operation adds a world-unspecific permission onto the player object in bukkit via Bukkit's permission interface.
+     * 
      * @param player Player Object
      * @param permission Permission node
      * @return Success or Failure
@@ -268,6 +294,9 @@ public abstract class Permission {
 
     /**
      * Remove permission from a player.
+     * Supports NULL value for World if the permission system registered supports global permissions.
+     * But May return odd values if the servers registered permission system does not have a global permission store.
+     * 
      * @param world World name
      * @param player Player name
      * @param permission Permission node
@@ -282,6 +311,8 @@ public abstract class Permission {
 
     /**
      * Remove permission from a player.
+     * Will attempt to remove permission from the player on the player's current world.  This is NOT a global operation.
+     * 
      * @param player Player Object
      * @param permission Permission node
      * @return Success or Failure
@@ -295,6 +326,7 @@ public abstract class Permission {
      * This implementation can be used by any subclass which implements a "pure" superperms plugin, i.e. 
      * one that only needs the built-in Bukkit API to remove transient permissions from a player.  Any subclass
      * implementing a plugin which provides its own API for this needs to override this method.
+     * 
      * @param world World name
      * @param player Player name
      * @param permission Permission node
@@ -310,6 +342,7 @@ public abstract class Permission {
 
     /**
      * Remove transient permission from a player.
+     * 
      * @param player Player Object
      * @param permission Permission node
      * @return Success or Failure
@@ -326,6 +359,9 @@ public abstract class Permission {
     
     /**
      * Checks if group has a permission node.
+     * Supports NULL value for World if the permission system registered supports global permissions.
+     * But May return odd values if the servers registered permission system does not have a global permission store.
+     * 
      * @param world World name
      * @param group Group name
      * @param permission Permission node
@@ -335,6 +371,9 @@ public abstract class Permission {
 
     /**
      * Checks if group has a permission node.
+     * Supports NULL value for World if the permission system registered supports global permissions.
+     * But May return odd values if the servers registered permission system does not have a global permission store.
+     * 
      * @param world World Object
      * @param group Group name
      * @param permission Permission node
@@ -349,6 +388,9 @@ public abstract class Permission {
 
     /**
      * Add permission to a group.
+     * Supports NULL value for World if the permission system registered supports global permissions.
+     * But May return odd values if the servers registered permission system does not have a global permission store.
+     * 
      * @param world World name
      * @param group Group name
      * @param permission Permission node
@@ -358,6 +400,9 @@ public abstract class Permission {
 
     /**
      * Add permission to a group.
+     * Supports NULL value for World if the permission system registered supports global permissions.
+     * But May return odd values if the servers registered permission system does not have a global permission store.
+     * 
      * @param world World Object
      * @param group Group name
      * @param permission Permission node
@@ -372,6 +417,9 @@ public abstract class Permission {
 
     /**
      * Remove permission from a group.
+     * Supports NULL value for World if the permission system registered supports global permissions.
+     * But May return odd values if the servers registered permission system does not have a global permission store.
+     * 
      * @param world World name
      * @param group Group name
      * @param permission Permission node
@@ -381,6 +429,9 @@ public abstract class Permission {
 
     /**
      * Remove permission from a group.
+     * Supports NULL value for World if the permission system registered supports global permissions.
+     * But May return odd values if the servers registered permission system does not have a global permission store.
+     * 
      * @param world World Object
      * @param group Group name
      * @param permission Permission node
@@ -395,6 +446,12 @@ public abstract class Permission {
 
     /**
      * Check if player is member of a group.
+     * Supports NULL value for World if the permission system registered supports global permissions.
+     * But May return odd values if the servers registered permission system does not have a global permission store.
+     * 
+     * This method is known to return unexpected results depending on what permission system is being used. Different permission systems
+     * will store the player groups differently, It is HIGHLY suggested you test your code out first.
+     * 
      * @param world World name
      * @param player Player name
      * @param group Group name
@@ -404,6 +461,9 @@ public abstract class Permission {
 
     /**
      * Check if player is member of a group.
+     * Supports NULL value for World if the permission system registered supports global permissions.
+     * But May return odd values if the servers registered permission system does not have a global permission store.
+     * 
      * @param world World Object
      * @param player Player name
      * @param group Group name
@@ -418,6 +478,9 @@ public abstract class Permission {
 
     /**
      * Check if player is member of a group.
+     * This method will ONLY check groups for which the player is in that are defined for the current world.
+     * This may result in odd return behaviour depending on what permission system has been registered.
+     * 
      * @param player Player Object
      * @param group Group name
      * @return Success or Failure
@@ -428,6 +491,9 @@ public abstract class Permission {
 
     /**
      * Add player to a group.
+     * Supports NULL value for World if the permission system registered supports global permissions.
+     * But May return odd values if the servers registered permission system does not have a global permission store.
+     * 
      * @param world World name
      * @param player Player name
      * @param group Group name
@@ -437,6 +503,9 @@ public abstract class Permission {
 
     /**
      * Add player to a group.
+     * Supports NULL value for World if the permission system registered supports global permissions.
+     * But May return odd values if the servers registered permission system does not have a global permission store.
+     * 
      * @param world World Object
      * @param player Player name
      * @param group Group name
@@ -451,6 +520,9 @@ public abstract class Permission {
 
     /**
      * Add player to a group.
+     * This will add a player to the group on the current World.  This may return odd results if the permission system
+     * being used on the server does not support world-specific groups, or if the group being added to is a global group.
+     * 
      * @param player Player Object
      * @param group Group name
      * @return Success or Failure
@@ -461,6 +533,9 @@ public abstract class Permission {
 
     /**
      * Remove player from a group.
+     * Supports NULL value for World if the permission system registered supports global permissions.
+     * But May return odd values if the servers registered permission system does not have a global permission store.
+     * 
      * @param world World name
      * @param player Player name
      * @param group Group name
@@ -470,6 +545,9 @@ public abstract class Permission {
 
     /**
      * Remove player from a group.
+     * Supports NULL value for World if the permission system registered supports global permissions.
+     * But May return odd values if the servers registered permission system does not have a global permission store.
+     * 
      * @param world World Object
      * @param player Player name
      * @param group Group name
@@ -484,6 +562,9 @@ public abstract class Permission {
 
     /**
      * Remove player from a group.
+     * This will add a player to the group on the current World.  This may return odd results if the permission system
+     * being used on the server does not support world-specific groups, or if the group being added to is a global group.
+     * 
      * @param player Player Object
      * @param group Group name
      * @return Success or Failure
@@ -493,7 +574,10 @@ public abstract class Permission {
     }
 
     /**
-     * Gets the list of groups that this player has
+     * Gets the list of groups that this player has.
+     * Supports NULL value for World if the permission system registered supports global permissions.
+     * But May return odd values if the servers registered permission system does not have a global permission store.
+     * 
      * @param world World name
      * @param player Player name
      * @return Array of groups
@@ -502,6 +586,9 @@ public abstract class Permission {
 
     /**
      * Gets the list of groups that this player has
+     * Supports NULL value for World if the permission system registered supports global permissions.
+     * But May return odd values if the servers registered permission system does not have a global permission store.
+     * 
      * @param world World Object
      * @param player Player name
      * @return Array of groups
@@ -514,7 +601,9 @@ public abstract class Permission {
     }
 
     /**
-     * Gets the list of groups that this player has
+     * Returns a list of world-specific groups that this player is currently in. May return unexpected results if
+     * you are looking for global groups, or if the registered permission system does not support world-specific groups.
+     * 
      * @param player Player Object
      * @return Array of groups
      */
@@ -524,6 +613,9 @@ public abstract class Permission {
 
     /**
      * Gets players primary group
+     * Supports NULL value for World if the permission system registered supports global permissions.
+     * But May return odd values if the servers registered permission system does not have a global permission store.
+     * 
      * @param world World name
      * @param player Player name
      * @return Players primary group
@@ -532,6 +624,9 @@ public abstract class Permission {
 
     /**
      * Gets players primary group
+     * Supports NULL value for World if the permission system registered supports global permissions.
+     * But May return odd values if the servers registered permission system does not have a global permission store.
+     * 
      * @param world World Object
      * @param player Player name
      * @return Players primary group
