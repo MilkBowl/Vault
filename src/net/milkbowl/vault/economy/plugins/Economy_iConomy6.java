@@ -47,9 +47,9 @@ public class Economy_iConomy6 implements Economy {
     public Economy_iConomy6(JavaPlugin plugin) {
         this.plugin = plugin;
         Bukkit.getServer().getPluginManager().registerEvents(new EconomyServerListener(this), plugin);
-        log.severe("iConomy6 - If you are using Flatfile storage be aware that iCo6 has a CRITICAL bug which can wipe ALL iconomy data.");
-        log.severe("if you're using Votifier, or any other plugin which handles economy data in a threaded manner your server is at risk!");
-        log.severe("it is highly suggested to use SQL with iCo6 or to use an alternative economy plugin!");
+        log.warning("iConomy6 - If you are using Flatfile storage be aware that iCo6 has a CRITICAL bug which can wipe ALL iconomy data.");
+        log.warning("if you're using Votifier, or any other plugin which handles economy data in a threaded manner your server is at risk!");
+        log.warning("it is highly suggested to use SQL with iCo6 or to use an alternative economy plugin!");
         // Load Plugin in case it was loaded before
         if (economy == null) {
             Plugin ec = plugin.getServer().getPluginManager().getPlugin("iConomy");
