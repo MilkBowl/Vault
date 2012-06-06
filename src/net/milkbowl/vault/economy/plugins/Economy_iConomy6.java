@@ -132,6 +132,10 @@ public class Economy_iConomy6 implements Economy {
 
     @Override
     public EconomyResponse withdrawPlayer(String playerName, double amount) {
+        if (amount < 0) {
+            return new EconomyResponse(0, 0, ResponseType.FAILURE, "Cannot withdraw negative funds");
+        }
+
         Holdings holdings = accounts.get(playerName).getHoldings();
         if (holdings.hasEnough(amount)) {
             holdings.subtract(amount);
@@ -143,6 +147,10 @@ public class Economy_iConomy6 implements Economy {
 
     @Override
     public EconomyResponse depositPlayer(String playerName, double amount) {
+        if (amount < 0) {
+            return new EconomyResponse(0, 0, ResponseType.FAILURE, "Cannot desposit negative funds");
+        }
+
         Holdings holdings = accounts.get(playerName).getHoldings();
         holdings.add(amount);
         return new EconomyResponse(amount, holdings.getBalance(), ResponseType.SUCCESS, null);
@@ -187,11 +195,19 @@ public class Economy_iConomy6 implements Economy {
 
     @Override
     public EconomyResponse bankWithdraw(String name, double amount) {
+        if (amount < 0) {
+            return new EconomyResponse(0, 0, ResponseType.FAILURE, "Cannot withdraw negative funds");
+        }
+
         return withdrawPlayer(name, amount);
     }
 
     @Override
     public EconomyResponse bankDeposit(String name, double amount) {
+        if (amount < 0) {
+            return new EconomyResponse(0, 0, ResponseType.FAILURE, "Cannot desposit negative funds");
+        }
+
         return depositPlayer(name, amount);
     }
 

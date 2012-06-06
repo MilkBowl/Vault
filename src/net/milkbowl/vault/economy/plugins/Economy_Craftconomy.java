@@ -113,7 +113,7 @@ public class Economy_Craftconomy implements Economy {
     public String currencyNameSingular() {
         return CurrencyHandler.getCurrency(Config.currencyDefault, true).getName();
     }
-    
+
     @Override
     public String currencyNamePlural() {
         return CurrencyHandler.getCurrency(Config.currencyDefault, true).getNamePlural();
@@ -130,6 +130,10 @@ public class Economy_Craftconomy implements Economy {
 
     @Override
     public EconomyResponse withdrawPlayer(String playerName, double amount) {
+        if (amount < 0) {
+            return new EconomyResponse(0, getBalance(playerName), ResponseType.FAILURE, "Cannot withdraw negative funds");
+        }
+
         double balance;
         Account account = AccountHandler.getAccount(playerName);
         if (account.hasEnough(amount)) {
@@ -142,6 +146,10 @@ public class Economy_Craftconomy implements Economy {
 
     @Override
     public EconomyResponse depositPlayer(String playerName, double amount) {
+        if (amount < 0) {
+            return new EconomyResponse(0, getBalance(playerName), ResponseType.FAILURE, "Cannot desposit negative funds");
+        }
+
         Account account = AccountHandler.getAccount(playerName);
         account.addMoney(amount);
         return new EconomyResponse(amount, account.getDefaultBalance(), ResponseType.SUCCESS, null);
@@ -188,6 +196,10 @@ public class Economy_Craftconomy implements Economy {
 
     @Override
     public EconomyResponse bankWithdraw(String name, double amount) {
+        if (amount < 0) {
+            return new EconomyResponse(0, 0, ResponseType.FAILURE, "Cannot withdraw negative funds");
+        }
+
         EconomyResponse er = bankHas(name, amount);
         if (!er.transactionSuccess())
             return er;
@@ -206,6 +218,10 @@ public class Economy_Craftconomy implements Economy {
 
     @Override
     public EconomyResponse bankDeposit(String name, double amount) {
+        if (amount < 0) {
+            return new EconomyResponse(0, 0, ResponseType.FAILURE, "Cannot desposit negative funds");
+        }
+
         if (BankHandler.exists(name))
         {
             Bank bank = BankHandler.getBank(name);

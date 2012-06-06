@@ -129,7 +129,7 @@ public class Economy_MineConomy implements Economy {
     }
 
     @Override
-    public EconomyResponse withdrawPlayer(String playerName, double amount) {
+    public EconomyResponse withdrawPlayer(String playerName, double amount) {      
         double balance;
         try {
             balance = MCCom.getBalance(playerName);

@@ -110,11 +110,7 @@ Github and we'll get to it at our convenience.
 
 ## Implementing Vault
 Implementing Vault is quite simple through obtaining an instance through the
-Bukkit PluginManager class by using the string "Vault".  An example plugin with
-limited functionality is located within the VaultExamplePlugin repository
-(https://github.com/MilkBowl/VaultExamplePlugin).
-
-Example:
+Bukkit PluginManager class by using the string "Vault". See the example below:
 
 ```java
 package com.example.plugin;
@@ -190,7 +186,7 @@ public class ExamplePlugin extends JavaPlugin {
         
         if(command.getLabel().equals("test-economy")) {
             // Lets give the player 1.05 currency (note that SOME economic plugins require rounding!
-            sender.sendMessage(String.format("You have %s", vault.getEconomy().format(vault.getEconomy().getBalance(player.getName()).amount)));
+            sender.sendMessage(String.format("You have %s", econ.format(econ.getBalance(player.getName()).amount)));
             EconomyResponse r = econ.depositPlayer(player.getName(), 1.05);
             if(r.transactionSuccess()) {
                 sender.sendMessage(String.format("You were given %s and now have %s", econ.format(r.amount), econ.format(r.balance)));

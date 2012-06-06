@@ -98,12 +98,12 @@ public class Economy_CurrencyCore implements Economy {
     public String format(double amount) {
         return this.currency.getFormatHelper().format(amount);
     }
-    
+
     @Override
     public String currencyNamePlural() {
         return currency.getCurrencyConfig().getCurrencyMajor().get(1);
     }
-    
+
     @Override
     public String currencyNameSingular() {
         return currency.getCurrencyConfig().getCurrencyMajor().get(0);
@@ -129,6 +129,10 @@ public class Economy_CurrencyCore implements Economy {
 
     @Override
     public EconomyResponse withdrawPlayer(String playerName, double amount) {
+        if (amount < 0) {
+            return new EconomyResponse(0, 0, ResponseType.FAILURE, "Cannot withdraw negative funds");
+        }
+
         AccountContext account = this.currency.getAccountManager().getAccount(playerName);
         if (account == null) {
             return new EconomyResponse(0.0, 0.0, ResponseType.FAILURE, "That account does not exist");
@@ -142,6 +146,10 @@ public class Economy_CurrencyCore implements Economy {
 
     @Override
     public EconomyResponse depositPlayer(String playerName, double amount) {
+        if (amount < 0) {
+            return new EconomyResponse(0, 0, ResponseType.FAILURE, "Cannot desposit negative funds");
+        }
+
         AccountContext account = this.currency.getAccountManager().getAccount(playerName);
         if (account == null) {
             return new EconomyResponse(0.0, 0.0, ResponseType.FAILURE, "That account does not exist");
@@ -192,6 +200,10 @@ public class Economy_CurrencyCore implements Economy {
 
     @Override
     public EconomyResponse bankWithdraw(String name, double amount) {
+        if (amount < 0) {
+            return new EconomyResponse(0, 0, ResponseType.FAILURE, "Cannot withdraw negative funds");
+        }
+
         AccountContext account = this.currency.getAccountManager().getAccount(name);
         if (account == null) {
             return new EconomyResponse(0, 0, ResponseType.FAILURE, "That account does not exist!");
@@ -205,6 +217,10 @@ public class Economy_CurrencyCore implements Economy {
 
     @Override
     public EconomyResponse bankDeposit(String name, double amount) {
+        if (amount < 0) {
+            return new EconomyResponse(0, 0, ResponseType.FAILURE, "Cannot desposit negative funds");
+        }
+
         AccountContext account = this.currency.getAccountManager().getAccount(name);
         if (account == null) {
             return new EconomyResponse(0, 0, ResponseType.FAILURE, "That account does not exist!");
