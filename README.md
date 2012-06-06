@@ -82,17 +82,31 @@ Github and we'll get to it at our convenience.
    - eWallet (http://dev.bukkit.org/server-mods/ewallet/)
    - MuliCurrency
    - Essentials Economy (http://forums.bukkit.org/threads/15312/)
+   - McMoney
+   - AEco
+   - MultiCurrency
 
  * Permissions
    - Permissions Ex (http://forums.bukkit.org/threads/18140/)
    - Permissions 3 (http://forums.bukkit.org/threads/18430/)
    - bPermissions
    - bPermissions 2 (http://dev.bukkit.org/server-mods/bpermissions/)
+   - Privileges
    - PermissionsBukkit
    - zPermissions
    - SuperPerms
+   - SimplyPerms
    - Group Manager (Essentials) (http://forums.bukkit.org/threads/15312/)
 
+  * Chat
+    - ichat
+    - bPermissions
+    - PEX
+    - Permissions3
+    - mChat
+    - mChatSuite
+    - Towny
+    - Group Manager (Essentials)
 
 ## Implementing Vault
 Implementing Vault is quite simple through obtaining an instance through the
