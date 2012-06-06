@@ -55,6 +55,7 @@ import net.milkbowl.vault.permission.plugins.Permission_GroupManager;
 import net.milkbowl.vault.permission.plugins.Permission_Permissions3;
 import net.milkbowl.vault.permission.plugins.Permission_PermissionsBukkit;
 import net.milkbowl.vault.permission.plugins.Permission_PermissionsEx;
+import net.milkbowl.vault.permission.plugins.Permission_Privileges;
 import net.milkbowl.vault.permission.plugins.Permission_SimplyPerms;
 import net.milkbowl.vault.permission.plugins.Permission_Starburst;
 import net.milkbowl.vault.permission.plugins.Permission_SuperPerms;
@@ -494,6 +495,17 @@ public class Vault extends JavaPlugin {
             log.severe(String.format("There was an error hooking %s - check to make sure you're using a compatible version!", "zPermissions"));
         }
 
+        try {
+            //Try to load Privileges
+            if (packageExists("net.krinsdeath.privileges.Privileges")) {
+                Permission pPerms = new Permission_Privileges(this);
+                sm.register(Permission.class, pPerms, this, ServicePriority.Highest);
+                log.info(String.format("[%s][Permission] Privileges found: %s", getDescription().getName(), pPerms.isEnabled() ? "Loaded" : "Waiting"));
+            }
+        } catch (Exception e) {
+            log.severe(String.format("There was an error hooking %s - check to make sure you're using a compatible version!", "Privileges"));
+        }
+        
         try {
             //Try to load bPermissions
             if (packageExists("de.bananaco.permissions.SuperPermissionHandler")) {

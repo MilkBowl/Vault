@@ -13,6 +13,13 @@
 			<artifactId>craftbukkit</artifactId>
 			<version>1.2.5-R3.0</version>
 		</dependency>
+        <dependency>
+            <groupId>net.krinsoft.privileges</groupId>
+            <artifactId>Privileges</artifactId>
+            <version>1.4.0b45</version>
+            <scope>system</scope>
+            <systemPath>${project.basedir}/lib/Privileges.jar</systemPath>
+        </dependency>
 		<dependency>
 			<groupId>org.tyrannyofheaven.bukkit</groupId>
 			<artifactId>zPermissions</artifactId>
