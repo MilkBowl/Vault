@@ -497,7 +497,7 @@ public class Vault extends JavaPlugin {
 
         try {
             //Try to load Privileges
-            if (packageExists("net.krinsdeath.privileges.Privileges")) {
+            if (packageExists("net.krinsoft.privileges.Privileges")) {
                 Permission pPerms = new Permission_Privileges(this);
                 sm.register(Permission.class, pPerms, this, ServicePriority.Highest);
                 log.info(String.format("[%s][Permission] Privileges found: %s", getDescription().getName(), pPerms.isEnabled() ? "Loaded" : "Waiting"));
