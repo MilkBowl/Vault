@@ -25,6 +25,7 @@ import java.util.logging.Logger;
 import javax.xml.parsers.DocumentBuilderFactory;
 
 import net.milkbowl.vault.chat.Chat;
+import net.milkbowl.vault.chat.plugins.Chat_DroxPerms;
 import net.milkbowl.vault.chat.plugins.Chat_GroupManager;
 import net.milkbowl.vault.chat.plugins.Chat_Permissions3;
 import net.milkbowl.vault.chat.plugins.Chat_PermissionsEx;
@@ -51,6 +52,7 @@ import net.milkbowl.vault.economy.plugins.Economy_iConomy4;
 import net.milkbowl.vault.economy.plugins.Economy_iConomy5;
 import net.milkbowl.vault.economy.plugins.Economy_iConomy6;
 import net.milkbowl.vault.permission.Permission;
+import net.milkbowl.vault.permission.plugins.Permission_DroxPerms;
 import net.milkbowl.vault.permission.plugins.Permission_GroupManager;
 import net.milkbowl.vault.permission.plugins.Permission_Permissions3;
 import net.milkbowl.vault.permission.plugins.Permission_PermissionsBukkit;
@@ -165,6 +167,7 @@ public class Vault extends JavaPlugin {
         } catch (Exception e) {
             log.severe(String.format("There was an error hooking %s - check to make sure you're using a compatible version!", "PEX Chat"));
         }
+
         try {
             //Try loading mChatSuite
             if (packageExists("in.mDev.MiracleM4n.mChatSuite.mChatSuite")) {
@@ -187,11 +190,22 @@ public class Vault extends JavaPlugin {
             log.severe(String.format("There was an error hooking %s - check to make sure you're using a compatible version!", "mChat"));
         }
 
+        try {  
+            //try to load DroxPerms Chat   
+            if (packageExists("de.hydrox.bukkit.DroxPerms.DroxPerms")) {
+                Chat droxChat = new Chat_DroxPerms(this, perms);
+                sm.register(Chat.class, droxChat, this, ServicePriority.Lowest);
+                log.info(String.format("[%s][Chat] DroxPerms found: %s", getDescription().getName(), droxChat.isEnabled() ? "Loaded" : "Waiting"));
+            }
+        } catch (Exception e) {
+            log.severe(String.format("There was an error hooking %s - check to make sure you're using a compatible version!", "DroxPerms")); 
+        }
+
         try {
             //try loading bPermssions 2
             if (packageExists("de.bananaco.bpermissions.api.ApiLayer")) {
                 Chat bPerms = new Chat_bPermissions2(this, perms);
-                sm.register(Chat.class, bPerms, this, ServicePriority.High);
+                sm.register(Chat.class, bPerms, this, ServicePriority.Highest);
                 log.info(String.format("[%s][Chat] bPermissions2 found: %s", getDescription().getName(), bPerms.isEnabled() ? "Loaded" : "Waiting"));
             } 
         } catch (Exception e) {
@@ -463,6 +477,17 @@ public class Vault extends JavaPlugin {
         }
 
         try {
+            //Try to load DroxPerms  
+            if (packageExists("de.hydrox.bukkit.DroxPerms.DroxPerms")) {
+                Permission dPerms = new Permission_DroxPerms(this);
+                sm.register(Permission.class, dPerms, this, ServicePriority.High);
+                log.info(String.format("[%s][Permission] DroxPerms found: %s", getDescription().getName(), dPerms.isEnabled() ? "Loaded" : "Waiting"));
+            }
+        } catch (Exception e) {
+            log.severe(String.format("There was an error hooking %s - check to make sure you're using a compatible version!", "DroxPerms"));
+        }
+
+        try {
             //Try loading SimplyPerms
             if (packageExists("net.crystalyx.bukkit.simplyperms.SimplyPlugin")) {
                 Permission sPerms = new Permission_SimplyPerms(this);
@@ -505,7 +530,7 @@ public class Vault extends JavaPlugin {
         } catch (Exception e) {
             log.severe(String.format("There was an error hooking %s - check to make sure you're using a compatible version!", "Privileges"));
         }
-        
+
         try {
             //Try to load bPermissions
             if (packageExists("de.bananaco.permissions.SuperPermissionHandler")) {
