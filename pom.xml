@@ -297,8 +297,8 @@
 	<description>Vault is a Permissions &amp; Economy API to allow plugins to more easily hook into these systems without needing to hook each individual system themselves.
 
 Vault currently Supports:
-Permissions 3, PEX, GroupManager, bPerms
-iConomy 4,5,6 BOSEconomy 6/7, EssentialsEcon, 3Co, MultiConomy, MineConomy, EconXP
+Permissions 3, PEX, GroupManager, bPerms, bPerms2, SimplyPerms, DroxPerms, zPermissions, Starburst
+iConomy 4,5,6 BOSEconomy 6/7, EssentialsEcon, 3Co, MultiConomy, MineConomy, EconXP, eWallet, CurrencyCore, CraftConomy, AEco
 </description>
 	<scm>
 		<url>https://github.com/MilkBowl/Vault</url>
@@ -311,7 +311,7 @@ iConomy 4,5,6 BOSEconomy 6/7, EssentialsEcon, 3Co, MultiConomy, MineConomy, Econ
 	</issueManagement>
 	<ciManagement>
 		<system>jenkins</system>
-		<url>http://ci.milkbowl.net/job/Vault/</url>
+		<url>http://ci.herocraftonline.com/job/Vault/</url>
 	</ciManagement>
 	<repositories>
 		<repository>
