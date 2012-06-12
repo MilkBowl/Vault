@@ -29,7 +29,6 @@ import net.milkbowl.vault.chat.plugins.Chat_DroxPerms;
 import net.milkbowl.vault.chat.plugins.Chat_GroupManager;
 import net.milkbowl.vault.chat.plugins.Chat_Permissions3;
 import net.milkbowl.vault.chat.plugins.Chat_PermissionsEx;
-import net.milkbowl.vault.chat.plugins.Chat_Towny;
 import net.milkbowl.vault.chat.plugins.Chat_bPermissions;
 import net.milkbowl.vault.chat.plugins.Chat_bPermissions2;
 import net.milkbowl.vault.chat.plugins.Chat_iChat;
@@ -254,17 +253,6 @@ public class Vault extends JavaPlugin {
             }
         } catch (Exception e) {
             log.severe(String.format("There was an error hooking %s - check to make sure you're using a compatible version!", "iChat"));
-        }
-
-        try {
-            //Try to load Towny Chat
-            if (packageExists("com.palmergames.bukkit.towny.Towny")) {
-                Chat townChat = new Chat_Towny(this, perms);
-                sm.register(Chat.class, townChat, this, ServicePriority.Lowest);
-                log.info(String.format("[%s][Chat] Towny found: %s", getDescription().getName(), townChat.isEnabled() ? "Loaded" : "Waiting"));
-            }
-        } catch (Exception e) {
-            log.severe(String.format("There was an error hooking %s - check to make sure you're using a compatible version!", "Towny Chat"));
         }
     }
 
