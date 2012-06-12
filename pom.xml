@@ -175,13 +175,6 @@
 			<systemPath>${project.basedir}/lib/PermissionsBukkit.jar</systemPath>
 		</dependency>
 		<dependency>
-			<groupId>com.palmergames.bukkit.towny.Towny</groupId>
-			<artifactId>Towny</artifactId>
-			<version>0.77.1.0</version>
-			<scope>system</scope>
-			<systemPath>${project.basedir}/lib/Towny.jar</systemPath>
-		</dependency>
-		<dependency>
 			<groupId>ru.tehkode</groupId>
 			<artifactId>PermissionsEx</artifactId>
 			<version>1.19.2</version>
