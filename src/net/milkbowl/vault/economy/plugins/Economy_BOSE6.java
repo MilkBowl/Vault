@@ -300,4 +300,9 @@ public class Economy_BOSE6 implements Economy {
         }
         return economy.registerPlayer(playerName);
     }
+
+	@Override
+	public int fractionalDigits() {
+		return 0;
+	}
 }

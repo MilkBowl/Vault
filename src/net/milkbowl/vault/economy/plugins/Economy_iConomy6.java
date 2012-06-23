@@ -252,4 +252,9 @@ public class Economy_iConomy6 implements Economy {
         }
         return accounts.create(playerName);
     }
+
+	@Override
+	public int fractionalDigits() {
+		return -1;
+	}
 }
