@@ -302,6 +302,6 @@ public class Economy_Craftconomy implements Economy {
 
 	@Override
 	public int fractionalDigits() {
-		return 2;
+		return -1;
 	}
 }
