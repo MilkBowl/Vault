@@ -277,6 +277,11 @@
 					<verbose>false</verbose>
 					<author>true</author>
 					<version>true</version>
+					<linksource>true</linksource>
+					<links>
+					   <link>http://java.sun.com/j2se/1.5.0/docs/api/</link>
+                       <link>http://jd.bukkit.org/apidocs/</link>
+					</links>
 					<bottom>
 			            <![CDATA[<b>MilkBukkit, 2011</b>]]>
 					</bottom>
