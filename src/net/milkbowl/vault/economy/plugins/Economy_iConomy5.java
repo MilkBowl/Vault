@@ -226,4 +226,9 @@ public class Economy_iConomy5 implements Economy {
         iConomy.getAccount(playerName);
         return true;
     }
+
+	@Override
+	public int fractionalDigits() {
+		return 2;
+	}
 }

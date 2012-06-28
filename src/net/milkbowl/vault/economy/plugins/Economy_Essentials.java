@@ -280,4 +280,9 @@ public class Economy_Essentials implements Economy {
     public boolean hasAccount(String playerName) {
         return com.earth2me.essentials.api.Economy.playerExists(playerName);
     }
+
+	@Override
+	public int fractionalDigits() {
+		return -1;
+	}
 }

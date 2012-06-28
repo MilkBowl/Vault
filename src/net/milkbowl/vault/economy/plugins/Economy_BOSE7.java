@@ -270,4 +270,9 @@ public class Economy_BOSE7 implements Economy {
         }
         return economy.registerPlayer(playerName);
     }
+
+	@Override
+	public int fractionalDigits() {
+		return economy.getFractionalDigits();
+	}
 }

@@ -209,4 +209,9 @@ public class Economy_McMoney implements Economy {
         }
         return false;
     }
+
+	@Override
+	public int fractionalDigits() {
+		return -1;
+	}
 }

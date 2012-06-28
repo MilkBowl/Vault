@@ -237,4 +237,9 @@ public class Economy_EconXP implements Economy {
     public boolean createPlayerAccount(String playerName) {
         return false;
     }
+
+	@Override
+	public int fractionalDigits() {
+		return 0;
+	}
 }

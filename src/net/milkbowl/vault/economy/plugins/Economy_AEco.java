@@ -230,4 +230,9 @@ public class Economy_AEco implements Economy {
         }
         return false;
     }
+
+	@Override
+	public int fractionalDigits() {
+		return 0;
+	}
 }

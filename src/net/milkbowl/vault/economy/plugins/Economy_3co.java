@@ -255,4 +255,9 @@ public class Economy_3co implements Economy {
         economy.createAccount(p, 0);
         return true;
     }
+
+	@Override
+	public int fractionalDigits() {
+		return 0;
+	}
 }
