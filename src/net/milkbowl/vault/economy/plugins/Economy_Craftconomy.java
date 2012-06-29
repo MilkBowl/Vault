@@ -299,4 +299,9 @@ public class Economy_Craftconomy implements Economy {
         AccountHandler.getAccount(playerName);
         return true;
     }
+
+	@Override
+	public int fractionalDigits() {
+		return -1;
+	}
 }

@@ -263,4 +263,9 @@ public class Economy_CurrencyCore implements Economy {
         this.currency.getAccountManager().createAccount(playerName);
         return true;
     }
+
+	@Override
+	public int fractionalDigits() {
+		return -1;
+	}
 }

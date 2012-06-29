@@ -260,4 +260,9 @@ public class Economy_iConomy4 implements Economy {
         iConomy.getBank().addAccount(playerName);
         return true;
     }
+
+	@Override
+	public int fractionalDigits() {
+		return 2;
+	}
 }

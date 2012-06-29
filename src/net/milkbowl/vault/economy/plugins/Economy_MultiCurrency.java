@@ -256,4 +256,9 @@ public class Economy_MultiCurrency implements Economy {
     public boolean createPlayerAccount(String playerName) {
         return false;
     }
+
+	@Override
+	public int fractionalDigits() {
+		return -1;
+	}
 }

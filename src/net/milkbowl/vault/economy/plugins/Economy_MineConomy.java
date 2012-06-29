@@ -233,4 +233,9 @@ public class Economy_MineConomy implements Economy {
             return false;
         }
     }
+
+	@Override
+	public int fractionalDigits() {
+		return 2;
+	}
 }

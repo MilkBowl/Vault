@@ -43,6 +43,14 @@ public interface Economy {
     public boolean hasBankSupport();
 
     /**
+     * Some economy plugins round off after a certain number of digits.
+     * This function returns the number of digits the plugin keeps
+     * or -1 if no rounding occurs.
+     * @return number of digits after the decimal point kept
+     */
+    public int fractionalDigits();
+
+    /**
      * Format amount into a human readable String This provides translation into
      * economy specific formatting to improve consistency between plugins.  
      *

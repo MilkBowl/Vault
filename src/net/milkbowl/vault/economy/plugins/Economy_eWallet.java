@@ -215,4 +215,9 @@ public class Economy_eWallet implements Economy {
         econ.createAccount(playerName, 0);
         return true;
     }
+
+	@Override
+	public int fractionalDigits() {
+		return 0;
+	}
 }
