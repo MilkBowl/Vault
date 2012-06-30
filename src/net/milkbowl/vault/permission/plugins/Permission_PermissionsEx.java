@@ -15,7 +15,6 @@
  */
 package net.milkbowl.vault.permission.plugins;
 
-import net.milkbowl.vault.Vault;
 import net.milkbowl.vault.permission.Permission;
 
 import org.bukkit.Bukkit;
@@ -36,7 +35,7 @@ public class Permission_PermissionsEx extends Permission {
     private final String name = "PermissionsEx";
     private PermissionsEx permission = null;
 
-    public Permission_PermissionsEx(Vault plugin) {
+    public Permission_PermissionsEx(Plugin plugin) {
         this.plugin = plugin;
         Bukkit.getServer().getPluginManager().registerEvents(new PermissionServerListener(this), plugin);
 

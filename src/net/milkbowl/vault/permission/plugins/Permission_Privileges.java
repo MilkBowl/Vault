@@ -3,7 +3,6 @@ package net.milkbowl.vault.permission.plugins;
 import net.krinsoft.privileges.Privileges;
 import net.krinsoft.privileges.groups.Group;
 import net.krinsoft.privileges.groups.GroupManager;
-import net.milkbowl.vault.Vault;
 import net.milkbowl.vault.permission.Permission;
 
 import org.bukkit.Bukkit;
@@ -20,11 +19,10 @@ import org.bukkit.plugin.Plugin;
 public class Permission_Privileges extends Permission {
 
     private final String name = "";
-    private final Vault plugin;
     private GroupManager perms;
     private Privileges privs;
 
-    public Permission_Privileges(Vault plugin) {
+    public Permission_Privileges(Plugin plugin) {
         this.plugin = plugin;
         Bukkit.getServer().getPluginManager().registerEvents(new PermissionServerListener(this), plugin);
         // Load service in case it was loaded before

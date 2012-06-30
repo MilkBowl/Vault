@@ -19,7 +19,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import net.milkbowl.vault.Vault;
 import net.milkbowl.vault.permission.Permission;
 
 import org.bukkit.Bukkit;
@@ -31,6 +30,7 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.server.PluginDisableEvent;
 import org.bukkit.event.server.PluginEnableEvent;
+import org.bukkit.plugin.Plugin;
 import org.tyrannyofheaven.bukkit.zPermissions.ZPermissionsService;
 
 public class Permission_zPermissions extends Permission {
@@ -39,7 +39,7 @@ public class Permission_zPermissions extends Permission {
     private ZPermissionsService service;
     private final ConsoleCommandSender ccs;
 
-    public Permission_zPermissions(Vault plugin) {
+    public Permission_zPermissions(Plugin plugin) {
         this.plugin = plugin;
         ccs = Bukkit.getServer().getConsoleSender();
         Bukkit.getServer().getPluginManager().registerEvents(new PermissionServerListener(), plugin);

@@ -19,7 +19,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
-import net.milkbowl.vault.Vault;
 import net.milkbowl.vault.permission.Permission;
 
 import org.bukkit.Bukkit;
@@ -42,6 +41,20 @@ public class Permission_Starburst extends Permission {
     private StarburstPlugin perms;
     private final String name = "Starburst";
 
+    public Permission_Starburst(Plugin plugin) {
+        this.plugin = plugin;
+        Bukkit.getServer().getPluginManager().registerEvents(new PermissionServerListener(), plugin);
+
+        // Load Plugin in case it was loaded before
+        if (perms == null) {
+            Plugin p = plugin.getServer().getPluginManager().getPlugin("Starburst");
+            if (p != null) {
+                perms = (StarburstPlugin) p;
+                log.info(String.format("[%s][Permission] %s hooked.", plugin.getDescription().getName(), name));
+            }
+        }
+    }
+
     public class PermissionServerListener implements Listener {
 
         @EventHandler(priority = EventPriority.MONITOR)
@@ -62,20 +75,6 @@ public class Permission_Starburst extends Permission {
                     perms = null;
                     log.info(String.format("[%s][Permission] %s un-hooked.", plugin.getDescription().getName(), name));
                 }
-            }
-        }
-    }
-
-    public Permission_Starburst(Vault plugin) {
-        this.plugin = plugin;
-        Bukkit.getServer().getPluginManager().registerEvents(new PermissionServerListener(), plugin);
-
-        // Load Plugin in case it was loaded before
-        if (perms == null) {
-            Plugin p = plugin.getServer().getPluginManager().getPlugin("Starburst");
-            if (p != null) {
-                perms = (StarburstPlugin) p;
-                log.info(String.format("[%s][Permission] %s hooked.", plugin.getDescription().getName(), name));
             }
         }
     }

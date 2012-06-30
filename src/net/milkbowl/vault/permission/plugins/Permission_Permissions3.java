@@ -18,7 +18,6 @@ package net.milkbowl.vault.permission.plugins;
 import java.util.HashSet;
 import java.util.Set;
 
-import net.milkbowl.vault.Vault;
 import net.milkbowl.vault.permission.Permission;
 
 import org.bukkit.Bukkit;
@@ -43,7 +42,7 @@ public class Permission_Permissions3 extends Permission {
     private ModularControl perms;
     private Permissions permission = null;
 
-    public Permission_Permissions3(Vault plugin) {
+    public Permission_Permissions3(Plugin plugin) {
         this.plugin = plugin;
         Bukkit.getServer().getPluginManager().registerEvents(new PermissionServerListener(), plugin);
 

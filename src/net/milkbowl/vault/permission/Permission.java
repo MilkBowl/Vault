@@ -17,13 +17,12 @@ package net.milkbowl.vault.permission;
 
 import java.util.logging.Logger;
 
-import net.milkbowl.vault.Vault;
-
 import org.bukkit.World;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.permissions.PermissionAttachment;
 import org.bukkit.permissions.PermissionAttachmentInfo;
+import org.bukkit.plugin.Plugin;
 
 /**
  * The main Permission API - allows for group and player based permission tests
@@ -32,7 +31,7 @@ import org.bukkit.permissions.PermissionAttachmentInfo;
 public abstract class Permission {
 
 	protected static final Logger log = Logger.getLogger("Minecraft");
-    protected Vault plugin = null;
+    protected Plugin plugin = null;
 
     /**
      * Gets name of permission method

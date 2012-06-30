@@ -18,7 +18,6 @@ package net.milkbowl.vault.permission.plugins;
 import java.util.HashSet;
 import java.util.Set;
 
-import net.milkbowl.vault.Vault;
 import net.milkbowl.vault.permission.Permission;
 
 import org.bukkit.Bukkit;
@@ -40,7 +39,7 @@ public class Permission_bPermissions2 extends Permission {
     private final String name = "bPermissions2";
     private boolean hooked = false;
 
-    public Permission_bPermissions2(Vault plugin) {
+    public Permission_bPermissions2(Plugin plugin) {
         this.plugin = plugin;
         
         Bukkit.getServer().getPluginManager().registerEvents(new PermissionServerListener(), plugin);

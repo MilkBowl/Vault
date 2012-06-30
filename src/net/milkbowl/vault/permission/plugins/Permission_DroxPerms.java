@@ -2,15 +2,10 @@ package net.milkbowl.vault.permission.plugins;
 
 import java.util.ArrayList;
 
-import org.bukkit.entity.Player;
-
-import net.milkbowl.vault.Vault;
 import net.milkbowl.vault.permission.Permission;
 
-import de.hydrox.bukkit.DroxPerms.DroxPerms;
-import de.hydrox.bukkit.DroxPerms.DroxPermsAPI;
-
 import org.bukkit.Bukkit;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
@@ -18,12 +13,15 @@ import org.bukkit.event.server.PluginDisableEvent;
 import org.bukkit.event.server.PluginEnableEvent;
 import org.bukkit.plugin.Plugin;
 
+import de.hydrox.bukkit.DroxPerms.DroxPerms;
+import de.hydrox.bukkit.DroxPerms.DroxPermsAPI;
+
 public class Permission_DroxPerms extends Permission {
 
     private final String name = "DroxPerms";
     private DroxPermsAPI API;
 
-    public Permission_DroxPerms(Vault plugin) {
+    public Permission_DroxPerms(Plugin plugin) {
         this.plugin = plugin;
 
         // Load Plugin in case it was loaded before

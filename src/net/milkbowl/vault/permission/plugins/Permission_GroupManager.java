@@ -19,7 +19,6 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
-import net.milkbowl.vault.Vault;
 import net.milkbowl.vault.permission.Permission;
 
 import org.anjocaido.groupmanager.GroupManager;
@@ -44,7 +43,7 @@ public class Permission_GroupManager extends Permission {
     private final String name = "GroupManager";
     private GroupManager groupManager;
 
-    public Permission_GroupManager(Vault plugin) {
+    public Permission_GroupManager(Plugin plugin) {
         this.plugin = plugin;
         Bukkit.getServer().getPluginManager().registerEvents(new PermissionServerListener(this), plugin);
 

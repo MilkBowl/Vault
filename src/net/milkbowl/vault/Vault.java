@@ -74,6 +74,7 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.server.PluginEnableEvent;
+import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.ServicePriority;
 import org.bukkit.plugin.ServicesManager;
@@ -279,7 +280,7 @@ public class Vault extends JavaPlugin {
     private void hookChat (String name, Class<? extends Chat> hookClass, ServicePriority priority, String...packages) {
         try {
             if (packagesExists(packages)) {
-                Chat chat = hookClass.getConstructor(Vault.class, Permission.class).newInstance(this, perms);
+                Chat chat = hookClass.getConstructor(Plugin.class, Permission.class).newInstance(this, perms);
                 sm.register(Chat.class, chat, this, priority);
                 log.info(String.format("[%s][Chat] %s found: %s", getDescription().getName(), name, chat.isEnabled() ? "Loaded" : "Waiting"));
             }
@@ -291,7 +292,7 @@ public class Vault extends JavaPlugin {
     private void hookEconomy (String name, Class<? extends Economy> hookClass, ServicePriority priority, String...packages) {
         try {
             if (packagesExists(packages)) {
-                Economy econ = hookClass.getConstructor(Vault.class).newInstance(this);
+                Economy econ = hookClass.getConstructor(Plugin.class).newInstance(this);
                 sm.register(Economy.class, econ, this, priority);
                 log.info(String.format("[%s][Economy] %s found: %s", getDescription().getName(), name, econ.isEnabled() ? "Loaded" : "Waiting"));
             }
@@ -303,7 +304,7 @@ public class Vault extends JavaPlugin {
     private void hookPermission (String name, Class<? extends Permission> hookClass, ServicePriority priority, String...packages) {
         try {
             if (packagesExists(packages)) {
-                Permission perms = hookClass.getConstructor(Vault.class).newInstance(this);
+                Permission perms = hookClass.getConstructor(Plugin.class).newInstance(this);
                 sm.register(Permission.class, perms, this, priority);
                 log.info(String.format("[%s][Permission] %s found: %s", getDescription().getName(), name, perms.isEnabled() ? "Loaded" : "Waiting"));
             }

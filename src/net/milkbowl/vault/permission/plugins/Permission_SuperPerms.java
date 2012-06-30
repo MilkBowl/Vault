@@ -15,16 +15,16 @@
  */
 package net.milkbowl.vault.permission.plugins;
 
-import org.bukkit.entity.Player;
-
-import net.milkbowl.vault.Vault;
 import net.milkbowl.vault.permission.Permission;
+
+import org.bukkit.entity.Player;
+import org.bukkit.plugin.Plugin;
 
 public class Permission_SuperPerms extends Permission {
 
 	private final String name = "SuperPerms";
 	
-	public Permission_SuperPerms(Vault plugin) {
+	public Permission_SuperPerms(Plugin plugin) {
 		this.plugin = plugin;
 	}
 	

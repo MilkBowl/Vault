@@ -22,7 +22,6 @@ import java.util.Map;
 
 import net.crystalyx.bukkit.simplyperms.SimplyAPI;
 import net.crystalyx.bukkit.simplyperms.SimplyPlugin;
-import net.milkbowl.vault.Vault;
 import net.milkbowl.vault.permission.Permission;
 
 import org.bukkit.Bukkit;
@@ -38,7 +37,7 @@ public class Permission_SimplyPerms extends Permission{
     private final String name = "SimplyPerms";
     private SimplyAPI perms;
 
-    public Permission_SimplyPerms(Vault plugin) {
+    public Permission_SimplyPerms(Plugin plugin) {
         this.plugin = plugin;
         Bukkit.getServer().getPluginManager().registerEvents(new PermissionServerListener(this), plugin);
         // Load service in case it was loaded before
