@@ -49,7 +49,7 @@ public class VaultEco implements Method {
     }
 
     public int fractionalDigits() {
-        return 0;
+        return this.economy.fractionalDigits();
     }
 
     public String format(double amount) {
