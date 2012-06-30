@@ -17,7 +17,6 @@ package net.milkbowl.vault.chat.plugins;
 
 import java.util.logging.Logger;
 
-import net.milkbowl.vault.Vault;
 import net.milkbowl.vault.chat.Chat;
 import net.milkbowl.vault.permission.Permission;
 
@@ -35,10 +34,10 @@ import de.bananaco.bpermissions.api.util.CalculableType;
 public class Chat_bPermissions2 extends Chat {
     private static final Logger log = Logger.getLogger("Minecraft");
     private final String name = "bInfo";
-    private Vault plugin = null;
+    private Plugin plugin = null;
     private boolean hooked = false;
 
-    public Chat_bPermissions2(Vault plugin, Permission perms) {
+    public Chat_bPermissions2(Plugin plugin, Permission perms) {
         super(perms);
         this.plugin = plugin;
 

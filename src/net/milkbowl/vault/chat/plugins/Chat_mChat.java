@@ -36,8 +36,8 @@ public class Chat_mChat extends Chat {
     private Plugin plugin = null;
     private mChatAPI mChat = null;
 
-    public Chat_mChat(Plugin plugin, Permission permissions) {
-        super(permissions);
+    public Chat_mChat(Plugin plugin, Permission perms) {
+        super(perms);
         this.plugin = plugin;
 
         Bukkit.getServer().getPluginManager().registerEvents(new PermissionServerListener(this), plugin);

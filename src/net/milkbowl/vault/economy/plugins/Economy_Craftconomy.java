@@ -37,16 +37,15 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.server.PluginDisableEvent;
 import org.bukkit.event.server.PluginEnableEvent;
 import org.bukkit.plugin.Plugin;
-import org.bukkit.plugin.java.JavaPlugin;
 
 public class Economy_Craftconomy implements Economy {
     private static final Logger log = Logger.getLogger("Minecraft");
 
     private final String name = "Craftconomy";
-    private JavaPlugin plugin = null;
+    private Plugin plugin = null;
     protected Craftconomy economy = null;
 
-    public Economy_Craftconomy(JavaPlugin plugin) {
+    public Economy_Craftconomy(Plugin plugin) {
         this.plugin = plugin;
         Bukkit.getServer().getPluginManager().registerEvents(new EconomyServerListener(this), plugin);
 
