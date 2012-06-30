@@ -156,31 +156,31 @@ public class Vault extends JavaPlugin {
      */
     private void loadChat() {
     	// Try to load PermissionsEx
-    	hookChat("PermissionsEx", new String[]{"ru.tehkode.permissions.bukkit.PermissionsEx"}, Chat_PermissionsEx.class, ServicePriority.Highest);
+    	hookChat("PermissionsEx", Chat_PermissionsEx.class, ServicePriority.Highest, "ru.tehkode.permissions.bukkit.PermissionsEx");
 
     	// Try to load mChatSuite
-    	hookChat("mChatSuite", new String[]{"in.mDev.MiracleM4n.mChatSuite.mChatSuite"}, Chat_mChatSuite.class, ServicePriority.Highest);
+    	hookChat("mChatSuite", Chat_mChatSuite.class, ServicePriority.Highest, "in.mDev.MiracleM4n.mChatSuite.mChatSuite");
 
     	// Try to load mChat
-    	hookChat("mChat", new String[]{"net.D3GN.MiracleM4n.mChat"}, Chat_mChat.class, ServicePriority.Highest);
+    	hookChat("mChat", Chat_mChat.class, ServicePriority.Highest, "net.D3GN.MiracleM4n.mChat");
 
     	// Try to load DroxPerms Chat
-    	hookChat("DroxPerms", new String[]{"de.hydrox.bukkit.DroxPerms.DroxPerms"}, Chat_DroxPerms.class, ServicePriority.Lowest);
+    	hookChat("DroxPerms", Chat_DroxPerms.class, ServicePriority.Lowest, "de.hydrox.bukkit.DroxPerms.DroxPerms");
 
     	// Try to load bPermssions 2
-    	hookChat("bPermssions2", new String[]{"de.bananaco.bpermissions.api.ApiLayer"}, Chat_bPermissions2.class, ServicePriority.Highest);
+    	hookChat("bPermssions2", Chat_bPermissions2.class, ServicePriority.Highest, "de.bananaco.bpermissions.api.ApiLayer");
 
     	// Try to load bPermissions 1
-    	hookChat("bPermissions", new String[]{"de.bananaco.permissions.info.InfoReader"}, Chat_bPermissions.class, ServicePriority.Normal);
+    	hookChat("bPermissions", Chat_bPermissions.class, ServicePriority.Normal, "de.bananaco.permissions.info.InfoReader");
 
     	// Try to load GroupManager
-    	hookChat("GroupManager", new String[]{"org.anjocaido.groupmanager.GroupManager"}, Chat_GroupManager.class, ServicePriority.Normal);
+    	hookChat("GroupManager", Chat_GroupManager.class, ServicePriority.Normal, "org.anjocaido.groupmanager.GroupManager");
 
     	// Try to load Permissions 3 (Yeti)
-    	hookChat("Permissions3", new String[]{"com.nijiko.permissions.ModularControl"}, Chat_Permissions3.class, ServicePriority.Normal);
+    	hookChat("Permissions3", Chat_Permissions3.class, ServicePriority.Normal, "com.nijiko.permissions.ModularControl");
 
     	// Try to load iChat
-    	hookChat("iChat", new String[]{"net.TheDgtl.iChat.iChat"}, Chat_iChat.class, ServicePriority.Low);
+    	hookChat("iChat", Chat_iChat.class, ServicePriority.Low, "net.TheDgtl.iChat.iChat");
     }
 
     /**
@@ -188,55 +188,49 @@ public class Vault extends JavaPlugin {
      */
     private void loadEconomy() {
     	// Try to load MultiCurrency
-    	hookEconomy("MultiCurrency", new String[]{"me.ashtheking.currency.Currency", "me.ashtheking.currency.CurrencyList"}, 
-    			Economy_MultiCurrency.class, ServicePriority.Normal);
+    	hookEconomy("MultiCurrency", Economy_MultiCurrency.class, ServicePriority.Normal, "me.ashtheking.currency.Currency", "me.ashtheking.currency.CurrencyList");
 
     	// Try to load MineConomy
-    	hookEconomy("MineConomy", new String[]{"me.mjolnir.mineconomy.MineConomy"}, Economy_MineConomy.class, ServicePriority.Normal);
+    	hookEconomy("MineConomy", Economy_MineConomy.class, ServicePriority.Normal, "me.mjolnir.mineconomy.MineConomy");
 
     	// Try to load AEco
-    	hookEconomy("AEco", new String[]{"org.neocraft.AEco.AEco"}, Economy_AEco.class, ServicePriority.Normal);
+    	hookEconomy("AEco", Economy_AEco.class, ServicePriority.Normal, "org.neocraft.AEco.AEco");
 
     	// Try to load McMoney
-    	hookEconomy("McMoney", new String[]{"boardinggamer.mcmoney.McMoneyAPI"}, Economy_McMoney.class, ServicePriority.Normal);
+    	hookEconomy("McMoney", Economy_McMoney.class, ServicePriority.Normal, "boardinggamer.mcmoney.McMoneyAPI");
 
     	// Try to load Craftconomy
-    	hookEconomy("CraftConomy", new String[]{"me.greatman.Craftconomy.Craftconomy"}, Economy_Craftconomy.class, ServicePriority.Normal);
+    	hookEconomy("CraftConomy", Economy_Craftconomy.class, ServicePriority.Normal, "me.greatman.Craftconomy.Craftconomy");
 
     	// Try to load eWallet
-    	hookEconomy("eWallet", new String[]{"me.ethan.eWallet.ECO"}, Economy_eWallet.class, ServicePriority.Normal);
+    	hookEconomy("eWallet", Economy_eWallet.class, ServicePriority.Normal, "me.ethan.eWallet.ECO");
 
     	// Try to load 3co
-    	hookEconomy("3co", new String[]{"me.ic3d.eco.ECO"}, Economy_3co.class, ServicePriority.Normal);
+    	hookEconomy("3co", Economy_3co.class, ServicePriority.Normal, "me.ic3d.eco.ECO");
 
     	// Try to load BOSEconomy 6
-    	hookEconomy("BOSEconomy6", new String[]{"cosine.boseconomy.BOSEconomy", "cosine.boseconomy.CommandManager"}, 
-    			Economy_BOSE6.class, ServicePriority.Normal);
+    	hookEconomy("BOSEconomy6", Economy_BOSE6.class, ServicePriority.Normal, "cosine.boseconomy.BOSEconomy", "cosine.boseconomy.CommandManager");
 
     	// Try to load BOSEconomy 7
-    	hookEconomy("BOSEconomy7", new String[]{"cosine.boseconomy.BOSEconomy", "cosine.boseconomy.CommandHandler"}, 
-    			Economy_BOSE7.class, ServicePriority.Normal);
+    	hookEconomy("BOSEconomy7", Economy_BOSE7.class, ServicePriority.Normal, "cosine.boseconomy.BOSEconomy", "cosine.boseconomy.CommandHandler");
 
     	// Try to load CurrencyCore
-    	hookEconomy("CurrencyCore", new String[]{"is.currency.Currency"}, Economy_CurrencyCore.class, ServicePriority.Normal);
+    	hookEconomy("CurrencyCore", Economy_CurrencyCore.class, ServicePriority.Normal, "is.currency.Currency");
 
     	// Try to load Essentials Economy
-    	hookEconomy("Essentials Economy", new String[]{"com.earth2me.essentials.api.Economy", "com.earth2me.essentials.api.NoLoanPermittedException", 
-    			"com.earth2me.essentials.api.UserDoesNotExistException"}, Economy_Essentials.class, ServicePriority.Low);
+    	hookEconomy("Essentials Economy", Economy_Essentials.class, ServicePriority.Low, "com.earth2me.essentials.api.Economy", "com.earth2me.essentials.api.NoLoanPermittedException",  "com.earth2me.essentials.api.UserDoesNotExistException");
 
     	// Try to load iConomy 4
-    	hookEconomy("iConomy 4", new String[]{"com.nijiko.coelho.iConomy.iConomy", "com.nijiko.coelho.iConomy.system.Account"}, 
-    			Economy_iConomy4.class, ServicePriority.High);
+    	hookEconomy("iConomy 4", Economy_iConomy4.class, ServicePriority.High, "com.nijiko.coelho.iConomy.iConomy", "com.nijiko.coelho.iConomy.system.Account");
 
     	// Try to load iConomy 5
-    	hookEconomy("iConomy 5", new String[]{"com.iConomy.iConomy", "com.iConomy.system.Account", "com.iConomy.system.Holdings"}, 
-    			Economy_iConomy5.class, ServicePriority.High);
+    	hookEconomy("iConomy 5", Economy_iConomy5.class, ServicePriority.High, "com.iConomy.iConomy", "com.iConomy.system.Account", "com.iConomy.system.Holdings");
 
     	// Try to load iConomy 6
-    	hookEconomy("iConomy 6", new String[]{"com.iCo6.iConomy"}, Economy_iConomy6.class, ServicePriority.High);
+    	hookEconomy("iConomy 6", Economy_iConomy6.class, ServicePriority.High, "com.iCo6.iConomy");
 
     	// Try to load EconXP
-    	hookEconomy("EconXP", new String[]{"ca.agnate.EconXP.EconXP"}, Economy_EconXP.class, ServicePriority.Normal);
+    	hookEconomy("EconXP", Economy_EconXP.class, ServicePriority.Normal, "ca.agnate.EconXP.EconXP");
     }
 
     /**
@@ -244,39 +238,37 @@ public class Vault extends JavaPlugin {
      */
     private void loadPermission() {
     	// Try to load Starburst
-    	hookPermission("Starburst", new String[]{"com.dthielke.starburst.StarburstPlugin"}, Permission_Starburst.class, ServicePriority.Highest);
+    	hookPermission("Starburst", Permission_Starburst.class, ServicePriority.Highest, "com.dthielke.starburst.StarburstPlugin");
 
     	// Try to load PermissionsEx
-    	hookPermission("PermissionsEx", new String[]{"ru.tehkode.permissions.bukkit.PermissionsEx"}, Permission_PermissionsEx.class, ServicePriority.Highest);
+    	hookPermission("PermissionsEx", Permission_PermissionsEx.class, ServicePriority.Highest, "ru.tehkode.permissions.bukkit.PermissionsEx");
 
     	// Try to load PermissionsBukkit
-    	hookPermission("PermissionsBukkit", new String[]{"com.platymuus.bukkit.permissions.PermissionsPlugin"}, Permission_PermissionsBukkit.class, 
-    			ServicePriority.Highest);
+    	hookPermission("PermissionsBukkit", Permission_PermissionsBukkit.class, ServicePriority.Highest, "com.platymuus.bukkit.permissions.PermissionsPlugin");
 
     	// Try to load DroxPerms
-    	hookPermission("DroxPerms", new String[]{"de.hydrox.bukkit.DroxPerms.DroxPerms"}, Permission_DroxPerms.class, ServicePriority.High);
+    	hookPermission("DroxPerms", Permission_DroxPerms.class, ServicePriority.High, "de.hydrox.bukkit.DroxPerms.DroxPerms");
 
     	// Try to load SimplyPerms
-    	hookPermission("SimplyPerms", new String[]{"net.crystalyx.bukkit.simplyperms.SimplyPlugin"}, Permission_SimplyPerms.class, ServicePriority.Highest);
+    	hookPermission("SimplyPerms", Permission_SimplyPerms.class, ServicePriority.Highest, "net.crystalyx.bukkit.simplyperms.SimplyPlugin");
 
     	// Try to load bPermissions2
-    	hookPermission("bPermissions 2", new String[]{"de.bananaco.bpermissions.api.WorldManager"}, Permission_bPermissions2.class, ServicePriority.Highest);
+    	hookPermission("bPermissions 2", Permission_bPermissions2.class, ServicePriority.Highest, "de.bananaco.bpermissions.api.WorldManager");
 
     	// Try to load zPermission
-    	hookPermission("zPermissions", new String[]{"org.tyrannyofheaven.bukkit.zPermissions.ZPermissionsPlugin"}, Permission_zPermissions.class, 
-    			ServicePriority.Highest);
+    	hookPermission("zPermissions", Permission_zPermissions.class, ServicePriority.Highest, "org.tyrannyofheaven.bukkit.zPermissions.ZPermissionsPlugin");
 
     	// Try to load Privileges
-    	hookPermission("Privileges", new String[]{"net.krinsoft.privileges.Privileges"}, Permission_Privileges.class, ServicePriority.Highest);
+    	hookPermission("Privileges", Permission_Privileges.class, ServicePriority.Highest, "net.krinsoft.privileges.Privileges");
 
     	// Try to load bPermissions
-    	hookPermission("bPermissions", new String[]{"de.bananaco.permissions.SuperPermissionHandler"}, Permission_bPermissions.class, ServicePriority.High);
+    	hookPermission("bPermissions", Permission_bPermissions.class, ServicePriority.High, "de.bananaco.permissions.SuperPermissionHandler");
 
     	// Try to load GroupManager
-    	hookPermission("GroupManager", new String[]{"org.anjocaido.groupmanager.GroupManager"}, Permission_GroupManager.class, ServicePriority.High);
+    	hookPermission("GroupManager", Permission_GroupManager.class, ServicePriority.High, "org.anjocaido.groupmanager.GroupManager");
 
     	// Try to load Permissions 3 (Yeti)
-    	hookPermission("Permissions 3 (Yeti)", new String[]{"com.nijiko.permissions.ModularControl"}, Permission_Permissions3.class, ServicePriority.High);
+    	hookPermission("Permissions 3 (Yeti)", Permission_Permissions3.class, ServicePriority.High, "com.nijiko.permissions.ModularControl");
 
         Permission perms = new Permission_SuperPerms(this);
         sm.register(Permission.class, perms, this, ServicePriority.Lowest);
@@ -285,42 +277,39 @@ public class Vault extends JavaPlugin {
         this.perms = sm.getRegistration(Permission.class).getProvider();
     }
     
-    private void hookChat (String name, String[] packageCheck, Class<? extends Chat> hookClass, ServicePriority priority) {
+    private void hookChat (String name, Class<? extends Chat> hookClass, ServicePriority priority, String...packages) {
         try {
-            if (packageExists(packageCheck)) {
+            if (packagesExists(packages)) {
                 Chat chat = hookClass.getConstructor(Plugin.class, Permission.class).newInstance(this, perms);
                 sm.register(Chat.class, chat, this, priority);
                 log.info(String.format("[%s][Chat] %s found: %s", getDescription().getName(), name, chat.isEnabled() ? "Loaded" : "Waiting"));
             }
         } catch (Exception e) {
-            log.severe(String.format("[%s][Chat] There was an error hooking %s - check to make sure you're using a compatible version!", 
-            		getDescription().getName(), name));
+            log.severe(String.format("[%s][Chat] There was an error hooking %s - check to make sure you're using a compatible version!", getDescription().getName(), name));
         }
     }
     
-    private void hookEconomy (String name, String[] packageCheck, Class<? extends Economy> hookClass, ServicePriority priority) {
+    private void hookEconomy (String name, Class<? extends Economy> hookClass, ServicePriority priority, String...packages) {
         try {
-            if (packageExists(packageCheck)) {
+            if (packagesExists(packages)) {
                 Economy econ = hookClass.getConstructor(Plugin.class).newInstance(this);
                 sm.register(Economy.class, econ, this, priority);
                 log.info(String.format("[%s][Economy] %s found: %s", getDescription().getName(), name, econ.isEnabled() ? "Loaded" : "Waiting"));
             }
         } catch (Exception e) {
-            log.severe(String.format("[%s][Economy] There was an error hooking %s - check to make sure you're using a compatible version!", 
-            		getDescription().getName(), name));
+            log.severe(String.format("[%s][Economy] There was an error hooking %s - check to make sure you're using a compatible version!", getDescription().getName(), name));
         }
     }
     
-    private void hookPermission (String name, String[] packageCheck, Class<? extends Permission> hookClass, ServicePriority priority) {
+    private void hookPermission (String name, Class<? extends Permission> hookClass, ServicePriority priority, String...packages) {
         try {
-            if (packageExists(packageCheck)) {
+            if (packagesExists(packages)) {
                 Permission perms = hookClass.getConstructor(Plugin.class).newInstance(this);
                 sm.register(Permission.class, perms, this, priority);
                 log.info(String.format("[%s][Permission] %s found: %s", getDescription().getName(), name, perms.isEnabled() ? "Loaded" : "Waiting"));
             }
         } catch (Exception e) {
-            log.severe(String.format("[%s][Permission] There was an error hooking %s - check to make sure you're using a compatible version!", 
-            		getDescription().getName(), name));
+            log.severe(String.format("[%s][Permission] There was an error hooking %s - check to make sure you're using a compatible version!", getDescription().getName(), name));
         }
     }
 
@@ -458,7 +447,7 @@ public class Vault extends JavaPlugin {
      * @param packages String Array of package names to check
      * @return Success or Failure
      */
-    private static boolean packageExists(String...packages) {
+    private static boolean packagesExists(String...packages) {
         try {
             for (String pkg : packages) {
                 Class.forName(pkg);
@@ -509,7 +498,7 @@ public class Vault extends JavaPlugin {
 
         @EventHandler(priority = EventPriority.MONITOR)
         public void onPluginEnable(PluginEnableEvent event) {
-            if (event.getPlugin().getDescription().getName().equals("Register") && packageExists("com.nijikokun.register.payment.Methods")) {
+            if (event.getPlugin().getDescription().getName().equals("Register") && packagesExists("com.nijikokun.register.payment.Methods")) {
                 if (!Methods.hasMethod()) {
                     try {
                         Method m = Methods.class.getMethod("addMethod", Methods.class);
