@@ -40,8 +40,8 @@ public class Chat_mChatSuite extends Chat {
     private Reader mReader = null;
     private Writer mWriter = null;
 
-    public Chat_mChatSuite(Plugin plugin, Permission permissions) {
-        super(permissions);
+    public Chat_mChatSuite(Plugin plugin, Permission perms) {
+        super(perms);
         this.plugin = plugin;
 
         Bukkit.getServer().getPluginManager().registerEvents(new PermissionServerListener(this), plugin);
