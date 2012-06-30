@@ -39,22 +39,22 @@ public class Chat_Permissions3 extends Chat {
     private Plugin plugin = null;
     private Permissions chat = null;
 
-    public Chat_Permissions3(Plugin plugin, Permission permissions) {
-        super(permissions);
+    public Chat_Permissions3(Plugin plugin, Permission perms) {
+        super(perms);
         this.plugin = plugin;
 
         Bukkit.getServer().getPluginManager().registerEvents(new PermissionServerListener(), plugin);
 
         // Load Plugin in case it was loaded before
         if (chat == null) {
-            Plugin perms = plugin.getServer().getPluginManager().getPlugin("Permissions");
-            if (perms == null) {
+            Plugin p = plugin.getServer().getPluginManager().getPlugin("Permissions");
+            if (p == null) {
                 plugin.getServer().getPluginManager().getPlugin("vPerms");
                 name = "vPerms - Chat";
             }
-            if (perms != null) {
-                if (perms.isEnabled() && perms.getDescription().getVersion().startsWith("3")) {
-                    chat = (Permissions) perms;
+            if (p != null) {
+                if (p.isEnabled() && p.getDescription().getVersion().startsWith("3")) {
+                    chat = (Permissions) p;
                     this.perms = chat.getHandler();
                     log.info(String.format("[%s][Chat] %s hooked.", plugin.getDescription().getName(), name));
                 }

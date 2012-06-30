@@ -2,12 +2,8 @@ package net.milkbowl.vault.chat.plugins;
 
 import java.util.logging.Logger;
 
-import net.milkbowl.vault.Vault;
 import net.milkbowl.vault.chat.Chat;
 import net.milkbowl.vault.permission.Permission;
-
-import de.hydrox.bukkit.DroxPerms.DroxPerms;
-import de.hydrox.bukkit.DroxPerms.DroxPermsAPI;
 
 import org.bukkit.Bukkit;
 import org.bukkit.event.EventHandler;
@@ -16,14 +12,17 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.server.PluginEnableEvent;
 import org.bukkit.plugin.Plugin;
 
+import de.hydrox.bukkit.DroxPerms.DroxPerms;
+import de.hydrox.bukkit.DroxPerms.DroxPermsAPI;
+
 public class Chat_DroxPerms extends Chat {
     private static final Logger log = Logger.getLogger("Minecraft");
 
     private final String name = "DroxPerms";
-    private Vault plugin;
+    private Plugin plugin;
     private DroxPermsAPI API;
 
-    public Chat_DroxPerms(Vault plugin, Permission perms) {
+    public Chat_DroxPerms(Plugin plugin, Permission perms) {
         super(perms);
         this.plugin = plugin;
 

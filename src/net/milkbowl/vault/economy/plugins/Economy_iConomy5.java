@@ -30,7 +30,6 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.server.PluginDisableEvent;
 import org.bukkit.event.server.PluginEnableEvent;
 import org.bukkit.plugin.Plugin;
-import org.bukkit.plugin.java.JavaPlugin;
 
 import com.iConomy.iConomy;
 import com.iConomy.system.Holdings;
@@ -40,10 +39,10 @@ public class Economy_iConomy5 implements Economy {
     private static final Logger log = Logger.getLogger("Minecraft");
 
     private final String name = "iConomy 5";
-    private JavaPlugin plugin = null;
+    private Plugin plugin = null;
     protected iConomy economy = null;
 
-    public Economy_iConomy5(JavaPlugin plugin) {
+    public Economy_iConomy5(Plugin plugin) {
         this.plugin = plugin;
         Bukkit.getServer().getPluginManager().registerEvents(new EconomyServerListener(this), plugin);
         // Load Plugin in case it was loaded before

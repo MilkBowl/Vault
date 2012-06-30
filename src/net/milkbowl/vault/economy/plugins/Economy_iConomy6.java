@@ -29,7 +29,6 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.server.PluginDisableEvent;
 import org.bukkit.event.server.PluginEnableEvent;
 import org.bukkit.plugin.Plugin;
-import org.bukkit.plugin.java.JavaPlugin;
 
 import com.iCo6.Constants;
 import com.iCo6.iConomy;
@@ -40,11 +39,11 @@ public class Economy_iConomy6 implements Economy {
     private static final Logger log = Logger.getLogger("Minecraft");
 
     private final String name = "iConomy 6";
-    private JavaPlugin plugin = null;
+    private Plugin plugin = null;
     protected iConomy economy = null;
     private Accounts accounts;
 
-    public Economy_iConomy6(JavaPlugin plugin) {
+    public Economy_iConomy6(Plugin plugin) {
         this.plugin = plugin;
         Bukkit.getServer().getPluginManager().registerEvents(new EconomyServerListener(this), plugin);
         log.warning("iConomy6 - If you are using Flatfile storage be aware that iCo6 has a CRITICAL bug which can wipe ALL iconomy data.");

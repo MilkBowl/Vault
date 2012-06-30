@@ -40,17 +40,17 @@ public class Chat_GroupManager extends Chat {
     private Plugin plugin = null;
     private GroupManager groupManager;
 
-    public Chat_GroupManager(Plugin plugin, Permission permissions) {
-        super(permissions);
+    public Chat_GroupManager(Plugin plugin, Permission perms) {
+        super(perms);
         this.plugin = plugin;
         Bukkit.getServer().getPluginManager().registerEvents(new PermissionServerListener(this), plugin);
 
         // Load Plugin in case it was loaded before
         if (groupManager == null) {
-            Plugin perms = plugin.getServer().getPluginManager().getPlugin("GroupManager");
-            if (perms != null) {
-                if (perms.isEnabled()) {
-                    groupManager = (GroupManager) perms;
+            Plugin chat = plugin.getServer().getPluginManager().getPlugin("GroupManager");
+            if (chat != null) {
+                if (chat.isEnabled()) {
+                    groupManager = (GroupManager) chat;
                     log.info(String.format("[%s][Chat] %s hooked.", plugin.getDescription().getName(), name));
                 }
             }
