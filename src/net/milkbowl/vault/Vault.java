@@ -43,6 +43,7 @@ import net.milkbowl.vault.economy.plugins.Economy_Craftconomy;
 import net.milkbowl.vault.economy.plugins.Economy_CurrencyCore;
 import net.milkbowl.vault.economy.plugins.Economy_EconXP;
 import net.milkbowl.vault.economy.plugins.Economy_Essentials;
+import net.milkbowl.vault.economy.plugins.Economy_GoldIsMoney;
 import net.milkbowl.vault.economy.plugins.Economy_McMoney;
 import net.milkbowl.vault.economy.plugins.Economy_MineConomy;
 import net.milkbowl.vault.economy.plugins.Economy_MultiCurrency;
@@ -231,6 +232,9 @@ public class Vault extends JavaPlugin {
 
         // Try to load EconXP
         hookEconomy("EconXP", Economy_EconXP.class, ServicePriority.Normal, "ca.agnate.EconXP.EconXP");
+
+        // Try to load GoldIsMoney
+        hookEconomy("GoldIsMoney", Economy_GoldIsMoney.class, ServicePriority.Normal, "com.flobi.GoldIsMoney.GoldIsMoney");
     }
 
     /**
