@@ -49,6 +49,13 @@
 			<systemPath>${project.basedir}/lib/CurrencyCore.jar</systemPath>
 		</dependency>
 		<dependency>
+		    <groupId>com.flobi.GoldIsMoney</groupId>
+		    <artifactId>GoldIsMoney</artifactId>
+		    <version>1.0.0</version>
+		    <scope>system</scope>
+		    <systemPath>${project.basedir}/lib/GoldIsMoney.jar</systemPath>
+		</dependency>
+		<dependency>
 			<groupId>cosine.boseconomy.BOSEconomy</groupId>
 			<artifactId>BOSEconomy</artifactId>
 			<version>0.7.3.1a</version>
