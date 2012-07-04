@@ -47,7 +47,6 @@ public class Permission_PermissionsEx extends Permission {
                     try {
                         if (Double.valueOf(perms.getDescription().getVersion()) < 1.16) {
                             log.info(String.format("[%s][Permission] %s below 1.16 is not compatible with Vault! Falling back to SuperPerms only mode. PLEASE UPDATE!", plugin.getDescription().getName(), name));
-                            return;
                         }
                     } catch (NumberFormatException e) {
                         // Do nothing
