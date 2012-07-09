@@ -49,7 +49,7 @@ public class Chat_mChatSuite extends Chat {
         // Load Plugin in case it was loaded before
         if (mChat == null) {
             Plugin chat = plugin.getServer().getPluginManager().getPlugin("mChatSuite");
-            if (chat != null) {
+            if (chat != null && chat.isEnabled()) {
                 mChat = (mChatSuite) chat;
                 mReader = mChat.getReader();
                 mWriter = mChat.getWriter();
@@ -68,12 +68,12 @@ public class Chat_mChatSuite extends Chat {
         @EventHandler(priority = EventPriority.MONITOR)
         public void onPluginEnable(PluginEnableEvent event) {
             if (this.chat.mChat == null) {
-                Plugin chat = plugin.getServer().getPluginManager().getPlugin("mChat");
+                Plugin chat = plugin.getServer().getPluginManager().getPlugin("mChatSuite");
                 if (chat != null) {
                     this.chat.mChat = (mChatSuite) chat;
                     mReader = mChat.getReader();
                     mWriter = mChat.getWriter();
-                    log.info(String.format("[%s][Chat] %s hooked.", plugin.getDescription().getName(), "mChat"));
+                    log.info(String.format("[%s][Chat] %s hooked.", plugin.getDescription().getName(), "mChatSuite"));
                 }
             }
         }
@@ -81,11 +81,11 @@ public class Chat_mChatSuite extends Chat {
         @EventHandler(priority = EventPriority.MONITOR)
         public void onPluginDisable(PluginDisableEvent event) {
             if (this.chat.mChat != null) {
-                if (event.getPlugin().getDescription().getName().equals("mChat")) {
+                if (event.getPlugin().getDescription().getName().equals("mChatSuite")) {
                     this.chat.mChat = null;
                     mReader = null;
                     mWriter = null;
-                    log.info(String.format("[%s][Chat] %s un-hooked.", plugin.getDescription().getName(), "mChat"));
+                    log.info(String.format("[%s][Chat] %s un-hooked.", plugin.getDescription().getName(), "mChatSuite"));
                 }
             }
         }

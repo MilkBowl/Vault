@@ -234,10 +234,6 @@ public class Permission_PermissionsBukkit extends Permission {
     public String[] getGroups() {
         List<String> groupNames = new ArrayList<String>();
         for (Group group : perms.getAllGroups()) {
-            //Ignore groups with bad data.
-            if (group == null || group.getName() == null) {
-                continue;
-            }
             groupNames.add(group.getName());
         }
 
