@@ -23,6 +23,7 @@ import me.mjolnir.mineconomy.MineConomy;
 import me.mjolnir.mineconomy.exceptions.AccountNameConflictException;
 import me.mjolnir.mineconomy.exceptions.NoAccountException;
 import me.mjolnir.mineconomy.internal.MCCom;
+import me.mjolnir.mineconomy.internal.util.MCFormat;
 import net.milkbowl.vault.economy.Economy;
 import net.milkbowl.vault.economy.EconomyResponse;
 import net.milkbowl.vault.economy.EconomyResponse.ResponseType;
@@ -95,7 +96,7 @@ public class Economy_MineConomy implements Economy {
     }
 
     public String format(double amount) {
-        return String.valueOf(amount);
+        return MCFormat.format(amount);
     }
 
     public String currencyNameSingular() {
@@ -109,22 +110,22 @@ public class Economy_MineConomy implements Economy {
     public double getBalance(String playerName) {
         try
         {
-            return MCCom.getBalance(playerName);
+            return MCCom.getExternalBalance(playerName);
         }
         catch (NoAccountException e)
         {
             MCCom.create(playerName);
-            return MCCom.getBalance(playerName);
+            return MCCom.getExternalBalance(playerName);
         }
     }
 
     @Override
     public boolean has(String playerName, double amount) {
         try {
-            return MCCom.canAfford(playerName, amount);
+            return MCCom.canExternalAfford(playerName, amount);
         } catch(NoAccountException e) {
             MCCom.create(playerName);
-            return MCCom.canAfford(playerName, amount);
+            return MCCom.canExternalAfford(playerName, amount);
         }
     }
 
@@ -132,10 +133,10 @@ public class Economy_MineConomy implements Economy {
     public EconomyResponse withdrawPlayer(String playerName, double amount) {      
         double balance;
         try {
-            balance = MCCom.getBalance(playerName);
+            balance = MCCom.getExternalBalance(playerName);
         } catch (NoAccountException e) {
             MCCom.create(playerName);
-            balance = MCCom.getBalance(playerName);
+            balance = MCCom.getExternalBalance(playerName);
         }
 
         if(amount < 0.0D) {
@@ -144,7 +145,7 @@ public class Economy_MineConomy implements Economy {
 
         if(balance >= amount) {
             double finalBalance = balance - amount;
-            MCCom.setBalance(playerName, finalBalance);
+            MCCom.setExternalBalance(playerName, finalBalance);
             return new EconomyResponse(amount, finalBalance, ResponseType.SUCCESS, null);
         } else {
             return new EconomyResponse(0.0D, balance, ResponseType.FAILURE, "Insufficient funds");
@@ -155,17 +156,17 @@ public class Economy_MineConomy implements Economy {
     public EconomyResponse depositPlayer(String playerName, double amount) {
         double balance;
         try {
-            balance = MCCom.getBalance(playerName);
+            balance = MCCom.getExternalBalance(playerName);
         } catch (NoAccountException e) {
             MCCom.create(playerName);
-            balance = MCCom.getBalance(playerName);
+            balance = MCCom.getExternalBalance(playerName);
         }
         if(amount < 0.0D) {
             return new EconomyResponse(0.0D, 0.0, ResponseType.FAILURE, "Cannot deposit negative funds");
         }
 
         balance += amount;
-        MCCom.setBalance(playerName, balance);
+        MCCom.setExternalBalance(playerName, balance);
         return new EconomyResponse(amount, balance, ResponseType.SUCCESS, null);
 
     }
@@ -234,8 +235,8 @@ public class Economy_MineConomy implements Economy {
         }
     }
 
-	@Override
-	public int fractionalDigits() {
-		return 2;
-	}
+    @Override
+    public int fractionalDigits() {
+        return 2;
+    }
 }
