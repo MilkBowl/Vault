@@ -15,6 +15,8 @@ along with Vault.  If not, see <http://www.gnu.org/licenses/>.
 */
 package net.milkbowl.vault.economy.plugins;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
@@ -78,13 +80,15 @@ public class Economy_GoldIsMoney implements Economy {
 	
 	@Override
 	public EconomyResponse withdrawPlayer(String playerName, double amount) {
-	    if (amount < 0) {
+		long lngAmount = bankerRoundToLong(amount);
+
+		if (lngAmount < 0) {
 	        return new EconomyResponse(0, 0, ResponseType.FAILURE, "Cannot withdraw negative funds");
 	    }
 	
-	    if (GoldIsMoney.has(playerName, (long) amount)) {
-	    	GoldIsMoney.withdrawPlayer(playerName, (long) amount);
-	        return new EconomyResponse(amount, getAccountBalance(playerName), ResponseType.SUCCESS, null);
+	    if (GoldIsMoney.has(playerName, lngAmount)) {
+	    	GoldIsMoney.withdrawPlayer(playerName, lngAmount);
+	        return new EconomyResponse((double) lngAmount, getAccountBalance(playerName), ResponseType.SUCCESS, null);
 	    } else {
 	        return new EconomyResponse(0, getAccountBalance(playerName), ResponseType.FAILURE, "Insufficient funds");
 	    }
@@ -92,12 +96,13 @@ public class Economy_GoldIsMoney implements Economy {
 	
 	@Override
 	public EconomyResponse depositPlayer(String playerName, double amount) {
-	    if (amount < 0) {
+		long lngAmount = bankerRoundToLong(amount);
+	    if (lngAmount < 0) {
 	        return new EconomyResponse(0, 0, ResponseType.FAILURE, "Cannot desposit negative funds");
 	    }
 	    
-	    GoldIsMoney.depositPlayer(playerName, (long) amount);
-	    return new EconomyResponse(amount, GoldIsMoney.getBalance(playerName), EconomyResponse.ResponseType.SUCCESS, null);
+	    GoldIsMoney.depositPlayer(playerName, lngAmount);
+	    return new EconomyResponse((double) lngAmount, GoldIsMoney.getBalance(playerName), EconomyResponse.ResponseType.SUCCESS, null);
 	}
 	
 	public class EconomyServerListener implements Listener {
@@ -132,7 +137,8 @@ public class Economy_GoldIsMoney implements Economy {
 	
 	@Override
 	public String format(double amount) {
-	    return GoldIsMoney.format((long) Math.round(amount));
+		long lngAmount = bankerRoundToLong(amount);
+	    return GoldIsMoney.format(lngAmount);
 	}
 	
 	@Override
@@ -147,7 +153,8 @@ public class Economy_GoldIsMoney implements Economy {
 	
 	@Override
 	public boolean has(String playerName, double amount) {
-	    return getBalance(playerName) >= amount;
+		long lngAmount = bankerRoundToLong(amount);
+	    return getBalance(playerName) >= lngAmount;
 	}
 	
 	@Override
@@ -213,5 +220,9 @@ public class Economy_GoldIsMoney implements Economy {
 	@Override
 	public int fractionalDigits() {
 		return 0;
+	}
+	private long bankerRoundToLong(double amount) {
+		BigDecimal bigDecimal = new BigDecimal(amount).setScale(0, RoundingMode.HALF_EVEN);
+		return bigDecimal.longValue();
 	}
 }
