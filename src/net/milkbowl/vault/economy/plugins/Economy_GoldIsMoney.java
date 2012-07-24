@@ -82,7 +82,7 @@ public class Economy_GoldIsMoney implements Economy {
 	        return new EconomyResponse(0, 0, ResponseType.FAILURE, "Cannot withdraw negative funds");
 	    }
 	
-	    if (GoldIsMoney.has(playerName, (long) amount)) {
+	    if (GoldIsMoney.has(playerName, Math.round(amount))) {
 	    	GoldIsMoney.withdrawPlayer(playerName, (long) amount);
 	        return new EconomyResponse(amount, getAccountBalance(playerName), ResponseType.SUCCESS, null);
 	    } else {
@@ -96,7 +96,7 @@ public class Economy_GoldIsMoney implements Economy {
 	        return new EconomyResponse(0, 0, ResponseType.FAILURE, "Cannot desposit negative funds");
 	    }
 	    
-	    GoldIsMoney.depositPlayer(playerName, (long) amount);
+	    GoldIsMoney.depositPlayer(playerName, Math.round(amount));
 	    return new EconomyResponse(amount, GoldIsMoney.getBalance(playerName), EconomyResponse.ResponseType.SUCCESS, null);
 	}
 	
@@ -132,7 +132,7 @@ public class Economy_GoldIsMoney implements Economy {
 	
 	@Override
 	public String format(double amount) {
-	    return GoldIsMoney.format((long) Math.round(amount));
+	    return GoldIsMoney.format(Math.round(amount));
 	}
 	
 	@Override
