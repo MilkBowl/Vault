@@ -349,7 +349,7 @@ public class Vault extends JavaPlugin {
             sender.sendMessage("You must have at least 2 economies loaded to convert.");
             return;
         } else if (args.length != 2) {
-            sender.sendMessage("You must specify only the economy to convert from and the economy to convert to. (without spaces)");
+            sender.sendMessage("You must specify only the economy to convert from and the economy to convert to. (names should not contain spaces)");
             return;
         }
         Economy econ1 = null;

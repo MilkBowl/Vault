@@ -19,6 +19,7 @@ import in.mDev.MiracleM4n.mChatSuite.mChatSuite;
 import in.mDev.MiracleM4n.mChatSuite.api.Reader;
 import in.mDev.MiracleM4n.mChatSuite.api.Writer;
 import in.mDev.MiracleM4n.mChatSuite.types.InfoType;
+
 import java.util.logging.Logger;
 
 import net.milkbowl.vault.chat.Chat;
@@ -44,7 +45,7 @@ public class Chat_mChatSuite extends Chat {
         super(perms);
         this.plugin = plugin;
 
-        Bukkit.getServer().getPluginManager().registerEvents(new PermissionServerListener(this), plugin);
+        Bukkit.getServer().getPluginManager().registerEvents(new PermissionServerListener(), plugin);
 
         // Load Plugin in case it was loaded before
         if (mChat == null) {
@@ -59,18 +60,13 @@ public class Chat_mChatSuite extends Chat {
     }
 
     public class PermissionServerListener implements Listener {
-        Chat_mChatSuite chat = null;
-
-        public PermissionServerListener(Chat_mChatSuite chat) {
-            this.chat = chat;
-        }
 
         @EventHandler(priority = EventPriority.MONITOR)
         public void onPluginEnable(PluginEnableEvent event) {
-            if (this.chat.mChat == null) {
+            if (mChat == null) {
                 Plugin chat = plugin.getServer().getPluginManager().getPlugin("mChatSuite");
                 if (chat != null) {
-                    this.chat.mChat = (mChatSuite) chat;
+                    mChat = (mChatSuite) chat;
                     mReader = mChat.getReader();
                     mWriter = mChat.getWriter();
                     log.info(String.format("[%s][Chat] %s hooked.", plugin.getDescription().getName(), "mChatSuite"));
@@ -80,9 +76,9 @@ public class Chat_mChatSuite extends Chat {
 
         @EventHandler(priority = EventPriority.MONITOR)
         public void onPluginDisable(PluginDisableEvent event) {
-            if (this.chat.mChat != null) {
+            if (mChat != null) {
                 if (event.getPlugin().getDescription().getName().equals("mChatSuite")) {
-                    this.chat.mChat = null;
+                    mChat = null;
                     mReader = null;
                     mWriter = null;
                     log.info(String.format("[%s][Chat] %s un-hooked.", plugin.getDescription().getName(), "mChatSuite"));

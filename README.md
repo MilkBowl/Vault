@@ -108,8 +108,7 @@ Github and we'll get to it at our convenience.
     - Group Manager (Essentials)
 
 ## Implementing Vault
-Implementing Vault is quite simple through obtaining an instance through the
-Bukkit PluginManager class by using the string "Vault". See the example below:
+Implementing Vault is quite simple. It requires getting the Economy, Permission, or Chat service from the Bukkit ServiceManager. See the example below:
 
 ```java
 package com.example.plugin;
@@ -184,7 +183,7 @@ public class ExamplePlugin extends JavaPlugin {
         Player player = (Player) sender;
         
         if(command.getLabel().equals("test-economy")) {
-            // Lets give the player 1.05 currency (note that SOME economic plugins require rounding!
+            // Lets give the player 1.05 currency (note that SOME economic plugins require rounding!)
             sender.sendMessage(String.format("You have %s", econ.format(econ.getBalance(player.getName()))));
             EconomyResponse r = econ.depositPlayer(player.getName(), 1.05);
             if(r.transactionSuccess()) {
