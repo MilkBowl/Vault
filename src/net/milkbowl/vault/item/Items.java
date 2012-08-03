@@ -417,6 +417,8 @@ public class Items {
         items.add(new ItemInfo("ward Disc", new String[][] {{"ward", "disc"}, {"ward", "reco"}, {"10", "disc"}, {"10", "reco"}}, Material.RECORD_10));
         items.add(new ItemInfo("11 Disc", new String[][] {{"11", "disc"}, {"11", "reco"}}, Material.RECORD_11));
         items.add(new ItemInfo("Redstone Lamp", new String[][] {{"lamp"}, {"lamp", "red", "sto"}}, Material.REDSTONE_LAMP_OFF));
+        //1.3 Blocks
+        
     }
 
     public static ItemInfo itemById(int typeId) {
