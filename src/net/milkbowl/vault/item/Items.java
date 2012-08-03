@@ -418,7 +418,12 @@ public class Items {
         items.add(new ItemInfo("11 Disc", new String[][] {{"11", "disc"}, {"11", "reco"}}, Material.RECORD_11));
         items.add(new ItemInfo("Redstone Lamp", new String[][] {{"lamp"}, {"lamp", "red", "sto"}}, Material.REDSTONE_LAMP_OFF));
         //1.3 Blocks
-        
+        items.add(new ItemInfo("Emerald Ore", new String[][]{{"emer", "ore"}}, Material.EMERALD_ORE));
+        items.add(new ItemInfo("Emerald", new String[][]{{"emer"}}, Material.EMERALD));
+        items.add(new ItemInfo("Emerald Block", new String[][]{{"emer", "blo"}}, Material.EMERALD_BLOCK));
+        items.add(new ItemInfo("Ender Chest", new String[][]{{"end", "ches"}}, Material.ENDER_CHEST));
+        items.add(new ItemInfo("Tripwire Hook", new String[][]{{"hoo", "trip"}}, Material.TRIPWIRE_HOOK));
+        items.add(new ItemInfo("Tripwire", new String[][]{{"trip"}}, Material.TRIPWIRE));
     }
 
     public static ItemInfo itemById(int typeId) {
