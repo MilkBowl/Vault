@@ -433,7 +433,8 @@ public class Items {
         items.add(new ItemInfo("Spruce Slab", new String[][]{{"slab", "spru"}, {"step", "spru"}}, Material.WOOD_STEP, (short) 1));
         items.add(new ItemInfo("Birch Slab", new String[][]{{"slab", "birc"}, {"step", "birc"}}, Material.WOOD_STEP, (short) 2));
         items.add(new ItemInfo("Jungle-Wood Slab", new String[][]{{"slab", "jung"}, {"step", "jung"}}, Material.WOOD_STEP, (short) 3));
-        
+        items.add(new ItemInfo("Book and Quill", new String[][]{{"qui", "book"}}, Material.BOOK_AND_QUILL));
+        items.add(new ItemInfo("Written Book", new String[][]{{"wri", "book"}}, Material.WRITTEN_BOOK));
         
     }
 
