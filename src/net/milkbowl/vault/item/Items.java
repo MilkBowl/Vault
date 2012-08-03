@@ -103,11 +103,13 @@ public class Items {
         items.add(new ItemInfo("Iron Block", new String[][]{{"iron", "bl"}}, Material.IRON_BLOCK));
         items.add(new ItemInfo("Double Stone Slab", new String[][]{{"doub", "slab"}, {"doub", "slab", "sto"}, {"doub", "step", "sto"}}, Material.DOUBLE_STEP));
         items.add(new ItemInfo("Double Sandstone Slab", new String[][]{{"doub", "slab", "sand", "sto"}, {"doub", "step", "sand", "sto"}}, Material.DOUBLE_STEP, (short) 1));
+        items.add(new ItemInfo("Double Wooden Stone Slab", new String[][]{{"doub", "slab", "woo"}, {"doub", "step", "woo"}}, Material.DOUBLE_STEP, (short) 2));
         items.add(new ItemInfo("Double Cobblestone Slab", new String[][]{{"doub", "slab", "cob", "sto"}, {"doub", "slab", "cob"}, {"doub", "step", "cob"}}, Material.DOUBLE_STEP, (short) 3));
         items.add(new ItemInfo("Double Brick Slab", new String[][]{{"doub", "slab", "bri"}}, Material.DOUBLE_STEP, (short) 4));
         items.add(new ItemInfo("Double Stone Brick Slab", new String[][]{{"doub", "slab", "smoo"}, {"doub", "slab", "sto", "bri"}}, Material.DOUBLE_STEP, (short) 5));
         items.add(new ItemInfo("Stone Slab", new String[][]{{"slab", "sto"}, {"slab"}, {"step", "ston"}}, Material.STEP));
         items.add(new ItemInfo("Sandstone Slab", new String[][]{{"slab", "sand", "sto"}, {"step", "sand", "sto"}}, Material.STEP, (short) 1));
+        items.add(new ItemInfo("Wooden Stone Slab", new String[][]{{"slab", "woo"}, {"step", "woo"}}, Material.STEP, (short) 2));
         items.add(new ItemInfo("Cobblestone Slab", new String[][]{{"slab", "cob", "sto"}, {"slab", "cob"}}, Material.STEP, (short) 3));
         items.add(new ItemInfo("Brick Slab", new String[][]{{"slab", "bri"}}, Material.STEP, (short) 4));
         items.add(new ItemInfo("Stone Brick Slab", new String[][]{{"slab", "sto", "bri"}}, Material.STEP, (short) 5));
@@ -423,9 +425,16 @@ public class Items {
         items.add(new ItemInfo("Tripwire Hook", new String[][]{{"hoo", "trip"}}, Material.TRIPWIRE_HOOK));
         items.add(new ItemInfo("Tripwire", new String[][]{{"trip"}}, Material.TRIPWIRE));
         items.add(new ItemInfo("Sandstone Stair", new String[][]{{"stair", "sand", "sto"}, {"stair", "sand"}}, Material.SANDSTONE_STAIRS));
-        //TODO: wooden slaps are now based on wood type
-        items.add(new ItemInfo("Double Wooden Slab", new String[][]{{"doub", "slab", "woo"}, {"doub", "step", "woo"}}, Material.WOOD_DOUBLE_STEP));
-        items.add(new ItemInfo("Wooden Slab", new String[][]{{"slab", "woo"}, {"step", "woo"}}, Material.WOOD_STEP));
+        items.add(new ItemInfo("Double Oak Slab", new String[][]{{"doub", "slab", "oak"}, {"doub", "step", "oak"}}, Material.WOOD_DOUBLE_STEP));
+        items.add(new ItemInfo("Double Spruce Slab", new String[][]{{"doub", "slab", "spru"}, {"doub", "step", "spru"}}, Material.WOOD_DOUBLE_STEP, (short) 1));
+        items.add(new ItemInfo("Double Birch Slab", new String[][]{{"doub", "slab", "birc"}, {"doub", "step", "birc"}}, Material.WOOD_DOUBLE_STEP, (short) 2));
+        items.add(new ItemInfo("Double Jungle-Wood Slab", new String[][]{{"doub", "slab", "jung"}, {"doub", "step", "jung"}}, Material.WOOD_DOUBLE_STEP, (short) 3));
+        items.add(new ItemInfo("Oak Slab", new String[][]{{"slab", "oak"}, {"step", "oak"}}, Material.WOOD_STEP));
+        items.add(new ItemInfo("Spruce Slab", new String[][]{{"slab", "spru"}, {"step", "spru"}}, Material.WOOD_STEP, (short) 1));
+        items.add(new ItemInfo("Birch Slab", new String[][]{{"slab", "birc"}, {"step", "birc"}}, Material.WOOD_STEP, (short) 2));
+        items.add(new ItemInfo("Jungle-Wood Slab", new String[][]{{"slab", "jung"}, {"step", "jung"}}, Material.WOOD_STEP, (short) 3));
+        
+        
     }
 
     public static ItemInfo itemById(int typeId) {
