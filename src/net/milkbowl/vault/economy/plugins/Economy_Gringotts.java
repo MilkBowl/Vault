@@ -165,11 +165,14 @@ public class Economy_Gringotts implements Economy {
     public boolean hasAccount(String playerName) {
     	try{
     		Account account = gringotts.accounting.getAccount(new PlayerAccountHolder(playerName));
+    		if(account != null)
+    			return true;
+    		else
+    			return false;
     	}
     	catch (Exception e){
     		return false;
     	}
-    	return true;
 	}
 
 
@@ -214,7 +217,7 @@ public class Economy_Gringotts implements Economy {
         
         if(account.balance() >= amount) {
             //We has mulah!
-            account.remove((long)amount);
+            account.remove(amount);
             return new EconomyResponse(amount, account.balance(), ResponseType.SUCCESS, null);
         } else {
             //Not enough money to withdraw this much.
@@ -238,13 +241,11 @@ public class Economy_Gringotts implements Economy {
         PlayerAccountHolder accountHolder = new PlayerAccountHolder(playerName);
         Account account = gringotts.accounting.getAccount( accountHolder );
         
-        long change = (long)account.add((long) amount);
+        if (account.add(amount))        
+        	return new EconomyResponse( amount, account.balance(), ResponseType.SUCCESS, null);
+        else
+        	return new EconomyResponse( 0, account.balance(), ResponseType.FAILURE, "Not enough capacity to store that many funds!");
         
-        if( change == amount ) {
-            return new EconomyResponse( change, account.balance(), ResponseType.SUCCESS, null);
-        } else {
-            return new EconomyResponse( change, account.balance(), ResponseType.FAILURE, "Not enough capacity to store that many funds!");
-        }
     }
 
     /**
