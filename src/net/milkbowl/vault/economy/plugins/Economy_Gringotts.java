@@ -120,7 +120,7 @@ public class Economy_Gringotts implements Economy {
      * @return number of digits after the decimal point kept
      */
     public int fractionalDigits(){
-    	return -1;
+    	return 2;
     }
 
     /**
