@@ -134,7 +134,7 @@ public class Permission_DroxPerms extends Permission {
 
     @Override
     public String[] getGroups() {
-        return null;
+        return API.getGroupNames();
     }
 
 }
