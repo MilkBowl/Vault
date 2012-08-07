@@ -148,8 +148,8 @@ public class Permission_SimplyPerms extends Permission{
     public boolean groupRemove(String world, String group, String permission) {
         permission = permission.toLowerCase();
         if (world != null) {
-            this.perms.removeGroupPermission(group, world, permission);
             permission = world + ":" + permission;
+            this.perms.removeGroupPermission(group, world, permission);
         } else {
             this.perms.removeGroupPermission(group, permission);
         }
