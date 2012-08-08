@@ -184,7 +184,7 @@
 		<dependency>
 			<groupId>ru.tehkode</groupId>
 			<artifactId>PermissionsEx</artifactId>
-			<version>1.19.2</version>
+			<version>1.19.3</version>
 			<scope>system</scope>
 			<systemPath>${project.basedir}/lib/PermissionsEx.jar</systemPath>
 		</dependency>
