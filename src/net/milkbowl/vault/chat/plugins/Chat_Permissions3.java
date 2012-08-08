@@ -220,7 +220,7 @@ public class Chat_Permissions3 extends Chat {
 
     @Override
     public String getGroupPrefix(String world, String group) {
-        return this.getGroupPrefix(world, group);
+        return this.perms.getGroupPrefix(world, group);
     }
 
     @Override
@@ -230,7 +230,7 @@ public class Chat_Permissions3 extends Chat {
 
     @Override
     public String getGroupSuffix(String world, String group) {
-        return this.getGroupSuffix(world, group);
+        return this.perms.getGroupSuffix(world, group);
     }
 
     @Override

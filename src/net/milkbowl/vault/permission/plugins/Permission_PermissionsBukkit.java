@@ -45,7 +45,7 @@ public class Permission_PermissionsBukkit extends Permission {
         if (perms == null) {
             Plugin perms = plugin.getServer().getPluginManager().getPlugin("PermissionsBukkit");
             if (perms != null) {
-                perms = (PermissionsPlugin) perms;
+                this.perms = (PermissionsPlugin) perms;
                 log.info(String.format("[%s][Permission] %s hooked.", plugin.getDescription().getName(), name));
             }
         }
