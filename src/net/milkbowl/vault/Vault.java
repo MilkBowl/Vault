@@ -386,6 +386,7 @@ public class Vault extends JavaPlugin {
                 econ2.depositPlayer(pName, econ1.getBalance(pName));
             }
         }
+        sender.sendMessage("Converson complete, please verify the data before using it.");
     }
 
     private void infoCommand(CommandSender sender) {
