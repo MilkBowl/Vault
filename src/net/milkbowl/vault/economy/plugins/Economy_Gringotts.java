@@ -19,9 +19,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
 
-import net.mcw.gringotts.Account;
-import net.mcw.gringotts.Gringotts;
-import net.mcw.gringotts.PlayerAccountHolder;
 import net.milkbowl.vault.economy.Economy;
 import net.milkbowl.vault.economy.EconomyResponse;
 import net.milkbowl.vault.economy.EconomyResponse.ResponseType;
@@ -33,6 +30,9 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.server.PluginDisableEvent;
 import org.bukkit.event.server.PluginEnableEvent;
 import org.bukkit.plugin.Plugin;
+import org.gestern.gringotts.Account;
+import org.gestern.gringotts.Gringotts;
+import org.gestern.gringotts.PlayerAccountHolder;
 
 public class Economy_Gringotts implements Economy {
 
@@ -141,7 +141,7 @@ public class Economy_Gringotts implements Economy {
      * @return name of the currency (plural)
      */
     public String currencyNamePlural(){
-    	return "";
+    	return org.gestern.gringotts.Configuration.config.currencyNamePlural;
     }
 
 
@@ -152,7 +152,7 @@ public class Economy_Gringotts implements Economy {
      * @return name of the currency (singular)
      */
     public String currencyNameSingular(){
-    	return "";
+    	return org.gestern.gringotts.Configuration.config.currencyNameSingular;
     }
 
     /**
@@ -215,9 +215,8 @@ public class Economy_Gringotts implements Economy {
         
         Account account = gringotts.accounting.getAccount( accountHolder );
         
-        if(account.balance() >= amount) {
+        if(account.balance() >= amount && account.remove(amount)) {
             //We has mulah!
-            account.remove(amount);
             return new EconomyResponse(amount, account.balance(), ResponseType.SUCCESS, null);
         } else {
             //Not enough money to withdraw this much.
@@ -244,7 +243,7 @@ public class Economy_Gringotts implements Economy {
         if (account.add(amount))        
         	return new EconomyResponse( amount, account.balance(), ResponseType.SUCCESS, null);
         else
-        	return new EconomyResponse( 0, account.balance(), ResponseType.FAILURE, "Not enough capacity to store that many funds!");
+        	return new EconomyResponse( 0, account.balance(), ResponseType.FAILURE, "Not enough capacity to store that amount!");
         
     }
 

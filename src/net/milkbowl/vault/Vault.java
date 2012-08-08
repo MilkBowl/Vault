@@ -219,6 +219,9 @@ public class Vault extends JavaPlugin {
         // Try to load CurrencyCore
         hookEconomy("CurrencyCore", Economy_CurrencyCore.class, ServicePriority.Normal, "is.currency.Currency");
 
+        // Try to load Gringotts
+        hookEconomy("Gringotts", Economy_Gringotts.class, ServicePriority.Normal, "org.gestern.gringotts.Gringotts");
+        
         // Try to load Essentials Economy
         hookEconomy("Essentials Economy", Economy_Essentials.class, ServicePriority.Low, "com.earth2me.essentials.api.Economy", "com.earth2me.essentials.api.NoLoanPermittedException",  "com.earth2me.essentials.api.UserDoesNotExistException");
 
@@ -237,8 +240,7 @@ public class Vault extends JavaPlugin {
         // Try to load GoldIsMoney
         hookEconomy("GoldIsMoney", Economy_GoldIsMoney.class, ServicePriority.Normal, "com.flobi.GoldIsMoney.GoldIsMoney");
         
-        // Try to load Gringotts
-        hookEconomy("Gringotts", Economy_Gringotts.class, ServicePriority.Normal, "net.mcw.gringotts.Gringotts");
+        
     }
 
     /**
