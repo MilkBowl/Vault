@@ -40,6 +40,7 @@ import net.milkbowl.vault.economy.plugins.Economy_AEco;
 import net.milkbowl.vault.economy.plugins.Economy_BOSE6;
 import net.milkbowl.vault.economy.plugins.Economy_BOSE7;
 import net.milkbowl.vault.economy.plugins.Economy_Craftconomy;
+import net.milkbowl.vault.economy.plugins.Economy_Craftconomy3;
 import net.milkbowl.vault.economy.plugins.Economy_CurrencyCore;
 import net.milkbowl.vault.economy.plugins.Economy_EconXP;
 import net.milkbowl.vault.economy.plugins.Economy_Essentials;
@@ -203,6 +204,9 @@ public class Vault extends JavaPlugin {
 
         // Try to load Craftconomy
         hookEconomy("CraftConomy", Economy_Craftconomy.class, ServicePriority.Normal, "me.greatman.Craftconomy.Craftconomy");
+        
+        // Try to load Craftconomy3
+        hookEconomy("CraftConomy3", Economy_Craftconomy3.class, ServicePriority.Normal, "com.greatmancode.craftconomy3.CC3BukkitLoader");
 
         // Try to load eWallet
         hookEconomy("eWallet", Economy_eWallet.class, ServicePriority.Normal, "me.ethan.eWallet.ECO");
