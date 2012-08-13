@@ -176,7 +176,7 @@ public class Economy_Craftconomy implements Economy {
             return new EconomyResponse(0, 0, ResponseType.SUCCESS, "");
         }
 
-        return new EconomyResponse(0, 0, ResponseType.FAILURE, "Unable to create that bank account.");
+        return new EconomyResponse(0, 0, ResponseType.FAILURE, "Unable to delete that bank account.");
     }
 
     @Override
