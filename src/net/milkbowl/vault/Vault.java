@@ -258,7 +258,7 @@ public class Vault extends JavaPlugin {
         hookPermission("PermissionsEx", Permission_PermissionsEx.class, ServicePriority.Highest, "ru.tehkode.permissions.bukkit.PermissionsEx");
 
         // Try to load PermissionsBukkit
-        hookPermission("PermissionsBukkit", Permission_PermissionsBukkit.class, ServicePriority.Highest, "com.platymuus.bukkit.permissions.PermissionsPlugin");
+        hookPermission("PermissionsBukkit", Permission_PermissionsBukkit.class, ServicePriority.Normal, "com.platymuus.bukkit.permissions.PermissionsPlugin");
 
         // Try to load DroxPerms
         hookPermission("DroxPerms", Permission_DroxPerms.class, ServicePriority.High, "de.hydrox.bukkit.DroxPerms.DroxPerms");
@@ -282,7 +282,7 @@ public class Vault extends JavaPlugin {
         hookPermission("GroupManager", Permission_GroupManager.class, ServicePriority.High, "org.anjocaido.groupmanager.GroupManager");
 
         // Try to load Permissions 3 (Yeti)
-        hookPermission("Permissions 3 (Yeti)", Permission_Permissions3.class, ServicePriority.High, "com.nijiko.permissions.ModularControl");
+        hookPermission("Permissions 3 (Yeti)", Permission_Permissions3.class, ServicePriority.Normal, "com.nijiko.permissions.ModularControl");
 
         Permission perms = new Permission_SuperPerms(this);
         sm.register(Permission.class, perms, this, ServicePriority.Lowest);
