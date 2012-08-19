@@ -184,7 +184,6 @@ public class Permission_PermissionsBukkit extends Permission {
 
     @Override
     public boolean playerAddGroup(String world, String player, String group) {
-        group = group.toLowerCase();
         if (world == null) {
             return false;
         }
@@ -193,7 +192,6 @@ public class Permission_PermissionsBukkit extends Permission {
 
     @Override
     public boolean playerRemoveGroup(String world, String player, String group) {
-        group = group.toLowerCase();
         if (world == null) {
             return false;
         }
