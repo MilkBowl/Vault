@@ -184,8 +184,7 @@ public class Permission_PermissionsBukkit extends Permission {
 
     @Override
     public boolean playerAddGroup(String world, String player, String group) {
-        group = group.toLowerCase();
-        if (world != null) {
+        if (world == null) {
             return false;
         }
         return plugin.getServer().dispatchCommand(Bukkit.getServer().getConsoleSender(), "permissions player addgroup " + player + " " + group);
@@ -193,8 +192,7 @@ public class Permission_PermissionsBukkit extends Permission {
 
     @Override
     public boolean playerRemoveGroup(String world, String player, String group) {
-        group = group.toLowerCase();
-        if (world != null) {
+        if (world == null) {
             return false;
         }
         return plugin.getServer().dispatchCommand(Bukkit.getServer().getConsoleSender(), "permissions player removegroup " + player + " " + group);
