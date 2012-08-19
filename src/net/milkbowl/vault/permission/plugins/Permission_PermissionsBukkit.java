@@ -108,7 +108,6 @@ public class Permission_PermissionsBukkit extends Permission {
 
     @Override
     public boolean playerAdd(String world, String player, String permission) {
-        permission = permission.toLowerCase();
         if (world != null) {
             permission = world + ":" + permission;
         }
@@ -117,7 +116,6 @@ public class Permission_PermissionsBukkit extends Permission {
 
     @Override
     public boolean playerRemove(String world, String player, String permission) {
-        permission = permission.toLowerCase();
         if (world != null) {
             permission = world + ":" + permission;
         }
@@ -128,9 +126,6 @@ public class Permission_PermissionsBukkit extends Permission {
 
     @Override
     public boolean groupHas(String world, String group, String permission) {
-        group = group.toLowerCase();
-        permission = permission.toLowerCase();
-
         if (world != null && !world.isEmpty()) {
             return perms.getGroup(group).getInfo().getWorldPermissions(world).get(permission) == null ? false : perms.getGroup(group).getInfo().getWorldPermissions(world).get(permission);
         }
@@ -146,8 +141,6 @@ public class Permission_PermissionsBukkit extends Permission {
 
     @Override
     public boolean groupAdd(String world, String group, String permission) {
-        group = group.toLowerCase();
-        permission = permission.toLowerCase();
         if (world != null) {
             permission = world + ":" + permission;
         }
@@ -156,8 +149,6 @@ public class Permission_PermissionsBukkit extends Permission {
 
     @Override
     public boolean groupRemove(String world, String group, String permission) {
-        group = group.toLowerCase();
-        permission = permission.toLowerCase();
         if (world != null) {
             permission = world + ":" + permission;
         }
@@ -166,7 +157,6 @@ public class Permission_PermissionsBukkit extends Permission {
 
     @Override
     public boolean playerInGroup(String world, String player, String group) {
-        group = group.toLowerCase();
         if (world != null) {
             for (Group g : perms.getPlayerInfo(player).getGroups()) {
                 if (g.getName().equals(group)) {
@@ -184,7 +174,6 @@ public class Permission_PermissionsBukkit extends Permission {
 
     @Override
     public boolean playerAddGroup(String world, String player, String group) {
-        group = group.toLowerCase();
         if (world != null) {
             return false;
         }
@@ -193,7 +182,6 @@ public class Permission_PermissionsBukkit extends Permission {
 
     @Override
     public boolean playerRemoveGroup(String world, String player, String group) {
-        group = group.toLowerCase();
         if (world != null) {
             return false;
         }
