@@ -21,6 +21,7 @@ import java.util.Set;
 import net.milkbowl.vault.permission.Permission;
 
 import org.bukkit.Bukkit;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
@@ -86,6 +87,11 @@ public class Permission_bPermissions2 extends Permission {
     @Override
     public boolean isEnabled() {
         return hooked;
+    }
+
+    @Override
+    public boolean has(Player player, String permission) {
+        return playerHas(player.getWorld().getName(), player.getName(), permission);
     }
 
     @Override
