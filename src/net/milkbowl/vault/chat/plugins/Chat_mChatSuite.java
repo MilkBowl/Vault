@@ -15,10 +15,10 @@
 */
 package net.milkbowl.vault.chat.plugins;
 
+import com.miraclem4n.mchat.api.Reader;
+import com.miraclem4n.mchat.api.Writer;
+import com.miraclem4n.mchat.types.InfoType;
 import in.mDev.MiracleM4n.mChatSuite.mChatSuite;
-import in.mDev.MiracleM4n.mChatSuite.api.Reader;
-import in.mDev.MiracleM4n.mChatSuite.api.Writer;
-import in.mDev.MiracleM4n.mChatSuite.types.InfoType;
 
 import java.util.logging.Logger;
 
@@ -38,8 +38,6 @@ public class Chat_mChatSuite extends Chat {
     private final String name = "mChatSuite";
     private Plugin plugin = null;
     private mChatSuite mChat = null;
-    private Reader mReader = null;
-    private Writer mWriter = null;
 
     public Chat_mChatSuite(Plugin plugin, Permission perms) {
         super(perms);
@@ -51,9 +49,6 @@ public class Chat_mChatSuite extends Chat {
         if (mChat == null) {
             Plugin chat = plugin.getServer().getPluginManager().getPlugin("mChatSuite");
             if (chat != null && chat.isEnabled()) {
-                mChat = (mChatSuite) chat;
-                mReader = mChat.getReader();
-                mWriter = mChat.getWriter();
                 log.info(String.format("[%s][Chat] %s hooked.", plugin.getDescription().getName(), "mChatSuite"));
             }
         }
@@ -67,8 +62,6 @@ public class Chat_mChatSuite extends Chat {
                 Plugin chat = plugin.getServer().getPluginManager().getPlugin("mChatSuite");
                 if (chat != null) {
                     mChat = (mChatSuite) chat;
-                    mReader = mChat.getReader();
-                    mWriter = mChat.getWriter();
                     log.info(String.format("[%s][Chat] %s hooked.", plugin.getDescription().getName(), "mChatSuite"));
                 }
             }
@@ -79,8 +72,6 @@ public class Chat_mChatSuite extends Chat {
             if (mChat != null) {
                 if (event.getPlugin().getDescription().getName().equals("mChatSuite")) {
                     mChat = null;
-                    mReader = null;
-                    mWriter = null;
                     log.info(String.format("[%s][Chat] %s un-hooked.", plugin.getDescription().getName(), "mChatSuite"));
                 }
             }
@@ -99,7 +90,7 @@ public class Chat_mChatSuite extends Chat {
 
     @Override
     public String getPlayerPrefix(String world, String player) {
-        return mReader.getPrefix(player, InfoType.USER, world);
+        return Reader.getPrefix(player, InfoType.USER, world);
     }
 
     @Override
@@ -109,7 +100,7 @@ public class Chat_mChatSuite extends Chat {
 
     @Override
     public String getPlayerSuffix(String world, String player) {
-        return mReader.getSuffix(player, InfoType.USER, world);
+        return Reader.getSuffix(player, InfoType.USER, world);
     }
 
     @Override
@@ -119,7 +110,7 @@ public class Chat_mChatSuite extends Chat {
 
     @Override
     public String getGroupPrefix(String world, String group) {
-        return mReader.getPrefix(group, InfoType.GROUP, world);
+        return Reader.getPrefix(group, InfoType.GROUP, world);
     }
 
     @Override
@@ -129,7 +120,7 @@ public class Chat_mChatSuite extends Chat {
 
     @Override
     public String getGroupSuffix(String world, String group) {
-        return mReader.getSuffix(group, InfoType.GROUP, world);
+        return Reader.getSuffix(group, InfoType.GROUP, world);
     }
 
     @Override
@@ -269,24 +260,24 @@ public class Chat_mChatSuite extends Chat {
 
     private void setPlayerInfoValue(String world, String player, String node, Object value) {
         if (world != null) {
-            mWriter.setWorldVar(player, InfoType.USER, world, node, value.toString());
+            Writer.setWorldVar(player, InfoType.USER, world, node, value.toString());
         } else {
-            mWriter.setInfoVar(player, InfoType.USER, node, value.toString());
+            Writer.setInfoVar(player, InfoType.USER, node, value.toString());
         }
     }
 
     private void setGroupInfoValue(String world, String group, String node, Object value) {
         if (world != null) {
-            mWriter.setWorldVar(group, InfoType.GROUP, world, node, value);
+            Writer.setWorldVar(group, InfoType.GROUP, world, node, value);
         } else {
-            mWriter.setInfoVar(group, InfoType.GROUP, node, value);
+            Writer.setInfoVar(group, InfoType.GROUP, node, value);
         }
     }
     private String getPlayerInfoValue(String world, String player, String node) {
-        return mReader.getInfo(player, InfoType.USER, world, node);
+        return Reader.getInfo(player, InfoType.USER, world, node);
     }
 
     private String getGroupInfoValue(String world, String group, String node) {
-        return mReader.getInfo(group, InfoType.GROUP, world, node);
+        return Reader.getInfo(group, InfoType.GROUP, world, node);
     }
 }
