@@ -49,6 +49,7 @@ public class Chat_mChatSuite extends Chat {
         if (mChat == null) {
             Plugin chat = plugin.getServer().getPluginManager().getPlugin("mChatSuite");
             if (chat != null && chat.isEnabled()) {
+                mChat = (mChatSuite) chat;
                 log.info(String.format("[%s][Chat] %s hooked.", plugin.getDescription().getName(), "mChatSuite"));
             }
         }
