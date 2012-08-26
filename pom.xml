@@ -149,7 +149,7 @@
 		<dependency>
 			<groupId>in.mDev</groupId>
 			<artifactId>mChatSuite</artifactId>
-			<version>DEV-b216</version>
+			<version>DEV-b275</version>
 			<scope>system</scope>
 			<systemPath>${project.basedir}/lib/mChatSuite.jar</systemPath>
 		</dependency>
