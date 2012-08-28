@@ -112,7 +112,7 @@ public class Economy_GoldIsMoney implements Economy {
 	    if (amount < 0) {
 	        return new EconomyResponse(0, 0, ResponseType.FAILURE, "Cannot withdraw negative funds!");
 	    }
-	    if (GoldIsMoney.hasAccount(playerName)) {
+	    if (!GoldIsMoney.hasAccount(playerName)) {
 	        return new EconomyResponse(0, 0, ResponseType.FAILURE, "That player does not have an account!");
 	    }
 	    if (!GoldIsMoney.has(playerName, amount)) {
@@ -129,7 +129,7 @@ public class Economy_GoldIsMoney implements Economy {
 	    if (amount < 0) {
 	        return new EconomyResponse(0, 0, ResponseType.FAILURE, "Cannot desposit negative funds!");
 	    }
-	    if (GoldIsMoney.hasAccount(playerName)) {
+	    if (!GoldIsMoney.hasAccount(playerName)) {
 	        return new EconomyResponse(0, 0, ResponseType.FAILURE, "That player does not have an account!");
 	    }
 	    if (!GoldIsMoney.depositPlayer(playerName, amount)) {
@@ -255,32 +255,32 @@ public class Economy_GoldIsMoney implements Economy {
 	}
 	
 	public class EconomyServerListener implements Listener {
-	    Economy_GoldIsMoney economy = null;
-	
-	    public EconomyServerListener(Economy_GoldIsMoney economy_GoldIsMoney) {
-	        this.economy = economy_GoldIsMoney;
-	    }
-	
-	    @EventHandler(priority = EventPriority.MONITOR)
-	    public void onPluginEnable(PluginEnableEvent event) {
-	        if (economy.economy == null) {
-	            Plugin ec = plugin.getServer().getPluginManager().getPlugin("GoldIsMoney");
-	
-	            if (ec != null && ec.isEnabled() && ec.getClass().getName().equals("com.GoldIsMoney.GoldIsMoney")) {
-	                economy.economy = (GoldIsMoney) ec;
-	                log.info(String.format("[%s][Economy] %s hooked.", plugin.getDescription().getName(), economy.getName()));
-	            }
-	        }
-	    }
-	
-	    @EventHandler(priority = EventPriority.MONITOR)
-	    public void onPluginDisable(PluginDisableEvent event) {
-	        if (economy.economy != null) {
-	            if (event.getPlugin().getDescription().getName().equals("GoldIsMoney")) {
-	                economy.economy = null;
-	                log.info(String.format("[%s][Economy] %s unhooked.", plugin.getDescription().getName(), economy.getName()));
-	            }
-	        }
-	    }
+		Economy_GoldIsMoney economy = null;
+
+		public EconomyServerListener(Economy_GoldIsMoney economy_GoldIsMoney) {
+			this.economy = economy_GoldIsMoney;
+		}
+
+		@EventHandler(priority = EventPriority.MONITOR)
+		public void onPluginEnable(PluginEnableEvent event) {
+			if (economy.economy == null) {
+				Plugin ec = plugin.getServer().getPluginManager().getPlugin("GoldIsMoney");
+
+				if (ec != null && ec.isEnabled() && ec.getClass().getName().equals("com.flobi.GoldIsMoney.GoldIsMoney")) {
+					economy.economy = (GoldIsMoney) ec;
+					log.info(String.format("[%s][Economy] %s hooked.", plugin.getDescription().getName(), economy.name));
+				}
+			}
+		}
+
+		@EventHandler(priority = EventPriority.MONITOR)
+		public void onPluginDisable(PluginDisableEvent event) {
+			if (economy.economy != null) {
+				if (event.getPlugin().getDescription().getName().equals("GoldIsMoney")) {
+					economy.economy = null;
+					log.info(String.format("[%s][Economy] %s unhooked.", plugin.getDescription().getName(), economy.name));
+				}
+			}
+		}
 	}
 }
