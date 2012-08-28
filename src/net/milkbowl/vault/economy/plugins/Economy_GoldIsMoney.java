@@ -15,7 +15,6 @@ along with Vault.  If not, see <http://www.gnu.org/licenses/>.
 */
 package net.milkbowl.vault.economy.plugins;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -46,6 +45,7 @@ public class Economy_GoldIsMoney implements Economy {
 	    // Load Plugin in case it was loaded before
 	    if (economy == null) {
 	        Plugin ec = plugin.getServer().getPluginManager().getPlugin("GoldIsMoney");
+
 	        if (ec != null && ec.isEnabled() && ec.getClass().getName().equals("com.flobi.GoldIsMoney.GoldIsMoney")) {
 	            economy = (GoldIsMoney) ec;
 	            log.info(String.format("[%s][Economy] %s hooked.", plugin.getDescription().getName(), name));
@@ -67,77 +67,19 @@ public class Economy_GoldIsMoney implements Economy {
 	    return name;
 	}
 	
-	private double getAccountBalance(String playerName) {
-	    return GoldIsMoney.getBalance(playerName);
-	}
-	
 	@Override
-	public double getBalance(String playerName) {
-	    return getAccountBalance(playerName);
+	public boolean hasBankSupport() {
+	    return GoldIsMoney.hasBankSupport();
 	}
-	
+
 	@Override
-	public EconomyResponse withdrawPlayer(String playerName, double amount) {
-	    if (amount < 0) {
-	        return new EconomyResponse(0, 0, ResponseType.FAILURE, "Cannot withdraw negative funds");
-	    }
-	
-	    if (GoldIsMoney.has(playerName, Math.round(amount))) {
-	    	GoldIsMoney.withdrawPlayer(playerName, (long) amount);
-	        return new EconomyResponse(amount, getAccountBalance(playerName), ResponseType.SUCCESS, null);
-	    } else {
-	        return new EconomyResponse(0, getAccountBalance(playerName), ResponseType.FAILURE, "Insufficient funds");
-	    }
-	}
-	
-	@Override
-	public EconomyResponse depositPlayer(String playerName, double amount) {
-	    if (amount < 0) {
-	        return new EconomyResponse(0, 0, ResponseType.FAILURE, "Cannot desposit negative funds");
-	    }
-	    
-	    GoldIsMoney.depositPlayer(playerName, Math.round(amount));
-	    return new EconomyResponse(amount, GoldIsMoney.getBalance(playerName), EconomyResponse.ResponseType.SUCCESS, null);
-	}
-	
-	public class EconomyServerListener implements Listener {
-	    Economy_GoldIsMoney economy = null;
-	
-	    public EconomyServerListener(Economy_GoldIsMoney economy_GoldIsMoney) {
-	        this.economy = economy_GoldIsMoney;
-	    }
-	
-	    @EventHandler(priority = EventPriority.MONITOR)
-	    public void onPluginEnable(PluginEnableEvent event) {
-	        if (economy.economy == null) {
-	            Plugin ec = plugin.getServer().getPluginManager().getPlugin("GoldIsMoney");
-	
-	            if (ec != null && ec.isEnabled() && ec.getClass().getName().equals("com.GoldIsMoney.GoldIsMoney")) {
-	                economy.economy = (GoldIsMoney) ec;
-	                log.info(String.format("[%s][Economy] %s hooked.", plugin.getDescription().getName(), economy.name));
-	            }
-	        }
-	    }
-	
-	    @EventHandler(priority = EventPriority.MONITOR)
-	    public void onPluginDisable(PluginDisableEvent event) {
-	        if (economy.economy != null) {
-	            if (event.getPlugin().getDescription().getName().equals("GoldIsMoney")) {
-	                economy.economy = null;
-	                log.info(String.format("[%s][Economy] %s unhooked.", plugin.getDescription().getName(), economy.name));
-	            }
-	        }
-	    }
+	public int fractionalDigits() {
+		return GoldIsMoney.fractionalDigits();
 	}
 	
 	@Override
 	public String format(double amount) {
-	    return GoldIsMoney.format(Math.round(amount));
-	}
-	
-	@Override
-	public String currencyNameSingular() {
-		return GoldIsMoney.currencyNameSingular();
+	    return GoldIsMoney.format(amount);
 	}
 	
 	@Override
@@ -146,58 +88,8 @@ public class Economy_GoldIsMoney implements Economy {
 	}
 	
 	@Override
-	public boolean has(String playerName, double amount) {
-	    return getBalance(playerName) >= amount;
-	}
-	
-	@Override
-	public EconomyResponse createBank(String name, String player) {
-	    return new EconomyResponse(0, 0, ResponseType.NOT_IMPLEMENTED, "GoldIsMoney does not support single account banks!");
-	}
-	
-	@Override
-	public EconomyResponse deleteBank(String name) {
-	    return new EconomyResponse(0, 0, ResponseType.NOT_IMPLEMENTED, "GoldIsMoney does not support bank accounts!");
-	}
-	
-	@Override
-	public EconomyResponse bankHas(String name, double amount) {
-	    return new EconomyResponse(0, 0, ResponseType.NOT_IMPLEMENTED, "GoldIsMoney does not support single bank accounts!");
-	}
-	
-	@Override
-	public EconomyResponse bankWithdraw(String name, double amount) {
-	    return new EconomyResponse(0, 0, ResponseType.NOT_IMPLEMENTED, "GoldIsMoney does not support single bank accounts!");
-	}
-	
-	@Override
-	public EconomyResponse bankDeposit(String name, double amount) {
-	    return new EconomyResponse(0, 0, ResponseType.NOT_IMPLEMENTED, "GoldIsMoney does not support single bank accounts!");
-	}
-	
-	@Override
-	public EconomyResponse isBankOwner(String name, String playerName) {
-	    return new EconomyResponse(0, 0, ResponseType.NOT_IMPLEMENTED, "GoldIsMoney does not support single bank accounts!");
-	}
-	
-	@Override
-	public EconomyResponse isBankMember(String name, String playerName) {
-	    return new EconomyResponse(0, 0, ResponseType.NOT_IMPLEMENTED, "GoldIsMoney does not support single bank accounts!");
-	}
-	
-	@Override
-	public EconomyResponse bankBalance(String name) {
-	    return new EconomyResponse(0, 0, ResponseType.NOT_IMPLEMENTED, "GoldIsMoney does not support single bank accounts!");
-	}
-	
-	@Override
-	public List<String> getBanks() {
-	    return new ArrayList<String>();
-	}
-	
-	@Override
-	public boolean hasBankSupport() {
-	    return false;
+	public String currencyNameSingular() {
+		return GoldIsMoney.currencyNameSingular();
 	}
 	
 	@Override
@@ -206,12 +98,189 @@ public class Economy_GoldIsMoney implements Economy {
 	}
 	
 	@Override
-	public boolean createPlayerAccount(String playerName) {
-	    return hasAccount(playerName);
+	public double getBalance(String playerName) {
+	    return GoldIsMoney.getBalance(playerName);
 	}
-
+	
 	@Override
-	public int fractionalDigits() {
-		return 0;
+	public boolean has(String playerName, double amount) {
+	    return GoldIsMoney.has(playerName, amount);
+	}
+	
+	@Override
+	public EconomyResponse withdrawPlayer(String playerName, double amount) {
+	    if (amount < 0) {
+	        return new EconomyResponse(0, 0, ResponseType.FAILURE, "Cannot withdraw negative funds!");
+	    }
+	    if (!GoldIsMoney.hasAccount(playerName)) {
+	        return new EconomyResponse(0, 0, ResponseType.FAILURE, "That player does not have an account!");
+	    }
+	    if (!GoldIsMoney.has(playerName, amount)) {
+	        return new EconomyResponse(0, GoldIsMoney.getBalance(playerName), ResponseType.FAILURE, "Insufficient funds");
+	    }
+	    if (!GoldIsMoney.withdrawPlayer(playerName, amount)) {
+	        return new EconomyResponse(0, GoldIsMoney.getBalance(playerName), ResponseType.FAILURE, "Unable to withdraw funds!");
+	    }
+        return new EconomyResponse(amount, GoldIsMoney.getBalance(playerName), ResponseType.SUCCESS, null);
+	}
+	
+	@Override
+	public EconomyResponse depositPlayer(String playerName, double amount) {
+	    if (amount < 0) {
+	        return new EconomyResponse(0, 0, ResponseType.FAILURE, "Cannot desposit negative funds!");
+	    }
+	    if (!GoldIsMoney.hasAccount(playerName)) {
+	        return new EconomyResponse(0, 0, ResponseType.FAILURE, "That player does not have an account!");
+	    }
+	    if (!GoldIsMoney.depositPlayer(playerName, amount)) {
+	        return new EconomyResponse(0, GoldIsMoney.getBalance(playerName), ResponseType.FAILURE, "Unable to deposit funds!");
+	    }
+        return new EconomyResponse(amount, GoldIsMoney.getBalance(playerName), ResponseType.SUCCESS, null);
+	}
+	
+	@Override
+	public EconomyResponse createBank(String name, String player) {
+		if (!GoldIsMoney.hasBankSupport()) {
+		    return new EconomyResponse(0, 0, ResponseType.NOT_IMPLEMENTED, "GoldIsMoney bank support is disabled!");
+		}
+        if (!GoldIsMoney.createBank(name, player)) {
+            return new EconomyResponse(0, 0, ResponseType.FAILURE, "Unable to create bank account.");
+        }
+        return new EconomyResponse(0, GoldIsMoney.bankBalance(name), ResponseType.SUCCESS, "");
+	}
+	
+	@Override
+	public EconomyResponse deleteBank(String name) {
+		if (!GoldIsMoney.hasBankSupport()) {
+		    return new EconomyResponse(0, 0, ResponseType.NOT_IMPLEMENTED, "GoldIsMoney bank support is disabled!");
+		}
+        if (!GoldIsMoney.deleteBank(name)) {
+            return new EconomyResponse(0, 0, ResponseType.FAILURE, "Unable to remove bank account.");
+        }
+        return new EconomyResponse(0, 0, ResponseType.SUCCESS, "");
+	}
+	
+	@Override
+	public EconomyResponse bankBalance(String name) {
+		if (!GoldIsMoney.hasBankSupport()) {
+		    return new EconomyResponse(0, 0, ResponseType.NOT_IMPLEMENTED, "GoldIsMoney bank support is disabled!");
+		}
+        if (!GoldIsMoney.bankExists(name)) {
+            return new EconomyResponse(0, 0, ResponseType.FAILURE, "That bank does not exist!");
+        }
+        return new EconomyResponse(0, GoldIsMoney.bankBalance(name), ResponseType.SUCCESS, "");
+	}
+	
+	@Override
+	public EconomyResponse bankHas(String name, double amount) {
+		if (!GoldIsMoney.hasBankSupport()) {
+		    return new EconomyResponse(0, 0, ResponseType.NOT_IMPLEMENTED, "GoldIsMoney bank support is disabled!");
+		}
+        if (!GoldIsMoney.bankExists(name)) {
+            return new EconomyResponse(0, 0, ResponseType.FAILURE, "That bank does not exist!");
+        }
+        if (GoldIsMoney.bankHas(name, amount)) {
+            return new EconomyResponse(0, GoldIsMoney.bankBalance(name), ResponseType.FAILURE, "The bank does not have enough money!");
+        }
+        return new EconomyResponse(0, GoldIsMoney.bankBalance(name), ResponseType.SUCCESS, "");
+	}
+	
+	@Override
+	public EconomyResponse bankWithdraw(String name, double amount) {
+		if (!GoldIsMoney.hasBankSupport()) {
+		    return new EconomyResponse(0, 0, ResponseType.NOT_IMPLEMENTED, "GoldIsMoney bank support is disabled!");
+		}
+        if (!GoldIsMoney.bankExists(name)) {
+            return new EconomyResponse(0, 0, ResponseType.FAILURE, "That bank does not exist!");
+        }
+        if (!GoldIsMoney.bankHas(name, amount)) {
+            return new EconomyResponse(0, GoldIsMoney.bankBalance(name), ResponseType.FAILURE, "The bank does not have enough money!");
+        }
+    	if (!GoldIsMoney.bankWithdraw(name, amount)) {
+            return new EconomyResponse(0, GoldIsMoney.bankBalance(name), ResponseType.FAILURE, "Unable to withdraw from that bank account!");
+        }
+        return new EconomyResponse(amount, GoldIsMoney.bankBalance(name), ResponseType.SUCCESS, "");
+	}
+	
+	@Override
+	public EconomyResponse bankDeposit(String name, double amount) {
+		if (!GoldIsMoney.hasBankSupport()) {
+		    return new EconomyResponse(0, 0, ResponseType.NOT_IMPLEMENTED, "GoldIsMoney bank support is disabled!");
+		}
+        if (!GoldIsMoney.bankExists(name)) {
+            return new EconomyResponse(0, 0, ResponseType.FAILURE, "That bank does not exist!");
+        }
+    	if (!GoldIsMoney.bankDeposit(name, amount)) {
+            return new EconomyResponse(0, GoldIsMoney.bankBalance(name), ResponseType.FAILURE, "Unable to deposit to that bank account!");
+        }
+        return new EconomyResponse(amount, GoldIsMoney.bankBalance(name), ResponseType.SUCCESS, "");
+	}
+	
+	@Override
+	public EconomyResponse isBankOwner(String name, String playerName) {
+		if (!GoldIsMoney.hasBankSupport()) {
+		    return new EconomyResponse(0, 0, ResponseType.NOT_IMPLEMENTED, "GoldIsMoney bank support is disabled!");
+		}
+        if (!GoldIsMoney.bankExists(name)) {
+            return new EconomyResponse(0, 0, ResponseType.FAILURE, "That bank does not exist!");
+        }
+        if (!GoldIsMoney.isBankOwner(name, playerName)) {
+            return new EconomyResponse(0, 0, ResponseType.FAILURE, "That player does not own that bank!");
+        }
+        return new EconomyResponse(0, GoldIsMoney.bankBalance(name), ResponseType.SUCCESS, "");
+	}
+	
+	@Override
+	public EconomyResponse isBankMember(String name, String playerName) {
+		if (!GoldIsMoney.hasBankSupport()) {
+		    return new EconomyResponse(0, 0, ResponseType.NOT_IMPLEMENTED, "GoldIsMoney bank support is disabled!");
+		}
+        if (!GoldIsMoney.bankExists(name)) {
+            return new EconomyResponse(0, 0, ResponseType.FAILURE, "That bank does not exist!");
+        }
+        if (!GoldIsMoney.isBankMember(name, playerName)) {
+            return new EconomyResponse(0, 0, ResponseType.FAILURE, "That player is not a member of that bank!");
+        }
+        return new EconomyResponse(0, GoldIsMoney.bankBalance(name), ResponseType.SUCCESS, "");
+	}
+	
+	@Override
+	public List<String> getBanks() {
+	    return GoldIsMoney.getBanks();
+	}
+	
+	@Override
+	public boolean createPlayerAccount(String playerName) {
+	    return GoldIsMoney.createPlayerAccount(playerName);
+	}
+	
+	public class EconomyServerListener implements Listener {
+		Economy_GoldIsMoney economy = null;
+
+		public EconomyServerListener(Economy_GoldIsMoney economy_GoldIsMoney) {
+			this.economy = economy_GoldIsMoney;
+		}
+
+		@EventHandler(priority = EventPriority.MONITOR)
+		public void onPluginEnable(PluginEnableEvent event) {
+			if (economy.economy == null) {
+				Plugin ec = plugin.getServer().getPluginManager().getPlugin("GoldIsMoney");
+
+				if (ec != null && ec.isEnabled() && ec.getClass().getName().equals("com.flobi.GoldIsMoney.GoldIsMoney")) {
+					economy.economy = (GoldIsMoney) ec;
+					log.info(String.format("[%s][Economy] %s hooked.", plugin.getDescription().getName(), economy.name));
+				}
+			}
+		}
+
+		@EventHandler(priority = EventPriority.MONITOR)
+		public void onPluginDisable(PluginDisableEvent event) {
+			if (economy.economy != null) {
+				if (event.getPlugin().getDescription().getName().equals("GoldIsMoney")) {
+					economy.economy = null;
+					log.info(String.format("[%s][Economy] %s unhooked.", plugin.getDescription().getName(), economy.name));
+				}
+			}
+		}
 	}
 }
