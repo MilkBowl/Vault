@@ -14,19 +14,19 @@
 			<version>1.3.1-R1.0</version>
 		</dependency>
 		<dependency>
-		    <groupId>de.hydrox.bukkit.DroxPerms</groupId>
-		    <artifactId>DroxPerms</artifactId>
-		    <version>0.4.0-SNAPSHOT</version>
-		    <scope>system</scope>
-		    <systemPath>${project.basedir}/lib/DroxPerms-0.4.0-SNAPSHOT.jar</systemPath>
+			<groupId>de.hydrox.bukkit.DroxPerms</groupId>
+			<artifactId>DroxPerms</artifactId>
+			<version>0.4.0-SNAPSHOT</version>
+			<scope>system</scope>
+			<systemPath>${project.basedir}/lib/DroxPerms-0.4.0-SNAPSHOT.jar</systemPath>
 		</dependency>
-        <dependency>
-            <groupId>net.krinsoft.privileges</groupId>
-            <artifactId>Privileges</artifactId>
-            <version>1.4.0b45</version>
-            <scope>system</scope>
-            <systemPath>${project.basedir}/lib/Privileges.jar</systemPath>
-        </dependency>
+		<dependency>
+			<groupId>net.krinsoft.privileges</groupId>
+			<artifactId>Privileges</artifactId>
+			<version>1.4.0b45</version>
+			<scope>system</scope>
+			<systemPath>${project.basedir}/lib/Privileges.jar</systemPath>
+		</dependency>
 		<dependency>
 			<groupId>org.tyrannyofheaven.bukkit</groupId>
 			<artifactId>zPermissions</artifactId>
@@ -49,11 +49,11 @@
 			<systemPath>${project.basedir}/lib/CurrencyCore.jar</systemPath>
 		</dependency>
 		<dependency>
-		    <groupId>com.flobi.GoldIsMoney</groupId>
-		    <artifactId>GoldIsMoney</artifactId>
-		    <version>1.0.0</version>
-		    <scope>system</scope>
-		    <systemPath>${project.basedir}/lib/GoldIsMoney.jar</systemPath>
+			<groupId>com.flobi.GoldIsMoney</groupId>
+			<artifactId>GoldIsMoney</artifactId>
+			<version>1.0.0</version>
+			<scope>system</scope>
+			<systemPath>${project.basedir}/lib/GoldIsMoney.jar</systemPath>
 		</dependency>
 		<dependency>
 			<groupId>cosine.boseconomy.BOSEconomy</groupId>
@@ -77,11 +77,11 @@
 			<systemPath>${project.basedir}/lib/EconXP.jar</systemPath>
 		</dependency>
 		<dependency>
-		    <groupId>org.neocraft.AEco</groupId>
-		    <artifactId>AEco</artifactId>
-		    <version>2.1</version>
-		    <scope>system</scope>
-            <systemPath>${project.basedir}/lib/AEco-2.1.jar</systemPath>
+			<groupId>org.neocraft.AEco</groupId>
+			<artifactId>AEco</artifactId>
+			<version>2.1</version>
+			<scope>system</scope>
+			<systemPath>${project.basedir}/lib/AEco-2.1.jar</systemPath>
 		</dependency>
 		<dependency>
 			<groupId>com.earth2me.essentials.Essentials</groupId>
@@ -105,12 +105,12 @@
 			<systemPath>${project.basedir}/lib/eWallet.jar</systemPath>
 		</dependency>
 		<dependency>
-            <groupId>boardinggamer.mcmoney</groupId>
-            <artifactId>McMoney</artifactId>
-            <version>1.2</version>
-            <scope>system</scope>
-            <systemPath>${project.basedir}/lib/McMoney.jar</systemPath>
-        </dependency>
+			<groupId>boardinggamer.mcmoney</groupId>
+			<artifactId>McMoney</artifactId>
+			<version>1.2</version>
+			<scope>system</scope>
+			<systemPath>${project.basedir}/lib/McMoney.jar</systemPath>
+		</dependency>
 		<dependency>
 			<groupId>net.TheDgtl.iChat.iChat</groupId>
 			<artifactId>iChat</artifactId>
@@ -224,18 +224,18 @@
 			<systemPath>${project.basedir}/lib/Craftconomy3-b189.jar</systemPath>
 		</dependency>
 		<dependency>
-		    <groupId>net.crystalyx.bukkit.simplyperms</groupId>
-		    <artifactId>SimplyPerms</artifactId>
-		    <version>1.6.2</version>
-		    <scope>system</scope>
-		    <systemPath>${project.basedir}/lib/SimplyPerms.jar</systemPath>
+			<groupId>net.crystalyx.bukkit.simplyperms</groupId>
+			<artifactId>SimplyPerms</artifactId>
+			<version>1.6.2</version>
+			<scope>system</scope>
+			<systemPath>${project.basedir}/lib/SimplyPerms.jar</systemPath>
 		</dependency>
 		<dependency>
-		    <groupId>Gringotts</groupId>
-		    <artifactId>Gringotts</artifactId>
-		    <version>0.0.1-SNAPSHOT</version>
-		    <scope>system</scope>
-		    <systemPath>${project.basedir}/lib/Gringotts.jar</systemPath>
+			<groupId>Gringotts</groupId>
+			<artifactId>Gringotts</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+			<scope>system</scope>
+			<systemPath>${project.basedir}/lib/Gringotts.jar</systemPath>
 		</dependency>
 	</dependencies>
 	<build>
@@ -300,8 +300,8 @@
 					<version>true</version>
 					<linksource>true</linksource>
 					<links>
-					   <link>http://java.sun.com/j2se/1.5.0/docs/api/</link>
-                       <link>http://jd.bukkit.org/apidocs/</link>
+						<link>http://java.sun.com/j2se/1.5.0/docs/api/</link>
+						<link>http://jd.bukkit.org/apidocs/</link>
 					</links>
 					<bottom>
 			            <![CDATA[<b>MilkBukkit, 2011</b>]]>
