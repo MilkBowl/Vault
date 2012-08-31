@@ -199,10 +199,8 @@ public class Permission_PermissionsEx extends Permission {
         PermissionUser user = PermissionsEx.getPermissionManager().getUser(playerName);
         if (user == null) {
             return null;
-        }
-        String[] groupNames = user.getGroupsNames();
-        if (groupNames.length > 0) {
-            return groupNames[groupNames.length - 1];
+        } else if (user.getGroupsNames(world).length > 0) {
+            return user.getGroupsNames(world)[0];
         } else {
             return null;
         }
@@ -273,9 +271,8 @@ public class Permission_PermissionsEx extends Permission {
 	@Override
 	public String[] getGroups() {
 		PermissionGroup[] groups = PermissionsEx.getPermissionManager().getGroups();
-		if (groups == null || groups.length == 0) {
+		if (groups == null || groups.length == 0)
 			return null;
-		}
 		String[] groupNames = new String[groups.length];
 		for (int i = 0; i < groups.length; i++) {
 			groupNames[i] = groups[i].getName();
