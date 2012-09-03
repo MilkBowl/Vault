@@ -51,9 +51,16 @@
 		<dependency>
 			<groupId>com.flobi.GoldIsMoney</groupId>
 			<artifactId>GoldIsMoney</artifactId>
-			<version>1.0.0</version>
+			<version>1.2.1</version>
 			<scope>system</scope>
 			<systemPath>${project.basedir}/lib/GoldIsMoney.jar</systemPath>
+		</dependency>
+		<dependency>
+			<groupId>com.flobi.GoldIsMoney2</groupId>
+			<artifactId>GoldIsMoney</artifactId>
+			<version>2.0.0</version>
+			<scope>system</scope>
+			<systemPath>${project.basedir}/lib/GoldIsMoney2.jar</systemPath>
 		</dependency>
 		<dependency>
 			<groupId>cosine.boseconomy.BOSEconomy</groupId>
