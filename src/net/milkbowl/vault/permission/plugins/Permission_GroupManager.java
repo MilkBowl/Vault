@@ -26,6 +26,7 @@ import org.anjocaido.groupmanager.data.Group;
 import org.anjocaido.groupmanager.data.User;
 import org.anjocaido.groupmanager.dataholder.OverloadedWorldHolder;
 import org.anjocaido.groupmanager.permissions.AnjoPermissionsHandler;
+import org.anjocaido.groupmanager.permissions.BukkitPermissions;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
@@ -134,6 +135,10 @@ public class Permission_GroupManager extends Permission {
         }
 
         user.addPermission(permission);
+        Player p = Bukkit.getPlayer(playerName);
+        if (p != null) {
+            GroupManager.BukkitPermissions.updatePermissions(p);
+        }
         return true;
     }
 
@@ -155,6 +160,10 @@ public class Permission_GroupManager extends Permission {
         }
 
         user.removePermission(permission);
+        Player p = Bukkit.getPlayer(playerName);
+        if (p != null) {
+            GroupManager.BukkitPermissions.updatePermissions(p);
+        }
         return true;
     }
 
@@ -260,6 +269,10 @@ public class Permission_GroupManager extends Permission {
         } else {
             user.addSubGroup(group);
         }
+        Player p = Bukkit.getPlayer(playerName);
+        if (p != null) {
+            GroupManager.BukkitPermissions.updatePermissions(p);
+        }
         return true;
     }
 
@@ -278,16 +291,23 @@ public class Permission_GroupManager extends Permission {
         if (user == null) {
             return false;
         }
+        boolean success = false;
         if (user.getGroup().getName().equalsIgnoreCase(groupName)) {
             user.setGroup(owh.getDefaultGroup());
-            return true;
+            success = true;
         } else {
             Group group = owh.getGroup(groupName);
-            if (group == null) {
-                return false;
+            if (group != null) {
+                success = user.removeSubGroup(group);
             }
-            return user.removeSubGroup(group);
         }
+        if (success) {
+            Player p = Bukkit.getPlayer(playerName);
+            if (p != null) {
+                GroupManager.BukkitPermissions.updatePermissions(p);
+            }
+        }
+        return success;
     }
 
     @Override
