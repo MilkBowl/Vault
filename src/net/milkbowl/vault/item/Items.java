@@ -311,7 +311,7 @@ public class Items {
         items.add(new ItemInfo("End Stone", new String[][] {{"end", "ston"}}, Material.ENDER_STONE));
         items.add(new ItemInfo("Dragon Egg", new String[][] {{"drag", "egg"}}, Material.DRAGON_EGG));
         items.add(new ItemInfo("Blaze Rod", new String[][] {{"rod", "blaz"}}, Material.BLAZE_ROD));
-        items.add(new ItemInfo("Ghost Tear", new String[][] {{"ghas", "tear"}}, Material.GHAST_TEAR));
+        items.add(new ItemInfo("Ghast Tear", new String[][] {{"ghas", "tear"}}, Material.GHAST_TEAR));
         items.add(new ItemInfo("Gold Nugget", new String[][] {{"nugg", "gold"}}, Material.GOLD_NUGGET));
         items.add(new ItemInfo("Glass Bottle", new String[][] {{"bottl"}, {"glas", "bott"}, {"empt", "bott"}}, Material.GLASS_BOTTLE));
         items.add(new ItemInfo("Potion", new String[][] {{"potio"}}, Material.POTION));
