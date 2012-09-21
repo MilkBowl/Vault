@@ -32,7 +32,7 @@ import org.bukkit.event.server.PluginDisableEvent;
 import org.bukkit.event.server.PluginEnableEvent;
 import org.bukkit.plugin.Plugin;
 
-import com.greatmancode.craftconomy3.CC3BukkitLoader;
+import com.greatmancode.craftconomy3.BukkitLoader;
 import com.greatmancode.craftconomy3.Common;
 import com.greatmancode.craftconomy3.account.Account;
 import com.greatmancode.craftconomy3.currency.CurrencyManager;
@@ -43,7 +43,7 @@ public class Economy_Craftconomy3 implements Economy {
 
 	private final String name = "Craftconomy3";
 	private Plugin plugin = null;
-	protected CC3BukkitLoader economy = null;
+	protected BukkitLoader economy = null;
 
 	public Economy_Craftconomy3(Plugin plugin) {
 		this.plugin = plugin;
@@ -52,8 +52,8 @@ public class Economy_Craftconomy3 implements Economy {
 		// Load Plugin in case it was loaded before
 		if (economy == null) {
 			Plugin ec = plugin.getServer().getPluginManager().getPlugin("Craftconomy3");
-			if (ec != null && ec.isEnabled() && ec.getClass().getName().equals("com.greatmancode.craftconomy3.CC3BukkitLoader")) {
-				economy = (CC3BukkitLoader) ec;
+			if (ec != null && ec.isEnabled() && ec.getClass().getName().equals("com.greatmancode.craftconomy3.BukkitLoader")) {
+				economy = (BukkitLoader) ec;
 				log.info(String.format("[%s][Economy] %s hooked.", plugin.getDescription().getName(), name));
 			}
 		}
@@ -71,8 +71,8 @@ public class Economy_Craftconomy3 implements Economy {
 			if (economy.economy == null) {
 				Plugin ec = plugin.getServer().getPluginManager().getPlugin("Craftconomy3");
 
-				if (ec != null && ec.isEnabled() && ec.getClass().getName().equals("com.greatmancode.craftconomy3.CC3BukkitLoader")) {
-					economy.economy = (CC3BukkitLoader) ec;
+				if (ec != null && ec.isEnabled() && ec.getClass().getName().equals("com.greatmancode.craftconomy3.BukkitLoader")) {
+					economy.economy = (BukkitLoader) ec;
 					log.info(String.format("[%s][Economy] %s hooked.", plugin.getDescription().getName(), economy.name));
 				}
 			}
