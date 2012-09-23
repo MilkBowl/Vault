@@ -42,6 +42,7 @@ import net.milkbowl.vault.economy.plugins.Economy_BOSE7;
 import net.milkbowl.vault.economy.plugins.Economy_Craftconomy;
 import net.milkbowl.vault.economy.plugins.Economy_Craftconomy3;
 import net.milkbowl.vault.economy.plugins.Economy_CurrencyCore;
+import net.milkbowl.vault.economy.plugins.Economy_Dosh;
 import net.milkbowl.vault.economy.plugins.Economy_EconXP;
 import net.milkbowl.vault.economy.plugins.Economy_Essentials;
 import net.milkbowl.vault.economy.plugins.Economy_GoldIsMoney;
@@ -248,6 +249,8 @@ public class Vault extends JavaPlugin {
         // Try to load GoldIsMoney2
         hookEconomy("GoldIsMoney2", Economy_GoldIsMoney2.class, ServicePriority.Normal, "com.flobi.GoldIsMoney2.GoldIsMoney");
         
+        // Try to load Dosh
+        hookEconomy("Dosh", Economy_Dosh.class, ServicePriority.Normal, "com.gravypod.Dosh.Dosh");
         
     }
 
