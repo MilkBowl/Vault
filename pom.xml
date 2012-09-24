@@ -244,6 +244,13 @@
 			<scope>system</scope>
 			<systemPath>${project.basedir}/lib/Gringotts.jar</systemPath>
 		</dependency>
+		<dependency>
+		    <groupId>com.gravypod.Dosh</groupId>
+		    <artifactId>Dosh</artifactId>
+		    <version>1.0</version>
+		    <scope>system</scope>
+		    <systemPath>${project.basedir}/lib/Dosh.jar</systemPath>
+		</dependency>
 	</dependencies>
 	<build>
 		<resources>
