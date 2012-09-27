@@ -29,6 +29,7 @@ public class Items {
     private static final List<ItemInfo> items = new CopyOnWriteArrayList<ItemInfo>();
 
     static {
+        items.add(new ItemInfo("Air", new String[][]{{"air"}}, Material.AIR));
         items.add(new ItemInfo("Stone", new String[][]{{"ston"}, {"smoo", "sto"}}, Material.STONE));
         items.add(new ItemInfo("Grass", new String[][]{{"gras"}}, Material.GRASS));
         items.add(new ItemInfo("Dirt", new String[][]{{"dirt"}}, Material.DIRT));
@@ -416,7 +417,9 @@ public class Items {
         items.add(new ItemInfo("strad Disc", new String[][] {{"strad", "disc"}, {"strad", "reco"}, {"9", "disc"}, {"9", "reco"}}, Material.RECORD_9));
         items.add(new ItemInfo("ward Disc", new String[][] {{"ward", "disc"}, {"ward", "reco"}, {"10", "disc"}, {"10", "reco"}}, Material.RECORD_10));
         items.add(new ItemInfo("11 Disc", new String[][] {{"11", "disc"}, {"11", "reco"}}, Material.RECORD_11));
-        items.add(new ItemInfo("Redstone Lamp", new String[][] {{"lamp"}, {"lamp", "red", "sto"}}, Material.REDSTONE_LAMP_OFF));
+        items.add(new ItemInfo("Redstone Lamp", new String[][] {{"lamp"}, {"lamp", "red", "sto", "off"}}, Material.REDSTONE_LAMP_OFF));
+        items.add(new ItemInfo("Redstone Lamp On", new String[][] {{"on", "lamp"}, {"on", "red", "lamp"}}, Material.REDSTONE_LAMP_ON));
+        items.add(new ItemInfo("Redstone Torch Off", new String[][] {{"off", "red", "sto", "tor"}}, Material.REDSTONE_TORCH_OFF));
         //1.3 Blocks
         items.add(new ItemInfo("Emerald Ore", new String[][]{{"emer", "ore"}}, Material.EMERALD_ORE));
         items.add(new ItemInfo("Emerald", new String[][]{{"emer"}}, Material.EMERALD));

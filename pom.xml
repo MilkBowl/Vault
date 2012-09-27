@@ -228,7 +228,7 @@
 			<artifactId>craftconomy3</artifactId>
 			<version>3.0.0</version>
 			<scope>system</scope>
-			<systemPath>${project.basedir}/lib/Craftconomy3-b189.jar</systemPath>
+			<systemPath>${project.basedir}/lib/craftconomy3.jar</systemPath>
 		</dependency>
 		<dependency>
 			<groupId>net.crystalyx.bukkit.simplyperms</groupId>
@@ -243,6 +243,13 @@
 			<version>0.0.1-SNAPSHOT</version>
 			<scope>system</scope>
 			<systemPath>${project.basedir}/lib/Gringotts.jar</systemPath>
+		</dependency>
+		<dependency>
+		    <groupId>com.gravypod.Dosh</groupId>
+		    <artifactId>Dosh</artifactId>
+		    <version>1.0</version>
+		    <scope>system</scope>
+		    <systemPath>${project.basedir}/lib/Dosh.jar</systemPath>
 		</dependency>
 	</dependencies>
 	<build>
