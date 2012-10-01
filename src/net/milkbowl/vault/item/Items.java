@@ -46,7 +46,6 @@ public class Items {
         items.add(new ItemInfo("Water", new String[][]{{"water"}}, Material.WATER));
         items.add(new ItemInfo("Lava", new String[][]{{"lava"}}, Material.LAVA));
         items.add(new ItemInfo("Sand", new String[][]{{"sand"}}, Material.SAND));
-        items.add(new ItemInfo("Gravel", new String[][]{{"gravel"}}, Material.GRAVEL));
         items.add(new ItemInfo("Gold Ore", new String[][]{{"ore", "gold"}}, Material.GOLD_ORE));
         items.add(new ItemInfo("Iron Ore", new String[][]{{"ore", "iron"}}, Material.IRON_ORE));
         items.add(new ItemInfo("Coal Ore", new String[][]{{"ore", "coal"}}, Material.COAL_ORE));
@@ -152,7 +151,7 @@ public class Items {
         items.add(new ItemInfo("Portal", new String[][]{{"port"}}, Material.PORTAL));
         items.add(new ItemInfo("Jack-O-Lantern", new String[][]{{"jack"}, {"lante"}}, Material.JACK_O_LANTERN));
         items.add(new ItemInfo("Trapdoor", new String[][]{{"trap", "doo"}, {"hatc"}}, Material.TRAP_DOOR));
-        items.add(new ItemInfo("Monster Egg", new String[][]{{"mon", "egg"}, {"hid", "silver"}}, Material.MONSTER_EGGS));
+        items.add(new ItemInfo("Monster Egg", new String[][]{{"mons", "eggs"}, {"hid", "silver"}}, Material.MONSTER_EGGS));
         items.add(new ItemInfo("Huge Brown Mushroom", new String[][]{{"bro", "huge", "mush"}}, Material.HUGE_MUSHROOM_1));
         items.add(new ItemInfo("Huge Red Mushroom", new String[][]{{"red", "huge", "mush"}}, Material.HUGE_MUSHROOM_2));
         items.add(new ItemInfo("Stone Brick", new String[][]{{"sto bri", "smoo bri"}}, Material.SMOOTH_BRICK, (short) 0));
