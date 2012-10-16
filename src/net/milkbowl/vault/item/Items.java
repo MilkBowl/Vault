@@ -49,6 +49,7 @@ public class Items {
         items.add(new ItemInfo("Gold Ore", new String[][]{{"ore", "gold"}}, Material.GOLD_ORE));
         items.add(new ItemInfo("Iron Ore", new String[][]{{"ore", "iron"}}, Material.IRON_ORE));
         items.add(new ItemInfo("Coal Ore", new String[][]{{"ore", "coal"}}, Material.COAL_ORE));
+        items.add(new ItemInfo("Gravel", new String[][]{{"grav"}}, Material.GRAVEL));
         items.add(new ItemInfo("Log", new String[][]{{"log"}}, Material.LOG));
         items.add(new ItemInfo("Redwood Log", new String[][]{{"red", "log"}, {"red", "wood"}}, Material.LOG, (short) 1));
         items.add(new ItemInfo("Birch Log", new String[][]{{"birch"}, {"birch", "log"}}, Material.LOG, (short) 2));
