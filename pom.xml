@@ -256,7 +256,7 @@
 		    <artifactId>CommandsEX</artifactId>
 		    <version>1.98</version>
 		    <scope>system</scope>
-		    <systemPath>${project.basedir}/lib/CommandsEx.jar</systemPath>
+		    <systemPath>${project.basedir}/lib/CommandsEX.jar</systemPath>
 		</dependency>
 	</dependencies>
 	<build>
