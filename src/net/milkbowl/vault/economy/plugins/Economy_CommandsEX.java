@@ -31,7 +31,7 @@ public class Economy_CommandsEX implements Economy {
 		Bukkit.getServer().getPluginManager().registerEvents(new EconomyServerListener(this), plugin);
 		
 		if (economy == null) {
-            Plugin commandsex = plugin.getServer().getPluginManager().getPlugin("CommandsEx");
+            Plugin commandsex = plugin.getServer().getPluginManager().getPlugin("CommandsEX");
             
             if (commandsex != null && commandsex.isEnabled()) {
                 economy = (CommandsEX) commandsex;
