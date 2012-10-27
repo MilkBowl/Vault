@@ -146,7 +146,7 @@ public class ExamplePlugin extends JavaPlugin {
             getServer().getPluginManager().disablePlugin(this);
             return;
         }
-        setupPermission();
+        setupPermissions();
         setupChat();
     }
     
