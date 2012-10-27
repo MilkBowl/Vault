@@ -135,8 +135,9 @@ public class Chat_bPermissions2 extends Chat {
     @Override
     public int getPlayerInfoInteger(String world, String player, String node, int defaultValue) {
         String s = getPlayerInfoString(world, player, node, null);
-        if (s == null)
+        if (s == null) {
             return defaultValue;
+        }
         try {
             int i = Integer.valueOf(s);
             return i;
@@ -153,8 +154,9 @@ public class Chat_bPermissions2 extends Chat {
     @Override
     public int getGroupInfoInteger(String world, String group, String node, int defaultValue) {
         String s = getGroupInfoString(world, group, node, null);
-        if (s == null)
+        if (s == null) {
             return defaultValue;
+        }
         try {
             int i = Integer.valueOf(s);
             return i;
@@ -171,8 +173,9 @@ public class Chat_bPermissions2 extends Chat {
     @Override
     public double getPlayerInfoDouble(String world, String player, String node, double defaultValue) {
         String s = getPlayerInfoString(world, player, node, null);
-        if (s == null)
+        if (s == null) {
             return defaultValue;
+        }
         try {
             double d = Double.valueOf(s);
             return d;
@@ -189,8 +192,9 @@ public class Chat_bPermissions2 extends Chat {
     @Override
     public double getGroupInfoDouble(String world, String group, String node, double defaultValue) {
         String s = getGroupInfoString(world, group, node, null);
-        if (s == null)
+        if (s == null) {
             return defaultValue;
+        }
         try {
             double d = Double.valueOf(s);
             return d;
@@ -207,9 +211,9 @@ public class Chat_bPermissions2 extends Chat {
     @Override
     public boolean getPlayerInfoBoolean(String world, String player, String node, boolean defaultValue) {
         String s = getPlayerInfoString(world, player, node, null);
-        if (s == null)
+        if (s == null) {
             return defaultValue;
-        else {
+        } else {
             Boolean val = Boolean.valueOf(s);
             return val != null ? val : defaultValue;
         }

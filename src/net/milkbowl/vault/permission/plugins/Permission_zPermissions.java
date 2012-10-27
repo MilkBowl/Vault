@@ -94,8 +94,9 @@ public class Permission_zPermissions extends Permission {
         if (p == null) {
             Map<String, Boolean> perms = service.getPlayerPermissions(world, null, player);
             Boolean value = perms.get(permission.toLowerCase());
-            if (value != null)
+            if (value != null) {
                 return value;
+            }
             // Use default at this point
             org.bukkit.permissions.Permission perm = Bukkit.getPluginManager().getPermission(permission);
             if (perm != null) {
@@ -129,12 +130,14 @@ public class Permission_zPermissions extends Permission {
     public boolean groupHas(String world, String group, String permission) {
         Map<String, Boolean> perms = service.getGroupPermissions(world, null, group);
         Boolean value = perms.get(permission.toLowerCase());
-        if (value != null)
+        if (value != null) {
             return value;
+        }
         // Use default, if possible
         org.bukkit.permissions.Permission perm = Bukkit.getPluginManager().getPermission(permission);
-        if (perm != null)
+        if (perm != null) {
             return perm.getDefault().getValue(false); // OP flag assumed to be false...
+        }
         // Who knows...
         return false;
     }
@@ -192,10 +195,11 @@ public class Permission_zPermissions extends Permission {
     public String getPrimaryGroup(String world, String player) {
         // Has no concept of primary group... use highest-priority assigned group instead
         List<String> groups = service.getPlayerAssignedGroups(player);
-        if (!groups.isEmpty())
+        if (!groups.isEmpty()) {
             return groups.get(0);
-        else
+        } else {
             return null;
+        }
     }
 
     @Override

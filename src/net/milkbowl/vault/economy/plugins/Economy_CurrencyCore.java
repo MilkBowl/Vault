@@ -112,8 +112,9 @@ public class Economy_CurrencyCore implements Economy {
     @Override
     public double getBalance(String playerName) {
         AccountContext account = this.currency.getAccountManager().getAccount(playerName);
-        if (account == null)
+        if (account == null) {
             return 0.0;     
+        }
 
         return account.getBalance();
     }
@@ -121,10 +122,11 @@ public class Economy_CurrencyCore implements Economy {
     @Override
     public boolean has(String playerName, double amount) {
         AccountContext account = this.currency.getAccountManager().getAccount(playerName);
-        if (account == null)
+        if (account == null) {
             return false;
-        else
+        } else {
             return account.hasBalance(amount);
+        }
     }
 
     @Override

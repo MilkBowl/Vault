@@ -77,15 +77,17 @@ public class VaultEco implements Method {
     }
 
     public MethodAccount getAccount(String name) {
-        if(!hasAccount(name)) 
+        if(!hasAccount(name)) {
             return null;
+        }
 
         return new VaultAccount(name, this.economy);
     }
 
     public MethodBankAccount getBankAccount(String bank, String name) {
-        if(!hasBankAccount(bank, name)) 
+        if(!hasBankAccount(bank, name)) {
             return null;
+        }
 
         return new VaultBankAccount(bank, economy);
     }

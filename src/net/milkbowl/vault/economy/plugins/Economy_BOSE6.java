@@ -201,8 +201,9 @@ public class Economy_BOSE6 implements Economy {
     @Override
     public EconomyResponse createBank(String name, String player) {
         boolean success = economy.addBankOwner(name, player, false);
-        if (success) 
+        if (success) {
             return new EconomyResponse(0, economy.getBankMoney(name), ResponseType.SUCCESS, "");
+        }
 
         return new EconomyResponse(0, 0, ResponseType.FAILURE, "Unable to create that bank account.");
     }
@@ -217,23 +218,24 @@ public class Economy_BOSE6 implements Economy {
 
     @Override
     public EconomyResponse bankHas(String name, double amount) {
-        if (!economy.bankExists(name))
+        if (!economy.bankExists(name)) {
             return new EconomyResponse(0, 0, ResponseType.FAILURE, "That bank does not exist!");
+        }
 
         double bankMoney = economy.getBankMoney(name);
-        if (bankMoney < amount)
+        if (bankMoney < amount) {
             return new EconomyResponse(0, bankMoney, ResponseType.FAILURE, "The bank does not have enough money!");
-        else
+        } else {
             return new EconomyResponse(0, bankMoney, ResponseType.SUCCESS, "");
-
+        }
     }
 
     @Override
     public EconomyResponse bankWithdraw(String name, double amount) {
         EconomyResponse er = bankHas(name, amount);
-        if (!er.transactionSuccess())
+        if (!er.transactionSuccess()) {
             return er;
-        else {
+        } else {
             economy.addBankMoney(name, (int) -amount, true);
             return new EconomyResponse((int) amount, economy.getBankMoney(name), ResponseType.SUCCESS, "");
         }
@@ -241,9 +243,9 @@ public class Economy_BOSE6 implements Economy {
 
     @Override
     public EconomyResponse bankDeposit(String name, double amount) {
-        if (!economy.bankExists(name))
+        if (!economy.bankExists(name)) {
             return new EconomyResponse(amount, 0, ResponseType.FAILURE, "That bank does not exist!");
-        else {
+        } else {
             economy.addBankMoney(name, (int) amount, true);
             return new EconomyResponse((int) amount, economy.getBankMoney(name), ResponseType.SUCCESS, "");
         }
@@ -251,9 +253,9 @@ public class Economy_BOSE6 implements Economy {
 
     @Override
     public EconomyResponse isBankOwner(String name, String playerName) {
-        if (!economy.bankExists(name))
+        if (!economy.bankExists(name)) {
             return new EconomyResponse(0, 0, ResponseType.FAILURE, "That bank does not exist!");
-        else if (economy.isBankOwner(name, playerName)) {
+        } else if (economy.isBankOwner(name, playerName)) {
             return new EconomyResponse(0, economy.getBankMoney(name), ResponseType.SUCCESS, "");
         } else
             return new EconomyResponse(0, 0, ResponseType.FAILURE, "That player is not a bank owner!");
@@ -261,9 +263,9 @@ public class Economy_BOSE6 implements Economy {
 
     @Override
     public EconomyResponse isBankMember(String name, String playerName) {
-        if (!economy.bankExists(name))
+        if (!economy.bankExists(name)) {
             return new EconomyResponse(0, 0, ResponseType.FAILURE, "That bank does not exist!");
-        else if (economy.isBankMember(name, playerName)) {
+        } else if (economy.isBankMember(name, playerName)) {
             return new EconomyResponse(0, economy.getBankMoney(name), ResponseType.SUCCESS, "");
         } else
             return new EconomyResponse(0, 0, ResponseType.FAILURE, "That player is not a bank member!");
@@ -271,8 +273,9 @@ public class Economy_BOSE6 implements Economy {
 
     @Override
     public EconomyResponse bankBalance(String name) {
-        if (!economy.bankExists(name))
+        if (!economy.bankExists(name)) {
             return new EconomyResponse(0, 0, ResponseType.FAILURE, "That bank does not exist!");
+        }
 
         double bankMoney = economy.getBankMoney(name);
         return new EconomyResponse(0, bankMoney, ResponseType.SUCCESS, null);

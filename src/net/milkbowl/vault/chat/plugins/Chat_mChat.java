@@ -142,8 +142,9 @@ public class Chat_mChat extends Chat {
     @Override
     public int getPlayerInfoInteger(String world, String player, String node, int defaultValue) {
         String s = getPlayerInfoString(world, player, node, null);
-        if (s == null)
+        if (s == null) {
             return defaultValue;
+        }
 
         try {
             return Integer.valueOf(s);
@@ -170,8 +171,9 @@ public class Chat_mChat extends Chat {
     @Override
     public double getPlayerInfoDouble(String world, String player, String node, double defaultValue) {
         String s = getPlayerInfoString(world, player, node, null);
-        if (s == null)
+        if (s == null) {
             return defaultValue;
+        }
 
         try {
             return Double.valueOf(s);

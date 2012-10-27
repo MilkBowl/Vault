@@ -96,11 +96,13 @@ public class Chat_iChat extends Chat {
 	@Override
 	public String getPlayerPrefix(String world, String player) {
 		Player p = plugin.getServer().getPlayer(player);
-		if (p == null)
+		if (p == null) {
 			throw new UnsupportedOperationException("iChat does not support offline player info nodes!");
+		}
 
-		if (!p.getWorld().getName().equals(world))
+		if (!p.getWorld().getName().equals(world)) {
 			return null;
+		}
 
 		return iChat.getPrefix(p);
 	}
@@ -113,11 +115,13 @@ public class Chat_iChat extends Chat {
 	@Override
 	public String getPlayerSuffix(String world, String player) {
 		Player p = plugin.getServer().getPlayer(player);
-		if (p == null)
+		if (p == null) {
 			throw new UnsupportedOperationException("iChat does not support offline player info nodes!");
+		}
 
-		if (!p.getWorld().getName().equals(world))
+		if (!p.getWorld().getName().equals(world)) {
 			return null;
+		}
 
 		return iChat.getSuffix(p);
 	}
@@ -151,8 +155,9 @@ public class Chat_iChat extends Chat {
 	@Override
 	public int getPlayerInfoInteger(String world, String player, String node, int defaultValue) {
 		String val = getPlayerInfoString(world, player, node, null);
-		if (val == null)
+		if (val == null) {
 			return defaultValue;
+		}
 
 		Integer i = defaultValue;
 		try {
@@ -181,8 +186,9 @@ public class Chat_iChat extends Chat {
 	@Override
 	public double getPlayerInfoDouble(String world, String player, String node, double defaultValue) {
 		String val = getPlayerInfoString(world, player, node, null);
-		if (val == null)
+		if (val == null) {
 			return defaultValue;
+		}
 
 		double d = defaultValue;
 		try {
@@ -211,9 +217,9 @@ public class Chat_iChat extends Chat {
 	@Override
 	public boolean getPlayerInfoBoolean(String world, String player, String node, boolean defaultValue) {
 		String val = getPlayerInfoString(world, player, node, null);
-		if (val == null)
+		if (val == null) {
 			return defaultValue;
-		else {
+		} else {
 		    Boolean v = Boolean.valueOf(val);
 		    return v != null ? v : defaultValue;
 		}
@@ -237,11 +243,13 @@ public class Chat_iChat extends Chat {
 	@Override
 	public String getPlayerInfoString(String world, String player, String node, String defaultValue) {
 		Player p = plugin.getServer().getPlayer(player);
-		if (p == null)
+		if (p == null) {
 			throw new UnsupportedOperationException("iChat does not support offline player info nodes!");
+		}
 
-		if (!p.getWorld().getName().equals(world))
+		if (!p.getWorld().getName().equals(world)) {
 			return null;
+		}
 
 		String val = iChat.getInfo(p, node);
 
