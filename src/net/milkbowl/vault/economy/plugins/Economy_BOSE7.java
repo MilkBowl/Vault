@@ -152,11 +152,7 @@ public class Economy_BOSE7 implements Economy {
 
     @Override
     public String format(double amount) {
-        if (amount == 1) {
-            return String.format("%.0f %s", amount, currencyNameSingular());
-        } else {
-            return String.format("%.2f %s", amount, currencyNamePlural());
-        }
+        return economy.getMoneyFormatted(amount);
     }
 
     @Override
