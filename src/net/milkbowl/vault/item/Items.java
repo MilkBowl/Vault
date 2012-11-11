@@ -420,7 +420,7 @@ public class Items {
         items.add(new ItemInfo("Redstone Lamp", new String[][] {{"lamp"}, {"lamp", "red", "sto", "off"}}, Material.REDSTONE_LAMP_OFF));
         items.add(new ItemInfo("Redstone Lamp On", new String[][] {{"on", "lamp"}, {"on", "red", "lamp"}}, Material.REDSTONE_LAMP_ON));
         items.add(new ItemInfo("Redstone Torch Off", new String[][] {{"off", "red", "sto", "tor"}}, Material.REDSTONE_TORCH_OFF));
-        //1.3 Blocks
+        //1.3 Blocks & Items
         items.add(new ItemInfo("Emerald Ore", new String[][]{{"emer", "ore"}}, Material.EMERALD_ORE));
         items.add(new ItemInfo("Emerald", new String[][]{{"emer"}}, Material.EMERALD));
         items.add(new ItemInfo("Emerald Block", new String[][]{{"emer", "blo"}}, Material.EMERALD_BLOCK));
@@ -438,7 +438,30 @@ public class Items {
         items.add(new ItemInfo("Jungle-Wood Slab", new String[][]{{"slab", "jung"}, {"step", "jung"}}, Material.WOOD_STEP, (short) 3));
         items.add(new ItemInfo("Book and Quill", new String[][]{{"qui", "book"}}, Material.BOOK_AND_QUILL));
         items.add(new ItemInfo("Written Book", new String[][]{{"wri", "book"}}, Material.WRITTEN_BOOK));
-        
+        //1.4 Blocks & Items
+        items.add(new ItemInfo("Command Block", new String[][]{{"comm"}}, Material.COMMAND));
+        items.add(new ItemInfo("Beacon Block", new String[][]{{"beac"}}, Material.BEACON));
+        items.add(new ItemInfo("Anvil", new String[][]{{"anv"}}, Material.ANVIL));
+        items.add(new ItemInfo("Flower Pot Block", new String[][]{{"blo", "flow", "pot"}}, Material.FLOWER_POT));
+        items.add(new ItemInfo("Flower Pot", new String[][]{{"flow", "pot"}}, Material.FLOWER_POT_ITEM));
+        items.add(new ItemInfo("Cobblestone Wall", new String[][]{{"cob", "wall"}}, Material.COBBLE_WALL));
+        items.add(new ItemInfo("Item Frame", new String[][]{{"fram"}}, Material.ITEM_FRAME));
+        items.add(new ItemInfo("Skeleton Skull", new String[][]{{"skel", "skul"}, {"skel", "hea"}}, Material.SKULL_ITEM));
+        items.add(new ItemInfo("Wither Skeleton Skull", new String[][]{{"with", "skul"}, {"with", "hea"}}, Material.SKULL_ITEM, (short) 1));
+        items.add(new ItemInfo("Zombie Head", new String[][]{{"zomb", "hea"}, {"zomb", "skul"}}, Material.SKULL_ITEM, (short) 2));
+        items.add(new ItemInfo("Human Head", new String[][]{{"huma", "skul"}, {"huma", "hea"}}, Material.SKULL_ITEM, (short) 3));
+        items.add(new ItemInfo("Creeper Head", new String[][]{{"cree", "skul"}, {"cree", "hea"}}, Material.SKULL_ITEM, (short) 4));
+        items.add(new ItemInfo("Carrot", new String[][]{{"carr"}}, Material.CARROT_ITEM));
+        items.add(new ItemInfo("Carrot Block", new String[][]{{"blo", "carr"}}, Material.CARROT));
+        items.add(new ItemInfo("Carrot on a Stick", new String[][]{{"sti", "carr"}}, Material.CARROT_STICK));
+        items.add(new ItemInfo("Potato", new String[][]{{"pota"}}, Material.POTATO_ITEM));
+        items.add(new ItemInfo("Potato Block", new String[][]{{"blo", "pota"}}, Material.POTATO));
+        items.add(new ItemInfo("Wood Button", new String[][]{{"woo", "butto"}}, Material.WOOD_BUTTON));
+        items.add(new ItemInfo("Pumpkin Pie", new String[][]{{"pie"}, {"pumpk", "pie"}}, Material.PUMPKIN_PIE));
+        items.add(new ItemInfo("Potion of Invisibility", new String[][] {{"pot", "invi"}}, Material.POTION, (short) 8206));
+        items.add(new ItemInfo("Potion of Invisibility (Extended)", new String[][] {{"pot", "invi", "ext"}}, Material.POTION, (short) 8270));
+        items.add(new ItemInfo("Potion of Night Vision", new String[][] {{"pot", "nigh", "visi"}, {"pot", "visio"}}, Material.POTION, (short) 8198));
+        items.add(new ItemInfo("Potion of Night Vision (Extended)", new String[][] {{"pot", "nigh", "visi", "ext"}, {"pot", "visio", "ext"}}, Material.POTION, (short) 8262));
     }
 
     public static ItemInfo itemById(int typeId) {
