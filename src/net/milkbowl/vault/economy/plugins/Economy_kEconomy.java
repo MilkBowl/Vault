@@ -20,7 +20,7 @@ import org.bukkit.plugin.Plugin;
 public class Economy_kEconomy implements Economy {
 	private static final Logger log = Logger.getLogger("Minecraft");
 	
-	private final String name = "kEconomy Economy";
+	private final String name = "kEconomy";
     private Plugin plugin = null;
     private kEconomy economy = null;
     
@@ -81,11 +81,11 @@ public class Economy_kEconomy implements Economy {
     }
     
     public int fractionalDigits() {
-    	return 2;
+    	return -1;
     }
     
     public String format(double amount) {
-    	return "$";
+    	return "$" + amount;
     }
     
     public String currencyNamePlural() {
