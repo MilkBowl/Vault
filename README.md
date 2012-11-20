@@ -82,6 +82,7 @@ Github and we'll get to it at our convenience.
    - eWallet (http://dev.bukkit.org/server-mods/ewallet/)
    - MuliCurrency
    - Essentials Economy (http://forums.bukkit.org/threads/15312/)
+   - CommandsEX Economy (http://dev.bukkit.org/server-mods/commandsex/)
    - McMoney
    - AEco
    - MultiCurrency

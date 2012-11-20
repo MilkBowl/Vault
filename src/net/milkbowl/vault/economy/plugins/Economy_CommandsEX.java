@@ -13,13 +13,12 @@ import org.bukkit.event.server.PluginEnableEvent;
 import org.bukkit.plugin.Plugin;
 
 import com.github.zathrus_writer.commandsex.CommandsEX;
-import com.github.zathrus_writer.commandsex.api.EconomyAPI;
+import com.github.zathrus_writer.commandsex.api.economy.Economy;
 
-import net.milkbowl.vault.economy.Economy;
 import net.milkbowl.vault.economy.EconomyResponse;
 import net.milkbowl.vault.economy.EconomyResponse.ResponseType;
 
-public class Economy_CommandsEX implements Economy {
+public class Economy_CommandsEX implements net.milkbowl.vault.economy.Economy {
 	private static final Logger log = Logger.getLogger("Minecraft");
 	
 	private final String name = "CommandsEX Economy";
@@ -75,7 +74,7 @@ public class Economy_CommandsEX implements Economy {
 		if (economy == null){
 			return false;
 		} else {
-			return EconomyAPI.isEnabled();
+			return Economy.isEnabled();
 		}
 	}
 
@@ -96,32 +95,32 @@ public class Economy_CommandsEX implements Economy {
 
 	@Override
 	public String format(double amount) {
-		return EconomyAPI.getCurrencySymbol() + amount;
+		return Economy.getCurrencySymbol() + amount;
 	}
 
 	@Override
 	public String currencyNamePlural() {
-		return EconomyAPI.getCurrencyPlural();
+		return Economy.getCurrencyPlural();
 	}
 
 	@Override
 	public String currencyNameSingular() {
-		return EconomyAPI.getCurrencySingular();
+		return Economy.getCurrencySingular();
 	}
 
 	@Override
 	public boolean hasAccount(String playerName) {
-		return EconomyAPI.hasAccount(playerName);
+		return Economy.hasAccount(playerName);
 	}
 
 	@Override
 	public double getBalance(String playerName) {
-		return EconomyAPI.getBalance(playerName);
+		return Economy.getBalance(playerName);
 	}
 
 	@Override
 	public boolean has(String playerName, double amount) {
-		return EconomyAPI.has(playerName, amount);
+		return Economy.has(playerName, amount);
 	}
 
 	@Override
@@ -129,8 +128,8 @@ public class Economy_CommandsEX implements Economy {
 		ResponseType rt;
 		String message;
 		
-		if (EconomyAPI.has(playerName, amount)){
-			EconomyAPI.withdraw(playerName, amount);
+		if (Economy.has(playerName, amount)){
+			Economy.withdraw(playerName, amount);
 			rt = ResponseType.SUCCESS;
 			message = null;
 		} else {
@@ -138,13 +137,13 @@ public class Economy_CommandsEX implements Economy {
 			message = "Not enough money";
 		}
 		
-		return new EconomyResponse(amount, EconomyAPI.getBalance(playerName), rt, message);
+		return new EconomyResponse(amount, Economy.getBalance(playerName), rt, message);
 	}
 
 	@Override
 	public EconomyResponse depositPlayer(String playerName, double amount) {
-		EconomyAPI.deposit(playerName, amount);
-		return new EconomyResponse(amount, EconomyAPI.getBalance(playerName), ResponseType.SUCCESS, "Successfully deposited");
+		Economy.deposit(playerName, amount);
+		return new EconomyResponse(amount, Economy.getBalance(playerName), ResponseType.SUCCESS, "Successfully deposited");
 	}
 
 	@Override
@@ -194,10 +193,10 @@ public class Economy_CommandsEX implements Economy {
 
 	@Override
 	public boolean createPlayerAccount(String playerName) {
-		if (EconomyAPI.hasAccount(playerName)){
+		if (Economy.hasAccount(playerName)){
 			return false;
 		} else {
-			EconomyAPI.createAccount(playerName);
+			Economy.createAccount(playerName);
 			return true;
 		}
 	}
