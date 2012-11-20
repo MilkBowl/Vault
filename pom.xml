@@ -258,6 +258,13 @@
 		    <scope>system</scope>
 		    <systemPath>${project.basedir}/lib/CommandsEX.jar</systemPath>
 		</dependency>
+		<dependency>
+		    <groupId>me.KeybordPiano459.kEconomy.kEconomy</groupId>
+		    <artifactId>kEconomy</artifactId>
+		    <version>1.0</version>
+		    <scope>system</scope>
+		    <systemPath>${project.basedir}/lib/kEconomy.jar</systemPath>
+		</dependency>
 	</dependencies>
 	<build>
 	<sourceDirectory>src/</sourceDirectory>
