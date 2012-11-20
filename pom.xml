@@ -20,6 +20,13 @@
 			<scope>system</scope>
 			<systemPath>${project.basedir}/lib/DroxPerms-0.4.0-SNAPSHOT.jar</systemPath>
 		</dependency>
+                <dependency>
+			<groupId>org.curlybrace.plugins.pconomy</groupId>
+			<artifactId>pConomy</artifactId>
+			<version>1.0</version>
+			<scope>system</scope>
+			<systemPath>${project.basedir}/lib/pConomy.jar</systemPath>
+		</dependency>
 		<dependency>
 			<groupId>net.krinsoft.privileges</groupId>
 			<artifactId>Privileges</artifactId>
