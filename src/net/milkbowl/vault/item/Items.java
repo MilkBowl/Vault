@@ -463,7 +463,6 @@ public class Items {
         items.add(new ItemInfo("Potion of Night Vision", new String[][] {{"pot", "nigh", "visi"}, {"pot", "visio"}}, Material.POTION, (short) 8198));
         items.add(new ItemInfo("Potion of Night Vision (Extended)", new String[][] {{"pot", "nigh", "visi", "ext"}, {"pot", "visio", "ext"}}, Material.POTION, (short) 8262));
         items.add(new ItemInfo("Nether Star", new String[][]{{"star", "neth"}}, Material.NETHER_STAR));
-    
     }
 
     public static ItemInfo itemById(int typeId) {
