@@ -38,7 +38,7 @@ import com.iCo6.system.Holdings;
 public class Economy_iConomy6 implements Economy {
     private static final Logger log = Logger.getLogger("Minecraft");
 
-    private final String name = "iConomy 6";
+    private String name = "iConomy ";
     private Plugin plugin = null;
     protected iConomy economy = null;
     private Accounts accounts;
@@ -46,12 +46,14 @@ public class Economy_iConomy6 implements Economy {
     public Economy_iConomy6(Plugin plugin) {
         this.plugin = plugin;
         Bukkit.getServer().getPluginManager().registerEvents(new EconomyServerListener(this), plugin);
-        log.warning("iConomy6 - If you are using Flatfile storage be aware that iCo6 has a CRITICAL bug which can wipe ALL iconomy data.");
+        log.warning("iConomy - If you are using Flatfile storage be aware that versions 6, 7 and 8 have a CRITICAL bug which can wipe ALL iconomy data.");
         log.warning("if you're using Votifier, or any other plugin which handles economy data in a threaded manner your server is at risk!");
         log.warning("it is highly suggested to use SQL with iCo6 or to use an alternative economy plugin!");
         // Load Plugin in case it was loaded before
         if (economy == null) {
             Plugin ec = plugin.getServer().getPluginManager().getPlugin("iConomy");
+            String version = ec.getDescription().getVersion().split(".")[0];
+            name += version;
             if (ec != null && ec.isEnabled() && ec.getClass().getName().equals("com.iCo6.iConomy")) {
                 economy = (iConomy) ec;
                 accounts = new Accounts();
