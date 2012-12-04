@@ -103,13 +103,13 @@ public class Permission_Privileges extends Permission {
     @Override
     public boolean groupAdd(String world, String group, String permission) {
         Group g = privs.getGroupManager().getGroup(group);
-        return g != null && g.addPermission(permission, world);
+        return g != null && g.addPermission(world, permission);
     }
 
     @Override
     public boolean groupRemove(String world, String group, String permission) {
         Group g = privs.getGroupManager().getGroup(group);
-        return g != null && g.removePermission(permission, world);
+        return g != null && g.removePermission(world, permission);
     }
 
     @Override
