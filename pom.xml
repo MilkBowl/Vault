@@ -23,7 +23,7 @@
 		<dependency>
 			<groupId>net.krinsoft.privileges</groupId>
 			<artifactId>Privileges</artifactId>
-			<version>1.4.0b45</version>
+			<version>1.7b127</version>
 			<scope>system</scope>
 			<systemPath>${project.basedir}/lib/Privileges.jar</systemPath>
 		</dependency>
