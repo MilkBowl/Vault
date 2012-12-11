@@ -121,8 +121,8 @@ public class Permission_Privileges extends Permission {
 
     @Override
     public boolean playerAddGroup(String world, String player, String group) {
-        privs.getGroupManager().setGroup(player, group);
-        return true;
+        Group g = privs.getGroupManager().setGroup(player, group);
+        return g != null;
     }
 
     @Override
