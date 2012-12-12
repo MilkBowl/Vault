@@ -52,9 +52,9 @@ public class Economy_iConomy6 implements Economy {
         // Load Plugin in case it was loaded before
         if (economy == null) {
             Plugin ec = plugin.getServer().getPluginManager().getPlugin("iConomy");
-            String version = ec.getDescription().getVersion().split(".")[0];
-            name += version;
             if (ec != null && ec.isEnabled() && ec.getClass().getName().equals("com.iCo6.iConomy")) {
+                String version = ec.getDescription().getVersion().split(".")[0];
+                name += version;
                 economy = (iConomy) ec;
                 accounts = new Accounts();
                 log.info(String.format("[%s][Economy] %s hooked.", plugin.getDescription().getName(), name));
@@ -75,6 +75,8 @@ public class Economy_iConomy6 implements Economy {
                 Plugin ec = plugin.getServer().getPluginManager().getPlugin("iConomy");
 
                 if (ec != null && ec.isEnabled() && ec.getClass().getName().equals("com.iCo6.iConomy")) {
+                    String version = ec.getDescription().getVersion().split(".")[0];
+                    name += version;
                     economy.economy = (iConomy) ec;
                     accounts = new Accounts();
                     log.info(String.format("[%s][Economy] %s hooked.", plugin.getDescription().getName(), economy.name));
