@@ -38,7 +38,7 @@ import com.iCo6.system.Holdings;
 public class Economy_iConomy6 implements Economy {
     private static final Logger log = Logger.getLogger("Minecraft");
 
-    private final String name = "iConomy 6";
+    private String name = "iConomy ";
     private Plugin plugin = null;
     protected iConomy economy = null;
     private Accounts accounts;
@@ -53,6 +53,8 @@ public class Economy_iConomy6 implements Economy {
         if (economy == null) {
             Plugin ec = plugin.getServer().getPluginManager().getPlugin("iConomy");
             if (ec != null && ec.isEnabled() && ec.getClass().getName().equals("com.iCo6.iConomy")) {
+                String version = ec.getDescription().getVersion().split("\\.")[0];
+                name += version;
                 economy = (iConomy) ec;
                 accounts = new Accounts();
                 log.info(String.format("[%s][Economy] %s hooked.", plugin.getDescription().getName(), name));
@@ -71,8 +73,9 @@ public class Economy_iConomy6 implements Economy {
         public void onPluginEnable(PluginEnableEvent event) {
             if (economy.economy == null) {
                 Plugin ec = plugin.getServer().getPluginManager().getPlugin("iConomy");
-
                 if (ec != null && ec.isEnabled() && ec.getClass().getName().equals("com.iCo6.iConomy")) {
+                    String version = ec.getDescription().getVersion().split("\\.")[0];
+                    name += version;
                     economy.economy = (iConomy) ec;
                     accounts = new Accounts();
                     log.info(String.format("[%s][Economy] %s hooked.", plugin.getDescription().getName(), economy.name));
