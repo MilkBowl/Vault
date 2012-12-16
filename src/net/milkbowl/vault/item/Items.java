@@ -630,7 +630,7 @@ public class Items {
      * Single item search function, for when we only ever want to return 1 result
      *
      * @param searchString
-     * @return
+     * @return ItemInfo Object
      */
     public static ItemInfo itemByName(String searchString) {
         ItemInfo matchedItem = null;
@@ -706,7 +706,7 @@ public class Items {
      * Joins elements of a String array with the glue between them into a String.
      * @param array
      * @param glue
-     * @return
+     * @return Concacted Array combined with glue
      */
     public static String join(String[] array, String glue) {
         String joined = null;
@@ -729,7 +729,7 @@ public class Items {
      * Joins elements of a String array with the glue between them into a String.
      * @param list
      * @param glue
-     * @return
+     * @return Concacted Array combined with glue
      */
     public static String join(List<String> list, String glue) {
         String joined = null;
