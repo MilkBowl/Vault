@@ -44,7 +44,7 @@ public class Permission_Privileges extends Permission {
         @EventHandler(priority = EventPriority.MONITOR)
         public void onPluginEnable(PluginEnableEvent event) {
             if (permission.privs == null) {
-                Plugin perms = plugin.getServer().getPluginManager().getPlugin("SimplyPerms");
+                Plugin perms = plugin.getServer().getPluginManager().getPlugin("Privileges");
 
                 if (perms != null) {
                     if (perms.isEnabled()) {
@@ -58,7 +58,7 @@ public class Permission_Privileges extends Permission {
         @EventHandler(priority = EventPriority.MONITOR)
         public void onPluginDisable(PluginDisableEvent event) {
             if (permission.privs != null) {
-                if (event.getPlugin().getDescription().getName().equals("SimplyPerms")) {
+                if (event.getPlugin().getDescription().getName().equals("Privileges")) {
                     permission.privs = null;
                     log.info(String.format("[%s][Permission] %s un-hooked.", plugin.getDescription().getName(), permission.name));
                 }
