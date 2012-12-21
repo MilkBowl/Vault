@@ -136,5 +136,10 @@ public class Permission_DroxPerms extends Permission {
     public String[] getGroups() {
         return API.getGroupNames();
     }
+    @Override
+    public String[] getGroupMembers(String world, String group) {
+    	throw new UnsupportedOperationException(getName() + " No GetPlayersOfGroup");
+    }
+
 
 }

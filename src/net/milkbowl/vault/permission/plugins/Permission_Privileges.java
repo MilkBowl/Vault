@@ -161,4 +161,8 @@ public class Permission_Privileges extends Permission {
     public boolean hasSuperPermsCompat() {
         return true;
     }
+    @Override
+    public String[] getGroupMembers(String world, String group) {
+    	throw new UnsupportedOperationException(getName()+ " Does not support fetching all players from groups.");
+    }
 }

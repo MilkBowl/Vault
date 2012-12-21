@@ -206,4 +206,10 @@ public class Permission_zPermissions extends Permission {
     public String[] getGroups() {
         return service.getAllGroups().toArray(new String[0]);
     }
+    @Override
+    public String[] getGroupMembers(String world, String group) {
+    	if (world != null)
+    		throw new UnsupportedOperationException(getName() + " does not support fetching individual world group members.");
+    	return service.getGroupMembers(group).toArray(new String[0]);
+    }
 }

@@ -232,4 +232,8 @@ public class Permission_PermissionsBukkit extends Permission {
     public boolean hasSuperPermsCompat() {
         return true;
     }
+    @Override
+    public String[] getGroupMembers(String world, String group) {
+		return perms.getGroup(group).getPlayers().toArray(new String[0]);
+    }
 }

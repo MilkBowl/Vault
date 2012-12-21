@@ -15,6 +15,7 @@
  */
 package net.milkbowl.vault.permission.plugins;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -197,4 +198,27 @@ public class Permission_bPermissions2 extends Permission {
     public boolean hasSuperPermsCompat() {
         return true;
     }
+    @Override
+	public String[] getGroupMembers(String world, String group) {
+		WorldManager wm = WorldManager.getInstance();
+		Set<String> ret = new HashSet<String>();
+		if (world == null|| world.equals("*"))
+			for (World w:wm.getAllWorlds()){
+				for (Calculable p:w.getAll(CalculableType.USER)){
+					if (p.hasGroup(group)){
+						ret.add(p.getName());
+					}
+				}
+			}
+		else
+		{
+			World w = wm.getWorld(world);
+			if (w == null)
+				return null;
+			for (Calculable p : w.getAll(CalculableType.USER))
+				if (p.hasGroup(group))
+					ret.add(p.getName());
+		}
+		return ret.toArray(new String[0]);
+	}
 }

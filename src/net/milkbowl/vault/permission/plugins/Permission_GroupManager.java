@@ -400,4 +400,29 @@ public class Permission_GroupManager extends Permission {
     public boolean hasSuperPermsCompat() {
         return true;
     }
+    @Override
+	public String[] getGroupMembers(String world, String group) {
+		Set<String> ret = new HashSet<String>();
+		
+		if (world == null || world.equals("*")) { //Code is commented out due to fact its intensive. If it is acceptable please go ahead and remove commenting.
+			/*
+			// This code is intensive. Best just not allow it to search all worlds.
+			// This is to prevent lag.
+			// Better algorythm may be needed. OR plugin actually supports it properly..
+			
+			for (OverloadedWorldHolder w : groupManager.getWorldsHolder().allWorldsDataList())
+				for (User u : w.getUserList())
+					if (u.subGroupListStringCopy().contains(group) || u.getGroupName().equals(group))
+						ret.add(u.getName());
+			*/
+			throw new UnsupportedOperationException(getName() + " does not support missing world for fetching all players of a group.");
+		} else {
+			OverloadedWorldHolder w = groupManager.getWorldsHolder().getWorldData(world);
+			for (User u: w.getUserList())
+				if (u.subGroupListStringCopy().contains(group) || u.getGroupName().equals(group))
+					ret.add(u.getBukkitPlayer().getName());
+		}
+
+		return ret.toArray(new String[0]);
+	}
 }

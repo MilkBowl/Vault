@@ -105,4 +105,8 @@ public class Permission_SuperPerms extends Permission {
 	public boolean hasSuperPermsCompat() {
 		return true;
 	}
+	@Override
+	public String[] getGroupMembers(String world, String group) {
+		throw new UnsupportedOperationException(getName() + " no group permissions.");
+	}
 }

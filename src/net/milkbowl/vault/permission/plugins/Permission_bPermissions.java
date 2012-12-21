@@ -15,6 +15,7 @@
  */
 package net.milkbowl.vault.permission.plugins;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import net.milkbowl.vault.permission.Permission;
@@ -272,5 +273,17 @@ public class Permission_bPermissions extends Permission {
     @Override
     public boolean hasSuperPermsCompat() {
         return true;
+    }
+    @Override
+    public String[] getGroupMembers(String world, String group) {
+    	List<String>ret = new ArrayList<String>();
+    	if (world == null || world.equals("*"))
+    		for (PermissionSet set:perms.getPermissionSets())
+    			ret.addAll(set.getAllCachedPlayersWithGroup(group));
+    	PermissionSet set = perms.getPermissionSet(world);
+    	if (set == null)
+    		return null;
+    	ret.addAll(set.getAllCachedPlayersWithGroup(group));
+    	return ret.toArray(new String[0]);
     }
 }

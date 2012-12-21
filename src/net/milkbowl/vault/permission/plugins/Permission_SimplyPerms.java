@@ -220,5 +220,12 @@ public class Permission_SimplyPerms extends Permission{
     public String[] getGroups() {
         return perms.getAllGroups().toArray(new String[0]);
     }
+    @Override
+    public String[] getGroupMembers(String world, String group) {
+    	if (world != null)
+    		throw new UnsupportedOperationException(getName() + " does not support individual world group player fetching"); // Possibly add a better message here..
+    	return perms.getPlayers(group).toArray(new String[0]);
+    }
+
 
 }
