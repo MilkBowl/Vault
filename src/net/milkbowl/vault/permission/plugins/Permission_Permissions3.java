@@ -33,6 +33,7 @@ import org.bukkit.plugin.Plugin;
 
 import com.nijiko.permissions.Group;
 import com.nijiko.permissions.ModularControl;
+import com.nijiko.permissions.User;
 import com.nijikokun.bukkit.Permissions.Permissions;
 
 public class Permission_Permissions3 extends Permission {
@@ -298,4 +299,20 @@ public class Permission_Permissions3 extends Permission {
     public boolean hasSuperPermsCompat() {
         return false;
     }
+	@Override
+	public String[] getGroupMembers(String world, String group) {
+		Set<String> ret = new HashSet<String>();
+		if (world == null|| world.equals("*")) {
+			for (World w:Bukkit.getWorlds())
+				for (User u:perms.getUsers(w.getName()))
+					if (u.inGroup(w.getName(),group))
+						ret.add(u.getName());
+		} else {
+			for (User u:perms.getUsers(world))
+				if (u.inGroup(world, group))
+					ret.add(u.getName());
+		}
+		return ret.toArray(new String[0]);
+
+	}
 }

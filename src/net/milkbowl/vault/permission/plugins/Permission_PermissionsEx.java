@@ -15,6 +15,9 @@
  */
 package net.milkbowl.vault.permission.plugins;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import net.milkbowl.vault.permission.Permission;
 
 import org.bukkit.Bukkit;
@@ -283,5 +286,18 @@ public class Permission_PermissionsEx extends Permission {
 	@Override
 	public boolean hasSuperPermsCompat() {
 		return true;
+	}
+	@Override
+	public String[] getGroupMembers(String world, String group) {
+		Set<String>ret = new HashSet<String>();
+		if (world == null|| world.equals("*"))
+			for (PermissionUser u:PermissionsEx.getPermissionManager().getGroup(group).getUsers())
+				ret.add(u.getName());
+		else {
+		for (PermissionUser u:PermissionsEx.getPermissionManager().getGroup(group).getUsers(world))
+			ret.add(u.getName());
+		}
+		return ret.toArray(new String[0]);
+			
 	}
 }

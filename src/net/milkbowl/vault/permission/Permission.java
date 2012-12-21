@@ -651,4 +651,23 @@ public abstract class Permission {
      * @return an Array of String of all groups
      */
     abstract public String[] getGroups();
+	/**
+	 * Gets all members of a specified group.
+	 * @param World world name
+	 * @param String group name
+	 * @return String array of all player names of a group.
+	 */
+    public String[] getGroupMembers(World world,String group)
+    {
+    	if (world == null)
+    		return getGroupMembers((String)null,group);
+    	return getGroupMembers(world.getName(),group);
+    }
+	/**
+	 * Gets all members of a specified group.
+	 * @param String World name
+	 * @param String group name
+	 * @return String array of all player names of a group.
+	 */
+    abstract public String[] getGroupMembers(String world,String group);
 }

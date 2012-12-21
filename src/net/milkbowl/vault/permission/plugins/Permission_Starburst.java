@@ -16,6 +16,7 @@
 package net.milkbowl.vault.permission.plugins;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -298,5 +299,18 @@ public class Permission_Starburst extends Permission {
         } else {
             return false;
         }
+    }
+    @Override
+    public String[] getGroupMembers(String world, String group) {
+    	Set<String> ret = new HashSet<String>();
+    	if (world == null || world.equals("*"))
+    		for (GroupSet gs:perms.getGroupManager().getWorldSets())
+    			if (gs.hasGroup(group)){
+				for (User u:perms.getGroupManager().getAffectedUsers(gs.getGroup(group))){
+    				ret.add(u.getOfflinePlayer().getName());
+				}
+    	//    		for (User u:perms.getGroupManager().getAffectedUsers(perms.getGroupManager().get))
+    			}
+    	return ret.toArray(new String[0]);
     }
 }
