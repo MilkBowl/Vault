@@ -263,7 +263,7 @@ public class Vault extends JavaPlugin {
         
         // Try to load XPBank
         hookEconomy("XPBank", Economy_XPBank.class, ServicePriority.Normal, "com.gmail.mirelatrue.xpbank.XPBank");
-     }
+    }
 
     /**
      * Attempts to load Permission Addons
