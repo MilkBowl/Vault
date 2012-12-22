@@ -265,6 +265,11 @@
 		    <scope>system</scope>
 		    <systemPath>${project.basedir}/lib/CommandsEX.jar</systemPath>
 		</dependency>
+		<dependency>
+		    <groupId>com.github.omwah</groupId>
+		    <artifactId>SDFEconomy</artifactId>
+		    <version>0.1.0-SNAPSHOT</version>
+		</dependency>
 	</dependencies>
 	<build>
 	<sourceDirectory>src/</sourceDirectory>
@@ -365,6 +370,10 @@ iConomy 4,5,6 BOSEconomy 6/7, EssentialsEcon, 3Co, MultiConomy, MineConomy, Econ
 		<repository>
 			<id>bukkit-repo</id>
 			<url>http://repo.bukkit.org/content/groups/public/</url>
+		</repository>
+                <repository>
+			<id>sdfeconomy-repo</id>
+			<url>http://omwah.sdf.org/maven/repo/snapshots/</url>
 		</repository>
 	</repositories>
 </project>
