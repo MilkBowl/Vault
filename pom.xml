@@ -147,6 +147,13 @@
 			<systemPath>${project.basedir}/lib/iConomy6.jar</systemPath>
 		</dependency>
 		<dependency>
+			<groupId>com.gmail.mirelatrue.xpbank.XPBank</groupId>
+			<artifactId>XPBank</artifactId>
+			<version>0.9</version>
+			<scope>system</scope>
+			<systemPath>${project.basedir}/lib/XPBank.jar</systemPath>
+		</dependency>
+		<dependency>
 			<groupId>net.D3GN.MiracleM4n.mChat.mChat</groupId>
 			<artifactId>mChat</artifactId>
 			<version>1.8.5</version>
@@ -258,6 +265,11 @@
 			<scope>system</scope>
 			<systemPath>${project.basedir}/lib/CommandsEX.jar</systemPath>
 		</dependency>
+		<dependency>
+		    <groupId>com.github.omwah</groupId>
+		    <artifactId>SDFEconomy</artifactId>
+		    <version>0.1.0-SNAPSHOT</version>
+		</dependency>
 	</dependencies>
 	<build>
 		<sourceDirectory>src/</sourceDirectory>
@@ -339,7 +351,7 @@
 
 Vault currently Supports:
 Permissions 3, PEX, GroupManager, bPerms, bPerms2, SimplyPerms, DroxPerms, zPermissions, Starburst
-iConomy 4,5,6 BOSEconomy 6/7, EssentialsEcon, 3Co, MultiConomy, MineConomy, EconXP, eWallet, CurrencyCore, CraftConomy, AEco
+iConomy 4,5,6 BOSEconomy 6/7, EssentialsEcon, 3Co, MultiConomy, MineConomy, EconXP, eWallet, CurrencyCore, XPBank, CraftConomy, AEco, SDFEconomy
 </description>
 	<scm>
 		<url>https://github.com/MilkBowl/Vault</url>
@@ -358,6 +370,10 @@ iConomy 4,5,6 BOSEconomy 6/7, EssentialsEcon, 3Co, MultiConomy, MineConomy, Econ
 		<repository>
 			<id>bukkit-repo</id>
 			<url>http://repo.bukkit.org/content/groups/public/</url>
+		</repository>
+                <repository>
+			<id>sdfeconomy-repo</id>
+			<url>http://omwah.sdf.org/maven/repo/snapshots/</url>
 		</repository>
 	</repositories>
 </project>

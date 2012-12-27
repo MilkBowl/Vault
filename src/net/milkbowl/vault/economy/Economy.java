@@ -98,7 +98,7 @@ public interface Economy {
      * 
      * @param playerName
      * @param amount
-     * @return
+     * @return True if <b>playerName</b> has <b>amount</b>, False else wise
      */
     public boolean has(String playerName, double amount);
     
@@ -124,7 +124,7 @@ public interface Economy {
      * Creates a bank account with the specified name and the player as the owner
      * @param name
      * @param player
-     * @return
+     * @return EconomyResponse Object
      */
     public EconomyResponse createBank(String name, String player);
 
@@ -138,7 +138,7 @@ public interface Economy {
     /**
      * Returns the amount the bank has
      * @param name
-     * @return
+     * @return EconomyResponse Object
      */
     public EconomyResponse bankBalance(String name);
 
@@ -147,7 +147,7 @@ public interface Economy {
      * 
      * @param name
      * @param amount
-     * @return
+     * @return EconomyResponse Object
      */
     public EconomyResponse bankHas(String name, double amount);
 
@@ -156,7 +156,7 @@ public interface Economy {
      * 
      * @param name
      * @param amount
-     * @return
+     * @return EconomyResponse Object
      */
     public EconomyResponse bankWithdraw(String name, double amount);
 
@@ -165,7 +165,7 @@ public interface Economy {
      * 
      * @param name
      * @param amount
-     * @return
+     * @return EconomyResponse Object
      */
     public EconomyResponse bankDeposit(String name, double amount);
 
@@ -173,7 +173,7 @@ public interface Economy {
      * Check if a player is the owner of a bank account
      * @param name
      * @param playerName
-     * @return
+     * @return EconomyResponse Object
      */
     public EconomyResponse isBankOwner(String name, String playerName);
 
@@ -181,7 +181,7 @@ public interface Economy {
      * Check if the player is a member of the bank account
      * @param name
      * @param playerName
-     * @return
+     * @return EconomyResponse Object
      */
     public EconomyResponse isBankMember(String name, String playerName);
 
