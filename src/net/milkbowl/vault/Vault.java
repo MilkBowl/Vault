@@ -107,6 +107,7 @@ public class Vault extends JavaPlugin {
     public void onDisable() {
         // Remove all Service Registrations
         getServer().getServicesManager().unregisterAll(this);
+        Bukkit.getScheduler().cancelTasks(this);
     }
 
     @Override
@@ -124,7 +125,7 @@ public class Vault extends JavaPlugin {
 
         // Schedule to check the version every 30 minutes for an update. This is to update the most recent 
         // version so if an admin reconnects they will be warned about newer versions.
-        this.getServer().getScheduler().scheduleAsyncRepeatingTask(this, new Runnable() {
+        this.getServer().getScheduler().runTaskTimerAsynchronously(this, new Runnable() {
 
             @Override
             public void run() {
@@ -209,7 +210,7 @@ public class Vault extends JavaPlugin {
 
         // Try to load Craftconomy
         hookEconomy("CraftConomy", Economy_Craftconomy.class, ServicePriority.Normal, "me.greatman.Craftconomy.Craftconomy");
-        
+
         // Try to load Craftconomy3
         hookEconomy("CraftConomy3", Economy_Craftconomy3.class, ServicePriority.Normal, "com.greatmancode.craftconomy3.BukkitLoader");
 
@@ -230,7 +231,7 @@ public class Vault extends JavaPlugin {
 
         // Try to load Gringotts
         hookEconomy("Gringotts", Economy_Gringotts.class, ServicePriority.Normal, "org.gestern.gringotts.Gringotts");
-        
+
         // Try to load Essentials Economy
         hookEconomy("Essentials Economy", Economy_Essentials.class, ServicePriority.Low, "com.earth2me.essentials.api.Economy", "com.earth2me.essentials.api.NoLoanPermittedException",  "com.earth2me.essentials.api.UserDoesNotExistException");
 
@@ -251,10 +252,10 @@ public class Vault extends JavaPlugin {
 
         // Try to load GoldIsMoney2
         hookEconomy("GoldIsMoney2", Economy_GoldIsMoney2.class, ServicePriority.Normal, "com.flobi.GoldIsMoney2.GoldIsMoney");
-        
+
         // Try to load Dosh
         hookEconomy("Dosh", Economy_Dosh.class, ServicePriority.Normal, "com.gravypod.Dosh.Dosh");
-        
+
         // Try to load CommandsEX Economy
         hookEconomy("CommandsEX", Economy_CommandsEX.class, ServicePriority.Normal, "com.github.zathrus_writer.commandsex.api.EconomyAPI");
          

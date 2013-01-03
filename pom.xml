@@ -252,18 +252,18 @@
 			<systemPath>${project.basedir}/lib/Gringotts.jar</systemPath>
 		</dependency>
 		<dependency>
-		    <groupId>com.gravypod.Dosh</groupId>
-		    <artifactId>Dosh</artifactId>
-		    <version>1.0</version>
-		    <scope>system</scope>
-		    <systemPath>${project.basedir}/lib/Dosh.jar</systemPath>
+			<groupId>com.gravypod.Dosh</groupId>
+			<artifactId>Dosh</artifactId>
+			<version>1.0</version>
+			<scope>system</scope>
+			<systemPath>${project.basedir}/lib/Dosh.jar</systemPath>
 		</dependency>
 		<dependency>
-		    <groupId>com.github.zathrus_writer.commandsex</groupId>
-		    <artifactId>CommandsEX</artifactId>
-		    <version>1.98</version>
-		    <scope>system</scope>
-		    <systemPath>${project.basedir}/lib/CommandsEX.jar</systemPath>
+			<groupId>com.github.zathrus_writer.commandsex</groupId>
+			<artifactId>CommandsEX</artifactId>
+			<version>1.98</version>
+			<scope>system</scope>
+			<systemPath>${project.basedir}/lib/CommandsEX.jar</systemPath>
 		</dependency>
 		<dependency>
 		    <groupId>com.github.omwah</groupId>
@@ -272,7 +272,7 @@
 		</dependency>
 	</dependencies>
 	<build>
-	<sourceDirectory>src/</sourceDirectory>
+		<sourceDirectory>src/</sourceDirectory>
 		<resources>
 			<resource>
 				<directory>${project.basedir}</directory>
