@@ -29,7 +29,7 @@ import org.bukkit.event.server.PluginEnableEvent;
 import org.bukkit.plugin.Plugin;
 
 import de.bananaco.bpermissions.api.ApiLayer;
-import de.bananaco.bpermissions.api.util.CalculableType;
+import de.bananaco.bpermissions.api.CalculableType;
 
 public class Chat_bPermissions2 extends Chat {
     private static final Logger log = Logger.getLogger("Minecraft");
