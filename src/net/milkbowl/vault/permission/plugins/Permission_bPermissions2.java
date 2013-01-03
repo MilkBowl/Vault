@@ -121,7 +121,7 @@ public class Permission_bPermissions2 extends Permission {
 
     @Override
     public boolean playerAdd(String world, String player, String permission) {
-        ApiLayer.addPermission(world, CalculableType.USER, player, de.bananaco.bpermissions.api.util.Permission.loadFromString(permission));
+        ApiLayer.addPermission(world, CalculableType.USER, player, de.bananaco.bpermissions.api.Permission.loadFromString(permission));
     	return true;
     }
 
@@ -140,7 +140,7 @@ public class Permission_bPermissions2 extends Permission {
 
     @Override
     public boolean groupAdd(String world, String group, String permission) {
-    	ApiLayer.addPermission(world, CalculableType.GROUP, group, de.bananaco.bpermissions.api.util.Permission.loadFromString(permission));
+    	ApiLayer.addPermission(world, CalculableType.GROUP, group, de.bananaco.bpermissions.api.Permission.loadFromString(permission));
     	return true;
     }
 
