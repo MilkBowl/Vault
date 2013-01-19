@@ -100,11 +100,11 @@ public class Economy_MineConomy extends Economy {
     }
 
     public String currencyNameSingular() {
-        return "";
+        return MCCom.getDefaultCurrency();
     }
 
     public String currencyNamePlural() {
-        return "";
+        return MCCom.getDefaultCurrency();
     }
 
     public double getBalance(String playerName) {

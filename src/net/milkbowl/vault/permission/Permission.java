@@ -195,7 +195,6 @@ public abstract class Permission {
      * one that only needs the built-in Bukkit API to add transient permissions to a player.  Any subclass
      * implementing a plugin which provides its own API for this needs to override this method. 
      * 
-     * @param world World name
      * @param player Player name
      * @param permission Permission node
      * @return Success or Failure
@@ -232,10 +231,10 @@ public abstract class Permission {
 
     /**
      * Adds a world specific transient permission to the player - ONLY WORKS IN PEX/P3 - otherwise it defaults to GLOBAL!
-     * @param world
+     * @param worldName
      * @param player
      * @param permission
-     * @return
+     * @return Success or Failure
      */
     public boolean playerAddTransient(String worldName, Player player, String permission) {
     	return playerAddTransient(player, permission);
@@ -243,10 +242,10 @@ public abstract class Permission {
     
     /**
      * Adds a world specific transient permission to the player - ONLY WORKS IN PEX/P3 - otherwise it defaults to GLOBAL!
-     * @param world
+     * @param worldName
      * @param player
      * @param permission
-     * @return
+     * @return Success or Failure
      */
     public boolean playerAddTransient(String worldName, String player, String permission) {
 		Player p = plugin.getServer().getPlayer(player);
@@ -258,10 +257,10 @@ public abstract class Permission {
     
     /**
      * Removes a world specific transient permission from the player - Only works in PEX/P3 - otherwise it defaults to Global!
-     * @param world
+     * @param worldName
      * @param player
      * @param permission
-     * @return
+     * @return Success or Failure
      */
 	public boolean playerRemoveTransient(String worldName, String player, String permission) {
 		Player p = plugin.getServer().getPlayer(player);
@@ -276,7 +275,7 @@ public abstract class Permission {
      * @param worldName
      * @param player
      * @param permission
-     * @return
+     * @return Success or Failure
      */
     public boolean playerRemoveTransient(String worldName, Player player, String permission) {
     	return playerRemoveTransient(player, permission);
@@ -326,7 +325,6 @@ public abstract class Permission {
      * one that only needs the built-in Bukkit API to remove transient permissions from a player.  Any subclass
      * implementing a plugin which provides its own API for this needs to override this method.
      * 
-     * @param world World name
      * @param player Player name
      * @param permission Permission node
      * @return Success or Failure
