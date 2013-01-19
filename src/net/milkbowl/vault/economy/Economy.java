@@ -22,7 +22,7 @@ import java.util.List;
  * The main economy API
  *
  */
-public abstract class Economy {
+public interface Economy {
 
     /**
      * Checks if economy method is enabled.
@@ -196,4 +196,44 @@ public abstract class Economy {
      * @return if the account creation was successful
      */
     public abstract boolean createPlayerAccount(String playerName);
+    
+    /**
+     * Transfer an amount of money from one player to another.
+     * This action withdraws the amount from the sender, and deposits it to the recipient's account.
+     * If either the withdrawal or the deposit fails, the transaction as a whole also fails.
+     * This means that both the sender and the recipient's account balance remains unchanged.
+     * 
+     * @param amount amount of money to transfer
+     * @param playerFrom player to withdraw from
+     * @param playerTo player to deposit to
+     * @return transaction success information
+     */
+    public EconomyResponse transfer(double amount, String playerFrom, String playerTo);
+    
+    /**
+     * Transfer an amount of money from a player to a bank account.
+     * This action withdraws the amount from the sender, and deposits it to the recipient's account.
+     * If either the withdrawal or the deposit fails, the transaction as a whole also fails.
+     * This means that both the sender and the recipient's account balance remains unchanged.
+     * 
+     * @param amount amount of money to transfer
+     * @param playerFrom player to withdraw from
+     * @param bankTo bank to deposit to
+     * @return transaction success information
+     */
+    public EconomyResponse transferPlayerToBank(double amount, String playerFrom, String bankTo);
+    
+    /**
+     * Transfer an amount of money from a bank to a player.
+     * This action withdraws the amount from the sender, and deposits it to the recipient's account.
+     * If either the withdrawal or the deposit fails, the transaction as a whole also fails.
+     * This means that both the sender and the recipient's account balance remains unchanged.
+     * 
+     * @param amount amount of money to transfer
+     * @param bankFrom player to withdraw from
+     * @param playerTo player to deposit to
+     * @return transaction success information
+     */
+    public EconomyResponse transferBankToPlayer(double amount, String bankFrom, String playerTo);
+
 }

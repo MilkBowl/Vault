@@ -24,7 +24,7 @@ import me.mjolnir.mineconomy.exceptions.AccountNameConflictException;
 import me.mjolnir.mineconomy.exceptions.NoAccountException;
 import me.mjolnir.mineconomy.internal.MCCom;
 import me.mjolnir.mineconomy.internal.util.MCFormat;
-import net.milkbowl.vault.economy.Economy;
+import net.milkbowl.vault.economy.AbstractEconomy;
 import net.milkbowl.vault.economy.EconomyResponse;
 import net.milkbowl.vault.economy.EconomyResponse.ResponseType;
 
@@ -36,7 +36,7 @@ import org.bukkit.event.server.PluginDisableEvent;
 import org.bukkit.event.server.PluginEnableEvent;
 import org.bukkit.plugin.Plugin;
 
-public class Economy_MineConomy extends Economy {
+public class Economy_MineConomy extends AbstractEconomy {
     private static final Logger log = Logger.getLogger("Minecraft");
 
     private final String name = "MineConomy";

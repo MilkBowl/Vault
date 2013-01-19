@@ -17,16 +17,16 @@ package net.milkbowl.vault.economy.plugins;
 
 import java.util.List;
 
+import net.milkbowl.vault.economy.AbstractEconomy;
+import net.milkbowl.vault.economy.EconomyResponse;
+
 import org.bukkit.plugin.Plugin;
 
 import com.gravypod.Dosh.Dosh;
 import com.gravypod.Dosh.MoneyUtils;
 
-import net.milkbowl.vault.economy.Economy;
-import net.milkbowl.vault.economy.EconomyResponse;
 
-
-public class Economy_Dosh extends Economy {
+public class Economy_Dosh extends AbstractEconomy {
 	
 	
 	Plugin plugin;

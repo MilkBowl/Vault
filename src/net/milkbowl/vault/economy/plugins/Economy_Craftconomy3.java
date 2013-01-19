@@ -20,7 +20,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.logging.Logger;
 
-import net.milkbowl.vault.economy.Economy;
+import net.milkbowl.vault.economy.AbstractEconomy;
 import net.milkbowl.vault.economy.EconomyResponse;
 import net.milkbowl.vault.economy.EconomyResponse.ResponseType;
 
@@ -38,7 +38,7 @@ import com.greatmancode.craftconomy3.account.Account;
 import com.greatmancode.craftconomy3.currency.CurrencyManager;
 import com.greatmancode.craftconomy3.database.tables.AccountTable;
 
-public class Economy_Craftconomy3 extends Economy {
+public class Economy_Craftconomy3 extends AbstractEconomy {
 	private static final Logger log = Logger.getLogger("Minecraft");
 
 	private final String name = "Craftconomy3";

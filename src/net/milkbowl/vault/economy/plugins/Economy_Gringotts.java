@@ -19,7 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
 
-import net.milkbowl.vault.economy.Economy;
+import net.milkbowl.vault.economy.AbstractEconomy;
 import net.milkbowl.vault.economy.EconomyResponse;
 import net.milkbowl.vault.economy.EconomyResponse.ResponseType;
 
@@ -34,7 +34,7 @@ import org.gestern.gringotts.Account;
 import org.gestern.gringotts.AccountHolder;
 import org.gestern.gringotts.Gringotts;
 
-public class Economy_Gringotts extends Economy {
+public class Economy_Gringotts extends AbstractEconomy {
 
     private static final Logger log = Logger.getLogger("Minecraft");
 

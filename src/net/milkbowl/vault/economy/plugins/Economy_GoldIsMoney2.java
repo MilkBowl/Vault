@@ -18,7 +18,7 @@ package net.milkbowl.vault.economy.plugins;
 import java.util.List;
 import java.util.logging.Logger;
 
-import net.milkbowl.vault.economy.Economy;
+import net.milkbowl.vault.economy.AbstractEconomy;
 import net.milkbowl.vault.economy.EconomyResponse;
 import net.milkbowl.vault.economy.EconomyResponse.ResponseType;
 
@@ -32,7 +32,7 @@ import org.bukkit.plugin.Plugin;
 
 import com.flobi.GoldIsMoney2.GoldIsMoney;
 
-public class Economy_GoldIsMoney2 extends Economy {
+public class Economy_GoldIsMoney2 extends AbstractEconomy {
 	private static final Logger log = Logger.getLogger("Minecraft");
 	
 	private final String name = "GoldIsMoney";
