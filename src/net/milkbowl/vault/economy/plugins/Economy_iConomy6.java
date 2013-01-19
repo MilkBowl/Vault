@@ -18,7 +18,7 @@ package net.milkbowl.vault.economy.plugins;
 import java.util.List;
 import java.util.logging.Logger;
 
-import net.milkbowl.vault.economy.Economy;
+import net.milkbowl.vault.economy.AbstractEconomy;
 import net.milkbowl.vault.economy.EconomyResponse;
 import net.milkbowl.vault.economy.EconomyResponse.ResponseType;
 
@@ -35,7 +35,7 @@ import com.iCo6.iConomy;
 import com.iCo6.system.Accounts;
 import com.iCo6.system.Holdings;
 
-public class Economy_iConomy6 extends Economy {
+public class Economy_iConomy6 extends AbstractEconomy {
     private static final Logger log = Logger.getLogger("Minecraft");
 
     private String name = "iConomy ";

@@ -18,20 +18,20 @@ package net.milkbowl.vault.economy.plugins;
 import java.util.List;
 import java.util.logging.Logger;
 
-import org.bukkit.plugin.Plugin;
+import net.milkbowl.vault.economy.AbstractEconomy;
+import net.milkbowl.vault.economy.EconomyResponse;
+
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.server.PluginDisableEvent;
 import org.bukkit.event.server.PluginEnableEvent;
+import org.bukkit.plugin.Plugin;
 
 import com.github.omwah.SDFEconomy.SDFEconomy;
 import com.github.omwah.SDFEconomy.SDFEconomyAPI;
 
-import net.milkbowl.vault.economy.Economy;
-import net.milkbowl.vault.economy.EconomyResponse;
-
-public class Economy_SDFEconomy extends Economy {
+public class Economy_SDFEconomy extends AbstractEconomy {
     private static final Logger log = Logger.getLogger("Minecraft");
     private Plugin plugin = null;
 

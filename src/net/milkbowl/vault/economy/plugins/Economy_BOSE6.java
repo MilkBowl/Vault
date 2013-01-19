@@ -19,7 +19,7 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import net.milkbowl.vault.economy.Economy;
+import net.milkbowl.vault.economy.AbstractEconomy;
 import net.milkbowl.vault.economy.EconomyResponse;
 import net.milkbowl.vault.economy.EconomyResponse.ResponseType;
 
@@ -34,7 +34,7 @@ import org.bukkit.plugin.Plugin;
 import cosine.boseconomy.BOSEconomy;
 
 @SuppressWarnings("deprecation")
-public class Economy_BOSE6 extends Economy {
+public class Economy_BOSE6 extends AbstractEconomy {
     private static final Logger log = Logger.getLogger("Minecraft");
 
     private final String name = "BOSEconomy";
