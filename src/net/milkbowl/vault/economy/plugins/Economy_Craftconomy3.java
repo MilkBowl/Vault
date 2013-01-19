@@ -38,7 +38,7 @@ import com.greatmancode.craftconomy3.account.Account;
 import com.greatmancode.craftconomy3.currency.CurrencyManager;
 import com.greatmancode.craftconomy3.database.tables.AccountTable;
 
-public class Economy_Craftconomy3 implements Economy {
+public class Economy_Craftconomy3 extends Economy {
 	private static final Logger log = Logger.getLogger("Minecraft");
 
 	private final String name = "Craftconomy3";

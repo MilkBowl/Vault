@@ -34,7 +34,7 @@ import org.bukkit.plugin.Plugin;
 import cosine.boseconomy.BOSEconomy;
 
 @SuppressWarnings("deprecation")
-public class Economy_BOSE6 implements Economy {
+public class Economy_BOSE6 extends Economy {
     private static final Logger log = Logger.getLogger("Minecraft");
 
     private final String name = "BOSEconomy";

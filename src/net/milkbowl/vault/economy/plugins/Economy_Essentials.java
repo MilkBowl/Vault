@@ -35,7 +35,7 @@ import com.earth2me.essentials.Essentials;
 import com.earth2me.essentials.api.NoLoanPermittedException;
 import com.earth2me.essentials.api.UserDoesNotExistException;
 
-public class Economy_Essentials implements Economy {
+public class Economy_Essentials extends Economy {
     private static final Logger log = Logger.getLogger("Minecraft");
 
     private final String name = "Essentials Economy";

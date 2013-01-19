@@ -35,7 +35,7 @@ import org.bukkit.plugin.Plugin;
 import com.nijiko.coelho.iConomy.iConomy;
 import com.nijiko.coelho.iConomy.system.Account;
 
-public class Economy_iConomy4 implements Economy {
+public class Economy_iConomy4 extends Economy {
     private static final Logger log = Logger.getLogger("Minecraft");
 
     private final String name = "iConomy 4";

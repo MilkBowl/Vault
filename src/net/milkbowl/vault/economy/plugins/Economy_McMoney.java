@@ -33,7 +33,7 @@ import org.bukkit.plugin.Plugin;
 
 import boardinggamer.mcmoney.McMoneyAPI;
 
-public class Economy_McMoney implements Economy {
+public class Economy_McMoney extends Economy {
     private static final Logger log = Logger.getLogger("Minecraft");
 
     private final String name = "McMoney";

@@ -33,7 +33,7 @@ import org.bukkit.plugin.Plugin;
 
 import com.gmail.mirelatrue.xpbank.XPBank;
 
-public class Economy_XPBank implements Economy {
+public class Economy_XPBank extends Economy {
     private static final Logger log = Logger.getLogger("Minecraft");
 
     private final String name = "XPBank";

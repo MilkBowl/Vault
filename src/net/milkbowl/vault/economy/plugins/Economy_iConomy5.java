@@ -35,7 +35,7 @@ import com.iConomy.iConomy;
 import com.iConomy.system.Holdings;
 import com.iConomy.util.Constants;
 
-public class Economy_iConomy5 implements Economy {
+public class Economy_iConomy5 extends Economy {
     private static final Logger log = Logger.getLogger("Minecraft");
 
     private final String name = "iConomy 5";

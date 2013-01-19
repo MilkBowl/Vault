@@ -35,7 +35,7 @@ import org.bukkit.event.server.PluginEnableEvent;
 import org.bukkit.plugin.Plugin;
 import org.neocraft.AEco.AEco;
 
-public class Economy_AEco implements Economy {
+public class Economy_AEco extends Economy {
     private static final Logger log = Logger.getLogger("Minecraft");
 
     private final String name = "AEco";
