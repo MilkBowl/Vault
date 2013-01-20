@@ -26,7 +26,7 @@ import net.milkbowl.vault.economy.Economy;
 import net.milkbowl.vault.economy.EconomyResponse;
 
 
-public class Economy_Dosh extends Economy {
+public class Economy_Dosh implements Economy {
 	
 	
 	Plugin plugin;

@@ -35,7 +35,7 @@ import org.bukkit.plugin.Plugin;
 
 import ca.agnate.EconXP.EconXP;
 
-public class Economy_EconXP extends Economy {
+public class Economy_EconXP implements Economy {
     private static final Logger log = Logger.getLogger("Minecraft");
 
     private final String name = "EconXP";

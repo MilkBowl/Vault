@@ -34,7 +34,7 @@ import org.gestern.gringotts.Account;
 import org.gestern.gringotts.AccountHolder;
 import org.gestern.gringotts.Gringotts;
 
-public class Economy_Gringotts extends Economy {
+public class Economy_Gringotts implements Economy {
 
     private static final Logger log = Logger.getLogger("Minecraft");
 

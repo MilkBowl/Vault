@@ -33,7 +33,7 @@ import org.bukkit.plugin.Plugin;
 
 import com.flobi.GoldIsMoney.GoldIsMoney;
 
-public class Economy_GoldIsMoney extends Economy {
+public class Economy_GoldIsMoney implements Economy {
 	private static final Logger log = Logger.getLogger("Minecraft");
 	
 	private final String name = "GoldIsMoney";

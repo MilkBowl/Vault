@@ -31,7 +31,7 @@ import com.github.omwah.SDFEconomy.SDFEconomyAPI;
 import net.milkbowl.vault.economy.Economy;
 import net.milkbowl.vault.economy.EconomyResponse;
 
-public class Economy_SDFEconomy extends Economy {
+public class Economy_SDFEconomy implements Economy {
     private static final Logger log = Logger.getLogger("Minecraft");
     private Plugin plugin = null;
 

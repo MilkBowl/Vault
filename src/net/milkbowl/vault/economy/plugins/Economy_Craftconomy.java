@@ -38,7 +38,7 @@ import org.bukkit.event.server.PluginDisableEvent;
 import org.bukkit.event.server.PluginEnableEvent;
 import org.bukkit.plugin.Plugin;
 
-public class Economy_Craftconomy extends Economy {
+public class Economy_Craftconomy implements Economy {
     private static final Logger log = Logger.getLogger("Minecraft");
 
     private final String name = "Craftconomy";
