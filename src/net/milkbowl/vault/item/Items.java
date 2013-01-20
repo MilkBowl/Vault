@@ -462,7 +462,26 @@ public class Items {
         items.add(new ItemInfo("Potion of Invisibility (Extended)", new String[][] {{"pot", "invi", "ext"}}, Material.POTION, (short) 8270));
         items.add(new ItemInfo("Potion of Night Vision", new String[][] {{"pot", "nigh", "visi"}, {"pot", "visio"}}, Material.POTION, (short) 8198));
         items.add(new ItemInfo("Potion of Night Vision (Extended)", new String[][] {{"pot", "nigh", "visi", "ext"}, {"pot", "visio", "ext"}}, Material.POTION, (short) 8262));
+        items.add(new ItemInfo("Enchanted Book", new String[][]{{"ench", "boo"}}, Material.ENCHANTED_BOOK));
         items.add(new ItemInfo("Nether Star", new String[][]{{"star", "neth"}}, Material.NETHER_STAR));
+        items.add(new ItemInfo("Firework Star", new String[][]{{"fire", "star"}}, Material.FIREWORK_CHARGE));
+        items.add(new ItemInfo("Firework Rocket", new String[][]{{"rocket"}, {"firework"}}, Material.FIREWORK));
+        items.add(new ItemInfo("White Firework Star", new String[][]{{"whi", "fire", "star"}}, Material.FIREWORK_CHARGE, (short) 1));
+        items.add(new ItemInfo("Orange Firework Star", new String[][]{{"ora", "fire", "star"}}, Material.FIREWORK_CHARGE, (short) 2));
+        items.add(new ItemInfo("Magenta Firework Star", new String[][]{{"mag", "fire", "star"}}, Material.FIREWORK_CHARGE, (short) 3));
+        items.add(new ItemInfo("Light Blue Firework Star", new String[][]{{"blu", "lig", "fire", "star"}}, Material.FIREWORK_CHARGE, (short) 4));
+        items.add(new ItemInfo("Yellow Firework Star", new String[][]{{"yell", "fire", "star"}}, Material.FIREWORK_CHARGE, (short) 5));
+        items.add(new ItemInfo("Lime Firework Star", new String[][]{{"lim", "fire", "star"}}, Material.FIREWORK_CHARGE, (short) 6));
+        items.add(new ItemInfo("Pink Firework Star", new String[][]{{"pin", "fire", "star"}}, Material.FIREWORK_CHARGE, (short) 7));
+        items.add(new ItemInfo("Gray Firework Star", new String[][]{{"gra", "fire", "star"}}, Material.FIREWORK_CHARGE, (short) 8));
+        items.add(new ItemInfo("Light Gray Firework Star", new String[][]{{"lig", "gra", "fire", "star"}}, Material.FIREWORK_CHARGE, (short) 9));
+        items.add(new ItemInfo("Cyan Firework Star", new String[][]{{"cya", "fire", "star"}}, Material.FIREWORK_CHARGE, (short) 10));
+        items.add(new ItemInfo("Purple Firework Star", new String[][]{{"pur", "fire", "star"}}, Material.FIREWORK_CHARGE, (short) 11));
+        items.add(new ItemInfo("Blue Firework Star", new String[][]{{"blue", "fire", "star"}}, Material.FIREWORK_CHARGE, (short) 12));
+        items.add(new ItemInfo("Brown Firework Star", new String[][]{{"bro", "fire", "star"}}, Material.FIREWORK_CHARGE, (short) 13));
+        items.add(new ItemInfo("Green Firework Star", new String[][]{{"gre", "fire", "star"}}, Material.FIREWORK_CHARGE, (short) 14));
+        items.add(new ItemInfo("Red Firework Star", new String[][]{{"red", "fire", "star"}}, Material.FIREWORK_CHARGE, (short) 15));
+        items.add(new ItemInfo("Block Firework Star", new String[][]{{"bla", "fire", "star"}}, Material.FIREWORK_CHARGE, (short) 16));
     }
 
     public static ItemInfo itemById(int typeId) {
