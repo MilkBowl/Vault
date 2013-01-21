@@ -146,6 +146,13 @@
 			<scope>system</scope>
 			<systemPath>${project.basedir}/lib/iConomy6.jar</systemPath>
 		</dependency>
+        <dependency>
+            <groupId>com.mciseries.iMonies.iMonies</groupId>
+            <artifactId>iMonies</artifactId>
+            <version>1.1</version>
+            <scope>system</scope>
+            <system>${project.basedir}/lib/iMonies.jar</systemPath>
+        </dependency>
 		<dependency>
 			<groupId>com.gmail.mirelatrue.xpbank.XPBank</groupId>
 			<artifactId>XPBank</artifactId>
