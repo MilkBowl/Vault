@@ -243,6 +243,9 @@ public class Vault extends JavaPlugin {
 
         // Try to load iConomy 6
         hookEconomy("iConomy 6", Economy_iConomy6.class, ServicePriority.High, "com.iCo6.iConomy");
+        
+        // Try to load iMonies
+        hookEconomy("iMonies", Economy_iMonies.class, ServicePriority.High, "com.mciseries.iMonies.iMonies")
 
         // Try to load EconXP
         hookEconomy("EconXP", Economy_EconXP.class, ServicePriority.Normal, "ca.agnate.EconXP.EconXP");
