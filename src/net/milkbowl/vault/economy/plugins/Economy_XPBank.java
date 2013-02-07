@@ -73,7 +73,7 @@ public class Economy_XPBank implements Economy {
             if (economy.XPB == null) {
                 Plugin eco = plugin.getServer().getPluginManager().getPlugin("XPBank");
 
-                if (eco != null && eco.isEnabled()) {
+                if (eco != null) {
                     economy.XPB = (XPBank) eco;
                     api = XPB.getAPI();
                     log.info(String.format("[%s][Economy] %s hooked.", plugin.getDescription().getName(), economy.name));

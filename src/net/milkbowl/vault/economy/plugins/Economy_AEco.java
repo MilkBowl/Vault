@@ -126,7 +126,7 @@ public class Economy_AEco implements Economy {
             if (economy.economy == null) {
                 Plugin eco = plugin.getServer().getPluginManager().getPlugin("AEco");
 
-                if (eco != null && eco.isEnabled()) {
+                if (eco != null) {
                     economy.economy = AEco.ECONOMY;
                     try {
                         createWallet = economy.getClass().getMethod("createWallet", String.class);

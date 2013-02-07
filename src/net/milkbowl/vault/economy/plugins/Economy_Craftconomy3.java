@@ -71,7 +71,7 @@ public class Economy_Craftconomy3 implements Economy {
 			if (economy.economy == null) {
 				Plugin ec = plugin.getServer().getPluginManager().getPlugin("Craftconomy3");
 
-				if (ec != null && ec.isEnabled() && ec.getClass().getName().equals("com.greatmancode.craftconomy3.BukkitLoader")) {
+				if (ec != null && ec.getClass().getName().equals("com.greatmancode.craftconomy3.BukkitLoader")) {
 					economy.economy = (BukkitLoader) ec;
 					log.info(String.format("[%s][Economy] %s hooked.", plugin.getDescription().getName(), economy.name));
 				}

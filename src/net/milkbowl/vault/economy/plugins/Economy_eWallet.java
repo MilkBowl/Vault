@@ -65,7 +65,7 @@ public class Economy_eWallet implements Economy {
             if (economy.econ == null) {
                 Plugin eco = plugin.getServer().getPluginManager().getPlugin("eWallet");
 
-                if (eco != null && eco.isEnabled()) {
+                if (eco != null) {
                     economy.econ = (ECO) eco;
                     log.info(String.format("[%s][Economy] %s hooked.", plugin.getDescription().getName(), economy.name));
                 }

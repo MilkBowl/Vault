@@ -73,7 +73,7 @@ public class Economy_iConomy6 implements Economy {
         public void onPluginEnable(PluginEnableEvent event) {
             if (economy.economy == null) {
                 Plugin ec = plugin.getServer().getPluginManager().getPlugin("iConomy");
-                if (ec != null && ec.isEnabled() && ec.getClass().getName().equals("com.iCo6.iConomy")) {
+                if (ec != null && ec.getClass().getName().equals("com.iCo6.iConomy")) {
                     String version = ec.getDescription().getVersion().split("\\.")[0];
                     name += version;
                     economy.economy = (iConomy) ec;

@@ -159,7 +159,7 @@ public class Economy_MultiCurrency implements Economy {
             if (economy.economy == null) {
                 Plugin mcur = plugin.getServer().getPluginManager().getPlugin("MultiCurrency");
 
-                if (mcur != null && mcur.isEnabled()) {
+                if (mcur != null) {
                     economy.economy = (Currency) mcur;
                     log.info(String.format("[%s][Economy] %s hooked.", plugin.getDescription().getName(), economy.name));
                 }

@@ -116,7 +116,7 @@ public class Economy_iConomy5 implements Economy {
             if (economy.economy == null) {
                 Plugin ec = plugin.getServer().getPluginManager().getPlugin("iConomy");
 
-                if (ec != null && ec.isEnabled() && ec.getClass().getName().equals("com.iConomy.iConomy")) {
+                if (ec != null && ec.getClass().getName().equals("com.iConomy.iConomy")) {
                     economy.economy = (iConomy) ec;
                     log.info(String.format("[%s][Economy] %s hooked.", plugin.getDescription().getName(), economy.name));
                 }

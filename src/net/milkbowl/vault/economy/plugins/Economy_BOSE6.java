@@ -171,7 +171,7 @@ public class Economy_BOSE6 implements Economy {
             if (economy.economy == null) {
                 Plugin bose = plugin.getServer().getPluginManager().getPlugin("BOSEconomy");
 
-                if (bose != null && bose.isEnabled() && bose.getDescription().getVersion().startsWith("0.6")) {
+                if (bose != null && bose.getDescription().getVersion().startsWith("0.6")) {
                     economy.economy = (BOSEconomy) bose;
                     log.info(String.format("[%s][Economy] %s hooked.", plugin.getDescription().getName(), economy.name));
                 }

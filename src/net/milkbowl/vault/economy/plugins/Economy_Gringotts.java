@@ -67,7 +67,7 @@ public class Economy_Gringotts implements Economy {
             if (economy.gringotts == null) {
                 Plugin grngts = plugin.getServer().getPluginManager().getPlugin("Gringotts");
 
-                if (grngts != null && grngts.isEnabled()) {
+                if (grngts != null) {
                     economy.gringotts = (Gringotts) grngts;
                     log.info(String.format("[%s][Economy] %s hooked.", plugin.getDescription().getName(), economy.name));
                 }
