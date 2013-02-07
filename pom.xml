@@ -24,7 +24,6 @@
 			<groupId>net.krinsoft</groupId>
 			<artifactId>Privileges</artifactId>
 			<version>1.7.4</version>
-			<scope>system</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.tyrannyofheaven.bukkit</groupId>
