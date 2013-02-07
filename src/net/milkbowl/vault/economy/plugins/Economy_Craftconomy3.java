@@ -71,7 +71,7 @@ public class Economy_Craftconomy3 implements Economy {
 			if (economy.economy == null) {
 				Plugin ec = plugin.getServer().getPluginManager().getPlugin("Craftconomy3");
 
-				if (ec != null && ec.isEnabled() && ec.getClass().getName().equals("com.greatmancode.craftconomy3.BukkitLoader")) {
+				if (ec != null && ec.getClass().getName().equals("com.greatmancode.craftconomy3.BukkitLoader")) {
 					economy.economy = (BukkitLoader) ec;
 					log.info(String.format("[%s][Economy] %s hooked.", plugin.getDescription().getName(), economy.name));
 				}
@@ -105,22 +105,22 @@ public class Economy_Craftconomy3 implements Economy {
 
 	@Override
 	public String format(double amount) {
-		return Common.getInstance().format(null, Common.getInstance().getCurrencyManager().getCurrency(CurrencyManager.defaultCurrencyID), amount);
+		return Common.getInstance().format(null, Common.getInstance().getCurrencyManager().getDefaultCurrency(), amount);
 	}
 
 	@Override
 	public String currencyNameSingular() {
-		return Common.getInstance().getCurrencyManager().getCurrency(CurrencyManager.defaultCurrencyID).getName();
+		return Common.getInstance().getCurrencyManager().getDefaultCurrency().getName();
 	}
 
 	@Override
 	public String currencyNamePlural() {
-		return Common.getInstance().getCurrencyManager().getCurrency(CurrencyManager.defaultCurrencyID).getPlural();
+		return Common.getInstance().getCurrencyManager().getDefaultCurrency().getPlural();
 	}
 
 	@Override
 	public double getBalance(String playerName) {
-		return Common.getInstance().getAccountManager().getAccount(playerName).getBalance(Common.getInstance().getServerCaller().getDefaultWorld(), Common.getInstance().getCurrencyManager().getCurrency(CurrencyManager.defaultCurrencyID).getName());
+		return Common.getInstance().getAccountManager().getAccount(playerName).getBalance(Common.getInstance().getServerCaller().getDefaultWorld(), Common.getInstance().getCurrencyManager().getDefaultCurrency().getName());
 	}
 
 	@Override
@@ -131,8 +131,8 @@ public class Economy_Craftconomy3 implements Economy {
 
 		double balance;
 		Account account = Common.getInstance().getAccountManager().getAccount(playerName);
-		if (account.hasEnough(amount, Common.getInstance().getServerCaller().getDefaultWorld(), Common.getInstance().getCurrencyManager().getCurrency(CurrencyManager.defaultCurrencyID).getName())) {
-			balance = account.withdraw(amount, Common.getInstance().getServerCaller().getDefaultWorld(), Common.getInstance().getCurrencyManager().getCurrency(CurrencyManager.defaultCurrencyID).getName());
+		if (account.hasEnough(amount, Common.getInstance().getServerCaller().getDefaultWorld(), Common.getInstance().getCurrencyManager().getDefaultCurrency().getName())) {
+			balance = account.withdraw(amount, Common.getInstance().getServerCaller().getDefaultWorld(), Common.getInstance().getCurrencyManager().getDefaultCurrency().getName());
 			return new EconomyResponse(amount, balance, ResponseType.SUCCESS, "");
 		} else {
 			return new EconomyResponse(0, getBalance(playerName), ResponseType.FAILURE, "Insufficient funds");
@@ -147,7 +147,7 @@ public class Economy_Craftconomy3 implements Economy {
 
 		Account account = Common.getInstance().getAccountManager().getAccount(playerName);
 
-		double balance = account.deposit(amount, Common.getInstance().getServerCaller().getDefaultWorld(), Common.getInstance().getCurrencyManager().getCurrency(CurrencyManager.defaultCurrencyID).getName());
+		double balance = account.deposit(amount, Common.getInstance().getServerCaller().getDefaultWorld(), Common.getInstance().getCurrencyManager().getDefaultCurrency().getName());
 		return new EconomyResponse(amount, balance, ResponseType.SUCCESS, null);
 	}
 
@@ -185,7 +185,7 @@ public class Economy_Craftconomy3 implements Economy {
 
 		if (Common.getInstance().getAccountManager().exist(Account.BANK_PREFIX + name)) {
 			Account account = Common.getInstance().getAccountManager().getAccount(Account.BANK_PREFIX + name);
-			if (account.hasEnough(amount, Common.getInstance().getServerCaller().getDefaultWorld(), Common.getInstance().getCurrencyManager().getCurrency(CurrencyManager.defaultCurrencyID).getName())) {
+			if (account.hasEnough(amount, Common.getInstance().getServerCaller().getDefaultWorld(), Common.getInstance().getCurrencyManager().getDefaultCurrency().getName())) {
 				return new EconomyResponse(0, bankBalance(Account.BANK_PREFIX + name).balance, ResponseType.SUCCESS, "");
 			} else {
 				return new EconomyResponse(0, bankBalance(Account.BANK_PREFIX + name).balance, ResponseType.FAILURE, "The bank does not have enough money!");
@@ -267,7 +267,7 @@ public class Economy_Craftconomy3 implements Economy {
 		ArrayList<String> list = new ArrayList<String>();
 		Iterator<AccountTable> iterator = accountList.iterator();
 		while (iterator.hasNext()) {
-			list.add(iterator.next().name.replaceFirst(Account.BANK_PREFIX, ""));
+			list.add(iterator.next().getName().replaceFirst(Account.BANK_PREFIX, ""));
 		}
 		return list;
 

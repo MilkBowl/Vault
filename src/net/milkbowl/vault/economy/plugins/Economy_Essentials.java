@@ -184,7 +184,7 @@ public class Economy_Essentials implements Economy {
             if (economy.ess == null) {
                 Plugin essentials = plugin.getServer().getPluginManager().getPlugin("Essentials");
 
-                if (essentials != null && essentials.isEnabled()) {
+                if (essentials != null) {
                     economy.ess = (Essentials) essentials;
                     log.info(String.format("[%s][Economy] %s hooked.", plugin.getDescription().getName(), economy.name));
                 }

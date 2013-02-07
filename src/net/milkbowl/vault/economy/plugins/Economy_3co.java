@@ -158,7 +158,7 @@ public class Economy_3co implements Economy {
             if (economy.economy == null) {
                 Plugin eco = plugin.getServer().getPluginManager().getPlugin("3co");
 
-                if (eco != null && eco.isEnabled()) {
+                if (eco != null) {
                     economy.economy = (ECO) eco;
                     log.info(String.format("[%s][Economy] %s hooked.", plugin.getDescription().getName(), economy.name));
                 }

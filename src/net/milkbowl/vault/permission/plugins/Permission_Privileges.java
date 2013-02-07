@@ -47,10 +47,8 @@ public class Permission_Privileges extends Permission {
                 Plugin perms = plugin.getServer().getPluginManager().getPlugin("Privileges");
 
                 if (perms != null) {
-                    if (perms.isEnabled()) {
-                        permission.privs = (Privileges) perms;
-                        log.info(String.format("[%s][Permission] %s hooked.", plugin.getDescription().getName(), permission.name));
-                    }
+                    permission.privs = (Privileges) perms;
+                    log.info(String.format("[%s][Permission] %s hooked.", plugin.getDescription().getName(), permission.name));
                 }
             }
         }

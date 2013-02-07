@@ -174,7 +174,7 @@ public class Economy_iConomy4 implements Economy {
             if (economy.economy == null) {
                 Plugin iConomy = plugin.getServer().getPluginManager().getPlugin("iConomy");
 
-                if (iConomy != null && iConomy.isEnabled() && iConomy.getClass().getName().equals("com.nijiko.coelho.iConomy.iConomy")) {
+                if (iConomy != null && iConomy.getClass().getName().equals("com.nijiko.coelho.iConomy.iConomy")) {
                     economy.economy = (iConomy) iConomy;
                     log.info(String.format("[%s][Economy] %s hooked.", plugin.getDescription().getName(), economy.name));
                 }

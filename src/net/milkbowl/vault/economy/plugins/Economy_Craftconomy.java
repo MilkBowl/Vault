@@ -52,7 +52,7 @@ public class Economy_Craftconomy implements Economy {
         // Load Plugin in case it was loaded before
         if (economy == null) {
             Plugin ec = plugin.getServer().getPluginManager().getPlugin("Craftconomy");
-            if (ec != null && ec.isEnabled() && ec.getClass().getName().equals("me.greatman.Craftconomy.Craftconomy")) {
+            if (ec != null && ec.getClass().getName().equals("me.greatman.Craftconomy.Craftconomy")) {
                 economy = (Craftconomy) ec;
                 log.info(String.format("[%s][Economy] %s hooked.", plugin.getDescription().getName(), name));
             }

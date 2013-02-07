@@ -112,7 +112,7 @@ public class Economy_GoldIsMoney implements Economy {
 	        if (economy.economy == null) {
 	            Plugin ec = plugin.getServer().getPluginManager().getPlugin("GoldIsMoney");
 	
-	            if (ec != null && ec.isEnabled() && ec.getClass().getName().equals("com.flobi.GoldIsMoney.GoldIsMoney")) {
+	            if (ec != null && ec.getClass().getName().equals("com.flobi.GoldIsMoney.GoldIsMoney")) {
 	                economy.economy = (GoldIsMoney) ec;
 	                log.info(String.format("[%s][Economy] %s hooked.", plugin.getDescription().getName(), economy.name));
 	            }

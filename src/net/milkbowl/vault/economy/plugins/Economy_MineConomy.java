@@ -69,7 +69,7 @@ public class Economy_MineConomy implements Economy {
             if (economy.econ == null) {
                 Plugin eco = plugin.getServer().getPluginManager().getPlugin("MineConomy");
 
-                if (eco != null && eco.isEnabled()) {
+                if (eco != null) {
                     economy.econ = (MineConomy) eco;
                     log.info(String.format("[%s][Economy] %s hooked.", plugin.getDescription().getName(), economy.name));
                 }

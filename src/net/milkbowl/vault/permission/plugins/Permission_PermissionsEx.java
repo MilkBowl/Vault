@@ -69,7 +69,7 @@ public class Permission_PermissionsEx extends Permission {
 
     @Override
     public boolean playerInGroup(String worldName, String playerName, String groupName) {
-    	return PermissionsEx.getPermissionManager().getUser(playerName).inGroup(groupName);
+        return PermissionsEx.getPermissionManager().getUser(playerName).inGroup(groupName);
     }
 
     public class PermissionServerListener implements Listener {
@@ -85,18 +85,16 @@ public class Permission_PermissionsEx extends Permission {
                 Plugin perms = plugin.getServer().getPluginManager().getPlugin("PermissionsEx");
 
                 if (perms != null) {
-                    if (perms.isEnabled()) {
-                        try {
-                            if (Double.valueOf(perms.getDescription().getVersion()) < 1.16) {
-                                log.info(String.format("[%s][Permission] %s below 1.16 is not compatible with Vault! Falling back to SuperPerms only mode. PLEASE UPDATE!", plugin.getDescription().getName(), name));
-                                return;
-                            }
-                        } catch (NumberFormatException e) {
-                            // Do nothing
+                    try {
+                        if (Double.valueOf(perms.getDescription().getVersion()) < 1.16) {
+                            log.info(String.format("[%s][Permission] %s below 1.16 is not compatible with Vault! Falling back to SuperPerms only mode. PLEASE UPDATE!", plugin.getDescription().getName(), name));
+                            return;
                         }
-                        permission.permission = (PermissionsEx) perms;
-                        log.info(String.format("[%s][Permission] %s hooked.", plugin.getDescription().getName(), permission.name));
+                    } catch (NumberFormatException e) {
+                        // Do nothing
                     }
+                    permission.permission = (PermissionsEx) perms;
+                    log.info(String.format("[%s][Permission] %s hooked.", plugin.getDescription().getName(), permission.name));
                 }
             }
         }
@@ -131,8 +129,8 @@ public class Permission_PermissionsEx extends Permission {
 
     @Override
     public boolean playerRemoveGroup(String worldName, String playerName, String groupName) {
-    	PermissionsEx.getPermissionManager().getUser(playerName).removeGroup(groupName);
-    	return true;
+        PermissionsEx.getPermissionManager().getUser(playerName).removeGroup(groupName);
+        return true;
     }
 
     @Override
@@ -215,7 +213,7 @@ public class Permission_PermissionsEx extends Permission {
             return false;
         }
     }
-    
+
     @Override
     public boolean playerAddTransient(String worldName, String player, String permission) {
         PermissionUser pPlayer = PermissionsEx.getPermissionManager().getUser(player);
@@ -226,62 +224,62 @@ public class Permission_PermissionsEx extends Permission {
             return false;
         }
     }
-    
+
     @Override
     public boolean playerAddTransient(String worldName, Player player, String permission) {
-    	return playerAddTransient(worldName, player.getName(), permission);
+        return playerAddTransient(worldName, player.getName(), permission);
     }
-    
+
     @Override
     public boolean playerAddTransient(String player, String permission) {
-    	return playerAddTransient(null, player, permission);
+        return playerAddTransient(null, player, permission);
     }
-    
+
     @Override
     public boolean playerAddTransient(Player player, String permission) {
-    	return playerAddTransient(null, player.getName(), permission);
+        return playerAddTransient(null, player.getName(), permission);
     }
 
     @Override
     public boolean playerRemoveTransient(String worldName, String player, String permission) {
-		PermissionUser pPlayer = PermissionsEx.getPermissionManager().getUser(player);
-		if (pPlayer != null) {
-			pPlayer.removeTimedPermission(permission, worldName);
-			return true;
-		} else {
-			return false;
-		}
+        PermissionUser pPlayer = PermissionsEx.getPermissionManager().getUser(player);
+        if (pPlayer != null) {
+            pPlayer.removeTimedPermission(permission, worldName);
+            return true;
+        } else {
+            return false;
+        }
     }
-    
+
     @Override
     public boolean playerRemoveTransient(Player player, String permission) {
-    	return playerRemoveTransient(null, player.getName(), permission);
+        return playerRemoveTransient(null, player.getName(), permission);
     }
-    
+
     @Override
     public boolean playerRemoveTransient(String worldName, Player player, String permission) {
-    	return playerRemoveTransient(worldName, player.getName(), permission);
+        return playerRemoveTransient(worldName, player.getName(), permission);
     }
-    
-	@Override
-	public boolean playerRemoveTransient(String player, String permission) {
-		return playerRemoveTransient(null, player, permission);
-	}
 
-	@Override
-	public String[] getGroups() {
-		PermissionGroup[] groups = PermissionsEx.getPermissionManager().getGroups();
-		if (groups == null || groups.length == 0)
-			return null;
-		String[] groupNames = new String[groups.length];
-		for (int i = 0; i < groups.length; i++) {
-			groupNames[i] = groups[i].getName();
-		}
-		return groupNames;
-	}
+    @Override
+    public boolean playerRemoveTransient(String player, String permission) {
+        return playerRemoveTransient(null, player, permission);
+    }
 
-	@Override
-	public boolean hasSuperPermsCompat() {
-		return true;
-	}
+    @Override
+    public String[] getGroups() {
+        PermissionGroup[] groups = PermissionsEx.getPermissionManager().getGroups();
+        if (groups == null || groups.length == 0)
+            return null;
+        String[] groupNames = new String[groups.length];
+        for (int i = 0; i < groups.length; i++) {
+            groupNames[i] = groups[i].getName();
+        }
+        return groupNames;
+    }
+
+    @Override
+    public boolean hasSuperPermsCompat() {
+        return true;
+    }
 }

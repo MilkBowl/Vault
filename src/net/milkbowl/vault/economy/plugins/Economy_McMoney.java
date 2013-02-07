@@ -113,7 +113,7 @@ public class Economy_McMoney implements Economy {
             if (economy.economy == null) {
                 Plugin eco = plugin.getServer().getPluginManager().getPlugin("McMoney");
 
-                if (eco != null && eco.isEnabled()) {
+                if (eco != null) {
                     economy.economy = McMoneyAPI.getInstance();
                     log.info(String.format("[%s][Economy] %s hooked.", plugin.getDescription().getName(), economy.name));
                 }

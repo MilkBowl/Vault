@@ -31,8 +31,8 @@ public interface Economy {
     public boolean isEnabled();
 
     /**
-     * Gets name of permission method
-     * @return Name of Permission Method
+     * Gets name of economy method
+     * @return Name of Ecoomy Method
      */
     public String getName();
 

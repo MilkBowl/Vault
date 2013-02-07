@@ -21,11 +21,9 @@
 			<systemPath>${project.basedir}/lib/DroxPerms-0.4.0-SNAPSHOT.jar</systemPath>
 		</dependency>
 		<dependency>
-			<groupId>net.krinsoft.privileges</groupId>
+			<groupId>net.krinsoft</groupId>
 			<artifactId>Privileges</artifactId>
-			<version>1.7b127</version>
-			<scope>system</scope>
-			<systemPath>${project.basedir}/lib/Privileges.jar</systemPath>
+			<version>1.7.4</version>
 		</dependency>
 		<dependency>
 			<groupId>org.tyrannyofheaven.bukkit</groupId>
@@ -231,11 +229,9 @@
 			<systemPath>${project.basedir}/lib/Craftconomy.jar</systemPath>
 		</dependency>
 		<dependency>
-			<groupId>me.greatmancode</groupId>
+			<groupId>com.greatmancode</groupId>
 			<artifactId>craftconomy3</artifactId>
-			<version>3.0.0</version>
-			<scope>system</scope>
-			<systemPath>${project.basedir}/lib/craftconomy3.jar</systemPath>
+			<version>3.1.0-SNAPSHOT</version>
 		</dependency>
 		<dependency>
 			<groupId>net.crystalyx.bukkit.simplyperms</groupId>
@@ -371,9 +367,17 @@ iConomy 4,5,6 BOSEconomy 6/7, EssentialsEcon, 3Co, MultiConomy, MineConomy, Econ
 			<id>bukkit-repo</id>
 			<url>http://repo.bukkit.org/content/groups/public/</url>
 		</repository>
-                <repository>
+        <repository>
 			<id>sdfeconomy-repo</id>
 			<url>http://omwah.sdf.org/maven/repo/snapshots/</url>
+		</repository>
+		<repository>
+			<id>greatman-repo</id>
+			<url>http://repo.greatmancode.com/content/groups/public/</url>
+		</repository>
+		<repository>
+		    <id>krinsoft</id>
+		    <url>http://files.krinsoft.net:8085/nexus/content/groups/public</url>
 		</repository>
 	</repositories>
 </project>
