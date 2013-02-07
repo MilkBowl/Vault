@@ -4,8 +4,7 @@ version: 1.2.23-b${BUILD_NUMBER}
 authors: [cereal, Sleaker, mung3r]
 website: http://dev.bukkit.org/server-mods/vault
 load: startup
-description: >
-             Abstraction Library for Bukkit Plugins
+description: Abstraction Library for Bukkit Plugins
 commands:
   vault-info:
     description: Displays information about Vault 

@@ -50,11 +50,9 @@ public class Permission_GroupManager extends Permission {
         // Load Plugin in case it was loaded before
         if (groupManager == null) {
             Plugin perms = plugin.getServer().getPluginManager().getPlugin("GroupManager");
-            if (perms != null) {
-                if (perms.isEnabled()) {
-                    groupManager = (GroupManager) perms;
-                    log.info(String.format("[%s][Permission] %s hooked.", plugin.getDescription().getName(), name));
-                }
+            if (perms != null && perms.isEnabled()) {
+                groupManager = (GroupManager) perms;
+                log.info(String.format("[%s][Permission] %s hooked.", plugin.getDescription().getName(), name));
             }
         }
     }
@@ -70,12 +68,10 @@ public class Permission_GroupManager extends Permission {
         public void onPluginEnable(PluginEnableEvent event) {
             if (permission.groupManager == null) {
                 Plugin perms = plugin.getServer().getPluginManager().getPlugin("GroupManager");
-
                 if (perms != null) {
-                    if (perms.isEnabled()) {
-                        permission.groupManager = (GroupManager) perms;
-                        log.info(String.format("[%s][Permission] %s hooked.", plugin.getDescription().getName(), permission.name));
-                    }
+                    permission.groupManager = (GroupManager) perms;
+                    log.info(String.format("[%s][Permission] %s hooked.", plugin.getDescription().getName(), permission.name));
+
                 }
             }
         }
