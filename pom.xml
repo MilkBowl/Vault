@@ -21,11 +21,10 @@
 			<systemPath>${project.basedir}/lib/DroxPerms-0.4.0-SNAPSHOT.jar</systemPath>
 		</dependency>
 		<dependency>
-			<groupId>net.krinsoft.privileges</groupId>
+			<groupId>net.krinsoft</groupId>
 			<artifactId>Privileges</artifactId>
-			<version>1.7b127</version>
+			<version>1.7.4</version>
 			<scope>system</scope>
-			<systemPath>${project.basedir}/lib/Privileges.jar</systemPath>
 		</dependency>
 		<dependency>
 			<groupId>org.tyrannyofheaven.bukkit</groupId>
@@ -376,6 +375,10 @@ iConomy 4,5,6 BOSEconomy 6/7, EssentialsEcon, 3Co, MultiConomy, MineConomy, Econ
 		<repository>
 			<id>greatman-repo</id>
 			<url>http://repo.greatmancode.com/content/groups/public/</url>
+		</repository>
+		<repository>
+		    <id>krinsoft</id>
+		    <url>http://files.krinsoft.net:8085/nexus/content/groups/public</url>
 		</repository>
 	</repositories>
 </project>
