@@ -11,7 +11,7 @@
 		<dependency>
 			<groupId>org.bukkit</groupId>
 			<artifactId>craftbukkit</artifactId>
-			<version>1.4.7-R0.1</version>
+			<version>1.4.7-R1.0</version>
 		</dependency>
 		<dependency>
 			<groupId>de.hydrox.bukkit.DroxPerms</groupId>
@@ -74,6 +74,13 @@
 			<scope>system</scope>
 			<systemPath>${project.basedir}/lib/bpermissions.jar</systemPath>
 		</dependency>
+		<dependency>
+            <groupId>com.github.sebc722</groupId>
+            <artifactId>xPerms</artifactId>
+            <version>1.1</version>
+            <scope>system</scope>
+            <systemPath>${project.basedir}/lib/Xperms.jar</systemPath>
+        </dependency>
 		<dependency>
 			<groupId>ca.agnate.EconXP.EconXP</groupId>
 			<artifactId>EconXP</artifactId>
