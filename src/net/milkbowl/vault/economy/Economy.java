@@ -85,6 +85,14 @@ public interface Economy {
      */
     public boolean hasAccount(String playerName);
 
+    /**
+     * Checks if this player has an account on the server yet on the given world
+     * This will always return true if the player has joined the server at least once
+     * as all major economy plugins auto-generate a player account when the player joins the server
+     * @param playerName
+     * @return if the player has an account
+     */
+    public boolean hasAccount(String playerName, String worldName);
 
     /**
      * Gets balance of a player
@@ -92,6 +100,15 @@ public interface Economy {
      * @return Amount currently held in players account
      */
     public double getBalance(String playerName);
+    
+    /**
+     * Gets balance of a player on the specified world.
+     * IMPLEMENTATION SPECIFIC - if an economy plugin does not support this the global balance will be returned.
+     * @param playerName
+     * @param world name of the world
+     * @return Amount currently held in players account
+     */
+    public double getBalance(String playerName, String world);
 
     /**
      * Checks if the player account has the amount - DO NOT USE NEGATIVE AMOUNTS
@@ -103,6 +120,16 @@ public interface Economy {
     public boolean has(String playerName, double amount);
     
     /**
+     * Checks if the player account has the amount in a given world - DO NOT USE NEGATIVE AMOUNTS
+     * IMPLEMENTATION SPECIFIC - if an economy plugin does not support this the global balance will be returned.
+     * @param playerName
+     * @param worldName
+     * @param amount
+     * @return True if <b>playerName</b> has <b>amount</b>, False else wise
+     */
+    public boolean has(String playerName, String worldName, double amount);
+    
+    /**
      * Withdraw an amount from a player - DO NOT USE NEGATIVE AMOUNTS
      * 
      * @param playerName Name of player
@@ -112,6 +139,16 @@ public interface Economy {
     public EconomyResponse withdrawPlayer(String playerName, double amount);
 
     /**
+     * Withdraw an amount from a player on a given world - DO NOT USE NEGATIVE AMOUNTS
+     * IMPLEMENTATION SPECIFIC - if an economy plugin does not support this the global balance will be returned.
+     * @param playerName Name of player
+     * @param worldName - name of the world
+     * @param amount Amount to withdraw
+     * @return Detailed response of transaction
+     */
+    public EconomyResponse withdrawPlayer(String playerName, String worldName, double amount);
+    
+    /**
      * Deposit an amount to a player - DO NOT USE NEGATIVE AMOUNTS
      * 
      * @param playerName Name of player
@@ -120,6 +157,15 @@ public interface Economy {
      */
     public EconomyResponse depositPlayer(String playerName, double amount);
 
+    /**
+     * Deposit an amount to a player - DO NOT USE NEGATIVE AMOUNTS
+     * IMPLEMENTATION SPECIFIC - if an economy plugin does not support this the global balance will be returned.
+     * @param playerName Name of player
+     * @param amount Amount to deposit
+     * @return Detailed response of transaction
+     */
+    public EconomyResponse depositPlayer(String playerName, String worldName, double amount);
+   
     /**
      * Creates a bank account with the specified name and the player as the owner
      * @param name
@@ -196,4 +242,11 @@ public interface Economy {
      * @return if the account creation was successful
      */
     public boolean createPlayerAccount(String playerName);
+    
+    /**
+     * Attempts to create a player account for the given player on the specified world
+     * IMPLEMENTATION SPECIFIC - if an economy plugin does not support this the global balance will be returned.
+     * @return if the account creation was successful
+     */
+    public boolean createPlayerAccount(String playerName, String worldName);
 }
