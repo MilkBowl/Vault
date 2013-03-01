@@ -238,7 +238,7 @@
 		<dependency>
 			<groupId>com.greatmancode</groupId>
 			<artifactId>craftconomy3</artifactId>
-			<version>3.1.0-SNAPSHOT</version>
+			<version>3.1.2</version>
 		</dependency>
 		<dependency>
 			<groupId>net.crystalyx.bukkit.simplyperms</groupId>
@@ -275,6 +275,7 @@
 		</dependency>
 	</dependencies>
 	<build>
+		<defaultGoal>clean install</defaultGoal>
 		<sourceDirectory>src/</sourceDirectory>
 		<resources>
 			<resource>
