@@ -35,7 +35,6 @@ import org.bukkit.plugin.Plugin;
 import com.greatmancode.craftconomy3.BukkitLoader;
 import com.greatmancode.craftconomy3.Common;
 import com.greatmancode.craftconomy3.account.Account;
-import com.greatmancode.craftconomy3.currency.CurrencyManager;
 import com.greatmancode.craftconomy3.database.tables.AccountTable;
 import com.greatmancode.craftconomy3.groups.WorldGroupsManager;
 
