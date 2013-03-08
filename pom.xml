@@ -210,9 +210,9 @@
 		<dependency>
 			<groupId>de.bananaco.permissions.Permissions</groupId>
 			<artifactId>bPermissions2</artifactId>
-			<version>2.9.12d</version>
+			<version>2.10.5</version>
 			<scope>system</scope>
-			<systemPath>${project.basedir}/lib/bpermissions2.jar</systemPath>
+			<systemPath>${project.basedir}/lib/bpermissions25.jar</systemPath>
 		</dependency>
 		<dependency>
 			<groupId>com.dthielke.starburst</groupId>
