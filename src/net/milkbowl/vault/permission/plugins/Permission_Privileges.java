@@ -18,7 +18,7 @@ import java.util.Set;
 
 public class Permission_Privileges extends Permission {
 
-    private final String name = "";
+    private final String name = "Privileges";
     private Privileges privs;
 
     public Permission_Privileges(Plugin plugin) {
