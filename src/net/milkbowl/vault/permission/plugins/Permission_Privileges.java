@@ -114,7 +114,7 @@ public class Permission_Privileges extends Permission {
     public boolean playerInGroup(String world, String player, String group) {
         OfflinePlayer p = Bukkit.getOfflinePlayer(player);
         Group g = privs.getGroupManager().getGroup(p);
-        return g != null && g.getGroupTree().contains(group);
+        return g != null && g.isMemberOf(group);
     }
 
     @Override
