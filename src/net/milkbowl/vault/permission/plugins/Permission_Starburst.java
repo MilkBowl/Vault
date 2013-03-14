@@ -299,4 +299,9 @@ public class Permission_Starburst extends Permission {
             return false;
         }
     }
+
+    @Override
+    public boolean hasGroupSupport() {
+        return true;
+    }
 }

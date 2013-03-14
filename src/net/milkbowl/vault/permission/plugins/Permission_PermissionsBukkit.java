@@ -232,4 +232,9 @@ public class Permission_PermissionsBukkit extends Permission {
     public boolean hasSuperPermsCompat() {
         return true;
     }
+
+    @Override
+    public boolean hasGroupSupport() {
+        return true;
+    }
 }
