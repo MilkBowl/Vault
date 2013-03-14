@@ -159,4 +159,9 @@ public class Permission_Privileges extends Permission {
     public boolean hasSuperPermsCompat() {
         return true;
     }
+
+    @Override
+    public boolean hasGroupSupport() {
+        return true;
+    }
 }

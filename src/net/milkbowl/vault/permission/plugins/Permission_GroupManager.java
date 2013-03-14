@@ -396,4 +396,9 @@ public class Permission_GroupManager extends Permission {
     public boolean hasSuperPermsCompat() {
         return true;
     }
+
+    @Override
+    public boolean hasGroupSupport() {
+        return true;
+    }
 }

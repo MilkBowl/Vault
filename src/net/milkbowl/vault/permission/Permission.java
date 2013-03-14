@@ -649,4 +649,10 @@ public abstract class Permission {
      * @return an Array of String of all groups
      */
     abstract public String[] getGroups();
+    
+    /**
+     * Returns true if the given implementation supports groups.
+     * @return true if the implementation supports groups
+     */
+    abstract public boolean hasGroupSupport();
 }

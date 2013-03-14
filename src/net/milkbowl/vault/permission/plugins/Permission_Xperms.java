@@ -177,4 +177,9 @@ public class Permission_Xperms extends Permission {
     public String[] getGroups() {
         return perms.getXperms().getGroups();
     }
+
+    @Override
+    public boolean hasGroupSupport() {
+        return true;
+    }
 }
