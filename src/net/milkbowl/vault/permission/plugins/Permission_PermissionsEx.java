@@ -282,4 +282,9 @@ public class Permission_PermissionsEx extends Permission {
     public boolean hasSuperPermsCompat() {
         return true;
     }
+
+    @Override
+    public boolean hasGroupSupport() {
+        return true;
+    }
 }

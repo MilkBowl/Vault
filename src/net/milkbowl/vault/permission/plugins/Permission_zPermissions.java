@@ -206,4 +206,9 @@ public class Permission_zPermissions extends Permission {
     public String[] getGroups() {
         return service.getAllGroups().toArray(new String[0]);
     }
+
+    @Override
+    public boolean hasGroupSupport() {
+        return true;
+    }
 }

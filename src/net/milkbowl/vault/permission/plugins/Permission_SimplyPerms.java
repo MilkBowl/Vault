@@ -219,4 +219,9 @@ public class Permission_SimplyPerms extends Permission{
         return perms.getAllGroups().toArray(new String[0]);
     }
 
+    @Override
+    public boolean hasGroupSupport() {
+        return true;
+    }
+
 }
