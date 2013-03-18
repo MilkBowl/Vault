@@ -19,7 +19,7 @@ import java.util.ArrayList;
 
 import net.milkbowl.vault.permission.Permission;
 
-import com.github.sebc722.Xperms.Xmain;
+import com.github.sebc722.xperms.core.Main;
 
 import org.bukkit.Bukkit;
 import org.bukkit.event.EventHandler;
@@ -32,7 +32,7 @@ import org.bukkit.plugin.Plugin;
 public class Permission_Xperms extends Permission {
 
     private final String name = "Xperms";
-    private Xmain permission = null;
+    private Main permission = null;
 
     public Permission_Xperms(Plugin plugin) {
     	this.plugin = plugin;
@@ -51,14 +51,14 @@ public class Permission_Xperms extends Permission {
     					log.info(String.format("[%s] [Permission] %s Current version is not compatibe with vault! Please Update!", plugin.getDescription().getName(), name);
     				}
     			}
-    			permission = (Xmain) perms;
+    			permission = (Main) perms;
                 log.info(String.format("[%s][Permission] %s hooked.", plugin.getDescription().getName(), name));
     		}
     	}
     }
 
     public class PermissionServerListener implements Listener {
-    	Xmain permission = null;
+    	Main permission = null;
     	
     	public PermissionServerListener(Permission_Xperms permission){
     		this.permission = permission;
@@ -82,7 +82,7 @@ public class Permission_Xperms extends Permission {
         					log.info(String.format("[%s] [Permission] %s Current version is not compatibe with vault! Please Update!", plugin.getDescription().getName(), name);
         				}
         			}
-        			permission.permission = (Xmain) perms;
+        			permission.permission = (Main) perms;
                     log.info(String.format("[%s][Permission] %s hooked.", plugin.getDescription().getName(), name));
         		}
         	}
@@ -116,71 +116,66 @@ public class Permission_Xperms extends Permission {
 
     @Override
     public boolean playerHas(String world, String player, String permission) {
-    	return permission.getXplayer().hasPermission(player, permission);
+    	return permission.getXplayer().hasPerm(world, player, permission);
     }
 
     @Override
     public boolean playerAdd(String world, String player, String permission) {
-    	return permission.getXplayer().addPermission(player, permission);
+    	return permission.getXplayer().addNode(world, player, permission);
     }
 
     @Override
     public boolean playerRemove(String world, String player, String permission) {
-    	return permission.getXplayer().removePermission(player, permission);
+    	return permission.getXplayer().removeNode(world, player, permission);
     }
 
     @Override
     public boolean groupHas(String world, String group, String permission) {
-    	return permission.getXgroup().hasPermission(group, permission);
+    	return permission.getXgroup().hasPerm(group, permission);
     }
 
     @Override
     public boolean groupAdd(String world, String group, String permission) {
-    	return permission.getXgroup().addPermission(group, permission);
+    	permission.getXgroup().addNode(group, permission);
+    	return true;
     }
 
     @Override
     public boolean groupRemove(String world, String group, String permission) {
-    	return permission.getXgroup().removePermission(group, permission)
+    	return permission.getXgroup().removeNode(group, permission)
     }
 
     @Override
     public boolean playerInGroup(String world, String player, String group) {
-    	String userGroup = permission.getXusers().getUserGroup(player);
-    	if(userGroup == group){
+    	String groupForWorld = permission.getXplayer().getGroupForWorld(player, world);
+    	if(groupForWorld.equals(group)){
     		return true;
     	}
-    	else{
-    		return false;
-    	}
+    	return false;
     }
 
     @Override
     public boolean playerAddGroup(String world, String player, String group) {
-    	return permission.getXplayer().setGroup(player, group);
+    	return permission.getXplayer().setPlayerGroup(world, player, group);
     }
 
     @Override
     public boolean playerRemoveGroup(String world, String player, String group) {
-    	return permission.getXplayer().setGroup(player, "def");
+    	return permission.getXplayer().setPlayerDefault(world, player);
     }
 
     @Override
     public String[] getPlayerGroups(String world, String player) {
-    	ArrayList<String> playerGroup = new ArrayList<String>();
-    	playerGroup.add(permission.getXusers().getUserGroup(player));
-    	String[] playerGroupArray = playerGroup.toArray(new String[0]);
-    	
-    	return playerGroupArray;
+    	return permission.getXplayer().getPlayerGroups(player);
     }
 
     @Override
     public String getPrimaryGroup(String world, String player) {
-    	return permission.getXusers().getUserGroup(player);
+    	return permission.getXplayer().getGroupForWorld(player, world);
     }
 
     @Override
     public String[] getGroups() {
-    	return permission.getXperms().getGroups();
+    	return permission.getXgroup().getGroups();
     }
 }
