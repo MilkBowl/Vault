@@ -72,16 +72,14 @@ public class Permission_Xperms extends Permission {
         	if(permission == null){
         		Plugin perms = plugin.getServer().getPluginManager().getPlugin("Xperms");
         		if(perms != null){
-        			if(perms.isEnabled()){
-        				try{
-        					if(Double.valueOf(perms.getDescription().getVersion()) < 1.1){
-        						log.info(String.format("[%s] [Permission] %s Current version is not compatible with vault! Please Update!", plugin.getDescription().getName(), name));
-        					}
-        				} catch(NumberFormatException e){
-        					// version is first release, numbered 1.0.0
-        					log.info(String.format("[%s] [Permission] %s Current version is not compatibe with vault! Please Update!", plugin.getDescription().getName(), name);
-        				}
-        			}
+    				try{
+    					if(Double.valueOf(perms.getDescription().getVersion()) < 1.1){
+    						log.info(String.format("[%s] [Permission] %s Current version is not compatible with vault! Please Update!", plugin.getDescription().getName(), name));
+    					}
+    				} catch(NumberFormatException e){
+    					// version is first release, numbered 1.0.0
+    					log.info(String.format("[%s] [Permission] %s Current version is not compatibe with vault! Please Update!", plugin.getDescription().getName(), name);
+    				}
         			permission.permission = (Main) perms;
                     log.info(String.format("[%s][Permission] %s hooked.", plugin.getDescription().getName(), name));
         		}
