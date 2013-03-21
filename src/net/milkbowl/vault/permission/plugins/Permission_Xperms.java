@@ -15,11 +15,9 @@
  */
 package net.milkbowl.vault.permission.plugins;
 
-import java.util.ArrayList;
-
 import net.milkbowl.vault.permission.Permission;
 
-import com.github.sebc722.Xperms.Xmain;
+import com.github.sebc722.xperms.core.Main;
 
 import org.bukkit.Bukkit;
 import org.bukkit.event.EventHandler;
@@ -32,7 +30,7 @@ import org.bukkit.plugin.Plugin;
 public class Permission_Xperms extends Permission {
 
     private final String name = "Xperms";
-    private Xmain perms = null;
+    private Main perms = null;
 
     public Permission_Xperms(Plugin plugin) {
         this.plugin = plugin;
@@ -40,7 +38,7 @@ public class Permission_Xperms extends Permission {
 
         if(perms == null){
             Plugin perms = plugin.getServer().getPluginManager().getPlugin("Xperms");
-            if(perms != null){
+            if(this.perms != null){
                 if(perms.isEnabled()){
                     try{
                         if(Double.valueOf(perms.getDescription().getVersion()) < 1.1){
@@ -51,7 +49,7 @@ public class Permission_Xperms extends Permission {
                         log.info(String.format("[%s] [Permission] %s Current version is not compatibe with vault! Please Update!", plugin.getDescription().getName(), name));
                     }
                 }
-                perms = (Xmain) perms;
+                this.perms = (Main) perms;
                 log.info(String.format("[%s][Permission] %s hooked.", plugin.getDescription().getName(), name));
             }
         }
@@ -60,27 +58,28 @@ public class Permission_Xperms extends Permission {
     public class PermissionServerListener implements Listener {
         Permission_Xperms permission = null;
 
-        public PermissionServerListener(Permission_Xperms permission) {
+        public PermissionServerListener(Permission_Xperms permission){
             this.permission = permission;
         }
 
         @EventHandler(priority = EventPriority.MONITOR)
-        public void onPluginEnable(PluginEnableEvent event) {
-            if (event.getPlugin().getDescription().getName().equals("Xperms")) {
-                Plugin perms = event.getPlugin();
-                try {
-                    if(Double.valueOf(perms.getDescription().getVersion()) < 1.1){
-                        log.info(String.format("[%s] [Permission] %s Current version is not compatible with vault! Please Update!", plugin.getDescription().getName(), name));
+        public void onPluginEnable(PluginEnableEvent event) {        	
+            if(permission == null){
+                Plugin perms = plugin.getServer().getPluginManager().getPlugin("Xperms");
+                if(perms != null){
+                    try{
+                        if(Double.valueOf(perms.getDescription().getVersion()) < 1.1){
+                            log.info(String.format("[%s] [Permission] %s Current version is not compatible with vault! Please Update!", plugin.getDescription().getName(), name));
+                        }
+                    } catch(NumberFormatException e){
+                        // version is first release, numbered 1.0.0
+                        log.info(String.format("[%s] [Permission] %s Current version is not compatibe with vault! Please Update!", plugin.getDescription().getName(), name));
                     }
-                } catch(NumberFormatException e){
-                    // version is first release, numbered 1.0.0
-                    log.info(String.format("[%s] [Permission] %s Current version is not compatibe with vault! Please Update!", plugin.getDescription().getName(), name));
+                    permission.perms = (Main) perms;
+                    log.info(String.format("[%s][Permission] %s hooked.", plugin.getDescription().getName(), name));
                 }
-                permission.perms = (Xmain) perms;
-                log.info(String.format("[%s][Permission] %s hooked.", plugin.getDescription().getName(), name));
             }
         }
-
 
         @EventHandler(priority = EventPriority.MONITOR)
         public void onPluginDisable(PluginDisableEvent event) {
@@ -110,72 +109,67 @@ public class Permission_Xperms extends Permission {
 
     @Override
     public boolean playerHas(String world, String player, String permission) {
-        return perms.getXplayer().hasPermission(player, permission);
+        return perms.getXplayer().hasPerm(world, player, permission);
     }
 
     @Override
     public boolean playerAdd(String world, String player, String permission) {
-        return perms.getXplayer().addPermission(player, permission);
+        return perms.getXplayer().addNode(world, player, permission);
     }
 
     @Override
     public boolean playerRemove(String world, String player, String permission) {
-        return perms.getXplayer().removePermission(player, permission);
+        return perms.getXplayer().removeNode(world, player, permission);
     }
 
     @Override
     public boolean groupHas(String world, String group, String permission) {
-        return perms.getXgroup().hasPermission(group, permission);
+        return perms.getXgroup().hasPerm(group, permission);
     }
 
     @Override
     public boolean groupAdd(String world, String group, String permission) {
-        return perms.getXgroup().addPermission(group, permission);
+        perms.getXgroup().addNode(group, permission);
+        return true;
     }
 
     @Override
     public boolean groupRemove(String world, String group, String permission) {
-        return perms.getXgroup().removePermission(group, permission);
+        return perms.getXgroup().removeNode(group, permission);
     }
 
     @Override
     public boolean playerInGroup(String world, String player, String group) {
-        String userGroup = perms.getXusers().getUserGroup(player);
-        if(userGroup == group){
+        String groupForWorld = perms.getXplayer().getGroupForWorld(player, world);
+        if(groupForWorld.equals(group)){
             return true;
         }
-        else{
-            return false;
-        }
+        return false;
     }
 
     @Override
     public boolean playerAddGroup(String world, String player, String group) {
-        return perms.getXplayer().setGroup(player, group);
+        return perms.getXplayer().setPlayerGroup(world, player, group);
     }
 
     @Override
     public boolean playerRemoveGroup(String world, String player, String group) {
-        return perms.getXplayer().setGroup(player, "def");
+        return perms.getXplayer().setPlayerDefault(world, player);
     }
 
     @Override
     public String[] getPlayerGroups(String world, String player) {
-        ArrayList<String> playerGroup = new ArrayList<String>();
-        playerGroup.add(perms.getXusers().getUserGroup(player));
-        String[] playerGroupArray = playerGroup.toArray(new String[0]);
-
-        return playerGroupArray;
+        return perms.getXplayer().getPlayerGroups(player);
     }
 
     @Override
     public String getPrimaryGroup(String world, String player) {
-        return perms.getXusers().getUserGroup(player);
+        return perms.getXplayer().getGroupForWorld(player, world);
     }
 
     @Override
     public String[] getGroups() {
-        return perms.getXperms().getGroups();
+        return perms.getXgroup().getGroups();
     }
 
     @Override
