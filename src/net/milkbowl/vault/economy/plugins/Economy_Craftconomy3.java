@@ -33,6 +33,7 @@ import org.bukkit.event.server.PluginEnableEvent;
 import org.bukkit.plugin.Plugin;
 
 import com.greatmancode.craftconomy3.BukkitLoader;
+import com.greatmancode.craftconomy3.Cause;
 import com.greatmancode.craftconomy3.Common;
 import com.greatmancode.craftconomy3.account.Account;
 import com.greatmancode.craftconomy3.database.tables.AccountTable;
@@ -288,7 +289,7 @@ public class Economy_Craftconomy3 implements Economy {
 
 	@Override
 	public boolean has(String playerName, String worldName, double amount) {
-		return getBalance(playerName, worldName) >= amount;
+		return Common.getInstance().getAccountManager().getAccount(playerName).hasEnough(amount, worldName, Common.getInstance().getCurrencyManager().getDefaultCurrency().getName());
 	}
 
 	@Override
@@ -300,7 +301,7 @@ public class Economy_Craftconomy3 implements Economy {
 		double balance;
 		Account account = Common.getInstance().getAccountManager().getAccount(playerName);
 		if (account.hasEnough(amount, worldName, Common.getInstance().getCurrencyManager().getDefaultCurrency().getName())) {
-			balance = account.withdraw(amount, worldName, Common.getInstance().getCurrencyManager().getDefaultCurrency().getName());
+			balance = account.withdraw(amount, worldName, Common.getInstance().getCurrencyManager().getDefaultCurrency().getName(), Cause.VAULT, null);
 			return new EconomyResponse(amount, balance, ResponseType.SUCCESS, "");
 		} else {
 			return new EconomyResponse(0, getBalance(playerName, worldName), ResponseType.FAILURE, "Insufficient funds");
@@ -315,7 +316,7 @@ public class Economy_Craftconomy3 implements Economy {
 
 		Account account = Common.getInstance().getAccountManager().getAccount(playerName);
 
-		double balance = account.deposit(amount, worldName, Common.getInstance().getCurrencyManager().getDefaultCurrency().getName());
+		double balance = account.deposit(amount, worldName, Common.getInstance().getCurrencyManager().getDefaultCurrency().getName(), Cause.VAULT, null);
 		return new EconomyResponse(amount, balance, ResponseType.SUCCESS, null);
 	}
 
