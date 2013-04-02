@@ -76,7 +76,8 @@ public class Items {
         items.add(new ItemInfo("Detector Rail", new String[][]{{"rail", "det"}, {"trac", "det"}, {"detec"}}, Material.DETECTOR_RAIL));
         items.add(new ItemInfo("Sticky Piston", new String[][]{{"stic", "pis"}}, Material.PISTON_STICKY_BASE));
         items.add(new ItemInfo("Web", new String[][]{{"web"}, {"cobw"}}, Material.WEB));
-        items.add(new ItemInfo("Dead Shrub", new String[][]{{"dead", "shru"}, {"dese", "shru"}}, Material.LONG_GRASS, (short) 0));
+        items.add(new ItemInfo("Shrub", new String[][]{{"shru"}}, Material.LONG_GRASS, (short) 0));
+        items.add(new ItemInfo("Dead Bush", new String[][]{{"bush"}}, Material.DEAD_BUSH));
         items.add(new ItemInfo("Tall Grass", new String[][]{{"tall", "gras"}, {"long", "gras"}}, Material.LONG_GRASS, (short) 1));
         items.add(new ItemInfo("Fern", new String[][]{{"fern"}}, Material.LONG_GRASS, (short) 2));
         items.add(new ItemInfo("Piston", new String[][]{{"pist"}}, Material.PISTON_BASE));
