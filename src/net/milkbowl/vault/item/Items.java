@@ -675,7 +675,6 @@ public class Items {
      */
     public static ItemInfo itemByName(String searchString) {
         ItemInfo matchedItem = null;
-        int matchedItemStrength = 0;
 
         if (searchString.matches("\\d+:\\d+")) {
             // Match on integer:short to get typeId and subTypeId
@@ -728,10 +727,7 @@ public class Items {
 
                     // THIS was a match
                     if (match) {
-                        if (matchedItem == null || attributes.length > matchedItemStrength) {
-                            matchedItem = item;
-                            matchedItemStrength = attributes.length;
-                        }
+                        matchedItem = item;
 
                         // This criteria was a match, lets break out of this item...no point testing alternate criteria's
                         break;
