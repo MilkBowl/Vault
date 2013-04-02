@@ -28,7 +28,7 @@
 		<dependency>
 			<groupId>org.tyrannyofheaven.bukkit</groupId>
 			<artifactId>zPermissions</artifactId>
-			<version>0.9.9</version>
+			<version>0.9.18-SNAPSHOT</version>
 			<scope>system</scope>
 			<systemPath>${project.basedir}/lib/zPermissions.jar</systemPath>
 		</dependency>
