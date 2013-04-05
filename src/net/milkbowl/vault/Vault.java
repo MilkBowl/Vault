@@ -34,6 +34,7 @@ import net.milkbowl.vault.chat.plugins.Chat_bPermissions2;
 import net.milkbowl.vault.chat.plugins.Chat_iChat;
 import net.milkbowl.vault.chat.plugins.Chat_mChat;
 import net.milkbowl.vault.chat.plugins.Chat_mChatSuite;
+import net.milkbowl.vault.chat.plugins.Chat_zPermissions;
 import net.milkbowl.vault.economy.Economy;
 import net.milkbowl.vault.economy.plugins.Economy_3co;
 import net.milkbowl.vault.economy.plugins.Economy_AEco;
@@ -191,6 +192,9 @@ public class Vault extends JavaPlugin {
 
         // Try to load iChat
         hookChat("iChat", Chat_iChat.class, ServicePriority.Low, "net.TheDgtl.iChat.iChat");
+
+        // Try to load zPermissions
+        hookChat("zPermissions", Chat_zPermissions.class, ServicePriority.Normal, "org.tyrannyofheaven.bukkit.zPermissions.model.EntityMetadata");
     }
 
     /**
