@@ -460,6 +460,8 @@ public class Items {
         items.add(new ItemInfo("Carrot on a Stick", new String[][]{{"sti", "carr"}}, Material.CARROT_STICK));
         items.add(new ItemInfo("Potato", new String[][]{{"pota"}}, Material.POTATO_ITEM));
         items.add(new ItemInfo("Potato Block", new String[][]{{"blo", "pota"}}, Material.POTATO));
+        items.add(new ItemInfo("Baked Potato", new String[][]{{"pota", "bak"}}, Material.BAKED_POTATO));
+        items.add(new ItemInfo("Poisonous Potato", new String[][]{{"pota", "poi"}}, Material.POISONOUS_POTATO));
         items.add(new ItemInfo("Wood Button", new String[][]{{"woo", "butto"}}, Material.WOOD_BUTTON));
         items.add(new ItemInfo("Pumpkin Pie", new String[][]{{"pie"}, {"pumpk", "pie"}}, Material.PUMPKIN_PIE));
         items.add(new ItemInfo("Potion of Invisibility", new String[][] {{"pot", "invi"}}, Material.POTION, (short) 8206));
@@ -506,7 +508,7 @@ public class Items {
         items.add(new ItemInfo("Quartz Stairs", new String[][]{{"qua", "stair"}}, Material.QUARTZ_STAIRS));
         items.add(new ItemInfo("Chiseled Quartz", new String[][]{{"qua", "chis"}}, Material.QUARTZ_BLOCK, (short) 1));
         items.add(new ItemInfo("Quartz Pillar", new String[][]{{"qua", "pil"}}, Material.QUARTZ_BLOCK, (short) 2));
-        items.add(new ItemInfo("Weighted Gold Plate", new String[][]{{"wei", "plat", "gol"}, {"pres", "plat", "iro"}}, Material.GOLD_PLATE));
+        items.add(new ItemInfo("Weighted Gold Plate", new String[][]{{"wei", "plat", "gol"}, {"pres", "plat", "gol"}}, Material.GOLD_PLATE));
         items.add(new ItemInfo("Weighted Iron Plate", new String[][]{{"wei", "plat", "iro"}, {"pres", "plat", "iro"}}, Material.IRON_PLATE));
     }
 
