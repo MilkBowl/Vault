@@ -25,11 +25,11 @@ import com.nijikokun.register.payment.Method;
 
 public class VaultEco implements Method {
 
-    private Vault vault;
+    private VaultPlugin plugin;
     private Economy economy;
 
-    public Vault getPlugin() {
-        return this.vault;
+    public VaultPlugin getPlugin() {
+        return plugin;
     }
 
     @Override
@@ -41,11 +41,11 @@ public class VaultEco implements Method {
     }
 
     public String getName() {
-        return this.vault.getDescription().getName();
+        return this.plugin.getDescription().getName();
     }
 
     public String getVersion() {
-        return this.vault.getDescription().getVersion();
+        return this.plugin.getDescription().getVersion();
     }
 
     public int fractionalDigits() {
@@ -97,8 +97,8 @@ public class VaultEco implements Method {
     }
 
     public void setPlugin(Plugin plugin) {
-        this.vault = (Vault) plugin;
-        RegisteredServiceProvider<Economy> economyProvider = this.vault.getServer().getServicesManager().getRegistration(Economy.class);
+        this.plugin = (VaultPlugin) plugin;
+        RegisteredServiceProvider<Economy> economyProvider = this.plugin.getServer().getServicesManager().getRegistration(Economy.class);
         if (economyProvider != null) {
             this.economy = economyProvider.getProvider();
         }

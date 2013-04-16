@@ -15,14 +15,7 @@
  */
 package net.milkbowl.vault;
 
-import java.io.IOException;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
-import java.net.URL;
-import java.util.Collection;
 import java.util.logging.Logger;
-
-import javax.xml.parsers.DocumentBuilderFactory;
 
 import net.milkbowl.vault.chat.Chat;
 import net.milkbowl.vault.chat.plugins.Chat_DroxPerms;
@@ -53,12 +46,12 @@ import net.milkbowl.vault.economy.plugins.Economy_Gringotts;
 import net.milkbowl.vault.economy.plugins.Economy_McMoney;
 import net.milkbowl.vault.economy.plugins.Economy_MineConomy;
 import net.milkbowl.vault.economy.plugins.Economy_MultiCurrency;
+import net.milkbowl.vault.economy.plugins.Economy_SDFEconomy;
 import net.milkbowl.vault.economy.plugins.Economy_XPBank;
 import net.milkbowl.vault.economy.plugins.Economy_eWallet;
 import net.milkbowl.vault.economy.plugins.Economy_iConomy4;
 import net.milkbowl.vault.economy.plugins.Economy_iConomy5;
 import net.milkbowl.vault.economy.plugins.Economy_iConomy6;
-import net.milkbowl.vault.economy.plugins.Economy_SDFEconomy;
 import net.milkbowl.vault.permission.Permission;
 import net.milkbowl.vault.permission.plugins.Permission_DroxPerms;
 import net.milkbowl.vault.permission.plugins.Permission_GroupManager;
@@ -74,94 +67,25 @@ import net.milkbowl.vault.permission.plugins.Permission_bPermissions;
 import net.milkbowl.vault.permission.plugins.Permission_bPermissions2;
 import net.milkbowl.vault.permission.plugins.Permission_zPermissions;
 
-import org.bukkit.Bukkit;
-import org.bukkit.OfflinePlayer;
-import org.bukkit.command.Command;
-import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Player;
-import org.bukkit.event.EventHandler;
-import org.bukkit.event.EventPriority;
-import org.bukkit.event.Listener;
-import org.bukkit.event.player.PlayerJoinEvent;
-import org.bukkit.event.server.PluginEnableEvent;
 import org.bukkit.plugin.Plugin;
-import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.ServicePriority;
 import org.bukkit.plugin.ServicesManager;
-import org.bukkit.plugin.java.JavaPlugin;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
 
-import com.nijikokun.register.payment.Methods;
-
-public class Vault extends JavaPlugin {
+public class Vault{
 
     private static final Logger log = Logger.getLogger("Minecraft");
     private Permission perms;
-    private double newVersion;
-    private double currentVersion;
+
     private ServicesManager sm;
-    private Metrics metrics;
+    private Plugin vault;
 
-    @Override
-    public void onDisable() {
-        // Remove all Service Registrations
-        getServer().getServicesManager().unregisterAll(this);
-        Bukkit.getScheduler().cancelTasks(this);
-    }
-
-    @Override
-    public void onEnable() {
-        currentVersion = Double.valueOf(getDescription().getVersion().split("-")[0].replaceFirst("\\.", ""));
-        sm = getServer().getServicesManager();
-        // Load Vault Addons
+    public Vault(ServicesManager sm, VaultPlugin vault) {
+        this.sm = sm;
+        this.vault = vault;
+        loadChat();
         loadEconomy();
         loadPermission();
-        loadChat();
-
-        getCommand("vault-info").setExecutor(this);
-        getCommand("vault-convert").setExecutor(this);
-        getServer().getPluginManager().registerEvents(new VaultListener(), this);
-
-        // Schedule to check the version every 30 minutes for an update. This is to update the most recent 
-        // version so if an admin reconnects they will be warned about newer versions.
-        this.getServer().getScheduler().runTaskTimerAsynchronously(this, new Runnable() {
-
-            @Override
-            public void run() {
-                try {
-                    newVersion = updateCheck(currentVersion);
-                    if (newVersion > currentVersion) {
-                        log.warning("Vault " + newVersion + " is out! You are running: Vault " + currentVersion);
-                        log.warning("Update Vault at: http://dev.bukkit.org/server-mods/vault");
-                    }
-                } catch (Exception e) {
-                    // ignore exceptions
-                }
-            }
-
-        }, 0, 432000);
-
-        // Load up the Plugin metrics
-        try {
-            String authors = "";
-            for (String author : this.getDescription().getAuthors()) {
-                authors += author + ", ";
-            }
-            if (!authors.isEmpty()) {
-                authors = authors.substring(0, authors.length() - 2);
-            }
-            metrics = new Metrics(getDescription().getVersion(), authors);
-            metrics.findCustomData(this);
-            metrics.beginMeasuringPlugin(this);
-        } catch (IOException e) {
-            // ignore exception
-        }
-        log.info(String.format("[%s] Enabled Version %s", getDescription().getName(), getDescription().getVersion()));
     }
-
     /**
      * Attempts to load Chat Addons
      */
@@ -311,174 +235,54 @@ public class Vault extends JavaPlugin {
         // Try to load Xperms
         hookPermission("Xperms", Permission_Xperms.class, ServicePriority.Low, "com.github.sebc722.Xperms");
 
-        Permission perms = new Permission_SuperPerms(this);
-        sm.register(Permission.class, perms, this, ServicePriority.Lowest);
-        log.info(String.format("[%s][Permission] SuperPermissions loaded as backup permission system.", getDescription().getName()));
+        Permission perms = new Permission_SuperPerms(vault);
+        sm.register(Permission.class, perms, vault, ServicePriority.Lowest);
+        log.info(String.format("[%s][Permission] SuperPermissions loaded as backup permission system.", vault.getDescription().getName()));
 
         this.perms = sm.getRegistration(Permission.class).getProvider();
     }
 
-    private void hookChat (String name, Class<? extends Chat> hookClass, ServicePriority priority, String...packages) {
+    public void hookChat (String name, Class<? extends Chat> hookClass, ServicePriority priority, String...packages) {
         try {
             if (packagesExists(packages)) {
-                Chat chat = hookClass.getConstructor(Plugin.class, Permission.class).newInstance(this, perms);
-                sm.register(Chat.class, chat, this, priority);
-                log.info(String.format("[%s][Chat] %s found: %s", getDescription().getName(), name, chat.isEnabled() ? "Loaded" : "Waiting"));
+                Chat chat = hookClass.getConstructor(Plugin.class, Permission.class).newInstance(vault, perms);
+                sm.register(Chat.class, chat, vault, priority);
+                log.info(String.format("[%s][Chat] %s found: %s", vault.getDescription().getName(), name, chat.isEnabled() ? "Loaded" : "Waiting"));
             }
         } catch (Exception e) {
-            log.severe(String.format("[%s][Chat] There was an error hooking %s - check to make sure you're using a compatible version!", getDescription().getName(), name));
+            log.severe(String.format("[%s][Chat] There was an error hooking %s - check to make sure you're using a compatible version!", vault.getDescription().getName(), name));
         }
     }
 
-    private void hookEconomy (String name, Class<? extends Economy> hookClass, ServicePriority priority, String...packages) {
+    public void hookEconomy (String name, Class<? extends Economy> hookClass, ServicePriority priority, String...packages) {
         try {
             if (packagesExists(packages)) {
-                Economy econ = hookClass.getConstructor(Plugin.class).newInstance(this);
-                sm.register(Economy.class, econ, this, priority);
-                log.info(String.format("[%s][Economy] %s found: %s", getDescription().getName(), name, econ.isEnabled() ? "Loaded" : "Waiting"));
+                Economy econ = hookClass.getConstructor(Plugin.class).newInstance(vault);
+                sm.register(Economy.class, econ, vault, priority);
+                log.info(String.format("[%s][Economy] %s found: %s", vault.getDescription().getName(), name, econ.isEnabled() ? "Loaded" : "Waiting"));
             }
-        } catch (Exception e) {
-            log.severe(String.format("[%s][Economy] There was an error hooking %s - check to make sure you're using a compatible version!", getDescription().getName(), name));
-        }
-    }
-
-    private void hookPermission (String name, Class<? extends Permission> hookClass, ServicePriority priority, String...packages) {
-        try {
-            if (packagesExists(packages)) {
-                Permission perms = hookClass.getConstructor(Plugin.class).newInstance(this);
-                sm.register(Permission.class, perms, this, priority);
-                log.info(String.format("[%s][Permission] %s found: %s", getDescription().getName(), name, perms.isEnabled() ? "Loaded" : "Waiting"));
-            }
-        } catch (Exception e) {
-            log.severe(String.format("[%s][Permission] There was an error hooking %s - check to make sure you're using a compatible version!", getDescription().getName(), name));
-        }
-    }
-
-    @Override
-    public boolean onCommand(CommandSender sender, Command command, String commandLabel, String[] args) {
-        if (sender instanceof Player) {
-            // Check if Player
-            // If so, ignore command if player is not Op
-            Player p = (Player) sender;
-            if (!p.isOp()) {
-                return true;
-            }
-        }
-
-        if (command.getName().equalsIgnoreCase("vault-info")) {
-            infoCommand(sender);
-            return true;
-        } else if (command.getName().equalsIgnoreCase("vault-convert")) {
-            convertCommand(sender, args);
-            return true;
-        } else {
-            // Show help
-            sender.sendMessage("Vault Commands:");
-            sender.sendMessage("  /vault-info - Displays information about Vault");
-            sender.sendMessage("  /vault-convert [economy1] [economy2] - Converts from one Economy to another");
-            return true;
-        }
-    }
-
-    private void convertCommand(CommandSender sender, String[] args) {
-        Collection<RegisteredServiceProvider<Economy>> econs = this.getServer().getServicesManager().getRegistrations(Economy.class);
-        if (econs == null || econs.size() < 2) {
-            sender.sendMessage("You must have at least 2 economies loaded to convert.");
-            return;
-        } else if (args.length != 2) {
-            sender.sendMessage("You must specify only the economy to convert from and the economy to convert to. (names should not contain spaces)");
-            return;
-        }
-        Economy econ1 = null;
-        Economy econ2 = null;
-        for (RegisteredServiceProvider<Economy> econ : econs) {
-            String econName = econ.getProvider().getName().replace(" ", "");
-            if (econName.equalsIgnoreCase(args[0])) {
-                econ1 = econ.getProvider();
-            } else if (econName.equalsIgnoreCase(args[1])) {
-                econ2 = econ.getProvider();
-            }
-        }
-
-        if (econ1 == null) {
-            sender.sendMessage("Could not find " + args[0] + " loaded on the server, check your spelling");
-            return;
-        } else if (econ2 == null) {
-            sender.sendMessage("Could not find " + args[1] + " loaded on the server, check your spelling");
-            return;
-        }
-
-        sender.sendMessage("This may take some time to convert, expect server lag.");
-        for (OfflinePlayer op : Bukkit.getServer().getOfflinePlayers()) {
-            String pName = op.getName();
-            if (econ1.hasAccount(pName)) {
-                if (econ2.hasAccount(pName)) {
-                    continue;
+            else{
+                for(String pkg : packages){
+                    log.warning("'" + pkg + "' do not exists!");
                 }
-                econ2.createPlayerAccount(pName);
-                econ2.depositPlayer(pName, econ1.getBalance(pName));
             }
+        } catch (Exception e) {
+            log.severe(String.format("[%s][Economy] There was an error hooking %s - check to make sure you're using a compatible version!", vault.getDescription().getName(), name));
+            e.printStackTrace();
         }
-        sender.sendMessage("Converson complete, please verify the data before using it.");
     }
 
-    private void infoCommand(CommandSender sender) {
-        // Get String of Registered Economy Services
-        String registeredEcons = null;
-        Collection<RegisteredServiceProvider<Economy>> econs = this.getServer().getServicesManager().getRegistrations(Economy.class);
-        for (RegisteredServiceProvider<Economy> econ : econs) {
-            Economy e = econ.getProvider();
-            if (registeredEcons == null) {
-                registeredEcons = e.getName();
-            } else {
-                registeredEcons += ", " + e.getName();
+    public void hookPermission (String name, Class<? extends Permission> hookClass, ServicePriority priority, String...packages) {
+        try {
+            if (packagesExists(packages)) {
+                Permission perms = hookClass.getConstructor(Plugin.class).newInstance(vault);
+                sm.register(Permission.class, perms, vault, priority);
+                log.info(String.format("[%s][Permission] %s found: %s", vault.getDescription().getName(), name, perms.isEnabled() ? "Loaded" : "Waiting"));
             }
+        } catch (Exception e) {
+            log.severe(String.format("[%s][Permission] There was an error hooking %s - check to make sure you're using a compatible version!", vault.getDescription().getName(), name));
+            e.printStackTrace();
         }
-
-        // Get String of Registered Permission Services
-        String registeredPerms = null;
-        Collection<RegisteredServiceProvider<Permission>> perms = this.getServer().getServicesManager().getRegistrations(Permission.class);
-        for (RegisteredServiceProvider<Permission> perm : perms) {
-            Permission p = perm.getProvider();
-            if (registeredPerms == null) {
-                registeredPerms = p.getName();
-            } else {
-                registeredPerms += ", " + p.getName();
-            }
-        }
-
-        String registeredChats = null;
-        Collection<RegisteredServiceProvider<Chat>> chats = this.getServer().getServicesManager().getRegistrations(Chat.class);
-        for (RegisteredServiceProvider<Chat> chat : chats) {
-            Chat c = chat.getProvider();
-            if (registeredChats == null) {
-                registeredChats = c.getName();
-            } else {
-                registeredChats += ", " + c.getName();
-            }
-        }
-
-        // Get Economy & Permission primary Services
-        RegisteredServiceProvider<Economy> rsp = getServer().getServicesManager().getRegistration(Economy.class);
-        Economy econ = null;
-        if (rsp != null) {
-            econ = rsp.getProvider();
-        }
-        Permission perm = null;
-        RegisteredServiceProvider<Permission> rspp = getServer().getServicesManager().getRegistration(Permission.class);
-        if (rspp != null) {
-            perm = rspp.getProvider();
-        }
-        Chat chat = null;
-        RegisteredServiceProvider<Chat> rspc = getServer().getServicesManager().getRegistration(Chat.class);
-        if (rspc != null) {
-            chat = rspc.getProvider();
-        }
-        // Send user some info!
-        sender.sendMessage(String.format("[%s] Vault v%s Information", getDescription().getName(), getDescription().getVersion()));
-        sender.sendMessage(String.format("[%s] Economy: %s [%s]", getDescription().getName(), econ == null ? "None" : econ.getName(), registeredEcons));
-        sender.sendMessage(String.format("[%s] Permission: %s [%s]", getDescription().getName(), perm == null ? "None" : perm.getName(), registeredPerms));
-        sender.sendMessage(String.format("[%s] Chat: %s [%s]", getDescription().getName(), chat == null ? "None" : chat.getName(), registeredChats));
     }
 
     /**
@@ -500,70 +304,7 @@ public class Vault extends JavaPlugin {
         }
     }
 
-    public double updateCheck(double currentVersion) throws Exception {
-        String pluginUrlString = "http://dev.bukkit.org/server-mods/vault/files.rss";
-        try {
-            URL url = new URL(pluginUrlString);
-            Document doc = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(url.openConnection().getInputStream());
-            doc.getDocumentElement().normalize();
-            NodeList nodes = doc.getElementsByTagName("item");
-            Node firstNode = nodes.item(0);
-            if (firstNode.getNodeType() == 1) {
-                Element firstElement = (Element)firstNode;
-                NodeList firstElementTagName = firstElement.getElementsByTagName("title");
-                Element firstNameElement = (Element) firstElementTagName.item(0);
-                NodeList firstNodes = firstNameElement.getChildNodes();
-                return Double.valueOf(firstNodes.item(0).getNodeValue().replace("Vault", "").replaceFirst(".", "").trim());
-            }
-        }
-        catch (Exception localException) {
-        }
-        return currentVersion;
-    }
-
-    public class VaultListener implements Listener {
-
-        @EventHandler(priority = EventPriority.MONITOR)
-        public void onPlayerJoin(PlayerJoinEvent event) {
-            Player player = event.getPlayer();
-            if (perms.has(player, "vault.admin")) {
-                try {
-                    if (newVersion > currentVersion) {
-                        player.sendMessage(newVersion + " is out! You are running " + currentVersion);
-                        player.sendMessage("Update Vault at: http://dev.bukkit.org/server-mods/vault");
-                    }
-                } catch (Exception e) {
-                    // Ignore exceptions
-                }
-            }
-        }
-
-        @EventHandler(priority = EventPriority.MONITOR)
-        public void onPluginEnable(PluginEnableEvent event) {
-            if (event.getPlugin().getDescription().getName().equals("Register") && packagesExists("com.nijikokun.register.payment.Methods")) {
-                if (!Methods.hasMethod()) {
-                    try {
-                        Method m = Methods.class.getMethod("addMethod", Methods.class);
-                        m.setAccessible(true);
-                        m.invoke(null, "Vault", new net.milkbowl.vault.VaultEco());
-                        if (!Methods.setPreferred("Vault")) {
-                            log.info("Unable to hook register");
-                        } else {
-                            log.info("[Vault] - Successfully injected Vault methods into Register.");
-                        }
-                    } catch (SecurityException e) {
-                        log.info("Unable to hook register");
-                    } catch (NoSuchMethodException e) {
-                        log.info("Unable to hook register");
-                    } catch (IllegalArgumentException e) {
-                        log.info("Unable to hook register");
-                    } catch (IllegalAccessException e) {
-                        log.info("Unable to hook register");
-                    } catch (InvocationTargetException e) {
-                        log.info("Unable to hook register");
-                    }
-                }
-            }
-        }
+    public Permission getPerms() {
+        return perms;
     }
 }
