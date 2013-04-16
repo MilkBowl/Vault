@@ -163,7 +163,7 @@ public class Metrics {
         return graph;
     }
 
-    public void findCustomData(Vault plugin) {
+    public void findCustomData(VaultPlugin plugin) {
         // Create our Economy Graph and Add our Economy plotters
         Graph econGraph = createGraph(plugin, Graph.Type.Pie, "Economy");
         RegisteredServiceProvider<Economy> rspEcon = Bukkit.getServer().getServicesManager().getRegistration(Economy.class);
