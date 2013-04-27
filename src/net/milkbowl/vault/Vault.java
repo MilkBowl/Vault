@@ -294,7 +294,7 @@ public class Vault extends JavaPlugin {
         hookPermission("bPermissions 2", Permission_bPermissions2.class, ServicePriority.Highest, "de.bananaco.bpermissions.api.WorldManager");
 
         // Try to load zPermission
-        hookPermission("zPermissions", Permission_zPermissions.class, ServicePriority.Highest, "org.tyrannyofheaven.bukkit.zPermissions.ZPermissionsPlugin");
+        hookPermission("zPermissions", Permission_zPermissions.class, ServicePriority.High, "org.tyrannyofheaven.bukkit.zPermissions.ZPermissionsPlugin");
 
         // Try to load Privileges
         hookPermission("Privileges", Permission_Privileges.class, ServicePriority.Highest, "net.krinsoft.privileges.Privileges");

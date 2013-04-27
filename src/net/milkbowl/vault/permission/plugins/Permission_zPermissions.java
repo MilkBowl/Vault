@@ -15,6 +15,8 @@
  */
 package net.milkbowl.vault.permission.plugins;
 
+import java.util.Collections;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -35,9 +37,12 @@ import org.tyrannyofheaven.bukkit.zPermissions.ZPermissionsService;
 
 public class Permission_zPermissions extends Permission {
 
+    private static final String PRIMARY_GROUP_TRACK_METADATA_KEY = "Vault.primary-group.track";
+
     private final String name = "zPermissions";
     private ZPermissionsService service;
     private final ConsoleCommandSender ccs;
+    private boolean trackSupport;
 
     public Permission_zPermissions(Plugin plugin) {
         this.plugin = plugin;
@@ -46,8 +51,10 @@ public class Permission_zPermissions extends Permission {
         // Load service in case it was loaded before
         if (service == null) {
             service = plugin.getServer().getServicesManager().load(ZPermissionsService.class);
-            if (service != null)
+            if (service != null) {
                 log.info(String.format("[%s][Permission] %s hooked.", plugin.getDescription().getName(), name));
+                detectTrackMethods();
+            }
         }
     }
 
@@ -57,8 +64,10 @@ public class Permission_zPermissions extends Permission {
         public void onPluginEnable(PluginEnableEvent event) {
             if (service == null) {
                 service = plugin.getServer().getServicesManager().load(ZPermissionsService.class);
-                if (service != null)
+                if (service != null) {
                     log.info(String.format("[%s][Permission] %s hooked.", plugin.getDescription().getName(), name));
+                    detectTrackMethods();
+                }
             }
         }
 
@@ -113,7 +122,7 @@ public class Permission_zPermissions extends Permission {
     @Override
     public boolean playerAdd(String world, String player, String permission) {
         if (world != null) {
-            return false;
+            permission = world + ":" + permission;
         }
         return plugin.getServer().dispatchCommand(ccs, "permissions player " + player + " set " + permission);
     }
@@ -121,7 +130,7 @@ public class Permission_zPermissions extends Permission {
     @Override
     public boolean playerRemove(String world, String player, String permission) {
         if (world != null) {
-            return false;
+            permission = world + ":" + permission;
         }
         return plugin.getServer().dispatchCommand(ccs, "permissions player " + player + " unset " + permission);
     }
@@ -145,7 +154,7 @@ public class Permission_zPermissions extends Permission {
     @Override
     public boolean groupAdd(String world, String group, String permission) {
         if (world != null) {
-            return false;
+            permission = world + ":" + permission;
         }
         return plugin.getServer().dispatchCommand(ccs, "permissions group " + group + " set " + permission);
     }
@@ -153,7 +162,7 @@ public class Permission_zPermissions extends Permission {
     @Override
     public boolean groupRemove(String world, String group, String permission) {
         if (world != null) {
-            return false;
+            permission = world + ":" + permission;
         }
         return plugin.getServer().dispatchCommand(ccs, "permissions group " + group + " unset " + permission);
     }
@@ -193,6 +202,25 @@ public class Permission_zPermissions extends Permission {
 
     @Override
     public String getPrimaryGroup(String world, String player) {
+        try {
+            if (trackSupport) {
+                String track = service.getPlayerMetadata(player, PRIMARY_GROUP_TRACK_METADATA_KEY, String.class);
+                if (track != null && !"".equals(track)) {
+                    List<String> groups = service.getTrackGroups(track);
+                    Collections.reverse(groups); // groups is now high rank to low
+
+                    Set<String> trackGroups = new LinkedHashSet<String>(groups);
+                    trackGroups.retainAll(service.getPlayerAssignedGroups(player)); // intersection with all assigned groups
+
+                    if (!trackGroups.isEmpty())
+                        return trackGroups.iterator().next(); // return highest-ranked group in given track
+                }
+            }
+        }
+        catch (IllegalStateException e) {
+            log.warning("Bad property '" + PRIMARY_GROUP_TRACK_METADATA_KEY + "' for " + player + "; is it a string and does the track exist?");
+        }
+
         // Has no concept of primary group... use highest-priority assigned group instead
         List<String> groups = service.getPlayerAssignedGroups(player);
         if (!groups.isEmpty()) {
@@ -211,4 +239,18 @@ public class Permission_zPermissions extends Permission {
     public boolean hasGroupSupport() {
         return true;
     }
+
+    private void detectTrackMethods() {
+        try {
+            service.getClass().getMethod("getTrackGroups", String.class);
+            trackSupport = true;
+        }
+        catch (SecurityException e) {
+            trackSupport = false;
+        }
+        catch (NoSuchMethodException e) {
+            trackSupport = false;
+        }
+    }
+
 }
