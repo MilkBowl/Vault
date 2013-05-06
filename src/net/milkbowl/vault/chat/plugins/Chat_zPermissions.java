@@ -89,7 +89,7 @@ public class Chat_zPermissions extends Chat {
 
     @Override
     public String getPlayerPrefix(String world, String player) {
-        return service.getPlayerMetadata(player, "prefix", String.class);
+        return getPlayerInfoString(world, player, "prefix", "");
     }
 
     @Override
@@ -99,7 +99,7 @@ public class Chat_zPermissions extends Chat {
 
     @Override
     public String getPlayerSuffix(String world, String player) {
-        return service.getPlayerMetadata(player, "suffix", String.class);
+        return getPlayerInfoString(world, player, "suffix", "");
     }
 
     @Override
@@ -109,7 +109,7 @@ public class Chat_zPermissions extends Chat {
 
     @Override
     public String getGroupPrefix(String world, String group) {
-        return service.getGroupMetadata(group, "prefix", String.class);
+        return getGroupInfoString(world, group, "prefix", "");
     }
 
     @Override
@@ -119,7 +119,7 @@ public class Chat_zPermissions extends Chat {
 
     @Override
     public String getGroupSuffix(String world, String group) {
-        return service.getGroupMetadata(group, "suffix", String.class);
+        return getGroupInfoString(world, group, "suffix", "");
     }
 
     @Override
