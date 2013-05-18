@@ -5,6 +5,7 @@ import org.bukkit.event.HandlerList;
 
 public class VaultPermissionCheckEvent extends Event {
 
+	private static final HandlerList handlers = new HandlerList();
 	private State state = State.DEFAULT;
 	private String player;
 	private String world;
@@ -20,7 +21,11 @@ public class VaultPermissionCheckEvent extends Event {
 	
 	@Override
 	public HandlerList getHandlers() {
-		return null;
+		return handlers;
+	}
+	
+	public static HandlerList getHandlerList() {
+	    return handlers;
 	}
 	
 	/**
