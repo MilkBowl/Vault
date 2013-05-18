@@ -1,7 +1,5 @@
 package net.milkbowl.vault.permission.Events;
 
-import org.bukkit.World;
-import org.bukkit.event.Cancellable;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 
@@ -37,6 +35,48 @@ public class VaultPermissionCheckEvent extends Event {
 	 */
 	public void setState(State state) {
 		this.state = state;
+	}
+
+	/**
+	 * @return the player
+	 */
+	public String getPlayer() {
+		return player;
+	}
+
+	/**
+	 * @return the world
+	 */
+	public String getWorld() {
+		return world;
+	}
+
+	/**
+	 * @param world the world to set
+	 */
+	public void setWorld(String world) {
+		this.world = world;
+	}
+
+	/**
+	 * @return the permissionSystem
+	 */
+	public String getPermissionSystem() {
+		return permissionSystem;
+	}
+
+	/**
+	 * @return the permissionNode
+	 */
+	public String getPermissionNode() {
+		return permissionNode;
+	}
+
+	/**
+	 * @param permissionNode the permissionNode to set
+	 */
+	public void setPermissionNode(String permissionNode) {
+		this.permissionNode = permissionNode;
 	}
 
 	public enum State {
