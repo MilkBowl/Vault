@@ -23,6 +23,8 @@ import java.util.Map;
 import net.crystalyx.bukkit.simplyperms.SimplyAPI;
 import net.crystalyx.bukkit.simplyperms.SimplyPlugin;
 import net.milkbowl.vault.permission.Permission;
+import net.milkbowl.vault.permission.Events.VaultPermissionCheckEvent;
+import net.milkbowl.vault.permission.Events.VaultPermissionCheckEvent.State;
 
 import org.bukkit.Bukkit;
 import org.bukkit.event.EventHandler;
@@ -97,6 +99,16 @@ public class Permission_SimplyPerms extends Permission{
 
     @Override
     public boolean playerHas(String world, String player, String permission) {
+    	
+    	VaultPermissionCheckEvent event = new VaultPermissionCheckEvent(player, world, getName(), permission);
+    	Bukkit.getServer().getPluginManager().callEvent(event);
+    	
+    	if (event.getState() == State.TRUE) {
+    		return true;
+    	} else if (event.getState() == State.FALSE) {
+    		return false;
+    	}
+    	
         permission = permission.toLowerCase();
         Map<String, Boolean> playerPermissions = this.perms.getPlayerPermissions(player, world);
         return playerPermissions.containsKey(permission) && playerPermissions.get(permission);
