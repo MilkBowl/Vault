@@ -3,6 +3,9 @@ package net.milkbowl.vault.permission.plugins;
 import net.krinsoft.privileges.Privileges;
 import net.krinsoft.privileges.groups.Group;
 import net.milkbowl.vault.permission.Permission;
+import net.milkbowl.vault.permission.Events.VaultPermissionCheckEvent;
+import net.milkbowl.vault.permission.Events.VaultPermissionCheckEvent.State;
+
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
@@ -76,6 +79,16 @@ public class Permission_Privileges extends Permission {
 
     @Override
     public boolean playerHas(String world, String player, String permission) {
+    	
+    	VaultPermissionCheckEvent event = new VaultPermissionCheckEvent(player, world, getName(), permission);
+    	Bukkit.getServer().getPluginManager().callEvent(event);
+    	
+    	if (event.getState() == State.TRUE) {
+    		return true;
+    	} else if (event.getState() == State.FALSE) {
+    		return false;
+    	}
+    	
         Player p = plugin.getServer().getPlayer(player);
         return p != null && p.hasPermission(permission);
     }

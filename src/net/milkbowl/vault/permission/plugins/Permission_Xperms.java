@@ -16,6 +16,8 @@
 package net.milkbowl.vault.permission.plugins;
 
 import net.milkbowl.vault.permission.Permission;
+import net.milkbowl.vault.permission.Events.VaultPermissionCheckEvent;
+import net.milkbowl.vault.permission.Events.VaultPermissionCheckEvent.State;
 
 import com.github.sebc722.xperms.core.Main;
 
@@ -109,6 +111,16 @@ public class Permission_Xperms extends Permission {
 
     @Override
     public boolean playerHas(String world, String player, String permission) {
+    	
+    	VaultPermissionCheckEvent event = new VaultPermissionCheckEvent(player, world, getName(), permission);
+    	Bukkit.getServer().getPluginManager().callEvent(event);
+    	
+    	if (event.getState() == State.TRUE) {
+    		return true;
+    	} else if (event.getState() == State.FALSE) {
+    		return false;
+    	}
+    	
         return perms.getXplayer().hasPerm(world, player, permission);
     }
 

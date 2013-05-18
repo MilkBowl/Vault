@@ -20,6 +20,8 @@ import java.util.HashSet;
 import java.util.Set;
 
 import net.milkbowl.vault.permission.Permission;
+import net.milkbowl.vault.permission.Events.VaultPermissionCheckEvent;
+import net.milkbowl.vault.permission.Events.VaultPermissionCheckEvent.State;
 
 import org.anjocaido.groupmanager.GroupManager;
 import org.anjocaido.groupmanager.data.Group;
@@ -99,6 +101,14 @@ public class Permission_GroupManager extends Permission {
 
     @Override
     public boolean playerHas(String worldName, String playerName, String permission) {
+    	VaultPermissionCheckEvent event = new VaultPermissionCheckEvent(playerName, worldName, getName(), permission);
+    	Bukkit.getServer().getPluginManager().callEvent(event);
+    	
+    	if (event.getState() == State.TRUE) {
+    		return true;
+    	} else if (event.getState() == State.FALSE) {
+    		return false;
+    	}
         AnjoPermissionsHandler handler;
         if (worldName == null) {
             handler = groupManager.getWorldsHolder().getWorldPermissionsByPlayerName(playerName);

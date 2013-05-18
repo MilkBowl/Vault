@@ -17,6 +17,10 @@ package net.milkbowl.vault.permission;
 
 import java.util.logging.Logger;
 
+import net.milkbowl.vault.permission.Events.VaultPermissionCheckEvent;
+import net.milkbowl.vault.permission.Events.VaultPermissionCheckEvent.State;
+
+import org.bukkit.Bukkit;
 import org.bukkit.World;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -62,10 +66,12 @@ public abstract class Permission {
      * @return Success or Failure
      */
     public boolean has(String world, String player, String permission) {
-        if (world == null) {
-            return playerHas((String) null, player, permission);
-        }
-        return playerHas(world, player, permission);
+    	
+        	if (world == null) {
+        		return playerHas((String) null, player, permission);
+    	}
+        	return playerHas(world, player, permission);	
+        
     }
 
     /**
@@ -79,6 +85,7 @@ public abstract class Permission {
      * @return Success or Failure
      */
     public boolean has(World world, String player, String permission) {
+    	
         if (world == null) {
             return playerHas((String) null, player, permission);
         }
@@ -96,6 +103,14 @@ public abstract class Permission {
      * @return true if the sender has the permission
      */
     public boolean has(CommandSender sender, String permission) {
+    	VaultPermissionCheckEvent event = new VaultPermissionCheckEvent(sender.getName(), null, getName(), permission);
+    	Bukkit.getServer().getPluginManager().callEvent(event);
+    	
+    	if (event.getState() == State.TRUE) {
+    		return true;
+    	} else if (event.getState() == State.FALSE) {
+    		return false;
+    	}
         return sender.hasPermission(permission);
     }
     
@@ -106,6 +121,14 @@ public abstract class Permission {
      * @return Success or Failure
      */
     public boolean has(Player player, String permission) {
+    	VaultPermissionCheckEvent event = new VaultPermissionCheckEvent(player.getName(), null, getName(), permission);
+    	Bukkit.getServer().getPluginManager().callEvent(event);
+    	
+    	if (event.getState() == State.TRUE) {
+    		return true;
+    	} else if (event.getState() == State.FALSE) {
+    		return false;
+    	}
         return player.hasPermission(permission);
     }
 

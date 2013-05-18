@@ -19,6 +19,8 @@ import java.util.HashSet;
 import java.util.Set;
 
 import net.milkbowl.vault.permission.Permission;
+import net.milkbowl.vault.permission.Events.VaultPermissionCheckEvent;
+import net.milkbowl.vault.permission.Events.VaultPermissionCheckEvent.State;
 
 import org.bukkit.Bukkit;
 import org.bukkit.World;
@@ -216,6 +218,16 @@ public class Permission_Permissions3 extends Permission {
 
     @Override
     public boolean playerHas(String worldName, String playerName, String permission) {
+    	
+    	VaultPermissionCheckEvent event = new VaultPermissionCheckEvent(playerName, worldName, getName(), permission);
+    	Bukkit.getServer().getPluginManager().callEvent(event);
+    	
+    	if (event.getState() == State.TRUE) {
+    		return true;
+    	} else if (event.getState() == State.FALSE) {
+    		return false;
+    	}
+    	
         Player p = plugin.getServer().getPlayer(playerName);
         if (p != null) {
             if (p.hasPermission(permission))
