@@ -25,7 +25,6 @@ import net.milkbowl.vault.permission.Permission;
 
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
-import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -41,12 +40,10 @@ public class Permission_zPermissions extends Permission {
 
     private final String name = "zPermissions";
     private ZPermissionsService service;
-    private final ConsoleCommandSender ccs;
     private boolean trackSupport;
 
     public Permission_zPermissions(Plugin plugin) {
         this.plugin = plugin;
-        ccs = Bukkit.getServer().getConsoleSender();
         Bukkit.getServer().getPluginManager().registerEvents(new PermissionServerListener(), plugin);
         // Load service in case it was loaded before
         if (service == null) {
@@ -124,7 +121,7 @@ public class Permission_zPermissions extends Permission {
         if (world != null) {
             permission = world + ":" + permission;
         }
-        return plugin.getServer().dispatchCommand(ccs, "permissions player " + player + " set " + permission);
+        return plugin.getServer().dispatchCommand(plugin.getServer().getConsoleSender(), "permissions player " + player + " set " + permission);
     }
 
     @Override
@@ -132,7 +129,7 @@ public class Permission_zPermissions extends Permission {
         if (world != null) {
             permission = world + ":" + permission;
         }
-        return plugin.getServer().dispatchCommand(ccs, "permissions player " + player + " unset " + permission);
+        return plugin.getServer().dispatchCommand(plugin.getServer().getConsoleSender(), "permissions player " + player + " unset " + permission);
     }
 
     @Override
@@ -156,7 +153,7 @@ public class Permission_zPermissions extends Permission {
         if (world != null) {
             permission = world + ":" + permission;
         }
-        return plugin.getServer().dispatchCommand(ccs, "permissions group " + group + " set " + permission);
+        return plugin.getServer().dispatchCommand(plugin.getServer().getConsoleSender(), "permissions group " + group + " set " + permission);
     }
 
     @Override
@@ -164,7 +161,7 @@ public class Permission_zPermissions extends Permission {
         if (world != null) {
             permission = world + ":" + permission;
         }
-        return plugin.getServer().dispatchCommand(ccs, "permissions group " + group + " unset " + permission);
+        return plugin.getServer().dispatchCommand(plugin.getServer().getConsoleSender(), "permissions group " + group + " unset " + permission);
     }
 
     @Override
@@ -181,18 +178,12 @@ public class Permission_zPermissions extends Permission {
 
     @Override
     public boolean playerAddGroup(String world, String player, String group) {
-        if (world != null) {
-            return false;
-        }
-        return plugin.getServer().dispatchCommand(ccs, "permissions group " + group + " add " + player);
+        return plugin.getServer().dispatchCommand(plugin.getServer().getConsoleSender(), "permissions group " + group + " add " + player);
     }
 
     @Override
     public boolean playerRemoveGroup(String world, String player, String group) {
-        if (world != null) {
-            return false;
-        }
-        return plugin.getServer().dispatchCommand(ccs, "permissions group " + group + " remove " + player);
+        return plugin.getServer().dispatchCommand(plugin.getServer().getConsoleSender(), "permissions group " + group + " remove " + player);
     }
 
     @Override
