@@ -32,12 +32,12 @@ import org.bukkit.event.server.PluginDisableEvent;
 import org.bukkit.event.server.PluginEnableEvent;
 import org.bukkit.plugin.Plugin;
 
-import com.greatmancode.craftconomy3.BukkitLoader;
 import com.greatmancode.craftconomy3.Cause;
 import com.greatmancode.craftconomy3.Common;
 import com.greatmancode.craftconomy3.account.Account;
 import com.greatmancode.craftconomy3.database.tables.AccountTable;
 import com.greatmancode.craftconomy3.groups.WorldGroupsManager;
+import com.greatmancode.craftconomy3.tools.interfaces.BukkitLoader;
 
 public class Economy_Craftconomy3 implements Economy {
 	private static final Logger log = Logger.getLogger("Minecraft");
@@ -71,7 +71,7 @@ public class Economy_Craftconomy3 implements Economy {
 			if (economy.economy == null) {
 				Plugin ec = plugin.getServer().getPluginManager().getPlugin("Craftconomy3");
 
-				if (ec != null && ec.getClass().getName().equals("com.greatmancode.craftconomy3.BukkitLoader")) {
+				if (ec != null && ec.getClass().getName().equals("com.greatmancode.craftconomy3.tools.interfaces.BukkitLoader")) {
 					economy.economy = (BukkitLoader) ec;
 					log.info(String.format("[%s][Economy] %s hooked.", plugin.getDescription().getName(), economy.name));
 				}
