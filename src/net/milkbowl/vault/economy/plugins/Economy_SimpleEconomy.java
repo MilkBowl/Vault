@@ -37,7 +37,7 @@ import org.vanillaworld.SimpleEconomy.Main;
 public class Economy_SimpleEconomy implements Economy {
     private static final Logger log = Logger.getLogger("Minecraft");
 
-    private String name = "SimpleEconomy ";
+    private String name = "SimpleEconomy";
     private Plugin plugin = null;
     protected Main economy = null;
 
@@ -48,8 +48,6 @@ public class Economy_SimpleEconomy implements Economy {
         if (economy == null) {
             Plugin ec = plugin.getServer().getPluginManager().getPlugin("SimpleEconomy");
             if (ec != null && ec.isEnabled() && ec.getClass().getName().equals("org.vanillaworld.SimpleEconomy.Main")) {
-                String version = ec.getDescription().getVersion().split("\\.")[0];
-                name += version;
                 log.info(String.format("[%s][Economy] %s hooked.", plugin.getDescription().getName(), name));
             }
         }
