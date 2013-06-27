@@ -273,6 +273,13 @@
 		    <artifactId>SDFEconomy</artifactId>
 		    <version>0.1.0-SNAPSHOT</version>
 		</dependency>
+        <dependency>
+			<groupId>net.ae97</groupId>
+			<artifactId>TotalPermissions</artifactId>
+			<version>0.2.1</version>
+			<scope>system</scope>
+			<systemPath>${project.basedir}/lib/TotalPermissions.jar</systemPath>
+		</dependency>
 	</dependencies>
 	<build>
 		<defaultGoal>clean install</defaultGoal>

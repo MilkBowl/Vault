@@ -74,6 +74,7 @@ import net.milkbowl.vault.permission.plugins.Permission_Xperms;
 import net.milkbowl.vault.permission.plugins.Permission_bPermissions;
 import net.milkbowl.vault.permission.plugins.Permission_bPermissions2;
 import net.milkbowl.vault.permission.plugins.Permission_zPermissions;
+import net.milkbowl.vault.permission.plugins.Permission_TotalPermissions;
 
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
@@ -314,6 +315,9 @@ public class Vault extends JavaPlugin {
         
         // Try to load Xperms
         hookPermission("Xperms", Permission_Xperms.class, ServicePriority.Low, "com.github.sebc722.Xperms");
+
+        //Try to load TotalPermissions
+        hookPermission("TotalPermissions", Permission_TotalPermissions.class, ServicePriority.Normal, "net.ae97.totalpermissions.TotalPermissions");
 
         Permission perms = new Permission_SuperPerms(this);
         sm.register(Permission.class, perms, this, ServicePriority.Lowest);
