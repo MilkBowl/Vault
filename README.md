@@ -98,6 +98,7 @@ Github and we'll get to it at our convenience.
    - SuperPerms
    - SimplyPerms
    - Group Manager (Essentials) (http://forums.bukkit.org/threads/15312/)
+   - TotalPermissions (http://dev.bukkit.org/bukkit-mods/totalpermissions)
 
   * Chat
     - iChat
