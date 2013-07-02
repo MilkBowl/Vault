@@ -10,8 +10,8 @@
 	<dependencies>
 		<dependency>
 			<groupId>org.bukkit</groupId>
-			<artifactId>craftbukkit</artifactId>
-			<version>1.5.2-R0.2-SNAPSHOT</version>
+			<artifactId>bukkit</artifactId>
+			<version>1.6.1-R0.1-SNAPSHOT</version>
 		</dependency>
 		<dependency>
 			<groupId>de.hydrox.bukkit.DroxPerms</groupId>
