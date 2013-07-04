@@ -13,8 +13,8 @@ import org.bukkit.event.server.PluginDisableEvent;
 import org.bukkit.event.server.PluginEnableEvent;
 import org.bukkit.plugin.Plugin;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Permission_Privileges extends Permission {
 
@@ -148,7 +148,7 @@ public class Permission_Privileges extends Permission {
 
     @Override
     public String[] getGroups() {
-        Set<String> groups = new HashSet<String>();
+        List<String> groups = new ArrayList<String>();
         for (Group g : privs.getGroupManager().getGroups()) {
             groups.add(g.getName());
         }

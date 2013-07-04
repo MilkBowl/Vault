@@ -29,6 +29,7 @@ import net.milkbowl.vault.chat.plugins.Chat_DroxPerms;
 import net.milkbowl.vault.chat.plugins.Chat_GroupManager;
 import net.milkbowl.vault.chat.plugins.Chat_Permissions3;
 import net.milkbowl.vault.chat.plugins.Chat_PermissionsEx;
+import net.milkbowl.vault.chat.plugins.Chat_Privileges;
 import net.milkbowl.vault.chat.plugins.Chat_bPermissions;
 import net.milkbowl.vault.chat.plugins.Chat_bPermissions2;
 import net.milkbowl.vault.chat.plugins.Chat_iChat;
@@ -73,6 +74,7 @@ import net.milkbowl.vault.permission.plugins.Permission_Xperms;
 import net.milkbowl.vault.permission.plugins.Permission_bPermissions;
 import net.milkbowl.vault.permission.plugins.Permission_bPermissions2;
 import net.milkbowl.vault.permission.plugins.Permission_zPermissions;
+import net.milkbowl.vault.permission.plugins.Permission_TotalPermissions;
 
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
@@ -146,16 +148,9 @@ public class Vault extends JavaPlugin {
 
         // Load up the Plugin metrics
         try {
-            String authors = "";
-            for (String author : this.getDescription().getAuthors()) {
-                authors += author + ", ";
-            }
-            if (!authors.isEmpty()) {
-                authors = authors.substring(0, authors.length() - 2);
-            }
-            metrics = new Metrics(getDescription().getVersion(), authors);
-            metrics.findCustomData(this);
-            metrics.beginMeasuringPlugin(this);
+            metrics = new Metrics(this);
+            metrics.findCustomData();
+            metrics.start();
         } catch (IOException e) {
             // ignore exception
         }
@@ -195,6 +190,9 @@ public class Vault extends JavaPlugin {
 
         // Try to load zPermissions
         hookChat("zPermissions", Chat_zPermissions.class, ServicePriority.Normal, "org.tyrannyofheaven.bukkit.zPermissions.model.EntityMetadata");
+
+        // Try to load Privileges
+        hookChat("Privileges", Chat_Privileges.class, ServicePriority.Normal, "net.krinsoft.privileges.Privileges");
     }
 
     /**
@@ -217,7 +215,7 @@ public class Vault extends JavaPlugin {
         hookEconomy("CraftConomy", Economy_Craftconomy.class, ServicePriority.Normal, "me.greatman.Craftconomy.Craftconomy");
 
         // Try to load Craftconomy3
-        hookEconomy("CraftConomy3", Economy_Craftconomy3.class, ServicePriority.Normal, "com.greatmancode.craftconomy3.BukkitLoader");
+        hookEconomy("CraftConomy3", Economy_Craftconomy3.class, ServicePriority.Normal, "com.greatmancode.craftconomy3.tools.interfaces.BukkitLoader");
 
         // Try to load eWallet
         hookEconomy("eWallet", Economy_eWallet.class, ServicePriority.Normal, "me.ethan.eWallet.ECO");
@@ -294,7 +292,7 @@ public class Vault extends JavaPlugin {
         hookPermission("bPermissions 2", Permission_bPermissions2.class, ServicePriority.Highest, "de.bananaco.bpermissions.api.WorldManager");
 
         // Try to load zPermission
-        hookPermission("zPermissions", Permission_zPermissions.class, ServicePriority.Highest, "org.tyrannyofheaven.bukkit.zPermissions.ZPermissionsPlugin");
+        hookPermission("zPermissions", Permission_zPermissions.class, ServicePriority.High, "org.tyrannyofheaven.bukkit.zPermissions.ZPermissionsPlugin");
 
         // Try to load Privileges
         hookPermission("Privileges", Permission_Privileges.class, ServicePriority.Highest, "net.krinsoft.privileges.Privileges");
@@ -310,6 +308,9 @@ public class Vault extends JavaPlugin {
         
         // Try to load Xperms
         hookPermission("Xperms", Permission_Xperms.class, ServicePriority.Low, "com.github.sebc722.Xperms");
+
+        //Try to load TotalPermissions
+        hookPermission("TotalPermissions", Permission_TotalPermissions.class, ServicePriority.Normal, "net.ae97.totalpermissions.TotalPermissions");
 
         Permission perms = new Permission_SuperPerms(this);
         sm.register(Permission.class, perms, this, ServicePriority.Lowest);

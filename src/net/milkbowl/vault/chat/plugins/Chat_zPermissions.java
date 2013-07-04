@@ -21,7 +21,6 @@ import net.milkbowl.vault.chat.Chat;
 import net.milkbowl.vault.permission.Permission;
 
 import org.bukkit.Bukkit;
-import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
@@ -40,12 +39,9 @@ public class Chat_zPermissions extends Chat {
 
     private ZPermissionsService service;
 
-    private final ConsoleCommandSender ccs;
-
     public Chat_zPermissions(Plugin plugin, Permission perms) {
         super(perms);
         this.plugin = plugin;
-        ccs = Bukkit.getServer().getConsoleSender();
         Bukkit.getServer().getPluginManager().registerEvents(new PermissionServerListener(), plugin);
         // Load service in case it was loaded before
         if (service == null) {
@@ -89,42 +85,42 @@ public class Chat_zPermissions extends Chat {
 
     @Override
     public String getPlayerPrefix(String world, String player) {
-        return service.getPlayerMetadata(player, "prefix", String.class);
+        return getPlayerInfoString(world, player, "prefix", "");
     }
 
     @Override
     public void setPlayerPrefix(String world, String player, String prefix) {
-        plugin.getServer().dispatchCommand(ccs, "permissions player " + player + " metadata set prefix " + prefix);
+        setPlayerInfoString(world, player, "prefix", prefix);
     }
 
     @Override
     public String getPlayerSuffix(String world, String player) {
-        return service.getPlayerMetadata(player, "suffix", String.class);
+        return getPlayerInfoString(world, player, "suffix", "");
     }
 
     @Override
     public void setPlayerSuffix(String world, String player, String suffix) {
-        plugin.getServer().dispatchCommand(ccs, "permissions player " + player + " metadata set suffix " + suffix);
+        setPlayerInfoString(world, player, "suffix", suffix);
     }
 
     @Override
     public String getGroupPrefix(String world, String group) {
-        return service.getGroupMetadata(group, "prefix", String.class);
+        return getGroupInfoString(world, group, "prefix", "");
     }
 
     @Override
     public void setGroupPrefix(String world, String group, String prefix) {
-        plugin.getServer().dispatchCommand(ccs, "permissions group " + group + " metadata set prefix " + prefix);
+        setGroupInfoString(world, group, "prefix", prefix);
     }
 
     @Override
     public String getGroupSuffix(String world, String group) {
-        return service.getGroupMetadata(group, "suffix", String.class);
+        return getGroupInfoString(world, group, "suffix", "");
     }
 
     @Override
     public void setGroupSuffix(String world, String group, String suffix) {
-        plugin.getServer().dispatchCommand(ccs, "permissions group " + group + " metadata set suffix " + suffix);
+        setGroupInfoString(world, group, "suffix", suffix);
     }
 
     @Override
@@ -138,7 +134,7 @@ public class Chat_zPermissions extends Chat {
 
     @Override
     public void setPlayerInfoInteger(String world, String player, String node, int value) {
-        plugin.getServer().dispatchCommand(ccs, "permissions player " + player + " metadata setint " + node + " " + value);
+        plugin.getServer().dispatchCommand(plugin.getServer().getConsoleSender(), "permissions player " + player + " metadata setint " + node + " " + value);
     }
 
     @Override
@@ -152,7 +148,7 @@ public class Chat_zPermissions extends Chat {
 
     @Override
     public void setGroupInfoInteger(String world, String group, String node, int value) {
-        plugin.getServer().dispatchCommand(ccs, "permissions group " + group + " metadata setint " + node + " " + value);
+        plugin.getServer().dispatchCommand(plugin.getServer().getConsoleSender(), "permissions group " + group + " metadata setint " + node + " " + value);
     }
 
     @Override
@@ -166,7 +162,7 @@ public class Chat_zPermissions extends Chat {
 
     @Override
     public void setPlayerInfoDouble(String world, String player, String node, double value) {
-        plugin.getServer().dispatchCommand(ccs, "permissions player " + player + " metadata setreal " + node + " " + value);
+        plugin.getServer().dispatchCommand(plugin.getServer().getConsoleSender(), "permissions player " + player + " metadata setreal " + node + " " + value);
     }
 
     @Override
@@ -180,7 +176,7 @@ public class Chat_zPermissions extends Chat {
 
     @Override
     public void setGroupInfoDouble(String world, String group, String node, double value) {
-        plugin.getServer().dispatchCommand(ccs, "permissions group " + group + " metadata setreal " + node + " " + value);
+        plugin.getServer().dispatchCommand(plugin.getServer().getConsoleSender(), "permissions group " + group + " metadata setreal " + node + " " + value);
     }
 
     @Override
@@ -194,7 +190,7 @@ public class Chat_zPermissions extends Chat {
 
     @Override
     public void setPlayerInfoBoolean(String world, String player, String node, boolean value) {
-        plugin.getServer().dispatchCommand(ccs, "permissions player " + player + " metadata setbool " + node + " " + value);
+        plugin.getServer().dispatchCommand(plugin.getServer().getConsoleSender(), "permissions player " + player + " metadata setbool " + node + " " + value);
     }
 
     @Override
@@ -208,7 +204,7 @@ public class Chat_zPermissions extends Chat {
 
     @Override
     public void setGroupInfoBoolean(String world, String group, String node, boolean value) {
-        plugin.getServer().dispatchCommand(ccs, "permissions group " + group + " metadata setbool " + node + " " + value);
+        plugin.getServer().dispatchCommand(plugin.getServer().getConsoleSender(), "permissions group " + group + " metadata setbool " + node + " " + value);
     }
 
     @Override
@@ -222,7 +218,7 @@ public class Chat_zPermissions extends Chat {
 
     @Override
     public void setPlayerInfoString(String world, String player, String node, String value) {
-        plugin.getServer().dispatchCommand(ccs, "permissions player " + player + " metadata set " + node + " " + value);
+        plugin.getServer().dispatchCommand(plugin.getServer().getConsoleSender(), "permissions player " + player + " metadata set " + node + " " + quote(value));
     }
 
     @Override
@@ -236,7 +232,15 @@ public class Chat_zPermissions extends Chat {
 
     @Override
     public void setGroupInfoString(String world, String group, String node, String value) {
-        plugin.getServer().dispatchCommand(ccs, "permissions group " + group + " metadata set " + node + " " + value);
+        plugin.getServer().dispatchCommand(plugin.getServer().getConsoleSender(), "permissions group " + group + " metadata set " + node + " " + quote(value));
+    }
+
+    private String quote(String input) {
+        input = input.replaceAll("\\\\", "\\\\\\\\").replaceAll("\"", "\\\\\"");
+        if (input.matches(".*\\s.*"))
+            return "\"" + input + "\""; // Enclose in quotes
+        else
+            return input;
     }
 
 }

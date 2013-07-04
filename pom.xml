@@ -10,8 +10,8 @@
 	<dependencies>
 		<dependency>
 			<groupId>org.bukkit</groupId>
-			<artifactId>craftbukkit</artifactId>
-			<version>1.5.1-R0.2-SNAPSHOT</version>
+			<artifactId>bukkit</artifactId>
+			<version>1.6.1-R0.1-SNAPSHOT</version>
 		</dependency>
 		<dependency>
 			<groupId>de.hydrox.bukkit.DroxPerms</groupId>
@@ -28,7 +28,7 @@
 		<dependency>
 			<groupId>org.tyrannyofheaven.bukkit</groupId>
 			<artifactId>zPermissions</artifactId>
-			<version>0.9.18-SNAPSHOT</version>
+			<version>0.9.19-SNAPSHOT</version>
 			<scope>system</scope>
 			<systemPath>${project.basedir}/lib/zPermissions.jar</systemPath>
 		</dependency>
@@ -238,7 +238,7 @@
 		<dependency>
 			<groupId>com.greatmancode</groupId>
 			<artifactId>craftconomy3</artifactId>
-			<version>3.1.3-SNAPSHOT</version>
+			<version>3.1.4-SNAPSHOT</version>
 		</dependency>
 		<dependency>
 			<groupId>net.crystalyx.bukkit.simplyperms</groupId>
@@ -272,6 +272,13 @@
 		    <groupId>com.github.omwah</groupId>
 		    <artifactId>SDFEconomy</artifactId>
 		    <version>0.1.0-SNAPSHOT</version>
+		</dependency>
+        <dependency>
+			<groupId>net.ae97</groupId>
+			<artifactId>TotalPermissions</artifactId>
+			<version>0.2.1</version>
+			<scope>system</scope>
+			<systemPath>${project.basedir}/lib/TotalPermissions.jar</systemPath>
 		</dependency>
 	</dependencies>
 	<build>
