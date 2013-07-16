@@ -1,10 +1,12 @@
-name: Vault
-main: net.milkbowl.vault.Vault
-version: 1.2.25-b${BUILD_NUMBER}
+name: ${project.name}
+version: ${project.version}-b${BUILD_NUMBER}
+description: ${project.description}
 authors: [cereal, Sleaker, mung3r]
-website: http://dev.bukkit.org/server-mods/vault
+website: ${project.url}
+
+main: ${mainClass}
 load: startup
-description: Abstraction Library for Bukkit Plugins
+
 commands:
   vault-info:
     description: Displays information about Vault 
