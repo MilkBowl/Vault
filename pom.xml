@@ -57,6 +57,10 @@ Vault currently supports the following: Permissions 3, PEX, GroupManager, bPerms
 		    <id>krinsoft</id>
 		    <url>http://files.krinsoft.net:8085/nexus/content/groups/public</url>
 		</repository>
+		<repository>
+			<id>escapecraft-repo</id>
+			<url>http://dev.escapecraft.com/maven</url>
+		</repository>
 	</repositories>
 
 	<dependencies>
@@ -73,11 +77,9 @@ Vault currently supports the following: Permissions 3, PEX, GroupManager, bPerms
 			<systemPath>${project.basedir}/lib/MiConomy.jar</systemPath>
 		</dependency>
 		<dependency>
-			<groupId>de.hydrox.bukkit.DroxPerms</groupId>
+			<groupId>de.hydrox.bukkit</groupId>
 			<artifactId>DroxPerms</artifactId>
-			<version>0.4.0-SNAPSHOT</version>
-			<scope>system</scope>
-			<systemPath>${project.basedir}/lib/DroxPerms-0.4.0-SNAPSHOT.jar</systemPath>
+			<version>0.5.0</version>
 		</dependency>
 		<dependency>
 			<groupId>net.krinsoft</groupId>
