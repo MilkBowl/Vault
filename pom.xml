@@ -13,6 +13,13 @@
 			<artifactId>bukkit</artifactId>
 			<version>1.6.1-R0.1-SNAPSHOT</version>
 		</dependency>
+        <dependency>
+			<groupId>com.gmail.bleedobsidian.miconomy</groupId>
+			<artifactId>MiConomy</artifactId>
+			<version>1.0</version>
+			<scope>system</scope>
+			<systemPath>${project.basedir}/lib/MiConomy.jar</systemPath>
+		</dependency>
 		<dependency>
 			<groupId>de.hydrox.bukkit.DroxPerms</groupId>
 			<artifactId>DroxPerms</artifactId>
@@ -75,12 +82,12 @@
 			<systemPath>${project.basedir}/lib/bpermissions.jar</systemPath>
 		</dependency>
 		<dependency>
-            <groupId>com.github.sebc722</groupId>
-            <artifactId>xPerms</artifactId>
-            <version>1.1</version>
-            <scope>system</scope>
-            <systemPath>${project.basedir}/lib/Xperms.jar</systemPath>
-        </dependency>
+			<groupId>com.github.sebc722</groupId>
+			<artifactId>xPerms</artifactId>
+			<version>1.1</version>
+			<scope>system</scope>
+			<systemPath>${project.basedir}/lib/Xperms.jar</systemPath>
+		</dependency>
 		<dependency>
 			<groupId>ca.agnate.EconXP.EconXP</groupId>
 			<artifactId>EconXP</artifactId>
@@ -273,7 +280,7 @@
 		    <artifactId>SDFEconomy</artifactId>
 		    <version>0.1.0-SNAPSHOT</version>
 		</dependency>
-        <dependency>
+                <dependency>
 			<groupId>net.ae97</groupId>
 			<artifactId>TotalPermissions</artifactId>
 			<version>0.2.1</version>
