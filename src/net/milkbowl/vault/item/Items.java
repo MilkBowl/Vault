@@ -510,6 +510,48 @@ public class Items {
         items.add(new ItemInfo("Quartz Pillar", new String[][]{{"qua", "pil"}}, Material.QUARTZ_BLOCK, (short) 2));
         items.add(new ItemInfo("Weighted Gold Plate", new String[][]{{"wei", "plat", "gol"}, {"pres", "plat", "gol"}}, Material.GOLD_PLATE));
         items.add(new ItemInfo("Weighted Iron Plate", new String[][]{{"wei", "plat", "iro"}, {"pres", "plat", "iro"}}, Material.IRON_PLATE));
+        //1.6 Blocks and Items
+        items.add(new ItemInfo("Horse Spawn Egg", new String[][] {{"horse", "egg"}}, Material.MONSTER_EGG, (short) 100));
+        items.add(new ItemInfo("Diamond Horse Armor", new String[][] {{"dia", "horse", "arm"}, {"dia", "bard"}}, Material.DIAMOND_BARDING));
+        items.add(new ItemInfo("Gold Horse Armor", new String[][] {{"gold", "horse", "arm"}, {"gold", "bard"}}, Material.GOLD_BARDING));
+        items.add(new ItemInfo("Iron Horse Armor", new String[][] {{"iron", "horse", "arm"}, {"iron", "bard"}}, Material.IRON_BARDING));
+        items.add(new ItemInfo("Leash", new String[][] {{"leas"}, {"lead"}}, Material.LEASH));
+        items.add(new ItemInfo("Hay Bale", new String[][] {{"hay", "bale"}, {"hay", "block"}}, Material.HAY_BLOCK));
+        items.add(new ItemInfo("Name Tag", new String[][] {{"name", "tag"}}, Material.NAME_TAG));
+        items.add(new ItemInfo("Hardened Clay", new String[][]{{"hard", "clay"}}, Material.HARD_CLAY));
+        items.add(new ItemInfo("Block of Coal", new String[][]{{"coal", "block"}}, Material.COAL_BLOCK));
+        items.add(new ItemInfo("White Clay", new String[][]{{"clay", "whit"}, {"clay"}}, Material.STAINED_CLAY));
+        items.add(new ItemInfo("Orange Clay", new String[][]{{"clay", "ora"}}, Material.STAINED_CLAY, (short) 1));
+        items.add(new ItemInfo("Magenta Clay", new String[][]{{"clay", "mag"}}, Material.STAINED_CLAY, (short) 2));
+        items.add(new ItemInfo("Light Blue Clay", new String[][]{{"clay", "lig", "blue"}}, Material.STAINED_CLAY, (short) 3));
+        items.add(new ItemInfo("Yellow Clay", new String[][]{{"clay", "yell"}}, Material.STAINED_CLAY, (short) 4));
+        items.add(new ItemInfo("Light Green Clay", new String[][]{{"clay", "lig", "gree"}, {"clay", "gree"}}, Material.STAINED_CLAY, (short) 5));
+        items.add(new ItemInfo("Pink Clay", new String[][]{{"clay", "pink"}}, Material.STAINED_CLAY, (short) 6));
+        items.add(new ItemInfo("Gray Clay", new String[][]{{"clay", "gray"}, {"clay", "grey"}}, Material.STAINED_CLAY, (short) 7));
+        items.add(new ItemInfo("Light Gray Clay", new String[][]{{"lig", "clay", "gra"}, {"lig", "clay", "gre"}}, Material.STAINED_CLAY, (short) 8));
+        items.add(new ItemInfo("Cyan Clay", new String[][]{{"clay", "cya"}}, Material.STAINED_CLAY, (short) 9));
+        items.add(new ItemInfo("Purple Clay", new String[][]{{"clay", "pur"}}, Material.STAINED_CLAY, (short) 10));
+        items.add(new ItemInfo("Blue Clay", new String[][]{{"clay", "blue"}}, Material.STAINED_CLAY, (short) 11));
+        items.add(new ItemInfo("Brown Clay", new String[][]{{"clay", "brow"}}, Material.STAINED_CLAY, (short) 12));
+        items.add(new ItemInfo("Dark Green Clay", new String[][]{{"clay", "dar", "gree"}, {"clay", "gree"}}, Material.STAINED_CLAY, (short) 13));
+        items.add(new ItemInfo("Red Clay", new String[][]{{"clay", "red"}}, Material.STAINED_CLAY, (short) 14));
+        items.add(new ItemInfo("Black Clay", new String[][]{{"clay", "bla"}}, Material.STAINED_CLAY, (short) 15));
+        items.add(new ItemInfo("White Carpet", new String[][]{{"carpet", "whit"}, {"carpet"}}, Material.CARPET));
+        items.add(new ItemInfo("Orange Carpet", new String[][]{{"carpet", "ora"}}, Material.CARPET, (short) 1));
+        items.add(new ItemInfo("Magenta Carpet", new String[][]{{"carpet", "mag"}}, Material.CARPET, (short) 2));
+        items.add(new ItemInfo("Light Blue Carpet", new String[][]{{"carpet", "lig", "blue"}}, Material.CARPET, (short) 3));
+        items.add(new ItemInfo("Yellow Carpet", new String[][]{{"carpet", "yell"}}, Material.CARPET, (short) 4));
+        items.add(new ItemInfo("Light Green Carpet", new String[][]{{"carpet", "lig", "gree"}, {"carpet", "gree"}}, Material.CARPET, (short) 5));
+        items.add(new ItemInfo("Pink Carpet", new String[][]{{"carpet", "pink"}}, Material.CARPET, (short) 6));
+        items.add(new ItemInfo("Gray Carpet", new String[][]{{"carpet", "gray"}, {"carpet", "grey"}}, Material.CARPET, (short) 7));
+        items.add(new ItemInfo("Light Gray Carpet", new String[][]{{"lig", "carpet", "gra"}, {"lig", "carpet", "gre"}}, Material.CARPET, (short) 8));
+        items.add(new ItemInfo("Cyan Carpet", new String[][]{{"carpet", "cya"}}, Material.CARPET, (short) 9));
+        items.add(new ItemInfo("Purple Carpet", new String[][]{{"carpet", "pur"}}, Material.CARPET, (short) 10));
+        items.add(new ItemInfo("Blue Carpet", new String[][]{{"carpet", "blue"}}, Material.CARPET, (short) 11));
+        items.add(new ItemInfo("Brown Carpet", new String[][]{{"carpet", "brow"}}, Material.CARPET, (short) 12));
+        items.add(new ItemInfo("Dark Green Carpet", new String[][]{{"carpet", "dar", "gree"}, {"carpet", "gree"}}, Material.CARPET, (short) 13));
+        items.add(new ItemInfo("Red Carpet", new String[][]{{"carpet", "red"}}, Material.CARPET, (short) 14));
+        items.add(new ItemInfo("Black Carpet", new String[][]{{"carpet", "bla"}}, Material.CARPET, (short) 15));
     }
 
     public static ItemInfo itemById(int typeId) {
@@ -548,7 +590,7 @@ public class Items {
     public static ItemInfo itemByType(Material type) {
         return itemByType(type, (short) 0);
     }
-    
+
     public static ItemInfo itemByType(Material type, short subType) {
         for (ItemInfo item : items) {
             if (item.getType() == type && item.getSubTypeId() == subType) {
@@ -594,7 +636,7 @@ public class Items {
         String searchString = join(search, " ");
         return itemByName(searchString);
     }
-    
+
     public static ItemInfo[] itemByNames(ArrayList<String> search, boolean multi) {
         String searchString = join(search, " ");
         return itemsByName(searchString, multi);
@@ -748,7 +790,7 @@ public class Items {
 
         return matchedItem;
     }
-    
+
     /**
      * Joins elements of a String array with the glue between them into a String.
      * @param array
@@ -771,7 +813,7 @@ public class Items {
             return joined;
         }
     }
-    
+
     /**
      * Joins elements of a String array with the glue between them into a String.
      * @param list
