@@ -283,4 +283,14 @@ public class Economy_EconXP implements Economy {
     public EconomyResponse depositPlayer(String playerName, double amount, boolean sendMessage) {
 	    return depositPlayer(playerName, amount);
     }
+
+    @Override
+    public EconomyResponse withdrawPlayer(String playerName, double amount, boolean sendMessage) {
+        return withdrawPlayer(playerName, amount);
+    }
+
+    @Override
+    public EconomyResponse depositPlayer(String playerName, double amount, boolean sendMessage) {
+	    return depositPlayer(playerName, amount);
+    }
 }
