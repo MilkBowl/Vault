@@ -249,4 +249,25 @@ public interface Economy {
      * @return if the account creation was successful
      */
     public boolean createPlayerAccount(String playerName, String worldName);
+    
+    /**
+     * Withdraw an amount from a player - DO NOT USE NEGATIVE AMOUNTS
+     * 
+     * @param playerName Name of player
+     * @param amount Amount to withdraw
+     * @param sendMessage whether or not to send the player a message when the money is taken.
+     * @return Detailed response of transaction
+     */
+    public EconomyResponse withdrawPlayer(String playerName, double amount, boolean sendMessage);
+   
+	/**
+     * Deposit an amount to a player - DO NOT USE NEGATIVE AMOUNTS
+     * IMPLEMENTATION SPECIFIC - if an economy plugin does not support this the global balance will be returned.
+     * @param playerName Name of player
+     * @param amount Amount to deposit
+     * @param sendMessage whether or not to send the player a message when the money is taken.
+     * @return Detailed response of transaction
+     */
+	public EconomyResponse depositPlayer(String playerName, double amount, boolean sendMessage);
 }
+
