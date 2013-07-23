@@ -291,13 +291,14 @@ public class Economy_CurrencyCore implements Economy {
         return withdrawPlayer(playerName, amount);
     }
 
+
     @Override
-    public EconomyResponse depositPlayer(String playerName, String worldName, double amount) {
+    public EconomyResponse depositPlayer(String playerName, String worldName, double amount, boolean sendMessage) {
         return depositPlayer(playerName, amount);
     }
 
     @Override
-    public boolean createPlayerAccount(String playerName, String worldName) {
+    public boolean createPlayerAccount(String playerName, String worldName, boolean sendMessage) {
         return createPlayerAccount(playerName);
     }
 }
