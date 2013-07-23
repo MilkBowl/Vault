@@ -200,6 +200,8 @@ public class Vault extends JavaPlugin {
      * Attempts to load Economy Addons
      */
     private void loadEconomy() {
+        //Try to load EconomyLite
+        hookEconomy("EconomyLite", Economy_EconomyLite.class, ServicePriority.Normal, "el.me.Main");
         // Try to load MiConomy
         hookEconomy("MiConomy", Economy_MiConomy.class, ServicePriority.Normal, "com.gmail.bleedobsidian.miconomy.Main");
         

@@ -180,6 +180,16 @@ public class Economy_MiConomy implements Economy {
         
         return depositPlayer(playerName, worlds.get(0).getName(), amount);
     }
+    
+    @Override
+    public EconomyResponse withdrawPlayer(String playerName, double amount, boolean sendMessage) {
+        return withdrawPlayer(playerName, amount);
+    }
+
+    @Override
+    public EconomyResponse depositPlayer(String playerName, double amount, boolean sendMessage) {
+        return depositPlayer(playerName, amount);
+    }
 
     @Override
     public EconomyResponse depositPlayer(String playerName, String worldName, double amount) {

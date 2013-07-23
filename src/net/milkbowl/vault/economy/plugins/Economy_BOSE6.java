@@ -339,4 +339,14 @@ public class Economy_BOSE6 implements Economy {
     public boolean createPlayerAccount(String playerName, String worldName) {
         return createPlayerAccount(playerName);
     }
+
+    @Override
+    public EconomyResponse withdrawPlayer(String playerName, double amount, boolean sendMessage) {
+       	return withdrawPlayer(playerName, amount);
+    }
+
+    @Override
+    public EconomyResponse depositPlayer(String playerName, double amount, boolean sendMessage) {
+    	return depositPlayer(playerName, amount);
+    }
 }
