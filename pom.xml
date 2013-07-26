@@ -87,7 +87,7 @@ Vault currently supports the following: Permissions 3, PEX, GroupManager, bPerms
 		<dependency>
             <groupId>me.coniin.plugins.minefaconomy</groupId>
             <artifactId>MineFaConomy</artifactId>
-            <version>0.1</version>
+            <version>0.11</version>
             <scope>system</scope>
             <systemPath>${project.basedir}/lib/Minefaconomy.jar</systemPath>
         </dependency> 
