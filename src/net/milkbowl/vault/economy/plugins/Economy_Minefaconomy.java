@@ -18,9 +18,9 @@ import net.milkbowl.vault.economy.EconomyResponse;
 
 public class Economy_Minefaconomy implements Economy {
 	private static final Logger log = Logger.getLogger("Minecraft");
-
+	
 	private final String name = "Minefaconomy";
-
+	
 	private Plugin plugin = null;
 	private Minefaconomy economy = null;
 
@@ -38,7 +38,7 @@ public class Economy_Minefaconomy implements Economy {
 		if (econ != null && econ.isEnabled()) {
 			economy = (Minefaconomy) econ;
 			log.info(String.format("[%s][Economy] %s hooked.", plugin
-					.getDescription().getName(), name));
+					.getDescription().getName(), this.name));
 		return;
 		}
 		log.info("Error Loading Minefaconomy");
@@ -81,7 +81,7 @@ public class Economy_Minefaconomy implements Economy {
 
 	@Override
 	public String getName() {
-		return economy.vaultLayer.getName();
+		return name;
 	}
 
 	@Override
