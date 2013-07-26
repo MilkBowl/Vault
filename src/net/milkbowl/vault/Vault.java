@@ -37,6 +37,7 @@ import net.milkbowl.vault.chat.plugins.Chat_mChat;
 import net.milkbowl.vault.chat.plugins.Chat_mChatSuite;
 import net.milkbowl.vault.chat.plugins.Chat_zPermissions;
 import net.milkbowl.vault.economy.Economy;
+import net.milkbowl.vault.economy.plugins.Economy_Minefaconomy; 
 import net.milkbowl.vault.economy.plugins.Economy_3co;
 import net.milkbowl.vault.economy.plugins.Economy_AEco;
 import net.milkbowl.vault.economy.plugins.Economy_BOSE6;
@@ -205,7 +206,10 @@ public class Vault extends JavaPlugin {
         
         // Try to load MultiCurrency
         hookEconomy("MultiCurrency", Economy_MultiCurrency.class, ServicePriority.Normal, "me.ashtheking.currency.Currency", "me.ashtheking.currency.CurrencyList");
-
+        
+        // Try to load MiConomy
+        hookEconomy("MineFaConomy", Economy_Minefaconomy.class, ServicePriority.Normal, "me.coniin.plugins.minefaconomy.Minefaconomy"); 
+        
         // Try to load MineConomy
         hookEconomy("MineConomy", Economy_MineConomy.class, ServicePriority.Normal, "me.mjolnir.mineconomy.MineConomy");
 

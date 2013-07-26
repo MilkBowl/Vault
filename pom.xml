@@ -94,6 +94,13 @@ Vault currently supports the following: Permissions 3, PEX, GroupManager, bPerms
 			<systemPath>${project.basedir}/lib/zPermissions.jar</systemPath>
 		</dependency>
 		<dependency>
+            <groupId>me.coniin.plugins.minefaconomy</groupId>
+            <artifactId>MineFaConomy</artifactId>
+            <version>0.11</version>
+            <scope>system</scope>
+            <systemPath>${project.basedir}/lib/Minefaconomy.jar</systemPath>
+        </dependency> 
+		<dependency>
 			<groupId>me.ic3d.eco</groupId>
 			<artifactId>ECO</artifactId>
 			<version>2.0</version>

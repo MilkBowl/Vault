@@ -11,6 +11,9 @@ Vault.jar
 /Vault.iml
 /target
 
+build.bat
+build_log.txt
+
 #added by LRFLEW
 #feel free to remove
 bin
