@@ -15,19 +15,59 @@
  */
 package net.milkbowl.vault.permission.plugins;
 import net.milkbowl.vault.permission.Permission;
+import org.bukkit.Bukkit;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
+import org.bukkit.event.Listener;
+import org.bukkit.event.server.PluginDisableEvent;
+import org.bukkit.event.server.PluginEnableEvent;
 import org.bukkit.plugin.Plugin;
+import ru.simsonic.rscPermissions.MainPluginClass;
 
 public class Permission_rscPermissions extends Permission
 {
 	private final Plugin vault;
-	private final ru.simsonic.rscPermissions.MainPluginClass rscp;
-	private final ru.simsonic.rscPermissions.rscpAPI API;
+	private ru.simsonic.rscPermissions.MainPluginClass rscp = null;
+	private ru.simsonic.rscPermissions.rscpAPI API = null;
 	public Permission_rscPermissions(Plugin plugin)
 	{
 		super();
 		this.vault = plugin;
-		this.rscp = (ru.simsonic.rscPermissions.MainPluginClass)vault.getServer().getPluginManager().getPlugin("rscPermissions");
+		Bukkit.getServer().getPluginManager().registerEvents(new PermissionServerListener(this), vault);
+		this.rscp = (MainPluginClass)vault.getServer().getPluginManager().getPlugin("rscPermissions");
 		this.API = (rscp != null) ? rscp.API : null;
+	}
+	public class PermissionServerListener implements Listener
+	{
+		private final Permission_rscPermissions bridge;
+		public PermissionServerListener(Permission_rscPermissions bridge)
+		{
+			this.bridge = bridge;
+		}
+		@EventHandler(priority = EventPriority.MONITOR)
+		private void onPluginEnable(PluginEnableEvent event)
+		{
+			if(bridge.API == null)
+			{
+				bridge.rscp = (MainPluginClass)vault.getServer().getPluginManager().getPlugin("rscPermissions");
+				bridge.API = (bridge.rscp != null) ? bridge.rscp.API : null;
+				if(bridge.API != null)
+					if(bridge.API.isEnabled())
+						log.info(String.format("[%s][Permission] %s hooked.",
+							vault.getDescription().getName(), bridge.API.getName()));
+			}
+		}
+		@EventHandler(priority = EventPriority.MONITOR)
+		public void onPluginDisable(PluginDisableEvent event)
+		{
+			if(bridge.API != null)
+				if(event.getPlugin().getDescription().getName().equals("rscPermissions"))
+				{
+					log.info(String.format("[%s][Permission] %s un-hooked.",
+						vault.getDescription().getName(), bridge.API.getName()));
+					bridge.API = null;
+				}
+		}
 	}
 	@Override
 	public String getName()
