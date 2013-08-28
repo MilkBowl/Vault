@@ -349,9 +349,9 @@ Vault currently supports the following: Permissions 3, PEX, GroupManager, bPerms
 			<systemPath>${project.basedir}/lib/TotalPermissions.jar</systemPath>
 		</dependency>
 		<dependency>
-		 	<groupId>ru.simsonic</groupId>
-		 	<artifactId>rscPermissions</artifactId>
-		 	<version>1.0</version>
+			<groupId>ru.simsonic</groupId>
+			<artifactId>rscPermissions</artifactId>
+			<version>1.0</version>
 			<scope>system</scope>
 			<systemPath>${project.basedir}/lib/rscPermissions.jar</systemPath>
 		</dependency>
