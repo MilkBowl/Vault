@@ -34,10 +34,9 @@ public class Permission_rscPermissions extends Permission
 		super();
 		this.vault = plugin;
 		Bukkit.getServer().getPluginManager().registerEvents(new PermissionServerListener(this), vault);
-		this.rscp = (MainPluginClass)vault.getServer().getPluginManager().getPlugin("rscPermissions");
-		this.API = (rscp != null) ? rscp.API : null;
+		rscp = (MainPluginClass)vault.getServer().getPluginManager().getPlugin("rscPermissions");
 	}
-	public class PermissionServerListener implements Listener
+	private class PermissionServerListener implements Listener
 	{
 		private final Permission_rscPermissions bridge;
 		public PermissionServerListener(Permission_rscPermissions bridge)
@@ -45,23 +44,25 @@ public class Permission_rscPermissions extends Permission
 			this.bridge = bridge;
 		}
 		@EventHandler(priority = EventPriority.MONITOR)
-		private void onPluginEnable(PluginEnableEvent event)
+		public void onPluginEnable(PluginEnableEvent event)
 		{
-			if(bridge.API == null)
-			{
+			if(bridge.rscp == null)
 				bridge.rscp = (MainPluginClass)vault.getServer().getPluginManager().getPlugin("rscPermissions");
+			if(bridge.rscp == null)
+				return;
+			if(bridge.API == null)
 				bridge.API = (bridge.rscp != null) ? bridge.rscp.API : null;
-				if(bridge.API != null)
-					if(bridge.API.isEnabled())
-						log.info(String.format("[%s][Permission] %s hooked.",
-							vault.getDescription().getName(), bridge.API.getName()));
-			}
+			if(bridge.API == null)
+				return;
+			if(bridge.API.isEnabled())
+				log.info(String.format("[%s][Permission] %s hooked.",
+					vault.getDescription().getName(), bridge.API.getName()));
 		}
 		@EventHandler(priority = EventPriority.MONITOR)
 		public void onPluginDisable(PluginDisableEvent event)
 		{
 			if(bridge.API != null)
-				if(event.getPlugin().getDescription().getName().equals("rscPermissions"))
+				if(event.getPlugin().getDescription().getName().equals(bridge.API.getName()))
 				{
 					log.info(String.format("[%s][Permission] %s un-hooked.",
 						vault.getDescription().getName(), bridge.API.getName()));
@@ -72,12 +73,12 @@ public class Permission_rscPermissions extends Permission
 	@Override
 	public String getName()
 	{
-		return API.getName();
+		return (API != null) ? API.getName() : "rscPermissions";
 	}
 	@Override
 	public boolean isEnabled()
 	{
-		return API.isEnabled();
+		return (API != null) ? API.isEnabled() : false;
 	}
 	@Override
 	public boolean hasSuperPermsCompat()

@@ -199,7 +199,7 @@ public class Vault extends JavaPlugin {
         hookChat("Privileges", Chat_Privileges.class, ServicePriority.Normal, "net.krinsoft.privileges.Privileges");
 		  
 		  // Try to load rscPermissions
-        hookChat("rscPermissions", Chat_rscPermissions.class, ServicePriority.Normal, "ru.simsonic.rscPermissions");
+        hookChat("rscPermissions", Chat_rscPermissions.class, ServicePriority.Normal, "ru.simsonic.rscPermissions.MainPluginClass");
     }
 
     /**
@@ -326,7 +326,7 @@ public class Vault extends JavaPlugin {
         hookPermission("TotalPermissions", Permission_TotalPermissions.class, ServicePriority.Normal, "net.ae97.totalpermissions.TotalPermissions");
 		  
 		  // Try to load rscPermissions
-        hookPermission("rscPermissions", Permission_rscPermissions.class, ServicePriority.Normal, "ru.simsonic.rscPermissions");
+        hookPermission("rscPermissions", Permission_rscPermissions.class, ServicePriority.Normal, "ru.simsonic.rscPermissions.MainPluginClass");
 
         Permission perms = new Permission_SuperPerms(this);
         sm.register(Permission.class, perms, this, ServicePriority.Lowest);

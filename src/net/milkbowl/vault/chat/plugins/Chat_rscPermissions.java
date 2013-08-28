@@ -14,31 +14,75 @@
     along with Vault.  If not, see <http://www.gnu.org/licenses/>.
  */
 package net.milkbowl.vault.chat.plugins;
+import java.util.logging.Logger;
 import net.milkbowl.vault.chat.Chat;
 import net.milkbowl.vault.permission.Permission;
+import net.milkbowl.vault.permission.plugins.Permission_rscPermissions;
+import org.bukkit.Bukkit;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
+import org.bukkit.event.Listener;
+import org.bukkit.event.server.PluginDisableEvent;
+import org.bukkit.event.server.PluginEnableEvent;
 import org.bukkit.plugin.Plugin;
+import ru.simsonic.rscPermissions.MainPluginClass;
 
 public class Chat_rscPermissions extends Chat
 {
+	private static final Logger log = Logger.getLogger("Minecraft");
 	private final Plugin vault;
-	private final ru.simsonic.rscPermissions.MainPluginClass rscp;
-	private final ru.simsonic.rscPermissions.rscpAPI API;
+	private ru.simsonic.rscPermissions.MainPluginClass rscp;
+	private ru.simsonic.rscPermissions.rscpAPI API;
 	public Chat_rscPermissions(Plugin plugin, Permission perm)
 	{
 		super(perm);
 		this.vault = plugin;
-		this.rscp = (ru.simsonic.rscPermissions.MainPluginClass)vault.getServer().getPluginManager().getPlugin("rscPermissions");
-		this.API = (rscp != null) ? rscp.API : null;
+		Bukkit.getServer().getPluginManager().registerEvents(new ChatServerListener(this), vault);
+		rscp = (ru.simsonic.rscPermissions.MainPluginClass)vault.getServer().getPluginManager().getPlugin("rscPermissions");
+	}
+	private class ChatServerListener implements Listener
+	{
+		private final Chat_rscPermissions bridge;
+		public ChatServerListener(Chat_rscPermissions bridge)
+		{
+			this.bridge = bridge;
+		}
+		@EventHandler(priority = EventPriority.MONITOR)
+		private void onPluginEnable(PluginEnableEvent event)
+		{
+			if(bridge.rscp == null)
+				bridge.rscp = (MainPluginClass)vault.getServer().getPluginManager().getPlugin("rscPermissions");
+			if(bridge.rscp == null)
+				return;
+			if(bridge.API == null)
+				bridge.API = (bridge.rscp != null) ? bridge.rscp.API : null;
+			if(bridge.API == null)
+				return;
+			if(bridge.API.isEnabled())
+				log.info(String.format("[%s][Chat] %s hooked.",
+					vault.getDescription().getName(), bridge.API.getName()));
+		}
+		@EventHandler(priority = EventPriority.MONITOR)
+		public void onPluginDisable(PluginDisableEvent event)
+		{
+			if(bridge.API != null)
+				if(event.getPlugin().getDescription().getName().equals(bridge.API.getName()))
+				{
+					log.info(String.format("[%s][Chat] %s un-hooked.",
+						vault.getDescription().getName(), bridge.API.getName()));
+					bridge.API = null;
+				}
+		}
 	}
 	@Override
 	public String getName()
 	{
-		return API.getName();
+		return (API != null) ? API.getName() : "rscPermissions";
 	}
 	@Override
 	public boolean isEnabled()
 	{
-		return API.isEnabled();
+		return (API != null) ? API.isEnabled() : false;
 	}
 	@Override
 	public String getPlayerPrefix(String string, String string1)
