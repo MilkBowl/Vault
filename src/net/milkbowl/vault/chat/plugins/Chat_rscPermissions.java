@@ -17,7 +17,6 @@ package net.milkbowl.vault.chat.plugins;
 import java.util.logging.Logger;
 import net.milkbowl.vault.chat.Chat;
 import net.milkbowl.vault.permission.Permission;
-import net.milkbowl.vault.permission.plugins.Permission_rscPermissions;
 import org.bukkit.Bukkit;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -51,13 +50,14 @@ public class Chat_rscPermissions extends Chat
 		private void onPluginEnable(PluginEnableEvent event)
 		{
 			if(bridge.rscp == null)
-				bridge.rscp = (MainPluginClass)vault.getServer().getPluginManager().getPlugin("rscPermissions");
-			if(bridge.rscp == null)
-				return;
+			{
+				Plugin plugin = event.getPlugin();
+				if(!"rscPermissions".equals(plugin.getName()))
+					return;
+				bridge.rscp = (MainPluginClass)plugin;
+			}
 			if(bridge.API == null)
-				bridge.API = (bridge.rscp != null) ? bridge.rscp.API : null;
-			if(bridge.API == null)
-				return;
+				bridge.API = bridge.rscp.API;
 			if(bridge.API.isEnabled())
 				log.info(String.format("[%s][Chat] %s hooked.",
 					vault.getDescription().getName(), bridge.API.getName()));

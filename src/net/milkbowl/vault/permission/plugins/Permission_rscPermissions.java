@@ -47,13 +47,14 @@ public class Permission_rscPermissions extends Permission
 		public void onPluginEnable(PluginEnableEvent event)
 		{
 			if(bridge.rscp == null)
-				bridge.rscp = (MainPluginClass)vault.getServer().getPluginManager().getPlugin("rscPermissions");
-			if(bridge.rscp == null)
-				return;
+			{
+				Plugin plugin = event.getPlugin();
+				if(!"rscPermissions".equals(plugin.getName()))
+					return;
+				bridge.rscp = (MainPluginClass)plugin;
+			}
 			if(bridge.API == null)
-				bridge.API = (bridge.rscp != null) ? bridge.rscp.API : null;
-			if(bridge.API == null)
-				return;
+				bridge.API = bridge.rscp.API;
 			if(bridge.API.isEnabled())
 				log.info(String.format("[%s][Permission] %s hooked.",
 					vault.getDescription().getName(), bridge.API.getName()));
@@ -88,7 +89,7 @@ public class Permission_rscPermissions extends Permission
 	@Override
 	public boolean hasGroupSupport()
 	{
-		return API.hasGroupSupport();
+		return (API != null) ? API.hasGroupSupport() : true;
 	}
 	@Override
 	public boolean playerHas(String string, String string1, String string2)
