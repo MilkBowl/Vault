@@ -61,7 +61,7 @@ public class Permission_Starburst extends Permission {
         public void onPluginEnable(PluginEnableEvent event) {
             if (perms == null) {
                 Plugin p = event.getPlugin();
-                if (p.getDescription().getName().equals("Starburst") && p.isEnabled()) {
+                if (p.getDescription().getName().equals("Starburst")) {
                     perms = (StarburstPlugin) p;
                     log.info(String.format("[%s][Permission] %s hooked.", plugin.getDescription().getName(), name));
                 }

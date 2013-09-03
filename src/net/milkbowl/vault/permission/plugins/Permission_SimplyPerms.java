@@ -60,9 +60,8 @@ public class Permission_SimplyPerms extends Permission{
         @EventHandler(priority = EventPriority.MONITOR)
         public void onPluginEnable(PluginEnableEvent event) {
             if (permission.perms == null) {
-                Plugin perms = plugin.getServer().getPluginManager().getPlugin("SimplyPerms");
-
-                if (perms != null) {
+                Plugin perms = event.getPlugin();
+                if (perms.getDescription().getName().equals("SimplyPerms")) {
                     permission.perms = ((SimplyPlugin) perms).getAPI();
                     log.info(String.format("[%s][Permission] %s hooked.", plugin.getDescription().getName(), permission.name));
                 }
