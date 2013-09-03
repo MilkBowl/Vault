@@ -62,8 +62,8 @@ public class Chat_mChat extends Chat {
         @EventHandler(priority = EventPriority.MONITOR)
         public void onPluginEnable(PluginEnableEvent event) {
             if (this.chat.mChat == null) {
-                Plugin chat = plugin.getServer().getPluginManager().getPlugin("mChat");
-                if (chat != null) {
+                Plugin chat = event.getPlugin();
+                if (chat.getDescription().getName().equals("mChat")) {
                     this.chat.mChat = net.D3GN.MiracleM4n.mChat.mChat.API;
                     log.info(String.format("[%s][Chat] %s hooked.", plugin.getDescription().getName(), "mChat"));
                 }

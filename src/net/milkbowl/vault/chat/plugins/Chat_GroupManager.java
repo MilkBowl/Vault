@@ -12,7 +12,7 @@
 
     You should have received a copy of the GNU Lesser General Public License
     along with Vault.  If not, see <http://www.gnu.org/licenses/>.
-*/
+ */
 package net.milkbowl.vault.chat.plugins;
 
 import java.util.logging.Logger;
@@ -68,13 +68,11 @@ public class Chat_GroupManager extends Chat {
         @EventHandler(priority = EventPriority.MONITOR)
         public void onPluginEnable(PluginEnableEvent event) {
             if (chat.groupManager == null) {
-                Plugin perms = plugin.getServer().getPluginManager().getPlugin("GroupManager");
+                Plugin perms = event.getPlugin();
 
-                if (perms != null) {
-                    if (perms.isEnabled()) {
-                        chat.groupManager = (GroupManager) perms;
-                        log.info(String.format("[%s][Chat] %s hooked.", plugin.getDescription().getName(), chat.name));
-                    }
+                if (perms.getDescription().getName().equals("GroupManager")) {
+                    chat.groupManager = (GroupManager) perms;
+                    log.info(String.format("[%s][Chat] %s hooked.", plugin.getDescription().getName(), chat.name));
                 }
             }
         }

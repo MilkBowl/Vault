@@ -60,8 +60,8 @@ public class Chat_mChatSuite extends Chat {
         @EventHandler(priority = EventPriority.MONITOR)
         public void onPluginEnable(PluginEnableEvent event) {
             if (mChat == null) {
-                Plugin chat = plugin.getServer().getPluginManager().getPlugin("mChatSuite");
-                if (chat != null) {
+                Plugin chat = event.getPlugin();
+                if (chat.getDescription().getName().equals("mChatSuite")) {
                     mChat = (mChatSuite) chat;
                     log.info(String.format("[%s][Chat] %s hooked.", plugin.getDescription().getName(), "mChatSuite"));
                 }
