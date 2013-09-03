@@ -87,42 +87,54 @@ public class Chat_rscPermissions extends Chat
 	@Override
 	public String getPlayerPrefix(String string, String string1)
 	{
-		return API.getPlayerPrefix(string, string1);
+		if(API != null)
+			return API.getPlayerPrefix(string, string1);
+		return "";
 	}
 	@Override
 	public String getPlayerSuffix(String string, String string1)
 	{
-		return API.getPlayerSuffix(string, string1);
+		if(API != null)
+			return API.getPlayerSuffix(string, string1);
+		return "";
 	}
 	@Override
 	public String getGroupPrefix(String string, String string1)
 	{
-		return API.getGroupPrefix(string, string1);
+		if(API != null)
+			return API.getGroupPrefix(string, string1);
+		return "";
 	}
 	@Override
 	public String getGroupSuffix(String string, String string1)
 	{
-		return API.getGroupSuffix(string, string1);
+		if(API != null)
+			return API.getGroupSuffix(string, string1);
+		return "";
 	}
 	@Override
 	public void setPlayerPrefix(String string, String string1, String string2)
 	{
-		API.setPlayerPrefix(string, string1, string2);
+		if(API != null)
+			API.setPlayerPrefix(string, string1, string2);
 	}
 	@Override
 	public void setPlayerSuffix(String string, String string1, String string2)
 	{
-		API.setPlayerSuffix(string, string1, string2);
+		if(API != null)
+			API.setPlayerSuffix(string, string1, string2);
 	}
 	@Override
 	public void setGroupPrefix(String string, String string1, String string2)
 	{
-		API.setGroupPrefix(string, string1, string2);
+		if(API != null)
+			API.setGroupPrefix(string, string1, string2);
 	}
 	@Override
 	public void setGroupSuffix(String string, String string1, String string2)
 	{
-		API.setGroupSuffix(string, string1, string2);
+		if(API != null)
+			API.setGroupSuffix(string, string1, string2);
 	}
 	@Override
 	public int getPlayerInfoInteger(String string, String string1, String string2, int i)

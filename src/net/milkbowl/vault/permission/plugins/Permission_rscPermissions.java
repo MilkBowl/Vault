@@ -84,7 +84,7 @@ public class Permission_rscPermissions extends Permission
 	@Override
 	public boolean hasSuperPermsCompat()
 	{
-		return API.hasSuperPermsCompat();
+		return (API != null) ? API.hasSuperPermsCompat() : true;
 	}
 	@Override
 	public boolean hasGroupSupport()
@@ -94,61 +94,85 @@ public class Permission_rscPermissions extends Permission
 	@Override
 	public boolean playerHas(String string, String string1, String string2)
 	{
-		return API.playerHas(string, string1, string2);
+		if(API != null)
+			return API.playerHas(string, string1, string2);
+		return false;
 	}
 	@Override
 	public boolean playerAdd(String string, String string1, String string2)
 	{
-		return API.playerAdd(string, string1, string2);
+		if(API != null)
+			return API.playerAdd(string, string1, string2);
+		return false;
 	}
 	@Override
 	public boolean playerRemove(String string, String string1, String string2)
 	{
-		return API.playerRemove(string, string1, string2);
+		if(API != null)
+			return API.playerRemove(string, string1, string2);
+		return false;
 	}
 	@Override
 	public boolean groupHas(String string, String string1, String string2)
 	{
-		return API.groupHas(string, string1, string2);
+		if(API != null)
+			return API.groupHas(string, string1, string2);
+		return false;
 	}
 	@Override
 	public boolean groupAdd(String string, String string1, String string2)
 	{
-		return API.groupAdd(string, string1, string2);
+		if(API != null)
+			return API.groupAdd(string, string1, string2);
+		return false;
 	}
 	@Override
 	public boolean groupRemove(String string, String string1, String string2)
 	{
-		return API.groupRemove(string, string1, string2);
+		if(API != null)
+			return API.groupRemove(string, string1, string2);
+		return false;
 	}
 	@Override
 	public boolean playerInGroup(String string, String string1, String string2)
 	{
-		return API.playerInGroup(string, string1, string2);
+		if(API != null)
+			return API.playerInGroup(string, string1, string2);
+		return false;
 	}
 	@Override
 	public boolean playerAddGroup(String string, String string1, String string2)
 	{
-		return API.playerAddGroup(string, string1, string2);
+		if(API != null)
+			return API.playerAddGroup(string, string1, string2);
+		return false;
 	}
 	@Override
 	public boolean playerRemoveGroup(String string, String string1, String string2)
 	{
-		return API.playerRemoveGroup(string, string1, string2);
+		if(API != null)
+			return API.playerRemoveGroup(string, string1, string2);
+		return false;
 	}
 	@Override
 	public String[] getPlayerGroups(String string, String string1)
 	{
-		return API.getPlayerGroups(string, string1);
+		if(API != null)
+			return API.getPlayerGroups(string, string1);
+		return new String[] { "Default" };
 	}
 	@Override
 	public String getPrimaryGroup(String string, String string1)
 	{
-		return API.getPrimaryGroup(string, string1);
+		if(API != null)
+			return API.getPrimaryGroup(string, string1);
+		return "Default";
 	}
 	@Override
 	public String[] getGroups()
 	{
-		return API.getGroups();
+		if(API != null)
+			return API.getGroups();
+		return new String[] { "Default" }; 
 	}
 }
