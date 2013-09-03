@@ -69,10 +69,9 @@ public class Economy_Craftconomy implements Economy {
         @EventHandler(priority = EventPriority.MONITOR)
         public void onPluginEnable(PluginEnableEvent event) {
             if (economy.economy == null) {
-                Plugin ec = plugin.getServer().getPluginManager().getPlugin("Craftconomy");
-
-                if (ec != null && ec.isEnabled() && ec.getClass().getName().equals("me.greatman.Craftconomy.Craftconomy")) {
-                    economy.economy = (Craftconomy) ec;
+                Plugin p = event.getPlugin();
+                if (p.getDescription().getName().equals("Craftconomy") && p.getClass().getName().equals("me.greatman.Craftconomy.Craftconomy")) {
+                    economy.economy = (Craftconomy) p;
                     log.info(String.format("[%s][Economy] %s hooked.", plugin.getDescription().getName(), economy.name));
                 }
             }
@@ -291,10 +290,10 @@ public class Economy_Craftconomy implements Economy {
         return true;
     }
 
-	@Override
-	public int fractionalDigits() {
-		return -1;
-	}
+    @Override
+    public int fractionalDigits() {
+        return -1;
+    }
 
     @Override
     public boolean hasAccount(String playerName, String worldName) {

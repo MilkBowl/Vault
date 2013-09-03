@@ -65,8 +65,9 @@ public class Economy_CurrencyCore implements Economy {
         @EventHandler(priority = EventPriority.MONITOR)
         public void onPluginEnable(PluginEnableEvent event) {
             if(this.economy.currency == null) {
-                Plugin currencyPlugin = plugin.getServer().getPluginManager().getPlugin("CurrencyCore");
-                if(currencyPlugin != null && currencyPlugin.getClass().getName().equals("is.currency.Currency")) {
+                Plugin currencyPlugin = event.getPlugin();
+                
+                if(currencyPlugin.getDescription().getName().equals("CurrencyCore") && currencyPlugin.getClass().getName().equals("is.currency.Currency")) {
                     this.economy.currency = (Currency) currencyPlugin;
                     log.info(String.format("[%s][Economy] %s hooked.", plugin.getDescription().getName(), this.economy.getName()));  
                 }

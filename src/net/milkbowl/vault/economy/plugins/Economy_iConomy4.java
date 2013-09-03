@@ -172,9 +172,9 @@ public class Economy_iConomy4 implements Economy {
         @EventHandler(priority = EventPriority.MONITOR)
         public void onPluginEnable(PluginEnableEvent event) {
             if (economy.economy == null) {
-                Plugin iConomy = plugin.getServer().getPluginManager().getPlugin("iConomy");
+                Plugin iConomy = event.getPlugin();
 
-                if (iConomy != null && iConomy.getClass().getName().equals("com.nijiko.coelho.iConomy.iConomy")) {
+                if (iConomy.getClass().getName().equals("com.nijiko.coelho.iConomy.iConomy")) {
                     economy.economy = (iConomy) iConomy;
                     log.info(String.format("[%s][Economy] %s hooked.", plugin.getDescription().getName(), economy.name));
                 }

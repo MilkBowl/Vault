@@ -157,9 +157,9 @@ public class Economy_MultiCurrency implements Economy {
         @EventHandler(priority = EventPriority.MONITOR)
         public void onPluginEnable(PluginEnableEvent event) {
             if (economy.economy == null) {
-                Plugin mcur = plugin.getServer().getPluginManager().getPlugin("MultiCurrency");
+                Plugin mcur = event.getPlugin();
 
-                if (mcur != null) {
+                if (mcur.getDescription().getName().equals("MultiCurrency")) {
                     economy.economy = (Currency) mcur;
                     log.info(String.format("[%s][Economy] %s hooked.", plugin.getDescription().getName(), economy.name));
                 }
