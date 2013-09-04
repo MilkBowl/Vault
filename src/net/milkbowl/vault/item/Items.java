@@ -250,7 +250,7 @@ public class Items {
         items.add(new ItemInfo("Snowball", new String[][]{{"snow", "ball"}}, Material.SNOW_BALL));
         items.add(new ItemInfo("Boat", new String[][]{{"boat"}}, Material.BOAT));
         items.add(new ItemInfo("Leather", new String[][]{{"lea"}, {"hide"}}, Material.LEATHER));
-        items.add(new ItemInfo("Milk Bucket", new String[][]{{"milk"}}, Material.MILK_BUCKET));
+        items.add(new ItemInfo("Milk Bucket", new String[][]{{"buck", "mil"}, {"milk"}}, Material.MILK_BUCKET));
         items.add(new ItemInfo("Clay Brick", new String[][]{{"bric", "cl"}, {"sin", "bric"}}, Material.CLAY_BRICK));
         items.add(new ItemInfo("Clay", new String[][]{{"cla"}}, Material.CLAY_BALL));
         items.add(new ItemInfo("Sugar Cane", new String[][]{{"reed"}, {"cane"}}, Material.SUGAR_CANE));
