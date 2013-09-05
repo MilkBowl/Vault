@@ -26,20 +26,17 @@ public class Economy_Minefaconomy implements Economy {
 
 	public Economy_Minefaconomy(Plugin plugin) {
 		this.plugin = plugin;
-		Bukkit.getServer().getPluginManager()
-				.registerEvents(new EconomyServerListener(this), plugin);
+		Bukkit.getServer().getPluginManager().registerEvents(new EconomyServerListener(this), plugin);
 		Plugin econ = null;
 		// Load Plugin in case it was loaded before
 		if (economy == null) {
-			econ = plugin.getServer().getPluginManager()
-					.getPlugin("Minefaconomy");
+			econ = plugin.getServer().getPluginManager().getPlugin("Minefaconomy");
 			log.info("Loading Minefaconomy");	
 		}
 		if (econ != null && econ.isEnabled()) {
 			economy = (Minefaconomy) econ;
-			log.info(String.format("[%s][Economy] %s hooked.", plugin
-					.getDescription().getName(), this.name));
-		return;
+			log.info(String.format("[%s][Economy] %s hooked.", plugin.getDescription().getName(), this.name));
+			return;
 		}
 		log.info("Error Loading Minefaconomy");
 	}
@@ -86,134 +83,134 @@ public class Economy_Minefaconomy implements Economy {
 
 	@Override
 	public int fractionalDigits() {
-		return economy.vaultLayer.fractionalDigits();
+		return Minefaconomy.vaultLayer.fractionalDigits();
 	}
 
 	@Override
 	public String format(double amount) {
-		return economy.vaultLayer.format(amount);
+		return Minefaconomy.vaultLayer.format(amount);
 	}
 
 	@Override
 	public String currencyNamePlural() {
-		return economy.vaultLayer.currencyNamePlural();
+		return Minefaconomy.vaultLayer.currencyNamePlural();
 	}
 
 	@Override
 	public String currencyNameSingular() {
-		return economy.vaultLayer.currencyNameSingular();
+		return Minefaconomy.vaultLayer.currencyNameSingular();
 	}
 
 	@Override
 	public boolean hasAccount(String playerName) {
-		return economy.vaultLayer.hasAccount(playerName);
+		return Minefaconomy.vaultLayer.hasAccount(playerName);
 	}
 
 	@Override
 	public boolean hasAccount(String playerName, String worldName) {
-		return economy.vaultLayer.hasAccount(playerName);
+		return Minefaconomy.vaultLayer.hasAccount(playerName);
 	}
 
 	@Override
 	public double getBalance(String playerName) {
-		return economy.vaultLayer.getBalance(playerName);
+		return Minefaconomy.vaultLayer.getBalance(playerName);
 	}
 
 	@Override
 	public double getBalance(String playerName, String world) {
-		return economy.vaultLayer.getBalance(playerName);
+		return Minefaconomy.vaultLayer.getBalance(playerName);
 	}
 
 	@Override
 	public boolean has(String playerName, double amount) {
-		return economy.vaultLayer.has(playerName, amount);
+		return Minefaconomy.vaultLayer.has(playerName, amount);
 	}
 
 	@Override
 	public boolean has(String playerName, String worldName, double amount) {
-		return economy.vaultLayer.has(playerName, amount);
+		return Minefaconomy.vaultLayer.has(playerName, amount);
 	}
 
 	@Override
 	public EconomyResponse withdrawPlayer(String playerName, double amount) {
-		return economy.vaultLayer.withdrawPlayer(playerName, amount);
+		return Minefaconomy.vaultLayer.withdrawPlayer(playerName, amount);
 	}
 
 	@Override
 	public EconomyResponse withdrawPlayer(String playerName, String worldName,
 			double amount) {
-		return economy.vaultLayer.withdrawPlayer(playerName, amount);
+		return Minefaconomy.vaultLayer.withdrawPlayer(playerName, amount);
 	}
 
 	@Override
 	public EconomyResponse depositPlayer(String playerName, double amount) {
-		return economy.vaultLayer.depositPlayer(playerName, amount);
+		return Minefaconomy.vaultLayer.depositPlayer(playerName, amount);
 	}
 
 	@Override
 	public EconomyResponse depositPlayer(String playerName, String worldName,
 			double amount) {
-		return economy.vaultLayer.depositPlayer(playerName, amount);
+		return Minefaconomy.vaultLayer.depositPlayer(playerName, amount);
 	}
 
 	@Override
 	public boolean createPlayerAccount(String playerName) {
-		return economy.vaultLayer.createPlayerAccount(playerName);
+		return Minefaconomy.vaultLayer.createPlayerAccount(playerName);
 	}
 
 	@Override
 	public boolean createPlayerAccount(String playerName, String worldName) {
-		return economy.vaultLayer.createPlayerAccount(playerName);
+		return Minefaconomy.vaultLayer.createPlayerAccount(playerName);
 	}
 
 	@Override
 	public boolean hasBankSupport() {
-		return economy.vaultLayer.hasBankSupport();
+		return Minefaconomy.vaultLayer.hasBankSupport();
 	}
 
 	@Override
 	public EconomyResponse createBank(String name, String player) {
-		return economy.vaultLayer.createBank(name, player);
+		return Minefaconomy.vaultLayer.createBank(name, player);
 	}
 
 	@Override
 	public EconomyResponse deleteBank(String name) {
-		return economy.vaultLayer.deleteBank(name);
+		return Minefaconomy.vaultLayer.deleteBank(name);
 	}
 
 	@Override
 	public EconomyResponse bankBalance(String name) {
-		return economy.vaultLayer.bankBalance(name);
+		return Minefaconomy.vaultLayer.bankBalance(name);
 	}
 
 	@Override
 	public EconomyResponse bankHas(String name, double amount) {
-		return economy.vaultLayer.bankHas(name, amount);
+		return Minefaconomy.vaultLayer.bankHas(name, amount);
 	}
 
 	@Override
 	public EconomyResponse bankWithdraw(String name, double amount) {
-		return economy.vaultLayer.bankWithdraw(name, amount);
+		return Minefaconomy.vaultLayer.bankWithdraw(name, amount);
 	}
 
 	@Override
 	public EconomyResponse bankDeposit(String name, double amount) {
-		return economy.vaultLayer.bankDeposit(name, amount);
+		return Minefaconomy.vaultLayer.bankDeposit(name, amount);
 	}
 
 	@Override
 	public EconomyResponse isBankOwner(String name, String playerName) {
-		return economy.vaultLayer.isBankOwner(name, playerName);
+		return Minefaconomy.vaultLayer.isBankOwner(name, playerName);
 	}
 
 	@Override
 	public EconomyResponse isBankMember(String name, String playerName) {
-		return economy.vaultLayer.isBankMember(name, playerName);
+		return Minefaconomy.vaultLayer.isBankMember(name, playerName);
 	}
 
 	@Override
 	public List<String> getBanks() {
-		return economy.vaultLayer.getBanks();
+		return Minefaconomy.vaultLayer.getBanks();
 	}
 
 }
