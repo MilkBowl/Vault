@@ -70,9 +70,9 @@ public class Permission_rscPermissions extends Permission {
         public void onPluginDisable(PluginDisableEvent event) {
             if (bridge.rscpAPI != null) {
                 if (event.getPlugin().getDescription().getName().equals(bridge.rscpAPI.getName())) {
+                    log.info(String.format("[%s][Permission] %s un-hooked.", vault.getDescription().getName(), bridge.rscpAPI.getName()));
                     bridge.rscpAPI = null;
                     bridge.rscp = null;
-                    log.info(String.format("[%s][Permission] %s un-hooked.", vault.getDescription().getName(), bridge.rscpAPI.getName()));
                 }
             }
         }
