@@ -65,7 +65,7 @@ public class Chat_rscPermissions extends Chat {
                 if (plugin.getDescription().getName().equals("rscPermissions")) {
                     bridge.rscp = (MainPluginClass) plugin;
                     bridge.rscpAPI = bridge.rscp.API;
-                    log.info(String.format("[%s][Permission] %s hooked.", vault.getDescription().getName(), "rscPermissions"));
+                    log.info(String.format("[%s][Chat] %s hooked.", vault.getDescription().getName(), "rscPermissions"));
                 }
             }
         }

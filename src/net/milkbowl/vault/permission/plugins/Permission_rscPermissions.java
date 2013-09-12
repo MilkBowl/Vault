@@ -37,7 +37,14 @@ public class Permission_rscPermissions extends Permission {
         super();
         this.vault = plugin;
         Bukkit.getServer().getPluginManager().registerEvents(new PermissionServerListener(this), vault);
-        rscp = (MainPluginClass)vault.getServer().getPluginManager().getPlugin("rscPermissions");
+        if (rscp == null) {
+            Plugin perms = plugin.getServer().getPluginManager().getPlugin("rscPermissions");
+            if (perms != null && perms.isEnabled()) {
+                this.rscp = (MainPluginClass) perms;
+                rscpAPI = rscp.API;
+                plugin.getLogger().info(String.format("[%s][Permission] %s hooked.", plugin.getDescription().getName(), "rscPermissions"));
+            }
+        }
     }
 
     private class PermissionServerListener implements Listener {
