@@ -65,9 +65,9 @@ public class Economy_Gringotts implements Economy {
         @EventHandler(priority = EventPriority.MONITOR)
         public void onPluginEnable(PluginEnableEvent event) {
             if (economy.gringotts == null) {
-                Plugin grngts = plugin.getServer().getPluginManager().getPlugin("Gringotts");
+                Plugin grngts = event.getPlugin();
 
-                if (grngts != null) {
+                if (grngts.getDescription().getName().equals("Gringotts")) {
                     economy.gringotts = (Gringotts) grngts;
                     log.info(String.format("[%s][Economy] %s hooked.", plugin.getDescription().getName(), economy.name));
                 }

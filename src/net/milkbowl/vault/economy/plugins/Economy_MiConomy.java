@@ -339,9 +339,9 @@ public class Economy_MiConomy implements Economy {
         @EventHandler(priority = EventPriority.MONITOR)
         public void onPluginEnable(PluginEnableEvent event) {
             if (economy.economy == null) {
-                Plugin miConomyPlugin = plugin.getServer().getPluginManager().getPlugin("MiConomy");
+                Plugin miConomyPlugin = event.getPlugin();
 
-                if (miConomyPlugin != null) {
+                if (miConomyPlugin.getDescription().getName().equals("MiConomy")) {
                     economy.miConomy = (Main) miConomyPlugin;
                     
                     economy.economy = miConomy.getInstance();

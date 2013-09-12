@@ -124,9 +124,9 @@ public class Economy_AEco implements Economy {
         @EventHandler(priority = EventPriority.MONITOR)
         public void onPluginEnable(PluginEnableEvent event) {
             if (economy.economy == null) {
-                Plugin eco = plugin.getServer().getPluginManager().getPlugin("AEco");
+                Plugin eco = event.getPlugin();
 
-                if (eco != null) {
+                if (eco.getDescription().getName().equals("AEco")) {
                     economy.economy = AEco.ECONOMY;
                     try {
                         createWallet = economy.getClass().getMethod("createWallet", String.class);

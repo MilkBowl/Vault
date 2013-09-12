@@ -169,9 +169,9 @@ public class Economy_BOSE6 implements Economy {
         @EventHandler(priority = EventPriority.MONITOR)
         public void onPluginEnable(PluginEnableEvent event) {
             if (economy.economy == null) {
-                Plugin bose = plugin.getServer().getPluginManager().getPlugin("BOSEconomy");
+                Plugin bose = event.getPlugin();
 
-                if (bose != null && bose.getDescription().getVersion().startsWith("0.6")) {
+                if (bose.getDescription().getName().equals("BOSEconomy") && bose.getDescription().getVersion().startsWith("0.6")) {
                     economy.economy = (BOSEconomy) bose;
                     log.info(String.format("[%s][Economy] %s hooked.", plugin.getDescription().getName(), economy.name));
                 }

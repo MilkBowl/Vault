@@ -59,7 +59,7 @@ public class Permission_zPermissions extends Permission {
         
         @EventHandler(priority = EventPriority.MONITOR)
         public void onPluginEnable(PluginEnableEvent event) {
-            if (service == null) {
+            if (service == null && event.getPlugin().getDescription().getName().equals("zPermissions")) {
                 service = plugin.getServer().getServicesManager().load(ZPermissionsService.class);
                 if (service != null) {
                     log.info(String.format("[%s][Permission] %s hooked.", plugin.getDescription().getName(), name));

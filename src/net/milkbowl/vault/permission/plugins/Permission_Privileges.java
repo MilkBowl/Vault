@@ -44,9 +44,8 @@ public class Permission_Privileges extends Permission {
         @EventHandler(priority = EventPriority.MONITOR)
         public void onPluginEnable(PluginEnableEvent event) {
             if (permission.privs == null) {
-                Plugin perms = plugin.getServer().getPluginManager().getPlugin("Privileges");
-
-                if (perms != null) {
+                Plugin perms = event.getPlugin();
+                if (perms.getDescription().getName().equals("Privileges")) {
                     permission.privs = (Privileges) perms;
                     log.info(String.format("[%s][Permission] %s hooked.", plugin.getDescription().getName(), permission.name));
                 }

@@ -61,13 +61,10 @@ public class Permission_PermissionsBukkit extends Permission {
         @EventHandler(priority = EventPriority.MONITOR)
         public void onPluginEnable(PluginEnableEvent event) {
             if (permission.perms == null) {
-                Plugin perms = plugin.getServer().getPluginManager().getPlugin("PermissionsBukkit");
-
-                if (perms != null) {
-                    if (perms.isEnabled()) {
-                        permission.perms = (PermissionsPlugin) perms;
-                        log.info(String.format("[%s][Permission] %s hooked.", plugin.getDescription().getName(), permission.name));
-                    }
+                Plugin perms = event.getPlugin();
+                if (perms.getDescription().getName().equals("PermissionsBukkit")) {
+                    permission.perms = (PermissionsPlugin) perms;
+                    log.info(String.format("[%s][Permission] %s hooked.", plugin.getDescription().getName(), permission.name));
                 }
             }
         }

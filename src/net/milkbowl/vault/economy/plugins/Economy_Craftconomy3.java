@@ -69,9 +69,9 @@ public class Economy_Craftconomy3 implements Economy {
 		@EventHandler(priority = EventPriority.MONITOR)
 		public void onPluginEnable(PluginEnableEvent event) {
 			if (economy.economy == null) {
-				Plugin ec = plugin.getServer().getPluginManager().getPlugin("Craftconomy3");
+				Plugin ec = event.getPlugin();
 
-				if (ec != null && ec.getClass().getName().equals("com.greatmancode.craftconomy3.tools.interfaces.BukkitLoader")) {
+				if (ec.getDescription().getName().equals("Craftconomy3") && ec.getClass().getName().equals("com.greatmancode.craftconomy3.tools.interfaces.BukkitLoader")) {
 					economy.economy = (BukkitLoader) ec;
 					log.info(String.format("[%s][Economy] %s hooked.", plugin.getDescription().getName(), economy.name));
 				}

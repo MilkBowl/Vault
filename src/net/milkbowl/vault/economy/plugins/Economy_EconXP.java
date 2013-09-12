@@ -66,9 +66,9 @@ public class Economy_EconXP implements Economy {
         @EventHandler(priority = EventPriority.MONITOR)
         public void onPluginEnable(PluginEnableEvent event) {
             if (economy.econ == null) {
-                Plugin eco = plugin.getServer().getPluginManager().getPlugin("EconXP");
+                Plugin eco = event.getPlugin();
 
-                if (eco != null) {
+                if (eco.getDescription().getName().equals("EconXP")) {
                     economy.econ = (EconXP) eco;
                     log.info(String.format("[%s][Economy] %s hooked.", plugin.getDescription().getName(), economy.name));
                 }

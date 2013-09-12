@@ -62,7 +62,7 @@ public class Permission_bPermissions2 extends Permission {
         public void onPluginEnable(PluginEnableEvent event) {
             if (!hooked) {
                 Plugin p = event.getPlugin();
-                if(p.getDescription().getName().equals("bPermissions") && p.isEnabled()) {
+                if(p.getDescription().getName().equals("bPermissions")) {
                     hooked = true;
                     log.info(String.format("[%s][Permission] %s hooked.", plugin.getDescription().getName(), name));
                 }

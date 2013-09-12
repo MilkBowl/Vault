@@ -182,9 +182,9 @@ public class Economy_Essentials implements Economy {
         @EventHandler(priority = EventPriority.MONITOR)
         public void onPluginEnable(PluginEnableEvent event) {
             if (economy.ess == null) {
-                Plugin essentials = plugin.getServer().getPluginManager().getPlugin("Essentials");
+                Plugin essentials = event.getPlugin();
 
-                if (essentials != null) {
+                if (essentials.getDescription().getName().equals("Essentials")) {
                     economy.ess = (Essentials) essentials;
                     log.info(String.format("[%s][Economy] %s hooked.", plugin.getDescription().getName(), economy.name));
                 }

@@ -64,8 +64,8 @@ public class Chat_iChat extends Chat {
 		@EventHandler(priority = EventPriority.MONITOR)
 		public void onPluginEnable(PluginEnableEvent event) {
 			if (this.chat.iChat == null) {
-				Plugin chat = plugin.getServer().getPluginManager().getPlugin("iChat");
-				if (chat != null) {
+				Plugin chat = event.getPlugin();
+				if (chat.getDescription().getName().equals("iChat")) {
 					this.chat.iChat = ((iChat) chat).API;
 					log.info(String.format("[%s][Chat] %s hooked.", plugin.getDescription().getName(), "iChat"));
 				}

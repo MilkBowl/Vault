@@ -44,7 +44,7 @@ public class Chat_Privileges extends Chat {
             Plugin privsPlugin = plugin.getServer().getPluginManager().getPlugin(PLUGIN_NAME);
             if (privsPlugin != null && privsPlugin.isEnabled()) {
                 this.privs = (Privileges) privsPlugin;
-                plugin.getLogger().info(String.format("[Chat] %s hooked.", FRIENDLY_NAME));
+                plugin.getLogger().info(String.format("[%s][Chat] %s hooked.", plugin.getDescription().getName(), FRIENDLY_NAME));
             }
         }
     }

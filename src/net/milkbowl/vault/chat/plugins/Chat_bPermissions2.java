@@ -63,8 +63,8 @@ public class Chat_bPermissions2 extends Chat {
         @EventHandler(priority = EventPriority.MONITOR)
         public void onPluginEnable(PluginEnableEvent event) {
             if (!hooked) {
-                Plugin chat = plugin.getServer().getPluginManager().getPlugin("bPermissions");
-                if (chat != null) {
+                Plugin chat = event.getPlugin();
+                if (chat.getDescription().getName().equals("bPermissions")) {
                     hooked = true;
                     log.info(String.format("[%s][Chat] %s hooked.", plugin.getDescription().getName(), "bPermissions2"));
                 }
