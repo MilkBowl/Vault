@@ -89,7 +89,7 @@ public class Chat_rscPermissions extends Chat {
 
     @Override
     public boolean isEnabled() {
-        return rscpAPI.isEnabled();
+        return (rscpAPI != null) ? rscpAPI.isEnabled() : false;
     }
 
     @Override
