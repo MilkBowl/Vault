@@ -34,8 +34,8 @@ public class Chat_rscPermissions extends Chat {
 
     private static final Logger log = Logger.getLogger("Minecraft");
     private final Plugin vault;
-    private ru.simsonic.rscPermissions.MainPluginClass rscp;
-    private ru.simsonic.rscPermissions.rscpAPI rscpAPI;
+    private ru.simsonic.rscPermissions.MainPluginClass rscp = null;
+    private ru.simsonic.rscPermissions.rscpAPI rscpAPI = null;
 
     public Chat_rscPermissions(Plugin plugin, Permission perm) {
         super(perm);
@@ -59,21 +59,21 @@ public class Chat_rscPermissions extends Chat {
         }
 
         @EventHandler(priority = EventPriority.MONITOR)
-        private void onPluginEnable(PluginEnableEvent event) {
-            if(bridge.rscp == null) {
+        public void onPluginEnable(PluginEnableEvent event) {
+            if (bridge.rscp == null) {
                 Plugin plugin = event.getPlugin();
                 if (plugin.getDescription().getName().equals("rscPermissions")) {
                     bridge.rscp = (MainPluginClass) plugin;
                     bridge.rscpAPI = bridge.rscp.API;
-                    log.info(String.format("[%s][Permission] %s hooked.", vault.getDescription().getName(), bridge.rscpAPI.getName()));
+                    log.info(String.format("[%s][Chat] %s hooked.", vault.getDescription().getName(), bridge.rscpAPI.getName()));
                 }
             }
         }
 
         @EventHandler(priority = EventPriority.MONITOR)
         public void onPluginDisable(PluginDisableEvent event) {
-            if(bridge.rscpAPI != null) {
-                if(event.getPlugin().getDescription().getName().equals(bridge.rscpAPI.getName())) {
+            if (bridge.rscpAPI != null) {
+                if (event.getPlugin().getDescription().getName().equals(bridge.rscpAPI.getName())) {
                     bridge.rscpAPI = null;
                     bridge.rscp = null;
                     log.info(String.format("[%s][Chat] %s un-hooked.", vault.getDescription().getName(), bridge.rscpAPI.getName()));
@@ -84,12 +84,12 @@ public class Chat_rscPermissions extends Chat {
 
     @Override
     public String getName() {
-        return rscpAPI.getName();
+        return "rscPermissions";
     }
 
     @Override
     public boolean isEnabled() {
-        return rscpAPI.isEnabled();
+        return (rscpAPI != null) ? rscpAPI.isEnabled() : false;
     }
 
     @Override

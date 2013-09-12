@@ -37,7 +37,14 @@ public class Permission_rscPermissions extends Permission {
         super();
         this.vault = plugin;
         Bukkit.getServer().getPluginManager().registerEvents(new PermissionServerListener(this), vault);
-        rscp = (MainPluginClass)vault.getServer().getPluginManager().getPlugin("rscPermissions");
+        if (rscp == null) {
+            Plugin perms = plugin.getServer().getPluginManager().getPlugin("rscPermissions");
+            if (perms != null && perms.isEnabled()) {
+                this.rscp = (MainPluginClass) perms;
+                rscpAPI = rscp.API;
+                plugin.getLogger().info(String.format("[%s][Permission] %s hooked.", plugin.getDescription().getName(), "rscPermissions"));
+            }
+        }
     }
 
     private class PermissionServerListener implements Listener {
@@ -49,7 +56,7 @@ public class Permission_rscPermissions extends Permission {
 
         @EventHandler(priority = EventPriority.MONITOR)
         public void onPluginEnable(PluginEnableEvent event) {
-            if(bridge.rscp == null) {
+            if (bridge.rscp == null) {
                 Plugin plugin = event.getPlugin();
                 if (plugin.getDescription().getName().equals("rscPermissions")) {
                     bridge.rscp = (MainPluginClass) plugin;
@@ -61,8 +68,8 @@ public class Permission_rscPermissions extends Permission {
 
         @EventHandler(priority = EventPriority.MONITOR)
         public void onPluginDisable(PluginDisableEvent event) {
-            if(bridge.rscpAPI != null){
-                if(event.getPlugin().getDescription().getName().equals(bridge.rscpAPI.getName())) {
+            if (bridge.rscpAPI != null) {
+                if (event.getPlugin().getDescription().getName().equals(bridge.rscpAPI.getName())) {
                     bridge.rscpAPI = null;
                     bridge.rscp = null;
                     log.info(String.format("[%s][Permission] %s un-hooked.", vault.getDescription().getName(), bridge.rscpAPI.getName()));
@@ -78,7 +85,7 @@ public class Permission_rscPermissions extends Permission {
 
     @Override
     public boolean isEnabled() {
-        return rscpAPI.isEnabled();
+        return (rscpAPI != null) ? rscpAPI.isEnabled() : false;
     }
 
     @Override
