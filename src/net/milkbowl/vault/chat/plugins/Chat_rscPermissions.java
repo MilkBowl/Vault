@@ -84,12 +84,12 @@ public class Chat_rscPermissions extends Chat {
 
     @Override
     public String getName() {
-        return rscpAPI.getName();
+        return "rscPermissions";
     }
 
     @Override
     public boolean isEnabled() {
-        return rscpAPI.isEnabled();
+        return rscpAPI != null && rscpAPI.isEnabled();
     }
 
     @Override

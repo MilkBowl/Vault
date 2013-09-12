@@ -78,7 +78,7 @@ public class Permission_rscPermissions extends Permission {
 
     @Override
     public boolean isEnabled() {
-        return rscpAPI.isEnabled();
+        return rscpAPI != null && rscpAPI.isEnabled();
     }
 
     @Override
