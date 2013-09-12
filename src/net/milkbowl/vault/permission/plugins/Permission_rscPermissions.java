@@ -54,7 +54,7 @@ public class Permission_rscPermissions extends Permission {
                 if (plugin.getDescription().getName().equals("rscPermissions")) {
                     bridge.rscp = (MainPluginClass) plugin;
                     bridge.rscpAPI = bridge.rscp.API;
-                    log.info(String.format("[%s][Permission] %s hooked.", vault.getDescription().getName(), bridge.rscpAPI.getName()));
+                    log.info(String.format("[%s][Permission] %s hooked.", vault.getDescription().getName(), "rscPermissions"));
                 }
             }
         }
@@ -65,7 +65,7 @@ public class Permission_rscPermissions extends Permission {
                 if(event.getPlugin().getDescription().getName().equals(bridge.rscpAPI.getName())) {
                     bridge.rscpAPI = null;
                     bridge.rscp = null;
-                    log.info(String.format("[%s][Permission] %s un-hooked.", vault.getDescription().getName(), bridge.rscpAPI.getName()));
+                    log.info(String.format("[%s][Permission] %s un-hooked.", vault.getDescription().getName(), "rscPermissions"));
                 }
             }
         }
