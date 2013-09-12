@@ -74,9 +74,9 @@ public class Chat_rscPermissions extends Chat {
         public void onPluginDisable(PluginDisableEvent event) {
             if (bridge.rscpAPI != null) {
                 if (event.getPlugin().getDescription().getName().equals(bridge.rscpAPI.getName())) {
+                    log.info(String.format("[%s][Chat] %s un-hooked.", vault.getDescription().getName(), bridge.rscpAPI.getName()));
                     bridge.rscpAPI = null;
                     bridge.rscp = null;
-                    log.info(String.format("[%s][Chat] %s un-hooked.", vault.getDescription().getName(), bridge.rscpAPI.getName()));
                 }
             }
         }
