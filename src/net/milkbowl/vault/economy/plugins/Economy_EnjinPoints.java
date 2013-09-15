@@ -40,7 +40,7 @@ public class Economy_EnjinPoints implements Economy {
     private final String name = "Enjin Points";
     private Plugin plugin = null;
     private PointsAPI enjinPoints = null;
-    private EnjinMinecraftPlugin enjinPlugin;
+    private EnjinMinecraftPlugin enjinPlugin = null;
 
     public Economy_EnjinPoints(Plugin plugin) {
         this.plugin = plugin;

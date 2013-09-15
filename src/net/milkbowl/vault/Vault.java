@@ -48,6 +48,7 @@ import net.milkbowl.vault.economy.plugins.Economy_Craftconomy3;
 import net.milkbowl.vault.economy.plugins.Economy_CurrencyCore;
 import net.milkbowl.vault.economy.plugins.Economy_Dosh;
 import net.milkbowl.vault.economy.plugins.Economy_EconXP;
+import net.milkbowl.vault.economy.plugins.Economy_EnjinPoints;
 import net.milkbowl.vault.economy.plugins.Economy_Essentials;
 import net.milkbowl.vault.economy.plugins.Economy_GoldIsMoney;
 import net.milkbowl.vault.economy.plugins.Economy_GoldIsMoney2;
@@ -100,6 +101,7 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 import com.nijikokun.register.payment.Methods;
+
 import net.milkbowl.vault.economy.plugins.Economy_MiConomy;
 
 public class Vault extends JavaPlugin {
@@ -280,6 +282,9 @@ public class Vault extends JavaPlugin {
         
         // Try to load XPBank
         hookEconomy("XPBank", Economy_XPBank.class, ServicePriority.Normal, "com.gmail.mirelatrue.xpbank.XPBank");
+        
+        // Try to load Enjin Points
+        hookEconomy("Enjin Points", Economy_EnjinPoints.class, ServicePriority.Normal, "com.enjin.officialplugin.points.PointAPI", "com.enjin.officialplugin.points.ErrorConnectingToEnjinException",  "com.enjin.officialplugin.points.PlayerDoesNotExistException");
     }
 
     /**
