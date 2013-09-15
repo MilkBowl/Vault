@@ -355,6 +355,13 @@ Vault currently supports the following: Permissions 3, PEX, GroupManager, bPerms
 			<scope>system</scope>
 			<systemPath>${project.basedir}/lib/rscPermissions.jar</systemPath>
 		</dependency>
+		<dependency>
+			<groupId>com.enjin</groupId>
+			<artifactId>EnjinMinecraftPlugin</artifactId>
+			<version>2.4.9</version>
+			<scope>system</scope>
+			<systemPath>${project.basedir}/lib/EnjinMinecraftPlugin.jar</systemPath>
+		</dependency>
 	</dependencies>
 
 	<build>
