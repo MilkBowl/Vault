@@ -45,7 +45,7 @@ public class Permission_TotalPermissions extends Permission {
 
         @EventHandler(priority = EventPriority.MONITOR)
         public void onPluginEnable(PluginEnableEvent event) {
-            if (manager == null) {
+            if (manager == null || totalperms == null) {
                 Plugin permPlugin = event.getPlugin();
                 if (permPlugin.getDescription().getName().equals(name)) {
                     totalperms = (TotalPermissions) permPlugin;

@@ -250,7 +250,7 @@ public class Items {
         items.add(new ItemInfo("Snowball", new String[][]{{"snow", "ball"}}, Material.SNOW_BALL));
         items.add(new ItemInfo("Boat", new String[][]{{"boat"}}, Material.BOAT));
         items.add(new ItemInfo("Leather", new String[][]{{"lea"}, {"hide"}}, Material.LEATHER));
-        items.add(new ItemInfo("Milk Bucket", new String[][]{{"milk"}}, Material.MILK_BUCKET));
+        items.add(new ItemInfo("Milk Bucket", new String[][]{{"buck", "mil"}, {"milk"}}, Material.MILK_BUCKET));
         items.add(new ItemInfo("Clay Brick", new String[][]{{"bric", "cl"}, {"sin", "bric"}}, Material.CLAY_BRICK));
         items.add(new ItemInfo("Clay", new String[][]{{"cla"}}, Material.CLAY_BALL));
         items.add(new ItemInfo("Sugar Cane", new String[][]{{"reed"}, {"cane"}}, Material.SUGAR_CANE));
@@ -321,65 +321,65 @@ public class Items {
         items.add(new ItemInfo("Glass Bottle", new String[][] {{"bottl"}, {"glas", "bott"}, {"empt", "bott"}}, Material.GLASS_BOTTLE));
         items.add(new ItemInfo("Potion", new String[][] {{"potio"}}, Material.POTION));
         items.add(new ItemInfo("Water Bottle", new String[][] {{"wat", "bot"}}, Material.POTION, (short) 0));
-        items.add(new ItemInfo("Awkward Potion", new String[][] {{"pot", "awk"}}, Material.POTION, (short) 16));
-        items.add(new ItemInfo("Thick Potion", new String[][] {{"pot", "thic"}}, Material.POTION, (short) 32));
-        items.add(new ItemInfo("Mundane Potion (Extended)", new String[][] {{"pot", "mund", "ext"}}, Material.POTION, (short) 64));
-        items.add(new ItemInfo("Mundane Potion", new String[][] {{"pot", "mund"}}, Material.POTION, (short) 8192));
-        items.add(new ItemInfo("Potion of Regeneration", new String[][] {{"pot", "rege"}}, Material.POTION, (short) 8193));
-        items.add(new ItemInfo("Potion of Regeneration (Extended)", new String[][] {{"pot", "rege", "ext"}}, Material.POTION, (short) 8257));
-        items.add(new ItemInfo("Potion of Regeneration II", new String[][] {{"pot", "rege", "2"}, {"pot", "rege", "ii"}}, Material.POTION, (short) 8225));
-        items.add(new ItemInfo("Potion of Swiftness", new String[][] {{"pot", "swif"}, {"pot", "speed"}}, Material.POTION, (short) 8194));
-        items.add(new ItemInfo("Potion of Swiftness (Extended)", new String[][] {{"pot", "swif", "ext"}, {"pot", "speed", "ext"}}, Material.POTION, (short) 8258));
-        items.add(new ItemInfo("Potion of Swiftness II", new String[][] {{"pot", "swif", "2"}, {"pot", "swif", "ii"}, {"pot", "speed", "2"}, {"pot", "speed", "ii"}}, Material.POTION, (short) 8226));
-        items.add(new ItemInfo("Potion of Fire Resistance", new String[][] {{"pot", "fire"}}, Material.POTION, (short) 8195));
-        items.add(new ItemInfo("Potion of Fire Resistance (Extended)", new String[][] {{"pot", "fire", "ext"}}, Material.POTION, (short) 8259));
-        items.add(new ItemInfo("Potion of Fire Resistance (Reverted)", new String[][] {{"pot", "fire", "rev"}}, Material.POTION, (short) 8227));
-        items.add(new ItemInfo("Potion of Healing", new String[][] {{"pot", "heal"}}, Material.POTION, (short) 8197));
-        items.add(new ItemInfo("Potion of Healing (Reverted)", new String[][] {{"pot", "heal", "rev"}}, Material.POTION, (short) 8261));
-        items.add(new ItemInfo("Potion of Healing II", new String[][] {{"pot", "heal", "2"}, {"pot", "heal", "ii"}}, Material.POTION, (short) 8229));
-        items.add(new ItemInfo("Potion of Strength", new String[][] {{"pot", "str"}}, Material.POTION, (short) 8201));
-        items.add(new ItemInfo("Potion of Strength (Extended)", new String[][] {{"pot", "str", "ext"}}, Material.POTION, (short) 8265));
-        items.add(new ItemInfo("Potion of Strength II", new String[][] {{"pot", "str", "2"}, {"pot", "str", "ii"}}, Material.POTION, (short) 8233));
-        items.add(new ItemInfo("Potion of Poison", new String[][] {{"pot", "pois"}}, Material.POTION, (short) 8196));
-        items.add(new ItemInfo("Potion of Poison (Extended)", new String[][] {{"pot", "pois", "ext"}}, Material.POTION, (short) 8260));
-        items.add(new ItemInfo("Potion of Poison II", new String[][] {{"pot", "pois", "2"}, {"pot", "pois", "ii"}}, Material.POTION, (short) 8228));
-        items.add(new ItemInfo("Potion of Weakness", new String[][] {{"pot", "weak"}}, Material.POTION, (short) 8200));
-        items.add(new ItemInfo("Potion of Weakness (Extended)", new String[][] {{"pot", "weak", "ext"}}, Material.POTION, (short) 8264));
-        items.add(new ItemInfo("Potion of Weakness (Reverted)", new String[][] {{"pot", "weak", "rev"}}, Material.POTION, (short) 8232));
-        items.add(new ItemInfo("Potion of Slowness", new String[][] {{"pot", "slow"}}, Material.POTION, (short) 8202));
-        items.add(new ItemInfo("Potion of Slowness (Extended)", new String[][] {{"pot", "slow", "ext"}}, Material.POTION, (short) 8266));
-        items.add(new ItemInfo("Potion of Slowness (Reverted)", new String[][] {{"pot", "slow", "rev"}}, Material.POTION, (short) 8234));
-        items.add(new ItemInfo("Potion of Harming", new String[][] {{"pot", "harm"}}, Material.POTION, (short) 8204));
-        items.add(new ItemInfo("Potion of Harming (Reverted)", new String[][] {{"pot", "harm", "rev"}}, Material.POTION, (short) 8268));
-        items.add(new ItemInfo("Potion of Harming II", new String[][] {{"pot", "harm", "2"}, {"pot", "harm", "ii"}}, Material.POTION, (short) 8236));
-        items.add(new ItemInfo("Splash Mundane Potion", new String[][] {{"pot", "mund", "spl"}}, Material.POTION, (short) 16384));
-        items.add(new ItemInfo("Splash Potion of Regeneration", new String[][] {{"pot", "rege", "spl"}}, Material.POTION, (short) 16385));
-        items.add(new ItemInfo("Splash Potion of Regeneration (Extended)", new String[][] {{"pot", "rege", "spl", "ext"}}, Material.POTION, (short) 16449));
-        items.add(new ItemInfo("Splash Potion of Regeneration II", new String[][] {{"pot", "rege", "spl", "2"}, {"pot", "rege", "spl", "ii"}}, Material.POTION, (short) 16417));
-        items.add(new ItemInfo("Splash Potion of Swiftness", new String[][] {{"pot", "swif", "spl"}, {"pot", "speed", "spl"}}, Material.POTION, (short) 16386));
-        items.add(new ItemInfo("Splash Potion of Swiftness (Extended)", new String[][] {{"pot", "swif", "spl", "ext"}, {"pot", "speed", "spl", "ext"}}, Material.POTION, (short) 16450));
-        items.add(new ItemInfo("Splash Potion of Swiftness II", new String[][] {{"pot", "swif", "spl", "2"}, {"pot", "swif", "spl", "ii"}, {"pot", "speed", "spl", "2"}, {"pot", "speed", "spl", "ii"}}, Material.POTION, (short) 16418));
-        items.add(new ItemInfo("Splash Potion of Fire Resistance", new String[][] {{"pot", "fire", "spl"}}, Material.POTION, (short) 16387));
-        items.add(new ItemInfo("Splash Potion of Fire Resistance (Extended)", new String[][] {{"pot", "fire", "spl", "ext"}}, Material.POTION, (short) 16451));
-        items.add(new ItemInfo("Splash Potion of Fire Resistance (Reverted)", new String[][] {{"pot", "fire", "spl", "rev"}}, Material.POTION, (short) 16419));
-        items.add(new ItemInfo("Splash Potion of Healing", new String[][] {{"pot", "heal", "spl"}}, Material.POTION, (short) 16389));
-        items.add(new ItemInfo("Splash Potion of Healing (Reverted)", new String[][] {{"pot", "heal", "spl", "rev"}}, Material.POTION, (short) 16453));
-        items.add(new ItemInfo("Splash Potion of Healing II", new String[][] {{"pot", "heal", "spl", "2"}, {"pot", "heal", "spl", "ii"}}, Material.POTION, (short) 16421));
-        items.add(new ItemInfo("Splash Potion of Strength", new String[][] {{"pot", "str", "spl"}}, Material.POTION, (short) 16393));
-        items.add(new ItemInfo("Splash Potion of Strength (Extended)", new String[][] {{"pot", "str", "spl", "ext"}}, Material.POTION, (short) 16457));
-        items.add(new ItemInfo("Splash Potion of Strength II", new String[][] {{"pot", "str", "spl", "2"}, {"pot", "str", "spl", "ii"}}, Material.POTION, (short) 16425));
-        items.add(new ItemInfo("Splash Potion of Poison", new String[][] {{"pot", "pois", "spl"}}, Material.POTION, (short) 16388));
-        items.add(new ItemInfo("Splash Potion of Poison (Extended)", new String[][] {{"pot", "pois", "spl", "ext"}}, Material.POTION, (short) 16452));
-        items.add(new ItemInfo("Splash Potion of Poison II", new String[][] {{"pot", "pois", "spl", "2"}, {"pot", "pois", "spl", "ii"}}, Material.POTION, (short) 16420));
-        items.add(new ItemInfo("Splash Potion of Weakness", new String[][] {{"pot", "weak", "spl"}}, Material.POTION, (short) 16392));
-        items.add(new ItemInfo("Splash Potion of Weakness (Extended)", new String[][] {{"pot", "weak", "spl", "ext"}}, Material.POTION, (short) 16456));
-        items.add(new ItemInfo("Splash Potion of Weakness (Reverted)", new String[][] {{"pot", "weak", "spl", "rev"}}, Material.POTION, (short) 16424));
-        items.add(new ItemInfo("Splash Potion of Slowness", new String[][] {{"pot", "slow", "spl"}}, Material.POTION, (short) 16394));
-        items.add(new ItemInfo("Splash Potion of Slowness (Extended)", new String[][] {{"pot", "slow", "spl", "ext"}}, Material.POTION, (short) 16458));
-        items.add(new ItemInfo("Splash Potion of Slowness (Reverted)", new String[][] {{"pot", "slow", "spl", "rev"}}, Material.POTION, (short) 16426));
-        items.add(new ItemInfo("Splash Potion of Harming", new String[][] {{"pot", "harm", "spl"}}, Material.POTION, (short) 16396));
-        items.add(new ItemInfo("Splash Potion of Harming (Reverted)", new String[][] {{"pot", "harm", "spl", "rev"}}, Material.POTION, (short) 16460));
-        items.add(new ItemInfo("Splash Potion of Harming II", new String[][] {{"pot", "harm", "spl", "2"}, {"pot", "harm", "spl", "ii"}}, Material.POTION, (short) 16428));
+        items.add(new ItemInfo("Awkward Potion", new String[][] {{"poti", "awk"}}, Material.POTION, (short) 16));
+        items.add(new ItemInfo("Thick Potion", new String[][] {{"poti", "thic"}}, Material.POTION, (short) 32));
+        items.add(new ItemInfo("Mundane Potion (Extended)", new String[][] {{"poti", "mund", "ext"}}, Material.POTION, (short) 64));
+        items.add(new ItemInfo("Mundane Potion", new String[][] {{"poti", "mund"}}, Material.POTION, (short) 8192));
+        items.add(new ItemInfo("Potion of Regeneration", new String[][] {{"poti", "rege"}}, Material.POTION, (short) 8193));
+        items.add(new ItemInfo("Potion of Regeneration (Extended)", new String[][] {{"poti", "rege", "ext"}}, Material.POTION, (short) 8257));
+        items.add(new ItemInfo("Potion of Regeneration II", new String[][] {{"poti", "rege", "2"}, {"poti", "rege", "ii"}}, Material.POTION, (short) 8225));
+        items.add(new ItemInfo("Potion of Swiftness", new String[][] {{"poti", "swif"}, {"poti", "speed"}}, Material.POTION, (short) 8194));
+        items.add(new ItemInfo("Potion of Swiftness (Extended)", new String[][] {{"poti", "swif", "ext"}, {"poti", "speed", "ext"}}, Material.POTION, (short) 8258));
+        items.add(new ItemInfo("Potion of Swiftness II", new String[][] {{"poti", "swif", "2"}, {"poti", "swif", "ii"}, {"poti", "speed", "2"}, {"poti", "speed", "ii"}}, Material.POTION, (short) 8226));
+        items.add(new ItemInfo("Potion of Fire Resistance", new String[][] {{"poti", "fire"}}, Material.POTION, (short) 8195));
+        items.add(new ItemInfo("Potion of Fire Resistance (Extended)", new String[][] {{"poti", "fire", "ext"}}, Material.POTION, (short) 8259));
+        items.add(new ItemInfo("Potion of Fire Resistance (Reverted)", new String[][] {{"poti", "fire", "rev"}}, Material.POTION, (short) 8227));
+        items.add(new ItemInfo("Potion of Healing", new String[][] {{"poti", "heal"}}, Material.POTION, (short) 8197));
+        items.add(new ItemInfo("Potion of Healing (Reverted)", new String[][] {{"poti", "heal", "rev"}}, Material.POTION, (short) 8261));
+        items.add(new ItemInfo("Potion of Healing II", new String[][] {{"poti", "heal", "2"}, {"poti", "heal", "ii"}}, Material.POTION, (short) 8229));
+        items.add(new ItemInfo("Potion of Strength", new String[][] {{"poti", "str"}}, Material.POTION, (short) 8201));
+        items.add(new ItemInfo("Potion of Strength (Extended)", new String[][] {{"poti", "str", "ext"}}, Material.POTION, (short) 8265));
+        items.add(new ItemInfo("Potion of Strength II", new String[][] {{"poti", "str", "2"}, {"poti", "str", "ii"}}, Material.POTION, (short) 8233));
+        items.add(new ItemInfo("Potion of Poison", new String[][] {{"poti", "pois"}}, Material.POTION, (short) 8196));
+        items.add(new ItemInfo("Potion of Poison (Extended)", new String[][] {{"poti", "pois", "ext"}}, Material.POTION, (short) 8260));
+        items.add(new ItemInfo("Potion of Poison II", new String[][] {{"poti", "pois", "2"}, {"poti", "pois", "ii"}}, Material.POTION, (short) 8228));
+        items.add(new ItemInfo("Potion of Weakness", new String[][] {{"poti", "weak"}}, Material.POTION, (short) 8200));
+        items.add(new ItemInfo("Potion of Weakness (Extended)", new String[][] {{"poti", "weak", "ext"}}, Material.POTION, (short) 8264));
+        items.add(new ItemInfo("Potion of Weakness (Reverted)", new String[][] {{"poti", "weak", "rev"}}, Material.POTION, (short) 8232));
+        items.add(new ItemInfo("Potion of Slowness", new String[][] {{"poti", "slow"}}, Material.POTION, (short) 8202));
+        items.add(new ItemInfo("Potion of Slowness (Extended)", new String[][] {{"poti", "slow", "ext"}}, Material.POTION, (short) 8266));
+        items.add(new ItemInfo("Potion of Slowness (Reverted)", new String[][] {{"poti", "slow", "rev"}}, Material.POTION, (short) 8234));
+        items.add(new ItemInfo("Potion of Harming", new String[][] {{"poti", "harm"}}, Material.POTION, (short) 8204));
+        items.add(new ItemInfo("Potion of Harming (Reverted)", new String[][] {{"poti", "harm", "rev"}}, Material.POTION, (short) 8268));
+        items.add(new ItemInfo("Potion of Harming II", new String[][] {{"poti", "harm", "2"}, {"poti", "harm", "ii"}}, Material.POTION, (short) 8236));
+        items.add(new ItemInfo("Splash Mundane Potion", new String[][] {{"poti", "mund", "spl"}}, Material.POTION, (short) 16384));
+        items.add(new ItemInfo("Splash Potion of Regeneration", new String[][] {{"poti", "rege", "spl"}}, Material.POTION, (short) 16385));
+        items.add(new ItemInfo("Splash Potion of Regeneration (Extended)", new String[][] {{"poti", "rege", "spl", "ext"}}, Material.POTION, (short) 16449));
+        items.add(new ItemInfo("Splash Potion of Regeneration II", new String[][] {{"poti", "rege", "spl", "2"}, {"poti", "rege", "spl", "ii"}}, Material.POTION, (short) 16417));
+        items.add(new ItemInfo("Splash Potion of Swiftness", new String[][] {{"poti", "swif", "spl"}, {"poti", "speed", "spl"}}, Material.POTION, (short) 16386));
+        items.add(new ItemInfo("Splash Potion of Swiftness (Extended)", new String[][] {{"poti", "swif", "spl", "ext"}, {"poti", "speed", "spl", "ext"}}, Material.POTION, (short) 16450));
+        items.add(new ItemInfo("Splash Potion of Swiftness II", new String[][] {{"poti", "swif", "spl", "2"}, {"poti", "swif", "spl", "ii"}, {"poti", "speed", "spl", "2"}, {"poti", "speed", "spl", "ii"}}, Material.POTION, (short) 16418));
+        items.add(new ItemInfo("Splash Potion of Fire Resistance", new String[][] {{"poti", "fire", "spl"}}, Material.POTION, (short) 16387));
+        items.add(new ItemInfo("Splash Potion of Fire Resistance (Extended)", new String[][] {{"poti", "fire", "spl", "ext"}}, Material.POTION, (short) 16451));
+        items.add(new ItemInfo("Splash Potion of Fire Resistance (Reverted)", new String[][] {{"poti", "fire", "spl", "rev"}}, Material.POTION, (short) 16419));
+        items.add(new ItemInfo("Splash Potion of Healing", new String[][] {{"poti", "heal", "spl"}}, Material.POTION, (short) 16389));
+        items.add(new ItemInfo("Splash Potion of Healing (Reverted)", new String[][] {{"poti", "heal", "spl", "rev"}}, Material.POTION, (short) 16453));
+        items.add(new ItemInfo("Splash Potion of Healing II", new String[][] {{"poti", "heal", "spl", "2"}, {"poti", "heal", "spl", "ii"}}, Material.POTION, (short) 16421));
+        items.add(new ItemInfo("Splash Potion of Strength", new String[][] {{"poti", "str", "spl"}}, Material.POTION, (short) 16393));
+        items.add(new ItemInfo("Splash Potion of Strength (Extended)", new String[][] {{"poti", "str", "spl", "ext"}}, Material.POTION, (short) 16457));
+        items.add(new ItemInfo("Splash Potion of Strength II", new String[][] {{"poti", "str", "spl", "2"}, {"poti", "str", "spl", "ii"}}, Material.POTION, (short) 16425));
+        items.add(new ItemInfo("Splash Potion of Poison", new String[][] {{"poti", "pois", "spl"}}, Material.POTION, (short) 16388));
+        items.add(new ItemInfo("Splash Potion of Poison (Extended)", new String[][] {{"poti", "pois", "spl", "ext"}}, Material.POTION, (short) 16452));
+        items.add(new ItemInfo("Splash Potion of Poison II", new String[][] {{"poti", "pois", "spl", "2"}, {"poti", "pois", "spl", "ii"}}, Material.POTION, (short) 16420));
+        items.add(new ItemInfo("Splash Potion of Weakness", new String[][] {{"poti", "weak", "spl"}}, Material.POTION, (short) 16392));
+        items.add(new ItemInfo("Splash Potion of Weakness (Extended)", new String[][] {{"poti", "weak", "spl", "ext"}}, Material.POTION, (short) 16456));
+        items.add(new ItemInfo("Splash Potion of Weakness (Reverted)", new String[][] {{"poti", "weak", "spl", "rev"}}, Material.POTION, (short) 16424));
+        items.add(new ItemInfo("Splash Potion of Slowness", new String[][] {{"poti", "slow", "spl"}}, Material.POTION, (short) 16394));
+        items.add(new ItemInfo("Splash Potion of Slowness (Extended)", new String[][] {{"poti", "slow", "spl", "ext"}}, Material.POTION, (short) 16458));
+        items.add(new ItemInfo("Splash Potion of Slowness (Reverted)", new String[][] {{"poti", "slow", "spl", "rev"}}, Material.POTION, (short) 16426));
+        items.add(new ItemInfo("Splash Potion of Harming", new String[][] {{"poti", "harm", "spl"}}, Material.POTION, (short) 16396));
+        items.add(new ItemInfo("Splash Potion of Harming (Reverted)", new String[][] {{"poti", "harm", "spl", "rev"}}, Material.POTION, (short) 16460));
+        items.add(new ItemInfo("Splash Potion of Harming II", new String[][] {{"poti", "harm", "spl", "2"}, {"poti", "harm", "spl", "ii"}}, Material.POTION, (short) 16428));
         items.add(new ItemInfo("Spider Eye", new String[][] {{"spid", "eye"}}, Material.SPIDER_EYE));
         items.add(new ItemInfo("Fermented Spider Eye", new String[][] {{"ferm", "spid", "eye"}}, Material.FERMENTED_SPIDER_EYE));
         items.add(new ItemInfo("Blaze Powder", new String[][] {{"powd", "blaz"}}, Material.BLAZE_POWDER));
@@ -446,8 +446,8 @@ public class Items {
         items.add(new ItemInfo("Command Block", new String[][]{{"comm"}}, Material.COMMAND));
         items.add(new ItemInfo("Beacon Block", new String[][]{{"beac"}}, Material.BEACON));
         items.add(new ItemInfo("Anvil", new String[][]{{"anv"}}, Material.ANVIL));
-        items.add(new ItemInfo("Flower Pot Block", new String[][]{{"blo", "flow", "pot"}}, Material.FLOWER_POT));
-        items.add(new ItemInfo("Flower Pot", new String[][]{{"flow", "pot"}}, Material.FLOWER_POT_ITEM));
+        items.add(new ItemInfo("Flower Pot Block", new String[][]{{"blo", "flow", "poti"}}, Material.FLOWER_POT));
+        items.add(new ItemInfo("Flower Pot", new String[][]{{"flow", "poti"}}, Material.FLOWER_POT_ITEM));
         items.add(new ItemInfo("Cobblestone Wall", new String[][]{{"cob", "wall"}}, Material.COBBLE_WALL));
         items.add(new ItemInfo("Item Frame", new String[][]{{"fram"}}, Material.ITEM_FRAME));
         items.add(new ItemInfo("Skeleton Skull", new String[][]{{"skel", "skul"}, {"skel", "hea"}}, Material.SKULL_ITEM));
@@ -464,10 +464,10 @@ public class Items {
         items.add(new ItemInfo("Poisonous Potato", new String[][]{{"pota", "poi"}}, Material.POISONOUS_POTATO));
         items.add(new ItemInfo("Wood Button", new String[][]{{"woo", "butto"}}, Material.WOOD_BUTTON));
         items.add(new ItemInfo("Pumpkin Pie", new String[][]{{"pie"}, {"pumpk", "pie"}}, Material.PUMPKIN_PIE));
-        items.add(new ItemInfo("Potion of Invisibility", new String[][] {{"pot", "invi"}}, Material.POTION, (short) 8206));
-        items.add(new ItemInfo("Potion of Invisibility (Extended)", new String[][] {{"pot", "invi", "ext"}}, Material.POTION, (short) 8270));
-        items.add(new ItemInfo("Potion of Night Vision", new String[][] {{"pot", "nigh", "visi"}, {"pot", "visio"}}, Material.POTION, (short) 8198));
-        items.add(new ItemInfo("Potion of Night Vision (Extended)", new String[][] {{"pot", "nigh", "visi", "ext"}, {"pot", "visio", "ext"}}, Material.POTION, (short) 8262));
+        items.add(new ItemInfo("Potion of Invisibility", new String[][] {{"poti", "invi"}}, Material.POTION, (short) 8206));
+        items.add(new ItemInfo("Potion of Invisibility (Extended)", new String[][] {{"poti", "invi", "ext"}}, Material.POTION, (short) 8270));
+        items.add(new ItemInfo("Potion of Night Vision", new String[][] {{"poti", "nigh", "visi"}, {"poti", "visio"}}, Material.POTION, (short) 8198));
+        items.add(new ItemInfo("Potion of Night Vision (Extended)", new String[][] {{"poti", "nigh", "visi", "ext"}, {"poti", "visio", "ext"}}, Material.POTION, (short) 8262));
         items.add(new ItemInfo("Enchanted Book", new String[][]{{"ench", "boo"}}, Material.ENCHANTED_BOOK));
         items.add(new ItemInfo("Nether Star", new String[][]{{"star", "neth"}}, Material.NETHER_STAR));
         items.add(new ItemInfo("Firework Star", new String[][]{{"fire", "star"}}, Material.FIREWORK_CHARGE));
@@ -510,6 +510,48 @@ public class Items {
         items.add(new ItemInfo("Quartz Pillar", new String[][]{{"qua", "pil"}}, Material.QUARTZ_BLOCK, (short) 2));
         items.add(new ItemInfo("Weighted Gold Plate", new String[][]{{"wei", "plat", "gol"}, {"pres", "plat", "gol"}}, Material.GOLD_PLATE));
         items.add(new ItemInfo("Weighted Iron Plate", new String[][]{{"wei", "plat", "iro"}, {"pres", "plat", "iro"}}, Material.IRON_PLATE));
+        //1.6 Blocks and Items
+        items.add(new ItemInfo("Horse Spawn Egg", new String[][] {{"horse", "egg"}}, Material.MONSTER_EGG, (short) 100));
+        items.add(new ItemInfo("Diamond Horse Armor", new String[][] {{"dia", "horse", "arm"}, {"dia", "bard"}}, Material.DIAMOND_BARDING));
+        items.add(new ItemInfo("Gold Horse Armor", new String[][] {{"gold", "horse", "arm"}, {"gold", "bard"}}, Material.GOLD_BARDING));
+        items.add(new ItemInfo("Iron Horse Armor", new String[][] {{"iron", "horse", "arm"}, {"iron", "bard"}}, Material.IRON_BARDING));
+        items.add(new ItemInfo("Leash", new String[][] {{"leas"}, {"lead"}}, Material.LEASH));
+        items.add(new ItemInfo("Hay Bale", new String[][] {{"hay", "bale"}, {"hay", "block"}}, Material.HAY_BLOCK));
+        items.add(new ItemInfo("Name Tag", new String[][] {{"name", "tag"}}, Material.NAME_TAG));
+        items.add(new ItemInfo("Hardened Clay", new String[][]{{"hard", "clay"}}, Material.HARD_CLAY));
+        items.add(new ItemInfo("Block of Coal", new String[][]{{"coal", "block"}}, Material.COAL_BLOCK));
+        items.add(new ItemInfo("White Clay", new String[][]{{"clay", "whit"}, {"clay"}}, Material.STAINED_CLAY));
+        items.add(new ItemInfo("Orange Clay", new String[][]{{"clay", "ora"}}, Material.STAINED_CLAY, (short) 1));
+        items.add(new ItemInfo("Magenta Clay", new String[][]{{"clay", "mag"}}, Material.STAINED_CLAY, (short) 2));
+        items.add(new ItemInfo("Light Blue Clay", new String[][]{{"clay", "lig", "blue"}}, Material.STAINED_CLAY, (short) 3));
+        items.add(new ItemInfo("Yellow Clay", new String[][]{{"clay", "yell"}}, Material.STAINED_CLAY, (short) 4));
+        items.add(new ItemInfo("Light Green Clay", new String[][]{{"clay", "lig", "gree"}, {"clay", "gree"}}, Material.STAINED_CLAY, (short) 5));
+        items.add(new ItemInfo("Pink Clay", new String[][]{{"clay", "pink"}}, Material.STAINED_CLAY, (short) 6));
+        items.add(new ItemInfo("Gray Clay", new String[][]{{"clay", "gray"}, {"clay", "grey"}}, Material.STAINED_CLAY, (short) 7));
+        items.add(new ItemInfo("Light Gray Clay", new String[][]{{"lig", "clay", "gra"}, {"lig", "clay", "gre"}}, Material.STAINED_CLAY, (short) 8));
+        items.add(new ItemInfo("Cyan Clay", new String[][]{{"clay", "cya"}}, Material.STAINED_CLAY, (short) 9));
+        items.add(new ItemInfo("Purple Clay", new String[][]{{"clay", "pur"}}, Material.STAINED_CLAY, (short) 10));
+        items.add(new ItemInfo("Blue Clay", new String[][]{{"clay", "blue"}}, Material.STAINED_CLAY, (short) 11));
+        items.add(new ItemInfo("Brown Clay", new String[][]{{"clay", "brow"}}, Material.STAINED_CLAY, (short) 12));
+        items.add(new ItemInfo("Dark Green Clay", new String[][]{{"clay", "dar", "gree"}, {"clay", "gree"}}, Material.STAINED_CLAY, (short) 13));
+        items.add(new ItemInfo("Red Clay", new String[][]{{"clay", "red"}}, Material.STAINED_CLAY, (short) 14));
+        items.add(new ItemInfo("Black Clay", new String[][]{{"clay", "bla"}}, Material.STAINED_CLAY, (short) 15));
+        items.add(new ItemInfo("White Carpet", new String[][]{{"carpet", "whit"}, {"carpet"}}, Material.CARPET));
+        items.add(new ItemInfo("Orange Carpet", new String[][]{{"carpet", "ora"}}, Material.CARPET, (short) 1));
+        items.add(new ItemInfo("Magenta Carpet", new String[][]{{"carpet", "mag"}}, Material.CARPET, (short) 2));
+        items.add(new ItemInfo("Light Blue Carpet", new String[][]{{"carpet", "lig", "blue"}}, Material.CARPET, (short) 3));
+        items.add(new ItemInfo("Yellow Carpet", new String[][]{{"carpet", "yell"}}, Material.CARPET, (short) 4));
+        items.add(new ItemInfo("Light Green Carpet", new String[][]{{"carpet", "lig", "gree"}, {"carpet", "gree"}}, Material.CARPET, (short) 5));
+        items.add(new ItemInfo("Pink Carpet", new String[][]{{"carpet", "pink"}}, Material.CARPET, (short) 6));
+        items.add(new ItemInfo("Gray Carpet", new String[][]{{"carpet", "gray"}, {"carpet", "grey"}}, Material.CARPET, (short) 7));
+        items.add(new ItemInfo("Light Gray Carpet", new String[][]{{"lig", "carpet", "gra"}, {"lig", "carpet", "gre"}}, Material.CARPET, (short) 8));
+        items.add(new ItemInfo("Cyan Carpet", new String[][]{{"carpet", "cya"}}, Material.CARPET, (short) 9));
+        items.add(new ItemInfo("Purple Carpet", new String[][]{{"carpet", "pur"}}, Material.CARPET, (short) 10));
+        items.add(new ItemInfo("Blue Carpet", new String[][]{{"carpet", "blue"}}, Material.CARPET, (short) 11));
+        items.add(new ItemInfo("Brown Carpet", new String[][]{{"carpet", "brow"}}, Material.CARPET, (short) 12));
+        items.add(new ItemInfo("Dark Green Carpet", new String[][]{{"carpet", "dar", "gree"}, {"carpet", "gree"}}, Material.CARPET, (short) 13));
+        items.add(new ItemInfo("Red Carpet", new String[][]{{"carpet", "red"}}, Material.CARPET, (short) 14));
+        items.add(new ItemInfo("Black Carpet", new String[][]{{"carpet", "bla"}}, Material.CARPET, (short) 15));
     }
 
     public static ItemInfo itemById(int typeId) {
@@ -548,7 +590,7 @@ public class Items {
     public static ItemInfo itemByType(Material type) {
         return itemByType(type, (short) 0);
     }
-    
+
     public static ItemInfo itemByType(Material type, short subType) {
         for (ItemInfo item : items) {
             if (item.getType() == type && item.getSubTypeId() == subType) {
@@ -594,7 +636,7 @@ public class Items {
         String searchString = join(search, " ");
         return itemByName(searchString);
     }
-    
+
     public static ItemInfo[] itemByNames(ArrayList<String> search, boolean multi) {
         String searchString = join(search, " ");
         return itemsByName(searchString, multi);
@@ -748,7 +790,7 @@ public class Items {
 
         return matchedItem;
     }
-    
+
     /**
      * Joins elements of a String array with the glue between them into a String.
      * @param array
@@ -771,7 +813,7 @@ public class Items {
             return joined;
         }
     }
-    
+
     /**
      * Joins elements of a String array with the glue between them into a String.
      * @param list

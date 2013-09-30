@@ -82,9 +82,8 @@ public class Permission_PermissionsEx extends Permission {
         @EventHandler(priority = EventPriority.MONITOR)
         public void onPluginEnable(PluginEnableEvent event) {
             if (permission.permission == null) {
-                Plugin perms = plugin.getServer().getPluginManager().getPlugin("PermissionsEx");
-
-                if (perms != null) {
+                Plugin perms = event.getPlugin();
+                if (perms.getDescription().getName().equals("PermissionsEx")) {
                     try {
                         if (Double.valueOf(perms.getDescription().getVersion()) < 1.16) {
                             log.info(String.format("[%s][Permission] %s below 1.16 is not compatible with Vault! Falling back to SuperPerms only mode. PLEASE UPDATE!", plugin.getDescription().getName(), name));

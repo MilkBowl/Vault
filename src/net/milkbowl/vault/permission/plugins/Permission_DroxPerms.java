@@ -20,6 +20,7 @@ public class Permission_DroxPerms extends Permission {
 
     private final String name = "DroxPerms";
     private DroxPermsAPI API;
+    private boolean useOnlySubgroups;
 
     public Permission_DroxPerms(Plugin plugin) {
         this.plugin = plugin;
@@ -30,6 +31,8 @@ public class Permission_DroxPerms extends Permission {
             if (p != null) {
                 API = p.getAPI();
                 log.info(String.format("[%s][Permission] %s hooked.", plugin.getDescription().getName(), "DroxPerms"));
+                useOnlySubgroups = p.getConfig().getBoolean("Vault.useOnlySubgroups", true);
+                log.info(String.format("[%s][Permission] Vault.useOnlySubgroups: %s", plugin.getDescription().getName(), useOnlySubgroups));
             }
         }
 
@@ -112,12 +115,28 @@ public class Permission_DroxPerms extends Permission {
 
     @Override
     public boolean playerAddGroup(String world, String player, String group) {
-        return API.addPlayerSubgroup(player, group);
+        if (useOnlySubgroups) {
+            return API.addPlayerSubgroup(player, group);
+        } else {
+            if ("default".equalsIgnoreCase(API.getPlayerGroup(player))) {
+                return API.setPlayerGroup(player, group);
+            } else {
+                return API.addPlayerSubgroup(player, group);
+            }
+        }
     }
 
     @Override
     public boolean playerRemoveGroup(String world, String player, String group) {
-        return API.removePlayerSubgroup(player, group);
+        if (useOnlySubgroups) {
+            return API.removePlayerSubgroup(player, group);
+        } else {
+            if (group.equalsIgnoreCase(API.getPlayerGroup(player))) {
+                return API.setPlayerGroup(player, "default");
+            } else {
+                return API.removePlayerSubgroup(player, group);
+            }
+        }
     }
 
     @Override

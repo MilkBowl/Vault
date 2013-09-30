@@ -63,10 +63,10 @@ public class Permission_Xperms extends Permission {
         }
 
         @EventHandler(priority = EventPriority.MONITOR)
-        public void onPluginEnable(PluginEnableEvent event) {        	
-            if(permission == null){
-                Plugin perms = plugin.getServer().getPluginManager().getPlugin("Xperms");
-                if(perms != null){
+        public void onPluginEnable(PluginEnableEvent event) {
+            if (permission.perms == null) {
+                Plugin perms = event.getPlugin();
+                if(perms.getDescription().getName().equals("Xperms")){
                     try{
                         if(Double.valueOf(perms.getDescription().getVersion()) < 1.1){
                             log.info(String.format("[%s] [Permission] %s Current version is not compatible with vault! Please Update!", plugin.getDescription().getName(), name));

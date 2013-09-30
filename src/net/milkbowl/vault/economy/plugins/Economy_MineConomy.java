@@ -67,9 +67,9 @@ public class Economy_MineConomy implements Economy {
         @EventHandler(priority = EventPriority.MONITOR)
         public void onPluginEnable(PluginEnableEvent event) {
             if (economy.econ == null) {
-                Plugin eco = plugin.getServer().getPluginManager().getPlugin("MineConomy");
+                Plugin eco = event.getPlugin();
 
-                if (eco != null) {
+                if (eco.getDescription().getName().equals("MineConomy")) {
                     economy.econ = (MineConomy) eco;
                     log.info(String.format("[%s][Economy] %s hooked.", plugin.getDescription().getName(), economy.name));
                 }

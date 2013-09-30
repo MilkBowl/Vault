@@ -111,9 +111,9 @@ public class Economy_McMoney implements Economy {
         @EventHandler(priority = EventPriority.MONITOR)
         public void onPluginEnable(PluginEnableEvent event) {
             if (economy.economy == null) {
-                Plugin eco = plugin.getServer().getPluginManager().getPlugin("McMoney");
+                Plugin eco = event.getPlugin();
 
-                if (eco != null) {
+                if (eco.getDescription().getName().equals("McMoney")) {
                     economy.economy = McMoneyAPI.getInstance();
                     log.info(String.format("[%s][Economy] %s hooked.", plugin.getDescription().getName(), economy.name));
                 }

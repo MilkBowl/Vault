@@ -264,9 +264,9 @@ public class Economy_GoldIsMoney2 implements Economy {
 		@EventHandler(priority = EventPriority.MONITOR)
 		public void onPluginEnable(PluginEnableEvent event) {
 			if (economy.economy == null) {
-				Plugin ec = plugin.getServer().getPluginManager().getPlugin("GoldIsMoney");
+				Plugin ec = event.getPlugin();
 
-				if (ec != null && ec.getClass().getName().equals("com.flobi.GoldIsMoney2.GoldIsMoney")) {
+				if (ec.getClass().getName().equals("com.flobi.GoldIsMoney2.GoldIsMoney")) {
 					economy.economy = (GoldIsMoney) ec;
 					log.info(String.format("[%s][Economy] %s hooked.", plugin.getDescription().getName(), economy.name));
 				}

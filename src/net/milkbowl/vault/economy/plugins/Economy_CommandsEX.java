@@ -49,9 +49,9 @@ public class Economy_CommandsEX implements net.milkbowl.vault.economy.Economy {
         @EventHandler(priority = EventPriority.MONITOR)
         public void onPluginEnable(PluginEnableEvent event) {
             if (economy.economy == null) {
-                Plugin cex = plugin.getServer().getPluginManager().getPlugin("CommandsEX");
+                Plugin cex = event.getPlugin();
 
-                if (cex != null) {
+                if (cex.getDescription().getName().equals("CommandsEX")) {
                     economy.economy = (CommandsEX) cex;
                     log.info(String.format("[%s][Economy] %s hooked.", plugin.getDescription().getName(), economy.name));
                 }

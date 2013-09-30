@@ -67,11 +67,10 @@ public class Permission_GroupManager extends Permission {
         @EventHandler(priority = EventPriority.MONITOR)
         public void onPluginEnable(PluginEnableEvent event) {
             if (permission.groupManager == null) {
-                Plugin perms = plugin.getServer().getPluginManager().getPlugin("GroupManager");
-                if (perms != null) {
-                    permission.groupManager = (GroupManager) perms;
+                Plugin p = event.getPlugin();
+                if (p.getDescription().getName().equals("GroupManager")) {
+                    permission.groupManager = (GroupManager) p;
                     log.info(String.format("[%s][Permission] %s hooked.", plugin.getDescription().getName(), permission.name));
-
                 }
             }
         }

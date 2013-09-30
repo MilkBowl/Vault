@@ -156,9 +156,9 @@ public class Economy_3co implements Economy {
         @EventHandler(priority = EventPriority.MONITOR)
         public void onPluginEnable(PluginEnableEvent event) {
             if (economy.economy == null) {
-                Plugin eco = plugin.getServer().getPluginManager().getPlugin("3co");
+                Plugin eco = event.getPlugin();
 
-                if (eco != null) {
+                if (eco.getDescription().getName().equals("3co")) {
                     economy.economy = (ECO) eco;
                     log.info(String.format("[%s][Economy] %s hooked.", plugin.getDescription().getName(), economy.name));
                 }

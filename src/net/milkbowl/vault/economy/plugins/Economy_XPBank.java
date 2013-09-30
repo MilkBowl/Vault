@@ -71,9 +71,9 @@ public class Economy_XPBank implements Economy {
         @EventHandler (priority = EventPriority.MONITOR)
         public void onPluginEnable (PluginEnableEvent event) {
             if (economy.XPB == null) {
-                Plugin eco = plugin.getServer().getPluginManager().getPlugin("XPBank");
+                Plugin eco = event.getPlugin();
 
-                if (eco != null) {
+                if (eco.getDescription().getName().equals("XPBank")) {
                     economy.XPB = (XPBank) eco;
                     api = XPB.getAPI();
                     log.info(String.format("[%s][Economy] %s hooked.", plugin.getDescription().getName(), economy.name));
