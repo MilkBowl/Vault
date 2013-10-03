@@ -60,7 +60,11 @@ Vault currently supports the following: Permissions 3, PEX, GroupManager, bPerms
 		<repository>
 			<id>escapecraft-repo</id>
 			<url>http://dev.escapecraft.com/maven</url>
-		</repository>
+         </repository>
+        <repository>
+        	<id>ae97-repo</id>
+        	<url>http://repo.ae97.net/artifactory/ae97-repo/</url>
+        </repository>
 	</repositories>
 
 	<dependencies>
@@ -343,10 +347,8 @@ Vault currently supports the following: Permissions 3, PEX, GroupManager, bPerms
 		</dependency>
 		<dependency>
 			<groupId>net.ae97</groupId>
-			<artifactId>TotalPermissions</artifactId>
-			<version>0.2.1</version>
-			<scope>system</scope>
-			<systemPath>${project.basedir}/lib/TotalPermissions.jar</systemPath>
+                        <artifactId>TotalPermissions</artifactId>
+                        <version>0.3.0</version>
 		</dependency>
 		<dependency>
 			<groupId>ru.simsonic</groupId>
