@@ -55,13 +55,15 @@ import net.milkbowl.vault.economy.plugins.Economy_Gringotts;
 import net.milkbowl.vault.economy.plugins.Economy_McMoney;
 import net.milkbowl.vault.economy.plugins.Economy_MineConomy;
 import net.milkbowl.vault.economy.plugins.Economy_MultiCurrency;
+import net.milkbowl.vault.economy.plugins.Economy_WCEconomy;
 import net.milkbowl.vault.economy.plugins.Economy_XPBank;
 import net.milkbowl.vault.economy.plugins.Economy_eWallet;
 import net.milkbowl.vault.economy.plugins.Economy_iConomy4;
 import net.milkbowl.vault.economy.plugins.Economy_iConomy5;
 import net.milkbowl.vault.economy.plugins.Economy_iConomy6;
 import net.milkbowl.vault.economy.plugins.Economy_SDFEconomy;
-import net.milkbowl.vault.economy.plugins.Economy_Minefaconomy;  
+import net.milkbowl.vault.economy.plugins.Economy_Minefaconomy;
+import net.milkbowl.vault.economy.plugins.Economy_MiConomy;
 import net.milkbowl.vault.permission.Permission;
 import net.milkbowl.vault.permission.plugins.Permission_DroxPerms;
 import net.milkbowl.vault.permission.plugins.Permission_GroupManager;
@@ -100,7 +102,6 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 import com.nijikokun.register.payment.Methods;
-import net.milkbowl.vault.economy.plugins.Economy_MiConomy;
 
 public class Vault extends JavaPlugin {
 
@@ -280,6 +281,9 @@ public class Vault extends JavaPlugin {
         
         // Try to load XPBank
         hookEconomy("XPBank", Economy_XPBank.class, ServicePriority.Normal, "com.gmail.mirelatrue.xpbank.XPBank");
+        
+        // Try to load WCEconomy
+        hookEconomy("WCEconomy", Economy_WCEconomy.class, ServicePriority.Normal, "com.github.winneonsword.WCE.MainWCE");
     }
 
     /**
