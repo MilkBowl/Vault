@@ -102,6 +102,7 @@ import org.w3c.dom.NodeList;
 import com.nijikokun.register.payment.Methods;
 import net.milkbowl.vault.chat.plugins.Chat_TotalPermissions;
 import net.milkbowl.vault.economy.plugins.Economy_MiConomy;
+import net.milkbowl.vault.permission.plugins.Permission_BungeePermsBukkit;
 
 public class Vault extends JavaPlugin {
 
@@ -331,6 +332,9 @@ public class Vault extends JavaPlugin {
         
         // Try to load rscPermissions
         hookPermission("rscPermissions", Permission_rscPermissions.class, ServicePriority.Normal, "ru.simsonic.rscPermissions.MainPluginClass");
+        
+        // Try to load BungeePermsBukkit
+        hookPermission("BungeePermsBukkit", Permission_BungeePermsBukkit.class, ServicePriority.Normal, "net.alpenblock.bungeeperms.bukkit.BungeePerms");
 
         Permission perms = new Permission_SuperPerms(this);
         sm.register(Permission.class, perms, this, ServicePriority.Lowest);
