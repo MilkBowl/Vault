@@ -100,6 +100,7 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 import com.nijikokun.register.payment.Methods;
+import net.milkbowl.vault.chat.plugins.Chat_TotalPermissions;
 import net.milkbowl.vault.economy.plugins.Economy_MiConomy;
 
 public class Vault extends JavaPlugin {
@@ -200,6 +201,9 @@ public class Vault extends JavaPlugin {
         
         // Try to load rscPermissions
         hookChat("rscPermissions", Chat_rscPermissions.class, ServicePriority.Normal, "ru.simsonic.rscPermissions.MainPluginClass");
+
+        //Try to load TotalPermissions
+        hookChat("TotalPermissions", Chat_TotalPermissions.class, ServicePriority.Normal, "net.ar97.totalpermissions.TotalPermissions");
     }
 
     /**
