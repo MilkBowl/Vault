@@ -343,10 +343,10 @@ Vault currently supports the following: Permissions 3, PEX, GroupManager, bPerms
 		</dependency>
 		<dependency>
 			<groupId>net.ae97</groupId>
-            <artifactId>TotalPermissions</artifactId>
-            <version>0.3.1</version>
-            <scope>system</scope>
-            <systemPath>${project.basedir}/lib/TotalPermissions.jar</systemPath>
+			<artifactId>TotalPermissions</artifactId>
+			<version>0.3.1</version>
+			<scope>system</scope>
+			<systemPath>${project.basedir}/lib/TotalPermissions.jar</systemPath>
 		</dependency>
 		<dependency>
 			<groupId>ru.simsonic</groupId>
