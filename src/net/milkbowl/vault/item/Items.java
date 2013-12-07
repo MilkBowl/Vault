@@ -1,4 +1,4 @@
-/* This file is part of Vault.
+ /* This file is part of Vault.
 
     Vault is free software: you can redistribute it and/or modify
     it under the terms of the GNU Lesser General Public License as published by
@@ -35,11 +35,11 @@ public class Items {
         items.add(new ItemInfo("Dirt", new String[][]{{"dirt"}}, Material.DIRT));
         items.add(new ItemInfo("Cobblestone", new String[][]{{"cobb", "sto"}, {"cobb"}}, Material.COBBLESTONE));
         items.add(new ItemInfo("Oak Plank", new String[][]{{"oak", "plank"}, {"oak", "wood"}}, Material.WOOD));
-        items.add(new ItemInfo("Pine Plank", new String[][]{{"pine", "plank"}, {"pine", "wood"}}, Material.WOOD, (short) 1));
+        items.add(new ItemInfo("Spruce Plank", new String[][]{{"spru", "plank"}, {"spruc", "wood"}}, Material.WOOD, (short) 1));
         items.add(new ItemInfo("Birch Plank", new String[][]{{"birch", "plank"}, {"birch", "wood"}}, Material.WOOD, (short) 2));
         items.add(new ItemInfo("Jungle Plank", new String[][]{{"jung", "plank"}, {"jung", "wood"}}, Material.WOOD, (short) 3));
         items.add(new ItemInfo("Oak Sapling", new String[][]{{"sapl"}, {"sapl", "oak"}}, Material.SAPLING));
-        items.add(new ItemInfo("Redwood Sapling", new String[][]{{"sapl", "red"}}, Material.SAPLING, (short) 1));
+        items.add(new ItemInfo("Spruce Sapling", new String[][]{{"sapl", "spruc"}}, Material.SAPLING, (short) 1));
         items.add(new ItemInfo("Birch Sapling", new String[][]{{"sapl", "birch"}}, Material.SAPLING, (short) 2));
         items.add(new ItemInfo("Jungle Sapling", new String[][]{{"sapl", "jungle"}}, Material.SAPLING, (short) 3));
         items.add(new ItemInfo("Bedrock", new String[][]{{"rock"}}, Material.BEDROCK));
@@ -50,16 +50,16 @@ public class Items {
         items.add(new ItemInfo("Iron Ore", new String[][]{{"ore", "iron"}}, Material.IRON_ORE));
         items.add(new ItemInfo("Coal Ore", new String[][]{{"ore", "coal"}}, Material.COAL_ORE));
         items.add(new ItemInfo("Gravel", new String[][]{{"grav"}}, Material.GRAVEL));
-        items.add(new ItemInfo("Oak Log", new String[][]{{"oak"}, {"log"}, {"oak", "log"}, {"oak"}}, Material.LOG));
-        items.add(new ItemInfo("Redwood Log", new String[][]{{"red", "log"}, {"red", "wood"}}, Material.LOG, (short) 1));
+        items.add(new ItemInfo("Oak Log", new String[][]{{"oak"}, {"log"}, {"oak", "log"}}, Material.LOG));
+        items.add(new ItemInfo("Spruce Log", new String[][]{{"spruc"}, {"spruc", "log"}}, Material.LOG, (short) 1));
         items.add(new ItemInfo("Birch Log", new String[][]{{"birch"}, {"birch", "log"}}, Material.LOG, (short) 2));
         items.add(new ItemInfo("Jungle Log", new String[][]{{"jung", "log"}}, Material.LOG, (short) 3));
         items.add(new ItemInfo("Leaves Block", new String[][]{{"blo", "leaf"}, {"blo", "leaves"}}, Material.LEAVES));
-        items.add(new ItemInfo("Redwood Leaves Block", new String[][]{{"blo", "lea", "red"}}, Material.LEAVES, (short) 1));
+        items.add(new ItemInfo("Spruce Leaves Block", new String[][]{{"blo", "lea", "spruc"}}, Material.LEAVES, (short) 1));
         items.add(new ItemInfo("Birch Leaves Block", new String[][]{{"blo", "lea", "birch"}}, Material.LEAVES, (short) 2));
         items.add(new ItemInfo("Jungle Leaves Block", new String[][]{{"blo", "lea", "jung"}}, Material.LEAVES, (short) 3));
         items.add(new ItemInfo("Leaves", new String[][]{{"leaf"}, {"leaves"}}, Material.LEAVES, (short) 4));
-        items.add(new ItemInfo("Redwood Leaves", new String[][]{{"lea", "red"}}, Material.LEAVES, (short) 5));
+        items.add(new ItemInfo("Spruce Leaves", new String[][]{{"lea", "spruce"}}, Material.LEAVES, (short) 5));
         items.add(new ItemInfo("Birch Leaves", new String[][]{{"lea", "birch"}}, Material.LEAVES, (short) 6));
         items.add(new ItemInfo("Jungle Leaves", new String[][]{{"lea", "jung"}}, Material.LEAVES, (short) 7));
         items.add(new ItemInfo("Sponge", new String[][]{{"sponge"}}, Material.SPONGE));
@@ -123,9 +123,9 @@ public class Items {
         items.add(new ItemInfo("Fire", new String[][]{{"fire"}}, Material.FIRE));
         items.add(new ItemInfo("Monster Spawner", new String[][]{{"spawn"}}, Material.MOB_SPAWNER));
         items.add(new ItemInfo("Oak Wood Stairs", new String[][]{{"stair", "wood"}, {"oak", "stair"}}, Material.WOOD_STAIRS));
-        items.add(new ItemInfo("Oak Wood Stairs", new String[][]{{"jung", "stair"}}, Material.JUNGLE_WOOD_STAIRS));
-        items.add(new ItemInfo("Oak Wood Stairs", new String[][]{{"spru", "stair"}}, Material.SPRUCE_WOOD_STAIRS));
-        items.add(new ItemInfo("Oak Wood Stairs", new String[][]{{"birc", "stair"}}, Material.BIRCH_WOOD_STAIRS));
+        items.add(new ItemInfo("Jungle Wood Stairs", new String[][]{{"jung", "stair"}}, Material.JUNGLE_WOOD_STAIRS));
+        items.add(new ItemInfo("Spruce Wood Stairs", new String[][]{{"spru", "stair"}}, Material.SPRUCE_WOOD_STAIRS));
+        items.add(new ItemInfo("Birch Wood Stairs", new String[][]{{"birc", "stair"}}, Material.BIRCH_WOOD_STAIRS));
         items.add(new ItemInfo("Chest", new String[][]{{"chest"}}, Material.CHEST));
         items.add(new ItemInfo("Diamond Ore", new String[][]{{"ore", "diam"}}, Material.DIAMOND_ORE));
         items.add(new ItemInfo("Diamond Block", new String[][]{{"diam", "bl"}}, Material.DIAMOND_BLOCK));
@@ -552,8 +552,12 @@ public class Items {
         items.add(new ItemInfo("Red Carpet", new String[][]{{"carpet", "red"}}, Material.CARPET, (short) 14));
         items.add(new ItemInfo("Black Carpet", new String[][]{{"carpet", "bla"}}, Material.CARPET, (short) 15));
         //1.7 Blocks and Items
-        items.add(new ItemInfo("Acacia Log", new String[][]{{"woo", "acac"}, {"log", "acac"}}, Material.LOG_2));
-        items.add(new ItemInfo("Dark Oak Log", new String[][]{{"woo", "oak", "dar"}, {"log", "oak", "dar"}}, Material.LOG_2, (short) 1));
+        items.add(new ItemInfo("Acacia Log", new String[][]{{"acac"}, {"log", "acac"}}, Material.LOG_2));
+        items.add(new ItemInfo("Dark Oak Log", new String[][]{{"oak", "dar"}, {"log", "oak", "dar"}}, Material.LOG_2, (short) 1));
+        items.add(new ItemInfo("Acacia Plank", new String[][]{{"acac", "plank"}, {"woo", "acac"}}, Material.WOOD, (short) 4));
+        items.add(new ItemInfo("Dark Oak Plank", new String[][]{{"dar", "oak", "plank"}, {"woo", "oak", "dar"}}, Material.WOOD, (short) 5));
+        items.add(new ItemInfo("Acacia Wood Stairs", new String[][]{{"stair", "wood", "acac"}, {"acac", "stair"}}, Material.ACACIA_STAIRS));
+        items.add(new ItemInfo("Dark Oak Wood Stairs", new String[][]{{"stair", "wood", "dar", "oak"}, {"dar", "oak", "stair"}}, Material.DARK_OAK_STAIRS));
         items.add(new ItemInfo("Acacia Sapling", new String[][]{{"sapl", "acac"}}, Material.SAPLING, (short) 4));
         items.add(new ItemInfo("Dark Oak Sapling", new String[][]{{"sapl", "oak", "dar"}}, Material.SAPLING, (short) 5));
         items.add(new ItemInfo("Acacia Leaves", new String[][]{{"lea", "acac"}}, Material.LEAVES_2));
@@ -602,11 +606,12 @@ public class Items {
         items.add(new ItemInfo("White Tulip", new String[][]{{"tul", "whit"}}, Material.RED_ROSE, (short) 6));
         items.add(new ItemInfo("Pink Tulip", new String[][]{{"tul", "pin"}}, Material.RED_ROSE, (short) 7));
         items.add(new ItemInfo("Oxeye Daisy", new String[][]{{"dais"}, {"oxe", "dais"}}, Material.RED_ROSE, (short) 8));
-        items.add(new ItemInfo("Tall Grass", new String[][]{{"tall", "gras"}, {"long", "gras"}}, Material.LONG_GRASS, (short) 1));
         items.add(new ItemInfo("Sunflower", new String[][]{{"flow", "sun"}}, Material.DOUBLE_PLANT, (short) 0));
         items.add(new ItemInfo("Lilac", new String[][]{{"flow", "lila"}, {"lila"}}, Material.DOUBLE_PLANT, (short) 1));
-        items.add(new ItemInfo("Rose Bush", new String[][]{{"bush", "rose"}}, Material.DOUBLE_PLANT, (short) 2));
-        items.add(new ItemInfo("Peony", new String[][]{{"flow", "peon"}, {"peon"}}, Material.DOUBLE_PLANT, (short) 3));
+        items.add(new ItemInfo("Double Tallgrass", new String[][]{{"doub", "tall", "gras"}, {"doub", "long", "gras"}}, Material.DOUBLE_PLANT, (short) 2));
+        items.add(new ItemInfo("Large Fern", new String[][]{{"larg", "fern"}, {"doub", "fern"}}, Material.DOUBLE_PLANT, (short) 3));
+        items.add(new ItemInfo("Rose Bush", new String[][]{{"bush", "rose"}}, Material.DOUBLE_PLANT, (short) 4));
+        items.add(new ItemInfo("Peony", new String[][]{{"flow", "peon"}, {"peon"}}, Material.DOUBLE_PLANT, (short) 5));
         items.add(new ItemInfo("Command Minecart", new String[][]{{"cart", "comm"}}, Material.COMMAND_MINECART));
         items.add(new ItemInfo("Potion of Water Breathing", new String[][] {{"poti", "wate"}}, Material.POTION, (short) 8205));
         items.add(new ItemInfo("Potion of Water Breathing (Reverted)", new String[][] {{"poti", "wate", "rev"}}, Material.POTION, (short) 8237));
