@@ -363,7 +363,7 @@ Vault currently supports the following: Permissions 3, PEX, GroupManager, bPerms
 			<systemPath>${project.basedir}/lib/TAEcon.jar</systemPath>
 		</dependency>
 		<dependency>
-			<groupId>co.uk.silvania.cities.digicoin.DigiCoin</groupId>
+			<groupId>co.uk.silvania.cities.digicoin</groupId>
 			<artifactId>DigiCoin</artifactId>
 			<version>0.1</version>
 			<scope>system</scope>
