@@ -288,6 +288,9 @@ public class Vault extends JavaPlugin {
         
         // Try to load TAEcon
         hookEconomy("TAEcon", Economy_TAEcon.class, ServicePriority.Normal, "net.teamalpha.taecon.TAEcon");
+
+        // Try to load DigiCoin
+        hookEconomy("DigiCoin", Economy_DigiCoin.class, ServicePriority.Normal, "co.uk.silvania.cities.digicoin.DigiCoin");
     }
 
     /**
