@@ -14,7 +14,7 @@ Vault currently supports the following: Permissions 3, PEX, GroupManager, bPerms
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<bukkitVersion>1.7.2-R0.1</bukkitVersion>
+		<bukkitVersion>1.7.2-R0.2</bukkitVersion>
 		<mainClass>net.milkbowl.vault.Vault</mainClass>
 	</properties>
 
@@ -306,7 +306,7 @@ Vault currently supports the following: Permissions 3, PEX, GroupManager, bPerms
 		<dependency>
 			<groupId>com.greatmancode</groupId>
 			<artifactId>craftconomy3</artifactId>
-			<version>3.1.4-SNAPSHOT</version>
+			<version>3.1.5</version>
 		</dependency>
 		<dependency>
 			<groupId>net.crystalyx.bukkit.simplyperms</groupId>
