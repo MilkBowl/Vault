@@ -132,13 +132,13 @@ public class Vault extends JavaPlugin {
         getCommand("vault-info").setExecutor(this);
         getCommand("vault-convert").setExecutor(this);
         getServer().getPluginManager().registerEvents(new VaultListener(), this);
-        if (getServer().getConsoleSender().hasPermission("vault.update")) {
-            // Schedule to check the version every 30 minutes for an update. This is to update the most recent 
-            // version so if an admin reconnects they will be warned about newer versions.
-            this.getServer().getScheduler().runTaskTimerAsynchronously(this, new Runnable() {
+        // Schedule to check the version every 30 minutes for an update. This is to update the most recent 
+        // version so if an admin reconnects they will be warned about newer versions.
+        this.getServer().getScheduler().runTaskTimerAsynchronously(this, new Runnable() {
 
-                @Override
-                public void run() {
+            @Override
+            public void run() {
+                if (getServer().getConsoleSender().hasPermission("vault.update")) {
                     try {
                         newVersion = updateCheck(currentVersion);
                         log.info("Vault version from web: " + newVersion);
@@ -154,9 +154,10 @@ public class Vault extends JavaPlugin {
                         // ignore exceptions
                     }
                 }
+            }
 
-            }, 0, 432000);
-        }
+        }, 0, 432000);
+
         // Load up the Plugin metrics
         try {
             metrics = new Metrics(this);
