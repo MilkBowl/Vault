@@ -545,6 +545,8 @@ public class Vault extends JavaPlugin {
             return Double.valueOf(version);
         }
         catch (Exception localException) {
+            // Dump the stack trace
+            localException.printStackTrace();
         }
         return currentVersion;
     }
