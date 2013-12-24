@@ -15,14 +15,15 @@
  */
 package net.milkbowl.vault;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.net.URL;
+import java.net.URLConnection;
 import java.util.Collection;
 import java.util.logging.Logger;
-
-import javax.xml.parsers.DocumentBuilderFactory;
 
 import net.milkbowl.vault.chat.Chat;
 import net.milkbowl.vault.chat.plugins.Chat_DroxPerms;
@@ -95,10 +96,9 @@ import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.ServicePriority;
 import org.bukkit.plugin.ServicesManager;
 import org.bukkit.plugin.java.JavaPlugin;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.JSONValue;
 
 import com.nijikokun.register.payment.Methods;
 import net.milkbowl.vault.chat.plugins.Chat_TotalPermissions;
@@ -526,20 +526,23 @@ public class Vault extends JavaPlugin {
     }
 
     public double updateCheck(double currentVersion) throws Exception {
-        String pluginUrlString = "http://dev.bukkit.org/server-mods/vault/files.rss";
+        final URL url = new URL("https://api.curseforge.com/servermods/files?projectids=33184");
         try {
-            URL url = new URL(pluginUrlString);
-            Document doc = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(url.openConnection().getInputStream());
-            doc.getDocumentElement().normalize();
-            NodeList nodes = doc.getElementsByTagName("item");
-            Node firstNode = nodes.item(0);
-            if (firstNode.getNodeType() == 1) {
-                Element firstElement = (Element)firstNode;
-                NodeList firstElementTagName = firstElement.getElementsByTagName("title");
-                Element firstNameElement = (Element) firstElementTagName.item(0);
-                NodeList firstNodes = firstNameElement.getChildNodes();
-                return Double.valueOf(firstNodes.item(0).getNodeValue().replace("Vault", "").replaceFirst(".", "").trim());
+            URLConnection conn = url.openConnection();
+            conn.setReadTimeout(5000);
+            conn.addRequestProperty("User-Agent", "Vault Update Checker");
+            conn.setDoOutput(true);
+            final BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+            final String response = reader.readLine();
+            final JSONArray array = (JSONArray) JSONValue.parse(response);
+            
+            if (array.size() == 0) {
+                this.getLogger().warning("No files found, or Feed URL is bad.");
+                return currentVersion;
             }
+            // Pull the last version from the JSON
+            String version = ((String) ((JSONObject) array.get(array.size() - 1)).get("name")).replace("Vault", "").replaceFirst(".", "").trim();
+            return Double.valueOf(version);
         }
         catch (Exception localException) {
         }
