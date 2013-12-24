@@ -144,6 +144,10 @@ public class Vault extends JavaPlugin {
                         if (newVersion > currentVersion) {
                             log.warning("Vault " + newVersion + " is out! You are running: Vault " + currentVersion);
                             log.warning("Update Vault at: http://dev.bukkit.org/server-mods/vault");
+                        } else if (currentVersion > newVersion) {
+                            log.info("It appears you're using an alternate, or development build, happy testing!");
+                        } else {
+                            log.info("Vault is already up to date, thanks for staying current!");
                         }
                     } catch (Exception e) {
                         // ignore exceptions
