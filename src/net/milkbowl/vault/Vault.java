@@ -132,26 +132,26 @@ public class Vault extends JavaPlugin {
         getCommand("vault-info").setExecutor(this);
         getCommand("vault-convert").setExecutor(this);
         getServer().getPluginManager().registerEvents(new VaultListener(), this);
+        if (getServer().getConsoleSender().hasPermission("vault.update")) {
+            // Schedule to check the version every 30 minutes for an update. This is to update the most recent 
+            // version so if an admin reconnects they will be warned about newer versions.
+            this.getServer().getScheduler().runTaskTimerAsynchronously(this, new Runnable() {
 
-        // Schedule to check the version every 30 minutes for an update. This is to update the most recent 
-        // version so if an admin reconnects they will be warned about newer versions.
-        this.getServer().getScheduler().runTaskTimerAsynchronously(this, new Runnable() {
-
-            @Override
-            public void run() {
-                try {
-                    newVersion = updateCheck(currentVersion);
-                    if (newVersion > currentVersion) {
-                        log.warning("Vault " + newVersion + " is out! You are running: Vault " + currentVersion);
-                        log.warning("Update Vault at: http://dev.bukkit.org/server-mods/vault");
+                @Override
+                public void run() {
+                    try {
+                        newVersion = updateCheck(currentVersion);
+                        if (newVersion > currentVersion) {
+                            log.warning("Vault " + newVersion + " is out! You are running: Vault " + currentVersion);
+                            log.warning("Update Vault at: http://dev.bukkit.org/server-mods/vault");
+                        }
+                    } catch (Exception e) {
+                        // ignore exceptions
                     }
-                } catch (Exception e) {
-                    // ignore exceptions
                 }
-            }
 
-        }, 0, 432000);
-
+            }, 0, 432000);
+        }
         // Load up the Plugin metrics
         try {
             metrics = new Metrics(this);
@@ -199,7 +199,7 @@ public class Vault extends JavaPlugin {
 
         // Try to load Privileges
         hookChat("Privileges", Chat_Privileges.class, ServicePriority.Normal, "net.krinsoft.privileges.Privileges");
-        
+
         // Try to load rscPermissions
         hookChat("rscPermissions", Chat_rscPermissions.class, ServicePriority.Normal, "ru.simsonic.rscPermissions.MainPluginClass");
 
@@ -213,10 +213,10 @@ public class Vault extends JavaPlugin {
     private void loadEconomy() {
         // Try to load MiConomy
         hookEconomy("MiConomy", Economy_MiConomy.class, ServicePriority.Normal, "com.gmail.bleedobsidian.miconomy.Main");
-             
+
         // Try to load MiFaConomy
         hookEconomy("MineFaConomy", Economy_Minefaconomy.class, ServicePriority.Normal, "me.coniin.plugins.minefaconomy.Minefaconomy"); 
-       
+
         // Try to load MultiCurrency
         hookEconomy("MultiCurrency", Economy_MultiCurrency.class, ServicePriority.Normal, "me.ashtheking.currency.Currency", "me.ashtheking.currency.CurrencyList");
 
@@ -279,13 +279,13 @@ public class Vault extends JavaPlugin {
 
         // Try to load CommandsEX Economy
         hookEconomy("CommandsEX", Economy_CommandsEX.class, ServicePriority.Normal, "com.github.zathrus_writer.commandsex.api.EconomyAPI");
-         
+
         // Try to load SDFEconomy Economy
         hookEconomy("SDFEconomy", Economy_SDFEconomy.class, ServicePriority.Normal, "com.github.omwah.SDFEconomy.SDFEconomy");
-        
+
         // Try to load XPBank
         hookEconomy("XPBank", Economy_XPBank.class, ServicePriority.Normal, "com.gmail.mirelatrue.xpbank.XPBank");
-        
+
         // Try to load TAEcon
         hookEconomy("TAEcon", Economy_TAEcon.class, ServicePriority.Normal, "net.teamalpha.taecon.TAEcon");
     }
@@ -326,13 +326,13 @@ public class Vault extends JavaPlugin {
 
         // Try to load Permissions 3 (Yeti)
         hookPermission("Permissions 3 (Yeti)", Permission_Permissions3.class, ServicePriority.Normal, "com.nijiko.permissions.ModularControl");
-        
+
         // Try to load Xperms
         hookPermission("Xperms", Permission_Xperms.class, ServicePriority.Low, "com.github.sebc722.Xperms");
 
         //Try to load TotalPermissions
         hookPermission("TotalPermissions", Permission_TotalPermissions.class, ServicePriority.Normal, "net.ae97.totalpermissions.TotalPermissions");
-        
+
         // Try to load rscPermissions
         hookPermission("rscPermissions", Permission_rscPermissions.class, ServicePriority.Normal, "ru.simsonic.rscPermissions.MainPluginClass");
 
@@ -381,13 +381,8 @@ public class Vault extends JavaPlugin {
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String commandLabel, String[] args) {
-        if (sender instanceof Player) {
-            // Check if Player
-            // If so, ignore command if player is not Op
-            Player p = (Player) sender;
-            if (!p.isOp()) {
-                return true;
-            }
+        if (!sender.hasPermission("vault.admin")) {
+            sender.sendMessage("You do not have permission to use that command!");
         }
 
         if (command.getName().equalsIgnoreCase("vault-info")) {
@@ -535,7 +530,7 @@ public class Vault extends JavaPlugin {
             final BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getInputStream()));
             final String response = reader.readLine();
             final JSONArray array = (JSONArray) JSONValue.parse(response);
-            
+
             if (array.size() == 0) {
                 this.getLogger().warning("No files found, or Feed URL is bad.");
                 return currentVersion;
@@ -554,7 +549,7 @@ public class Vault extends JavaPlugin {
         @EventHandler(priority = EventPriority.MONITOR)
         public void onPlayerJoin(PlayerJoinEvent event) {
             Player player = event.getPlayer();
-            if (perms.has(player, "vault.admin")) {
+            if (perms.has(player, "vault.update")) {
                 try {
                     if (newVersion > currentVersion) {
                         player.sendMessage(newVersion + " is out! You are running " + currentVersion);
