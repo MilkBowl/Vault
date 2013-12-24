@@ -128,7 +128,7 @@ public class Vault extends JavaPlugin {
     @Override
     public void onEnable() {
         plugin = this;
-        currentVersionTitle = getDescription().getVersion().split("-")[0].replace("Vault", "").trim();
+        currentVersionTitle = getDescription().getVersion().split("-")[0];
         currentVersion = Double.valueOf(currentVersionTitle.replaceFirst("\\.", ""));
         sm = getServer().getServicesManager();
         // Load Vault Addons
@@ -176,7 +176,7 @@ public class Vault extends JavaPlugin {
                                     log.info("Current Version: " + currentVersionTitle);
                                     log.info("No new version available");
                                 }
-                                log.info("**********************************");
+                                log.info("*********************************");
                             } catch (Exception e) {
                                 // ignore exceptions
                             }
@@ -572,8 +572,8 @@ public class Vault extends JavaPlugin {
                 return currentVersion;
             }
             // Pull the last version from the JSON
-            newVersionTitle = ((String) ((JSONObject) array.get(array.size() - 1)).get("name"));
-            return Double.valueOf(newVersionTitle.replace("Vault", "").replaceFirst("\\.", "").trim());
+            newVersionTitle = ((String) ((JSONObject) array.get(array.size() - 1)).get("name")).replace("Vault", "").trim();
+            return Double.valueOf(newVersionTitle.replaceFirst("\\.", "").trim());
         } catch (MalformedURLException e) {
             e.printStackTrace();
         } catch (IOException e) {
