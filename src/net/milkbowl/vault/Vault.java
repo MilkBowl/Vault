@@ -145,15 +145,21 @@ public class Vault extends JavaPlugin {
                 if (getServer().getConsoleSender().hasPermission("vault.update")) {
                     try {
                         newVersion = updateCheck(currentVersion);
-                        log.info("Vault version from web: " + newVersion);
+                        log.info("***** Vault Version Checker ***** ");
                         if (newVersion > currentVersion) {
-                            log.warning("Vault " + newVersionTitle + " is out! You are running: Vault " + currentVersion);
+                            log.warning("Stable Version: " + newVersionTitle + " is out!");
+                            log.warning("Current Version: " + currentVersionTitle);
                             log.warning("Update Vault at: http://dev.bukkit.org/server-mods/vault");
                         } else if (currentVersion > newVersion) {
-                            log.info("Vault Stable Version: " + newVersionTitle + " You are on a development or experimental build, Happy testing!");
+                            log.info("Stable Version: " + newVersionTitle);
+                            log.info("Current Version: " + currentVersionTitle);
+                            log.info("You are on a development or experimental build, Happy testing!");
                         } else {
-                            log.info("Vault is already up to date, thanks for staying current!");
+                            log.info("Stable Version: " + newVersionTitle);
+                            log.info("Current Version: " + currentVersionTitle);
+                            log.info("No new version available");
                         }
+                        log.info("**********************************");
                     } catch (Exception e) {
                         // ignore exceptions
                     }
