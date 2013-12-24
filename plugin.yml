@@ -20,6 +20,3 @@ permissions:
   vault.admin:
     description: Notifies the player when vault is in need of an update.
     default: op
-  vault.update:
-    description: Allows a user or the console to check for updates
-    default: op
