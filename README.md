@@ -68,46 +68,61 @@ have your own plugin that you believe should be supported, fork Vault or create
 a patch with the necessary changes.  Additionally you can create an issue on
 Github and we'll get to it at our convenience.
 
- * Economy
+* Economy
+   - 3co (http://forums.bukkit.org/threads/22461/)
+   - AEco
    - BOSEconomy 6 (http://forums.bukkit.org/threads/19025/)
    - BOSEconomy 7
+   - CommandsEX Economy (http://dev.bukkit.org/server-mods/commandsex/)
+   - CraftConomy2 (http://dev.bukkit.org/server-mods/craftconomy/)
+   - CraftConomy3 (http://dev.bukkit.org/server-mods/craftconomy/)
+   - CurrencyCore (http://dev.bukkit.org/server-mods/currency/)
+   - Dosh
+   - EconXP (http://dev.bukkit.org/server-mods/econxp/)
+   - Essentials Economy (http://forums.bukkit.org/threads/15312/)
+   - eWallet (http://dev.bukkit.org/server-mods/ewallet/)
+   - GoldIsMoney
+   - GoldIsMoney2
+   - Gringotts
    - iConomy 4 (http://forums.bukkit.org/threads/40/)
    - iConomy 5 (http://forums.bukkit.org/threads/40/)
    - iConomy 6 (http://forums.bukkit.org/threads/40/)
-   - 3co (http://forums.bukkit.org/threads/22461/)
-   - CurrencyCore (http://dev.bukkit.org/server-mods/currency/)
-   - CraftConomy (http://dev.bukkit.org/server-mods/craftconomy/)
-   - MineConomy (http://dev.bukkit.org/server-mods/mineconomy/)
-   - EconXP (http://dev.bukkit.org/server-mods/econxp/)
-   - eWallet (http://dev.bukkit.org/server-mods/ewallet/)
-   - MuliCurrency
-   - Essentials Economy (http://forums.bukkit.org/threads/15312/)
-   - CommandsEX Economy (http://dev.bukkit.org/server-mods/commandsex/)
    - McMoney
-   - AEco
+   - Miconomy
+   - MineConomy (http://dev.bukkit.org/server-mods/mineconomy/)
+   - MineFaconomy2
    - MultiCurrency
+   - SDFEconomy
+   - TAEcon
+   - XPBank
 
- * Permissions
-   - Permissions Ex (http://forums.bukkit.org/threads/18140/)
-   - Permissions 3 (http://forums.bukkit.org/threads/18430/)
+* Permissions
    - bPermissions
    - bPermissions 2 (http://dev.bukkit.org/server-mods/bpermissions/)
-   - Privileges
-   - PermissionsBukkit
-   - zPermissions
-   - SuperPerms
-   - SimplyPerms
+   - DroxPerms
    - Group Manager (Essentials) (http://forums.bukkit.org/threads/15312/)
+   - Permissions 3 (http://forums.bukkit.org/threads/18430/)
+   - PermissionsBukkit
+   - Permissions Ex (http://forums.bukkit.org/threads/18140/)
+   - Privileges
+   - rscPermissions
+   - SimplyPerms
+   - SuperPerms (Bukkit's default)
    - TotalPermissions (http://dev.bukkit.org/bukkit-mods/totalpermissions)
+   - XPerms
+   - zPermissions
 
-  * Chat
-    - iChat
-    - bPermissions
-    - PEX
-    - Permissions3
-    - mChat
-    - mChatSuite
-    - Group Manager (Essentials)
+* Chat
+   - bPermissions
+   - Group Manager (Essentials)
+   - iChat
+   - mChat
+   - mChatSuite
+   - Permissions3
+   - PEX
+   - rscPermissions
+   - TotalPermissions
+   - zPermissions
 
 ## Implementing Vault
 Implementing Vault is quite simple. It requires getting the Economy, Permission, or Chat service from the Bukkit ServiceManager. See the example below:
