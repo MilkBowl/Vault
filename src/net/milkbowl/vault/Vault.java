@@ -109,8 +109,10 @@ public class Vault extends JavaPlugin {
 
     private static final Logger log = Logger.getLogger("Minecraft");
     private Permission perms;
-    private double newVersion;
-    private double currentVersion;
+    private String newVersionTitle = "";
+    private double newVersion = 0;
+    private double currentVersion = 0;
+    private String currentVersionTitle = "";
     private ServicesManager sm;
     private Metrics metrics;
 
@@ -123,7 +125,8 @@ public class Vault extends JavaPlugin {
 
     @Override
     public void onEnable() {
-        currentVersion = Double.valueOf(getDescription().getVersion().split("-")[0].replaceFirst("\\.", ""));
+        currentVersionTitle = getDescription().getVersion().split("-")[0];
+        currentVersion = Double.valueOf(currentVersionTitle.replaceFirst("\\.", ""));
         sm = getServer().getServicesManager();
         // Load Vault Addons
         loadEconomy();
@@ -144,10 +147,10 @@ public class Vault extends JavaPlugin {
                         newVersion = updateCheck(currentVersion);
                         log.info("Vault version from web: " + newVersion);
                         if (newVersion > currentVersion) {
-                            log.warning("Vault " + newVersion + " is out! You are running: Vault " + currentVersion);
+                            log.warning("Vault " + newVersionTitle + " is out! You are running: Vault " + currentVersion);
                             log.warning("Update Vault at: http://dev.bukkit.org/server-mods/vault");
                         } else if (currentVersion > newVersion) {
-                            log.info("It appears you're using an alternate, or development build, happy testing!");
+                            log.info("Vault Stable Version: " + newVersionTitle + " You are on a development or experimental build, Happy testing!");
                         } else {
                             log.info("Vault is already up to date, thanks for staying current!");
                         }
@@ -543,8 +546,8 @@ public class Vault extends JavaPlugin {
                 return currentVersion;
             }
             // Pull the last version from the JSON
-            String version = ((String) ((JSONObject) array.get(array.size() - 1)).get("name")).replace("Vault", "").replaceFirst("\\.", "").trim();
-            return Double.valueOf(version);
+            newVersionTitle = ((String) ((JSONObject) array.get(array.size() - 1)).get("name"));
+            return Double.valueOf(newVersionTitle.replace("Vault", "").replaceFirst("\\.", "").trim());
         } catch (MalformedURLException e) {
             e.printStackTrace();
         } catch (IOException e) {
