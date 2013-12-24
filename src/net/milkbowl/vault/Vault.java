@@ -141,6 +141,7 @@ public class Vault extends JavaPlugin {
                 public void run() {
                     try {
                         newVersion = updateCheck(currentVersion);
+                        log.info("Vault version from web: " + newVersion);
                         if (newVersion > currentVersion) {
                             log.warning("Vault " + newVersion + " is out! You are running: Vault " + currentVersion);
                             log.warning("Update Vault at: http://dev.bukkit.org/server-mods/vault");
