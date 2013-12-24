@@ -20,6 +20,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.Collection;
@@ -526,9 +527,9 @@ public class Vault extends JavaPlugin {
         }
     }
 
-    public double updateCheck(double currentVersion) throws Exception {
-        final URL url = new URL("https://api.curseforge.com/servermods/files?projectids=33184");
+    public double updateCheck(double currentVersion) {
         try {
+            URL url = new URL("https://api.curseforge.com/servermods/files?projectids=33184");
             URLConnection conn = url.openConnection();
             conn.setReadTimeout(5000);
             conn.addRequestProperty("User-Agent", "Vault Update Checker");
@@ -542,12 +543,12 @@ public class Vault extends JavaPlugin {
                 return currentVersion;
             }
             // Pull the last version from the JSON
-            String version = ((String) ((JSONObject) array.get(array.size() - 1)).get("name")).replace("Vault", "").replaceFirst(".", "").trim();
+            String version = ((String) ((JSONObject) array.get(array.size() - 1)).get("name")).replace("Vault", "").replaceFirst("\\.", "").trim();
             return Double.valueOf(version);
-        }
-        catch (Exception localException) {
-            // Dump the stack trace
-            localException.printStackTrace();
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
         return currentVersion;
     }
