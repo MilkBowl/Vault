@@ -15,14 +15,16 @@
  */
 package net.milkbowl.vault;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.net.MalformedURLException;
 import java.net.URL;
+import java.net.URLConnection;
 import java.util.Collection;
 import java.util.logging.Logger;
-
-import javax.xml.parsers.DocumentBuilderFactory;
 
 import net.milkbowl.vault.chat.Chat;
 import net.milkbowl.vault.chat.plugins.Chat_DroxPerms;
@@ -55,6 +57,7 @@ import net.milkbowl.vault.economy.plugins.Economy_Gringotts;
 import net.milkbowl.vault.economy.plugins.Economy_McMoney;
 import net.milkbowl.vault.economy.plugins.Economy_MineConomy;
 import net.milkbowl.vault.economy.plugins.Economy_MultiCurrency;
+import net.milkbowl.vault.economy.plugins.Economy_TAEcon;
 import net.milkbowl.vault.economy.plugins.Economy_XPBank;
 import net.milkbowl.vault.economy.plugins.Economy_eWallet;
 import net.milkbowl.vault.economy.plugins.Economy_iConomy4;
@@ -89,15 +92,15 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.server.PluginEnableEvent;
+import org.bukkit.permissions.PermissionDefault;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.ServicePriority;
 import org.bukkit.plugin.ServicesManager;
 import org.bukkit.plugin.java.JavaPlugin;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.JSONValue;
 
 import com.nijikokun.register.payment.Methods;
 import net.milkbowl.vault.chat.plugins.Chat_TotalPermissions;
@@ -107,10 +110,13 @@ public class Vault extends JavaPlugin {
 
     private static final Logger log = Logger.getLogger("Minecraft");
     private Permission perms;
-    private double newVersion;
-    private double currentVersion;
+    private String newVersionTitle = "";
+    private double newVersion = 0;
+    private double currentVersion = 0;
+    private String currentVersionTitle = "";
     private ServicesManager sm;
     private Metrics metrics;
+    private Vault plugin;
 
     @Override
     public void onDisable() {
@@ -121,7 +127,9 @@ public class Vault extends JavaPlugin {
 
     @Override
     public void onEnable() {
-        currentVersion = Double.valueOf(getDescription().getVersion().split("-")[0].replaceFirst("\\.", ""));
+        plugin = this;
+        currentVersionTitle = getDescription().getVersion().split("-")[0];
+        currentVersion = Double.valueOf(currentVersionTitle.replaceFirst("\\.", ""));
         sm = getServer().getServicesManager();
         // Load Vault Addons
         loadEconomy();
@@ -131,25 +139,54 @@ public class Vault extends JavaPlugin {
         getCommand("vault-info").setExecutor(this);
         getCommand("vault-convert").setExecutor(this);
         getServer().getPluginManager().registerEvents(new VaultListener(), this);
-
         // Schedule to check the version every 30 minutes for an update. This is to update the most recent 
         // version so if an admin reconnects they will be warned about newer versions.
-        this.getServer().getScheduler().runTaskTimerAsynchronously(this, new Runnable() {
+        this.getServer().getScheduler().runTask(this, new Runnable() {
 
             @Override
             public void run() {
-                try {
-                    newVersion = updateCheck(currentVersion);
-                    if (newVersion > currentVersion) {
-                        log.warning("Vault " + newVersion + " is out! You are running: Vault " + currentVersion);
-                        log.warning("Update Vault at: http://dev.bukkit.org/server-mods/vault");
-                    }
-                } catch (Exception e) {
-                    // ignore exceptions
+                // Programmatically set the default permission value cause Bukkit doesn't handle plugin.yml properly for Load order STARTUP plugins
+                org.bukkit.permissions.Permission perm = getServer().getPluginManager().getPermission("vault.update");
+                if (perm == null)
+                {
+                    perm = new org.bukkit.permissions.Permission("vault.update");
+                    perm.setDefault(PermissionDefault.OP);
+                    plugin.getServer().getPluginManager().addPermission(perm);
                 }
-            }
+                perm.setDescription("Allows a user or the console to check for vault updates");
 
-        }, 0, 432000);
+                getServer().getScheduler().runTaskTimerAsynchronously(plugin, new Runnable() {
+
+                    @Override
+                    public void run() {
+                        if (getServer().getConsoleSender().hasPermission("vault.update")) {
+                            try {
+                                newVersion = updateCheck(currentVersion);
+                                log.info("***** Vault Version Checker ***** ");
+                                if (newVersion > currentVersion) {
+                                    log.warning("Stable Version: " + newVersionTitle + " is out!");
+                                    log.warning("Current Version: " + currentVersionTitle);
+                                    log.warning("Update Vault at: http://dev.bukkit.org/server-mods/vault");
+                                } else if (currentVersion > newVersion) {
+                                    log.info("Stable Version: " + newVersionTitle);
+                                    log.info("Current Version: " + currentVersionTitle);
+                                    log.info("You are on a development or experimental build, Happy testing!");
+                                } else {
+                                    log.info("Stable Version: " + newVersionTitle);
+                                    log.info("Current Version: " + currentVersionTitle);
+                                    log.info("No new version available");
+                                }
+                                log.info("*********************************");
+                            } catch (Exception e) {
+                                // ignore exceptions
+                            }
+                        }
+                    }
+                }, 0, 432000);
+
+            }
+            
+        });
 
         // Load up the Plugin metrics
         try {
@@ -198,7 +235,7 @@ public class Vault extends JavaPlugin {
 
         // Try to load Privileges
         hookChat("Privileges", Chat_Privileges.class, ServicePriority.Normal, "net.krinsoft.privileges.Privileges");
-        
+
         // Try to load rscPermissions
         hookChat("rscPermissions", Chat_rscPermissions.class, ServicePriority.Normal, "ru.simsonic.rscPermissions.MainPluginClass");
 
@@ -212,10 +249,10 @@ public class Vault extends JavaPlugin {
     private void loadEconomy() {
         // Try to load MiConomy
         hookEconomy("MiConomy", Economy_MiConomy.class, ServicePriority.Normal, "com.gmail.bleedobsidian.miconomy.Main");
-             
+
         // Try to load MiFaConomy
         hookEconomy("MineFaConomy", Economy_Minefaconomy.class, ServicePriority.Normal, "me.coniin.plugins.minefaconomy.Minefaconomy"); 
-       
+
         // Try to load MultiCurrency
         hookEconomy("MultiCurrency", Economy_MultiCurrency.class, ServicePriority.Normal, "me.ashtheking.currency.Currency", "me.ashtheking.currency.CurrencyList");
 
@@ -278,12 +315,15 @@ public class Vault extends JavaPlugin {
 
         // Try to load CommandsEX Economy
         hookEconomy("CommandsEX", Economy_CommandsEX.class, ServicePriority.Normal, "com.github.zathrus_writer.commandsex.api.EconomyAPI");
-         
+
         // Try to load SDFEconomy Economy
         hookEconomy("SDFEconomy", Economy_SDFEconomy.class, ServicePriority.Normal, "com.github.omwah.SDFEconomy.SDFEconomy");
-        
+
         // Try to load XPBank
         hookEconomy("XPBank", Economy_XPBank.class, ServicePriority.Normal, "com.gmail.mirelatrue.xpbank.XPBank");
+
+        // Try to load TAEcon
+        hookEconomy("TAEcon", Economy_TAEcon.class, ServicePriority.Normal, "net.teamalpha.taecon.TAEcon");
     }
 
     /**
@@ -322,13 +362,13 @@ public class Vault extends JavaPlugin {
 
         // Try to load Permissions 3 (Yeti)
         hookPermission("Permissions 3 (Yeti)", Permission_Permissions3.class, ServicePriority.Normal, "com.nijiko.permissions.ModularControl");
-        
+
         // Try to load Xperms
         hookPermission("Xperms", Permission_Xperms.class, ServicePriority.Low, "com.github.sebc722.Xperms");
 
         //Try to load TotalPermissions
         hookPermission("TotalPermissions", Permission_TotalPermissions.class, ServicePriority.Normal, "net.ae97.totalpermissions.TotalPermissions");
-        
+
         // Try to load rscPermissions
         hookPermission("rscPermissions", Permission_rscPermissions.class, ServicePriority.Normal, "ru.simsonic.rscPermissions.MainPluginClass");
 
@@ -377,13 +417,8 @@ public class Vault extends JavaPlugin {
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String commandLabel, String[] args) {
-        if (sender instanceof Player) {
-            // Check if Player
-            // If so, ignore command if player is not Op
-            Player p = (Player) sender;
-            if (!p.isOp()) {
-                return true;
-            }
+        if (!sender.hasPermission("vault.admin")) {
+            sender.sendMessage("You do not have permission to use that command!");
         }
 
         if (command.getName().equalsIgnoreCase("vault-info")) {
@@ -521,23 +556,28 @@ public class Vault extends JavaPlugin {
         }
     }
 
-    public double updateCheck(double currentVersion) throws Exception {
-        String pluginUrlString = "http://dev.bukkit.org/server-mods/vault/files.rss";
+    public double updateCheck(double currentVersion) {
         try {
-            URL url = new URL(pluginUrlString);
-            Document doc = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(url.openConnection().getInputStream());
-            doc.getDocumentElement().normalize();
-            NodeList nodes = doc.getElementsByTagName("item");
-            Node firstNode = nodes.item(0);
-            if (firstNode.getNodeType() == 1) {
-                Element firstElement = (Element)firstNode;
-                NodeList firstElementTagName = firstElement.getElementsByTagName("title");
-                Element firstNameElement = (Element) firstElementTagName.item(0);
-                NodeList firstNodes = firstNameElement.getChildNodes();
-                return Double.valueOf(firstNodes.item(0).getNodeValue().replace("Vault", "").replaceFirst(".", "").trim());
+            URL url = new URL("https://api.curseforge.com/servermods/files?projectids=33184");
+            URLConnection conn = url.openConnection();
+            conn.setReadTimeout(5000);
+            conn.addRequestProperty("User-Agent", "Vault Update Checker");
+            conn.setDoOutput(true);
+            final BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+            final String response = reader.readLine();
+            final JSONArray array = (JSONArray) JSONValue.parse(response);
+
+            if (array.size() == 0) {
+                this.getLogger().warning("No files found, or Feed URL is bad.");
+                return currentVersion;
             }
-        }
-        catch (Exception localException) {
+            // Pull the last version from the JSON
+            newVersionTitle = ((String) ((JSONObject) array.get(array.size() - 1)).get("name")).replace("Vault", "").trim();
+            return Double.valueOf(newVersionTitle.replaceFirst("\\.", "").trim());
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
         return currentVersion;
     }
@@ -547,7 +587,7 @@ public class Vault extends JavaPlugin {
         @EventHandler(priority = EventPriority.MONITOR)
         public void onPlayerJoin(PlayerJoinEvent event) {
             Player player = event.getPlayer();
-            if (perms.has(player, "vault.admin")) {
+            if (perms.has(player, "vault.update")) {
                 try {
                     if (newVersion > currentVersion) {
                         player.sendMessage(newVersion + " is out! You are running " + currentVersion);
