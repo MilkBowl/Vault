@@ -115,6 +115,13 @@ Vault currently supports the following: Permissions 3, PEX, GroupManager, bPerms
 			<systemPath>${project.basedir}/lib/CurrencyCore.jar</systemPath>
 		</dependency>
 		<dependency>
+			<groupId>me.igwb.GoldenChest</groupId>
+			<artifactId>GoldenChestEconomy</artifactId>
+			<version>1.0.0</version>
+			<scope>system</scope>
+			<systemPath>${project.basedir}/lib/GoldenChestEconomy.jar</systemPath>
+		</dependency>
+		<dependency>
 			<groupId>com.flobi.GoldIsMoney</groupId>
 			<artifactId>GoldIsMoney</artifactId>
 			<version>1.2.1</version>
