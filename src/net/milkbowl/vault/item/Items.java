@@ -625,10 +625,12 @@ public class Items {
         items.add(new ItemInfo("Pufferfish", new String[][]{{"fish", "puff"}, {"fish", "blo"}, {"fish", "glob"}}, Material.RAW_FISH, (short) 3));
     }
 
+    @Deprecated
     public static ItemInfo itemById(int typeId) {
         return itemByType(Material.getMaterial(typeId), (short) 0);
     }
 
+    @Deprecated
     public static ItemInfo itemById(int typeId, short subType) {
         return itemByType(Material.getMaterial(typeId), subType);
     }

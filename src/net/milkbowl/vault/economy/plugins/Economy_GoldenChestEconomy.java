@@ -44,7 +44,7 @@ public class Economy_GoldenChestEconomy implements Economy{
         Bukkit.getServer().getPluginManager().registerEvents(new EconomyServerListener(this), plugin);
         // Load Plugin in case it was loaded before
         if (economy == null) {
-            Plugin ec = plugin.getServer().getPluginManager().getPlugin("GoldIsMoney");
+            Plugin ec = plugin.getServer().getPluginManager().getPlugin("GoldenChestEconomy");
             if (ec != null && ec.isEnabled() && ec.getClass().getName().equals("me.igwb.GoldenChest.GoldenChestEconomy")) {
                 economy = (GoldenChestEconomy) ec;
                 log.info(String.format("[%s][Economy] %s hooked.", plugin.getDescription().getName(), name));

@@ -51,6 +51,7 @@ public class ItemInfo {
         return material.getMaxStackSize();
     }
 
+    @Deprecated
     public int getId() {
         return material.getId();
     }
@@ -83,6 +84,7 @@ public class ItemInfo {
         return new ItemStack(this.material, 1, subTypeId);
     }
 
+    @SuppressWarnings("deprecation")
     @Override
     public String toString() {
         return String.format("%s[%d:%d]", name, material.getId(), subTypeId);
