@@ -377,6 +377,13 @@ Vault currently supports the following: Permissions 3, PEX, GroupManager, bPerms
 			<scope>system</scope>
 			<systemPath>${project.basedir}/lib/TAEcon.jar</systemPath>
 		</dependency>
+		<dependency>
+			<groupId>com.BlackMage.InTime2</groupId>
+			<artifactId>InTime2</artifactId>
+			<version>0.1.93</version>
+			<scope>system</scope>
+			<systemPath>${project.basedir}/lib/InTime2.jar</systemPath>
+		</dependency>
 	</dependencies>
 
 	<build>
