@@ -40,6 +40,7 @@ import net.milkbowl.vault.chat.plugins.Chat_mChatSuite;
 import net.milkbowl.vault.chat.plugins.Chat_zPermissions;
 import net.milkbowl.vault.chat.plugins.Chat_rscPermissions;
 import net.milkbowl.vault.economy.Economy;
+import net.milkbowl.vault.economy.plugins.Economy_InTime2;
 import net.milkbowl.vault.economy.plugins.Economy_3co;
 import net.milkbowl.vault.economy.plugins.Economy_AEco;
 import net.milkbowl.vault.economy.plugins.Economy_BOSE6;
@@ -248,7 +249,10 @@ public class Vault extends JavaPlugin {
      * Attempts to load Economy Addons
      */
     private void loadEconomy() {
-        // Try to load MiConomy
+        // Try to load InTime2
+        hookEconomy("InTime2", Economy_InTime2.class, ServicePriority.Normal, "com.BlackMage.InTime2.InTime2");
+
+       // Try to load MiConomy
         hookEconomy("MiConomy", Economy_MiConomy.class, ServicePriority.Normal, "com.gmail.bleedobsidian.miconomy.Main");
 
         // Try to load MiFaConomy
