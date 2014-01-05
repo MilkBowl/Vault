@@ -10,7 +10,7 @@
 	<url>http://dev.bukkit.org/server-mods/vault/</url>
 	<description>Vault is a Permissions &amp; Economy API to allow plugins to more easily hook into these systems without needing to hook each individual system themselves.
 
-Vault currently supports the following: Permissions 3, PEX, GroupManager, bPerms, bPerms2, SimplyPerms, DroxPerms, zPermissions, rscPermissions, Starburst, iConomy (4/5/6) BOSEconomy *6/7), EssentialsEcon, 3Co, MultiConomy, MineConomy, EconXP, eWallet, CurrencyCore, XPBank, CraftConomy, AEco, SDFEconomy</description>
+Vault currently supports the following: Permissions 3, PEX, GroupManager, bPerms, bPerms2, SimplyPerms, DroxPerms, zPermissions, rscPermissions, Starburst, iConomy (4/5/6) BOSEconomy *6/7), EssentialsEcon, 3Co, MultiConomy, MineConomy, EconXP, eWallet, CurrencyCore, XPBank, CraftConomy, AEco, SDFEconomy, TAEcon</description>
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -61,10 +61,6 @@ Vault currently supports the following: Permissions 3, PEX, GroupManager, bPerms
 			<id>escapecraft-repo</id>
 			<url>http://dev.escapecraft.com/maven</url>
          </repository>
-        <repository>
-        	<id>ae97-repo</id>
-        	<url>http://repo.ae97.net/artifactory/ae97-repo/</url>
-        </repository>
 	</repositories>
 
 	<dependencies>
@@ -347,8 +343,10 @@ Vault currently supports the following: Permissions 3, PEX, GroupManager, bPerms
 		</dependency>
 		<dependency>
 			<groupId>net.ae97</groupId>
-                        <artifactId>TotalPermissions</artifactId>
-                        <version>0.3.0</version>
+			<artifactId>TotalPermissions</artifactId>
+			<version>0.3.1</version>
+			<scope>system</scope>
+			<systemPath>${project.basedir}/lib/TotalPermissions.jar</systemPath>
 		</dependency>
 		<dependency>
 			<groupId>ru.simsonic</groupId>
@@ -356,6 +354,20 @@ Vault currently supports the following: Permissions 3, PEX, GroupManager, bPerms
 			<version>1.0</version>
 			<scope>system</scope>
 			<systemPath>${project.basedir}/lib/rscPermissions.jar</systemPath>
+		</dependency>
+		<dependency>
+			<groupId>net.teamalpha.taecon</groupId>
+			<artifactId>TAEcon</artifactId>
+			<version>0.1</version>
+			<scope>system</scope>
+			<systemPath>${project.basedir}/lib/TAEcon.jar</systemPath>
+		</dependency>
+		<dependency>
+			<groupId>co.uk.silvania.cities.digicoin</groupId>
+			<artifactId>DigiCoin</artifactId>
+			<version>0.1</version>
+			<scope>system</scope>
+			<systemPath>${project.basedir}/lib/DigiCoin.jar</systemPath>
 		</dependency>
 	</dependencies>
 
