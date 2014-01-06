@@ -82,6 +82,7 @@ import net.milkbowl.vault.permission.plugins.Permission_bPermissions2;
 import net.milkbowl.vault.permission.plugins.Permission_zPermissions;
 import net.milkbowl.vault.permission.plugins.Permission_TotalPermissions;
 import net.milkbowl.vault.permission.plugins.Permission_rscPermissions;
+import net.milkbowl.vault.permission.plugins.Permission_KPerms;
 
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
@@ -376,6 +377,9 @@ public class Vault extends JavaPlugin {
         // Try to load rscPermissions
         hookPermission("rscPermissions", Permission_rscPermissions.class, ServicePriority.Normal, "ru.simsonic.rscPermissions.MainPluginClass");
 
+        //Try to load KPerms
+        hookPermission("KPerms", Permission_KPerms.class, ServicePriority.Normal, "com.lightniinja.kperms.KPermsPlugin");
+        
         Permission perms = new Permission_SuperPerms(this);
         sm.register(Permission.class, perms, this, ServicePriority.Lowest);
         log.info(String.format("[%s][Permission] SuperPermissions loaded as backup permission system.", getDescription().getName()));
