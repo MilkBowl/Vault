@@ -27,10 +27,15 @@ import org.bukkit.plugin.Plugin;
 
 import java.util.List;
 
+import com.lightniinja.kperms.KPlayer;
+import com.lightniinja.kperms.KGroup;
+import com.lightniinja.kperms.Utilities;
+import com.lightniinja.kperms.KPermsPlugin;
+
 public class Permission_KPerms extends Permission {
 
     private final Plugin vault;
-    private com.lightniinja.kperms.KPermsPlugin kperms = null;
+    private KPermsPlugin kperms = null;
 
     public Permission_KPerms(Plugin plugin) {
         super();
@@ -39,7 +44,7 @@ public class Permission_KPerms extends Permission {
         if (kperms == null) {
             Plugin perms = plugin.getServer().getPluginManager().getPlugin("KPerms");
             if (perms != null && perms.isEnabled()) {
-                this.kperms = (com.lightniinja.kperms.KPermsPlugin) perms;
+                this.kperms = (KPermsPlugin) perms;
                 plugin.getLogger().info(String.format("[%s][Permission] %s hooked.", plugin.getDescription().getName(), "KPerms"));
             }
         }
@@ -57,7 +62,7 @@ public class Permission_KPerms extends Permission {
             if(bridge.kperms == null) {
                 Plugin plugin = event.getPlugin();
                 if (plugin.getDescription().getName().equals("KPerms")) {
-                    bridge.kperms = (com.lightniinja.kperms.KPermsPlugin) plugin;
+                    bridge.kperms = (KPermsPlugin) plugin;
                     log.info(String.format("[%s][Permission] %s hooked.", vault.getDescription().getName(), "KPerms"));
                 }
             }
@@ -96,52 +101,52 @@ public class Permission_KPerms extends Permission {
 
     @Override
     public boolean playerHas(String world, String player, String permission) {
-        return new com.lightniinja.kperms.KPlayer(player, kperms).hasPermission(permission);
+        return new KPlayer(player, kperms).hasPermission(permission);
     }
 
     @Override
     public boolean playerAdd(String world, String player, String permission) {
-        return new com.lightniinja.kperms.KPlayer(player, kperms).addPermission(permission);
+        return new KPlayer(player, kperms).addPermission(permission);
     }
 
     @Override
     public boolean playerRemove(String world, String player, String permission) {
-        return new com.lightniinja.kperms.KPlayer(player, kperms).removePermission(permission);
+        return new KPlayer(player, kperms).removePermission(permission);
     }
 
     @Override
     public boolean groupHas(String world, String group, String permission) {
-        return new com.lightniinja.kperms.KGroup(group, kperms).hasPermission(permission);
+        return new KGroup(group, kperms).hasPermission(permission);
     }
 
     @Override
     public boolean groupAdd(String world, String group, String permission) {
-        return new com.lightniinja.kperms.KGroup(group, kperms).addPermission(permission);
+        return new KGroup(group, kperms).addPermission(permission);
     }
 
     @Override
     public boolean groupRemove(String world, String group, String permission) {
-        return new com.lightniinja.kperms.KGroup(group, kperms).removePermission(permission);
+        return new KGroup(group, kperms).removePermission(permission);
     }
 
     @Override
     public boolean playerInGroup(String world, String player, String group) {
-        return new com.lightniinja.kperms.KPlayer(player, kperms).isMemberOfGroup(group);
+        return new KPlayer(player, kperms).isMemberOfGroup(group);
     }
 
     @Override
     public boolean playerAddGroup(String world, String player, String group) {
-        return new com.lightniinja.kperms.KPlayer(player, kperms).addGroup(group);
+        return new KPlayer(player, kperms).addGroup(group);
     }
 
     @Override
     public boolean playerRemoveGroup(String world, String player, String group) {
-        return new com.lightniinja.kperms.KPlayer(player, kperms).removeGroup(group);
+        return new KPlayer(player, kperms).removeGroup(group);
     }
 
     @Override
     public String[] getPlayerGroups(String world, String player) {
-        List<String> groups = new com.lightniinja.kperms.KPlayer(player, kperms).getGroups();
+        List<String> groups = new KPlayer(player, kperms).getGroups();
         String[] gr = new String[groups.size()];
         gr = groups.toArray(gr);
         return gr;
@@ -149,11 +154,11 @@ public class Permission_KPerms extends Permission {
 
     @Override
     public String getPrimaryGroup(String world, String player) {
-        return new com.lightniinja.kperms.KPlayer(player, kperms).getPrimaryGroup();
+        return new KPlayer(player, kperms).getPrimaryGroup();
     }
 
     @Override
     public String[] getGroups() {
-        return new com.lightniinja.kperms.Utilities(kperms).getGroups();
+        return new Utilities(kperms).getGroups();
     }
 }
