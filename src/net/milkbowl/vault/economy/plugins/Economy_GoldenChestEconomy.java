@@ -179,7 +179,7 @@ public class Economy_GoldenChestEconomy implements Economy{
             return new EconomyResponse(0, 0, ResponseType.FAILURE, "Cannot desposit negative funds");
         }
         
-        economy.getVaultConnector().depositPlayer(playerName, amount);
+        economy.getVaultConnector().depositPlayer(playerName, Math.round(amount));
         return new EconomyResponse(amount, getBalance(playerName), EconomyResponse.ResponseType.SUCCESS, null);
     }
 
