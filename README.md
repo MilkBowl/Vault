@@ -71,6 +71,7 @@ Github and we'll get to it at our convenience.
 * Economy
    - 3co (http://forums.bukkit.org/threads/22461/)
    - AEco
+   - InTime2
    - BOSEconomy 6 (http://forums.bukkit.org/threads/19025/)
    - BOSEconomy 7
    - CommandsEX Economy (http://dev.bukkit.org/server-mods/commandsex/)
