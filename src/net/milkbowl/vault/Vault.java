@@ -40,6 +40,7 @@ import net.milkbowl.vault.chat.plugins.Chat_mChatSuite;
 import net.milkbowl.vault.chat.plugins.Chat_zPermissions;
 import net.milkbowl.vault.chat.plugins.Chat_rscPermissions;
 import net.milkbowl.vault.economy.Economy;
+import net.milkbowl.vault.economy.plugins.Economy_InTime2;
 import net.milkbowl.vault.economy.plugins.Economy_3co;
 import net.milkbowl.vault.economy.plugins.Economy_AEco;
 import net.milkbowl.vault.economy.plugins.Economy_BOSE6;
@@ -82,7 +83,6 @@ import net.milkbowl.vault.permission.plugins.Permission_bPermissions2;
 import net.milkbowl.vault.permission.plugins.Permission_zPermissions;
 import net.milkbowl.vault.permission.plugins.Permission_TotalPermissions;
 import net.milkbowl.vault.permission.plugins.Permission_rscPermissions;
-import net.milkbowl.vault.permission.plugins.Permission_KPerms;
 
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
@@ -249,7 +249,10 @@ public class Vault extends JavaPlugin {
      * Attempts to load Economy Addons
      */
     private void loadEconomy() {
-        // Try to load MiConomy
+        // Try to load InTime2
+        hookEconomy("InTime2", Economy_InTime2.class, ServicePriority.Normal, "com.BlackMage.InTime2.InTime2");
+
+       // Try to load MiConomy
         hookEconomy("MiConomy", Economy_MiConomy.class, ServicePriority.Normal, "com.gmail.bleedobsidian.miconomy.Main");
 
         // Try to load MiFaConomy
@@ -377,9 +380,6 @@ public class Vault extends JavaPlugin {
         // Try to load rscPermissions
         hookPermission("rscPermissions", Permission_rscPermissions.class, ServicePriority.Normal, "ru.simsonic.rscPermissions.MainPluginClass");
 
-        //Try to load KPerms
-        hookPermission("KPerms", Permission_KPerms.class, ServicePriority.Normal, "com.lightniinja.kperms.KPermsPlugin");
-        
         Permission perms = new Permission_SuperPerms(this);
         sm.register(Permission.class, perms, this, ServicePriority.Lowest);
         log.info(String.format("[%s][Permission] SuperPermissions loaded as backup permission system.", getDescription().getName()));
