@@ -48,6 +48,7 @@ import net.milkbowl.vault.economy.plugins.Economy_CommandsEX;
 import net.milkbowl.vault.economy.plugins.Economy_Craftconomy;
 import net.milkbowl.vault.economy.plugins.Economy_Craftconomy3;
 import net.milkbowl.vault.economy.plugins.Economy_CurrencyCore;
+import net.milkbowl.vault.economy.plugins.Economy_DigiCoin;
 import net.milkbowl.vault.economy.plugins.Economy_Dosh;
 import net.milkbowl.vault.economy.plugins.Economy_EconXP;
 import net.milkbowl.vault.economy.plugins.Economy_Essentials;
@@ -105,6 +106,7 @@ import org.json.simple.JSONObject;
 import org.json.simple.JSONValue;
 
 import com.nijikokun.register.payment.Methods;
+
 import net.milkbowl.vault.chat.plugins.Chat_TotalPermissions;
 import net.milkbowl.vault.economy.plugins.Economy_MiConomy;
 
@@ -329,6 +331,9 @@ public class Vault extends JavaPlugin {
 
         // Try to load TAEcon
         hookEconomy("TAEcon", Economy_TAEcon.class, ServicePriority.Normal, "net.teamalpha.taecon.TAEcon");
+        
+        // Try to load DigiCoin
+        hookEconomy("DigiCoin", Economy_DigiCoin.class, ServicePriority.Normal, "co.uk.silvania.cities.digicoin.DigiCoin");
     }
 
     /**
