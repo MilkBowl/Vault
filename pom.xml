@@ -438,32 +438,15 @@ Vault currently supports the following: Permissions 3, PEX, GroupManager, bPerms
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-javadoc-plugin</artifactId>
 				<version>2.9.1</version>
-				<executions>
-					<execution>
-						<id>install-javadocs</id>
-						<goals>
-							<goal>javadoc</goal>
-						</goals>
-					</execution>
-				</executions>
 				<configuration>
-					<outputDirectory>/var/www/javadoc</outputDirectory>
-					<reportOutputDirectory>/var/www/javadoc</reportOutputDirectory>
-					<destDir>vault</destDir>
 					<show>public</show>
 					<windowtitle>Vault</windowtitle>
 					<verbose>false</verbose>
 					<author>true</author>
 					<version>true</version>
 					<linksource>true</linksource>
-					<links>
-						<link>http://java.sun.com/j2se/1.5.0/docs/api/</link>
-						<link>http://jd.bukkit.org/apidocs/</link>
-					</links>
-					<bottom>
-			            <![CDATA[<b>MilkBukkit, 2011</b>]]>
-					</bottom>
-					<excludePackageNames>net.milkbowl.vault.chat.*:net.milkbowl.vault.economy.*:net.milkbowl.vault.permission.*</excludePackageNames>
+					<excludePackageNames>net.milkbowl.vault.chat.plugin:net.milkbowl.vault.economy.plugin:net.milkbowl.vault.permission.plugin</excludePackageNames>
+					<bottom><![CDATA[<b>Milkbowl, 2014</b>]]</bottom>
 				</configuration>
 			</plugin>
 		</plugins>
