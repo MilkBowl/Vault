@@ -446,7 +446,7 @@ Vault currently supports the following: Permissions 3, PEX, GroupManager, bPerms
 					<version>true</version>
 					<linksource>true</linksource>
 					<excludePackageNames>net.milkbowl.vault.chat.plugin:net.milkbowl.vault.economy.plugin:net.milkbowl.vault.permission.plugin</excludePackageNames>
-					<bottom><![CDATA[<b>Milkbowl, 2014</b>]]</bottom>
+					<bottom><![CDATA[<b>Milkbowl, 2014</b>]]></bottom>
 				</configuration>
 			</plugin>
 		</plugins>
