@@ -385,11 +385,11 @@ Vault currently supports the following: Permissions 3, PEX, GroupManager, bPerms
 			<systemPath>${project.basedir}/lib/KPerms.jar</systemPath>
 		</dependency>
 		<dependency>
-		    <groupId>co.uk.silvania.cities.digicoin</groupId>
-		    <artifactId>DigiCoin</artifactId>
-		    <version>0.1</version>
-		    <scope>system</scope>
-		    <systemPath>${project.basedir}/lib/DigiCoin.jar</systemPath>
+			<groupId>co.uk.silvania.cities.digicoin</groupId>
+			<artifactId>DigiCoin</artifactId>
+			<version>0.1</version>
+			<scope>system</scope>
+			<systemPath>${project.basedir}/lib/DigiCoin.jar</systemPath>
 		</dependency>
 	</dependencies>
 
@@ -416,23 +416,9 @@ Vault currently supports the following: Permissions 3, PEX, GroupManager, bPerms
 				</configuration>
 			</plugin>
 			<plugin>
-				<groupId>org.codehaus.mojo</groupId>
-				<artifactId>build-helper-maven-plugin</artifactId>
-				<version>1.5</version>
-				<executions>
-					<execution>
-						<id>add-source</id>
-						<phase>generate-sources</phase>
-						<goals>
-							<goal>add-source</goal>
-						</goals>
-						<configuration>
-							<sources>
-								<source>${project.basedir}/src</source>
-							</sources>
-						</configuration>
-					</execution>
-				</executions>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-source-plugin</artifactId>
+                <version>2.2.1</version>
 			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
