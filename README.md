@@ -87,6 +87,7 @@ Github and we'll get to it at our convenience.
    - iConomy 4 (http://forums.bukkit.org/threads/40/)
    - iConomy 5 (http://forums.bukkit.org/threads/40/)
    - iConomy 6 (http://forums.bukkit.org/threads/40/)
+   - InTime2
    - McMoney
    - Miconomy
    - MineConomy (http://dev.bukkit.org/server-mods/mineconomy/)
