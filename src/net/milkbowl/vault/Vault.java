@@ -56,7 +56,6 @@ import net.milkbowl.vault.economy.plugins.Economy_GoldIsMoney;
 import net.milkbowl.vault.economy.plugins.Economy_GoldIsMoney2;
 import net.milkbowl.vault.economy.plugins.Economy_GoldenChestEconomy;
 import net.milkbowl.vault.economy.plugins.Economy_Gringotts;
-import net.milkbowl.vault.economy.plugins.Economy_InTime2;
 import net.milkbowl.vault.economy.plugins.Economy_McMoney;
 import net.milkbowl.vault.economy.plugins.Economy_MineConomy;
 import net.milkbowl.vault.economy.plugins.Economy_MultiCurrency;
@@ -257,9 +256,6 @@ public class Vault extends JavaPlugin {
 
         // Try to load MiFaConomy
         hookEconomy("MineFaConomy", Economy_Minefaconomy.class, ServicePriority.Normal, "me.coniin.plugins.minefaconomy.Minefaconomy");
-
-        // Try to load InTime2
-        hookEconomy("InTime2", Economy_InTime2.class, ServicePriority.Normal, "com.BlackMage.InTime2.InTime2");
 
         // Try to load MultiCurrency
         hookEconomy("MultiCurrency", Economy_MultiCurrency.class, ServicePriority.Normal, "me.ashtheking.currency.Currency", "me.ashtheking.currency.CurrencyList");

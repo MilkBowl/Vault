@@ -77,13 +77,6 @@ Vault currently supports the following: Permissions 3, PEX, GroupManager, bPerms
 			<artifactId>bukkit</artifactId>
 			<version>${bukkitVersion}</version>
 		</dependency>
-        <dependency>
-			<groupId>com.BlackMage.InTime2.InTime2</groupId>
-			<artifactId>InTime2</artifactId>
-			<version>0.3.7</version>
-			<scope>system</scope>
-			<systemPath>${project.basedir}/lib/InTime2.jar</systemPath>
-		</dependency>
 		<dependency>
 			<groupId>com.gmail.bleedobsidian.miconomy</groupId>
 			<artifactId>MiConomy</artifactId>
@@ -425,7 +418,7 @@ Vault currently supports the following: Permissions 3, PEX, GroupManager, bPerms
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-source-plugin</artifactId>
-                <version>2.2.1</version>
+				<version>2.2.1</version>
 			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
