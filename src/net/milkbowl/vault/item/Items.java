@@ -860,9 +860,6 @@ public class Items {
                             matchedItem = item;
                             matchedItemStrength = attributes.length;
                         }
-
-                        // This criteria was a match, lets break out of this item...no point testing alternate criteria's
-                        break;
                     }
                 }
             }
