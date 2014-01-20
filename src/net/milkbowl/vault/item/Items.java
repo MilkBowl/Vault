@@ -155,7 +155,9 @@ public class Items {
         items.add(new ItemInfo("Portal", new String[][]{{"port"}}, Material.PORTAL));
         items.add(new ItemInfo("Jack-O-Lantern", new String[][]{{"jack"}, {"lante"}}, Material.JACK_O_LANTERN));
         items.add(new ItemInfo("Trapdoor", new String[][]{{"trap", "doo"}, {"hatc"}}, Material.TRAP_DOOR));
-        items.add(new ItemInfo("Monster Egg", new String[][]{{"mons", "eggs"}, {"hid", "silver"}}, Material.MONSTER_EGGS));
+        items.add(new ItemInfo("Stone Monster Egg", new String[][]{{"mons","egg"},{"sto","mons", "egg"}, {"hid", "silver"}}, Material.MONSTER_EGGS));
+        items.add(new ItemInfo("Stone Brick Monster Egg", new String[][]{{"sto","bri","mons", "egg"}, {"hid", "silver","sto","bri"}}, Material.MONSTER_EGGS, (short) 2));
+        items.add(new ItemInfo("Mossy Stone Brick Monster Egg", new String[][]{{"moss","sto","bri","mons", "egg"}, {"hid", "silver","mos","sto","bri"}}, Material.MONSTER_EGGS, (short) 3));
         items.add(new ItemInfo("Huge Brown Mushroom", new String[][]{{"bro", "huge", "mush"}}, Material.HUGE_MUSHROOM_1));
         items.add(new ItemInfo("Huge Red Mushroom", new String[][]{{"red", "huge", "mush"}}, Material.HUGE_MUSHROOM_2));
         items.add(new ItemInfo("Stone Brick", new String[][]{{"sto bri", "smoo bri"}}, Material.SMOOTH_BRICK, (short) 0));
@@ -570,6 +572,9 @@ public class Items {
         items.add(new ItemInfo("Packed Ice", new String[][]{{"ice", "pac"}, {"ice", "opaq"}}, Material.PACKED_ICE));
         items.add(new ItemInfo("Podzol", new String[][]{{"podz"}, {"dirt", "pod"}}, Material.DIRT, (short) 2));
         items.add(new ItemInfo("Red Sand", new String[][]{{"red", "sand"}}, Material.SAND, (short) 1));
+        items.add(new ItemInfo("Cobblestone Monster Egg", new String[][]{{"cobb","sto","mons","egg"},{"cobb","mons", "egg"}, {"hid", "silver", "cob"}}, Material.MONSTER_EGGS, (short) 1));
+        items.add(new ItemInfo("Cracked Stone Brick Monster Egg", new String[][]{{"cra","sto","bri","mons", "egg"}, {"hid", "silver","cra","sto","bri"}}, Material.MONSTER_EGGS, (short) 4));
+        items.add(new ItemInfo("Chiseled Stone Brick Monster Egg", new String[][]{{"chi","stone","bri","mons", "egg"}, {"hid", "silver","chi","sto","bri"}}, Material.MONSTER_EGGS, (short) 5));
         items.add(new ItemInfo("White Stained Glass", new String[][]{{"stai", "glas", "whit"}, {"stai", "glas"}}, Material.STAINED_GLASS));
         items.add(new ItemInfo("Orange Stained Glass", new String[][]{{"stai", "glas", "ora"}}, Material.STAINED_GLASS, (short) 1));
         items.add(new ItemInfo("Magenta Stained Glass", new String[][]{{"stai", "glas", "mag"}}, Material.STAINED_GLASS, (short) 2));
