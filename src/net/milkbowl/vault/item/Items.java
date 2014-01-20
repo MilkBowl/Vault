@@ -445,9 +445,12 @@ public class Items {
         items.add(new ItemInfo("Command Block", new String[][]{{"comm"}}, Material.COMMAND));
         items.add(new ItemInfo("Beacon Block", new String[][]{{"beac"}}, Material.BEACON));
         items.add(new ItemInfo("Anvil", new String[][]{{"anv"}}, Material.ANVIL));
+        items.add(new ItemInfo("Slightly Damaged Anvil", new String[][]{{"dam", "anv"}, {"sli", "anv"}}, Material.ANVIL, (short) 1));
+        items.add(new ItemInfo("Very Damaged Anvil", new String[][]{{"ver", "anv"}}, Material.ANVIL, (short) 2));
         items.add(new ItemInfo("Flower Pot Block", new String[][]{{"blo", "flow", "poti"}}, Material.FLOWER_POT));
         items.add(new ItemInfo("Flower Pot", new String[][]{{"flow", "poti"}}, Material.FLOWER_POT_ITEM));
         items.add(new ItemInfo("Cobblestone Wall", new String[][]{{"cob", "wall"}}, Material.COBBLE_WALL));
+        items.add(new ItemInfo("Mossy Cobblestone Wall", new String[][]{{"mos", "cob", "wall"}}, Material.COBBLE_WALL, (short) 1));
         items.add(new ItemInfo("Item Frame", new String[][]{{"fram"}}, Material.ITEM_FRAME));
         items.add(new ItemInfo("Skeleton Skull", new String[][]{{"skel", "skul"}, {"skel", "hea"}}, Material.SKULL_ITEM));
         items.add(new ItemInfo("Wither Skeleton Skull", new String[][]{{"with", "skul"}, {"with", "hea"}}, Material.SKULL_ITEM, (short) 1));
@@ -488,6 +491,7 @@ public class Items {
         items.add(new ItemInfo("Red Firework Star", new String[][]{{"red", "fire", "star"}}, Material.FIREWORK_CHARGE, (short) 15));
         items.add(new ItemInfo("Black Firework Star", new String[][]{{"bla", "fire", "star"}}, Material.FIREWORK_CHARGE, (short) 16));
         items.add(new ItemInfo("Dead Bush", new String[][]{{"dea", "bush"}}, Material.DEAD_BUSH));
+        items.add(new ItemInfo("Nether Brick Slab", new String[][]{{"sla", "net", "bri"}, {"step", "net", "bri"}}, Material.STEP, (short) 6));
         //1.5 Blocks & Items
         items.add(new ItemInfo("Activator Rail", new String[][]{{"rail", "acti"}, {"trac", "acti"}, {"activ"}}, Material.ACTIVATOR_RAIL));
         items.add(new ItemInfo("Block of Redstone", new String[][]{{"blo", "red"}, {"blo", "rs"}}, Material.REDSTONE_BLOCK));
@@ -552,6 +556,7 @@ public class Items {
         items.add(new ItemInfo("Red Carpet", new String[][]{{"carpet", "red"}}, Material.CARPET, (short) 14));
         items.add(new ItemInfo("Black Carpet", new String[][]{{"carpet", "bla"}}, Material.CARPET, (short) 15));
         //1.7 Blocks and Items
+        items.add(new ItemInfo("Grassless Dirt", new String[][]{{"less", "dirt"}}, Material.DIRT, (short) 1));
         items.add(new ItemInfo("Acacia Log", new String[][]{{"acac"}, {"log", "acac"}}, Material.LOG_2));
         items.add(new ItemInfo("Dark Oak Log", new String[][]{{"oak", "dar"}, {"log", "oak", "dar"}}, Material.LOG_2, (short) 1));
         items.add(new ItemInfo("Acacia Plank", new String[][]{{"acac", "plank"}, {"acac", "wood"}}, Material.WOOD, (short) 4));
@@ -623,6 +628,8 @@ public class Items {
         items.add(new ItemInfo("Cooked Salmon", new String[][]{{"salm", "cook"}}, Material.COOKED_FISH, (short) 1));
         items.add(new ItemInfo("Clownfish", new String[][]{{"fish", "clow"}}, Material.RAW_FISH, (short) 2));
         items.add(new ItemInfo("Pufferfish", new String[][]{{"fish", "puff"}, {"fish", "blo"}, {"fish", "glob"}}, Material.RAW_FISH, (short) 3));
+        items.add(new ItemInfo("Acacia Slab", new String[][]{{"slab", "aca"}, {"step", "aca"}}, Material.WOOD_STEP, (short) 4));
+        items.add(new ItemInfo("Dark Oak Slab", new String[][]{{"slab", "dar"}, {"step", "dar"}}, Material.WOOD_STEP, (short) 5));
     }
 
     @Deprecated
