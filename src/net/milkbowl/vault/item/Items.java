@@ -655,6 +655,11 @@ public class Items {
         return itemByType(Material.getMaterial(typeId), subType);
     }
 
+    /**
+     * Searchs for an ItemInfo from the given ItemStack
+     * @param itemStack
+     * @return ItemInfo found, or null
+     */
     public static ItemInfo itemByStack(ItemStack itemStack) {
         if (itemStack == null) {
             return null;
@@ -680,10 +685,21 @@ public class Items {
         return null;
     }
 
+    /**
+     * Gets a relevant ItemInfo by it's Material
+     * @param type
+     * @return ItemInfo
+     */
     public static ItemInfo itemByType(Material type) {
         return itemByType(type, (short) 0);
     }
 
+    /**
+     * Searches for an ItemInfo record by Material and SubTypeID
+     * @param type
+     * @param subType
+     * @return
+     */
     public static ItemInfo itemByType(Material type, short subType) {
         for (ItemInfo item : items) {
             if (item.getType() == type && item.getSubTypeId() == subType) {
@@ -693,6 +709,15 @@ public class Items {
         return null;
     }
 
+    /**
+     * Search for an item from a given string, useful for user input.  Uses 3 different types of reg-exp searching.
+     *  Checks first for an ItemID.
+     *  Checks second for ItemID:SubType
+     *  Last, it will run a by-name item search assuming the string is the name of an item.
+     *   
+     * @param string to parse
+     * @return ItemInfo found or null
+     */
     public static ItemInfo itemByString(String string) {
 
         // int
