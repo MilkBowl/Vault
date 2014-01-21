@@ -391,11 +391,18 @@ Vault currently supports the following: Permissions 3, PEX, GroupManager, bPerms
 			<scope>system</scope>
 			<systemPath>${project.basedir}/lib/DigiCoin.jar</systemPath>
 		</dependency>
+        <!--Testing Dependency -->
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.11</version>
+        </dependency>
 	</dependencies>
 
 	<build>
 		<defaultGoal>clean install</defaultGoal>
 		<sourceDirectory>src/</sourceDirectory>
+        <testSourceDirectory>test/</testSourceDirectory>
 		<resources>
 			<resource>
 				<directory>${project.basedir}</directory>
