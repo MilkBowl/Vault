@@ -16,6 +16,7 @@
 package net.milkbowl.vault.item;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.regex.Matcher;
@@ -27,6 +28,14 @@ import org.bukkit.inventory.ItemStack;
 public class Items {
 
     private static final List<ItemInfo> items = new CopyOnWriteArrayList<ItemInfo>();
+    
+    /**
+     * Returns the list of ItemInfo's registered in Vault as an UnmodifiableList.
+     * @return list of Items
+     */
+    public static List<ItemInfo> getItemList() {
+        return Collections.unmodifiableList(items);
+    }
 
     static {
         items.add(new ItemInfo("Air", new String[][]{{"air"}}, Material.AIR));
