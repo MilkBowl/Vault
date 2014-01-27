@@ -409,6 +409,7 @@ Vault currently supports the following: Permissions 3, PEX, GroupManager, bPerms
 				<filtering>true</filtering>
 				<includes>
 					<include>plugin.yml</include>
+					<include>config.yml</include>
 				</includes>
 			</resource>
 		</resources>
