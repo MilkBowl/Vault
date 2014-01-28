@@ -89,6 +89,8 @@ import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
+import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -136,6 +138,11 @@ public class Vault extends JavaPlugin {
         currentVersionTitle = getDescription().getVersion().split("-")[0];
         currentVersion = Double.valueOf(currentVersionTitle.replaceFirst("\\.", ""));
         sm = getServer().getServicesManager();
+        // set defaults
+        getConfig().addDefault("update-check", true);
+        getConfig().options().copyDefaults(true);
+        saveConfig();
+        
         // Load Vault Addons
         loadEconomy();
         loadPermission();
@@ -164,7 +171,7 @@ public class Vault extends JavaPlugin {
 
                     @Override
                     public void run() {
-                        if (getServer().getConsoleSender().hasPermission("vault.update")) {
+                        if (getServer().getConsoleSender().hasPermission("vault.update") && getConfig().getBoolean("update-check", true)) {
                             try {
                                 newVersion = updateCheck(currentVersion);
                                 log.info("Checking for Updates:");
