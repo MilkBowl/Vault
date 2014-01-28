@@ -112,7 +112,7 @@ import net.milkbowl.vault.economy.plugins.Economy_MiConomy;
 
 public class Vault extends JavaPlugin {
 
-    private static final Logger log = Logger.getLogger("Minecraft");
+    private static Logger log;
     private Permission perms;
     private String newVersionTitle = "";
     private double newVersion = 0;
@@ -132,6 +132,7 @@ public class Vault extends JavaPlugin {
     @Override
     public void onEnable() {
         plugin = this;
+        log = this.getLogger();
         currentVersionTitle = getDescription().getVersion().split("-")[0];
         currentVersion = Double.valueOf(currentVersionTitle.replaceFirst("\\.", ""));
         sm = getServer().getServicesManager();
@@ -166,21 +167,16 @@ public class Vault extends JavaPlugin {
                         if (getServer().getConsoleSender().hasPermission("vault.update")) {
                             try {
                                 newVersion = updateCheck(currentVersion);
-                                log.info("***** Vault Version Checker ***** ");
+                                log.info("Checking for Updates:");
                                 if (newVersion > currentVersion) {
-                                    log.warning("Stable Version: " + newVersionTitle + " is out!");
-                                    log.warning("Current Version: " + currentVersionTitle);
-                                    log.warning("Update Vault at: http://dev.bukkit.org/server-mods/vault");
+                                    log.warning("Stable Version: " + newVersionTitle + " is out!" + " You are still running version: " + currentVersionTitle);
+                                    log.warning("Update at: http://dev.bukkit.org/server-mods/vault");
                                 } else if (currentVersion > newVersion) {
-                                    log.info("Stable Version: " + newVersionTitle);
-                                    log.info("Current Version: " + currentVersionTitle);
+                                    log.info("Stable Version: " + newVersionTitle + " Current Version: " + currentVersionTitle);
                                     log.info("You are on a development or experimental build, Happy testing!");
                                 } else {
-                                    log.info("Stable Version: " + newVersionTitle);
-                                    log.info("Current Version: " + currentVersionTitle);
                                     log.info("No new version available");
                                 }
-                                log.info("*********************************");
                             } catch (Exception e) {
                                 // ignore exceptions
                             }
