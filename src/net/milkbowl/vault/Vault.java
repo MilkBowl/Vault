@@ -603,7 +603,7 @@ public class Vault extends JavaPlugin {
             if (perms.has(player, "vault.update")) {
                 try {
                     if (newVersion > currentVersion) {
-                        player.sendMessage(newVersion + " is out! You are running " + currentVersion);
+                        player.sendMessage("Vault " +  newVersion + " is out! You are running " + currentVersion);
                         player.sendMessage("Update Vault at: http://dev.bukkit.org/server-mods/vault");
                     }
                 } catch (Exception e) {
