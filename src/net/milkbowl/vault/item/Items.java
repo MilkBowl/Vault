@@ -468,6 +468,7 @@ public class Items {
         items.add(new ItemInfo("Human Head", new String[][]{{"huma", "skul"}, {"huma", "hea"}}, Material.SKULL_ITEM, (short) 3));
         items.add(new ItemInfo("Creeper Head", new String[][]{{"cree", "skul"}, {"cree", "hea"}}, Material.SKULL_ITEM, (short) 4));
         items.add(new ItemInfo("Carrot", new String[][]{{"carro"}}, Material.CARROT_ITEM));
+        items.add(new ItemInfo("Golden Carrot", new String[][]{{"carr", "gol"}}, Material.GOLDEN_CARROT));
         items.add(new ItemInfo("Carrot Block", new String[][]{{"blo", "carr"}}, Material.CARROT));
         items.add(new ItemInfo("Carrot on a Stick", new String[][]{{"sti", "carr"}}, Material.CARROT_STICK));
         items.add(new ItemInfo("Potato", new String[][]{{"pota"}}, Material.POTATO_ITEM));

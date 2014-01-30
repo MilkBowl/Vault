@@ -1,7 +1,9 @@
 package net.milkbowl.vault.test;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
+import org.bukkit.Material;
 import org.junit.Test;
 
 import net.milkbowl.vault.item.ItemInfo;
@@ -23,5 +25,12 @@ public class ItemTest {
             }
         }
         assertEquals(false, failed);
+    }
+    
+    @Test
+    public void MissingMaterialtest() {
+        for (Material mat : Material.values()) {
+            assertNotNull("Missing " + mat.toString() + " in item search list", Items.itemByType(mat));
+        }
     }
 }
