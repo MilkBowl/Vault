@@ -20,7 +20,6 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.Collection;
@@ -587,10 +586,8 @@ public class Vault extends JavaPlugin {
             // Pull the last version from the JSON
             newVersionTitle = ((String) ((JSONObject) array.get(array.size() - 1)).get("name")).replace("Vault", "").trim();
             return Double.valueOf(newVersionTitle.replaceFirst("\\.", "").trim());
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
+        } catch (Exception e) {
+            log.info("There was an issue attempting to check for the latest version.");
         }
         return currentVersion;
     }
