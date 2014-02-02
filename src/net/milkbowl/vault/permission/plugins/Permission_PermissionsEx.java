@@ -121,14 +121,22 @@ public class Permission_PermissionsEx extends Permission {
         if (group == null || user == null) {
             return false;
         } else {
-            user.addGroup(groupName, worldName);
+        	if(worldName == null){
+                user.addGroup(groupName);
+        	}else{
+                user.addGroup(groupName, worldName);
+        	}
             return true;
         }
     }
 
     @Override
     public boolean playerRemoveGroup(String worldName, String playerName, String groupName) {
-        PermissionsEx.getPermissionManager().getUser(playerName).removeGroup(groupName, worldName);
+    	if(worldName == null){
+            PermissionsEx.getPermissionManager().getUser(playerName).removeGroup(groupName);
+    	}else{
+            PermissionsEx.getPermissionManager().getUser(playerName).removeGroup(groupName, worldName);
+    	}
         return true;
     }
 
