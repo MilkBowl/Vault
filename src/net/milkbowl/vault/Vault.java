@@ -45,6 +45,7 @@ import net.milkbowl.vault.economy.plugins.Economy_BOSE6;
 import net.milkbowl.vault.economy.plugins.Economy_BOSE7;
 import net.milkbowl.vault.economy.plugins.Economy_CommandsEX;
 import net.milkbowl.vault.economy.plugins.Economy_Craftconomy;
+import net.milkbowl.vault.economy.plugins.Economy_CleanConomy;
 import net.milkbowl.vault.economy.plugins.Economy_Craftconomy3;
 import net.milkbowl.vault.economy.plugins.Economy_CurrencyCore;
 import net.milkbowl.vault.economy.plugins.Economy_DigiCoin;
@@ -267,6 +268,9 @@ public class Vault extends JavaPlugin {
 
         // Try to load McMoney
         hookEconomy("McMoney", Economy_McMoney.class, ServicePriority.Normal, "boardinggamer.mcmoney.McMoneyAPI");
+        
+        // Try to load Craftconomy
+        hookEconomy("CleanConomy", Economy_CleanConomy.class, ServicePriority.Normal, "net.komputerking.cleanconomy.CleanConomy");
 
         // Try to load Craftconomy
         hookEconomy("CraftConomy", Economy_Craftconomy.class, ServicePriority.Normal, "me.greatman.Craftconomy.Craftconomy");
