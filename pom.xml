@@ -69,6 +69,10 @@ Vault currently supports the following: Permissions 3, PEX, GroupManager, bPerms
 			<id>escapecraft-repo</id>
 			<url>http://dev.escapecraft.com/maven</url>
 		</repository>
+                <repository>
+			<id>thekomputerking-repo</id>
+			<url>http://cloud.kompking.info/repo</url>
+		</repository>
 	</repositories>
 
 	<dependencies>
@@ -88,6 +92,11 @@ Vault currently supports the following: Permissions 3, PEX, GroupManager, bPerms
 			<groupId>de.hydrox.bukkit</groupId>
 			<artifactId>DroxPerms</artifactId>
 			<version>0.5.0</version>
+		</dependency>
+                <dependency>
+			<groupId>net.komputerking</groupId>
+			<artifactId>CleanConomy</artifactId>
+			<version>1.0-SNAPSHOT</version>
 		</dependency>
 		<dependency>
 			<groupId>me.coniin.plugins.minefaconomy</groupId>
