@@ -207,7 +207,7 @@ public class Economy_CleanConomy implements Economy {
 
 @Override
 public int fractionalDigits() {
-return -1;
+return 0;
 }
 
     @Override
