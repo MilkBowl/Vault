@@ -307,6 +307,7 @@ public class Items {
         items.add(new ItemInfo("Redstone Repeater", new String[][]{{"repe", "reds"}, {"diod"}, {"repeat"}}, Material.DIODE));
         items.add(new ItemInfo("Cookie", new String[][]{{"cooki"}}, Material.COOKIE));
         items.add(new ItemInfo("Map", new String[][]{{"map"}}, Material.MAP));
+        items.add(new ItemInfo("Empty Map", new String[][]{{"empt", "ma"}}, Material.EMPTY_MAP));
         items.add(new ItemInfo("Shears", new String[][]{{"shea"}}, Material.SHEARS));
         items.add(new ItemInfo("Ender Pearl", new String[][]{{"end", "pear"}, {"pearl"}}, Material.ENDER_PEARL));
         items.add(new ItemInfo("Mycelium", new String[][]{{ "myc" }}, Material.MYCEL));
@@ -420,8 +421,8 @@ public class Items {
         items.add(new ItemInfo("Villager Spawn Egg", new String[][] {{"villa", "egg"}}, Material.MONSTER_EGG, (short) 120));
         items.add(new ItemInfo("Bottle 'o Enchanting", new String[][] {{"bot", "ench"}, {"bot", "xp"}}, Material.EXP_BOTTLE));
         items.add(new ItemInfo("Fire Charge", new String[][] {{"fir", "char"}}, Material.FIREBALL));
-        items.add(new ItemInfo("Gold Music Disc", new String[][]{{"dis", "gol"}, {"rec", "gol"}}, Material.GOLD_RECORD));
-        items.add(new ItemInfo("Green Music Disc", new String[][]{{"dis", "gre"}, {"rec", "gre"}}, Material.GREEN_RECORD));
+        items.add(new ItemInfo("13 Disc", new String[][]{{"dis", "gol"}, {"rec", "gol"}, {"13", "disc"}, {"13", "reco"}}, Material.GOLD_RECORD));
+        items.add(new ItemInfo("cat Disc", new String[][]{{"dis", "gre"}, {"rec", "gre"}, {"cat", "disc"}, {"cat", "reco"}}, Material.GREEN_RECORD));
         items.add(new ItemInfo("blocks Disc", new String[][] {{"block", "disc"}, {"block", "reco"}, {"3", "disc"}, {"3", "reco"}}, Material.RECORD_3));
         items.add(new ItemInfo("chirp Disc", new String[][] {{"chirp", "disc"}, {"chirp", "reco"}, {"4", "disc"}, {"4", "reco"}}, Material.RECORD_4));
         items.add(new ItemInfo("far Disc", new String[][] {{"far", "disc"}, {"far", "reco"}, {"5", "disc"}, {"5", "reco"}}, Material.RECORD_5));
@@ -431,6 +432,7 @@ public class Items {
         items.add(new ItemInfo("strad Disc", new String[][] {{"strad", "disc"}, {"strad", "reco"}, {"9", "disc"}, {"9", "reco"}}, Material.RECORD_9));
         items.add(new ItemInfo("ward Disc", new String[][] {{"ward", "disc"}, {"ward", "reco"}, {"10", "disc"}, {"10", "reco"}}, Material.RECORD_10));
         items.add(new ItemInfo("11 Disc", new String[][] {{"11", "disc"}, {"11", "reco"}}, Material.RECORD_11));
+        items.add(new ItemInfo("wait Disc", new String[][] {{"12", "disc"}, {"wait", "disc"}, {"12", "reco"}, {"wait", "reco"}}, Material.RECORD_12));
         items.add(new ItemInfo("Redstone Lamp", new String[][] {{"lamp"}, {"lamp", "redst"}}, Material.REDSTONE_LAMP_OFF));
         items.add(new ItemInfo("Redstone Torch Off", new String[][] {{"off", "red", "sto", "tor"}}, Material.REDSTONE_TORCH_OFF));
         //1.3 Blocks & Items
@@ -451,6 +453,7 @@ public class Items {
         items.add(new ItemInfo("Jungle Wood Slab", new String[][]{{"jung", "wood", "sla"}, {"slab", "jung"}, {"step", "jung"}}, Material.WOOD_STEP, (short) 3));
         items.add(new ItemInfo("Book and Quill", new String[][]{{"qui", "book"}}, Material.BOOK_AND_QUILL));
         items.add(new ItemInfo("Written Book", new String[][]{{"wri", "book"}}, Material.WRITTEN_BOOK));
+        items.add(new ItemInfo("Cocoa Pod", new String[][]{{"coco"}, {"coc", "pod"}}, Material.COCOA));
         //1.4 Blocks & Items
         items.add(new ItemInfo("Command Block", new String[][]{{"comm"}}, Material.COMMAND));
         items.add(new ItemInfo("Beacon Block", new String[][]{{"beac"}}, Material.BEACON));
