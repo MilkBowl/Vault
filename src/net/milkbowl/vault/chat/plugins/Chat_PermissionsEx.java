@@ -12,7 +12,7 @@
 
     You should have received a copy of the GNU Lesser General Public License
     along with Vault.  If not, see <http://www.gnu.org/licenses/>.
-*/
+ */
 package net.milkbowl.vault.chat.plugins;
 
 import java.util.logging.Logger;
@@ -33,14 +33,14 @@ import ru.tehkode.permissions.PermissionUser;
 import ru.tehkode.permissions.bukkit.PermissionsEx;
 
 public class Chat_PermissionsEx extends Chat {
-	private static final Logger log = Logger.getLogger("Minecraft");
+    private static final Logger log = Logger.getLogger("Minecraft");
     private final String name = "PermissionsEx_Chat";
-    
+
     private Plugin plugin = null;
     private PermissionsEx chat = null;
 
     public Chat_PermissionsEx(Plugin plugin, Permission perms) {
-    	super(perms);
+        super(perms);
         this.plugin = plugin;
 
         Bukkit.getServer().getPluginManager().registerEvents(new PermissionServerListener(this), plugin);
@@ -56,14 +56,14 @@ public class Chat_PermissionsEx extends Chat {
             }
         }
     }
-    
+
     public class PermissionServerListener implements Listener {
         Chat_PermissionsEx chat = null;
 
         public PermissionServerListener(Chat_PermissionsEx chat) {
             this.chat = chat;
         }
-        
+
         @EventHandler(priority = EventPriority.MONITOR)
         public void onPluginEnable(PluginEnableEvent event) {
             if (chat.chat == null) {
@@ -88,20 +88,20 @@ public class Chat_PermissionsEx extends Chat {
             }
         }
     }
-    
-	@Override
-	public String getName() {
-		return name;
-	}
 
-	@Override
-	public boolean isEnabled() {
-		if (chat == null)
-			return false;
-		else
-			return chat.isEnabled();
-	}
-	
+    @Override
+    public String getName() {
+        return name;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        if (chat == null)
+            return false;
+        else
+            return chat.isEnabled();
+    }
+
     @Override
     public int getPlayerInfoInteger(String world, String playerName, String node, int defaultValue) {
         return PermissionsEx.getPermissionManager().getUser(playerName).getOptionInteger(node, world, defaultValue);
@@ -121,7 +121,7 @@ public class Chat_PermissionsEx extends Chat {
     public String getPlayerInfoString(String world, String playerName, String node, String defaultValue) {
         return PermissionsEx.getPermissionManager().getUser(playerName).getOption(node, world, defaultValue);
     }
-    
+
     @Override
     public void setPlayerInfoInteger(String world, String playerName, String node, int value) {
         PermissionUser user = PermissionsEx.getPermissionManager().getUser(playerName);
@@ -233,7 +233,7 @@ public class Chat_PermissionsEx extends Chat {
             group.setOption(node, world, value);
         }
     }
-    
+
     @Override
     public String getPlayerPrefix(String world, String playerName) {
         PermissionUser user = PermissionsEx.getPermissionManager().getUser(playerName);

@@ -28,6 +28,7 @@ import java.util.logging.Logger;
 import net.milkbowl.vault.chat.Chat;
 import net.milkbowl.vault.chat.plugins.Chat_DroxPerms;
 import net.milkbowl.vault.chat.plugins.Chat_GroupManager;
+import net.milkbowl.vault.chat.plugins.Chat_OverPermissions;
 import net.milkbowl.vault.chat.plugins.Chat_Permissions3;
 import net.milkbowl.vault.chat.plugins.Chat_PermissionsEx;
 import net.milkbowl.vault.chat.plugins.Chat_Privileges;
@@ -69,6 +70,7 @@ import net.milkbowl.vault.economy.plugins.Economy_Minefaconomy;
 import net.milkbowl.vault.permission.Permission;
 import net.milkbowl.vault.permission.plugins.Permission_DroxPerms;
 import net.milkbowl.vault.permission.plugins.Permission_GroupManager;
+import net.milkbowl.vault.permission.plugins.Permission_OverPermissions;
 import net.milkbowl.vault.permission.plugins.Permission_Permissions3;
 import net.milkbowl.vault.permission.plugins.Permission_PermissionsBukkit;
 import net.milkbowl.vault.permission.plugins.Permission_PermissionsEx;
@@ -139,7 +141,7 @@ public class Vault extends JavaPlugin {
         getConfig().addDefault("update-check", true);
         getConfig().options().copyDefaults(true);
         saveConfig();
-        
+
         // Load Vault Addons
         loadEconomy();
         loadPermission();
@@ -188,7 +190,7 @@ public class Vault extends JavaPlugin {
                 }, 0, 432000);
 
             }
-            
+
         });
 
         // Load up the Plugin metrics
@@ -214,6 +216,9 @@ public class Vault extends JavaPlugin {
 
         // Try to load mChat
         hookChat("mChat", Chat_mChat.class, ServicePriority.Highest, "net.D3GN.MiracleM4n.mChat");
+
+        // Try to load OverPermissions
+        hookChat("OverPermissions", Chat_OverPermissions.class, ServicePriority.Highest, "com.overmc.overpermissions.OverPermissions");
 
         // Try to load DroxPerms Chat
         hookChat("DroxPerms", Chat_DroxPerms.class, ServicePriority.Lowest, "de.hydrox.bukkit.DroxPerms.DroxPerms");
@@ -315,7 +320,7 @@ public class Vault extends JavaPlugin {
 
         // Try to load GoldenChestEconomy
         hookEconomy("GoldenChestEconomy", Economy_GoldenChestEconomy.class, ServicePriority.Normal, "me.igwb.GoldenChest.GoldenChestEconomy");
-        
+
         // Try to load Dosh
         hookEconomy("Dosh", Economy_Dosh.class, ServicePriority.Normal, "com.gravypod.Dosh.Dosh");
 
@@ -330,7 +335,7 @@ public class Vault extends JavaPlugin {
 
         // Try to load TAEcon
         hookEconomy("TAEcon", Economy_TAEcon.class, ServicePriority.Normal, "net.teamalpha.taecon.TAEcon");
-        
+
         // Try to load DigiCoin
         hookEconomy("DigiCoin", Economy_DigiCoin.class, ServicePriority.Normal, "co.uk.silvania.cities.digicoin.DigiCoin");
     }
@@ -344,6 +349,9 @@ public class Vault extends JavaPlugin {
 
         // Try to load PermissionsEx
         hookPermission("PermissionsEx", Permission_PermissionsEx.class, ServicePriority.Highest, "ru.tehkode.permissions.bukkit.PermissionsEx");
+
+        // Try to load OverPermissions
+        hookPermission("OverPermissions", Permission_OverPermissions.class, ServicePriority.Highest, "com.overmc.overpermissions.OverPermissions");
 
         // Try to load PermissionsBukkit
         hookPermission("PermissionsBukkit", Permission_PermissionsBukkit.class, ServicePriority.Normal, "com.platymuus.bukkit.permissions.PermissionsPlugin");
@@ -381,9 +389,9 @@ public class Vault extends JavaPlugin {
         // Try to load rscPermissions
         hookPermission("rscPermissions", Permission_rscPermissions.class, ServicePriority.Normal, "ru.simsonic.rscPermissions.MainPluginClass");
 
-        //Try to load KPerms
+        // Try to load KPerms
         hookPermission("KPerms", Permission_KPerms.class, ServicePriority.Normal, "com.lightniinja.kperms.KPermsPlugin");
-        
+
         Permission perms = new Permission_SuperPerms(this);
         sm.register(Permission.class, perms, this, ServicePriority.Lowest);
         log.info(String.format("[%s][Permission] SuperPermissions loaded as backup permission system.", getDescription().getName()));
