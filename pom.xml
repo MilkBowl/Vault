@@ -14,7 +14,7 @@ Vault currently supports the following: Permissions 3, PEX, GroupManager, bPerms
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<bukkitVersion>1.7.2-R0.2</bukkitVersion>
+		<bukkitVersion>1.7.2-R0.3</bukkitVersion>
 		<mainClass>net.milkbowl.vault.Vault</mainClass>
 	</properties>
 
