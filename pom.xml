@@ -391,13 +391,13 @@ Vault currently supports the following: Permissions 3, PEX, GroupManager, bPerms
 			<scope>system</scope>
 			<systemPath>${project.basedir}/lib/DigiCoin.jar</systemPath>
 		</dependency>
-        <dependency>
-            <groupId>com.overmc</groupId>
-            <artifactId>overpermissions</artifactId>
-            <version>1.0.5</version>
-            <scope>system</scope>
-            <systemPath>${project.basedir}/lib/overpermissions-1.0.5.jar</systemPath>
-        </dependency>
+		<dependency>
+			<groupId>com.overmc</groupId>
+			<artifactId>overpermissions</artifactId>
+			<version>1.0.5</version>
+			<scope>system</scope>
+			<systemPath>${project.basedir}/lib/overpermissions-1.0.5.jar</systemPath>
+		</dependency>
 		<!-- Test Dependency -->
 		<dependency>
 		    <groupId>junit</groupId>
