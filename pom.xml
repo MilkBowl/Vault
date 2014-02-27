@@ -54,10 +54,6 @@ Vault currently supports the following: Permissions 3, PEX, GroupManager, bPerms
 			<url>http://repo.bukkit.org/content/groups/public/</url>
 		</repository>
 		<repository>
-			<id>sdfeconomy-repo</id>
-			<url>http://omwah.sdf.org/maven/repo/snapshots/</url>
-		</repository>
-		<repository>
 			<id>greatman-repo</id>
 			<url>http://repo.greatmancode.com/content/groups/public/</url>
 		</repository>
@@ -354,7 +350,9 @@ Vault currently supports the following: Permissions 3, PEX, GroupManager, bPerms
 		<dependency>
 			<groupId>com.github.omwah</groupId>
 			<artifactId>SDFEconomy</artifactId>
-			<version>0.1.0-SNAPSHOT</version>
+			<version>0.2.2</version>
+			<scope>system</scope>
+			<systemPath>${project.basedir}/lib/SDFEconomy-0.2.2.jar</systemPath>
 		</dependency>
 		<dependency>
 			<groupId>net.ae97</groupId>
