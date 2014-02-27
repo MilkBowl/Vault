@@ -7,6 +7,7 @@ import java.util.EnumSet;
 import java.util.Set;
 
 import org.bukkit.Material;
+import org.bukkit.inventory.ItemStack;
 import org.junit.Test;
 
 import net.milkbowl.vault.item.ItemInfo;
@@ -51,6 +52,21 @@ public class ItemTest {
             ItemInfo queriedInfo = Items.itemByString(item.getName());
             try {
                 assertEquals(item, queriedInfo);
+            } catch (AssertionError e) {
+                e.printStackTrace();
+                failed = true;
+            }
+        }
+        assertEquals(false, failed);
+    }
+    
+    @Test
+    public void testItemStacks() {
+        boolean failed = false;
+        for (ItemInfo item : Items.getItemList()) {
+            ItemStack stack = item.toStack();
+            try {
+                assertEquals(item, Items.itemByStack(stack));
             } catch (AssertionError e) {
                 e.printStackTrace();
                 failed = true;
