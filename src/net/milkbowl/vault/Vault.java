@@ -20,7 +20,6 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.Collection;
@@ -29,6 +28,7 @@ import java.util.logging.Logger;
 import net.milkbowl.vault.chat.Chat;
 import net.milkbowl.vault.chat.plugins.Chat_DroxPerms;
 import net.milkbowl.vault.chat.plugins.Chat_GroupManager;
+import net.milkbowl.vault.chat.plugins.Chat_OverPermissions;
 import net.milkbowl.vault.chat.plugins.Chat_Permissions3;
 import net.milkbowl.vault.chat.plugins.Chat_PermissionsEx;
 import net.milkbowl.vault.chat.plugins.Chat_Privileges;
@@ -48,11 +48,13 @@ import net.milkbowl.vault.economy.plugins.Economy_CommandsEX;
 import net.milkbowl.vault.economy.plugins.Economy_Craftconomy;
 import net.milkbowl.vault.economy.plugins.Economy_Craftconomy3;
 import net.milkbowl.vault.economy.plugins.Economy_CurrencyCore;
+import net.milkbowl.vault.economy.plugins.Economy_DigiCoin;
 import net.milkbowl.vault.economy.plugins.Economy_Dosh;
 import net.milkbowl.vault.economy.plugins.Economy_EconXP;
 import net.milkbowl.vault.economy.plugins.Economy_Essentials;
 import net.milkbowl.vault.economy.plugins.Economy_GoldIsMoney;
 import net.milkbowl.vault.economy.plugins.Economy_GoldIsMoney2;
+import net.milkbowl.vault.economy.plugins.Economy_GoldenChestEconomy;
 import net.milkbowl.vault.economy.plugins.Economy_Gringotts;
 import net.milkbowl.vault.economy.plugins.Economy_McMoney;
 import net.milkbowl.vault.economy.plugins.Economy_MineConomy;
@@ -68,6 +70,7 @@ import net.milkbowl.vault.economy.plugins.Economy_Minefaconomy;
 import net.milkbowl.vault.permission.Permission;
 import net.milkbowl.vault.permission.plugins.Permission_DroxPerms;
 import net.milkbowl.vault.permission.plugins.Permission_GroupManager;
+import net.milkbowl.vault.permission.plugins.Permission_OverPermissions;
 import net.milkbowl.vault.permission.plugins.Permission_Permissions3;
 import net.milkbowl.vault.permission.plugins.Permission_PermissionsBukkit;
 import net.milkbowl.vault.permission.plugins.Permission_PermissionsEx;
@@ -81,6 +84,7 @@ import net.milkbowl.vault.permission.plugins.Permission_bPermissions2;
 import net.milkbowl.vault.permission.plugins.Permission_zPermissions;
 import net.milkbowl.vault.permission.plugins.Permission_TotalPermissions;
 import net.milkbowl.vault.permission.plugins.Permission_rscPermissions;
+import net.milkbowl.vault.permission.plugins.Permission_KPerms;
 
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
@@ -103,12 +107,13 @@ import org.json.simple.JSONObject;
 import org.json.simple.JSONValue;
 
 import com.nijikokun.register.payment.Methods;
+
 import net.milkbowl.vault.chat.plugins.Chat_TotalPermissions;
 import net.milkbowl.vault.economy.plugins.Economy_MiConomy;
 
 public class Vault extends JavaPlugin {
 
-    private static final Logger log = Logger.getLogger("Minecraft");
+    private static Logger log;
     private Permission perms;
     private String newVersionTitle = "";
     private double newVersion = 0;
@@ -128,9 +133,15 @@ public class Vault extends JavaPlugin {
     @Override
     public void onEnable() {
         plugin = this;
+        log = this.getLogger();
         currentVersionTitle = getDescription().getVersion().split("-")[0];
         currentVersion = Double.valueOf(currentVersionTitle.replaceFirst("\\.", ""));
         sm = getServer().getServicesManager();
+        // set defaults
+        getConfig().addDefault("update-check", true);
+        getConfig().options().copyDefaults(true);
+        saveConfig();
+
         // Load Vault Addons
         loadEconomy();
         loadPermission();
@@ -159,24 +170,18 @@ public class Vault extends JavaPlugin {
 
                     @Override
                     public void run() {
-                        if (getServer().getConsoleSender().hasPermission("vault.update")) {
+                        if (getServer().getConsoleSender().hasPermission("vault.update") && getConfig().getBoolean("update-check", true)) {
                             try {
                                 newVersion = updateCheck(currentVersion);
-                                log.info("***** Vault Version Checker ***** ");
+                                log.info("Checking for Updates:");
                                 if (newVersion > currentVersion) {
-                                    log.warning("Stable Version: " + newVersionTitle + " is out!");
-                                    log.warning("Current Version: " + currentVersionTitle);
-                                    log.warning("Update Vault at: http://dev.bukkit.org/server-mods/vault");
+                                    log.warning("Stable Version: " + newVersionTitle + " is out!" + " You are still running version: " + currentVersionTitle);
+                                    log.warning("Update at: http://dev.bukkit.org/server-mods/vault");
                                 } else if (currentVersion > newVersion) {
-                                    log.info("Stable Version: " + newVersionTitle);
-                                    log.info("Current Version: " + currentVersionTitle);
-                                    log.info("You are on a development or experimental build, Happy testing!");
+                                    log.info("Stable Version: " + newVersionTitle + " | Current Version: " + currentVersionTitle);
                                 } else {
-                                    log.info("Stable Version: " + newVersionTitle);
-                                    log.info("Current Version: " + currentVersionTitle);
                                     log.info("No new version available");
                                 }
-                                log.info("*********************************");
                             } catch (Exception e) {
                                 // ignore exceptions
                             }
@@ -185,7 +190,7 @@ public class Vault extends JavaPlugin {
                 }, 0, 432000);
 
             }
-            
+
         });
 
         // Load up the Plugin metrics
@@ -211,6 +216,9 @@ public class Vault extends JavaPlugin {
 
         // Try to load mChat
         hookChat("mChat", Chat_mChat.class, ServicePriority.Highest, "net.D3GN.MiracleM4n.mChat");
+
+        // Try to load OverPermissions
+        hookChat("OverPermissions", Chat_OverPermissions.class, ServicePriority.Highest, "com.overmc.overpermissions.OverPermissions");
 
         // Try to load DroxPerms Chat
         hookChat("DroxPerms", Chat_DroxPerms.class, ServicePriority.Lowest, "de.hydrox.bukkit.DroxPerms.DroxPerms");
@@ -251,7 +259,7 @@ public class Vault extends JavaPlugin {
         hookEconomy("MiConomy", Economy_MiConomy.class, ServicePriority.Normal, "com.gmail.bleedobsidian.miconomy.Main");
 
         // Try to load MiFaConomy
-        hookEconomy("MineFaConomy", Economy_Minefaconomy.class, ServicePriority.Normal, "me.coniin.plugins.minefaconomy.Minefaconomy"); 
+        hookEconomy("MineFaConomy", Economy_Minefaconomy.class, ServicePriority.Normal, "me.coniin.plugins.minefaconomy.Minefaconomy");
 
         // Try to load MultiCurrency
         hookEconomy("MultiCurrency", Economy_MultiCurrency.class, ServicePriority.Normal, "me.ashtheking.currency.Currency", "me.ashtheking.currency.CurrencyList");
@@ -310,6 +318,9 @@ public class Vault extends JavaPlugin {
         // Try to load GoldIsMoney2
         hookEconomy("GoldIsMoney2", Economy_GoldIsMoney2.class, ServicePriority.Normal, "com.flobi.GoldIsMoney2.GoldIsMoney");
 
+        // Try to load GoldenChestEconomy
+        hookEconomy("GoldenChestEconomy", Economy_GoldenChestEconomy.class, ServicePriority.Normal, "me.igwb.GoldenChest.GoldenChestEconomy");
+
         // Try to load Dosh
         hookEconomy("Dosh", Economy_Dosh.class, ServicePriority.Normal, "com.gravypod.Dosh.Dosh");
 
@@ -324,6 +335,9 @@ public class Vault extends JavaPlugin {
 
         // Try to load TAEcon
         hookEconomy("TAEcon", Economy_TAEcon.class, ServicePriority.Normal, "net.teamalpha.taecon.TAEcon");
+
+        // Try to load DigiCoin
+        hookEconomy("DigiCoin", Economy_DigiCoin.class, ServicePriority.Normal, "co.uk.silvania.cities.digicoin.DigiCoin");
     }
 
     /**
@@ -335,6 +349,9 @@ public class Vault extends JavaPlugin {
 
         // Try to load PermissionsEx
         hookPermission("PermissionsEx", Permission_PermissionsEx.class, ServicePriority.Highest, "ru.tehkode.permissions.bukkit.PermissionsEx");
+
+        // Try to load OverPermissions
+        hookPermission("OverPermissions", Permission_OverPermissions.class, ServicePriority.Highest, "com.overmc.overpermissions.OverPermissions");
 
         // Try to load PermissionsBukkit
         hookPermission("PermissionsBukkit", Permission_PermissionsBukkit.class, ServicePriority.Normal, "com.platymuus.bukkit.permissions.PermissionsPlugin");
@@ -371,6 +388,9 @@ public class Vault extends JavaPlugin {
 
         // Try to load rscPermissions
         hookPermission("rscPermissions", Permission_rscPermissions.class, ServicePriority.Normal, "ru.simsonic.rscPermissions.MainPluginClass");
+
+        // Try to load KPerms
+        hookPermission("KPerms", Permission_KPerms.class, ServicePriority.Normal, "com.lightniinja.kperms.KPermsPlugin");
 
         Permission perms = new Permission_SuperPerms(this);
         sm.register(Permission.class, perms, this, ServicePriority.Lowest);
@@ -574,10 +594,8 @@ public class Vault extends JavaPlugin {
             // Pull the last version from the JSON
             newVersionTitle = ((String) ((JSONObject) array.get(array.size() - 1)).get("name")).replace("Vault", "").trim();
             return Double.valueOf(newVersionTitle.replaceFirst("\\.", "").trim());
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
+        } catch (Exception e) {
+            log.info("There was an issue attempting to check for the latest version.");
         }
         return currentVersion;
     }
@@ -590,7 +608,7 @@ public class Vault extends JavaPlugin {
             if (perms.has(player, "vault.update")) {
                 try {
                     if (newVersion > currentVersion) {
-                        player.sendMessage(newVersion + " is out! You are running " + currentVersion);
+                        player.sendMessage("Vault " +  newVersion + " is out! You are running " + currentVersion);
                         player.sendMessage("Update Vault at: http://dev.bukkit.org/server-mods/vault");
                     }
                 } catch (Exception e) {

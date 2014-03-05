@@ -5,16 +5,16 @@
 	<!-- Project information -->
 	<groupId>net.milkbowl.vault</groupId>
 	<artifactId>Vault</artifactId>
-	<version>1.2.30</version>
+	<version>1.2.32</version>
 	<name>Vault</name>
 	<url>http://dev.bukkit.org/server-mods/vault/</url>
 	<description>Vault is a Permissions &amp; Economy API to allow plugins to more easily hook into these systems without needing to hook each individual system themselves.
 
-Vault currently supports the following: Permissions 3, PEX, GroupManager, bPerms, bPerms2, SimplyPerms, DroxPerms, zPermissions, rscPermissions, Starburst, iConomy (4/5/6) BOSEconomy *6/7), EssentialsEcon, 3Co, MultiConomy, MineConomy, EconXP, eWallet, CurrencyCore, XPBank, CraftConomy, AEco, SDFEconomy, TAEcon</description>
+Vault currently supports the following: Permissions 3, PEX, GroupManager, bPerms, bPerms2, SimplyPerms, DroxPerms, zPermissions, rscPermissions, KPerms, Starburst, iConomy (4/5/6) BOSEconomy *6/7), EssentialsEcon, 3Co, MultiConomy, MineConomy, EconXP, eWallet, CurrencyCore, XPBank, CraftConomy, AEco, SDFEconomy, TAEcon</description>
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<bukkitVersion>1.7.2-R0.2</bukkitVersion>
+		<bukkitVersion>1.7.2-R0.3</bukkitVersion>
 		<mainClass>net.milkbowl.vault.Vault</mainClass>
 	</properties>
 
@@ -40,14 +40,18 @@ Vault currently supports the following: Permissions 3, PEX, GroupManager, bPerms
 		<url>http://ci.herocraftonline.com/job/Vault/</url>
 	</ciManagement>
 
+	<distributionManagement>
+		<repository>
+			<id>pub-repo</id>
+			<name>Public Releases</name>
+			<url>http://nexus.theyeticave.net/content/repositories/pub_releases/</url>
+		</repository>
+	</distributionManagement>
+
 	<repositories>
 		<repository>
 			<id>bukkit-repo</id>
 			<url>http://repo.bukkit.org/content/groups/public/</url>
-		</repository>
-		<repository>
-			<id>sdfeconomy-repo</id>
-			<url>http://omwah.sdf.org/maven/repo/snapshots/</url>
 		</repository>
 		<repository>
 			<id>greatman-repo</id>
@@ -60,7 +64,7 @@ Vault currently supports the following: Permissions 3, PEX, GroupManager, bPerms
 		<repository>
 			<id>escapecraft-repo</id>
 			<url>http://dev.escapecraft.com/maven</url>
-         </repository>
+		</repository>
 	</repositories>
 
 	<dependencies>
@@ -113,6 +117,13 @@ Vault currently supports the following: Permissions 3, PEX, GroupManager, bPerms
 			<version>0.61</version>
 			<scope>system</scope>
 			<systemPath>${project.basedir}/lib/CurrencyCore.jar</systemPath>
+		</dependency>
+		<dependency>
+			<groupId>me.igwb.GoldenChest</groupId>
+			<artifactId>GoldenChestEconomy</artifactId>
+			<version>1.0.0</version>
+			<scope>system</scope>
+			<systemPath>${project.basedir}/lib/GoldenChestEconomy.jar</systemPath>
 		</dependency>
 		<dependency>
 			<groupId>com.flobi.GoldIsMoney</groupId>
@@ -339,7 +350,9 @@ Vault currently supports the following: Permissions 3, PEX, GroupManager, bPerms
 		<dependency>
 			<groupId>com.github.omwah</groupId>
 			<artifactId>SDFEconomy</artifactId>
-			<version>0.1.0-SNAPSHOT</version>
+			<version>0.2.2</version>
+			<scope>system</scope>
+			<systemPath>${project.basedir}/lib/SDFEconomy-0.2.2.jar</systemPath>
 		</dependency>
 		<dependency>
 			<groupId>net.ae97</groupId>
@@ -362,11 +375,39 @@ Vault currently supports the following: Permissions 3, PEX, GroupManager, bPerms
 			<scope>system</scope>
 			<systemPath>${project.basedir}/lib/TAEcon.jar</systemPath>
 		</dependency>
+		<dependency>
+			<groupId>KPerms</groupId>
+			<artifactId>KPerms</artifactId>
+			<version>1.0</version>
+			<scope>system</scope>
+			<systemPath>${project.basedir}/lib/KPerms.jar</systemPath>
+		</dependency>
+		<dependency>
+			<groupId>co.uk.silvania.cities.digicoin</groupId>
+			<artifactId>DigiCoin</artifactId>
+			<version>0.1</version>
+			<scope>system</scope>
+			<systemPath>${project.basedir}/lib/DigiCoin.jar</systemPath>
+		</dependency>
+		<dependency>
+			<groupId>com.overmc</groupId>
+			<artifactId>overpermissions</artifactId>
+			<version>1.0.5</version>
+			<scope>system</scope>
+			<systemPath>${project.basedir}/lib/overpermissions-1.0.5.jar</systemPath>
+		</dependency>
+		<!-- Test Dependency -->
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>4.11</version>
+		</dependency>
 	</dependencies>
 
 	<build>
 		<defaultGoal>clean install</defaultGoal>
 		<sourceDirectory>src/</sourceDirectory>
+		<testSourceDirectory>test/</testSourceDirectory>
 		<resources>
 			<resource>
 				<directory>${project.basedir}</directory>
@@ -387,54 +428,23 @@ Vault currently supports the following: Permissions 3, PEX, GroupManager, bPerms
 				</configuration>
 			</plugin>
 			<plugin>
-				<groupId>org.codehaus.mojo</groupId>
-				<artifactId>build-helper-maven-plugin</artifactId>
-				<version>1.5</version>
-				<executions>
-					<execution>
-						<id>add-source</id>
-						<phase>generate-sources</phase>
-						<goals>
-							<goal>add-source</goal>
-						</goals>
-						<configuration>
-							<sources>
-								<source>${project.basedir}/src</source>
-							</sources>
-						</configuration>
-					</execution>
-				</executions>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-source-plugin</artifactId>
+				<version>2.2.1</version>
 			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-javadoc-plugin</artifactId>
-				<version>2.8</version>
-				<executions>
-					<execution>
-						<id>install-javadocs</id>
-						<goals>
-							<goal>javadoc</goal>
-						</goals>
-					</execution>
-				</executions>
+				<version>2.9.1</version>
 				<configuration>
-					<outputDirectory>/var/www/javadoc</outputDirectory>
-					<reportOutputDirectory>/var/www/javadoc</reportOutputDirectory>
-					<destDir>vault</destDir>
 					<show>public</show>
 					<windowtitle>Vault</windowtitle>
 					<verbose>false</verbose>
 					<author>true</author>
 					<version>true</version>
 					<linksource>true</linksource>
-					<links>
-						<link>http://java.sun.com/j2se/1.5.0/docs/api/</link>
-						<link>http://jd.bukkit.org/apidocs/</link>
-					</links>
-					<bottom>
-			            <![CDATA[<b>MilkBukkit, 2011</b>]]>
-					</bottom>
-					<excludePackageNames>net.milkbowl.vault.chat.*:net.milkbowl.vault.economy.*:net.milkbowl.vault.permission.*</excludePackageNames>
+					<excludePackageNames>net.milkbowl.vault.chat.plugin:net.milkbowl.vault.economy.plugin:net.milkbowl.vault.permission.plugin</excludePackageNames>
+					<bottom><![CDATA[<b>Milkbowl, 2014</b>]]></bottom>
 				</configuration>
 			</plugin>
 		</plugins>
