@@ -17,6 +17,7 @@
 package net.milkbowl.vault.economy;
 
 import java.util.List;
+import java.util.UUID;
 
 /**
  * The main economy API
@@ -83,7 +84,7 @@ public interface Economy {
      * @param playerName
      * @return if the player has an account
      */
-    public boolean hasAccount(String playerName);
+    public boolean hasAccount(UUID playerId);
 
     /**
      * Checks if this player has an account on the server yet on the given world
@@ -92,14 +93,14 @@ public interface Economy {
      * @param playerName
      * @return if the player has an account
      */
-    public boolean hasAccount(String playerName, String worldName);
+    public boolean hasAccount(UUID playerId, String worldName);
 
     /**
      * Gets balance of a player
      * @param playerName
      * @return Amount currently held in players account
      */
-    public double getBalance(String playerName);
+    public double getBalance(UUID playerId);
     
     /**
      * Gets balance of a player on the specified world.
@@ -108,7 +109,7 @@ public interface Economy {
      * @param world name of the world
      * @return Amount currently held in players account
      */
-    public double getBalance(String playerName, String world);
+    public double getBalance(UUID playerId, String world);
 
     /**
      * Checks if the player account has the amount - DO NOT USE NEGATIVE AMOUNTS
@@ -117,7 +118,7 @@ public interface Economy {
      * @param amount
      * @return True if <b>playerName</b> has <b>amount</b>, False else wise
      */
-    public boolean has(String playerName, double amount);
+    public boolean has(UUID playerId, double amount);
     
     /**
      * Checks if the player account has the amount in a given world - DO NOT USE NEGATIVE AMOUNTS
@@ -127,7 +128,7 @@ public interface Economy {
      * @param amount
      * @return True if <b>playerName</b> has <b>amount</b>, False else wise
      */
-    public boolean has(String playerName, String worldName, double amount);
+    public boolean has(UUID playerId, String worldName, double amount);
     
     /**
      * Withdraw an amount from a player - DO NOT USE NEGATIVE AMOUNTS
@@ -136,7 +137,7 @@ public interface Economy {
      * @param amount Amount to withdraw
      * @return Detailed response of transaction
      */
-    public EconomyResponse withdrawPlayer(String playerName, double amount);
+    public EconomyResponse withdrawPlayer(UUID playerId, double amount);
 
     /**
      * Withdraw an amount from a player on a given world - DO NOT USE NEGATIVE AMOUNTS
@@ -146,7 +147,7 @@ public interface Economy {
      * @param amount Amount to withdraw
      * @return Detailed response of transaction
      */
-    public EconomyResponse withdrawPlayer(String playerName, String worldName, double amount);
+    public EconomyResponse withdrawPlayer(UUID playerId, String worldName, double amount);
     
     /**
      * Deposit an amount to a player - DO NOT USE NEGATIVE AMOUNTS
@@ -155,7 +156,7 @@ public interface Economy {
      * @param amount Amount to deposit
      * @return Detailed response of transaction
      */
-    public EconomyResponse depositPlayer(String playerName, double amount);
+    public EconomyResponse depositPlayer(UUID playerId, double amount);
 
     /**
      * Deposit an amount to a player - DO NOT USE NEGATIVE AMOUNTS
@@ -164,7 +165,7 @@ public interface Economy {
      * @param amount Amount to deposit
      * @return Detailed response of transaction
      */
-    public EconomyResponse depositPlayer(String playerName, String worldName, double amount);
+    public EconomyResponse depositPlayer(UUID playerId, String worldName, double amount);
    
     /**
      * Creates a bank account with the specified name and the player as the owner
@@ -241,12 +242,12 @@ public interface Economy {
      * Attempts to create a player account for the given player
      * @return if the account creation was successful
      */
-    public boolean createPlayerAccount(String playerName);
+    public boolean createPlayerAccount(UUID playerId);
     
     /**
      * Attempts to create a player account for the given player on the specified world
      * IMPLEMENTATION SPECIFIC - if an economy plugin does not support this the global balance will be returned.
      * @return if the account creation was successful
      */
-    public boolean createPlayerAccount(String playerName, String worldName);
+    public boolean createPlayerAccount(UUID playerId, String worldName);
 }
