@@ -77,6 +77,7 @@ Vault currently supports the following: Permissions 3, PEX, GroupManager, bPerms
 			<groupId>com.gmail.bleedobsidian.miconomy</groupId>
 			<artifactId>MiConomy</artifactId>
 			<version>1.0</version>
+			<optional>true</optional>
 			<scope>system</scope>
 			<systemPath>${project.basedir}/lib/MiConomy.jar</systemPath>
 		</dependency>
@@ -84,11 +85,13 @@ Vault currently supports the following: Permissions 3, PEX, GroupManager, bPerms
 			<groupId>de.hydrox.bukkit</groupId>
 			<artifactId>DroxPerms</artifactId>
 			<version>0.5.0</version>
+			<optional>true</optional>
 		</dependency>
 		<dependency>
 			<groupId>me.coniin.plugins.minefaconomy</groupId>
 			<artifactId>MineFaConomy</artifactId>
 			<version>0.2</version>
+			<optional>true</optional>
 			<scope>system</scope>
 			<systemPath>${project.basedir}/lib/Minefaconomy.jar</systemPath>
 		</dependency>
@@ -96,11 +99,13 @@ Vault currently supports the following: Permissions 3, PEX, GroupManager, bPerms
 			<groupId>net.krinsoft</groupId>
 			<artifactId>Privileges</artifactId>
 			<version>1.7.4</version>
+			<optional>true</optional>
 		</dependency>
 		<dependency>
 			<groupId>org.tyrannyofheaven.bukkit</groupId>
 			<artifactId>zPermissions</artifactId>
 			<version>0.9.19-SNAPSHOT</version>
+			<optional>true</optional>
 			<scope>system</scope>
 			<systemPath>${project.basedir}/lib/zPermissions.jar</systemPath>
 		</dependency>
@@ -108,6 +113,7 @@ Vault currently supports the following: Permissions 3, PEX, GroupManager, bPerms
 			<groupId>me.ic3d.eco</groupId>
 			<artifactId>ECO</artifactId>
 			<version>2.0</version>
+			<optional>true</optional>
 			<scope>system</scope>
 			<systemPath>${project.basedir}/lib/3co.jar</systemPath>
 		</dependency>
@@ -115,6 +121,7 @@ Vault currently supports the following: Permissions 3, PEX, GroupManager, bPerms
 			<groupId>is.currency</groupId>
 			<artifactId>Currency</artifactId>
 			<version>0.61</version>
+			<optional>true</optional>
 			<scope>system</scope>
 			<systemPath>${project.basedir}/lib/CurrencyCore.jar</systemPath>
 		</dependency>
@@ -122,6 +129,7 @@ Vault currently supports the following: Permissions 3, PEX, GroupManager, bPerms
 			<groupId>me.igwb.GoldenChest</groupId>
 			<artifactId>GoldenChestEconomy</artifactId>
 			<version>1.0.0</version>
+			<optional>true</optional>
 			<scope>system</scope>
 			<systemPath>${project.basedir}/lib/GoldenChestEconomy.jar</systemPath>
 		</dependency>
@@ -129,6 +137,7 @@ Vault currently supports the following: Permissions 3, PEX, GroupManager, bPerms
 			<groupId>com.flobi.GoldIsMoney</groupId>
 			<artifactId>GoldIsMoney</artifactId>
 			<version>1.2.1</version>
+			<optional>true</optional>
 			<scope>system</scope>
 			<systemPath>${project.basedir}/lib/GoldIsMoney.jar</systemPath>
 		</dependency>
@@ -136,6 +145,7 @@ Vault currently supports the following: Permissions 3, PEX, GroupManager, bPerms
 			<groupId>com.flobi.GoldIsMoney2</groupId>
 			<artifactId>GoldIsMoney</artifactId>
 			<version>2.0.0</version>
+			<optional>true</optional>
 			<scope>system</scope>
 			<systemPath>${project.basedir}/lib/GoldIsMoney2.jar</systemPath>
 		</dependency>
@@ -143,6 +153,7 @@ Vault currently supports the following: Permissions 3, PEX, GroupManager, bPerms
 			<groupId>cosine.boseconomy.BOSEconomy</groupId>
 			<artifactId>BOSEconomy</artifactId>
 			<version>0.7.3.1a</version>
+			<optional>true</optional>
 			<scope>system</scope>
 			<systemPath>${project.basedir}/lib/BOSEconomy.jar</systemPath>
 		</dependency>
@@ -150,6 +161,7 @@ Vault currently supports the following: Permissions 3, PEX, GroupManager, bPerms
 			<groupId>de.bananaco.permissions.Permissions</groupId>
 			<artifactId>bPermissions</artifactId>
 			<version>2.0.9a</version>
+			<optional>true</optional>
 			<scope>system</scope>
 			<systemPath>${project.basedir}/lib/bpermissions.jar</systemPath>
 		</dependency>
@@ -157,6 +169,7 @@ Vault currently supports the following: Permissions 3, PEX, GroupManager, bPerms
 			<groupId>com.github.sebc722</groupId>
 			<artifactId>xPerms</artifactId>
 			<version>1.1</version>
+			<optional>true</optional>
 			<scope>system</scope>
 			<systemPath>${project.basedir}/lib/Xperms.jar</systemPath>
 		</dependency>
@@ -164,6 +177,7 @@ Vault currently supports the following: Permissions 3, PEX, GroupManager, bPerms
 			<groupId>ca.agnate.EconXP.EconXP</groupId>
 			<artifactId>EconXP</artifactId>
 			<version>0.4.1</version>
+			<optional>true</optional>
 			<scope>system</scope>
 			<systemPath>${project.basedir}/lib/EconXP.jar</systemPath>
 		</dependency>
@@ -171,6 +185,7 @@ Vault currently supports the following: Permissions 3, PEX, GroupManager, bPerms
 			<groupId>org.neocraft.AEco</groupId>
 			<artifactId>AEco</artifactId>
 			<version>2.1</version>
+			<optional>true</optional>
 			<scope>system</scope>
 			<systemPath>${project.basedir}/lib/AEco-2.1.jar</systemPath>
 		</dependency>
@@ -178,6 +193,7 @@ Vault currently supports the following: Permissions 3, PEX, GroupManager, bPerms
 			<groupId>com.earth2me.essentials.Essentials</groupId>
 			<artifactId>Essentials</artifactId>
 			<version>2.9.2</version>
+			<optional>true</optional>
 			<scope>system</scope>
 			<systemPath>${project.basedir}/lib/Essentials.jar</systemPath>
 		</dependency>
@@ -185,6 +201,7 @@ Vault currently supports the following: Permissions 3, PEX, GroupManager, bPerms
 			<groupId>org.anjocaido.groupmanager.GroupManager</groupId>
 			<artifactId>GroupManager</artifactId>
 			<version>2.0</version>
+			<optional>true</optional>
 			<scope>system</scope>
 			<systemPath>${project.basedir}/lib/EssentialsGroupManager.jar</systemPath>
 		</dependency>
@@ -192,6 +209,7 @@ Vault currently supports the following: Permissions 3, PEX, GroupManager, bPerms
 			<groupId>me.ethan.eWallet.ECO</groupId>
 			<artifactId>eWallet</artifactId>
 			<version>1.0</version>
+			<optional>true</optional>
 			<scope>system</scope>
 			<systemPath>${project.basedir}/lib/eWallet.jar</systemPath>
 		</dependency>
@@ -199,6 +217,7 @@ Vault currently supports the following: Permissions 3, PEX, GroupManager, bPerms
 			<groupId>boardinggamer.mcmoney</groupId>
 			<artifactId>McMoney</artifactId>
 			<version>1.2</version>
+			<optional>true</optional>
 			<scope>system</scope>
 			<systemPath>${project.basedir}/lib/McMoney.jar</systemPath>
 		</dependency>
@@ -206,6 +225,7 @@ Vault currently supports the following: Permissions 3, PEX, GroupManager, bPerms
 			<groupId>net.TheDgtl.iChat.iChat</groupId>
 			<artifactId>iChat</artifactId>
 			<version>2.5.7</version>
+			<optional>true</optional>
 			<scope>system</scope>
 			<systemPath>${project.basedir}/lib/iChat.jar</systemPath>
 		</dependency>
@@ -213,6 +233,7 @@ Vault currently supports the following: Permissions 3, PEX, GroupManager, bPerms
 			<groupId>com.nijiko.coelho.iConomy.iConomy</groupId>
 			<artifactId>iConomy</artifactId>
 			<version>4.65</version>
+			<optional>true</optional>
 			<scope>system</scope>
 			<systemPath>${project.basedir}/lib/iConomy4.jar</systemPath>
 		</dependency>
@@ -220,6 +241,7 @@ Vault currently supports the following: Permissions 3, PEX, GroupManager, bPerms
 			<groupId>com.iConomy.iConomy</groupId>
 			<artifactId>iConomy</artifactId>
 			<version>5.0</version>
+			<optional>true</optional>
 			<scope>system</scope>
 			<systemPath>${project.basedir}/lib/iConomy5.jar</systemPath>
 		</dependency>
@@ -227,6 +249,7 @@ Vault currently supports the following: Permissions 3, PEX, GroupManager, bPerms
 			<groupId>com.iCo6.iConomy</groupId>
 			<artifactId>iConomy</artifactId>
 			<version>6.0.9b</version>
+			<optional>true</optional>
 			<scope>system</scope>
 			<systemPath>${project.basedir}/lib/iConomy6.jar</systemPath>
 		</dependency>
@@ -234,6 +257,7 @@ Vault currently supports the following: Permissions 3, PEX, GroupManager, bPerms
 			<groupId>com.gmail.mirelatrue.xpbank.XPBank</groupId>
 			<artifactId>XPBank</artifactId>
 			<version>0.9</version>
+			<optional>true</optional>
 			<scope>system</scope>
 			<systemPath>${project.basedir}/lib/XPBank.jar</systemPath>
 		</dependency>
@@ -241,6 +265,7 @@ Vault currently supports the following: Permissions 3, PEX, GroupManager, bPerms
 			<groupId>net.D3GN.MiracleM4n.mChat.mChat</groupId>
 			<artifactId>mChat</artifactId>
 			<version>1.8.5</version>
+			<optional>true</optional>
 			<scope>system</scope>
 			<systemPath>${project.basedir}/lib/mChat.jar</systemPath>
 		</dependency>
@@ -248,6 +273,7 @@ Vault currently supports the following: Permissions 3, PEX, GroupManager, bPerms
 			<groupId>in.mDev</groupId>
 			<artifactId>mChatSuite</artifactId>
 			<version>DEV-b275</version>
+			<optional>true</optional>
 			<scope>system</scope>
 			<systemPath>${project.basedir}/lib/mChatSuite.jar</systemPath>
 		</dependency>
@@ -255,6 +281,7 @@ Vault currently supports the following: Permissions 3, PEX, GroupManager, bPerms
 			<groupId>me.mjolnir.mineconomy.MineConomy</groupId>
 			<artifactId>MineConomy</artifactId>
 			<version>1.6</version>
+			<optional>true</optional>
 			<scope>system</scope>
 			<systemPath>${project.basedir}/lib/MineConomy.jar</systemPath>
 		</dependency>
@@ -262,6 +289,7 @@ Vault currently supports the following: Permissions 3, PEX, GroupManager, bPerms
 			<groupId>me.ashtheking.currency.Currency</groupId>
 			<artifactId>MultiCurrency</artifactId>
 			<version>0.1</version>
+			<optional>true</optional>
 			<scope>system</scope>
 			<systemPath>${project.basedir}/lib/MultiCurrency.jar</systemPath>
 		</dependency>
@@ -269,6 +297,7 @@ Vault currently supports the following: Permissions 3, PEX, GroupManager, bPerms
 			<groupId>com.nijikokun.bukkit.Permissions.Permissions</groupId>
 			<artifactId>Permissions</artifactId>
 			<version>3.1.6</version>
+			<optional>true</optional>
 			<scope>system</scope>
 			<systemPath>${project.basedir}/lib/Permissions.jar</systemPath>
 		</dependency>
@@ -276,6 +305,7 @@ Vault currently supports the following: Permissions 3, PEX, GroupManager, bPerms
 			<groupId>com.platymuus.bukkit.permissions.PermissionsPlugin</groupId>
 			<artifactId>PermissionsBukkit</artifactId>
 			<version>1.6</version>
+			<optional>true</optional>
 			<scope>system</scope>
 			<systemPath>${project.basedir}/lib/PermissionsBukkit.jar</systemPath>
 		</dependency>
@@ -283,6 +313,7 @@ Vault currently supports the following: Permissions 3, PEX, GroupManager, bPerms
 			<groupId>ru.tehkode</groupId>
 			<artifactId>PermissionsEx</artifactId>
 			<version>1.20.4</version>
+			<optional>true</optional>
 			<scope>system</scope>
 			<systemPath>${project.basedir}/lib/PermissionsEx.jar</systemPath>
 		</dependency>
@@ -290,6 +321,7 @@ Vault currently supports the following: Permissions 3, PEX, GroupManager, bPerms
 			<groupId>de.bananaco.permissions.Permissions</groupId>
 			<artifactId>bPermissions2</artifactId>
 			<version>2.10.5</version>
+			<optional>true</optional>
 			<scope>system</scope>
 			<systemPath>${project.basedir}/lib/bpermissions25.jar</systemPath>
 		</dependency>
@@ -297,20 +329,23 @@ Vault currently supports the following: Permissions 3, PEX, GroupManager, bPerms
 			<groupId>com.dthielke.starburst</groupId>
 			<artifactId>Starburst</artifactId>
 			<version>1.0.0</version>
+			<optional>true</optional>
 			<scope>system</scope>
 			<systemPath>${project.basedir}/lib/Starburst.jar</systemPath>
 		</dependency>
 		<dependency>
 			<groupId>com.nijikokun.register</groupId>
 			<artifactId>Register</artifactId>
+			<version>1.5</version>
+			<optional>true</optional>
 			<scope>system</scope>
 			<systemPath>${project.basedir}/lib/Register.jar</systemPath>
-			<version>1.5</version>
 		</dependency>
 		<dependency>
 			<groupId>me.greatman.Craftconomy</groupId>
 			<artifactId>Craftconomy</artifactId>
 			<version>2.3.5</version>
+			<optional>true</optional>
 			<scope>system</scope>
 			<systemPath>${project.basedir}/lib/Craftconomy.jar</systemPath>
 		</dependency>
@@ -318,11 +353,13 @@ Vault currently supports the following: Permissions 3, PEX, GroupManager, bPerms
 			<groupId>com.greatmancode</groupId>
 			<artifactId>craftconomy3</artifactId>
 			<version>3.1.5</version>
+			<optional>true</optional>
 		</dependency>
 		<dependency>
 			<groupId>net.crystalyx.bukkit.simplyperms</groupId>
 			<artifactId>SimplyPerms</artifactId>
 			<version>1.6.2</version>
+			<optional>true</optional>
 			<scope>system</scope>
 			<systemPath>${project.basedir}/lib/SimplyPerms.jar</systemPath>
 		</dependency>
@@ -330,6 +367,7 @@ Vault currently supports the following: Permissions 3, PEX, GroupManager, bPerms
 			<groupId>Gringotts</groupId>
 			<artifactId>Gringotts</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
+			<optional>true</optional>
 			<scope>system</scope>
 			<systemPath>${project.basedir}/lib/Gringotts.jar</systemPath>
 		</dependency>
@@ -337,6 +375,7 @@ Vault currently supports the following: Permissions 3, PEX, GroupManager, bPerms
 			<groupId>com.gravypod.Dosh</groupId>
 			<artifactId>Dosh</artifactId>
 			<version>1.0</version>
+			<optional>true</optional>
 			<scope>system</scope>
 			<systemPath>${project.basedir}/lib/Dosh.jar</systemPath>
 		</dependency>
@@ -344,6 +383,7 @@ Vault currently supports the following: Permissions 3, PEX, GroupManager, bPerms
 			<groupId>com.github.zathrus_writer.commandsex</groupId>
 			<artifactId>CommandsEX</artifactId>
 			<version>1.98</version>
+			<optional>true</optional>
 			<scope>system</scope>
 			<systemPath>${project.basedir}/lib/CommandsEX.jar</systemPath>
 		</dependency>
@@ -351,6 +391,7 @@ Vault currently supports the following: Permissions 3, PEX, GroupManager, bPerms
 			<groupId>com.github.omwah</groupId>
 			<artifactId>SDFEconomy</artifactId>
 			<version>0.2.2</version>
+			<optional>true</optional>
 			<scope>system</scope>
 			<systemPath>${project.basedir}/lib/SDFEconomy-0.2.2.jar</systemPath>
 		</dependency>
@@ -358,6 +399,7 @@ Vault currently supports the following: Permissions 3, PEX, GroupManager, bPerms
 			<groupId>net.ae97</groupId>
 			<artifactId>TotalPermissions</artifactId>
 			<version>0.3.1</version>
+			<optional>true</optional>
 			<scope>system</scope>
 			<systemPath>${project.basedir}/lib/TotalPermissions.jar</systemPath>
 		</dependency>
@@ -365,6 +407,7 @@ Vault currently supports the following: Permissions 3, PEX, GroupManager, bPerms
 			<groupId>ru.simsonic</groupId>
 			<artifactId>rscPermissions</artifactId>
 			<version>1.0</version>
+			<optional>true</optional>
 			<scope>system</scope>
 			<systemPath>${project.basedir}/lib/rscPermissions.jar</systemPath>
 		</dependency>
@@ -372,6 +415,7 @@ Vault currently supports the following: Permissions 3, PEX, GroupManager, bPerms
 			<groupId>net.teamalpha.taecon</groupId>
 			<artifactId>TAEcon</artifactId>
 			<version>0.1</version>
+			<optional>true</optional>
 			<scope>system</scope>
 			<systemPath>${project.basedir}/lib/TAEcon.jar</systemPath>
 		</dependency>
@@ -379,6 +423,7 @@ Vault currently supports the following: Permissions 3, PEX, GroupManager, bPerms
 			<groupId>KPerms</groupId>
 			<artifactId>KPerms</artifactId>
 			<version>1.0</version>
+			<optional>true</optional>
 			<scope>system</scope>
 			<systemPath>${project.basedir}/lib/KPerms.jar</systemPath>
 		</dependency>
@@ -386,6 +431,7 @@ Vault currently supports the following: Permissions 3, PEX, GroupManager, bPerms
 			<groupId>co.uk.silvania.cities.digicoin</groupId>
 			<artifactId>DigiCoin</artifactId>
 			<version>0.1</version>
+			<optional>true</optional>
 			<scope>system</scope>
 			<systemPath>${project.basedir}/lib/DigiCoin.jar</systemPath>
 		</dependency>
@@ -393,6 +439,7 @@ Vault currently supports the following: Permissions 3, PEX, GroupManager, bPerms
 			<groupId>com.overmc</groupId>
 			<artifactId>overpermissions</artifactId>
 			<version>1.0.5</version>
+			<optional>true</optional>
 			<scope>system</scope>
 			<systemPath>${project.basedir}/lib/overpermissions-1.0.5.jar</systemPath>
 		</dependency>
@@ -401,6 +448,7 @@ Vault currently supports the following: Permissions 3, PEX, GroupManager, bPerms
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
 			<version>4.11</version>
+			<optional>true</optional>
 		</dependency>
 	</dependencies>
 
