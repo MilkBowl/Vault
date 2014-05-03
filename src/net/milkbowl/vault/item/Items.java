@@ -661,7 +661,7 @@ public class Items {
 
     /**
      * Searchs for an ItemInfo from the given ItemStack
-     * @param itemStack
+     * @param itemStack to search on
      * @return ItemInfo found, or null
      */
     public static ItemInfo itemByStack(ItemStack itemStack) {
@@ -691,8 +691,8 @@ public class Items {
 
     /**
      * Gets a relevant ItemInfo by it's Material
-     * @param type
-     * @return ItemInfo
+     * @param type of Material
+     * @return ItemInfo record found or null if none
      */
     public static ItemInfo itemByType(Material type) {
         return itemByType(type, (short) 0);
@@ -700,9 +700,9 @@ public class Items {
 
     /**
      * Searches for an ItemInfo record by Material and SubTypeID
-     * @param type
-     * @param subType
-     * @return
+     * @param type of Material
+     * @param subType to check for
+     * @return ItemInfo record found or null if none
      */
     public static ItemInfo itemByType(Material type, short subType) {
         for (ItemInfo item : items) {
@@ -768,8 +768,8 @@ public class Items {
      * Multi-Item return search for dumping all items with the search string to the player
      *
      *
-     * @param searchString
-     * @param multi
+     * @param searchString to search for
+     * @param multi whether to return a list of items or just the first
      * @return Array of items found
      */
     public static ItemInfo[] itemsByName(String searchString, boolean multi) {
@@ -840,7 +840,7 @@ public class Items {
     /**
      * Single item search function, for when we only ever want to return 1 result
      *
-     * @param searchString
+     * @param searchString to search for
      * @return ItemInfo Object
      */
     public static ItemInfo itemByName(String searchString) {
@@ -916,8 +916,8 @@ public class Items {
 
     /**
      * Joins elements of a String array with the glue between them into a String.
-     * @param array
-     * @param glue
+     * @param array of elements to join together
+     * @param glue what to put between each element
      * @return Concacted Array combined with glue
      */
     public static String join(String[] array, String glue) {
@@ -939,8 +939,8 @@ public class Items {
 
     /**
      * Joins elements of a String array with the glue between them into a String.
-     * @param list
-     * @param glue
+     * @param list of items to join together
+     * @param glue what to put between each element
      * @return Concacted Array combined with glue
      */
     public static String join(List<String> list, String glue) {

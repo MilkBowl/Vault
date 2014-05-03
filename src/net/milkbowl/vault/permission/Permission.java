@@ -93,8 +93,8 @@ public abstract class Permission {
      * This method will explicitly fail if the registered permission system does not register permissions in bukkit.
      * 
      * For easy checking of a commandsender
-     * @param sender
-     * @param permission
+     * @param sender to check permissions on
+     * @param permission to check for
      * @return true if the sender has the permission
      */
     public boolean has(CommandSender sender, String permission) {
@@ -246,7 +246,7 @@ public abstract class Permission {
      * This implementation can be used by any subclass which implements a "pure" superperms plugin, i.e. 
      * one that only needs the built-in Bukkit API to add transient permissions to a player.
      * 
-     * @param UUID playerId
+     * @param playerId UUID
      * @param permission Permission node
      * @return Success or Failure
      */
@@ -283,9 +283,9 @@ public abstract class Permission {
     /**
      * Adds a world specific transient permission to the player - ONLY WORKS IN PEX/P3 - otherwise it defaults to GLOBAL!
      * 
-     * @param worldName
-     * @param playerId
-     * @param permission
+     * @param worldName to check on
+     * @param playerId UUID
+     * @param permission to test
      * @return Success or Failure
      */
     public boolean playerAddTransient(String worldName, UUID playerId, String permission) {
@@ -294,9 +294,9 @@ public abstract class Permission {
     
     /**
      * Adds a world specific transient permission to the player - ONLY WORKS IN PEX/P3 - otherwise it defaults to GLOBAL!
-     * @param worldName
-     * @param player
-     * @param permission
+     * @param worldName to check on
+     * @param player to check
+     * @param permission to check for
      * @return Success or Failure
      */
     public boolean playerAddTransient(String worldName, Player player, String permission) {
@@ -305,9 +305,9 @@ public abstract class Permission {
     
     /**
      * Adds a world specific transient permission to the player - ONLY WORKS IN PEX/P3 - otherwise it defaults to GLOBAL!
-     * @param worldName
-     * @param player
-     * @param permission
+     * @param worldName to check on
+     * @param player to check
+     * @param permission to check
      * @return Success or Failure
      */
     public boolean playerAddTransient(String worldName, String player, String permission) {
@@ -320,9 +320,9 @@ public abstract class Permission {
     
     /**
      * Removes a world specific transient permission from the player - Only works in PEX/P3 - otherwise it defaults to Global!
-     * @param worldName
-     * @param player
-     * @param permission
+     * @param worldName to check on
+     * @param player to check
+     * @param permission to check for
      * @return Success or Failure
      */
 	public boolean playerRemoveTransient(String worldName, String player, String permission) {
@@ -335,9 +335,9 @@ public abstract class Permission {
 	
     /**
      * Removes a world specific transient permission from the player - Only works in PEX/P3 - otherwise it defaults to Global!
-     * @param worldName
-     * @param playerId
-     * @param permission
+     * @param worldName to check on
+     * @param playerId UUID to check
+     * @param permission to check for
      * @return Success or Failure
      */
     public boolean playerRemoveTransient(String worldName, UUID playerId, String permission) {
@@ -346,9 +346,9 @@ public abstract class Permission {
 	
     /**
      * Removes a world specific transient permission from the player - Only works in PEX/P3 - otherwise it defaults to Global!
-     * @param worldName
-     * @param player
-     * @param permission
+     * @param worldName to check on
+     * @param player to check
+     * @param permission to check for
      * @return Success or Failure
      */
     public boolean playerRemoveTransient(String worldName, Player player, String permission) {
@@ -415,7 +415,7 @@ public abstract class Permission {
     /**
      * Remove transient permission from a player.
      * 
-     * @param UUID playerId
+     * @param playerId UUID
      * @param permission Permission node
      * @return Success or Failure
      */
@@ -791,7 +791,7 @@ public abstract class Permission {
      * But May return odd values if the servers registered permission system does not have a global permission store.
      * 
      * @param world World Object
-     * @param player Player name
+     * @param playerId UUID of the player
      * @return Players primary group
      */
     public String getPrimaryGroup(World world, UUID playerId) {
