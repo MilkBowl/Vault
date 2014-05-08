@@ -12,11 +12,10 @@ import org.bukkit.event.server.PluginEnableEvent;
 import org.bukkit.plugin.Plugin;
 
 import me.coniin.plugins.minefaconomy.Minefaconomy;
-
-import net.milkbowl.vault.economy.Economy;
+import net.milkbowl.vault.economy.AbstractEconomy;
 import net.milkbowl.vault.economy.EconomyResponse;
 
-public class Economy_Minefaconomy implements Economy {
+public class Economy_Minefaconomy extends AbstractEconomy {
 	private static final Logger log = Logger.getLogger("Minecraft");
 	
 	private final String name = "Minefaconomy";

@@ -27,11 +27,12 @@ import org.bukkit.event.server.PluginDisableEvent;
 import org.bukkit.event.server.PluginEnableEvent;
 import org.bukkit.plugin.Plugin;
 
+import net.milkbowl.vault.economy.AbstractEconomy;
 import net.milkbowl.vault.economy.EconomyResponse;
 import net.milkbowl.vault.economy.EconomyResponse.ResponseType;
 import net.teamalpha.taecon.TAEcon;
 
-public class Economy_TAEcon implements net.milkbowl.vault.economy.Economy {
+public class Economy_TAEcon extends AbstractEconomy {
 	private static final Logger log = Logger.getLogger("Minecraft");
 	
 	private final String name = "TAEcon";

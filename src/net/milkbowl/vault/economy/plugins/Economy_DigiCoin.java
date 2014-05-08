@@ -28,10 +28,11 @@ import org.bukkit.event.server.PluginEnableEvent;
 import org.bukkit.plugin.Plugin;
 
 import co.uk.silvania.cities.digicoin.DigiCoin;
+import net.milkbowl.vault.economy.AbstractEconomy;
 import net.milkbowl.vault.economy.EconomyResponse;
 import net.milkbowl.vault.economy.EconomyResponse.ResponseType;
 
-public class Economy_DigiCoin implements net.milkbowl.vault.economy.Economy {
+public class Economy_DigiCoin extends AbstractEconomy {
     private static final Logger log = Logger.getLogger("Minecraft");
 
     private final String name = "DigiCoin";

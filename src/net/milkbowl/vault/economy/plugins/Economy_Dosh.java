@@ -22,11 +22,11 @@ import org.bukkit.plugin.Plugin;
 import com.gravypod.Dosh.Dosh;
 import com.gravypod.Dosh.MoneyUtils;
 
-import net.milkbowl.vault.economy.Economy;
+import net.milkbowl.vault.economy.AbstractEconomy;
 import net.milkbowl.vault.economy.EconomyResponse;
 
 
-public class Economy_Dosh implements Economy {
+public class Economy_Dosh extends AbstractEconomy {
 
 
     Plugin plugin;

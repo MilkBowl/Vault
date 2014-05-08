@@ -21,7 +21,7 @@ import is.currency.syst.AccountContext;
 import java.util.List;
 import java.util.logging.Logger;
 
-import net.milkbowl.vault.economy.Economy;
+import net.milkbowl.vault.economy.AbstractEconomy;
 import net.milkbowl.vault.economy.EconomyResponse;
 import net.milkbowl.vault.economy.EconomyResponse.ResponseType;
 
@@ -33,7 +33,7 @@ import org.bukkit.event.server.PluginDisableEvent;
 import org.bukkit.event.server.PluginEnableEvent;
 import org.bukkit.plugin.Plugin;
 
-public class Economy_CurrencyCore implements Economy {
+public class Economy_CurrencyCore extends AbstractEconomy {
 
     private Currency currency;
     private static final Logger log = Logger.getLogger("Minecraft");
