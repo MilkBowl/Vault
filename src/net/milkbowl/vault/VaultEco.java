@@ -23,6 +23,7 @@ import org.bukkit.plugin.RegisteredServiceProvider;
 
 import com.nijikokun.register.payment.Method;
 
+@SuppressWarnings("deprecation")
 public class VaultEco implements Method {
 
     private Vault vault;
@@ -32,7 +33,8 @@ public class VaultEco implements Method {
         return this.vault;
     }
 
-    @Override
+
+	@Override
     public boolean createAccount(String name, Double amount) {
         if(!this.economy.createBank(name, "").transactionSuccess()) {
             return false;

@@ -486,13 +486,12 @@ public class Vault extends JavaPlugin {
 
         sender.sendMessage("This may take some time to convert, expect server lag.");
         for (OfflinePlayer op : Bukkit.getServer().getOfflinePlayers()) {
-            String pName = op.getName();
-            if (econ1.hasAccount(pName)) {
-                if (econ2.hasAccount(pName)) {
+            if (econ1.hasAccount(op)) {
+                if (econ2.hasAccount(op)) {
                     continue;
                 }
-                econ2.createPlayerAccount(pName);
-                econ2.depositPlayer(pName, econ1.getBalance(pName));
+                econ2.createPlayerAccount(op);
+                econ2.depositPlayer(op, econ1.getBalance(op));
             }
         }
         sender.sendMessage("Converson complete, please verify the data before using it.");
