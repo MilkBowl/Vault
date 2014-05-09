@@ -352,7 +352,7 @@ Vault currently supports the following: Permissions 3, PEX, GroupManager, bPerms
 		<dependency>
 			<groupId>com.greatmancode</groupId>
 			<artifactId>craftconomy3</artifactId>
-			<version>3.1.5</version>
+			<version>3.1.6</version>
 			<optional>true</optional>
 		</dependency>
 		<dependency>
