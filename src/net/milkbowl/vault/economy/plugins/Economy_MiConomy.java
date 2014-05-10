@@ -17,11 +17,14 @@ package net.milkbowl.vault.economy.plugins;
 
 import com.gmail.bleedobsidian.miconomy.Main;
 import com.gmail.bleedobsidian.miconomy.MiConomy;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
-import net.milkbowl.vault.economy.Economy;
+
+import net.milkbowl.vault.economy.AbstractEconomy;
 import net.milkbowl.vault.economy.EconomyResponse;
+
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.World;
@@ -32,7 +35,7 @@ import org.bukkit.event.server.PluginDisableEvent;
 import org.bukkit.event.server.PluginEnableEvent;
 import org.bukkit.plugin.Plugin;
 
-public class Economy_MiConomy implements Economy {
+public class Economy_MiConomy extends AbstractEconomy {
     private static final Logger log = Logger.getLogger("Minecraft");
     
     private final String name = "MiConomy";

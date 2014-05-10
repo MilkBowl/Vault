@@ -5,7 +5,7 @@
 	<!-- Project information -->
 	<groupId>net.milkbowl.vault</groupId>
 	<artifactId>Vault</artifactId>
-	<version>1.2.32</version>
+	<version>1.3.01</version>
 	<name>Vault</name>
 	<url>http://dev.bukkit.org/server-mods/vault/</url>
 	<description>Vault is a Permissions &amp; Economy API to allow plugins to more easily hook into these systems without needing to hook each individual system themselves.
@@ -14,8 +14,7 @@ Vault currently supports the following: Permissions 3, PEX, GroupManager, bPerms
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<bukkitVersion>1.7.2-R0.3</bukkitVersion>
-		<mainClass>net.milkbowl.vault.Vault</mainClass>
+		<bukkitVersion>1.7.9-R0.1-SNAPSHOT</bukkitVersion>
 	</properties>
 
 	<!-- Organization -->
@@ -34,11 +33,6 @@ Vault currently supports the following: Permissions 3, PEX, GroupManager, bPerms
 		<system>GitHub</system>
 		<url>https://github.com/MilkBowl/Vault/issues</url>
 	</issueManagement>
-
-	<ciManagement>
-		<system>jenkins</system>
-		<url>http://ci.herocraftonline.com/job/Vault/</url>
-	</ciManagement>
 
 	<distributionManagement>
 		<repository>
@@ -72,6 +66,12 @@ Vault currently supports the following: Permissions 3, PEX, GroupManager, bPerms
 			<groupId>org.bukkit</groupId>
 			<artifactId>bukkit</artifactId>
 			<version>${bukkitVersion}</version>
+			<scope></scope>
+		</dependency>
+		<dependency>
+			<groupId>net.milkbowl.vault</groupId>
+			<artifactId>VaultAPI</artifactId>
+			<version>${version}</version>
 		</dependency>
 		<dependency>
 			<groupId>com.gmail.bleedobsidian.miconomy</groupId>
@@ -352,7 +352,7 @@ Vault currently supports the following: Permissions 3, PEX, GroupManager, bPerms
 		<dependency>
 			<groupId>com.greatmancode</groupId>
 			<artifactId>craftconomy3</artifactId>
-			<version>3.1.5</version>
+			<version>3.1.6</version>
 			<optional>true</optional>
 		</dependency>
 		<dependency>
@@ -443,19 +443,11 @@ Vault currently supports the following: Permissions 3, PEX, GroupManager, bPerms
 			<scope>system</scope>
 			<systemPath>${project.basedir}/lib/overpermissions-1.0.5.jar</systemPath>
 		</dependency>
-		<!-- Test Dependency -->
-		<dependency>
-			<groupId>junit</groupId>
-			<artifactId>junit</artifactId>
-			<version>4.11</version>
-			<optional>true</optional>
-		</dependency>
 	</dependencies>
 
 	<build>
 		<defaultGoal>clean install</defaultGoal>
 		<sourceDirectory>src/</sourceDirectory>
-		<testSourceDirectory>test/</testSourceDirectory>
 		<resources>
 			<resource>
 				<directory>${project.basedir}</directory>
@@ -477,23 +469,23 @@ Vault currently supports the following: Permissions 3, PEX, GroupManager, bPerms
 			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-source-plugin</artifactId>
-				<version>2.2.1</version>
-			</plugin>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-javadoc-plugin</artifactId>
-				<version>2.9.1</version>
+				<artifactId>maven-shade-plugin</artifactId>
+				<version>2.3</version>
 				<configuration>
-					<show>public</show>
-					<windowtitle>Vault</windowtitle>
-					<verbose>false</verbose>
-					<author>true</author>
-					<version>true</version>
-					<linksource>true</linksource>
-					<excludePackageNames>net.milkbowl.vault.chat.plugin:net.milkbowl.vault.economy.plugin:net.milkbowl.vault.permission.plugin</excludePackageNames>
-					<bottom><![CDATA[<b>Milkbowl, 2014</b>]]></bottom>
+					<artifactSet>
+						<includes>
+							<include>net.milkbowl.vault:VaultAPI</include>
+						</includes>
+					</artifactSet>
 				</configuration>
+				<executions>
+					<execution>
+						<phase>package</phase>
+						<goals>
+							<goal>shade</goal>
+						</goals>
+					</execution>
+				</executions>
 			</plugin>
 		</plugins>
 	</build>

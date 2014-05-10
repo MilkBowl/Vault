@@ -20,7 +20,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.logging.Logger;
 
-import net.milkbowl.vault.economy.Economy;
+import net.milkbowl.vault.economy.AbstractEconomy;
 import net.milkbowl.vault.economy.EconomyResponse;
 import net.milkbowl.vault.economy.EconomyResponse.ResponseType;
 
@@ -39,7 +39,7 @@ import com.greatmancode.craftconomy3.database.tables.AccountTable;
 import com.greatmancode.craftconomy3.groups.WorldGroupsManager;
 import com.greatmancode.craftconomy3.tools.interfaces.BukkitLoader;
 
-public class Economy_Craftconomy3 implements Economy {
+public class Economy_Craftconomy3 extends AbstractEconomy {
 	private static final Logger log = Logger.getLogger("Minecraft");
 	private final String name = "Craftconomy3";
 	private Plugin plugin = null;

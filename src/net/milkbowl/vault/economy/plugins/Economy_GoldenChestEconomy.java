@@ -27,11 +27,11 @@ import org.bukkit.event.server.PluginEnableEvent;
 import org.bukkit.plugin.Plugin;
 
 import me.igwb.GoldenChest.GoldenChestEconomy;
-import net.milkbowl.vault.economy.Economy;
+import net.milkbowl.vault.economy.AbstractEconomy;
 import net.milkbowl.vault.economy.EconomyResponse;
 import net.milkbowl.vault.economy.EconomyResponse.ResponseType;
 
-public class Economy_GoldenChestEconomy implements Economy{
+public class Economy_GoldenChestEconomy extends AbstractEconomy {
     private static final Logger log = Logger.getLogger("Minecraft");
     
     private final String name = "GoldenChestEconomy";

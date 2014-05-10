@@ -19,7 +19,7 @@ package net.milkbowl.vault.economy.plugins;
 import java.util.List;
 import java.util.logging.Logger;
 
-import net.milkbowl.vault.economy.Economy;
+import net.milkbowl.vault.economy.AbstractEconomy;
 import net.milkbowl.vault.economy.EconomyResponse;
 import net.milkbowl.vault.economy.EconomyResponse.ResponseType;
 
@@ -36,7 +36,7 @@ import com.gmail.mirelatrue.xpbank.Account;
 import com.gmail.mirelatrue.xpbank.GroupBank;
 import com.gmail.mirelatrue.xpbank.XPBank;
 
-public class Economy_XPBank implements Economy {
+public class Economy_XPBank extends AbstractEconomy {
 
     private static final Logger log = Logger.getLogger("Minecraft");
 

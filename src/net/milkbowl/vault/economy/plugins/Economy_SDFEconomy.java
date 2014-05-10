@@ -28,10 +28,10 @@ import org.bukkit.event.server.PluginEnableEvent;
 import com.github.omwah.SDFEconomy.SDFEconomy;
 import com.github.omwah.SDFEconomy.SDFEconomyAPI;
 
-import net.milkbowl.vault.economy.Economy;
+import net.milkbowl.vault.economy.AbstractEconomy;
 import net.milkbowl.vault.economy.EconomyResponse;
 
-public class Economy_SDFEconomy implements Economy {
+public class Economy_SDFEconomy extends AbstractEconomy {
     private static final Logger log = Logger.getLogger("Minecraft");
     private Plugin plugin = null;
 

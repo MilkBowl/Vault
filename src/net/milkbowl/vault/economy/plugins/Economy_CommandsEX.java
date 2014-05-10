@@ -15,10 +15,11 @@ import org.bukkit.plugin.Plugin;
 import com.github.zathrus_writer.commandsex.CommandsEX;
 import com.github.zathrus_writer.commandsex.api.economy.Economy;
 
+import net.milkbowl.vault.economy.AbstractEconomy;
 import net.milkbowl.vault.economy.EconomyResponse;
 import net.milkbowl.vault.economy.EconomyResponse.ResponseType;
 
-public class Economy_CommandsEX implements net.milkbowl.vault.economy.Economy {
+public class Economy_CommandsEX extends AbstractEconomy {
 	private static final Logger log = Logger.getLogger("Minecraft");
 	
 	private final String name = "CommandsEX Economy";
