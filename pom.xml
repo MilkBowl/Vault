@@ -2,20 +2,24 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<bukkitVersion>1.7.9-R0.1-SNAPSHOT</bukkitVersion>
+		<mainClass>${project.groupId}.${project.artifactId}</mainClass>
+		<api.version>1.4</api.version>
+	</properties>
+
 	<!-- Project information -->
 	<groupId>net.milkbowl.vault</groupId>
 	<artifactId>Vault</artifactId>
-	<version>1.3.2</version>
+	<version>${api.version}.3</version>
 	<name>Vault</name>
 	<url>http://dev.bukkit.org/server-mods/vault/</url>
 	<description>Vault is a Permissions &amp; Economy API to allow plugins to more easily hook into these systems without needing to hook each individual system themselves.
 
 Vault currently supports the following: Permissions 3, PEX, GroupManager, bPerms, bPerms2, SimplyPerms, DroxPerms, zPermissions, rscPermissions, KPerms, Starburst, iConomy (4/5/6) BOSEconomy *6/7), EssentialsEcon, 3Co, MultiConomy, MineConomy, EconXP, eWallet, CurrencyCore, XPBank, CraftConomy, AEco, SDFEconomy, TAEcon</description>
 
-	<properties>
-		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<bukkitVersion>1.7.9-R0.1-SNAPSHOT</bukkitVersion>
-	</properties>
+
 
 	<!-- Organization -->
 	<organization>
@@ -75,7 +79,7 @@ Vault currently supports the following: Permissions 3, PEX, GroupManager, bPerms
 		<dependency>
 			<groupId>net.milkbowl.vault</groupId>
 			<artifactId>VaultAPI</artifactId>
-			<version>${version}</version>
+			<version>${api.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>com.gmail.bleedobsidian.miconomy</groupId>
