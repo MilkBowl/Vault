@@ -394,7 +394,7 @@ public class Vault extends JavaPlugin {
 
         Permission perms = new Permission_SuperPerms(this);
         sm.register(Permission.class, perms, this, ServicePriority.Lowest);
-        log.info(String.format("[%s][Permission] SuperPermissions loaded as backup permission system.", getDescription().getName()));
+        log.info(String.format("[Permission] SuperPermissions loaded as backup permission system."));
 
         this.perms = sm.getRegistration(Permission.class).getProvider();
     }
