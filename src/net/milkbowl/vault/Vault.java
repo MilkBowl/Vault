@@ -172,8 +172,8 @@ public class Vault extends JavaPlugin {
                     public void run() {
                         if (getServer().getConsoleSender().hasPermission("vault.update") && getConfig().getBoolean("update-check", true)) {
                             try {
+                            	log.info("Checking for Updates ... ");
                                 newVersion = updateCheck(currentVersion);
-                                log.info("Checking for Updates:");
                                 if (newVersion > currentVersion) {
                                     log.warning("Stable Version: " + newVersionTitle + " is out!" + " You are still running version: " + currentVersionTitle);
                                     log.warning("Update at: http://dev.bukkit.org/server-mods/vault");
