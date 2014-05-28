@@ -1,4 +1,11 @@
-# Vault - Abstraction Library for Bukkit Plugin
+# Vault - Abstraction Library for Bukkit
+
+## For Developers:
+Please see the [VaultAPI](http://www.github.com/MilkBowl/VaultAPI) page for 
+information on developing with Vault's API.  In the past you would use the same
+artifact as servers installed, but the API has now been split from the main 
+project and is under a different artifact name.  Please make sure you accomodate
+for this change in your build process.
 
 ## Installing
 Installing Vault is as simple as copying the provided "Vault.jar" to your
@@ -123,102 +130,3 @@ Github and we'll get to it at our convenience.
    - rscPermissions
    - TotalPermissions
    - zPermissions
-
-## Implementing Vault
-Implementing Vault is quite simple. It requires getting the Economy, Permission, or Chat service from the Bukkit ServiceManager. See the example below:
-
-```java
-package com.example.plugin;
-
-import java.util.logging.Logger;
-
-import net.milkbowl.vault.chat.Chat;
-import net.milkbowl.vault.economy.Economy;
-import net.milkbowl.vault.economy.EconomyResponse;
-import net.milkbowl.vault.permission.Permission;
-
-import org.bukkit.command.Command;
-import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Player;
-import org.bukkit.plugin.RegisteredServiceProvider;
-import org.bukkit.plugin.java.JavaPlugin;
-
-public class ExamplePlugin extends JavaPlugin {
-    
-    private static final Logger log = Logger.getLogger("Minecraft");
-    public static Economy econ = null;
-    public static Permission perms = null;
-    public static Chat chat = null;
-
-    @Override
-    public void onDisable() {
-        log.info(String.format("[%s] Disabled Version %s", getDescription().getName(), getDescription().getVersion()));
-    }
-
-    @Override
-    public void onEnable() {
-        if (!setupEconomy() ) {
-            log.severe(String.format("[%s] - Disabled due to no Vault dependency found!", getDescription().getName()));
-            getServer().getPluginManager().disablePlugin(this);
-            return;
-        }
-        setupPermissions();
-        setupChat();
-    }
-    
-    private boolean setupEconomy() {
-        if (getServer().getPluginManager().getPlugin("Vault") == null) {
-            return false;
-        }
-        RegisteredServiceProvider<Economy> rsp = getServer().getServicesManager().getRegistration(Economy.class);
-        if (rsp == null) {
-            return false;
-        }
-        econ = rsp.getProvider();
-        return econ != null;
-    }
-    
-    private boolean setupChat() {
-        RegisteredServiceProvider<Chat> rsp = getServer().getServicesManager().getRegistration(Chat.class);
-        chat = rsp.getProvider();
-        return chat != null;
-    }
-    
-    private boolean setupPermissions() {
-        RegisteredServiceProvider<Permission> rsp = getServer().getServicesManager().getRegistration(Permission.class);
-        perms = rsp.getProvider();
-        return perms != null;
-    }
-    
-    public boolean onCommand(CommandSender sender, Command command, String commandLabel, String[] args) {
-        if(!(sender instanceof Player)) {
-            log.info("Only players are supported for this Example Plugin, but you should not do this!!!");
-            return true;
-        }
-        
-        Player player = (Player) sender;
-        
-        if(command.getLabel().equals("test-economy")) {
-            // Lets give the player 1.05 currency (note that SOME economic plugins require rounding!)
-            sender.sendMessage(String.format("You have %s", econ.format(econ.getBalance(player.getName()))));
-            EconomyResponse r = econ.depositPlayer(player.getName(), 1.05);
-            if(r.transactionSuccess()) {
-                sender.sendMessage(String.format("You were given %s and now have %s", econ.format(r.amount), econ.format(r.balance)));
-            } else {
-                sender.sendMessage(String.format("An error occured: %s", r.errorMessage));
-            }
-            return true;
-        } else if(command.getLabel().equals("test-permission")) {
-            // Lets test if user has the node "example.plugin.awesome" to determine if they are awesome or just suck
-            if(perms.has(player, "example.plugin.awesome")) {
-                sender.sendMessage("You are awesome!");
-            } else {
-                sender.sendMessage("You suck!");
-            }
-            return true;
-        } else {
-            return false;
-        }
-    }
-}
-```
