@@ -467,6 +467,7 @@ public class Vault extends JavaPlugin {
         }
         Economy econ1 = null;
         Economy econ2 = null;
+        String economies = "";
         for (RegisteredServiceProvider<Economy> econ : econs) {
             String econName = econ.getProvider().getName().replace(" ", "");
             if (econName.equalsIgnoreCase(args[0])) {
@@ -474,13 +475,19 @@ public class Vault extends JavaPlugin {
             } else if (econName.equalsIgnoreCase(args[1])) {
                 econ2 = econ.getProvider();
             }
+            if (economies.length() > 0) {
+            	economies += ", ";
+            }
+            economies += econName;
         }
 
         if (econ1 == null) {
-            sender.sendMessage("Could not find " + args[0] + " loaded on the server, check your spelling");
+            sender.sendMessage("Could not find " + args[0] + " loaded on the server, check your spelling.");
+            sender.sendMessage("Valid economies are: " + economies);
             return;
         } else if (econ2 == null) {
-            sender.sendMessage("Could not find " + args[1] + " loaded on the server, check your spelling");
+            sender.sendMessage("Could not find " + args[1] + " loaded on the server, check your spelling.");
+            sender.sendMessage("Valid economies are: " + economies);
             return;
         }
 
