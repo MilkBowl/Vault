@@ -172,8 +172,8 @@ public class Vault extends JavaPlugin {
                     public void run() {
                         if (getServer().getConsoleSender().hasPermission("vault.update") && getConfig().getBoolean("update-check", true)) {
                             try {
+                            	log.info("Checking for Updates ... ");
                                 newVersion = updateCheck(currentVersion);
-                                log.info("Checking for Updates:");
                                 if (newVersion > currentVersion) {
                                     log.warning("Stable Version: " + newVersionTitle + " is out!" + " You are still running version: " + currentVersionTitle);
                                     log.warning("Update at: http://dev.bukkit.org/server-mods/vault");
@@ -201,7 +201,7 @@ public class Vault extends JavaPlugin {
         } catch (IOException e) {
             // ignore exception
         }
-        log.info(String.format("[%s] Enabled Version %s", getDescription().getName(), getDescription().getVersion()));
+        log.info(String.format("Enabled Version %s", getDescription().getVersion()));
     }
 
     /**
@@ -394,7 +394,7 @@ public class Vault extends JavaPlugin {
 
         Permission perms = new Permission_SuperPerms(this);
         sm.register(Permission.class, perms, this, ServicePriority.Lowest);
-        log.info(String.format("[%s][Permission] SuperPermissions loaded as backup permission system.", getDescription().getName()));
+        log.info(String.format("[Permission] SuperPermissions loaded as backup permission system."));
 
         this.perms = sm.getRegistration(Permission.class).getProvider();
     }
@@ -404,10 +404,10 @@ public class Vault extends JavaPlugin {
             if (packagesExists(packages)) {
                 Chat chat = hookClass.getConstructor(Plugin.class, Permission.class).newInstance(this, perms);
                 sm.register(Chat.class, chat, this, priority);
-                log.info(String.format("[%s][Chat] %s found: %s", getDescription().getName(), name, chat.isEnabled() ? "Loaded" : "Waiting"));
+                log.info(String.format("[Chat] %s found: %s", name, chat.isEnabled() ? "Loaded" : "Waiting"));
             }
         } catch (Exception e) {
-            log.severe(String.format("[%s][Chat] There was an error hooking %s - check to make sure you're using a compatible version!", getDescription().getName(), name));
+            log.severe(String.format("[Chat] There was an error hooking %s - check to make sure you're using a compatible version!", name));
         }
     }
 
@@ -416,10 +416,10 @@ public class Vault extends JavaPlugin {
             if (packagesExists(packages)) {
                 Economy econ = hookClass.getConstructor(Plugin.class).newInstance(this);
                 sm.register(Economy.class, econ, this, priority);
-                log.info(String.format("[%s][Economy] %s found: %s", getDescription().getName(), name, econ.isEnabled() ? "Loaded" : "Waiting"));
+                log.info(String.format("[Economy] %s found: %s", name, econ.isEnabled() ? "Loaded" : "Waiting"));
             }
         } catch (Exception e) {
-            log.severe(String.format("[%s][Economy] There was an error hooking %s - check to make sure you're using a compatible version!", getDescription().getName(), name));
+            log.severe(String.format("[Economy] There was an error hooking %s - check to make sure you're using a compatible version!", name));
         }
     }
 
@@ -428,10 +428,10 @@ public class Vault extends JavaPlugin {
             if (packagesExists(packages)) {
                 Permission perms = hookClass.getConstructor(Plugin.class).newInstance(this);
                 sm.register(Permission.class, perms, this, priority);
-                log.info(String.format("[%s][Permission] %s found: %s", getDescription().getName(), name, perms.isEnabled() ? "Loaded" : "Waiting"));
+                log.info(String.format("[Permission] %s found: %s", name, perms.isEnabled() ? "Loaded" : "Waiting"));
             }
         } catch (Exception e) {
-            log.severe(String.format("[%s][Permission] There was an error hooking %s - check to make sure you're using a compatible version!", getDescription().getName(), name));
+            log.severe(String.format("[Permission] There was an error hooking %s - check to make sure you're using a compatible version!", name));
         }
     }
 
@@ -467,6 +467,7 @@ public class Vault extends JavaPlugin {
         }
         Economy econ1 = null;
         Economy econ2 = null;
+        String economies = "";
         for (RegisteredServiceProvider<Economy> econ : econs) {
             String econName = econ.getProvider().getName().replace(" ", "");
             if (econName.equalsIgnoreCase(args[0])) {
@@ -474,13 +475,19 @@ public class Vault extends JavaPlugin {
             } else if (econName.equalsIgnoreCase(args[1])) {
                 econ2 = econ.getProvider();
             }
+            if (economies.length() > 0) {
+            	economies += ", ";
+            }
+            economies += econName;
         }
 
         if (econ1 == null) {
-            sender.sendMessage("Could not find " + args[0] + " loaded on the server, check your spelling");
+            sender.sendMessage("Could not find " + args[0] + " loaded on the server, check your spelling.");
+            sender.sendMessage("Valid economies are: " + economies);
             return;
         } else if (econ2 == null) {
-            sender.sendMessage("Could not find " + args[1] + " loaded on the server, check your spelling");
+            sender.sendMessage("Could not find " + args[1] + " loaded on the server, check your spelling.");
+            sender.sendMessage("Valid economies are: " + economies);
             return;
         }
 
