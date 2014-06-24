@@ -6,3 +6,4 @@ then
 fi
 
 mvn clean deploy --settings .utility/settings.xml
+exit $?
