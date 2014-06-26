@@ -335,7 +335,7 @@ public class Chat_PermissionsEx extends Chat {
 
     @Override
     public String getPlayerPrefix(String world, String playerName) {
-        PermissionUser user = PermissionsEx.getPermissionManager().getUser(playerName);
+        PermissionUser user = getUser(playerName);
         if (user != null) {
             return user.getPrefix(world);
         } else {
@@ -345,7 +345,7 @@ public class Chat_PermissionsEx extends Chat {
 
     @Override
     public String getPlayerSuffix(String world, String playerName) {
-        PermissionUser user = PermissionsEx.getPermissionManager().getUser(playerName);
+        PermissionUser user = getUser(playerName);
         if (user != null) {
             return user.getSuffix(world);
         } else {
@@ -355,7 +355,7 @@ public class Chat_PermissionsEx extends Chat {
 
     @Override
     public void setPlayerSuffix(String world, String player, String suffix) {
-        PermissionUser user = PermissionsEx.getPermissionManager().getUser(player);
+        PermissionUser user = getUser(player);
         if (user != null) {
             user.setSuffix(suffix, world);
         }
@@ -363,7 +363,7 @@ public class Chat_PermissionsEx extends Chat {
 
     @Override
     public void setPlayerPrefix(String world, String player, String prefix) {
-        PermissionUser user = PermissionsEx.getPermissionManager().getUser(player);
+        PermissionUser user = getUser(player);
         if (user != null) {
             user.setPrefix(prefix, world);
         }

@@ -115,14 +115,6 @@ Vault currently supports the following: Permissions 3, PEX, GroupManager, bPerms
 			<optional>true</optional>
 		</dependency>
 		<dependency>
-			<groupId>org.tyrannyofheaven.bukkit</groupId>
-			<artifactId>zPermissions</artifactId>
-			<version>0.9.19-SNAPSHOT</version>
-			<optional>true</optional>
-			<scope>system</scope>
-			<systemPath>${project.basedir}/lib/zPermissions.jar</systemPath>
-		</dependency>
-		<dependency>
 			<groupId>me.ic3d.eco</groupId>
 			<artifactId>ECO</artifactId>
 			<version>2.0</version>
