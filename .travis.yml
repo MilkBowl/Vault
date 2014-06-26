@@ -1,0 +1,7 @@
+language: java
+jdk: [ openjdk7 ]
+env:
+  global:
+    - secure: "WGObsHmjnqn5e0nbXLGetwpUHU0UgvNk02+f0m3jIS7hSdBy5m1JK2K6NXV13brY0C9i0DLy0e7JKabqmqTxI94dT0LrYBxcvfmtZ/7PujOn/D9CzVimGj6g20hBDYwAXL6KAIR7JL8qexQBwIkVZPdwaA+k+UHLM9XVoIQdFgU="
+    - secure: "XfBov3Z4Rk2AvS1v7o31Qr2XrO/oqQvl+Eksx9DO3XbGcLjT9wfGxGcYgP9IJO+Aa5AQo3Xud7EV4gqNpMa2PByzDdgg/nfyqSvrRvsG2aH1zm5N5bAHxCVlPimVdNtyeub6QBPCIGaWBp1R8x3Ak7F79mA5BdJuT9j5FBogC5U="
+script: .utility/do-build.sh

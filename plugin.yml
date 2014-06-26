@@ -1,5 +1,5 @@
 name: ${project.name}
-version: ${project.version}-b${BUILD_NUMBER}
+version: ${project.version}-b${env.TRAVIS_BUILD_NUMBER}
 description: ${project.description}
 authors: [cereal, Sleaker, mung3r]
 website: ${project.url}
