@@ -132,27 +132,22 @@ public class Chat_PermissionsEx extends Chat {
         return getUser(playerName).getOption(node, world, defaultValue);
     }
     
-    @Override
     public int getPlayerInfoInteger(String world, OfflinePlayer op, String node, int defaultValue) {
         return getUser(op).getOptionInteger(node, world, defaultValue);
     }
 
-    @Override
     public double getPlayerInfoDouble(String world, OfflinePlayer op, String node, double defaultValue) {
         return getUser(op).getOptionDouble(node, world, defaultValue);
     }
 
-    @Override
     public boolean getPlayerInfoBoolean(String world, OfflinePlayer op, String node, boolean defaultValue) {
         return getUser(op).getOptionBoolean(node, world, defaultValue);
     }
 
-    @Override
     public String getPlayerInfoString(String world, OfflinePlayer op, String node, String defaultValue) {
         return getUser(op).getOption(node, world, defaultValue);
     }
     
-    @Override
     public void setPlayerInfoInteger(String world, OfflinePlayer op, String node, int value) {
         PermissionUser user = getUser(op);
         if (user != null) {
@@ -160,7 +155,6 @@ public class Chat_PermissionsEx extends Chat {
         }
     }
 
-    @Override
     public void setPlayerInfoDouble(String world, OfflinePlayer op, String node, double value) {
         PermissionUser user = getUser(op);
         if (user != null) {
@@ -168,7 +162,6 @@ public class Chat_PermissionsEx extends Chat {
         }
     }
 
-    @Override
     public void setPlayerInfoBoolean(String world, OfflinePlayer op, String node, boolean value) {
         PermissionUser user = getUser(op);
         if (user != null) {
@@ -176,7 +169,6 @@ public class Chat_PermissionsEx extends Chat {
         }
     }
 
-    @Override
     public void setPlayerInfoString(String world, OfflinePlayer op, String node, String value) {
         PermissionUser user = getUser(op);
         if (user != null) {
@@ -296,7 +288,6 @@ public class Chat_PermissionsEx extends Chat {
         }
     }
     
-    @Override
     public String getPlayerPrefix(String world, OfflinePlayer op) {
         PermissionUser user = getUser(op);
         if (user != null) {
@@ -306,7 +297,6 @@ public class Chat_PermissionsEx extends Chat {
         }
     }
 
-    @Override
     public String getPlayerSuffix(String world, OfflinePlayer op) {
         PermissionUser user = getUser(op);
         if (user != null) {
@@ -316,7 +306,6 @@ public class Chat_PermissionsEx extends Chat {
         }
     }
 
-    @Override
     public void setPlayerSuffix(String world, OfflinePlayer player, String suffix) {
         PermissionUser user = getUser(player);
         if (user != null) {
@@ -324,7 +313,6 @@ public class Chat_PermissionsEx extends Chat {
         }
     }
 
-    @Override
     public void setPlayerPrefix(String world, OfflinePlayer player, String prefix) {
         PermissionUser user = getUser(player);
         if (user != null) {
