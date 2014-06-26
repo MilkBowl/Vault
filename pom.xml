@@ -4,7 +4,7 @@
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<bukkitVersion>1.7.9-R0.1-SNAPSHOT</bukkitVersion>
+		<bukkitVersion>1.7.9-R0.2-SNAPSHOT</bukkitVersion>
 		<mainClass>${project.groupId}.${project.artifactId}</mainClass>
 		<api.version>1.4</api.version>
 	</properties>
@@ -325,7 +325,7 @@ Vault currently supports the following: Permissions 3, PEX, GroupManager, bPerms
 		<dependency>
 			<groupId>ru.tehkode</groupId>
 			<artifactId>PermissionsEx</artifactId>
-			<version>1.20.4</version>
+			<version>1.22</version>
 			<optional>true</optional>
 			<scope>system</scope>
 			<systemPath>${project.basedir}/lib/PermissionsEx.jar</systemPath>

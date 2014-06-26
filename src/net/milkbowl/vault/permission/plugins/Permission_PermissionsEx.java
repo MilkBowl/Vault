@@ -15,9 +15,12 @@
  */
 package net.milkbowl.vault.permission.plugins;
 
+import java.util.List;
+
 import net.milkbowl.vault.permission.Permission;
 
 import org.bukkit.Bukkit;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -67,11 +70,6 @@ public class Permission_PermissionsEx extends Permission {
         }
     }
 
-    @Override
-    public boolean playerInGroup(String worldName, String playerName, String groupName) {
-        return PermissionsEx.getPermissionManager().getUser(playerName).inGroup(groupName);
-    }
-
     public class PermissionServerListener implements Listener {
         Permission_PermissionsEx permission = null;
 
@@ -115,6 +113,32 @@ public class Permission_PermissionsEx extends Permission {
     }
 
     @Override
+    public boolean playerInGroup(String worldName, OfflinePlayer op, String groupName) {
+    	PermissionUser user = getUser(op);
+    	if (user == null) {
+    		return false;
+    	}
+    	return user.inGroup(groupName, worldName);
+    }
+
+    @Override
+    public boolean playerInGroup(String worldName, String playerName, String groupName) {
+        return PermissionsEx.getPermissionManager().getUser(playerName).inGroup(groupName, worldName);
+    }
+
+    @Override
+    public boolean playerAddGroup(String worldName, OfflinePlayer op, String groupName) {
+        PermissionGroup group = PermissionsEx.getPermissionManager().getGroup(groupName);
+        PermissionUser user = getUser(op);
+        if (group == null || user == null) {
+            return false;
+        } else {
+            user.addGroup(groupName, worldName);
+            return true;
+        }
+    }
+
+    @Override
     public boolean playerAddGroup(String worldName, String playerName, String groupName) {
         PermissionGroup group = PermissionsEx.getPermissionManager().getGroup(groupName);
         PermissionUser user = PermissionsEx.getPermissionManager().getUser(playerName);
@@ -127,14 +151,21 @@ public class Permission_PermissionsEx extends Permission {
     }
 
     @Override
+    public boolean playerRemoveGroup(String worldName, OfflinePlayer op, String groupName) {
+    	PermissionUser user = getUser(op);
+    	user.removeGroup(groupName, worldName);
+    	return true;
+    }
+
+    @Override
     public boolean playerRemoveGroup(String worldName, String playerName, String groupName) {
         PermissionsEx.getPermissionManager().getUser(playerName).removeGroup(groupName, worldName);
         return true;
     }
 
     @Override
-    public boolean playerAdd(String worldName, String playerName, String permission) {
-        PermissionUser user = PermissionsEx.getPermissionManager().getUser(playerName);
+    public boolean playerAdd(String worldName, OfflinePlayer op, String permission) {
+        PermissionUser user = getUser(op);
         if (user == null) {
             return false;
         } else {
@@ -144,8 +175,30 @@ public class Permission_PermissionsEx extends Permission {
     }
 
     @Override
+    public boolean playerAdd(String worldName, String playerName, String permission) {
+        PermissionUser user = getUser(playerName);
+        if (user == null) {
+            return false;
+        } else {
+            user.addPermission(permission, worldName);
+            return true;
+        }
+    }
+
+    @Override
+    public boolean playerRemove(String worldName, OfflinePlayer op, String permission) {
+        PermissionUser user = getUser(op);
+        if (user == null) {
+            return false;
+        } else {
+            user.removePermission(permission, worldName);
+            return true;
+        }
+    }
+
+    @Override
     public boolean playerRemove(String worldName, String playerName, String permission) {
-        PermissionUser user = PermissionsEx.getPermissionManager().getUser(playerName);
+        PermissionUser user = getUser(playerName);
         if (user == null) {
             return false;
         } else {
@@ -186,9 +239,36 @@ public class Permission_PermissionsEx extends Permission {
         }
     }
 
+    private PermissionUser getUser(OfflinePlayer op) {
+    	return PermissionsEx.getPermissionManager().getUser(op.getUniqueId());
+    }
+    
+    private PermissionUser getUser(String playerName) {
+    	return PermissionsEx.getPermissionManager().getUser(playerName);
+    }
+
+    @Override
+    public String[] getPlayerGroups(String world, OfflinePlayer op) {
+    	PermissionUser user = getUser(op);
+    	return user == null ? null : user.getParentIdentifiers(world).toArray(new String[0]);
+    }
+
     @Override
     public String[] getPlayerGroups(String world, String playerName) {
-        return PermissionsEx.getPermissionManager().getUser(playerName).getGroupsNames();
+    	PermissionUser user = getUser(playerName);
+    	return user == null ? null : user.getParentIdentifiers(world).toArray(new String[0]);
+    }
+
+    @Override
+    public String getPrimaryGroup(String world, OfflinePlayer op) {
+    	PermissionUser user = getUser(op);
+    	if (user == null) {
+    		return null;
+    	} else if (user.getParentIdentifiers(world).size() > 0) {
+    		return user.getParentIdentifiers(world).get(0);
+    	} else {
+    		return null;
+    	}
     }
 
     @Override
@@ -196,16 +276,26 @@ public class Permission_PermissionsEx extends Permission {
         PermissionUser user = PermissionsEx.getPermissionManager().getUser(playerName);
         if (user == null) {
             return null;
-        } else if (user.getGroupsNames(world).length > 0) {
-            return user.getGroupsNames(world)[0];
+        } else if (user.getParentIdentifiers(world).size() > 0) {
+            return user.getParentIdentifiers(world).get(0);
         } else {
             return null;
         }
     }
 
     @Override
+    public boolean playerHas(String worldName, OfflinePlayer op, String permission) {
+    	PermissionUser user = getUser(op);
+        if (user != null) {
+            return user.has(permission, worldName);
+        } else {
+            return false;
+        }
+    }
+
+    @Override
     public boolean playerHas(String worldName, String playerName, String permission) {
-        PermissionUser user = PermissionsEx.getPermissionManager().getUser(playerName);
+        PermissionUser user = getUser(playerName);
         if (user != null) {
             return user.has(permission, worldName);
         } else {
@@ -215,7 +305,7 @@ public class Permission_PermissionsEx extends Permission {
 
     @Override
     public boolean playerAddTransient(String worldName, String player, String permission) {
-        PermissionUser pPlayer = PermissionsEx.getPermissionManager().getUser(player);
+        PermissionUser pPlayer = getUser(player);
         if (pPlayer != null) {
             pPlayer.addTimedPermission(permission, worldName, 0);
             return true;
@@ -226,7 +316,13 @@ public class Permission_PermissionsEx extends Permission {
 
     @Override
     public boolean playerAddTransient(String worldName, Player player, String permission) {
-        return playerAddTransient(worldName, player.getName(), permission);
+    	PermissionUser pPlayer = getUser(player);
+        if (pPlayer != null) {
+            pPlayer.addTimedPermission(permission, worldName, 0);
+            return true;
+        } else {
+            return false;
+        }
     }
 
     @Override
@@ -236,12 +332,12 @@ public class Permission_PermissionsEx extends Permission {
 
     @Override
     public boolean playerAddTransient(Player player, String permission) {
-        return playerAddTransient(null, player.getName(), permission);
+        return playerAddTransient(null, player, permission);
     }
 
     @Override
     public boolean playerRemoveTransient(String worldName, String player, String permission) {
-        PermissionUser pPlayer = PermissionsEx.getPermissionManager().getUser(player);
+        PermissionUser pPlayer = getUser(player);
         if (pPlayer != null) {
             pPlayer.removeTimedPermission(permission, worldName);
             return true;
@@ -252,12 +348,18 @@ public class Permission_PermissionsEx extends Permission {
 
     @Override
     public boolean playerRemoveTransient(Player player, String permission) {
-        return playerRemoveTransient(null, player.getName(), permission);
+        return playerRemoveTransient(null, player, permission);
     }
 
     @Override
     public boolean playerRemoveTransient(String worldName, Player player, String permission) {
-        return playerRemoveTransient(worldName, player.getName(), permission);
+        PermissionUser pPlayer = getUser(player);
+        if (pPlayer != null) {
+            pPlayer.removeTimedPermission(permission, worldName);
+            return true;
+        } else {
+            return false;
+        }
     }
 
     @Override
@@ -267,12 +369,13 @@ public class Permission_PermissionsEx extends Permission {
 
     @Override
     public String[] getGroups() {
-        PermissionGroup[] groups = PermissionsEx.getPermissionManager().getGroups();
-        if (groups == null || groups.length == 0)
+        List<PermissionGroup> groups = PermissionsEx.getPermissionManager().getGroupList();
+        if (groups == null || groups.isEmpty()) {
             return null;
-        String[] groupNames = new String[groups.length];
-        for (int i = 0; i < groups.length; i++) {
-            groupNames[i] = groups[i].getName();
+        }
+        String[] groupNames = new String[groups.size()];
+        for (int i = 0; i < groups.size(); i++) {
+            groupNames[i] = groups.get(i).getName();
         }
         return groupNames;
     }
