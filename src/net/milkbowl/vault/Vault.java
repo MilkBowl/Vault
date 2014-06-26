@@ -39,19 +39,14 @@ import net.milkbowl.vault.chat.plugins.Chat_mChat;
 import net.milkbowl.vault.chat.plugins.Chat_mChatSuite;
 import net.milkbowl.vault.chat.plugins.Chat_rscPermissions;
 import net.milkbowl.vault.economy.Economy;
-import net.milkbowl.vault.economy.plugins.Economy_3co;
-import net.milkbowl.vault.economy.plugins.Economy_AEco;
-import net.milkbowl.vault.economy.plugins.Economy_BOSE6;
 import net.milkbowl.vault.economy.plugins.Economy_BOSE7;
 import net.milkbowl.vault.economy.plugins.Economy_CommandsEX;
-import net.milkbowl.vault.economy.plugins.Economy_Craftconomy;
 import net.milkbowl.vault.economy.plugins.Economy_Craftconomy3;
 import net.milkbowl.vault.economy.plugins.Economy_CurrencyCore;
 import net.milkbowl.vault.economy.plugins.Economy_DigiCoin;
 import net.milkbowl.vault.economy.plugins.Economy_Dosh;
 import net.milkbowl.vault.economy.plugins.Economy_EconXP;
 import net.milkbowl.vault.economy.plugins.Economy_Essentials;
-import net.milkbowl.vault.economy.plugins.Economy_GoldIsMoney;
 import net.milkbowl.vault.economy.plugins.Economy_GoldIsMoney2;
 import net.milkbowl.vault.economy.plugins.Economy_GoldenChestEconomy;
 import net.milkbowl.vault.economy.plugins.Economy_Gringotts;
@@ -61,8 +56,6 @@ import net.milkbowl.vault.economy.plugins.Economy_MultiCurrency;
 import net.milkbowl.vault.economy.plugins.Economy_TAEcon;
 import net.milkbowl.vault.economy.plugins.Economy_XPBank;
 import net.milkbowl.vault.economy.plugins.Economy_eWallet;
-import net.milkbowl.vault.economy.plugins.Economy_iConomy4;
-import net.milkbowl.vault.economy.plugins.Economy_iConomy5;
 import net.milkbowl.vault.economy.plugins.Economy_iConomy6;
 import net.milkbowl.vault.economy.plugins.Economy_SDFEconomy;
 import net.milkbowl.vault.economy.plugins.Economy_Minefaconomy;  
@@ -262,26 +255,14 @@ public class Vault extends JavaPlugin {
         // Try to load MineConomy
         hookEconomy("MineConomy", Economy_MineConomy.class, ServicePriority.Normal, "me.mjolnir.mineconomy.MineConomy");
 
-        // Try to load AEco
-        hookEconomy("AEco", Economy_AEco.class, ServicePriority.Normal, "org.neocraft.AEco.AEco");
-
         // Try to load McMoney
         hookEconomy("McMoney", Economy_McMoney.class, ServicePriority.Normal, "boardinggamer.mcmoney.McMoneyAPI");
-
-        // Try to load Craftconomy
-        hookEconomy("CraftConomy", Economy_Craftconomy.class, ServicePriority.Normal, "me.greatman.Craftconomy.Craftconomy");
 
         // Try to load Craftconomy3
         hookEconomy("CraftConomy3", Economy_Craftconomy3.class, ServicePriority.Normal, "com.greatmancode.craftconomy3.tools.interfaces.BukkitLoader");
 
         // Try to load eWallet
         hookEconomy("eWallet", Economy_eWallet.class, ServicePriority.Normal, "me.ethan.eWallet.ECO");
-
-        // Try to load 3co
-        hookEconomy("3co", Economy_3co.class, ServicePriority.Normal, "me.ic3d.eco.ECO");
-
-        // Try to load BOSEconomy 6
-        hookEconomy("BOSEconomy6", Economy_BOSE6.class, ServicePriority.Normal, "cosine.boseconomy.BOSEconomy", "cosine.boseconomy.CommandManager");
 
         // Try to load BOSEconomy 7
         hookEconomy("BOSEconomy7", Economy_BOSE7.class, ServicePriority.Normal, "cosine.boseconomy.BOSEconomy", "cosine.boseconomy.CommandHandler");
@@ -295,20 +276,11 @@ public class Vault extends JavaPlugin {
         // Try to load Essentials Economy
         hookEconomy("Essentials Economy", Economy_Essentials.class, ServicePriority.Low, "com.earth2me.essentials.api.Economy", "com.earth2me.essentials.api.NoLoanPermittedException",  "com.earth2me.essentials.api.UserDoesNotExistException");
 
-        // Try to load iConomy 4
-        hookEconomy("iConomy 4", Economy_iConomy4.class, ServicePriority.High, "com.nijiko.coelho.iConomy.iConomy", "com.nijiko.coelho.iConomy.system.Account");
-
-        // Try to load iConomy 5
-        hookEconomy("iConomy 5", Economy_iConomy5.class, ServicePriority.High, "com.iConomy.iConomy", "com.iConomy.system.Account", "com.iConomy.system.Holdings");
-
         // Try to load iConomy 6
         hookEconomy("iConomy 6", Economy_iConomy6.class, ServicePriority.High, "com.iCo6.iConomy");
 
         // Try to load EconXP
         hookEconomy("EconXP", Economy_EconXP.class, ServicePriority.Normal, "ca.agnate.EconXP.EconXP");
-
-        // Try to load GoldIsMoney
-        hookEconomy("GoldIsMoney", Economy_GoldIsMoney.class, ServicePriority.Normal, "com.flobi.GoldIsMoney.GoldIsMoney");
 
         // Try to load GoldIsMoney2
         hookEconomy("GoldIsMoney2", Economy_GoldIsMoney2.class, ServicePriority.Normal, "com.flobi.GoldIsMoney2.GoldIsMoney");
