@@ -4,7 +4,7 @@
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<bukkitVersion>1.7.9-R0.1-SNAPSHOT</bukkitVersion>
+		<bukkitVersion>1.7.9-R0.2-SNAPSHOT</bukkitVersion>
 		<mainClass>${project.groupId}.${project.artifactId}</mainClass>
 		<api.version>1.4</api.version>
 	</properties>
@@ -119,22 +119,6 @@ Vault currently supports the following: Permissions 3, PEX, GroupManager, bPerms
 			<optional>true</optional>
 		</dependency>
 		<dependency>
-			<groupId>org.tyrannyofheaven.bukkit</groupId>
-			<artifactId>zPermissions</artifactId>
-			<version>0.9.19-SNAPSHOT</version>
-			<optional>true</optional>
-			<scope>system</scope>
-			<systemPath>${project.basedir}/lib/zPermissions.jar</systemPath>
-		</dependency>
-		<dependency>
-			<groupId>me.ic3d.eco</groupId>
-			<artifactId>ECO</artifactId>
-			<version>2.0</version>
-			<optional>true</optional>
-			<scope>system</scope>
-			<systemPath>${project.basedir}/lib/3co.jar</systemPath>
-		</dependency>
-		<dependency>
 			<groupId>is.currency</groupId>
 			<artifactId>Currency</artifactId>
 			<version>0.61</version>
@@ -149,14 +133,6 @@ Vault currently supports the following: Permissions 3, PEX, GroupManager, bPerms
 			<optional>true</optional>
 			<scope>system</scope>
 			<systemPath>${project.basedir}/lib/GoldenChestEconomy.jar</systemPath>
-		</dependency>
-		<dependency>
-			<groupId>com.flobi.GoldIsMoney</groupId>
-			<artifactId>GoldIsMoney</artifactId>
-			<version>1.2.1</version>
-			<optional>true</optional>
-			<scope>system</scope>
-			<systemPath>${project.basedir}/lib/GoldIsMoney.jar</systemPath>
 		</dependency>
 		<dependency>
 			<groupId>com.flobi.GoldIsMoney2</groupId>
@@ -199,14 +175,6 @@ Vault currently supports the following: Permissions 3, PEX, GroupManager, bPerms
 			<systemPath>${project.basedir}/lib/EconXP.jar</systemPath>
 		</dependency>
 		<dependency>
-			<groupId>org.neocraft.AEco</groupId>
-			<artifactId>AEco</artifactId>
-			<version>2.1</version>
-			<optional>true</optional>
-			<scope>system</scope>
-			<systemPath>${project.basedir}/lib/AEco-2.1.jar</systemPath>
-		</dependency>
-		<dependency>
 			<groupId>com.earth2me.essentials.Essentials</groupId>
 			<artifactId>Essentials</artifactId>
 			<version>2.9.2</version>
@@ -245,22 +213,6 @@ Vault currently supports the following: Permissions 3, PEX, GroupManager, bPerms
 			<optional>true</optional>
 			<scope>system</scope>
 			<systemPath>${project.basedir}/lib/iChat.jar</systemPath>
-		</dependency>
-		<dependency>
-			<groupId>com.nijiko.coelho.iConomy.iConomy</groupId>
-			<artifactId>iConomy</artifactId>
-			<version>4.65</version>
-			<optional>true</optional>
-			<scope>system</scope>
-			<systemPath>${project.basedir}/lib/iConomy4.jar</systemPath>
-		</dependency>
-		<dependency>
-			<groupId>com.iConomy.iConomy</groupId>
-			<artifactId>iConomy</artifactId>
-			<version>5.0</version>
-			<optional>true</optional>
-			<scope>system</scope>
-			<systemPath>${project.basedir}/lib/iConomy5.jar</systemPath>
 		</dependency>
 		<dependency>
 			<groupId>com.iCo6.iConomy</groupId>
@@ -329,7 +281,7 @@ Vault currently supports the following: Permissions 3, PEX, GroupManager, bPerms
 		<dependency>
 			<groupId>ru.tehkode</groupId>
 			<artifactId>PermissionsEx</artifactId>
-			<version>1.20.4</version>
+			<version>1.22</version>
 			<optional>true</optional>
 			<scope>system</scope>
 			<systemPath>${project.basedir}/lib/PermissionsEx.jar</systemPath>

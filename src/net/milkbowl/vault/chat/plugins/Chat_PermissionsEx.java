@@ -28,6 +28,8 @@ import org.bukkit.event.server.PluginDisableEvent;
 import org.bukkit.event.server.PluginEnableEvent;
 import org.bukkit.plugin.Plugin;
 
+import com.earth2me.essentials.OfflinePlayer;
+
 import ru.tehkode.permissions.PermissionGroup;
 import ru.tehkode.permissions.PermissionUser;
 import ru.tehkode.permissions.bukkit.PermissionsEx;
@@ -102,29 +104,81 @@ public class Chat_PermissionsEx extends Chat {
             return chat.isEnabled();
     }
 
+    private PermissionUser getUser(OfflinePlayer op) {
+    	return PermissionsEx.getPermissionManager().getUser(op.getUniqueId());
+    }
+    
+    private PermissionUser getUser(String playerName) {
+    	return PermissionsEx.getPermissionManager().getUser(playerName);
+    }
+
     @Override
     public int getPlayerInfoInteger(String world, String playerName, String node, int defaultValue) {
-        return PermissionsEx.getPermissionManager().getUser(playerName).getOptionInteger(node, world, defaultValue);
+        return getUser(playerName).getOptionInteger(node, world, defaultValue);
     }
 
     @Override
     public double getPlayerInfoDouble(String world, String playerName, String node, double defaultValue) {
-        return PermissionsEx.getPermissionManager().getUser(playerName).getOptionDouble(node, world, defaultValue);
+        return getUser(playerName).getOptionDouble(node, world, defaultValue);
     }
 
     @Override
     public boolean getPlayerInfoBoolean(String world, String playerName, String node, boolean defaultValue) {
-        return PermissionsEx.getPermissionManager().getUser(playerName).getOptionBoolean(node, world, defaultValue);
+        return getUser(playerName).getOptionBoolean(node, world, defaultValue);
     }
 
     @Override
     public String getPlayerInfoString(String world, String playerName, String node, String defaultValue) {
-        return PermissionsEx.getPermissionManager().getUser(playerName).getOption(node, world, defaultValue);
+        return getUser(playerName).getOption(node, world, defaultValue);
+    }
+    
+    public int getPlayerInfoInteger(String world, OfflinePlayer op, String node, int defaultValue) {
+        return getUser(op).getOptionInteger(node, world, defaultValue);
+    }
+
+    public double getPlayerInfoDouble(String world, OfflinePlayer op, String node, double defaultValue) {
+        return getUser(op).getOptionDouble(node, world, defaultValue);
+    }
+
+    public boolean getPlayerInfoBoolean(String world, OfflinePlayer op, String node, boolean defaultValue) {
+        return getUser(op).getOptionBoolean(node, world, defaultValue);
+    }
+
+    public String getPlayerInfoString(String world, OfflinePlayer op, String node, String defaultValue) {
+        return getUser(op).getOption(node, world, defaultValue);
+    }
+    
+    public void setPlayerInfoInteger(String world, OfflinePlayer op, String node, int value) {
+        PermissionUser user = getUser(op);
+        if (user != null) {
+            user.setOption(node, String.valueOf(value), world);
+        }
+    }
+
+    public void setPlayerInfoDouble(String world, OfflinePlayer op, String node, double value) {
+        PermissionUser user = getUser(op);
+        if (user != null) {
+            user.setOption(node, String.valueOf(value), world);
+        }
+    }
+
+    public void setPlayerInfoBoolean(String world, OfflinePlayer op, String node, boolean value) {
+        PermissionUser user = getUser(op);
+        if (user != null) {
+            user.setOption(node, String.valueOf(value), world);
+        }
+    }
+
+    public void setPlayerInfoString(String world, OfflinePlayer op, String node, String value) {
+        PermissionUser user = getUser(op);
+        if (user != null) {
+            user.setOption(node, String.valueOf(value), world);
+        }
     }
 
     @Override
     public void setPlayerInfoInteger(String world, String playerName, String node, int value) {
-        PermissionUser user = PermissionsEx.getPermissionManager().getUser(playerName);
+        PermissionUser user = getUser(playerName);
         if (user != null) {
             user.setOption(node, String.valueOf(value), world);
         }
@@ -132,7 +186,7 @@ public class Chat_PermissionsEx extends Chat {
 
     @Override
     public void setPlayerInfoDouble(String world, String playerName, String node, double value) {
-        PermissionUser user = PermissionsEx.getPermissionManager().getUser(playerName);
+        PermissionUser user = getUser(playerName);
         if (user != null) {
             user.setOption(node, String.valueOf(value), world);
         }
@@ -140,7 +194,7 @@ public class Chat_PermissionsEx extends Chat {
 
     @Override
     public void setPlayerInfoBoolean(String world, String playerName, String node, boolean value) {
-        PermissionUser user = PermissionsEx.getPermissionManager().getUser(playerName);
+        PermissionUser user = getUser(playerName);
         if (user != null) {
             user.setOption(node, String.valueOf(value), world);
         }
@@ -148,7 +202,7 @@ public class Chat_PermissionsEx extends Chat {
 
     @Override
     public void setPlayerInfoString(String world, String playerName, String node, String value) {
-        PermissionUser user = PermissionsEx.getPermissionManager().getUser(playerName);
+        PermissionUser user = getUser(playerName);
         if (user != null) {
             user.setOption(node, String.valueOf(value), world);
         }
@@ -233,10 +287,43 @@ public class Chat_PermissionsEx extends Chat {
             group.setOption(node, world, value);
         }
     }
+    
+    public String getPlayerPrefix(String world, OfflinePlayer op) {
+        PermissionUser user = getUser(op);
+        if (user != null) {
+            return user.getPrefix(world);
+        } else {
+            return null;
+        }
+    }
+
+    public String getPlayerSuffix(String world, OfflinePlayer op) {
+        PermissionUser user = getUser(op);
+        if (user != null) {
+            return user.getSuffix(world);
+        } else {
+            return null;
+        }
+    }
+
+    public void setPlayerSuffix(String world, OfflinePlayer player, String suffix) {
+        PermissionUser user = getUser(player);
+        if (user != null) {
+            user.setSuffix(suffix, world);
+        }
+    }
+
+    public void setPlayerPrefix(String world, OfflinePlayer player, String prefix) {
+        PermissionUser user = getUser(player);
+        if (user != null) {
+            user.setPrefix(prefix, world);
+        }
+    }
+
 
     @Override
     public String getPlayerPrefix(String world, String playerName) {
-        PermissionUser user = PermissionsEx.getPermissionManager().getUser(playerName);
+        PermissionUser user = getUser(playerName);
         if (user != null) {
             return user.getPrefix(world);
         } else {
@@ -246,7 +333,7 @@ public class Chat_PermissionsEx extends Chat {
 
     @Override
     public String getPlayerSuffix(String world, String playerName) {
-        PermissionUser user = PermissionsEx.getPermissionManager().getUser(playerName);
+        PermissionUser user = getUser(playerName);
         if (user != null) {
             return user.getSuffix(world);
         } else {
@@ -256,7 +343,7 @@ public class Chat_PermissionsEx extends Chat {
 
     @Override
     public void setPlayerSuffix(String world, String player, String suffix) {
-        PermissionUser user = PermissionsEx.getPermissionManager().getUser(player);
+        PermissionUser user = getUser(player);
         if (user != null) {
             user.setSuffix(suffix, world);
         }
@@ -264,7 +351,7 @@ public class Chat_PermissionsEx extends Chat {
 
     @Override
     public void setPlayerPrefix(String world, String player, String prefix) {
-        PermissionUser user = PermissionsEx.getPermissionManager().getUser(player);
+        PermissionUser user = getUser(player);
         if (user != null) {
             user.setPrefix(prefix, world);
         }
