@@ -403,6 +403,7 @@ public class Vault extends JavaPlugin {
     public boolean onCommand(CommandSender sender, Command command, String commandLabel, String[] args) {
         if (!sender.hasPermission("vault.admin")) {
             sender.sendMessage("You do not have permission to use that command!");
+            return true;
         }
 
         if (command.getName().equalsIgnoreCase("vault-info")) {
