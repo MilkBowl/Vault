@@ -102,6 +102,7 @@ Github and we'll get to it at our convenience.
    - SDFEconomy
    - TAEcon
    - XPBank
+   - RoyalEconomy
 
 * Permissions
    - bPermissions

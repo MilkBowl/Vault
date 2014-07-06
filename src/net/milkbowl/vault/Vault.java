@@ -53,6 +53,7 @@ import net.milkbowl.vault.economy.plugins.Economy_Gringotts;
 import net.milkbowl.vault.economy.plugins.Economy_McMoney;
 import net.milkbowl.vault.economy.plugins.Economy_MineConomy;
 import net.milkbowl.vault.economy.plugins.Economy_MultiCurrency;
+import net.milkbowl.vault.economy.plugins.Economy_RoyalEconomy;
 import net.milkbowl.vault.economy.plugins.Economy_TAEcon;
 import net.milkbowl.vault.economy.plugins.Economy_XPBank;
 import net.milkbowl.vault.economy.plugins.Economy_eWallet;
@@ -305,6 +306,9 @@ public class Vault extends JavaPlugin {
 
         // Try to load DigiCoin
         hookEconomy("DigiCoin", Economy_DigiCoin.class, ServicePriority.Normal, "co.uk.silvania.cities.digicoin.DigiCoin");
+
+        // Try to load RoyalEconomy
+        hookEconomy("RoyalEconomy", Economy_RoyalEconomy.class, ServicePriority.Normal, "org.royaldev.royaleconomy.RoyalEconomy");
     }
 
     /**
