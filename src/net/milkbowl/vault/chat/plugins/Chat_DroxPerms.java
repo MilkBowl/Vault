@@ -63,7 +63,7 @@ public class Chat_DroxPerms extends Chat {
 
     @Override
     public String getPlayerPrefix(String world, String player) {
-        UUID uuid = plugin.getServer().getPlayer(player).getUniqueId();
+        UUID uuid = API.getUUIDFromName(player);
 	String prefix = API.getPlayerInfo(uuid, "prefix");
         if (prefix == null) {
             String prigroup = API.getPlayerGroup(uuid);
@@ -74,19 +74,19 @@ public class Chat_DroxPerms extends Chat {
 
     @Override
     public void setPlayerPrefix(String world, String player, String prefix) {
-	UUID uuid = API.getUUIDFromName(name);
+	UUID uuid = API.getUUIDFromName(player);
         API.setPlayerInfo(uuid, "prefix", prefix);
     }
 
     @Override
     public String getPlayerSuffix(String world, String player) {
-	UUID uuid = API.getUUIDFromName(name);
+	UUID uuid = API.getUUIDFromName(player);
         return API.getPlayerInfo(uuid, "suffix");
     }
 
     @Override
     public void setPlayerSuffix(String world, String player, String suffix) {
-	UUID uuid = API.getUUIDFromName(name);
+	UUID uuid = API.getUUIDFromName(player);
         API.setPlayerInfo(uuid, "suffix", suffix);
     }
 
@@ -126,7 +126,7 @@ public class Chat_DroxPerms extends Chat {
 
     @Override
     public void setPlayerInfoInteger(String world, String player, String node, int value) {
-	UUID uuid = API.getUUIDFromName(name);
+	UUID uuid = API.getUUIDFromName(player);
         API.setPlayerInfo(uuid, node, String.valueOf(value));
     }
 
@@ -165,7 +165,7 @@ public class Chat_DroxPerms extends Chat {
 
     @Override
     public void setPlayerInfoDouble(String world, String player, String node, double value) {
-	UUID uuid = API.getUUIDFromName(name);
+	UUID uuid = API.getUUIDFromName(player);
         API.setPlayerInfo(uuid, node, String.valueOf(value));
     }
 
@@ -201,7 +201,7 @@ public class Chat_DroxPerms extends Chat {
 
     @Override
     public void setPlayerInfoBoolean(String world, String player, String node, boolean value) {
-	UUID uuid = API.getUUIDFromName(name);
+	UUID uuid = API.getUUIDFromName(player);
         API.setPlayerInfo(uuid, node, String.valueOf(value));
     }
 
@@ -223,14 +223,14 @@ public class Chat_DroxPerms extends Chat {
 
     @Override
     public String getPlayerInfoString(String world, String player, String node, String defaultValue) {
-	UUID uuid = API.getUUIDFromName(name);
+	UUID uuid = API.getUUIDFromName(player);
         String val = API.getPlayerInfo(uuid, node);
         return val != null ? val : defaultValue;
     }
 
     @Override
     public void setPlayerInfoString(String world, String player, String node, String value) {
-	UUID uuid = API.getUUIDFromName(name);
+	UUID uuid = API.getUUIDFromName(player);
         API.setPlayerInfo(uuid, node, value);
     }
 
