@@ -320,7 +320,6 @@ public class Chat_PermissionsEx extends Chat {
         }
     }
 
-
     @Override
     public String getPlayerPrefix(String world, String playerName) {
         PermissionUser user = getUser(playerName);
