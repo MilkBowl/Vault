@@ -15,7 +15,6 @@ import org.bukkit.plugin.Plugin;
 
 import de.hydrox.bukkit.DroxPerms.DroxPerms;
 import de.hydrox.bukkit.DroxPerms.DroxPermsAPI;
-import java.util.UUID;
 
 public class Permission_DroxPerms extends Permission {
 
@@ -86,14 +85,12 @@ public class Permission_DroxPerms extends Permission {
 
     @Override
     public boolean playerAdd(String world, String player, String permission) {
-	UUID uuid = plugin.getServer().getPlayer(player).getUniqueId();
-        return API.addPlayerPermission(uuid, world, permission);
+        return API.addPlayerPermission(player, world, permission);
     }
 
     @Override
     public boolean playerRemove(String world, String player, String permission) {
-	UUID uuid = plugin.getServer().getPlayer(player).getUniqueId();
-        return API.removePlayerPermission(uuid, world, permission);
+        return API.removePlayerPermission(player, world, permission);
     }
 
     @Override
@@ -113,50 +110,45 @@ public class Permission_DroxPerms extends Permission {
 
     @Override
     public boolean playerInGroup(String world, String player, String group) {
-	UUID uuid = API.getUUIDFromName(name);
-        return API.getPlayerGroup(uuid).equalsIgnoreCase(group) || API.getPlayerSubgroups(uuid).contains(group);
+        return API.getPlayerGroup(player).equalsIgnoreCase(group) || API.getPlayerSubgroups(player).contains(group);
     }
 
     @Override
     public boolean playerAddGroup(String world, String player, String group) {
-	UUID uuid = API.getUUIDFromName(name);
         if (useOnlySubgroups) {
-            return API.addPlayerSubgroup(uuid, group);
+            return API.addPlayerSubgroup(player, group);
         } else {
-            if ("default".equalsIgnoreCase(API.getPlayerGroup(uuid))) {
-                return API.setPlayerGroup(uuid, group);
+            if ("default".equalsIgnoreCase(API.getPlayerGroup(player))) {
+                return API.setPlayerGroup(player, group);
             } else {
-                return API.addPlayerSubgroup(uuid, group);
+                return API.addPlayerSubgroup(player, group);
             }
         }
     }
 
     @Override
     public boolean playerRemoveGroup(String world, String player, String group) {
-	UUID uuid = API.getUUIDFromName(name);
         if (useOnlySubgroups) {
-            return API.removePlayerSubgroup(uuid, group);
+            return API.removePlayerSubgroup(player, group);
         } else {
-            if (group.equalsIgnoreCase(API.getPlayerGroup(uuid))) {
-                return API.setPlayerGroup(uuid, "default");
+            if (group.equalsIgnoreCase(API.getPlayerGroup(player))) {
+                return API.setPlayerGroup(player, "default");
             } else {
-                return API.removePlayerSubgroup(uuid, group);
+                return API.removePlayerSubgroup(player, group);
             }
         }
     }
 
     @Override
     public String[] getPlayerGroups(String world, String player) {
-	UUID uuid = plugin.getServer().getPlayer(player).getUniqueId();
-        ArrayList<String> array = API.getPlayerSubgroups(uuid);
-        array.add(API.getPlayerGroup(uuid));
+        ArrayList<String> array = API.getPlayerSubgroups(player);
+        array.add(API.getPlayerGroup(player));
         return array.toArray(new String[0]);
     }
 
     @Override
     public String getPrimaryGroup(String world, String player) {
-	UUID uuid = plugin.getServer().getPlayer(player).getUniqueId();
-        return API.getPlayerGroup(uuid);
+        return API.getPlayerGroup(player);
     }
 
     @Override
