@@ -57,6 +57,7 @@ import net.milkbowl.vault.economy.plugins.Economy_TAEcon;
 import net.milkbowl.vault.economy.plugins.Economy_XPBank;
 import net.milkbowl.vault.economy.plugins.Economy_eWallet;
 import net.milkbowl.vault.economy.plugins.Economy_iConomy6;
+import net.milkbowl.vault.economy.plugins.Economy_iConomy8;
 import net.milkbowl.vault.economy.plugins.Economy_SDFEconomy;
 import net.milkbowl.vault.economy.plugins.Economy_Minefaconomy;  
 import net.milkbowl.vault.permission.Permission;
@@ -278,6 +279,9 @@ public class Vault extends JavaPlugin {
 
         // Try to load iConomy 6
         hookEconomy("iConomy 6", Economy_iConomy6.class, ServicePriority.High, "com.iCo6.iConomy");
+        
+        // Try to load iConomy 8
+        hookEconomy("iConomy 8", Economy_iConomy8.class, ServicePriority.High, "com.iConomy8.iConomy");
 
         // Try to load EconXP
         hookEconomy("EconXP", Economy_EconXP.class, ServicePriority.Normal, "ca.agnate.EconXP.EconXP");
