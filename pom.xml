@@ -408,6 +408,14 @@ Vault currently supports the following: Permissions 3, PEX, GroupManager, bPerms
 			<scope>system</scope>
 			<systemPath>${project.basedir}/lib/overpermissions-1.0.5.jar</systemPath>
 		</dependency>
+		<dependency>
+			<groupId>com.iConomy8.iConomy</groupId>
+			<artifactId>iConomy</artifactId>
+			<version>8.0.1</version>
+			<scope>system</scope>
+			<systemPath>${project.basedir}/lib/iConomy8.jar</systemPath>
+			<optional>true</optional>
+		</dependency>
 	</dependencies>
 
 	<build>
