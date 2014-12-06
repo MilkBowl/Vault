@@ -71,7 +71,7 @@ public class Economy_iConomy8 extends AbstractEconomy {
         public void onPluginEnable(PluginEnableEvent event) {
             if (economy.economy == null) {
                 Plugin ec = event.getPlugin();
-                if (ec.getClass().getName().equals("com.iCo6.iConomy")) {
+                if (ec.getClass().getName().equals("com.iConomy8.iConomy")) {
                     String version = ec.getDescription().getVersion().split("\\.")[0];
                     name += version;
                     economy.economy = (iConomy) ec;
