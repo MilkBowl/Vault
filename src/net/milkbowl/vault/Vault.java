@@ -132,7 +132,6 @@ public class Vault extends JavaPlugin {
         getConfig().addDefault("update-check", true);
         getConfig().options().copyDefaults(true);
         saveConfig();
-
         // Load Vault Addons
         loadEconomy();
         loadPermission();

@@ -4,7 +4,7 @@
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<bukkitVersion>1.7.9-R0.2</bukkitVersion>
+		<bukkitVersion>1.8-R0.1-SNAPSHOT</bukkitVersion>
 		<mainClass>${project.groupId}.${project.artifactId}</mainClass>
 		<api.version>1.4</api.version>
 	</properties>
@@ -58,8 +58,8 @@ Vault currently supports the following: Permissions 3, PEX, GroupManager, bPerms
 			<url>http://nexus.theyeticave.net/content/repositories/pub_releases/</url>
 		</repository>
 		<repository>
-			<id>bukkit-repo</id>
-			<url>http://repo.bukkit.org/content/groups/public/</url>
+			<id>spigot-repo</id>
+			<url>https://hub.spigotmc.org/nexus/content/groups/public/</url>
 		</repository>
 		<repository>
 			<id>greatman-repo</id>
