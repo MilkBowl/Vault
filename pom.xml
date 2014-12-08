@@ -66,6 +66,10 @@ Vault currently supports the following: Permissions 3, PEX, GroupManager, bPerms
 			<url>http://repo.greatmancode.com/content/groups/public/</url>
 		</repository>
 		<repository>
+			<id>bukkit-repo</id>
+			<url>http://repo.bukkit.org/content/groups/public/</url>
+		</repository>
+		<repository>
 			<id>krinsoft</id>
 			<url>http://files.krinsoft.net:8085/nexus/content/groups/public</url>
 		</repository>
@@ -97,7 +101,7 @@ Vault currently supports the following: Permissions 3, PEX, GroupManager, bPerms
 		<dependency>
 			<groupId>de.hydrox.bukkit</groupId>
 			<artifactId>DroxPerms</artifactId>
-			<version>1.0.0-SNAPSHOT</version>
+			<version>0.5.0</version>
 			<optional>true</optional>
 		</dependency>
 		<dependency>
