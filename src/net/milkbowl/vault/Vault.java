@@ -132,7 +132,6 @@ public class Vault extends JavaPlugin {
         getConfig().addDefault("update-check", true);
         getConfig().options().copyDefaults(true);
         saveConfig();
-
         // Load Vault Addons
         loadEconomy();
         loadPermission();
@@ -463,7 +462,13 @@ public class Vault extends JavaPlugin {
                     continue;
                 }
                 econ2.createPlayerAccount(op);
-                econ2.depositPlayer(op, econ1.getBalance(op));
+                double diff = econ1.getBalance(op) - econ2.getBalance(op);
+                if (diff > 0) {
+                	econ2.depositPlayer(op, diff);
+                } else if (diff < 0) {
+                	econ2.withdrawPlayer(op, -diff);
+                }
+                
             }
         }
         sender.sendMessage("Converson complete, please verify the data before using it.");
