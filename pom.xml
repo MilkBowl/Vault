@@ -412,6 +412,13 @@ Vault currently supports the following: Permissions 3, PEX, GroupManager, bPerms
 			<scope>system</scope>
 			<systemPath>${project.basedir}/lib/overpermissions-1.0.5.jar</systemPath>
 		</dependency>
+		<dependency>
+			<groupId>com.drewpercraft.blockbank</groupId>
+			<artifactId>BlockBank</artifactId>
+			<version>2.0.0</version>
+			<scope>system</scope>
+			<systemPath>${project.basedir}/lib/BlockBank-2.0.0.jar</systemPath>
+		</dependency>
 	</dependencies>
 
 	<build>
