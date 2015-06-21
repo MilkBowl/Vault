@@ -17,7 +17,7 @@
 	<url>http://dev.bukkit.org/server-mods/vault/</url>
 	<description>Vault is a Permissions &amp; Economy API to allow plugins to more easily hook into these systems without needing to hook each individual system themselves.
 
-Vault currently supports the following: Permissions 3, PEX, GroupManager, bPerms, bPerms2, SimplyPerms, DroxPerms, zPermissions, rscPermissions, KPerms, Starburst, iConomy (4/5/6) BOSEconomy *6/7), EssentialsEcon, 3Co, MultiConomy, MineConomy, EconXP, eWallet, CurrencyCore, XPBank, CraftConomy, AEco, SDFEconomy, TAEcon</description>
+Vault currently supports the following: Permissions 3, PEX, GroupManager, bPerms, bPerms2, SimplyPerms, DroxPerms, zPermissions, rscPermissions, KPerms, Starburst, iConomy (4/5/6) BOSEconomy *6/7), EssentialsEcon, 3Co, MultiConomy, MineConomy, EconXP, eWallet, CurrencyCore, XPBank, CraftConomy, AEco, SDFEconomy, TAEcon, and OverPermissions</description>
 
 
 
@@ -410,7 +410,7 @@ Vault currently supports the following: Permissions 3, PEX, GroupManager, bPerms
 			<version>1.0.5</version>
 			<optional>true</optional>
 			<scope>system</scope>
-			<systemPath>${project.basedir}/lib/overpermissions-1.0.5.jar</systemPath>
+			<systemPath>${project.basedir}/lib/overpermissions.jar</systemPath>
 		</dependency>
 	</dependencies>
 

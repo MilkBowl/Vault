@@ -108,6 +108,7 @@ Github and we'll get to it at our convenience.
    - bPermissions 2 (http://dev.bukkit.org/server-mods/bpermissions/)
    - DroxPerms
    - Group Manager (Essentials) (http://forums.bukkit.org/threads/15312/)
+   - OverPermissions (http://dev.bukkit.org/bukkit-plugins/overpermissions/)
    - Permissions 3 (http://forums.bukkit.org/threads/18430/)
    - PermissionsBukkit
    - Permissions Ex (http://forums.bukkit.org/threads/18140/)
@@ -125,6 +126,7 @@ Github and we'll get to it at our convenience.
    - iChat
    - mChat
    - mChatSuite
+   - OverPermissions
    - Permissions3
    - PEX
    - rscPermissions
