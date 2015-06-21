@@ -1,3 +1,15 @@
+/* This file is part of Vault.
+    Vault is free software: you can redistribute it and/or modify
+    it under the terms of the GNU Lesser General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+    Vault is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU Lesser General Public License for more details.
+    You should have received a copy of the GNU Lesser General Public License
+    along with Vault.  If not, see <http://www.gnu.org/licenses/>.
+*/
 package net.milkbowl.vault.permission.plugins;
 
 import java.util.ArrayList;
@@ -5,12 +17,17 @@ import java.util.ArrayList;
 import net.milkbowl.vault.permission.Permission;
 
 import org.bukkit.Bukkit;
-import org.bukkit.event.*;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
+import org.bukkit.event.Listener;
 import org.bukkit.event.server.PluginDisableEvent;
 import org.bukkit.event.server.PluginEnableEvent;
 import org.bukkit.plugin.Plugin;
 
-import com.overmc.overpermissions.api.*;
+import com.overmc.overpermissions.api.GroupManager;
+import com.overmc.overpermissions.api.PermissionGroup;
+import com.overmc.overpermissions.api.PermissionUser;
+import com.overmc.overpermissions.api.UserManager;
 import com.overmc.overpermissions.internal.OverPermissions;
 
 public class Permission_OverPermissions extends Permission {
@@ -20,8 +37,7 @@ public class Permission_OverPermissions extends Permission {
     private UserManager userManager;
     private GroupManager groupManager;
 
-    public Permission_OverPermissions(Plugin plugin)
-    {
+    public Permission_OverPermissions(Plugin plugin) {
         super.plugin = plugin;
         Bukkit.getServer().getPluginManager().registerEvents(new PermissionServerListener(this), plugin);
 
@@ -37,20 +53,17 @@ public class Permission_OverPermissions extends Permission {
     }
 
     @Override
-    public String getName( )
-    {
+    public String getName( ) {
         return name;
     }
 
     @Override
-    public boolean isEnabled( )
-    {
+    public boolean isEnabled( ) {
         return (overPerms != null) && (overPerms.isEnabled());
     }
 
     @Override
-    public boolean playerHas(String worldName, String playerName, String permission)
-    {
+    public boolean playerHas(String worldName, String playerName, String permission) {
         if (!userManager.doesUserExist(playerName)) {
             return false;
         }
@@ -58,8 +71,7 @@ public class Permission_OverPermissions extends Permission {
     }
 
     @Override
-    public boolean playerAdd(String worldName, String playerName, String permission)
-    {
+    public boolean playerAdd(String worldName, String playerName, String permission) {
         if (!userManager.canUserExist(playerName)) {
             return false;
         }
@@ -67,8 +79,7 @@ public class Permission_OverPermissions extends Permission {
     }
 
     @Override
-    public boolean playerRemove(String worldName, String playerName, String permission)
-    {
+    public boolean playerRemove(String worldName, String playerName, String permission) {
         if (!userManager.canUserExist(playerName)) {
             return false;
         }
@@ -76,8 +87,7 @@ public class Permission_OverPermissions extends Permission {
     }
 
     @Override
-    public boolean groupHas(String worldName, String groupName, String permission)
-    {
+    public boolean groupHas(String worldName, String groupName, String permission) {
         if (!groupManager.doesGroupExist(groupName)) {
             return false;
         }
@@ -85,8 +95,7 @@ public class Permission_OverPermissions extends Permission {
     }
 
     @Override
-    public boolean groupAdd(String worldName, String groupName, String permission)
-    {
+    public boolean groupAdd(String worldName, String groupName, String permission) {
         if (!groupManager.doesGroupExist(groupName)) {
             return false;
         }
@@ -98,8 +107,7 @@ public class Permission_OverPermissions extends Permission {
     }
 
     @Override
-    public boolean groupRemove(String worldName, String groupName, String permission)
-    {
+    public boolean groupRemove(String worldName, String groupName, String permission) {
         if (!groupManager.doesGroupExist(groupName)) {
             return false;
         }
@@ -111,8 +119,7 @@ public class Permission_OverPermissions extends Permission {
     }
 
     @Override
-    public boolean playerInGroup(String worldName, String playerName, String groupName)
-    {
+    public boolean playerInGroup(String worldName, String playerName, String groupName) {
         if (!groupManager.doesGroupExist(groupName)) {
             return false;
         }
@@ -123,8 +130,7 @@ public class Permission_OverPermissions extends Permission {
     }
 
     @Override
-    public boolean playerAddGroup(String worldName, String playerName, String groupName)
-    {
+    public boolean playerAddGroup(String worldName, String playerName, String groupName) {
         if (!groupManager.doesGroupExist(groupName)) {
             return false;
         }
@@ -135,8 +141,7 @@ public class Permission_OverPermissions extends Permission {
     }
 
     @Override
-    public boolean playerRemoveGroup(String worldName, String playerName, String groupName)
-    {
+    public boolean playerRemoveGroup(String worldName, String playerName, String groupName) {
         if (!groupManager.doesGroupExist(groupName)) {
             return false;
         }
@@ -147,8 +152,7 @@ public class Permission_OverPermissions extends Permission {
     }
 
     @Override
-    public String[] getPlayerGroups(String worldName, String playerName)
-    {
+    public String[] getPlayerGroups(String worldName, String playerName) {
         ArrayList<String> ret = new ArrayList<String>();
         if (!userManager.doesUserExist(playerName)) {
             return new String[0];
@@ -161,8 +165,7 @@ public class Permission_OverPermissions extends Permission {
     }
 
     @Override
-    public String getPrimaryGroup(String worldName, String playerName)
-    {
+    public String getPrimaryGroup(String worldName, String playerName) {
         String[] playerGroups = getPlayerGroups(worldName, playerName);
         if (playerGroups.length == 0) {
             return null;
@@ -171,8 +174,7 @@ public class Permission_OverPermissions extends Permission {
     }
 
     @Override
-    public boolean playerAddTransient(String world, String playerName, String permission)
-    {
+    public boolean playerAddTransient(String world, String playerName, String permission) {
         if (!userManager.doesUserExist(playerName)) { // Can't add transient permissions to an offline player.
             return false;
         }
@@ -181,8 +183,7 @@ public class Permission_OverPermissions extends Permission {
     }
 
     @Override
-    public boolean playerRemoveTransient(String world, String playerName, String permission)
-    {
+    public boolean playerRemoveTransient(String world, String playerName, String permission) {
         if (!userManager.doesUserExist(playerName)) {
             return false;
         }
@@ -191,8 +192,7 @@ public class Permission_OverPermissions extends Permission {
     }
 
     @Override
-    public String[] getGroups( )
-    {
+    public String[] getGroups( ) {
         ArrayList<String> groupNames = new ArrayList<String>();
         for (PermissionGroup s : groupManager.getGroups()) {
             groupNames.add(s.getName());
@@ -201,20 +201,17 @@ public class Permission_OverPermissions extends Permission {
     }
 
     @Override
-    public boolean hasSuperPermsCompat( )
-    {
+    public boolean hasSuperPermsCompat( ) {
         return true;
     }
 
     @Override
-    public boolean hasGroupSupport( )
-    {
+    public boolean hasGroupSupport( ) {
         return true;
     }
 
     public class PermissionServerListener
-            implements Listener
-    {
+            implements Listener {
         Permission_OverPermissions permission = null;
 
         public PermissionServerListener(Permission_OverPermissions permission) {

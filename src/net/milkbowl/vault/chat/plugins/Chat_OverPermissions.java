@@ -1,14 +1,31 @@
+/* This file is part of Vault.
+    Vault is free software: you can redistribute it and/or modify
+    it under the terms of the GNU Lesser General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+    Vault is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU Lesser General Public License for more details.
+    You should have received a copy of the GNU Lesser General Public License
+    along with Vault.  If not, see <http://www.gnu.org/licenses/>.
+*/
 package net.milkbowl.vault.chat.plugins;
 
 import net.milkbowl.vault.chat.Chat;
 import net.milkbowl.vault.permission.Permission;
 
-import org.bukkit.event.*;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
+import org.bukkit.event.Listener;
 import org.bukkit.event.server.PluginDisableEvent;
 import org.bukkit.event.server.PluginEnableEvent;
 import org.bukkit.plugin.Plugin;
 
-import com.overmc.overpermissions.api.*;
+import com.overmc.overpermissions.api.GroupManager;
+import com.overmc.overpermissions.api.PermissionGroup;
+import com.overmc.overpermissions.api.PermissionUser;
+import com.overmc.overpermissions.api.UserManager;
 import com.overmc.overpermissions.internal.OverPermissions;
 
 public class Chat_OverPermissions extends Chat {
@@ -17,8 +34,7 @@ public class Chat_OverPermissions extends Chat {
     private UserManager userManager;
     private GroupManager groupManager;
 
-    public Chat_OverPermissions(Plugin plugin, Permission perms)
-    {
+    public Chat_OverPermissions(Plugin plugin, Permission perms) {
         super(perms);
         this.plugin = plugin;
 
@@ -36,68 +52,57 @@ public class Chat_OverPermissions extends Chat {
     }
 
     @Override
-    public String getName( )
-    {
+    public String getName( ) {
         return "OverPermissions";
     }
 
     @Override
-    public boolean isEnabled( )
-    {
+    public boolean isEnabled( ) {
         return overPerms != null;
     }
 
     @Override
-    public String getPlayerPrefix(String world, String player)
-    {
+    public String getPlayerPrefix(String world, String player) {
         return getPlayerInfoString(world, player, "prefix", "");
     }
 
     @Override
-    public void setPlayerPrefix(String world, String player, String prefix)
-    {
+    public void setPlayerPrefix(String world, String player, String prefix) {
         setPlayerInfoString(world, player, "prefix", prefix);
     }
 
     @Override
-    public String getPlayerSuffix(String world, String player)
-    {
+    public String getPlayerSuffix(String world, String player) {
         return getPlayerInfoString(world, player, "suffix", "");
     }
 
     @Override
-    public void setPlayerSuffix(String world, String player, String suffix)
-    {
+    public void setPlayerSuffix(String world, String player, String suffix) {
         setPlayerInfoString(world, player, "suffix", suffix);
     }
 
     @Override
-    public String getGroupPrefix(String world, String group)
-    {
+    public String getGroupPrefix(String world, String group) {
         return getGroupInfoString(world, group, "prefix", "");
     }
 
     @Override
-    public void setGroupPrefix(String world, String group, String prefix)
-    {
+    public void setGroupPrefix(String world, String group, String prefix) {
         setGroupInfoString(world, group, "prefix", prefix);
     }
 
     @Override
-    public String getGroupSuffix(String world, String group)
-    {
+    public String getGroupSuffix(String world, String group) {
         return getGroupInfoString(world, group, "suffix", "");
     }
 
     @Override
-    public void setGroupSuffix(String world, String group, String suffix)
-    {
+    public void setGroupSuffix(String world, String group, String suffix) {
         setGroupInfoString(world, group, "prefix", suffix);
     }
 
     @Override
-    public int getPlayerInfoInteger(String world, String player, String node, int defaultValue)
-    {
+    public int getPlayerInfoInteger(String world, String player, String node, int defaultValue) {
         String s = getPlayerInfoString(world, player, node, null);
         if (s == null) {
             return defaultValue;
@@ -111,14 +116,12 @@ public class Chat_OverPermissions extends Chat {
     }
 
     @Override
-    public void setPlayerInfoInteger(String world, String player, String node, int value)
-    {
+    public void setPlayerInfoInteger(String world, String player, String node, int value) {
         setPlayerInfoString(world, player, node, String.valueOf(value));
     }
 
     @Override
-    public int getGroupInfoInteger(String world, String group, String node, int defaultValue)
-    {
+    public int getGroupInfoInteger(String world, String group, String node, int defaultValue) {
         String s = getGroupInfoString(world, group, node, null);
         if (s == null) {
             return defaultValue;
@@ -132,14 +135,12 @@ public class Chat_OverPermissions extends Chat {
     }
 
     @Override
-    public void setGroupInfoInteger(String world, String group, String node, int value)
-    {
+    public void setGroupInfoInteger(String world, String group, String node, int value) {
         setGroupInfoString(world, group, node, String.valueOf(value));
     }
 
     @Override
-    public double getPlayerInfoDouble(String world, String player, String node, double defaultValue)
-    {
+    public double getPlayerInfoDouble(String world, String player, String node, double defaultValue) {
         String s = getPlayerInfoString(world, player, node, null);
         if (s == null) {
             return defaultValue;
@@ -153,14 +154,12 @@ public class Chat_OverPermissions extends Chat {
     }
 
     @Override
-    public void setPlayerInfoDouble(String world, String player, String node, double value)
-    {
+    public void setPlayerInfoDouble(String world, String player, String node, double value) {
         setPlayerInfoString(world, player, node, String.valueOf(value));
     }
 
     @Override
-    public double getGroupInfoDouble(String world, String group, String node, double defaultValue)
-    {
+    public double getGroupInfoDouble(String world, String group, String node, double defaultValue) {
         String s = getGroupInfoString(world, group, node, null);
         if (s == null) {
             return defaultValue;
@@ -174,14 +173,12 @@ public class Chat_OverPermissions extends Chat {
     }
 
     @Override
-    public void setGroupInfoDouble(String world, String group, String node, double value)
-    {
+    public void setGroupInfoDouble(String world, String group, String node, double value) {
         setGroupInfoString(world, group, node, String.valueOf(value));
     }
 
     @Override
-    public boolean getPlayerInfoBoolean(String world, String player, String node, boolean defaultValue)
-    {
+    public boolean getPlayerInfoBoolean(String world, String player, String node, boolean defaultValue) {
         String s = getPlayerInfoString(world, player, node, null);
         if (s == null) {
             return defaultValue;
@@ -191,14 +188,12 @@ public class Chat_OverPermissions extends Chat {
     }
 
     @Override
-    public void setPlayerInfoBoolean(String world, String player, String node, boolean value)
-    {
+    public void setPlayerInfoBoolean(String world, String player, String node, boolean value) {
         setPlayerInfoString(world, player, node, String.valueOf(value));
     }
 
     @Override
-    public boolean getGroupInfoBoolean(String world, String group, String node, boolean defaultValue)
-    {
+    public boolean getGroupInfoBoolean(String world, String group, String node, boolean defaultValue) {
         String s = getGroupInfoString(world, group, node, null);
         if (s == null) {
             return defaultValue;
@@ -208,14 +203,12 @@ public class Chat_OverPermissions extends Chat {
     }
 
     @Override
-    public void setGroupInfoBoolean(String world, String group, String node, boolean value)
-    {
+    public void setGroupInfoBoolean(String world, String group, String node, boolean value) {
         setGroupInfoString(world, group, node, String.valueOf(value));
     }
 
     @Override
-    public String getPlayerInfoString(String world, String playerName, String node, String defaultValue)
-    {
+    public String getPlayerInfoString(String world, String playerName, String node, String defaultValue) {
         if (!userManager.doesUserExist(playerName)) {
             return defaultValue;
         }
@@ -234,8 +227,7 @@ public class Chat_OverPermissions extends Chat {
     }
 
     @Override
-    public void setPlayerInfoString(String world, String playerName, String node, String value)
-    {
+    public void setPlayerInfoString(String world, String playerName, String node, String value) {
         if (!userManager.canUserExist(playerName)) {
             return;
         }
@@ -256,8 +248,7 @@ public class Chat_OverPermissions extends Chat {
     }
 
     @Override
-    public String getGroupInfoString(String world, String groupName, String node, String defaultValue)
-    {
+    public String getGroupInfoString(String world, String groupName, String node, String defaultValue) {
         if (!groupManager.doesGroupExist(groupName)) {
             return defaultValue;
         }
@@ -276,8 +267,7 @@ public class Chat_OverPermissions extends Chat {
     }
 
     @Override
-    public void setGroupInfoString(String world, String groupName, String node, String value)
-    {
+    public void setGroupInfoString(String world, String groupName, String node, String value) {
         if (!overPerms.getGroupManager().doesGroupExist(groupName)) {
             return;
         }
@@ -297,8 +287,7 @@ public class Chat_OverPermissions extends Chat {
         }
     }
 
-    public class PermissionServerListener implements Listener
-    {
+    public class PermissionServerListener implements Listener {
         Chat_OverPermissions chat = null;
 
         public PermissionServerListener(Chat_OverPermissions chat) {
