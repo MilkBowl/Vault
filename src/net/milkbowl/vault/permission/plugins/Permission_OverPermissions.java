@@ -31,8 +31,6 @@ import com.overmc.overpermissions.api.UserManager;
 import com.overmc.overpermissions.internal.OverPermissions;
 
 public class Permission_OverPermissions extends Permission {
-
-    private final String name = "OverPermissions";
     private OverPermissions overPerms;
     private UserManager userManager;
     private GroupManager groupManager;
@@ -54,7 +52,7 @@ public class Permission_OverPermissions extends Permission {
 
     @Override
     public String getName( ) {
-        return name;
+        return "OverPermissions";
     }
 
     @Override

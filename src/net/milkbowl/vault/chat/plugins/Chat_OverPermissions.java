@@ -53,7 +53,7 @@ public class Chat_OverPermissions extends Chat {
 
     @Override
     public String getName( ) {
-        return "OverPermissions";
+        return "OverPermissions_Chat";
     }
 
     @Override
