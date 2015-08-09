@@ -12,7 +12,7 @@
 	<!-- Project information -->
 	<groupId>net.milkbowl.vault</groupId>
 	<artifactId>Vault</artifactId>
-	<version>${api.version}.3</version>
+	<version>${api.version}.4</version>
 	<name>Vault</name>
 	<url>http://dev.bukkit.org/server-mods/vault/</url>
 	<description>Vault is a Permissions &amp; Economy API to allow plugins to more easily hook into these systems without needing to hook each individual system themselves.
@@ -321,7 +321,7 @@ Vault currently supports the following: Permissions 3, PEX, GroupManager, bPerms
 		<dependency>
 			<groupId>com.greatmancode</groupId>
 			<artifactId>craftconomy3</artifactId>
-			<version>3.2.1</version>
+			<version>3.2.2-SNAPSHOT</version>
 			<optional>true</optional>
 		</dependency>
 		<dependency>
