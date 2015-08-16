@@ -12,7 +12,7 @@
 	<!-- Project information -->
 	<groupId>net.milkbowl.vault</groupId>
 	<artifactId>Vault</artifactId>
-	<version>${api.version}.4</version>
+	<version>${api.version}.5</version>
 	<name>Vault</name>
 	<url>http://dev.bukkit.org/server-mods/vault/</url>
 	<description>Vault is a Permissions &amp; Economy API to allow plugins to more easily hook into these systems without needing to hook each individual system themselves.
@@ -71,7 +71,7 @@ Vault currently supports the following: Permissions 3, PEX, GroupManager, bPerms
 		</repository>
 		<repository>
 			<id>krinsoft</id>
-			<url>http://files.krinsoft.net:8085/nexus/content/groups/public</url>
+			<url>http://ci.krincraft.net/plugin/repository/everything/</url>
 		</repository>
 		<repository>
 			<id>escapecraft-repo</id>
@@ -115,7 +115,7 @@ Vault currently supports the following: Permissions 3, PEX, GroupManager, bPerms
 		<dependency>
 			<groupId>net.krinsoft</groupId>
 			<artifactId>Privileges</artifactId>
-			<version>1.7.4</version>
+			<version>1.8.1</version>
 			<optional>true</optional>
 		</dependency>
 		<dependency>
