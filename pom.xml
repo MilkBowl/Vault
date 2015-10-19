@@ -117,6 +117,8 @@ Vault currently supports the following: Permissions 3, PEX, GroupManager, bPerms
 			<artifactId>Privileges</artifactId>
 			<version>1.8.1</version>
 			<optional>true</optional>
+			<scope>system</scope>
+			<systemPath>${project.basedir}/lib/Priviliges.jar</systemPath>
 		</dependency>
 		<dependency>
 			<groupId>is.currency</groupId>
