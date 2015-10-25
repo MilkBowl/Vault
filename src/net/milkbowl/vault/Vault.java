@@ -38,6 +38,7 @@ import net.milkbowl.vault.chat.plugins.Chat_iChat;
 import net.milkbowl.vault.chat.plugins.Chat_mChat;
 import net.milkbowl.vault.chat.plugins.Chat_mChatSuite;
 import net.milkbowl.vault.chat.plugins.Chat_rscPermissions;
+import net.milkbowl.vault.chat.plugins.Chat_TotalPermissions;
 import net.milkbowl.vault.economy.Economy;
 import net.milkbowl.vault.economy.plugins.Economy_BOSE7;
 import net.milkbowl.vault.economy.plugins.Economy_CommandsEX;
@@ -58,7 +59,9 @@ import net.milkbowl.vault.economy.plugins.Economy_XPBank;
 import net.milkbowl.vault.economy.plugins.Economy_eWallet;
 import net.milkbowl.vault.economy.plugins.Economy_iConomy6;
 import net.milkbowl.vault.economy.plugins.Economy_SDFEconomy;
-import net.milkbowl.vault.economy.plugins.Economy_Minefaconomy;  
+import net.milkbowl.vault.economy.plugins.Economy_Minefaconomy;
+import net.milkbowl.vault.economy.plugins.Economy_MiConomy;
+import net.milkbowl.vault.economy.plugins.Economy_WorldEconomy;
 import net.milkbowl.vault.permission.Permission;
 import net.milkbowl.vault.permission.plugins.Permission_DroxPerms;
 import net.milkbowl.vault.permission.plugins.Permission_GroupManager;
@@ -98,9 +101,6 @@ import org.json.simple.JSONObject;
 import org.json.simple.JSONValue;
 
 import com.nijikokun.register.payment.Methods;
-
-import net.milkbowl.vault.chat.plugins.Chat_TotalPermissions;
-import net.milkbowl.vault.economy.plugins.Economy_MiConomy;
 
 public class Vault extends JavaPlugin {
 
@@ -304,6 +304,9 @@ public class Vault extends JavaPlugin {
 
         // Try to load DigiCoin
         hookEconomy("DigiCoin", Economy_DigiCoin.class, ServicePriority.Normal, "co.uk.silvania.cities.digicoin.DigiCoin");
+        
+        // Try to load WorldEconomy
+        hookEconomy("WorldEconomy", Economy_WorldEconomy.class, ServicePriority.Normal, "es.worldcraft.worldeconomy.main.WorldEconomyVault");
     }
 
     /**
