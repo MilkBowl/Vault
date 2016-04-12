@@ -93,6 +93,7 @@ import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.ServicePriority;
 import org.bukkit.plugin.ServicesManager;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.scheduler.BukkitRunnable;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.JSONValue;
@@ -142,46 +143,49 @@ public class Vault extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new VaultListener(), this);
         // Schedule to check the version every 30 minutes for an update. This is to update the most recent 
         // version so if an admin reconnects they will be warned about newer versions.
-        this.getServer().getScheduler().runTask(this, new Runnable() {
-
-            @Override
-            public void run() {
-                // Programmatically set the default permission value cause Bukkit doesn't handle plugin.yml properly for Load order STARTUP plugins
-                org.bukkit.permissions.Permission perm = getServer().getPluginManager().getPermission("vault.update");
-                if (perm == null)
-                {
-                    perm = new org.bukkit.permissions.Permission("vault.update");
-                    perm.setDefault(PermissionDefault.OP);
-                    plugin.getServer().getPluginManager().addPermission(perm);
-                }
-                perm.setDescription("Allows a user or the console to check for vault updates");
-
-                getServer().getScheduler().runTaskTimerAsynchronously(plugin, new Runnable() {
-
-                    @Override
-                    public void run() {
-                        if (getServer().getConsoleSender().hasPermission("vault.update") && getConfig().getBoolean("update-check", true)) {
-                            try {
-                            	log.info("Checking for Updates ... ");
-                                newVersion = updateCheck(currentVersion);
-                                if (newVersion > currentVersion) {
-                                    log.warning("Stable Version: " + newVersionTitle + " is out!" + " You are still running version: " + currentVersionTitle);
-                                    log.warning("Update at: http://dev.bukkit.org/server-mods/vault");
-                                } else if (currentVersion > newVersion) {
-                                    log.info("Stable Version: " + newVersionTitle + " | Current Version: " + currentVersionTitle);
-                                } else {
-                                    log.info("No new version available");
-                                }
-                            } catch (Exception e) {
-                                // ignore exceptions
-                            }
-                        }
-                    }
-                }, 0, 432000);
-
-            }
-
-        });
+        
+		new BukkitRunnable() {
+			
+			@Override
+			public void run() {
+				// Programmatically set the default permission value cause
+		        // Bukkit doesn't handle plugin.yml properly for Load order
+		        // STARTUP plugins
+				org.bukkit.permissions.Permission perm = getServer().getPluginManager().getPermission("vault.update");
+				if (perm == null) {
+					perm = new org.bukkit.permissions.Permission("vault.update");
+					perm.setDefault(PermissionDefault.OP);
+					plugin.getServer().getPluginManager().addPermission(perm);
+				}
+				perm.setDescription("Allows a user or the console to check for vault updates");
+				
+				new BukkitRunnable() {
+			        
+			        @Override
+			        public void run() {
+				        if (getServer().getConsoleSender().hasPermission("vault.update")
+		                        && getConfig().getBoolean("update-check", true)) {
+					        try {
+						        log.info("Checking for Updates ... ");
+						        newVersion = updateCheck(currentVersion);
+						        if (newVersion > currentVersion) {
+							        log.warning("Stable Version: " + newVersionTitle + " is out!"
+		                                    + " You are still running version: " + currentVersionTitle);
+							        log.warning("Update at: http://dev.bukkit.org/server-mods/vault");
+						        } else if (currentVersion > newVersion) {
+							        log.info("Stable Version: " + newVersionTitle + " | Current Version: "
+		                                    + currentVersionTitle);
+						        } else {
+							        log.info("No new version available");
+						        }
+					        } catch (Exception e) {
+						        // ignore exceptions
+					        }
+				        }
+			        }
+		        }.runTaskTimerAsynchronously(plugin, 0, 432000);
+			}
+		}.runTask(this);
 
         // Load up the Plugin metrics
         try {
