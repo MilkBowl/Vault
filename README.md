@@ -99,6 +99,7 @@ Github and we'll get to it at our convenience.
    - MineConomy (http://dev.bukkit.org/server-mods/mineconomy/)
    - MineFaconomy2
    - MultiCurrency
+   - SaneEconomy
    - SDFEconomy
    - TAEcon
    - XPBank
