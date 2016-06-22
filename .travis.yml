@@ -1,5 +1,6 @@
 language: java
 jdk: [ openjdk7 ]
+sudo: false
 env:
   global:
     - secure: "WGObsHmjnqn5e0nbXLGetwpUHU0UgvNk02+f0m3jIS7hSdBy5m1JK2K6NXV13brY0C9i0DLy0e7JKabqmqTxI94dT0LrYBxcvfmtZ/7PujOn/D9CzVimGj6g20hBDYwAXL6KAIR7JL8qexQBwIkVZPdwaA+k+UHLM9XVoIQdFgU="
