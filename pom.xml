@@ -42,7 +42,7 @@ Vault currently supports the following: Permissions 3, PEX, GroupManager, bPerms
 		<repository>
 			<id>pub-repo</id>
 			<name>Public Releases</name>
-			<url>http://nexus.theyeticave.net/content/repositories/pub_releases/</url>
+			<url>http://nexus.hc.to/content/repositories/pub_releases/</url>
 		</repository>
 		<snapshotRepository>
 			<id>pub-repo</id>
