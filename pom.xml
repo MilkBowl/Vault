@@ -47,7 +47,7 @@ Vault currently supports the following: Permissions 3, PEX, GroupManager, bPerms
 		<snapshotRepository>
 			<id>pub-repo</id>
 			<name>Public Snapshots</name>
-			<url>http://nexus.theyeticave.net/content/repositories/pub_snapshots/</url>
+			<url>http://nexus.hc.to/content/repositories/pub_snapshots/</url>
 		</snapshotRepository>
 	</distributionManagement>
 
@@ -55,7 +55,7 @@ Vault currently supports the following: Permissions 3, PEX, GroupManager, bPerms
 		<repository>
 			<id>pub-repo</id>
 			<name>Public Releases</name>
-			<url>http://nexus.theyeticave.net/content/repositories/pub_releases/</url>
+			<url>http://nexus.hc.to/content/repositories/pub_releases/</url>
 		</repository>
 		<repository>
 			<id>spigot-repo</id>
@@ -68,10 +68,6 @@ Vault currently supports the following: Permissions 3, PEX, GroupManager, bPerms
 		<repository>
 			<id>bukkit-repo</id>
 			<url>http://repo.bukkit.org/content/groups/public/</url>
-		</repository>
-		<repository>
-			<id>krinsoft</id>
-			<url>http://ci.krincraft.net/plugin/repository/everything/</url>
 		</repository>
 		<repository>
 			<id>escapecraft-repo</id>
