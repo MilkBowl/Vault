@@ -410,6 +410,14 @@ Vault currently supports the following: Permissions 3, PEX, GroupManager, bPerms
 			<scope>system</scope>
 			<systemPath>${project.basedir}/lib/overpermissions-2.0.0.jar</systemPath>
 		</dependency>
+		<dependency>
+			<groupId>es.worldcraft.worldeconomy</groupId>
+			<artifactId>WorldEconomy</artifactId>
+			<version>1.0.0</version>
+			<optional>true</optional>
+			<scope>system</scope>
+			<systemPath>${project.basedir}/lib/WorldEconomy.jar</systemPath>
+		</dependency>
 	</dependencies>
 
 	<build>
