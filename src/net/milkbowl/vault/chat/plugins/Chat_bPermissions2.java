@@ -23,6 +23,7 @@ import net.milkbowl.vault.permission.Permission;
 import org.bukkit.Bukkit;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
+import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
 import org.bukkit.event.server.PluginDisableEvent;
 import org.bukkit.event.server.PluginEnableEvent;
@@ -95,6 +96,11 @@ public class Chat_bPermissions2 extends Chat {
     @Override
     public String getPlayerPrefix(String world, String player) {
         return ApiLayer.getValue(world, CalculableType.USER, player, "prefix");
+    }
+    
+    @Override
+    public String getPlayerPrefix(Player player) {
+        return de.bananaco.bpermissions.api.WorldManager.getInstance().getWorld(player.getWorld().getName()).getGroup(player.getName()).getMeta().get("prefix");
     }
 
     @Override
