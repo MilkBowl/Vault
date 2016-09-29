@@ -199,43 +199,43 @@ public class Vault extends JavaPlugin {
      */
     private void loadChat() {
         // Try to load PermissionsEx
-        hookChat("PermissionsEx", Chat_PermissionsEx.class, ServicePriority.Highest, "ru.tehkode.permissions.bukkit.PermissionsEx");
+        hookChat("PermissionsEx", Chat_PermissionsEx.class, ServicePriority.Normal, "ru.tehkode.permissions.bukkit.PermissionsEx");
 
         // Try to load mChatSuite
-        hookChat("mChatSuite", Chat_mChatSuite.class, ServicePriority.Highest, "in.mDev.MiracleM4n.mChatSuite.mChatSuite");
+        hookChat("mChatSuite", Chat_mChatSuite.class, ServicePriority.Normal, "in.mDev.MiracleM4n.mChatSuite.mChatSuite");
 
         // Try to load mChat
-        hookChat("mChat", Chat_mChat.class, ServicePriority.Highest, "net.D3GN.MiracleM4n.mChat");
+        hookChat("mChat", Chat_mChat.class, ServicePriority.Normal, "net.D3GN.MiracleM4n.mChat");
 
         // Try to load OverPermissions
-        hookChat("OverPermissions", Chat_OverPermissions.class, ServicePriority.Highest, "com.overmc.overpermissions.internal.OverPermissions");
+        hookChat("OverPermissions", Chat_OverPermissions.class, ServicePriority.Normal, "com.overmc.overpermissions.internal.OverPermissions");
 
         // Try to load DroxPerms Chat
         hookChat("DroxPerms", Chat_DroxPerms.class, ServicePriority.Lowest, "de.hydrox.bukkit.DroxPerms.DroxPerms");
 
         // Try to load bPermssions 2
-        hookChat("bPermssions2", Chat_bPermissions2.class, ServicePriority.Highest, "de.bananaco.bpermissions.api.ApiLayer");
+        hookChat("bPermssions2", Chat_bPermissions2.class, ServicePriority.Normal, "de.bananaco.bpermissions.api.ApiLayer");
 
         // Try to load bPermissions 1
-        hookChat("bPermissions", Chat_bPermissions.class, ServicePriority.Normal, "de.bananaco.permissions.info.InfoReader");
+        hookChat("bPermissions", Chat_bPermissions.class, ServicePriority.Low, "de.bananaco.permissions.info.InfoReader");
 
         // Try to load GroupManager
-        hookChat("GroupManager", Chat_GroupManager.class, ServicePriority.Normal, "org.anjocaido.groupmanager.GroupManager");
+        hookChat("GroupManager", Chat_GroupManager.class, ServicePriority.Low, "org.anjocaido.groupmanager.GroupManager");
 
         // Try to load Permissions 3 (Yeti)
-        hookChat("Permissions3", Chat_Permissions3.class, ServicePriority.Normal, "com.nijiko.permissions.ModularControl");
+        hookChat("Permissions3", Chat_Permissions3.class, ServicePriority.Low, "com.nijiko.permissions.ModularControl");
 
         // Try to load iChat
-        hookChat("iChat", Chat_iChat.class, ServicePriority.Low, "net.TheDgtl.iChat.iChat");
+        hookChat("iChat", Chat_iChat.class, ServicePriority.Lowest, "net.TheDgtl.iChat.iChat");
 
         // Try to load Privileges
-        hookChat("Privileges", Chat_Privileges.class, ServicePriority.Normal, "net.krinsoft.privileges.Privileges");
+        hookChat("Privileges", Chat_Privileges.class, ServicePriority.Low, "net.krinsoft.privileges.Privileges");
 
         // Try to load rscPermissions
-        hookChat("rscPermissions", Chat_rscPermissions.class, ServicePriority.Normal, "ru.simsonic.rscPermissions.MainPluginClass");
+        hookChat("rscPermissions", Chat_rscPermissions.class, ServicePriority.Low, "ru.simsonic.rscPermissions.MainPluginClass");
 
         //Try to load TotalPermissions
-        hookChat("TotalPermissions", Chat_TotalPermissions.class, ServicePriority.Normal, "net.ar97.totalpermissions.TotalPermissions");
+        hookChat("TotalPermissions", Chat_TotalPermissions.class, ServicePriority.Low, "net.ar97.totalpermissions.TotalPermissions");
     }
 
     /**
@@ -243,67 +243,67 @@ public class Vault extends JavaPlugin {
      */
     private void loadEconomy() {
         // Try to load MiConomy
-        hookEconomy("MiConomy", Economy_MiConomy.class, ServicePriority.Normal, "com.gmail.bleedobsidian.miconomy.Main");
+        hookEconomy("MiConomy", Economy_MiConomy.class, ServicePriority.Low, "com.gmail.bleedobsidian.miconomy.Main");
 
         // Try to load MiFaConomy
-        hookEconomy("MineFaConomy", Economy_Minefaconomy.class, ServicePriority.Normal, "me.coniin.plugins.minefaconomy.Minefaconomy");
+        hookEconomy("MineFaConomy", Economy_Minefaconomy.class, ServicePriority.Low, "me.coniin.plugins.minefaconomy.Minefaconomy");
 
         // Try to load MultiCurrency
-        hookEconomy("MultiCurrency", Economy_MultiCurrency.class, ServicePriority.Normal, "me.ashtheking.currency.Currency", "me.ashtheking.currency.CurrencyList");
+        hookEconomy("MultiCurrency", Economy_MultiCurrency.class, ServicePriority.Low, "me.ashtheking.currency.Currency", "me.ashtheking.currency.CurrencyList");
 
         // Try to load MineConomy
-        hookEconomy("MineConomy", Economy_MineConomy.class, ServicePriority.Normal, "me.mjolnir.mineconomy.MineConomy");
+        hookEconomy("MineConomy", Economy_MineConomy.class, ServicePriority.Low, "me.mjolnir.mineconomy.MineConomy");
 
         // Try to load McMoney
-        hookEconomy("McMoney", Economy_McMoney.class, ServicePriority.Normal, "boardinggamer.mcmoney.McMoneyAPI");
+        hookEconomy("McMoney", Economy_McMoney.class, ServicePriority.Low, "boardinggamer.mcmoney.McMoneyAPI");
 
         // Try to load Craftconomy3
-        hookEconomy("CraftConomy3", Economy_Craftconomy3.class, ServicePriority.Normal, "com.greatmancode.craftconomy3.tools.interfaces.BukkitLoader");
+        hookEconomy("CraftConomy3", Economy_Craftconomy3.class, ServicePriority.Low, "com.greatmancode.craftconomy3.tools.interfaces.BukkitLoader");
 
         // Try to load eWallet
-        hookEconomy("eWallet", Economy_eWallet.class, ServicePriority.Normal, "me.ethan.eWallet.ECO");
+        hookEconomy("eWallet", Economy_eWallet.class, ServicePriority.Low, "me.ethan.eWallet.ECO");
 
         // Try to load BOSEconomy 7
-        hookEconomy("BOSEconomy7", Economy_BOSE7.class, ServicePriority.Normal, "cosine.boseconomy.BOSEconomy", "cosine.boseconomy.CommandHandler");
+        hookEconomy("BOSEconomy7", Economy_BOSE7.class, ServicePriority.Low, "cosine.boseconomy.BOSEconomy", "cosine.boseconomy.CommandHandler");
 
         // Try to load CurrencyCore
-        hookEconomy("CurrencyCore", Economy_CurrencyCore.class, ServicePriority.Normal, "is.currency.Currency");
+        hookEconomy("CurrencyCore", Economy_CurrencyCore.class, ServicePriority.Low, "is.currency.Currency");
 
         // Try to load Gringotts
-        hookEconomy("Gringotts", Economy_Gringotts.class, ServicePriority.Normal, "org.gestern.gringotts.Gringotts");
+        hookEconomy("Gringotts", Economy_Gringotts.class, ServicePriority.Low, "org.gestern.gringotts.Gringotts");
 
         // Try to load Essentials Economy
-        hookEconomy("Essentials Economy", Economy_Essentials.class, ServicePriority.Low, "com.earth2me.essentials.api.Economy", "com.earth2me.essentials.api.NoLoanPermittedException",  "com.earth2me.essentials.api.UserDoesNotExistException");
+        hookEconomy("Essentials Economy", Economy_Essentials.class, ServicePriority.Lowest, "com.earth2me.essentials.api.Economy", "com.earth2me.essentials.api.NoLoanPermittedException",  "com.earth2me.essentials.api.UserDoesNotExistException");
 
         // Try to load iConomy 6
-        hookEconomy("iConomy 6", Economy_iConomy6.class, ServicePriority.High, "com.iCo6.iConomy");
+        hookEconomy("iConomy 6", Economy_iConomy6.class, ServicePriority.Normal, "com.iCo6.iConomy");
 
         // Try to load EconXP
-        hookEconomy("EconXP", Economy_EconXP.class, ServicePriority.Normal, "ca.agnate.EconXP.EconXP");
+        hookEconomy("EconXP", Economy_EconXP.class, ServicePriority.Low, "ca.agnate.EconXP.EconXP");
 
         // Try to load GoldIsMoney2
-        hookEconomy("GoldIsMoney2", Economy_GoldIsMoney2.class, ServicePriority.Normal, "com.flobi.GoldIsMoney2.GoldIsMoney");
+        hookEconomy("GoldIsMoney2", Economy_GoldIsMoney2.class, ServicePriority.Low, "com.flobi.GoldIsMoney2.GoldIsMoney");
 
         // Try to load GoldenChestEconomy
-        hookEconomy("GoldenChestEconomy", Economy_GoldenChestEconomy.class, ServicePriority.Normal, "me.igwb.GoldenChest.GoldenChestEconomy");
+        hookEconomy("GoldenChestEconomy", Economy_GoldenChestEconomy.class, ServicePriority.Low, "me.igwb.GoldenChest.GoldenChestEconomy");
 
         // Try to load Dosh
-        hookEconomy("Dosh", Economy_Dosh.class, ServicePriority.Normal, "com.gravypod.Dosh.Dosh");
+        hookEconomy("Dosh", Economy_Dosh.class, ServicePriority.Low, "com.gravypod.Dosh.Dosh");
 
         // Try to load CommandsEX Economy
-        hookEconomy("CommandsEX", Economy_CommandsEX.class, ServicePriority.Normal, "com.github.zathrus_writer.commandsex.api.EconomyAPI");
+        hookEconomy("CommandsEX", Economy_CommandsEX.class, ServicePriority.Low, "com.github.zathrus_writer.commandsex.api.EconomyAPI");
 
         // Try to load SDFEconomy Economy
-        hookEconomy("SDFEconomy", Economy_SDFEconomy.class, ServicePriority.Normal, "com.github.omwah.SDFEconomy.SDFEconomy");
+        hookEconomy("SDFEconomy", Economy_SDFEconomy.class, ServicePriority.Low, "com.github.omwah.SDFEconomy.SDFEconomy");
 
         // Try to load XPBank
-        hookEconomy("XPBank", Economy_XPBank.class, ServicePriority.Normal, "com.gmail.mirelatrue.xpbank.XPBank");
+        hookEconomy("XPBank", Economy_XPBank.class, ServicePriority.Low, "com.gmail.mirelatrue.xpbank.XPBank");
 
         // Try to load TAEcon
-        hookEconomy("TAEcon", Economy_TAEcon.class, ServicePriority.Normal, "net.teamalpha.taecon.TAEcon");
+        hookEconomy("TAEcon", Economy_TAEcon.class, ServicePriority.Low, "net.teamalpha.taecon.TAEcon");
 
         // Try to load DigiCoin
-        hookEconomy("DigiCoin", Economy_DigiCoin.class, ServicePriority.Normal, "co.uk.silvania.cities.digicoin.DigiCoin");
+        hookEconomy("DigiCoin", Economy_DigiCoin.class, ServicePriority.Low, "co.uk.silvania.cities.digicoin.DigiCoin");
     }
 
     /**
@@ -311,49 +311,49 @@ public class Vault extends JavaPlugin {
      */
     private void loadPermission() {
         // Try to load Starburst
-        hookPermission("Starburst", Permission_Starburst.class, ServicePriority.Highest, "com.dthielke.starburst.StarburstPlugin");
+        hookPermission("Starburst", Permission_Starburst.class, ServicePriority.Normal, "com.dthielke.starburst.StarburstPlugin");
 
         // Try to load PermissionsEx
-        hookPermission("PermissionsEx", Permission_PermissionsEx.class, ServicePriority.Highest, "ru.tehkode.permissions.bukkit.PermissionsEx");
+        hookPermission("PermissionsEx", Permission_PermissionsEx.class, ServicePriority.Normal, "ru.tehkode.permissions.bukkit.PermissionsEx");
 
         // Try to load OverPermissions
-        hookPermission("OverPermissions", Permission_OverPermissions.class, ServicePriority.Highest, "com.overmc.overpermissions.internal.OverPermissions");
+        hookPermission("OverPermissions", Permission_OverPermissions.class, ServicePriority.Normal, "com.overmc.overpermissions.internal.OverPermissions");
 
         // Try to load PermissionsBukkit
-        hookPermission("PermissionsBukkit", Permission_PermissionsBukkit.class, ServicePriority.Normal, "com.platymuus.bukkit.permissions.PermissionsPlugin");
+        hookPermission("PermissionsBukkit", Permission_PermissionsBukkit.class, ServicePriority.Low, "com.platymuus.bukkit.permissions.PermissionsPlugin");
 
         // Try to load DroxPerms
-        hookPermission("DroxPerms", Permission_DroxPerms.class, ServicePriority.High, "de.hydrox.bukkit.DroxPerms.DroxPerms");
+        hookPermission("DroxPerms", Permission_DroxPerms.class, ServicePriority.Low, "de.hydrox.bukkit.DroxPerms.DroxPerms");
 
         // Try to load SimplyPerms
-        hookPermission("SimplyPerms", Permission_SimplyPerms.class, ServicePriority.Highest, "net.crystalyx.bukkit.simplyperms.SimplyPlugin");
+        hookPermission("SimplyPerms", Permission_SimplyPerms.class, ServicePriority.Normal, "net.crystalyx.bukkit.simplyperms.SimplyPlugin");
 
         // Try to load bPermissions2
-        hookPermission("bPermissions 2", Permission_bPermissions2.class, ServicePriority.Highest, "de.bananaco.bpermissions.api.WorldManager");
+        hookPermission("bPermissions 2", Permission_bPermissions2.class, ServicePriority.Normal, "de.bananaco.bpermissions.api.WorldManager");
 
         // Try to load Privileges
-        hookPermission("Privileges", Permission_Privileges.class, ServicePriority.Highest, "net.krinsoft.privileges.Privileges");
+        hookPermission("Privileges", Permission_Privileges.class, ServicePriority.Normal, "net.krinsoft.privileges.Privileges");
 
         // Try to load bPermissions
-        hookPermission("bPermissions", Permission_bPermissions.class, ServicePriority.High, "de.bananaco.permissions.SuperPermissionHandler");
+        hookPermission("bPermissions", Permission_bPermissions.class, ServicePriority.Low, "de.bananaco.permissions.SuperPermissionHandler");
 
         // Try to load GroupManager
-        hookPermission("GroupManager", Permission_GroupManager.class, ServicePriority.High, "org.anjocaido.groupmanager.GroupManager");
+        hookPermission("GroupManager", Permission_GroupManager.class, ServicePriority.Low, "org.anjocaido.groupmanager.GroupManager");
 
         // Try to load Permissions 3 (Yeti)
-        hookPermission("Permissions 3 (Yeti)", Permission_Permissions3.class, ServicePriority.Normal, "com.nijiko.permissions.ModularControl");
+        hookPermission("Permissions 3 (Yeti)", Permission_Permissions3.class, ServicePriority.Low, "com.nijiko.permissions.ModularControl");
 
         // Try to load Xperms
         hookPermission("Xperms", Permission_Xperms.class, ServicePriority.Low, "com.github.sebc722.Xperms");
 
         //Try to load TotalPermissions
-        hookPermission("TotalPermissions", Permission_TotalPermissions.class, ServicePriority.Normal, "net.ae97.totalpermissions.TotalPermissions");
+        hookPermission("TotalPermissions", Permission_TotalPermissions.class, ServicePriority.Low, "net.ae97.totalpermissions.TotalPermissions");
 
         // Try to load rscPermissions
-        hookPermission("rscPermissions", Permission_rscPermissions.class, ServicePriority.Normal, "ru.simsonic.rscPermissions.MainPluginClass");
+        hookPermission("rscPermissions", Permission_rscPermissions.class, ServicePriority.Low, "ru.simsonic.rscPermissions.MainPluginClass");
 
         // Try to load KPerms
-        hookPermission("KPerms", Permission_KPerms.class, ServicePriority.Normal, "com.lightniinja.kperms.KPermsPlugin");
+        hookPermission("KPerms", Permission_KPerms.class, ServicePriority.Low, "com.lightniinja.kperms.KPermsPlugin");
 
         Permission perms = new Permission_SuperPerms(this);
         sm.register(Permission.class, perms, this, ServicePriority.Lowest);
