@@ -132,7 +132,7 @@ public class Vault extends JavaPlugin {
         currentVersion = Double.valueOf(currentVersionTitle.replaceFirst("\\.", ""));
         sm = getServer().getServicesManager();
         // set defaults
-        getConfig().addDefault("update-check", true);
+        getConfig().addDefault("update-check", false);
         getConfig().options().copyDefaults(true);
         saveConfig();
         // Load Vault Addons
