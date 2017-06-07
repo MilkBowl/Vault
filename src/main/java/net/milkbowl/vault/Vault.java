@@ -76,6 +76,7 @@ import net.milkbowl.vault.permission.plugins.Permission_TotalPermissions;
 import net.milkbowl.vault.permission.plugins.Permission_rscPermissions;
 import net.milkbowl.vault.permission.plugins.Permission_KPerms;
 
+import org.bstats.Metrics;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.Command;
@@ -110,7 +111,6 @@ public class Vault extends JavaPlugin {
     private double currentVersion = 0;
     private String currentVersionTitle = "";
     private ServicesManager sm;
-    private Metrics metrics;
     private Vault plugin;
 
     @Override
@@ -139,7 +139,7 @@ public class Vault extends JavaPlugin {
         getCommand("vault-info").setExecutor(this);
         getCommand("vault-convert").setExecutor(this);
         getServer().getPluginManager().registerEvents(new VaultListener(), this);
-        // Schedule to check the version every 30 minutes for an update. This is to update the most recent 
+        // Schedule to check the version every 30 minutes for an update. This is to update the most recent
         // version so if an admin reconnects they will be warned about newer versions.
         this.getServer().getScheduler().runTask(this, new Runnable() {
 
@@ -184,12 +184,44 @@ public class Vault extends JavaPlugin {
 
         // Load up the Plugin metrics
         try {
-            metrics = new Metrics(this);
-            metrics.findCustomData();
-            metrics.start();
-        } catch (IOException e) {
-            // ignore exception
+            Metrics metrics = new Metrics(this);
+            metrics.addCustomChart(new Metrics.SimplePie("permission_service") {
+                @Override
+                public String getValue() {
+                    final RegisteredServiceProvider<Permission> service =
+                        getServer().getServicesManager().getRegistration(Permission.class);
+                    if(service != null && service.getPlugin() != null) {
+                        return service.getPlugin().getName();
+                    }
+                    return "None";
+                }
+            });
+            metrics.addCustomChart(new Metrics.SimplePie("economy_service") {
+                @Override
+                public String getValue() {
+                    final RegisteredServiceProvider<Economy> service =
+                        getServer().getServicesManager().getRegistration(Economy.class);
+                    if(service != null && service.getPlugin() != null) {
+                        return service.getPlugin().getName();
+                    }
+                    return "None";
+                }
+            });
+            metrics.addCustomChart(new Metrics.SimplePie("chat_service") {
+                @Override
+                public String getValue() {
+                    final RegisteredServiceProvider<Chat> service =
+                        getServer().getServicesManager().getRegistration(Chat.class);
+                    if(service != null && service.getPlugin() != null) {
+                        return service.getPlugin().getName();
+                    }
+                    return "None";
+                }
+            });
+        } catch (Throwable throwable) {
+            log.info("Could not start metrics service");
         }
+
         log.info(String.format("Enabled Version %s", getDescription().getVersion()));
     }
 
@@ -466,7 +498,7 @@ public class Vault extends JavaPlugin {
                 } else if (diff < 0) {
                 	econ2.withdrawPlayer(op, -diff);
                 }
-                
+
             }
         }
         sender.sendMessage("Converson complete, please verify the data before using it.");

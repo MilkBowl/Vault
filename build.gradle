@@ -18,6 +18,7 @@ repositories {
     maven { url 'https://hub.spigotmc.org/nexus/content/repositories/snapshots/' }
     maven { url 'https://oss.sonatype.org/content/repositories/snapshots/' }
     maven { url 'http://nexus.hc.to/content/repositories/pub_releases/' }
+    maven { url 'http://repo.bstats.org/content/repositories/releases/' }
     // maven { url 'http://dev.escapecraft.com/maven' }
 }
 
@@ -25,9 +26,11 @@ dependencies {
     compileOnly group: 'org.bukkit', name: 'bukkit', version: '1.8-R0.1-SNAPSHOT'
     testCompile group: 'org.bukkit', name: 'bukkit', version: '1.8-R0.1-SNAPSHOT'
 
-    compile (group: 'net.milkbowl.vault', name: 'VaultAPI', version: '1.6') {
+    compile(group: 'net.milkbowl.vault', name: 'VaultAPI', version: '1.6') {
         exclude module: 'bukkit'
     }
+
+    compile group: 'org.bstats', name: 'bstats-bukkit', version: '1.1'
 
     // Libraries
     compileOnly fileTree(dir: 'lib', include: ['*.jar'])
@@ -40,7 +43,7 @@ targetCompatibility = javaVersion
 
 processResources {
     from 'LICENSE'
-    expand(version: version, description: description)
+    expand(version: version, description: project.description)
 }
 
 compileJava {
@@ -72,6 +75,7 @@ artifacts {
 
 shadowJar {
     classifier = 'shaded'
+    relocate 'org.bstats', 'net.milkbowl.vault'
 }
 
 build.dependsOn(shadowJar)
