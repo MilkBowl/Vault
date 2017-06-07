@@ -1,5 +1,6 @@
 plugins {
     id 'java'
+    id 'net.minecrell.licenser' version '0.3'
     id 'com.github.johnrengelman.shadow' version '1.2.4'
 }
 
@@ -40,6 +41,12 @@ dependencies {
 
 sourceCompatibility = javaVersion
 targetCompatibility = javaVersion
+
+license {
+    header = file('HEADER')
+    include '**/*.java'
+    newLine = true
+}
 
 processResources {
     from 'LICENSE'
