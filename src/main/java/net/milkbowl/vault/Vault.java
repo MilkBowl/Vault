@@ -195,7 +195,7 @@ public class Vault extends JavaPlugin {
                     final RegisteredServiceProvider<Permission> service =
                         getServer().getServicesManager().getRegistration(Permission.class);
                     if(service != null && service.getPlugin() != null) {
-                        return service.getPlugin().getName();
+                        return service.getProvider().getName();
                     }
                     return "None";
                 }
@@ -206,7 +206,7 @@ public class Vault extends JavaPlugin {
                     final RegisteredServiceProvider<Economy> service =
                         getServer().getServicesManager().getRegistration(Economy.class);
                     if(service != null && service.getPlugin() != null) {
-                        return service.getPlugin().getName();
+                        return service.getProvider().getName();
                     }
                     return "None";
                 }
@@ -217,7 +217,7 @@ public class Vault extends JavaPlugin {
                     final RegisteredServiceProvider<Chat> service =
                         getServer().getServicesManager().getRegistration(Chat.class);
                     if(service != null && service.getPlugin() != null) {
-                        return service.getPlugin().getName();
+                        return service.getProvider().getName();
                     }
                     return "None";
                 }
