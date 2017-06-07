@@ -1,0 +1,81 @@
+plugins {
+    id 'java'
+    id 'com.github.johnrengelman.shadow' version '1.2.4'
+}
+
+group = 'org.natrolite'
+description =
+        'Vault is a Permissions and Economy API to allow plugins to more easily hook ' +
+                'into these systems without needing to hook each individual system themselves.'
+
+ext {
+    javaVersion = '1.7'
+    encoding = 'UTF-8'
+}
+
+repositories {
+    mavenCentral()
+    maven { url 'https://hub.spigotmc.org/nexus/content/repositories/snapshots/' }
+    maven { url 'https://oss.sonatype.org/content/repositories/snapshots/' }
+    maven { url 'http://nexus.hc.to/content/repositories/pub_releases/' }
+    // maven { url 'http://dev.escapecraft.com/maven' }
+}
+
+dependencies {
+    compileOnly group: 'org.bukkit', name: 'bukkit', version: '1.8-R0.1-SNAPSHOT'
+    testCompile group: 'org.bukkit', name: 'bukkit', version: '1.8-R0.1-SNAPSHOT'
+
+    compile (group: 'net.milkbowl.vault', name: 'VaultAPI', version: '1.6') {
+        exclude module: 'bukkit'
+    }
+
+    // Libraries
+    compileOnly fileTree(dir: 'lib', include: ['*.jar'])
+    // compileOnly group: 'de.hydrox.bukkit', name: 'DroxPerms', version: '0.5.0'
+    compileOnly group: 'com.greatmancode', name: 'craftconomy3', version: '3.2.2-SNAPSHOT'
+}
+
+sourceCompatibility = javaVersion
+targetCompatibility = javaVersion
+
+processResources {
+    from 'LICENSE'
+    expand(version: version, description: description)
+}
+
+compileJava {
+    sourceCompatibility = javaVersion
+    targetCompatibility = javaVersion
+    options.encoding = encoding
+}
+
+compileTestJava {
+    sourceCompatibility = javaVersion
+    targetCompatibility = javaVersion
+    options.encoding = encoding
+}
+
+task sourceJar(type: Jar) {
+    classifier = 'sources'
+    from sourceSets.main.allSource
+}
+
+task javadocJar(type: Jar, dependsOn: javadoc) {
+    classifier = 'javadoc'
+    from javadoc.destinationDir
+}
+
+artifacts {
+    archives sourceJar
+    archives javadocJar
+}
+
+shadowJar {
+    classifier = 'shaded'
+}
+
+build.dependsOn(shadowJar)
+
+task wrapper(type: Wrapper) {
+    gradleVersion = '3.5'
+}

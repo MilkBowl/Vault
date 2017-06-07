@@ -1,0 +1,22 @@
+name: Vault
+version: ${version}
+description: ${description}
+authors: [cereal, Sleaker, mung3r]
+website: https://natrolite.org/
+
+main: net.milkbowl.vault.Vault
+load: startup
+
+commands:
+  vault-info:
+    description: Displays information about Vault 
+    usage: |
+           /<command> - Displays Vault information
+  vault-convert:
+    description: Converts all data in economy1 and dumps it into economy2
+    usage: |
+           /<command> [economy1] [economy2]
+permissions:
+  vault.admin:
+    description: Notifies the player when vault is in need of an update.
+    default: op
