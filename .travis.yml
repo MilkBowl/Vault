@@ -1,10 +1,12 @@
 dist: trusty
-sudo: required
+sudo: false
 
 language: java
 
 jdk:
   - openjdk7
+  - oraclejdk7
+  - openjdk8
   - oraclejdk8
 
 script: ./gradlew build
