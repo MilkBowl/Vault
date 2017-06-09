@@ -21,63 +21,15 @@ package net.milkbowl.vault;
 
 import static org.bukkit.ChatColor.YELLOW;
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
 import java.lang.reflect.Method;
-import java.net.URL;
-import java.net.URLConnection;
 import java.util.Collection;
 
 import net.milkbowl.vault.chat.Chat;
-import net.milkbowl.vault.chat.plugins.Chat_DroxPerms;
-import net.milkbowl.vault.chat.plugins.Chat_GroupManager;
-import net.milkbowl.vault.chat.plugins.Chat_OverPermissions;
-import net.milkbowl.vault.chat.plugins.Chat_Permissions3;
-import net.milkbowl.vault.chat.plugins.Chat_PermissionsEx;
-import net.milkbowl.vault.chat.plugins.Chat_Privileges;
-import net.milkbowl.vault.chat.plugins.Chat_bPermissions;
-import net.milkbowl.vault.chat.plugins.Chat_bPermissions2;
-import net.milkbowl.vault.chat.plugins.Chat_iChat;
-import net.milkbowl.vault.chat.plugins.Chat_mChat;
-import net.milkbowl.vault.chat.plugins.Chat_mChatSuite;
-import net.milkbowl.vault.chat.plugins.Chat_rscPermissions;
+import net.milkbowl.vault.chat.plugins.*;
 import net.milkbowl.vault.economy.Economy;
-import net.milkbowl.vault.economy.plugins.Economy_BOSE7;
-import net.milkbowl.vault.economy.plugins.Economy_CommandsEX;
-import net.milkbowl.vault.economy.plugins.Economy_Craftconomy3;
-import net.milkbowl.vault.economy.plugins.Economy_CurrencyCore;
-import net.milkbowl.vault.economy.plugins.Economy_DigiCoin;
-import net.milkbowl.vault.economy.plugins.Economy_Dosh;
-import net.milkbowl.vault.economy.plugins.Economy_EconXP;
-import net.milkbowl.vault.economy.plugins.Economy_Essentials;
-import net.milkbowl.vault.economy.plugins.Economy_GoldIsMoney2;
-import net.milkbowl.vault.economy.plugins.Economy_GoldenChestEconomy;
-import net.milkbowl.vault.economy.plugins.Economy_Gringotts;
-import net.milkbowl.vault.economy.plugins.Economy_McMoney;
-import net.milkbowl.vault.economy.plugins.Economy_MineConomy;
-import net.milkbowl.vault.economy.plugins.Economy_MultiCurrency;
-import net.milkbowl.vault.economy.plugins.Economy_TAEcon;
-import net.milkbowl.vault.economy.plugins.Economy_XPBank;
-import net.milkbowl.vault.economy.plugins.Economy_eWallet;
-import net.milkbowl.vault.economy.plugins.Economy_iConomy6;
-import net.milkbowl.vault.economy.plugins.Economy_SDFEconomy;
+import net.milkbowl.vault.economy.plugins.*;
 import net.milkbowl.vault.permission.Permission;
-import net.milkbowl.vault.permission.plugins.Permission_DroxPerms;
-import net.milkbowl.vault.permission.plugins.Permission_GroupManager;
-import net.milkbowl.vault.permission.plugins.Permission_OverPermissions;
-import net.milkbowl.vault.permission.plugins.Permission_Permissions3;
-import net.milkbowl.vault.permission.plugins.Permission_PermissionsBukkit;
-import net.milkbowl.vault.permission.plugins.Permission_PermissionsEx;
-import net.milkbowl.vault.permission.plugins.Permission_Privileges;
-import net.milkbowl.vault.permission.plugins.Permission_SimplyPerms;
-import net.milkbowl.vault.permission.plugins.Permission_Starburst;
-import net.milkbowl.vault.permission.plugins.Permission_SuperPerms;
-import net.milkbowl.vault.permission.plugins.Permission_Xperms;
-import net.milkbowl.vault.permission.plugins.Permission_bPermissions;
-import net.milkbowl.vault.permission.plugins.Permission_bPermissions2;
-import net.milkbowl.vault.permission.plugins.Permission_TotalPermissions;
-import net.milkbowl.vault.permission.plugins.Permission_rscPermissions;
-import net.milkbowl.vault.permission.plugins.Permission_KPerms;
+import net.milkbowl.vault.permission.plugins.*;
 
 import org.bstats.Metrics;
 import org.bukkit.Bukkit;
@@ -85,20 +37,14 @@ import org.bukkit.ChatColor;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
-import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.server.PluginEnableEvent;
-import org.bukkit.permissions.PermissionDefault;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.ServicePriority;
 import org.bukkit.plugin.java.JavaPlugin;
-import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
-import org.json.simple.JSONValue;
 
 import com.nijikokun.register.payment.Methods;
 
@@ -111,16 +57,9 @@ public class Vault extends JavaPlugin {
   private static final String HOOK_FAILED = "[%s] There was an error hooking %s - check to make sure you're using a compatible version!";
   private static final String NO_PERMISSION = "&cYou do not have permission to use that command!";
   private Permission perms;
-  private String newVersionTitle = "";
-  private double newVersion = 0;
-  private double currentVersion = 0;
-  private String currentVersionTitle = "";
 
   @Override
   public void onEnable() {
-    currentVersionTitle = getDescription().getVersion().split("-")[0];
-    currentVersion = Double.valueOf(currentVersionTitle.replaceFirst("\\.", ""));
-
     getConfig().addDefault("update-check", false);
     getConfig().addDefault("messages.access-denied", NO_PERMISSION);
     getConfig().options().copyDefaults(true);
@@ -131,46 +70,6 @@ public class Vault extends JavaPlugin {
     loadChat();
 
     getServer().getPluginManager().registerEvents(new VaultListener(), this);
-
-    // Schedule to check the version every 30 minutes for an update. This is to update the most recent
-    // version so if an admin reconnects they will be warned about newer versions.
-    this.getServer().getScheduler().runTask(this, new Runnable() {
-
-      @Override
-      public void run() {
-        // Programmatically set the default permission value cause Bukkit doesn't handle plugin.yml properly for Load order STARTUP plugins
-        org.bukkit.permissions.Permission perm = getServer().getPluginManager().getPermission("vault.update");
-        if (perm == null) {
-          perm = new org.bukkit.permissions.Permission("vault.update");
-          perm.setDefault(PermissionDefault.OP);
-          getServer().getPluginManager().addPermission(perm);
-        }
-        perm.setDescription("Allows a user or the console to check for vault updates");
-
-        getServer().getScheduler().runTaskTimerAsynchronously(Vault.this, new Runnable() {
-
-          @Override
-          public void run() {
-            if (getServer().getConsoleSender().hasPermission("vault.update") && getConfig().getBoolean("update-check", true)) {
-              try {
-                getLogger().info("Checking for Updates ... ");
-                newVersion = updateCheck(currentVersion);
-                if (newVersion > currentVersion) {
-                  getLogger().warning("Stable Version: " + newVersionTitle + " is out!" + " You are still running version: " + currentVersionTitle);
-                  getLogger().warning("Update at: http://dev.bukkit.org/server-mods/vault");
-                } else if (currentVersion > newVersion) {
-                  getLogger().info("Stable Version: " + newVersionTitle + " | Current Version: " + currentVersionTitle);
-                } else {
-                  getLogger().info("No new version available");
-                }
-              } catch (Exception ex) {
-                // ignore exceptions
-              }
-            }
-          }
-        }, 0, 432000);
-      }
-    });
 
     try {
       Metrics metrics = new Metrics(this);
@@ -351,24 +250,24 @@ public class Vault extends JavaPlugin {
     Permission perm = null;
     Chat chat = null;
 
-    for(RegisteredServiceProvider<Economy> pr : getServer().getServicesManager().getRegistrations(Economy.class)) {
-      if(registeredEcons == null) {
+    for (RegisteredServiceProvider<Economy> pr : getServer().getServicesManager().getRegistrations(Economy.class)) {
+      if (registeredEcons == null) {
         registeredEcons = new StringBuilder(pr.getProvider().getName());
         continue;
       }
       registeredEcons.append(", ").append(pr.getProvider().getName());
     }
 
-    for(RegisteredServiceProvider<Permission> pr : getServer().getServicesManager().getRegistrations(Permission.class)) {
-      if(registeredPerms == null) {
+    for (RegisteredServiceProvider<Permission> pr : getServer().getServicesManager().getRegistrations(Permission.class)) {
+      if (registeredPerms == null) {
         registeredPerms = new StringBuilder(pr.getProvider().getName());
         continue;
       }
       registeredPerms.append(", ").append(pr.getProvider().getName());
     }
 
-    for(RegisteredServiceProvider<Chat> pr : getServer().getServicesManager().getRegistrations(Chat.class)) {
-      if(registeredChats == null) {
+    for (RegisteredServiceProvider<Chat> pr : getServer().getServicesManager().getRegistrations(Chat.class)) {
+      if (registeredChats == null) {
         registeredChats = new StringBuilder(pr.getProvider().getName());
         continue;
       }
@@ -396,6 +295,7 @@ public class Vault extends JavaPlugin {
     sender.sendMessage(String.format("[%s] Chat: %s [%s]", getDescription().getName(), chat == null ? "None" : chat.getName(), registeredChats == null ? "" : registeredChats));
   }
 
+  // I don't even try
   private void convertCommand(CommandSender sender, String[] args) {
     Collection<RegisteredServiceProvider<Economy>> econs = this.getServer().getServicesManager().getRegistrations(Economy.class);
     if (econs == null || econs.size() < 2) {
@@ -474,46 +374,7 @@ public class Vault extends JavaPlugin {
     return ChatColor.translateAlternateColorCodes('&', input);
   }
 
-  public double updateCheck(double currentVersion) {
-    try {
-      URL url = new URL("https://api.curseforge.com/servermods/files?projectids=33184");
-      URLConnection conn = url.openConnection();
-      conn.setReadTimeout(5000);
-      conn.addRequestProperty("User-Agent", "Vault Update Checker");
-      conn.setDoOutput(true);
-      final BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getInputStream()));
-      final String response = reader.readLine();
-      final JSONArray array = (JSONArray) JSONValue.parse(response);
-
-      if (array.size() == 0) {
-        this.getLogger().warning("No files found, or Feed URL is bad.");
-        return currentVersion;
-      }
-      // Pull the last version from the JSON
-      newVersionTitle = ((String) ((JSONObject) array.get(array.size() - 1)).get("name")).replace("Vault", "").trim();
-      return Double.valueOf(newVersionTitle.replaceFirst("\\.", "").trim());
-    } catch (Exception e) {
-      getLogger().info("There was an issue attempting to check for the latest version.");
-    }
-    return currentVersion;
-  }
-
   public class VaultListener implements Listener {
-
-    @EventHandler(priority = EventPriority.MONITOR)
-    public void onPlayerJoin(PlayerJoinEvent event) {
-      Player player = event.getPlayer();
-      if (perms.has(player, "vault.update")) {
-        try {
-          if (newVersion > currentVersion) {
-            player.sendMessage("Vault " + newVersionTitle + " is out! You are running " + currentVersionTitle);
-            player.sendMessage("Update Vault at: http://dev.bukkit.org/server-mods/vault");
-          }
-        } catch (Exception ex) {
-          // Ignore exceptions
-        }
-      }
-    }
 
     @EventHandler(priority = EventPriority.MONITOR)
     public void onPluginEnable(PluginEnableEvent event) {
