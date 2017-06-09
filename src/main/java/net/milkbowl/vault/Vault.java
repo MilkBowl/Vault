@@ -19,16 +19,14 @@
 
 package net.milkbowl.vault;
 
-import com.google.common.base.Optional;
+import static org.bukkit.ChatColor.YELLOW;
+
 import java.io.BufferedReader;
-import java.io.IOException;
 import java.io.InputStreamReader;
-import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.Collection;
-import java.util.logging.Logger;
 
 import net.milkbowl.vault.chat.Chat;
 import net.milkbowl.vault.chat.plugins.Chat_DroxPerms;
@@ -83,6 +81,7 @@ import net.milkbowl.vault.permission.plugins.Permission_KPerms;
 
 import org.bstats.Metrics;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -107,7 +106,10 @@ import net.milkbowl.vault.chat.plugins.Chat_TotalPermissions;
 import net.milkbowl.vault.economy.plugins.Economy_MiConomy;
 
 public class Vault extends JavaPlugin {
-  
+
+  private static final String HOOK = "[%s] %s found: %s";
+  private static final String HOOK_FAILED = "[%s] There was an error hooking %s - check to make sure you're using a compatible version!";
+  private static final String NO_PERMISSION = "&cYou do not have permission to use that command!";
   private Permission perms;
   private String newVersionTitle = "";
   private double newVersion = 0;
@@ -120,6 +122,7 @@ public class Vault extends JavaPlugin {
     currentVersion = Double.valueOf(currentVersionTitle.replaceFirst("\\.", ""));
 
     getConfig().addDefault("update-check", false);
+    getConfig().addDefault("messages.access-denied", NO_PERMISSION);
     getConfig().options().copyDefaults(true);
     saveConfig();
 
@@ -128,6 +131,7 @@ public class Vault extends JavaPlugin {
     loadChat();
 
     getServer().getPluginManager().registerEvents(new VaultListener(), this);
+
     // Schedule to check the version every 30 minutes for an update. This is to update the most recent
     // version so if an admin reconnects they will be warned about newer versions.
     this.getServer().getScheduler().runTask(this, new Runnable() {
@@ -159,15 +163,13 @@ public class Vault extends JavaPlugin {
                 } else {
                   getLogger().info("No new version available");
                 }
-              } catch (Exception e) {
+              } catch (Exception ex) {
                 // ignore exceptions
               }
             }
           }
         }, 0, 432000);
-
       }
-
     });
 
     try {
@@ -281,62 +283,117 @@ public class Vault extends JavaPlugin {
     this.perms = getServer().getServicesManager().getRegistration(Permission.class).getProvider();
   }
 
-  private void hookChat(String name, Class<? extends Chat> hookClass, ServicePriority priority, String... packages) {
+  private void hookChat(String name, Class<? extends Chat> clazz, ServicePriority priority, String... packages) {
     try {
       if (packagesExists(packages)) {
-        Chat chat = hookClass.getConstructor(Plugin.class, Permission.class).newInstance(this, perms);
+        final Chat chat = clazz.getConstructor(Plugin.class, Permission.class).newInstance(this, perms);
         getServer().getServicesManager().register(Chat.class, chat, this, priority);
-        getLogger().info(String.format("[Chat] %s found: %s", name, chat.isEnabled() ? "Loaded" : "Waiting"));
+        getLogger().info(String.format(HOOK, "Chat", name, chat.isEnabled() ? "Loaded" : "Waiting"));
       }
-    } catch (Exception e) {
-      getLogger().severe(String.format("[Chat] There was an error hooking %s - check to make sure you're using a compatible version!", name));
+    } catch (Throwable throwable) {
+      getLogger().severe(String.format(HOOK_FAILED, "Chat", name));
     }
   }
 
-  private void hookEconomy(String name, Class<? extends Economy> hookClass, ServicePriority priority, String... packages) {
+  private void hookEconomy(String name, Class<? extends Economy> clazz, ServicePriority priority, String... packages) {
     try {
       if (packagesExists(packages)) {
-        Economy econ = hookClass.getConstructor(Plugin.class).newInstance(this);
+        final Economy econ = clazz.getConstructor(Plugin.class).newInstance(this);
         getServer().getServicesManager().register(Economy.class, econ, this, priority);
-        getLogger().info(String.format("[Economy] %s found: %s", name, econ.isEnabled() ? "Loaded" : "Waiting"));
+        getLogger().info(String.format(HOOK, "Economy", name, econ.isEnabled() ? "Loaded" : "Waiting"));
       }
-    } catch (Exception e) {
-      getLogger().severe(String.format("[Economy] There was an error hooking %s - check to make sure you're using a compatible version!", name));
+    } catch (Throwable throwable) {
+      getLogger().severe(String.format(HOOK_FAILED, "Economy", name));
     }
   }
 
-  private void hookPermission(String name, Class<? extends Permission> hookClass, ServicePriority priority, String... packages) {
+  private void hookPermission(String name, Class<? extends Permission> clazz, ServicePriority priority, String... packages) {
     try {
       if (packagesExists(packages)) {
-        Permission perms = hookClass.getConstructor(Plugin.class).newInstance(this);
+        final Permission perms = clazz.getConstructor(Plugin.class).newInstance(this);
         getServer().getServicesManager().register(Permission.class, perms, this, priority);
-        getLogger().info(String.format("[Permission] %s found: %s", name, perms.isEnabled() ? "Loaded" : "Waiting"));
+        getLogger().info(String.format(HOOK, "Permission", name, perms.isEnabled() ? "Loaded" : "Waiting"));
       }
-    } catch (Exception e) {
-      getLogger().severe(String.format("[Permission] There was an error hooking %s - check to make sure you're using a compatible version!", name));
+    } catch (Throwable throwable) {
+      getLogger().severe(String.format(HOOK_FAILED, "Permission", name));
     }
   }
 
   @Override
-  public boolean onCommand(CommandSender sender, Command command, String commandLabel, String[] args) {
+  public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
     if (!sender.hasPermission("vault.admin")) {
-      sender.sendMessage("You do not have permission to use that command!");
+      sender.sendMessage(colorize(getConfig().getString("messages.access-denied", NO_PERMISSION)));
       return true;
     }
 
     if (command.getName().equalsIgnoreCase("vault-info")) {
       infoCommand(sender);
       return true;
-    } else if (command.getName().equalsIgnoreCase("vault-convert")) {
+    }
+
+    if (command.getName().equalsIgnoreCase("vault-convert")) {
       convertCommand(sender, args);
       return true;
-    } else {
-      // Show help
-      sender.sendMessage("Vault Commands:");
-      sender.sendMessage("  /vault-info - Displays information about Vault");
-      sender.sendMessage("  /vault-convert [economy1] [economy2] - Converts from one Economy to another");
-      return true;
     }
+
+    sender.sendMessage(YELLOW + "Vault Commands:");
+    sender.sendMessage(YELLOW + "  /vault-info - Displays information about Vault");
+    sender.sendMessage(YELLOW + "  /vault-convert [economy1] [economy2] - Converts from one Economy to another");
+    return true;
+  }
+
+  // Not very clean
+  private void infoCommand(CommandSender sender) {
+    StringBuilder registeredEcons = null;
+    StringBuilder registeredPerms = null;
+    StringBuilder registeredChats = null;
+    Economy econ = null;
+    Permission perm = null;
+    Chat chat = null;
+
+    for(RegisteredServiceProvider<Economy> pr : getServer().getServicesManager().getRegistrations(Economy.class)) {
+      if(registeredEcons == null) {
+        registeredEcons = new StringBuilder(pr.getProvider().getName());
+        continue;
+      }
+      registeredEcons.append(", ").append(pr.getProvider().getName());
+    }
+
+    for(RegisteredServiceProvider<Permission> pr : getServer().getServicesManager().getRegistrations(Permission.class)) {
+      if(registeredPerms == null) {
+        registeredPerms = new StringBuilder(pr.getProvider().getName());
+        continue;
+      }
+      registeredPerms.append(", ").append(pr.getProvider().getName());
+    }
+
+    for(RegisteredServiceProvider<Chat> pr : getServer().getServicesManager().getRegistrations(Chat.class)) {
+      if(registeredChats == null) {
+        registeredChats = new StringBuilder(pr.getProvider().getName());
+        continue;
+      }
+      registeredChats.append(", ").append(pr.getProvider().getName());
+    }
+
+    final RegisteredServiceProvider<Economy> rsp = getServer().getServicesManager().getRegistration(Economy.class);
+    if (rsp != null) {
+      econ = rsp.getProvider();
+    }
+
+    final RegisteredServiceProvider<Permission> rspp = getServer().getServicesManager().getRegistration(Permission.class);
+    if (rspp != null) {
+      perm = rspp.getProvider();
+    }
+
+    RegisteredServiceProvider<Chat> rspc = getServer().getServicesManager().getRegistration(Chat.class);
+    if (rspc != null) {
+      chat = rspc.getProvider();
+    }
+
+    sender.sendMessage(String.format("[%s] Vault v%s Information", getDescription().getName(), getDescription().getVersion()));
+    sender.sendMessage(String.format("[%s] Economy: %s [%s]", getDescription().getName(), econ == null ? "None" : econ.getName(), registeredEcons == null ? "" : registeredChats));
+    sender.sendMessage(String.format("[%s] Permission: %s [%s]", getDescription().getName(), perm == null ? "None" : perm.getName(), registeredPerms == null ? "" : registeredPerms));
+    sender.sendMessage(String.format("[%s] Chat: %s [%s]", getDescription().getName(), chat == null ? "None" : chat.getName(), registeredChats == null ? "" : registeredChats));
   }
 
   private void convertCommand(CommandSender sender, String[] args) {
@@ -393,65 +450,6 @@ public class Vault extends JavaPlugin {
     sender.sendMessage("Converson complete, please verify the data before using it.");
   }
 
-  private void infoCommand(CommandSender sender) {
-    // Get String of Registered Economy Services
-    String registeredEcons = null;
-    Collection<RegisteredServiceProvider<Economy>> econs = this.getServer().getServicesManager().getRegistrations(Economy.class);
-    for (RegisteredServiceProvider<Economy> econ : econs) {
-      Economy e = econ.getProvider();
-      if (registeredEcons == null) {
-        registeredEcons = e.getName();
-      } else {
-        registeredEcons += ", " + e.getName();
-      }
-    }
-
-    // Get String of Registered Permission Services
-    String registeredPerms = null;
-    Collection<RegisteredServiceProvider<Permission>> perms = this.getServer().getServicesManager().getRegistrations(Permission.class);
-    for (RegisteredServiceProvider<Permission> perm : perms) {
-      Permission p = perm.getProvider();
-      if (registeredPerms == null) {
-        registeredPerms = p.getName();
-      } else {
-        registeredPerms += ", " + p.getName();
-      }
-    }
-
-    String registeredChats = null;
-    Collection<RegisteredServiceProvider<Chat>> chats = this.getServer().getServicesManager().getRegistrations(Chat.class);
-    for (RegisteredServiceProvider<Chat> chat : chats) {
-      Chat c = chat.getProvider();
-      if (registeredChats == null) {
-        registeredChats = c.getName();
-      } else {
-        registeredChats += ", " + c.getName();
-      }
-    }
-
-    // Get Economy & Permission primary Services
-    RegisteredServiceProvider<Economy> rsp = getServer().getServicesManager().getRegistration(Economy.class);
-    Economy econ = null;
-    if (rsp != null) {
-      econ = rsp.getProvider();
-    }
-    Permission perm = null;
-    RegisteredServiceProvider<Permission> rspp = getServer().getServicesManager().getRegistration(Permission.class);
-    if (rspp != null) {
-      perm = rspp.getProvider();
-    }
-    Chat chat = null;
-    RegisteredServiceProvider<Chat> rspc = getServer().getServicesManager().getRegistration(Chat.class);
-    if (rspc != null) {
-      chat = rspc.getProvider();
-    }
-    // Send user some info!
-    sender.sendMessage(String.format("[%s] Vault v%s Information", getDescription().getName(), getDescription().getVersion()));
-    sender.sendMessage(String.format("[%s] Economy: %s [%s]", getDescription().getName(), econ == null ? "None" : econ.getName(), registeredEcons));
-    sender.sendMessage(String.format("[%s] Permission: %s [%s]", getDescription().getName(), perm == null ? "None" : perm.getName(), registeredPerms));
-    sender.sendMessage(String.format("[%s] Chat: %s [%s]", getDescription().getName(), chat == null ? "None" : chat.getName(), registeredChats));
-  }
-
   /**
    * Determines if all packages in a String array are within the Classpath.
    * This is the best way to determine if a specific plugin exists and will be
@@ -470,6 +468,10 @@ public class Vault extends JavaPlugin {
     } catch (Throwable throwable) {
       return false;
     }
+  }
+
+  private static String colorize(String input) {
+    return ChatColor.translateAlternateColorCodes('&', input);
   }
 
   public double updateCheck(double currentVersion) {
