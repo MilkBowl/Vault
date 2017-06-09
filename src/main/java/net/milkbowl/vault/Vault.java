@@ -107,8 +107,7 @@ import net.milkbowl.vault.chat.plugins.Chat_TotalPermissions;
 import net.milkbowl.vault.economy.plugins.Economy_MiConomy;
 
 public class Vault extends JavaPlugin {
-
-  private static Logger log;
+  
   private Permission perms;
   private String newVersionTitle = "";
   private double newVersion = 0;
@@ -127,7 +126,6 @@ public class Vault extends JavaPlugin {
   @Override
   public void onEnable() {
     plugin = this;
-    log = this.getLogger();
     currentVersionTitle = getDescription().getVersion().split("-")[0];
     currentVersion = Double.valueOf(currentVersionTitle.replaceFirst("\\.", ""));
     sm = getServer().getServicesManager();
@@ -164,15 +162,15 @@ public class Vault extends JavaPlugin {
           public void run() {
             if (getServer().getConsoleSender().hasPermission("vault.update") && getConfig().getBoolean("update-check", true)) {
               try {
-                log.info("Checking for Updates ... ");
+                getLogger().info("Checking for Updates ... ");
                 newVersion = updateCheck(currentVersion);
                 if (newVersion > currentVersion) {
-                  log.warning("Stable Version: " + newVersionTitle + " is out!" + " You are still running version: " + currentVersionTitle);
-                  log.warning("Update at: http://dev.bukkit.org/server-mods/vault");
+                  getLogger().warning("Stable Version: " + newVersionTitle + " is out!" + " You are still running version: " + currentVersionTitle);
+                  getLogger().warning("Update at: http://dev.bukkit.org/server-mods/vault");
                 } else if (currentVersion > newVersion) {
-                  log.info("Stable Version: " + newVersionTitle + " | Current Version: " + currentVersionTitle);
+                  getLogger().info("Stable Version: " + newVersionTitle + " | Current Version: " + currentVersionTitle);
                 } else {
-                  log.info("No new version available");
+                  getLogger().info("No new version available");
                 }
               } catch (Exception e) {
                 // ignore exceptions
@@ -222,10 +220,10 @@ public class Vault extends JavaPlugin {
         }
       });
     } catch (Throwable throwable) {
-      log.info("Could not start metrics service");
+      getLogger().info("Could not start metrics service");
     }
 
-    log.info(String.format("Enabled Version %s", getDescription().getVersion()));
+    getLogger().info(String.format("Enabled Version %s", getDescription().getVersion()));
   }
 
   private void loadChat() {
@@ -286,7 +284,7 @@ public class Vault extends JavaPlugin {
 
     Permission perms = new Permission_SuperPerms(this);
     sm.register(Permission.class, perms, this, ServicePriority.Lowest);
-    log.info(String.format("[Permission] SuperPermissions loaded as backup permission system."));
+    getLogger().info(String.format("[Permission] SuperPermissions loaded as backup permission system."));
     this.perms = sm.getRegistration(Permission.class).getProvider();
   }
 
@@ -295,10 +293,10 @@ public class Vault extends JavaPlugin {
       if (packagesExists(packages)) {
         Chat chat = hookClass.getConstructor(Plugin.class, Permission.class).newInstance(this, perms);
         sm.register(Chat.class, chat, this, priority);
-        log.info(String.format("[Chat] %s found: %s", name, chat.isEnabled() ? "Loaded" : "Waiting"));
+        getLogger().info(String.format("[Chat] %s found: %s", name, chat.isEnabled() ? "Loaded" : "Waiting"));
       }
     } catch (Exception e) {
-      log.severe(String.format("[Chat] There was an error hooking %s - check to make sure you're using a compatible version!", name));
+      getLogger().severe(String.format("[Chat] There was an error hooking %s - check to make sure you're using a compatible version!", name));
     }
   }
 
@@ -307,10 +305,10 @@ public class Vault extends JavaPlugin {
       if (packagesExists(packages)) {
         Economy econ = hookClass.getConstructor(Plugin.class).newInstance(this);
         sm.register(Economy.class, econ, this, priority);
-        log.info(String.format("[Economy] %s found: %s", name, econ.isEnabled() ? "Loaded" : "Waiting"));
+        getLogger().info(String.format("[Economy] %s found: %s", name, econ.isEnabled() ? "Loaded" : "Waiting"));
       }
     } catch (Exception e) {
-      log.severe(String.format("[Economy] There was an error hooking %s - check to make sure you're using a compatible version!", name));
+      getLogger().severe(String.format("[Economy] There was an error hooking %s - check to make sure you're using a compatible version!", name));
     }
   }
 
@@ -319,10 +317,10 @@ public class Vault extends JavaPlugin {
       if (packagesExists(packages)) {
         Permission perms = hookClass.getConstructor(Plugin.class).newInstance(this);
         sm.register(Permission.class, perms, this, priority);
-        log.info(String.format("[Permission] %s found: %s", name, perms.isEnabled() ? "Loaded" : "Waiting"));
+        getLogger().info(String.format("[Permission] %s found: %s", name, perms.isEnabled() ? "Loaded" : "Waiting"));
       }
     } catch (Exception e) {
-      log.severe(String.format("[Permission] There was an error hooking %s - check to make sure you're using a compatible version!", name));
+      getLogger().severe(String.format("[Permission] There was an error hooking %s - check to make sure you're using a compatible version!", name));
     }
   }
 
@@ -500,7 +498,7 @@ public class Vault extends JavaPlugin {
       newVersionTitle = ((String) ((JSONObject) array.get(array.size() - 1)).get("name")).replace("Vault", "").trim();
       return Double.valueOf(newVersionTitle.replaceFirst("\\.", "").trim());
     } catch (Exception e) {
-      log.info("There was an issue attempting to check for the latest version.");
+      getLogger().info("There was an issue attempting to check for the latest version.");
     }
     return currentVersion;
   }
@@ -531,12 +529,12 @@ public class Vault extends JavaPlugin {
             m.setAccessible(true);
             m.invoke(null, "Vault", new net.milkbowl.vault.VaultEco());
             if (!Methods.setPreferred("Vault")) {
-              log.info("Unable to hook register");
+              getLogger().info("Unable to hook register");
             } else {
-              log.info("[Vault] - Successfully injected Vault methods into Register.");
+              getLogger().info("[Vault] - Successfully injected Vault methods into Register.");
             }
           } catch (Exception ex) {
-            log.info("Unable to hook register");
+            getLogger().info("Unable to hook register");
           }
         }
       }
