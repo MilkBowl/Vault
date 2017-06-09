@@ -19,6 +19,7 @@
 
 package net.milkbowl.vault;
 
+import com.google.common.base.Optional;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -95,7 +96,6 @@ import org.bukkit.permissions.PermissionDefault;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.ServicePriority;
-import org.bukkit.plugin.ServicesManager;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -113,33 +113,20 @@ public class Vault extends JavaPlugin {
   private double newVersion = 0;
   private double currentVersion = 0;
   private String currentVersionTitle = "";
-  private ServicesManager sm;
-  private Vault plugin;
-
-  @Override
-  public void onDisable() {
-    // Remove all Service Registrations
-    getServer().getServicesManager().unregisterAll(this);
-    Bukkit.getScheduler().cancelTasks(this);
-  }
 
   @Override
   public void onEnable() {
-    plugin = this;
     currentVersionTitle = getDescription().getVersion().split("-")[0];
     currentVersion = Double.valueOf(currentVersionTitle.replaceFirst("\\.", ""));
-    sm = getServer().getServicesManager();
-    // set defaults
+
     getConfig().addDefault("update-check", false);
     getConfig().options().copyDefaults(true);
     saveConfig();
-    // Load Vault Addons
+
     loadEconomy();
     loadPermission();
     loadChat();
 
-    getCommand("vault-info").setExecutor(this);
-    getCommand("vault-convert").setExecutor(this);
     getServer().getPluginManager().registerEvents(new VaultListener(), this);
     // Schedule to check the version every 30 minutes for an update. This is to update the most recent
     // version so if an admin reconnects they will be warned about newer versions.
@@ -152,11 +139,11 @@ public class Vault extends JavaPlugin {
         if (perm == null) {
           perm = new org.bukkit.permissions.Permission("vault.update");
           perm.setDefault(PermissionDefault.OP);
-          plugin.getServer().getPluginManager().addPermission(perm);
+          getServer().getPluginManager().addPermission(perm);
         }
         perm.setDescription("Allows a user or the console to check for vault updates");
 
-        getServer().getScheduler().runTaskTimerAsynchronously(plugin, new Runnable() {
+        getServer().getScheduler().runTaskTimerAsynchronously(Vault.this, new Runnable() {
 
           @Override
           public void run() {
@@ -183,7 +170,6 @@ public class Vault extends JavaPlugin {
 
     });
 
-    // Load up the Plugin metrics
     try {
       Metrics metrics = new Metrics(this);
       metrics.addCustomChart(new Metrics.SimplePie("permission_service") {
@@ -224,6 +210,13 @@ public class Vault extends JavaPlugin {
     }
 
     getLogger().info(String.format("Enabled Version %s", getDescription().getVersion()));
+  }
+
+  @Override
+  public void onDisable() {
+    // These methods are probably redundant
+    getServer().getServicesManager().unregisterAll(this);
+    Bukkit.getScheduler().cancelTasks(this);
   }
 
   private void loadChat() {
@@ -283,16 +276,16 @@ public class Vault extends JavaPlugin {
     hookPermission("KPerms", Permission_KPerms.class, ServicePriority.Normal, "com.lightniinja.kperms.KPermsPlugin");
 
     Permission perms = new Permission_SuperPerms(this);
-    sm.register(Permission.class, perms, this, ServicePriority.Lowest);
-    getLogger().info(String.format("[Permission] SuperPermissions loaded as backup permission system."));
-    this.perms = sm.getRegistration(Permission.class).getProvider();
+    getServer().getServicesManager().register(Permission.class, perms, this, ServicePriority.Lowest);
+    getLogger().info("[Permission] SuperPermissions loaded as backup permission system.");
+    this.perms = getServer().getServicesManager().getRegistration(Permission.class).getProvider();
   }
 
   private void hookChat(String name, Class<? extends Chat> hookClass, ServicePriority priority, String... packages) {
     try {
       if (packagesExists(packages)) {
         Chat chat = hookClass.getConstructor(Plugin.class, Permission.class).newInstance(this, perms);
-        sm.register(Chat.class, chat, this, priority);
+        getServer().getServicesManager().register(Chat.class, chat, this, priority);
         getLogger().info(String.format("[Chat] %s found: %s", name, chat.isEnabled() ? "Loaded" : "Waiting"));
       }
     } catch (Exception e) {
@@ -304,7 +297,7 @@ public class Vault extends JavaPlugin {
     try {
       if (packagesExists(packages)) {
         Economy econ = hookClass.getConstructor(Plugin.class).newInstance(this);
-        sm.register(Economy.class, econ, this, priority);
+        getServer().getServicesManager().register(Economy.class, econ, this, priority);
         getLogger().info(String.format("[Economy] %s found: %s", name, econ.isEnabled() ? "Loaded" : "Waiting"));
       }
     } catch (Exception e) {
@@ -316,7 +309,7 @@ public class Vault extends JavaPlugin {
     try {
       if (packagesExists(packages)) {
         Permission perms = hookClass.getConstructor(Plugin.class).newInstance(this);
-        sm.register(Permission.class, perms, this, priority);
+        getServer().getServicesManager().register(Permission.class, perms, this, priority);
         getLogger().info(String.format("[Permission] %s found: %s", name, perms.isEnabled() ? "Loaded" : "Waiting"));
       }
     } catch (Exception e) {
