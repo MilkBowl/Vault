@@ -48,6 +48,7 @@ license {
     header = file('HEADER')
     include '**/*.java'
     newLine = true
+    exclude 'net/milkbowl/vault/util/VersionComparator.java'
 }
 
 processResources {

@@ -21,9 +21,18 @@ package net.milkbowl.vault;
 
 import static org.bukkit.ChatColor.YELLOW;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.lang.reflect.Method;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.StandardCopyOption;
 import java.util.Collection;
 
+import java.util.Scanner;
+import java.util.logging.Level;
 import net.milkbowl.vault.chat.Chat;
 import net.milkbowl.vault.chat.plugins.*;
 import net.milkbowl.vault.economy.Economy;
@@ -31,6 +40,7 @@ import net.milkbowl.vault.economy.plugins.*;
 import net.milkbowl.vault.permission.Permission;
 import net.milkbowl.vault.permission.plugins.*;
 
+import net.milkbowl.vault.util.VersionComparator;
 import org.bstats.Metrics;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -50,6 +60,8 @@ import com.nijikokun.register.payment.Methods;
 
 import net.milkbowl.vault.chat.plugins.Chat_TotalPermissions;
 import net.milkbowl.vault.economy.plugins.Economy_MiConomy;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
 
 public class Vault extends JavaPlugin {
 
@@ -60,7 +72,11 @@ public class Vault extends JavaPlugin {
 
   @Override
   public void onEnable() {
-    getConfig().addDefault("update-check", false);
+    final long start = System.currentTimeMillis();
+
+    getConfig().addDefault("debug", false);
+    getConfig().addDefault("updater.check", true);
+    getConfig().addDefault("updater.download", true);
     getConfig().addDefault("messages.access-denied", NO_PERMISSION);
     getConfig().options().copyDefaults(true);
     saveConfig();
@@ -106,11 +122,61 @@ public class Vault extends JavaPlugin {
           return "None";
         }
       });
+      metrics.addCustomChart(new Metrics.SimplePie("natrolite_installed") {
+        @Override
+        public String getValue() {
+          if (getServer().getPluginManager().getPlugin("Natrolite") != null) {
+            return "Yes";
+          }
+          return "No";
+        }
+      });
     } catch (Throwable throwable) {
       getLogger().info("Could not start metrics service");
     }
 
-    getLogger().info(String.format("Enabled Version %s", getDescription().getVersion()));
+    if (getConfig().getBoolean("updater.check")) {
+      getServer().getScheduler().runTaskAsynchronously(this, new Runnable() {
+        @Override
+        public void run() {
+          try {
+            final String current = getDescription().getVersion();
+            final String output = read("http://api.spiget.org/v2/resources/41918/versions/latest");
+            final JSONParser parser = new JSONParser();
+            final JSONObject object = (JSONObject) parser.parse(output);
+            final String latest = (String) object.get("name");
+            final Path file = getServer().getUpdateFolderFile().toPath().resolve(getFile().getName());
+
+            if (latest == null) {
+              throw new NullPointerException("Latest version is null");
+            }
+
+            if (VersionComparator.isOlderThan(current, latest)) {
+              getLogger().info(String.format("You are using an outdated version (Current: %s | Latest: %s)", current, latest));
+
+              if (getConfig().getBoolean("updater.download")) {
+                Files.createDirectories(file.getParent());
+                getLogger().info(String.format("Downloading Vault v%s..", latest));
+                try (
+                    InputStream in = new URL("http://api.spiget.org/v2/resources/41918/download").openStream()) {
+                  Files.copy(in, file, StandardCopyOption.REPLACE_EXISTING);
+                }
+                getLogger().info(String.format("Done! After next start Vault will be on version %s", latest));
+              }
+            } else {
+              getLogger().info("You are running the latest version");
+            }
+          } catch (Throwable throwable) {
+            getLogger().info("> Unknown error while checking for updates");
+            if (getConfig().getBoolean("debug")) {
+              throwable.printStackTrace();
+            }
+          }
+        }
+      });
+    }
+
+    getLogger().log(Level.INFO, "Plugin enabled ({0}ms)", System.currentTimeMillis() - start);
   }
 
   @Override
@@ -372,6 +438,15 @@ public class Vault extends JavaPlugin {
 
   private static String colorize(String input) {
     return ChatColor.translateAlternateColorCodes('&', input);
+  }
+
+  private static String read(String url) throws IOException {
+    HttpURLConnection connection = (HttpURLConnection) new URL(url).openConnection();
+    connection.setRequestProperty("User-Agent", "Natrolite/1.0");
+    try (InputStream in = connection.getInputStream()) {
+      Scanner s = new Scanner(in).useDelimiter("\\A");
+      return s.hasNext() ? s.next() : "";
+    }
   }
 
   public class VaultListener implements Listener {
