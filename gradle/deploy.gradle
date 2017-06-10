@@ -1,0 +1,43 @@
+// Version 2.0
+
+apply plugin: 'maven'
+
+uploadArchives.repositories.mavenDeployer {
+
+    if (project.hasProperty('deployRelease')) {
+        repository(url: deployRelease)
+    }
+
+    if (project.hasProperty('deploySnapshot')) {
+        snapshotRepository(url: deploySnapshot)
+    }
+
+    pom.project {
+        packaging = 'jar'
+        description = project.description
+
+        licenses {
+            license {
+                name = licenseName
+                url = licenseUrl
+                distribution = licenseDist
+            }
+        }
+
+        issueManagement {
+            system = issueSystem
+            url = issueUrl
+        }
+
+        ciManagement {
+            system = ciSystem
+            url = ciUrl
+        }
+
+        scm {
+            url = scmUrl
+            connection = scmConnection
+            developerConnection = scmDevConnection
+        }
+    }
+}
