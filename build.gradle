@@ -18,26 +18,21 @@ ext {
 
 repositories {
     mavenCentral()
+    maven { url 'https://repo.natrolite.org/repository/maven-public/' }
     maven { url 'https://hub.spigotmc.org/nexus/content/repositories/snapshots/' }
     maven { url 'https://oss.sonatype.org/content/repositories/snapshots/' }
-    maven { url 'http://nexus.hc.to/content/repositories/pub_releases/' }
-    maven { url 'http://repo.bstats.org/content/repositories/releases/' }
-    // maven { url 'http://dev.escapecraft.com/maven' }
+    maven { url 'https://repo.bstats.org/content/repositories/releases/' }
 }
 
 dependencies {
     compileOnly group: 'org.bukkit', name: 'bukkit', version: '1.8-R0.1-SNAPSHOT'
     testCompile group: 'org.bukkit', name: 'bukkit', version: '1.8-R0.1-SNAPSHOT'
 
-    compile(group: 'net.milkbowl.vault', name: 'VaultAPI', version: '1.6') {
-        exclude module: 'bukkit'
-    }
-
+    compile group: 'org.natrolite', name: 'vault-api', version: '1.6.1'
     compile group: 'org.bstats', name: 'bstats-bukkit', version: '1.1'
 
     // Libraries
     compileOnly fileTree(dir: 'lib', include: ['*.jar'])
-    // compileOnly group: 'de.hydrox.bukkit', name: 'DroxPerms', version: '0.5.0'
     compileOnly group: 'com.greatmancode', name: 'craftconomy3', version: '3.2.2-SNAPSHOT'
 }
 
