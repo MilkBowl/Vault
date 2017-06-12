@@ -12,6 +12,24 @@ description =
                 'into these systems without needing to hook each individual system themselves.'
 
 ext {
+    homepage = 'https://natrolite.org/'
+
+    licenseName = 'GNU Lesser General Public License (LGPL)'
+    licenseUrl = 'https://www.gnu.org/licenses/lgpl.txt'
+    licenseDist = 'repo'
+
+    issueSystem = 'GitHub Issues'
+    issueUrl = 'https://github.com/natrolite/vault/issues'
+
+    ciSystem = 'Travis CI'
+    ciUrl = 'https://travis-ci.org/natrolite/vault'
+
+    scmUrl = 'https://github.com/natrolite/vault'
+    scmConnection = 'scm:git:git://github.com/natrolite/vault.git'
+    scmDevConnection = 'scm:git:ssh://github.com:natrolite/vault.git'
+}
+
+ext {
     javaVersion = '1.7'
     encoding = 'UTF-8'
 }
@@ -84,6 +102,8 @@ shadowJar {
 }
 
 build.dependsOn(shadowJar)
+
+apply from: 'gradle/deploy.gradle'
 
 task wrapper(type: Wrapper) {
     gradleVersion = '3.5'
