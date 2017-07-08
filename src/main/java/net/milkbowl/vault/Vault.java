@@ -1,7 +1,8 @@
 /*
  * This file is part of Vault.
  *
- * Copyright (c) 2017 Lukas Nehrke
+ * Copyright (C) 2017 Lukas Nehrke
+ * Copyright (C) 2011 Morgan Humes <morgan@lanaddict.com>
  *
  * Vault is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -21,6 +22,7 @@ package net.milkbowl.vault;
 
 import static org.bukkit.ChatColor.YELLOW;
 
+import com.nijikokun.register.payment.Methods;
 import java.io.IOException;
 import java.io.InputStream;
 import java.lang.reflect.Method;
@@ -30,16 +32,60 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
 import java.util.Collection;
-
 import java.util.Scanner;
 import java.util.logging.Level;
 import net.milkbowl.vault.chat.Chat;
-import net.milkbowl.vault.chat.plugins.*;
+import net.milkbowl.vault.chat.plugins.Chat_DroxPerms;
+import net.milkbowl.vault.chat.plugins.Chat_GroupManager;
+import net.milkbowl.vault.chat.plugins.Chat_OverPermissions;
+import net.milkbowl.vault.chat.plugins.Chat_Permissions3;
+import net.milkbowl.vault.chat.plugins.Chat_PermissionsEx;
+import net.milkbowl.vault.chat.plugins.Chat_Privileges;
+import net.milkbowl.vault.chat.plugins.Chat_TotalPermissions;
+import net.milkbowl.vault.chat.plugins.Chat_bPermissions;
+import net.milkbowl.vault.chat.plugins.Chat_bPermissions2;
+import net.milkbowl.vault.chat.plugins.Chat_iChat;
+import net.milkbowl.vault.chat.plugins.Chat_mChat;
+import net.milkbowl.vault.chat.plugins.Chat_mChatSuite;
+import net.milkbowl.vault.chat.plugins.Chat_rscPermissions;
 import net.milkbowl.vault.economy.Economy;
-import net.milkbowl.vault.economy.plugins.*;
+import net.milkbowl.vault.economy.plugins.Economy_BOSE7;
+import net.milkbowl.vault.economy.plugins.Economy_CommandsEX;
+import net.milkbowl.vault.economy.plugins.Economy_Craftconomy3;
+import net.milkbowl.vault.economy.plugins.Economy_CurrencyCore;
+import net.milkbowl.vault.economy.plugins.Economy_DigiCoin;
+import net.milkbowl.vault.economy.plugins.Economy_Dosh;
+import net.milkbowl.vault.economy.plugins.Economy_EconXP;
+import net.milkbowl.vault.economy.plugins.Economy_Essentials;
+import net.milkbowl.vault.economy.plugins.Economy_GoldIsMoney2;
+import net.milkbowl.vault.economy.plugins.Economy_GoldenChestEconomy;
+import net.milkbowl.vault.economy.plugins.Economy_Gringotts;
+import net.milkbowl.vault.economy.plugins.Economy_McMoney;
+import net.milkbowl.vault.economy.plugins.Economy_MiConomy;
+import net.milkbowl.vault.economy.plugins.Economy_MineConomy;
+import net.milkbowl.vault.economy.plugins.Economy_MultiCurrency;
+import net.milkbowl.vault.economy.plugins.Economy_SDFEconomy;
+import net.milkbowl.vault.economy.plugins.Economy_TAEcon;
+import net.milkbowl.vault.economy.plugins.Economy_XPBank;
+import net.milkbowl.vault.economy.plugins.Economy_eWallet;
+import net.milkbowl.vault.economy.plugins.Economy_iConomy6;
 import net.milkbowl.vault.permission.Permission;
-import net.milkbowl.vault.permission.plugins.*;
-
+import net.milkbowl.vault.permission.plugins.Permission_DroxPerms;
+import net.milkbowl.vault.permission.plugins.Permission_GroupManager;
+import net.milkbowl.vault.permission.plugins.Permission_KPerms;
+import net.milkbowl.vault.permission.plugins.Permission_OverPermissions;
+import net.milkbowl.vault.permission.plugins.Permission_Permissions3;
+import net.milkbowl.vault.permission.plugins.Permission_PermissionsBukkit;
+import net.milkbowl.vault.permission.plugins.Permission_PermissionsEx;
+import net.milkbowl.vault.permission.plugins.Permission_Privileges;
+import net.milkbowl.vault.permission.plugins.Permission_SimplyPerms;
+import net.milkbowl.vault.permission.plugins.Permission_Starburst;
+import net.milkbowl.vault.permission.plugins.Permission_SuperPerms;
+import net.milkbowl.vault.permission.plugins.Permission_TotalPermissions;
+import net.milkbowl.vault.permission.plugins.Permission_Xperms;
+import net.milkbowl.vault.permission.plugins.Permission_bPermissions;
+import net.milkbowl.vault.permission.plugins.Permission_bPermissions2;
+import net.milkbowl.vault.permission.plugins.Permission_rscPermissions;
 import net.milkbowl.vault.util.VersionComparator;
 import org.bstats.Metrics;
 import org.bukkit.Bukkit;
@@ -55,11 +101,6 @@ import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.ServicePriority;
 import org.bukkit.plugin.java.JavaPlugin;
-
-import com.nijikokun.register.payment.Methods;
-
-import net.milkbowl.vault.chat.plugins.Chat_TotalPermissions;
-import net.milkbowl.vault.economy.plugins.Economy_MiConomy;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 
@@ -69,6 +110,39 @@ public class Vault extends JavaPlugin {
   private static final String HOOK_FAILED = "[%s] There was an error hooking %s - check to make sure you're using a compatible version!";
   private static final String NO_PERMISSION = "&cYou do not have permission to use that command!";
   private Permission perms;
+
+  /**
+   * Determines if all packages in a String array are within the Classpath.
+   * This is the best way to determine if a specific plugin exists and will be
+   * loaded. If the plugin package isn't loaded, we shouldn't bother waiting
+   * for it!
+   *
+   * @param packages String Array of package names to check
+   * @return Success or Failure
+   */
+  private static boolean packagesExists(String... packages) {
+    try {
+      for (String pkg : packages) {
+        Class.forName(pkg);
+      }
+      return true;
+    } catch (Throwable throwable) {
+      return false;
+    }
+  }
+
+  private static String colorize(String input) {
+    return ChatColor.translateAlternateColorCodes('&', input);
+  }
+
+  private static String read(String url) throws IOException {
+    HttpURLConnection connection = (HttpURLConnection) new URL(url).openConnection();
+    connection.setRequestProperty("User-Agent", "Natrolite/1.0");
+    try (InputStream in = connection.getInputStream()) {
+      Scanner s = new Scanner(in).useDelimiter("\\A");
+      return s.hasNext() ? s.next() : "";
+    }
+  }
 
   @Override
   public void onEnable() {
@@ -414,39 +488,6 @@ public class Vault extends JavaPlugin {
       }
     }
     sender.sendMessage("Converson complete, please verify the data before using it.");
-  }
-
-  /**
-   * Determines if all packages in a String array are within the Classpath.
-   * This is the best way to determine if a specific plugin exists and will be
-   * loaded. If the plugin package isn't loaded, we shouldn't bother waiting
-   * for it!
-   *
-   * @param packages String Array of package names to check
-   * @return Success or Failure
-   */
-  private static boolean packagesExists(String... packages) {
-    try {
-      for (String pkg : packages) {
-        Class.forName(pkg);
-      }
-      return true;
-    } catch (Throwable throwable) {
-      return false;
-    }
-  }
-
-  private static String colorize(String input) {
-    return ChatColor.translateAlternateColorCodes('&', input);
-  }
-
-  private static String read(String url) throws IOException {
-    HttpURLConnection connection = (HttpURLConnection) new URL(url).openConnection();
-    connection.setRequestProperty("User-Agent", "Natrolite/1.0");
-    try (InputStream in = connection.getInputStream()) {
-      Scanner s = new Scanner(in).useDelimiter("\\A");
-      return s.hasNext() ? s.next() : "";
-    }
   }
 
   public class VaultListener implements Listener {

@@ -1,7 +1,8 @@
 /*
  * This file is part of Vault.
  *
- * Copyright (c) 2017 Lukas Nehrke
+ * Copyright (C) 2017 Lukas Nehrke
+ * Copyright (C) 2011 Morgan Humes <morgan@lanaddict.com>
  *
  * Vault is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -20,7 +21,6 @@
 package net.milkbowl.vault.permission.plugins;
 
 import net.milkbowl.vault.permission.Permission;
-
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 

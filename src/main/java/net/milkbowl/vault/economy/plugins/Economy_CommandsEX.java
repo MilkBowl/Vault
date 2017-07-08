@@ -1,7 +1,8 @@
 /*
  * This file is part of Vault.
  *
- * Copyright (c) 2017 Lukas Nehrke
+ * Copyright (C) 2017 Lukas Nehrke
+ * Copyright (C) 2011 Morgan Humes <morgan@lanaddict.com>
  *
  * Vault is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -19,10 +20,14 @@
 
 package net.milkbowl.vault.economy.plugins;
 
+import com.github.zathrus_writer.commandsex.CommandsEX;
+import com.github.zathrus_writer.commandsex.api.economy.Economy;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
-
+import net.milkbowl.vault.economy.AbstractEconomy;
+import net.milkbowl.vault.economy.EconomyResponse;
+import net.milkbowl.vault.economy.EconomyResponse.ResponseType;
 import org.bukkit.Bukkit;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -30,13 +35,6 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.server.PluginDisableEvent;
 import org.bukkit.event.server.PluginEnableEvent;
 import org.bukkit.plugin.Plugin;
-
-import com.github.zathrus_writer.commandsex.CommandsEX;
-import com.github.zathrus_writer.commandsex.api.economy.Economy;
-
-import net.milkbowl.vault.economy.AbstractEconomy;
-import net.milkbowl.vault.economy.EconomyResponse;
-import net.milkbowl.vault.economy.EconomyResponse.ResponseType;
 
 public class Economy_CommandsEX extends AbstractEconomy {
 	private static final Logger log = Logger.getLogger("Minecraft");
@@ -59,36 +57,6 @@ public class Economy_CommandsEX extends AbstractEconomy {
         }
 	}
 	
-	public class EconomyServerListener implements Listener {
-        Economy_CommandsEX economy = null;
-
-        public EconomyServerListener(Economy_CommandsEX economy) {
-            this.economy = economy;
-        }
-
-        @EventHandler(priority = EventPriority.MONITOR)
-        public void onPluginEnable(PluginEnableEvent event) {
-            if (economy.economy == null) {
-                Plugin cex = event.getPlugin();
-
-                if (cex.getDescription().getName().equals("CommandsEX")) {
-                    economy.economy = (CommandsEX) cex;
-                    log.info(String.format("[%s][Economy] %s hooked.", plugin.getDescription().getName(), economy.name));
-                }
-            }
-        }
-
-        @EventHandler(priority = EventPriority.MONITOR)
-        public void onPluginDisable(PluginDisableEvent event) {
-            if (economy.economy != null) {
-                if (event.getPlugin().getDescription().getName().equals("CommandsEX")) {
-                    economy.economy = null;
-                    log.info(String.format("[%s][Economy] %s unhooked.", plugin.getDescription().getName(), economy.name));
-                }
-            }
-        }
-    }
-	
 	@Override
 	public boolean isEnabled() {
 		if (economy == null){
@@ -98,7 +66,7 @@ public class Economy_CommandsEX extends AbstractEconomy {
 		}
 	}
 
-	@Override
+  @Override
 	public String getName() {
 		return name;
 	}
@@ -147,7 +115,7 @@ public class Economy_CommandsEX extends AbstractEconomy {
 	public EconomyResponse withdrawPlayer(String playerName, double amount) {
 		ResponseType rt;
 		String message;
-		
+
 		if (Economy.has(playerName, amount)){
 			Economy.withdraw(playerName, amount);
 			rt = ResponseType.SUCCESS;
@@ -156,8 +124,8 @@ public class Economy_CommandsEX extends AbstractEconomy {
 			rt = ResponseType.FAILURE;
 			message = "Not enough money";
 		}
-		
-		return new EconomyResponse(amount, Economy.getBalance(playerName), rt, message);
+
+      return new EconomyResponse(amount, Economy.getBalance(playerName), rt, message);
 	}
 
 	@Override
@@ -250,4 +218,34 @@ public class Economy_CommandsEX extends AbstractEconomy {
     public boolean createPlayerAccount(String playerName, String worldName) {
         return createPlayerAccount(playerName);
     }
+
+  public class EconomyServerListener implements Listener {
+    Economy_CommandsEX economy = null;
+
+    public EconomyServerListener(Economy_CommandsEX economy) {
+      this.economy = economy;
+    }
+
+    @EventHandler(priority = EventPriority.MONITOR)
+    public void onPluginEnable(PluginEnableEvent event) {
+      if (economy.economy == null) {
+        Plugin cex = event.getPlugin();
+
+        if (cex.getDescription().getName().equals("CommandsEX")) {
+          economy.economy = (CommandsEX) cex;
+          log.info(String.format("[%s][Economy] %s hooked.", plugin.getDescription().getName(), economy.name));
+        }
+      }
+    }
+
+    @EventHandler(priority = EventPriority.MONITOR)
+    public void onPluginDisable(PluginDisableEvent event) {
+      if (economy.economy != null) {
+        if (event.getPlugin().getDescription().getName().equals("CommandsEX")) {
+          economy.economy = null;
+          log.info(String.format("[%s][Economy] %s unhooked.", plugin.getDescription().getName(), economy.name));
+        }
+      }
+    }
+  }
 }

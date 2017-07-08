@@ -1,7 +1,8 @@
 /*
  * This file is part of Vault.
  *
- * Copyright (c) 2017 Lukas Nehrke
+ * Copyright (C) 2017 Lukas Nehrke
+ * Copyright (C) 2011 Morgan Humes <morgan@lanaddict.com>
  *
  * Vault is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -19,15 +20,14 @@
 
 package net.milkbowl.vault.economy.plugins;
 
+import ca.agnate.EconXP.EconXP;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
 import net.milkbowl.vault.economy.AbstractEconomy;
 import net.milkbowl.vault.economy.EconomyResponse;
 import net.milkbowl.vault.economy.EconomyResponse.ResponseType;
-
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.event.EventHandler;
@@ -36,8 +36,6 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.server.PluginDisableEvent;
 import org.bukkit.event.server.PluginEnableEvent;
 import org.bukkit.plugin.Plugin;
-
-import ca.agnate.EconXP.EconXP;
 
 public class Economy_EconXP extends AbstractEconomy {
     private static final Logger log = Logger.getLogger("Minecraft");
@@ -56,36 +54,6 @@ public class Economy_EconXP extends AbstractEconomy {
             if (econ != null && econ.isEnabled()) {
                 this.econ = (EconXP) econ;
                 log.info(String.format("[%s][Economy] %s hooked.", plugin.getDescription().getName(), name));
-            }
-        }
-    }
-
-    public class EconomyServerListener implements Listener {
-        Economy_EconXP economy = null;
-
-        public EconomyServerListener(Economy_EconXP economy) {
-            this.economy = economy;
-        }
-
-        @EventHandler(priority = EventPriority.MONITOR)
-        public void onPluginEnable(PluginEnableEvent event) {
-            if (economy.econ == null) {
-                Plugin eco = event.getPlugin();
-
-                if (eco.getDescription().getName().equals("EconXP")) {
-                    economy.econ = (EconXP) eco;
-                    log.info(String.format("[%s][Economy] %s hooked.", plugin.getDescription().getName(), economy.name));
-                }
-            }
-        }
-
-        @EventHandler(priority = EventPriority.MONITOR)
-        public void onPluginDisable(PluginDisableEvent event) {
-            if (economy.econ != null) {
-                if (event.getPlugin().getDescription().getName().equals("EconXP")) {
-                    economy.econ = null;
-                    log.info(String.format("[%s][Economy] %s unhooked.", plugin.getDescription().getName(), economy.name));
-                }
             }
         }
     }
@@ -246,14 +214,13 @@ public class Economy_EconXP extends AbstractEconomy {
 	public int fractionalDigits() {
 		return 0;
 	}
-	
 
     @Override
     public boolean hasAccount(String playerName, String worldName) {
         return hasAccount(playerName);
     }
 
-    @Override
+  @Override
     public double getBalance(String playerName, String world) {
         return getBalance(playerName);
     }
@@ -277,4 +244,34 @@ public class Economy_EconXP extends AbstractEconomy {
     public boolean createPlayerAccount(String playerName, String worldName) {
         return createPlayerAccount(playerName);
     }
+
+  public class EconomyServerListener implements Listener {
+    Economy_EconXP economy = null;
+
+    public EconomyServerListener(Economy_EconXP economy) {
+      this.economy = economy;
+    }
+
+    @EventHandler(priority = EventPriority.MONITOR)
+    public void onPluginEnable(PluginEnableEvent event) {
+      if (economy.econ == null) {
+        Plugin eco = event.getPlugin();
+
+        if (eco.getDescription().getName().equals("EconXP")) {
+          economy.econ = (EconXP) eco;
+          log.info(String.format("[%s][Economy] %s hooked.", plugin.getDescription().getName(), economy.name));
+        }
+      }
+    }
+
+    @EventHandler(priority = EventPriority.MONITOR)
+    public void onPluginDisable(PluginDisableEvent event) {
+      if (economy.econ != null) {
+        if (event.getPlugin().getDescription().getName().equals("EconXP")) {
+          economy.econ = null;
+          log.info(String.format("[%s][Economy] %s unhooked.", plugin.getDescription().getName(), economy.name));
+        }
+      }
+    }
+  }
 }

@@ -1,7 +1,8 @@
 /*
  * This file is part of Vault.
  *
- * Copyright (c) 2017 Lukas Nehrke
+ * Copyright (C) 2017 Lukas Nehrke
+ * Copyright (C) 2011 Morgan Humes <morgan@lanaddict.com>
  *
  * Vault is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -20,9 +21,7 @@
 package net.milkbowl.vault.permission.plugins;
 
 import java.util.List;
-
 import net.milkbowl.vault.permission.Permission;
-
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
@@ -32,7 +31,6 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.server.PluginDisableEvent;
 import org.bukkit.event.server.PluginEnableEvent;
 import org.bukkit.plugin.Plugin;
-
 import ru.tehkode.permissions.PermissionGroup;
 import ru.tehkode.permissions.PermissionUser;
 import ru.tehkode.permissions.bukkit.PermissionsEx;
@@ -71,43 +69,6 @@ public class Permission_PermissionsEx extends Permission {
             return false;
         } else {
             return permission.isEnabled();
-        }
-    }
-
-    public class PermissionServerListener implements Listener {
-        Permission_PermissionsEx permission = null;
-
-        public PermissionServerListener(Permission_PermissionsEx permission) {
-            this.permission = permission;
-        }
-
-        @EventHandler(priority = EventPriority.MONITOR)
-        public void onPluginEnable(PluginEnableEvent event) {
-            if (permission.permission == null) {
-                Plugin perms = event.getPlugin();
-                if (perms.getDescription().getName().equals("PermissionsEx")) {
-                    try {
-                        if (Double.valueOf(perms.getDescription().getVersion()) < 1.16) {
-                            log.info(String.format("[%s][Permission] %s below 1.16 is not compatible with Vault! Falling back to SuperPerms only mode. PLEASE UPDATE!", plugin.getDescription().getName(), name));
-                            return;
-                        }
-                    } catch (NumberFormatException e) {
-                        // Do nothing
-                    }
-                    permission.permission = (PermissionsEx) perms;
-                    log.info(String.format("[%s][Permission] %s hooked.", plugin.getDescription().getName(), permission.name));
-                }
-            }
-        }
-
-        @EventHandler(priority = EventPriority.MONITOR)
-        public void onPluginDisable(PluginDisableEvent event) {
-            if (permission.permission != null) {
-                if (event.getPlugin().getDescription().getName().equals("PermissionsEx")) {
-                    permission.permission = null;
-                    log.info(String.format("[%s][Permission] %s un-hooked.", plugin.getDescription().getName(), permission.name));
-                }
-            }
         }
     }
 
@@ -246,12 +207,12 @@ public class Permission_PermissionsEx extends Permission {
     private PermissionUser getUser(OfflinePlayer op) {
     	return PermissionsEx.getPermissionManager().getUser(op.getUniqueId());
     }
-    
+
     private PermissionUser getUser(String playerName) {
     	return PermissionsEx.getPermissionManager().getUser(playerName);
     }
 
-    @Override
+  @Override
     public String[] getPlayerGroups(String world, OfflinePlayer op) {
     	PermissionUser user = getUser(op);
     	return user == null ? null : user.getParentIdentifiers(world).toArray(new String[0]);
@@ -393,4 +354,41 @@ public class Permission_PermissionsEx extends Permission {
     public boolean hasGroupSupport() {
         return true;
     }
+
+  public class PermissionServerListener implements Listener {
+    Permission_PermissionsEx permission = null;
+
+    public PermissionServerListener(Permission_PermissionsEx permission) {
+      this.permission = permission;
+    }
+
+    @EventHandler(priority = EventPriority.MONITOR)
+    public void onPluginEnable(PluginEnableEvent event) {
+      if (permission.permission == null) {
+        Plugin perms = event.getPlugin();
+        if (perms.getDescription().getName().equals("PermissionsEx")) {
+          try {
+            if (Double.valueOf(perms.getDescription().getVersion()) < 1.16) {
+              log.info(String.format("[%s][Permission] %s below 1.16 is not compatible with Vault! Falling back to SuperPerms only mode. PLEASE UPDATE!", plugin.getDescription().getName(), name));
+              return;
+            }
+          } catch (NumberFormatException e) {
+            // Do nothing
+          }
+          permission.permission = (PermissionsEx) perms;
+          log.info(String.format("[%s][Permission] %s hooked.", plugin.getDescription().getName(), permission.name));
+        }
+      }
+    }
+
+    @EventHandler(priority = EventPriority.MONITOR)
+    public void onPluginDisable(PluginDisableEvent event) {
+      if (permission.permission != null) {
+        if (event.getPlugin().getDescription().getName().equals("PermissionsEx")) {
+          permission.permission = null;
+          log.info(String.format("[%s][Permission] %s un-hooked.", plugin.getDescription().getName(), permission.name));
+        }
+      }
+    }
+  }
 }

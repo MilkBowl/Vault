@@ -1,7 +1,8 @@
 /*
  * This file is part of Vault.
  *
- * Copyright (c) 2017 Lukas Nehrke
+ * Copyright (C) 2017 Lukas Nehrke
+ * Copyright (C) 2011 Morgan Humes <morgan@lanaddict.com>
  *
  * Vault is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -22,9 +23,7 @@ package net.milkbowl.vault.permission.plugins;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
-
 import net.milkbowl.vault.permission.Permission;
-
 import org.anjocaido.groupmanager.GroupManager;
 import org.anjocaido.groupmanager.data.Group;
 import org.anjocaido.groupmanager.data.User;
@@ -57,35 +56,6 @@ public class Permission_GroupManager extends Permission {
             if (perms != null && perms.isEnabled()) {
                 groupManager = (GroupManager) perms;
                 log.info(String.format("[%s][Permission] %s hooked.", plugin.getDescription().getName(), name));
-            }
-        }
-    }
-
-    public class PermissionServerListener implements Listener {
-        Permission_GroupManager permission = null;
-
-        public PermissionServerListener(Permission_GroupManager permission) {
-            this.permission = permission;
-        }
-
-        @EventHandler(priority = EventPriority.MONITOR)
-        public void onPluginEnable(PluginEnableEvent event) {
-            if (permission.groupManager == null) {
-                Plugin p = event.getPlugin();
-                if (p.getDescription().getName().equals("GroupManager")) {
-                    permission.groupManager = (GroupManager) p;
-                    log.info(String.format("[%s][Permission] %s hooked.", plugin.getDescription().getName(), permission.name));
-                }
-            }
-        }
-
-        @EventHandler(priority = EventPriority.MONITOR)
-        public void onPluginDisable(PluginDisableEvent event) {
-            if (permission.groupManager != null) {
-                if (event.getPlugin().getDescription().getName().equals("GroupManager")) {
-                    permission.groupManager = null;
-                    log.info(String.format("[%s][Permission] %s un-hooked.", plugin.getDescription().getName(), permission.name));
-                }
             }
         }
     }
@@ -404,4 +374,33 @@ public class Permission_GroupManager extends Permission {
     public boolean hasGroupSupport() {
         return true;
     }
+
+  public class PermissionServerListener implements Listener {
+    Permission_GroupManager permission = null;
+
+    public PermissionServerListener(Permission_GroupManager permission) {
+      this.permission = permission;
+    }
+
+    @EventHandler(priority = EventPriority.MONITOR)
+    public void onPluginEnable(PluginEnableEvent event) {
+      if (permission.groupManager == null) {
+        Plugin p = event.getPlugin();
+        if (p.getDescription().getName().equals("GroupManager")) {
+          permission.groupManager = (GroupManager) p;
+          log.info(String.format("[%s][Permission] %s hooked.", plugin.getDescription().getName(), permission.name));
+        }
+      }
+    }
+
+    @EventHandler(priority = EventPriority.MONITOR)
+    public void onPluginDisable(PluginDisableEvent event) {
+      if (permission.groupManager != null) {
+        if (event.getPlugin().getDescription().getName().equals("GroupManager")) {
+          permission.groupManager = null;
+          log.info(String.format("[%s][Permission] %s un-hooked.", plugin.getDescription().getName(), permission.name));
+        }
+      }
+    }
+  }
 }

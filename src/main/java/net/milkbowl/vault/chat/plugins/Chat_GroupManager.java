@@ -1,7 +1,8 @@
 /*
  * This file is part of Vault.
  *
- * Copyright (c) 2017 Lukas Nehrke
+ * Copyright (C) 2017 Lukas Nehrke
+ * Copyright (C) 2011 Morgan Humes <morgan@lanaddict.com>
  *
  * Vault is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -20,10 +21,8 @@
 package net.milkbowl.vault.chat.plugins;
 
 import java.util.logging.Logger;
-
 import net.milkbowl.vault.chat.Chat;
 import net.milkbowl.vault.permission.Permission;
-
 import org.anjocaido.groupmanager.GroupManager;
 import org.anjocaido.groupmanager.data.Group;
 import org.anjocaido.groupmanager.data.User;
@@ -56,37 +55,6 @@ public class Chat_GroupManager extends Chat {
                 if (chat.isEnabled()) {
                     groupManager = (GroupManager) chat;
                     log.info(String.format("[%s][Chat] %s hooked.", plugin.getDescription().getName(), name));
-                }
-            }
-        }
-    }
-
-    public class PermissionServerListener implements Listener {
-
-        Chat_GroupManager chat = null;
-
-        public PermissionServerListener(Chat_GroupManager chat) {
-            this.chat = chat;
-        }
-
-        @EventHandler(priority = EventPriority.MONITOR)
-        public void onPluginEnable(PluginEnableEvent event) {
-            if (chat.groupManager == null) {
-                Plugin perms = event.getPlugin();
-
-                if (perms.getDescription().getName().equals("GroupManager")) {
-                    chat.groupManager = (GroupManager) perms;
-                    log.info(String.format("[%s][Chat] %s hooked.", plugin.getDescription().getName(), chat.name));
-                }
-            }
-        }
-
-        @EventHandler(priority = EventPriority.MONITOR)
-        public void onPluginDisable(PluginDisableEvent event) {
-            if (chat.groupManager != null) {
-                if (event.getPlugin().getDescription().getName().equals("GroupManager")) {
-                    chat.groupManager = null;
-                    log.info(String.format("[%s][Chat] %s un-hooked.", plugin.getDescription().getName(), chat.name));
                 }
             }
         }
@@ -368,4 +336,35 @@ public class Chat_GroupManager extends Chat {
         }
         group.getVariables().addVar(node, value);
     }
+
+  public class PermissionServerListener implements Listener {
+
+    Chat_GroupManager chat = null;
+
+    public PermissionServerListener(Chat_GroupManager chat) {
+      this.chat = chat;
+    }
+
+    @EventHandler(priority = EventPriority.MONITOR)
+    public void onPluginEnable(PluginEnableEvent event) {
+      if (chat.groupManager == null) {
+        Plugin perms = event.getPlugin();
+
+        if (perms.getDescription().getName().equals("GroupManager")) {
+          chat.groupManager = (GroupManager) perms;
+          log.info(String.format("[%s][Chat] %s hooked.", plugin.getDescription().getName(), chat.name));
+        }
+      }
+    }
+
+    @EventHandler(priority = EventPriority.MONITOR)
+    public void onPluginDisable(PluginDisableEvent event) {
+      if (chat.groupManager != null) {
+        if (event.getPlugin().getDescription().getName().equals("GroupManager")) {
+          chat.groupManager = null;
+          log.info(String.format("[%s][Chat] %s un-hooked.", plugin.getDescription().getName(), chat.name));
+        }
+      }
+    }
+  }
 }

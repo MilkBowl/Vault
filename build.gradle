@@ -52,14 +52,15 @@ sourceCompatibility = '1.7'
 targetCompatibility = '1.7'
 
 license {
-    header = file('HEADER')
+    header = file('HEADER.txt')
     include '**/*.java'
+    include '**/*.yml'
     newLine = true
     exclude 'net/milkbowl/vault/util/VersionComparator.java'
 }
 
 processResources {
-    from 'LICENSE'
+    from 'LICENSE.txt'
     expand(version: version, description: project.description)
 }
 

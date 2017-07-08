@@ -1,7 +1,8 @@
 /*
  * This file is part of Vault.
  *
- * Copyright (c) 2017 Lukas Nehrke
+ * Copyright (C) 2017 Lukas Nehrke
+ * Copyright (C) 2011 Morgan Humes <morgan@lanaddict.com>
  *
  * Vault is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -19,8 +20,12 @@
 
 package net.milkbowl.vault.permission.plugins;
 
+import com.lightniinja.kperms.KGroup;
+import com.lightniinja.kperms.KPermsPlugin;
+import com.lightniinja.kperms.KPlayer;
+import com.lightniinja.kperms.Utilities;
+import java.util.List;
 import net.milkbowl.vault.permission.Permission;
-
 import org.bukkit.Bukkit;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -28,13 +33,6 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.server.PluginDisableEvent;
 import org.bukkit.event.server.PluginEnableEvent;
 import org.bukkit.plugin.Plugin;
-
-import java.util.List;
-
-import com.lightniinja.kperms.KPlayer;
-import com.lightniinja.kperms.KGroup;
-import com.lightniinja.kperms.Utilities;
-import com.lightniinja.kperms.KPermsPlugin;
 
 public class Permission_KPerms extends Permission {
 
@@ -50,35 +48,6 @@ public class Permission_KPerms extends Permission {
             if (perms != null && perms.isEnabled()) {
                 this.kperms = (KPermsPlugin) perms;
                 plugin.getLogger().info(String.format("[%s][Permission] %s hooked.", plugin.getDescription().getName(), "KPerms"));
-            }
-        }
-    }
-
-    private class PermissionServerListener implements Listener {
-        private final Permission_KPerms bridge;
-
-        public PermissionServerListener(Permission_KPerms bridge) {
-            this.bridge = bridge;
-        }
-
-        @EventHandler(priority = EventPriority.MONITOR)
-        public void onPluginEnable(PluginEnableEvent event) {
-            if(bridge.kperms == null) {
-                Plugin plugin = event.getPlugin();
-                if (plugin.getDescription().getName().equals("KPerms")) {
-                    bridge.kperms = (KPermsPlugin) plugin;
-                    log.info(String.format("[%s][Permission] %s hooked.", vault.getDescription().getName(), "KPerms"));
-                }
-            }
-        }
-
-        @EventHandler(priority = EventPriority.MONITOR)
-        public void onPluginDisable(PluginDisableEvent event) {
-            if(bridge.kperms != null){
-                if(event.getPlugin().getDescription().getName().equals(bridge.kperms.getName())) {
-                    bridge.kperms = null;
-                    log.info(String.format("[%s][Permission] %s un-hooked.", vault.getDescription().getName(), "KPerms"));
-                }
             }
         }
     }
@@ -165,4 +134,33 @@ public class Permission_KPerms extends Permission {
     public String[] getGroups() {
         return new Utilities(kperms).getGroups();
     }
+
+  private class PermissionServerListener implements Listener {
+    private final Permission_KPerms bridge;
+
+    public PermissionServerListener(Permission_KPerms bridge) {
+      this.bridge = bridge;
+    }
+
+    @EventHandler(priority = EventPriority.MONITOR)
+    public void onPluginEnable(PluginEnableEvent event) {
+      if (bridge.kperms == null) {
+        Plugin plugin = event.getPlugin();
+        if (plugin.getDescription().getName().equals("KPerms")) {
+          bridge.kperms = (KPermsPlugin) plugin;
+          log.info(String.format("[%s][Permission] %s hooked.", vault.getDescription().getName(), "KPerms"));
+        }
+      }
+    }
+
+    @EventHandler(priority = EventPriority.MONITOR)
+    public void onPluginDisable(PluginDisableEvent event) {
+      if (bridge.kperms != null) {
+        if (event.getPlugin().getDescription().getName().equals(bridge.kperms.getName())) {
+          bridge.kperms = null;
+          log.info(String.format("[%s][Permission] %s un-hooked.", vault.getDescription().getName(), "KPerms"));
+        }
+      }
+    }
+  }
 }

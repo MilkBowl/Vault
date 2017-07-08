@@ -1,7 +1,8 @@
 /*
  * This file is part of Vault.
  *
- * Copyright (c) 2017 Lukas Nehrke
+ * Copyright (C) 2017 Lukas Nehrke
+ * Copyright (C) 2011 Morgan Humes <morgan@lanaddict.com>
  *
  * Vault is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -19,21 +20,19 @@
 
 package net.milkbowl.vault.chat.plugins;
 
+import com.overmc.overpermissions.api.GroupManager;
+import com.overmc.overpermissions.api.PermissionGroup;
+import com.overmc.overpermissions.api.PermissionUser;
+import com.overmc.overpermissions.api.UserManager;
+import com.overmc.overpermissions.internal.OverPermissions;
 import net.milkbowl.vault.chat.Chat;
 import net.milkbowl.vault.permission.Permission;
-
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.server.PluginDisableEvent;
 import org.bukkit.event.server.PluginEnableEvent;
 import org.bukkit.plugin.Plugin;
-
-import com.overmc.overpermissions.api.GroupManager;
-import com.overmc.overpermissions.api.PermissionGroup;
-import com.overmc.overpermissions.api.PermissionUser;
-import com.overmc.overpermissions.api.UserManager;
-import com.overmc.overpermissions.internal.OverPermissions;
 
 public class Chat_OverPermissions extends Chat {
     protected final Plugin plugin;

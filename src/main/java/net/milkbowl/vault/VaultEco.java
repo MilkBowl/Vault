@@ -1,7 +1,8 @@
 /*
  * This file is part of Vault.
  *
- * Copyright (c) 2017 Lukas Nehrke
+ * Copyright (C) 2017 Lukas Nehrke
+ * Copyright (C) 2011 Morgan Humes <morgan@lanaddict.com>
  *
  * Vault is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -19,13 +20,10 @@
 
 package net.milkbowl.vault;
 
-import net.milkbowl.vault.Vault;
+import com.nijikokun.register.payment.Method;
 import net.milkbowl.vault.economy.Economy;
-
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.RegisteredServiceProvider;
-
-import com.nijikokun.register.payment.Method;
 
 @SuppressWarnings("deprecation")
 public class VaultEco implements Method {
@@ -37,6 +35,13 @@ public class VaultEco implements Method {
         return this.vault;
     }
 
+    public void setPlugin(Plugin plugin) {
+        this.vault = (Vault) plugin;
+        RegisteredServiceProvider<Economy> economyProvider = this.vault.getServer().getServicesManager().getRegistration(Economy.class);
+        if (economyProvider != null) {
+            this.economy = economyProvider.getProvider();
+        }
+    }
 
 	@Override
     public boolean createAccount(String name, Double amount) {
@@ -100,14 +105,6 @@ public class VaultEco implements Method {
 
     public boolean isCompatible(Plugin plugin) {
         return plugin instanceof Vault;
-    }
-
-    public void setPlugin(Plugin plugin) {
-        this.vault = (Vault) plugin;
-        RegisteredServiceProvider<Economy> economyProvider = this.vault.getServer().getServicesManager().getRegistration(Economy.class);
-        if (economyProvider != null) {
-            this.economy = economyProvider.getProvider();
-        }
     }
 
     public class VaultAccount implements MethodAccount {

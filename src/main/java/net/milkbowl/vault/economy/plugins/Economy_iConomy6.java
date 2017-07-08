@@ -1,7 +1,8 @@
 /*
  * This file is part of Vault.
  *
- * Copyright (c) 2017 Lukas Nehrke
+ * Copyright (C) 2017 Lukas Nehrke
+ * Copyright (C) 2011 Morgan Humes <morgan@lanaddict.com>
  *
  * Vault is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -19,13 +20,15 @@
 
 package net.milkbowl.vault.economy.plugins;
 
+import com.iCo6.Constants;
+import com.iCo6.iConomy;
+import com.iCo6.system.Accounts;
+import com.iCo6.system.Holdings;
 import java.util.List;
 import java.util.logging.Logger;
-
 import net.milkbowl.vault.economy.AbstractEconomy;
 import net.milkbowl.vault.economy.EconomyResponse;
 import net.milkbowl.vault.economy.EconomyResponse.ResponseType;
-
 import org.bukkit.Bukkit;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -34,17 +37,11 @@ import org.bukkit.event.server.PluginDisableEvent;
 import org.bukkit.event.server.PluginEnableEvent;
 import org.bukkit.plugin.Plugin;
 
-import com.iCo6.Constants;
-import com.iCo6.iConomy;
-import com.iCo6.system.Accounts;
-import com.iCo6.system.Holdings;
-
 public class Economy_iConomy6 extends AbstractEconomy {
     private static final Logger log = Logger.getLogger("Minecraft");
-
+  protected iConomy economy = null;
     private String name = "iConomy ";
     private Plugin plugin = null;
-    protected iConomy economy = null;
     private Accounts accounts;
 
     public Economy_iConomy6(Plugin plugin) {
@@ -62,38 +59,6 @@ public class Economy_iConomy6 extends AbstractEconomy {
                 economy = (iConomy) ec;
                 accounts = new Accounts();
                 log.info(String.format("[%s][Economy] %s hooked.", plugin.getDescription().getName(), name));
-            }
-        }
-    }
-
-    public class EconomyServerListener implements Listener {
-        Economy_iConomy6 economy = null;
-
-        public EconomyServerListener(Economy_iConomy6 economy) {
-            this.economy = economy;
-        }
-
-        @EventHandler(priority = EventPriority.MONITOR)
-        public void onPluginEnable(PluginEnableEvent event) {
-            if (economy.economy == null) {
-                Plugin ec = event.getPlugin();
-                if (ec.getClass().getName().equals("com.iCo6.iConomy")) {
-                    String version = ec.getDescription().getVersion().split("\\.")[0];
-                    name += version;
-                    economy.economy = (iConomy) ec;
-                    accounts = new Accounts();
-                    log.info(String.format("[%s][Economy] %s hooked.", plugin.getDescription().getName(), economy.name));
-                }
-            }
-        }
-
-        @EventHandler(priority = EventPriority.MONITOR)
-        public void onPluginDisable(PluginDisableEvent event) {
-            if (economy.economy != null) {
-                if (event.getPlugin().getDescription().getName().equals("iConomy")) {
-                    economy.economy = null;
-                    log.info(String.format("[%s][Economy] %s unhooked.", plugin.getDescription().getName(), economy.name));
-                }
             }
         }
     }
@@ -175,7 +140,7 @@ public class Economy_iConomy6 extends AbstractEconomy {
         boolean created = accounts.create(name);
         if (created) {
             return new EconomyResponse(0, 0, ResponseType.SUCCESS, "");
-        } else { 
+        } else {
             return new EconomyResponse(0, 0, ResponseType.FAILURE, "There was an error creating the account");
         }
 
@@ -293,4 +258,36 @@ public class Economy_iConomy6 extends AbstractEconomy {
     public boolean createPlayerAccount(String playerName, String worldName) {
         return createPlayerAccount(playerName);
     }
+
+  public class EconomyServerListener implements Listener {
+    Economy_iConomy6 economy = null;
+
+    public EconomyServerListener(Economy_iConomy6 economy) {
+      this.economy = economy;
+    }
+
+    @EventHandler(priority = EventPriority.MONITOR)
+    public void onPluginEnable(PluginEnableEvent event) {
+      if (economy.economy == null) {
+        Plugin ec = event.getPlugin();
+        if (ec.getClass().getName().equals("com.iCo6.iConomy")) {
+          String version = ec.getDescription().getVersion().split("\\.")[0];
+          name += version;
+          economy.economy = (iConomy) ec;
+          accounts = new Accounts();
+          log.info(String.format("[%s][Economy] %s hooked.", plugin.getDescription().getName(), economy.name));
+        }
+      }
+    }
+
+    @EventHandler(priority = EventPriority.MONITOR)
+    public void onPluginDisable(PluginDisableEvent event) {
+      if (economy.economy != null) {
+        if (event.getPlugin().getDescription().getName().equals("iConomy")) {
+          economy.economy = null;
+          log.info(String.format("[%s][Economy] %s unhooked.", plugin.getDescription().getName(), economy.name));
+        }
+      }
+    }
+  }
 }

@@ -1,7 +1,8 @@
 /*
  * This file is part of Vault.
  *
- * Copyright (c) 2017 Lukas Nehrke
+ * Copyright (C) 2017 Lukas Nehrke
+ * Copyright (C) 2011 Morgan Humes <morgan@lanaddict.com>
  *
  * Vault is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -19,10 +20,8 @@
 
 package net.milkbowl.vault.permission.plugins;
 
-import net.milkbowl.vault.permission.Permission;
-
 import com.github.sebc722.xperms.core.Main;
-
+import net.milkbowl.vault.permission.Permission;
 import org.bukkit.Bukkit;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -55,43 +54,6 @@ public class Permission_Xperms extends Permission {
                 }
                 this.perms = (Main) perms;
                 log.info(String.format("[%s][Permission] %s hooked.", plugin.getDescription().getName(), name));
-            }
-        }
-    }
-
-    public class PermissionServerListener implements Listener {
-        Permission_Xperms permission = null;
-
-        public PermissionServerListener(Permission_Xperms permission){
-            this.permission = permission;
-        }
-
-        @EventHandler(priority = EventPriority.MONITOR)
-        public void onPluginEnable(PluginEnableEvent event) {
-            if (permission.perms == null) {
-                Plugin perms = event.getPlugin();
-                if(perms.getDescription().getName().equals("Xperms")){
-                    try{
-                        if(Double.valueOf(perms.getDescription().getVersion()) < 1.1){
-                            log.info(String.format("[%s] [Permission] %s Current version is not compatible with vault! Please Update!", plugin.getDescription().getName(), name));
-                        }
-                    } catch(NumberFormatException e){
-                        // version is first release, numbered 1.0.0
-                        log.info(String.format("[%s] [Permission] %s Current version is not compatibe with vault! Please Update!", plugin.getDescription().getName(), name));
-                    }
-                    permission.perms = (Main) perms;
-                    log.info(String.format("[%s][Permission] %s hooked.", plugin.getDescription().getName(), name));
-                }
-            }
-        }
-
-        @EventHandler(priority = EventPriority.MONITOR)
-        public void onPluginDisable(PluginDisableEvent event) {
-            if(permission.perms != null){
-                if(event.getPlugin().getName().equals("Xperms")){
-                    permission.perms = null;
-                    log.info(String.format("[%s][Permission] %s un-hooked.", plugin.getDescription().getName(), permission.name));
-                }
             }
         }
     }
@@ -180,4 +142,41 @@ public class Permission_Xperms extends Permission {
     public boolean hasGroupSupport() {
         return true;
     }
+
+  public class PermissionServerListener implements Listener {
+    Permission_Xperms permission = null;
+
+    public PermissionServerListener(Permission_Xperms permission) {
+      this.permission = permission;
+    }
+
+    @EventHandler(priority = EventPriority.MONITOR)
+    public void onPluginEnable(PluginEnableEvent event) {
+      if (permission.perms == null) {
+        Plugin perms = event.getPlugin();
+        if (perms.getDescription().getName().equals("Xperms")) {
+          try {
+            if (Double.valueOf(perms.getDescription().getVersion()) < 1.1) {
+              log.info(String.format("[%s] [Permission] %s Current version is not compatible with vault! Please Update!", plugin.getDescription().getName(), name));
+            }
+          } catch (NumberFormatException e) {
+            // version is first release, numbered 1.0.0
+            log.info(String.format("[%s] [Permission] %s Current version is not compatibe with vault! Please Update!", plugin.getDescription().getName(), name));
+          }
+          permission.perms = (Main) perms;
+          log.info(String.format("[%s][Permission] %s hooked.", plugin.getDescription().getName(), name));
+        }
+      }
+    }
+
+    @EventHandler(priority = EventPriority.MONITOR)
+    public void onPluginDisable(PluginDisableEvent event) {
+      if (permission.perms != null) {
+        if (event.getPlugin().getName().equals("Xperms")) {
+          permission.perms = null;
+          log.info(String.format("[%s][Permission] %s un-hooked.", plugin.getDescription().getName(), permission.name));
+        }
+      }
+    }
+  }
 }

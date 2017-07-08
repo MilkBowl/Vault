@@ -1,7 +1,8 @@
 /*
  * This file is part of Vault.
  *
- * Copyright (c) 2017 Lukas Nehrke
+ * Copyright (C) 2017 Lukas Nehrke
+ * Copyright (C) 2011 Morgan Humes <morgan@lanaddict.com>
  *
  * Vault is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -22,11 +23,9 @@ package net.milkbowl.vault.permission.plugins;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-
 import net.crystalyx.bukkit.simplyperms.SimplyAPI;
 import net.crystalyx.bukkit.simplyperms.SimplyPlugin;
 import net.milkbowl.vault.permission.Permission;
-
 import org.bukkit.Bukkit;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -49,35 +48,6 @@ public class Permission_SimplyPerms extends Permission{
             if (perms != null && perms.isEnabled()) {
                 this.perms = ((SimplyPlugin) perms).getAPI();
                 log.info(String.format("[%s][Permission] %s hooked.", plugin.getDescription().getName(), name));
-            }
-        }
-    }
-
-    public class PermissionServerListener implements Listener {
-        Permission_SimplyPerms permission = null;
-
-        public PermissionServerListener(Permission_SimplyPerms permission) {
-            this.permission = permission;
-        }
-
-        @EventHandler(priority = EventPriority.MONITOR)
-        public void onPluginEnable(PluginEnableEvent event) {
-            if (permission.perms == null) {
-                Plugin perms = event.getPlugin();
-                if (perms.getDescription().getName().equals("SimplyPerms")) {
-                    permission.perms = ((SimplyPlugin) perms).getAPI();
-                    log.info(String.format("[%s][Permission] %s hooked.", plugin.getDescription().getName(), permission.name));
-                }
-            }
-        }
-
-        @EventHandler(priority = EventPriority.MONITOR)
-        public void onPluginDisable(PluginDisableEvent event) {
-            if (permission.perms != null) {
-                if (event.getPlugin().getDescription().getName().equals("SimplyPerms")) {
-                    permission.perms = null;
-                    log.info(String.format("[%s][Permission] %s un-hooked.", plugin.getDescription().getName(), permission.name));
-                }
             }
         }
     }
@@ -225,5 +195,34 @@ public class Permission_SimplyPerms extends Permission{
     public boolean hasGroupSupport() {
         return true;
     }
+
+  public class PermissionServerListener implements Listener {
+    Permission_SimplyPerms permission = null;
+
+    public PermissionServerListener(Permission_SimplyPerms permission) {
+      this.permission = permission;
+    }
+
+    @EventHandler(priority = EventPriority.MONITOR)
+    public void onPluginEnable(PluginEnableEvent event) {
+      if (permission.perms == null) {
+        Plugin perms = event.getPlugin();
+        if (perms.getDescription().getName().equals("SimplyPerms")) {
+          permission.perms = ((SimplyPlugin) perms).getAPI();
+          log.info(String.format("[%s][Permission] %s hooked.", plugin.getDescription().getName(), permission.name));
+        }
+      }
+    }
+
+    @EventHandler(priority = EventPriority.MONITOR)
+    public void onPluginDisable(PluginDisableEvent event) {
+      if (permission.perms != null) {
+        if (event.getPlugin().getDescription().getName().equals("SimplyPerms")) {
+          permission.perms = null;
+          log.info(String.format("[%s][Permission] %s un-hooked.", plugin.getDescription().getName(), permission.name));
+        }
+      }
+    }
+  }
 
 }

@@ -1,7 +1,8 @@
 /*
  * This file is part of Vault.
  *
- * Copyright (c) 2017 Lukas Nehrke
+ * Copyright (C) 2017 Lukas Nehrke
+ * Copyright (C) 2011 Morgan Humes <morgan@lanaddict.com>
  *
  * Vault is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -19,20 +20,17 @@
 
 package net.milkbowl.vault.chat.plugins;
 
+import de.hydrox.bukkit.DroxPerms.DroxPerms;
+import de.hydrox.bukkit.DroxPerms.DroxPermsAPI;
 import java.util.logging.Logger;
-
 import net.milkbowl.vault.chat.Chat;
 import net.milkbowl.vault.permission.Permission;
-
 import org.bukkit.Bukkit;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.server.PluginEnableEvent;
 import org.bukkit.plugin.Plugin;
-
-import de.hydrox.bukkit.DroxPerms.DroxPerms;
-import de.hydrox.bukkit.DroxPerms.DroxPermsAPI;
 
 public class Chat_DroxPerms extends Chat {
     private static final Logger log = Logger.getLogger("Minecraft");
@@ -54,19 +52,6 @@ public class Chat_DroxPerms extends Chat {
             }
         }
         Bukkit.getServer().getPluginManager().registerEvents(new PermissionServerListener(), plugin);
-    }
-
-    public class PermissionServerListener implements Listener {
-        @EventHandler(priority = EventPriority.MONITOR)
-        public void onPluginEnable(PluginEnableEvent event) {
-            if (API == null) {
-                Plugin permPlugin = event.getPlugin();
-                if (permPlugin.getDescription().getName().equals("DroxPerms")) {
-                    API = ((DroxPerms) permPlugin).getAPI();
-                    log.info(String.format("[%s][Chat] %s hooked.", plugin.getDescription().getName(), name));
-                }
-            }
-        }
     }
 
     @Override
@@ -253,5 +238,18 @@ public class Chat_DroxPerms extends Chat {
     public void setGroupInfoString(String world, String group, String node, String value) {
         API.setGroupInfo(group, node, value);
     }
+
+  public class PermissionServerListener implements Listener {
+    @EventHandler(priority = EventPriority.MONITOR)
+    public void onPluginEnable(PluginEnableEvent event) {
+      if (API == null) {
+        Plugin permPlugin = event.getPlugin();
+        if (permPlugin.getDescription().getName().equals("DroxPerms")) {
+          API = ((DroxPerms) permPlugin).getAPI();
+          log.info(String.format("[%s][Chat] %s hooked.", plugin.getDescription().getName(), name));
+        }
+      }
+    }
+  }
 
 }

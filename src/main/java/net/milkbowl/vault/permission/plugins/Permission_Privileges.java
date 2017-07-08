@@ -1,7 +1,8 @@
 /*
  * This file is part of Vault.
  *
- * Copyright (c) 2017 Lukas Nehrke
+ * Copyright (C) 2017 Lukas Nehrke
+ * Copyright (C) 2011 Morgan Humes <morgan@lanaddict.com>
  *
  * Vault is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -19,6 +20,8 @@
 
 package net.milkbowl.vault.permission.plugins;
 
+import java.util.ArrayList;
+import java.util.List;
 import net.krinsoft.privileges.Privileges;
 import net.krinsoft.privileges.groups.Group;
 import net.milkbowl.vault.permission.Permission;
@@ -31,9 +34,6 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.server.PluginDisableEvent;
 import org.bukkit.event.server.PluginEnableEvent;
 import org.bukkit.plugin.Plugin;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class Permission_Privileges extends Permission {
 
@@ -49,35 +49,6 @@ public class Permission_Privileges extends Permission {
             if (perms != null && perms.isEnabled()) {
                 this.privs = (Privileges) perms;
                 log.info(String.format("[%s][Permission] %s hooked.", plugin.getDescription().getName(), name));
-            }
-        }
-    }
-
-    public class PermissionServerListener implements Listener {
-        Permission_Privileges permission = null;
-
-        public PermissionServerListener(Permission_Privileges permission) {
-            this.permission = permission;
-        }
-
-        @EventHandler(priority = EventPriority.MONITOR)
-        public void onPluginEnable(PluginEnableEvent event) {
-            if (permission.privs == null) {
-                Plugin perms = event.getPlugin();
-                if (perms.getDescription().getName().equals("Privileges")) {
-                    permission.privs = (Privileges) perms;
-                    log.info(String.format("[%s][Permission] %s hooked.", plugin.getDescription().getName(), permission.name));
-                }
-            }
-        }
-
-        @EventHandler(priority = EventPriority.MONITOR)
-        public void onPluginDisable(PluginDisableEvent event) {
-            if (permission.privs != null) {
-                if (event.getPlugin().getDescription().getName().equals("Privileges")) {
-                    permission.privs = null;
-                    log.info(String.format("[%s][Permission] %s un-hooked.", plugin.getDescription().getName(), permission.name));
-                }
             }
         }
     }
@@ -103,12 +74,12 @@ public class Permission_Privileges extends Permission {
         return false;
     }
 
-    // use superclass implementation of playerAddTransient() and playerRemoveTransient()
-
     @Override
     public boolean playerRemove(String world, String player, String permission) {
         return false;
     }
+
+  // use superclass implementation of playerAddTransient() and playerRemoveTransient()
 
     @Override
     public boolean groupHas(String world, String group, String permission) {
@@ -182,4 +153,33 @@ public class Permission_Privileges extends Permission {
     public boolean hasGroupSupport() {
         return true;
     }
+
+  public class PermissionServerListener implements Listener {
+    Permission_Privileges permission = null;
+
+    public PermissionServerListener(Permission_Privileges permission) {
+      this.permission = permission;
+    }
+
+    @EventHandler(priority = EventPriority.MONITOR)
+    public void onPluginEnable(PluginEnableEvent event) {
+      if (permission.privs == null) {
+        Plugin perms = event.getPlugin();
+        if (perms.getDescription().getName().equals("Privileges")) {
+          permission.privs = (Privileges) perms;
+          log.info(String.format("[%s][Permission] %s hooked.", plugin.getDescription().getName(), permission.name));
+        }
+      }
+    }
+
+    @EventHandler(priority = EventPriority.MONITOR)
+    public void onPluginDisable(PluginDisableEvent event) {
+      if (permission.privs != null) {
+        if (event.getPlugin().getDescription().getName().equals("Privileges")) {
+          permission.privs = null;
+          log.info(String.format("[%s][Permission] %s un-hooked.", plugin.getDescription().getName(), permission.name));
+        }
+      }
+    }
+  }
 }

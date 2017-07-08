@@ -1,7 +1,8 @@
 /*
  * This file is part of Vault.
  *
- * Copyright (c) 2017 Lukas Nehrke
+ * Copyright (C) 2017 Lukas Nehrke
+ * Copyright (C) 2011 Morgan Humes <morgan@lanaddict.com>
  *
  * Vault is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -35,9 +36,8 @@ public class Chat_Privileges extends Chat {
     private static final String PLUGIN_NAME = "Privileges";
     private static final String CHAT_PREFIX_KEY = "prefix";
     private static final String CHAT_SUFFIX_KEY = "suffix";
-
-    private Privileges privs;
     private final Plugin plugin;
+  private Privileges privs;
 
     public Chat_Privileges(Plugin plugin, Permission perms) {
         super(perms);

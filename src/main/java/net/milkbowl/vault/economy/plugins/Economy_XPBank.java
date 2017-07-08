@@ -1,7 +1,8 @@
 /*
  * This file is part of Vault.
  *
- * Copyright (c) 2017 Lukas Nehrke
+ * Copyright (C) 2017 Lukas Nehrke
+ * Copyright (C) 2011 Morgan Humes <morgan@lanaddict.com>
  *
  * Vault is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -19,13 +20,15 @@
 
 package net.milkbowl.vault.economy.plugins;
 
+import com.gmail.mirelatrue.xpbank.API;
+import com.gmail.mirelatrue.xpbank.Account;
+import com.gmail.mirelatrue.xpbank.GroupBank;
+import com.gmail.mirelatrue.xpbank.XPBank;
 import java.util.List;
 import java.util.logging.Logger;
-
 import net.milkbowl.vault.economy.AbstractEconomy;
 import net.milkbowl.vault.economy.EconomyResponse;
 import net.milkbowl.vault.economy.EconomyResponse.ResponseType;
-
 import org.bukkit.Bukkit;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -33,11 +36,6 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.server.PluginDisableEvent;
 import org.bukkit.event.server.PluginEnableEvent;
 import org.bukkit.plugin.Plugin;
-
-import com.gmail.mirelatrue.xpbank.API;
-import com.gmail.mirelatrue.xpbank.Account;
-import com.gmail.mirelatrue.xpbank.GroupBank;
-import com.gmail.mirelatrue.xpbank.XPBank;
 
 public class Economy_XPBank extends AbstractEconomy {
 
@@ -60,37 +58,6 @@ public class Economy_XPBank extends AbstractEconomy {
                 XPB = (XPBank) economy;
                 api = XPB.getAPI();
                 log.info(String.format("[%s][Economy] %s hooked.", plugin.getDescription().getName(), name));
-            }
-        }
-    }
-
-    public class EconomyServerListener implements Listener {
-        Economy_XPBank economy = null;
-
-        public EconomyServerListener (Economy_XPBank economy_XPBank) {
-            this.economy = economy_XPBank;
-        }
-
-        @EventHandler (priority = EventPriority.MONITOR)
-        public void onPluginEnable (PluginEnableEvent event) {
-            if (economy.XPB == null) {
-                Plugin eco = event.getPlugin();
-
-                if (eco.getDescription().getName().equals("XPBank")) {
-                    economy.XPB = (XPBank) eco;
-                    api = XPB.getAPI();
-                    log.info(String.format("[%s][Economy] %s hooked.", plugin.getDescription().getName(), economy.name));
-                }
-            }
-        }
-
-        @EventHandler (priority = EventPriority.MONITOR)
-        public void onPluginDisable (PluginDisableEvent event) {
-            if (economy.XPB != null) {
-                if (event.getPlugin().getDescription().getName().equals("XPBank")) {
-                    economy.XPB = null;
-                    log.info(String.format("[%s][Economy] %s unhooked.", plugin.getDescription().getName(), economy.name));
-                }
             }
         }
     }
@@ -389,4 +356,35 @@ public class Economy_XPBank extends AbstractEconomy {
     public boolean createPlayerAccount(String playerName, String worldName) {
         return createPlayerAccount(playerName);
     }
+
+  public class EconomyServerListener implements Listener {
+    Economy_XPBank economy = null;
+
+    public EconomyServerListener(Economy_XPBank economy_XPBank) {
+      this.economy = economy_XPBank;
+    }
+
+    @EventHandler(priority = EventPriority.MONITOR)
+    public void onPluginEnable(PluginEnableEvent event) {
+      if (economy.XPB == null) {
+        Plugin eco = event.getPlugin();
+
+        if (eco.getDescription().getName().equals("XPBank")) {
+          economy.XPB = (XPBank) eco;
+          api = XPB.getAPI();
+          log.info(String.format("[%s][Economy] %s hooked.", plugin.getDescription().getName(), economy.name));
+        }
+      }
+    }
+
+    @EventHandler(priority = EventPriority.MONITOR)
+    public void onPluginDisable(PluginDisableEvent event) {
+      if (economy.XPB != null) {
+        if (event.getPlugin().getDescription().getName().equals("XPBank")) {
+          economy.XPB = null;
+          log.info(String.format("[%s][Economy] %s unhooked.", plugin.getDescription().getName(), economy.name));
+        }
+      }
+    }
+  }
 }

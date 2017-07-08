@@ -1,7 +1,8 @@
 /*
  * This file is part of Vault.
  *
- * Copyright (c) 2017 Lukas Nehrke
+ * Copyright (C) 2017 Lukas Nehrke
+ * Copyright (C) 2011 Morgan Humes <morgan@lanaddict.com>
  *
  * Vault is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -19,15 +20,12 @@
 
 package net.milkbowl.vault.economy.plugins;
 
-import java.util.List;
-
-import org.bukkit.plugin.Plugin;
-
 import com.gravypod.Dosh.Dosh;
 import com.gravypod.Dosh.MoneyUtils;
-
+import java.util.List;
 import net.milkbowl.vault.economy.AbstractEconomy;
 import net.milkbowl.vault.economy.EconomyResponse;
+import org.bukkit.plugin.Plugin;
 
 
 public class Economy_Dosh extends AbstractEconomy {
@@ -165,8 +163,6 @@ public class Economy_Dosh extends AbstractEconomy {
         return false;
     }
 
-    public class DoshAPIHandler extends MoneyUtils {}
-
     @Override
     public boolean hasAccount(String playerName, String worldName) {
         return hasAccount(playerName);
@@ -196,4 +192,6 @@ public class Economy_Dosh extends AbstractEconomy {
     public boolean createPlayerAccount(String playerName, String worldName) {
         return createPlayerAccount(playerName);
     }
+
+  public class DoshAPIHandler extends MoneyUtils {}
 }

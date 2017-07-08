@@ -1,7 +1,8 @@
 /*
  * This file is part of Vault.
  *
- * Copyright (c) 2017 Lukas Nehrke
+ * Copyright (C) 2017 Lukas Nehrke
+ * Copyright (C) 2011 Morgan Humes <morgan@lanaddict.com>
  *
  * Vault is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -19,27 +20,23 @@
 
 package net.milkbowl.vault.economy.plugins;
 
+import com.github.omwah.SDFEconomy.SDFEconomy;
+import com.github.omwah.SDFEconomy.SDFEconomyAPI;
 import java.util.List;
 import java.util.logging.Logger;
-
-import org.bukkit.plugin.Plugin;
+import net.milkbowl.vault.economy.AbstractEconomy;
+import net.milkbowl.vault.economy.EconomyResponse;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.server.PluginDisableEvent;
 import org.bukkit.event.server.PluginEnableEvent;
-
-import com.github.omwah.SDFEconomy.SDFEconomy;
-import com.github.omwah.SDFEconomy.SDFEconomyAPI;
-
-import net.milkbowl.vault.economy.AbstractEconomy;
-import net.milkbowl.vault.economy.EconomyResponse;
+import org.bukkit.plugin.Plugin;
 
 public class Economy_SDFEconomy extends AbstractEconomy {
     private static final Logger log = Logger.getLogger("Minecraft");
-    private Plugin plugin = null;
-
     private final String name = "SDFEconomy";
+  private Plugin plugin = null;
     private SDFEconomyAPI api = null;
     
     public Economy_SDFEconomy(Plugin _plugin) {
@@ -68,29 +65,6 @@ public class Economy_SDFEconomy extends AbstractEconomy {
         }
     }
 
-    public class EconomyServerListener implements Listener {
-        Economy_SDFEconomy economy = null;
-
-        public EconomyServerListener(Economy_SDFEconomy economy) {
-            this.economy = economy;
-        }
-
-        @EventHandler(priority = EventPriority.MONITOR)
-        public void onPluginEnable(PluginEnableEvent event) {
-            if (event.getPlugin().getDescription().getName().equals("SDFEconomy")) {
-                economy.load_api();
-            }
-        }
-
-        @EventHandler(priority = EventPriority.MONITOR)
-        public void onPluginDisable(PluginDisableEvent event) {
-            if (event.getPlugin().getDescription().getName().equals("SDFEconomy")) {
-                economy.unload_api();
-            }
-        }
-    }
-
- 
     @Override
     public boolean isEnabled() {
         return api != null;
@@ -98,7 +72,7 @@ public class Economy_SDFEconomy extends AbstractEconomy {
 
     @Override
     public String getName() {
-        return "SDFEconomy"; 
+      return "SDFEconomy";
     }
 
     @Override
@@ -230,4 +204,26 @@ public class Economy_SDFEconomy extends AbstractEconomy {
     public boolean createPlayerAccount(String playerName, String worldName) {
         return createPlayerAccount(playerName);
     }
+
+  public class EconomyServerListener implements Listener {
+    Economy_SDFEconomy economy = null;
+
+    public EconomyServerListener(Economy_SDFEconomy economy) {
+      this.economy = economy;
+    }
+
+    @EventHandler(priority = EventPriority.MONITOR)
+    public void onPluginEnable(PluginEnableEvent event) {
+      if (event.getPlugin().getDescription().getName().equals("SDFEconomy")) {
+        economy.load_api();
+      }
+    }
+
+    @EventHandler(priority = EventPriority.MONITOR)
+    public void onPluginDisable(PluginDisableEvent event) {
+      if (event.getPlugin().getDescription().getName().equals("SDFEconomy")) {
+        economy.unload_api();
+      }
+    }
+  }
 }

@@ -1,7 +1,8 @@
 /*
  * This file is part of Vault.
  *
- * Copyright (c) 2017 Lukas Nehrke
+ * Copyright (C) 2017 Lukas Nehrke
+ * Copyright (C) 2011 Morgan Humes <morgan@lanaddict.com>
  *
  * Vault is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -19,13 +20,16 @@
 
 package net.milkbowl.vault.economy.plugins;
 
+import com.greatmancode.craftconomy3.Cause;
+import com.greatmancode.craftconomy3.Common;
+import com.greatmancode.craftconomy3.account.Account;
+import com.greatmancode.craftconomy3.groups.WorldGroupsManager;
+import com.greatmancode.craftconomy3.tools.interfaces.BukkitLoader;
 import java.util.List;
 import java.util.logging.Logger;
-
 import net.milkbowl.vault.economy.AbstractEconomy;
 import net.milkbowl.vault.economy.EconomyResponse;
 import net.milkbowl.vault.economy.EconomyResponse.ResponseType;
-
 import org.bukkit.Bukkit;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -34,17 +38,11 @@ import org.bukkit.event.server.PluginDisableEvent;
 import org.bukkit.event.server.PluginEnableEvent;
 import org.bukkit.plugin.Plugin;
 
-import com.greatmancode.craftconomy3.Cause;
-import com.greatmancode.craftconomy3.Common;
-import com.greatmancode.craftconomy3.account.Account;
-import com.greatmancode.craftconomy3.groups.WorldGroupsManager;
-import com.greatmancode.craftconomy3.tools.interfaces.BukkitLoader;
-
 public class Economy_Craftconomy3 extends AbstractEconomy {
 	private static final Logger log = Logger.getLogger("Minecraft");
 	private final String name = "Craftconomy3";
-	private Plugin plugin = null;
 	protected BukkitLoader economy = null;
+  private Plugin plugin = null;
 
 	public Economy_Craftconomy3(Plugin plugin) {
 		this.plugin = plugin;
@@ -56,36 +54,6 @@ public class Economy_Craftconomy3 extends AbstractEconomy {
 			if (ec != null && ec.isEnabled() && ec.getClass().getName().equals("com.greatmancode.craftconomy3.BukkitLoader")) {
 				economy = (BukkitLoader) ec;
 				log.info(String.format("[%s][Economy] %s hooked.", plugin.getDescription().getName(), name));
-			}
-		}
-	}
-
-	public class EconomyServerListener implements Listener {
-		Economy_Craftconomy3 economy = null;
-
-		public EconomyServerListener(Economy_Craftconomy3 economy) {
-			this.economy = economy;
-		}
-
-		@EventHandler(priority = EventPriority.MONITOR)
-		public void onPluginEnable(PluginEnableEvent event) {
-			if (economy.economy == null) {
-				Plugin ec = event.getPlugin();
-
-				if (ec.getDescription().getName().equals("Craftconomy3") && ec.getClass().getName().equals("com.greatmancode.craftconomy3.tools.interfaces.BukkitLoader")) {
-					economy.economy = (BukkitLoader) ec;
-					log.info(String.format("[%s][Economy] %s hooked.", plugin.getDescription().getName(), economy.name));
-				}
-			}
-		}
-
-		@EventHandler(priority = EventPriority.MONITOR)
-		public void onPluginDisable(PluginDisableEvent event) {
-			if (economy.economy != null) {
-				if (event.getPlugin().getDescription().getName().equals("Craftconomy3")) {
-					economy.economy = null;
-					log.info(String.format("[%s][Economy] %s unhooked.", plugin.getDescription().getName(), economy.name));
-				}
 			}
 		}
 	}
@@ -319,4 +287,34 @@ public class Economy_Craftconomy3 extends AbstractEconomy {
 	public boolean createPlayerAccount(String playerName, String worldName) {
 		return createPlayerAccount(playerName);
 	}
+
+  public class EconomyServerListener implements Listener {
+    Economy_Craftconomy3 economy = null;
+
+    public EconomyServerListener(Economy_Craftconomy3 economy) {
+      this.economy = economy;
+    }
+
+    @EventHandler(priority = EventPriority.MONITOR)
+    public void onPluginEnable(PluginEnableEvent event) {
+      if (economy.economy == null) {
+        Plugin ec = event.getPlugin();
+
+        if (ec.getDescription().getName().equals("Craftconomy3") && ec.getClass().getName().equals("com.greatmancode.craftconomy3.tools.interfaces.BukkitLoader")) {
+          economy.economy = (BukkitLoader) ec;
+          log.info(String.format("[%s][Economy] %s hooked.", plugin.getDescription().getName(), economy.name));
+        }
+      }
+    }
+
+    @EventHandler(priority = EventPriority.MONITOR)
+    public void onPluginDisable(PluginDisableEvent event) {
+      if (economy.economy != null) {
+        if (event.getPlugin().getDescription().getName().equals("Craftconomy3")) {
+          economy.economy = null;
+          log.info(String.format("[%s][Economy] %s unhooked.", plugin.getDescription().getName(), economy.name));
+        }
+      }
+    }
+  }
 }

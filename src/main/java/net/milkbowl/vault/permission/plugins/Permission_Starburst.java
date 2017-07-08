@@ -1,7 +1,8 @@
 /*
  * This file is part of Vault.
  *
- * Copyright (c) 2017 Lukas Nehrke
+ * Copyright (C) 2017 Lukas Nehrke
+ * Copyright (C) 2011 Morgan Humes <morgan@lanaddict.com>
  *
  * Vault is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -19,12 +20,15 @@
 
 package net.milkbowl.vault.permission.plugins;
 
+import com.dthielke.starburst.Group;
+import com.dthielke.starburst.GroupManager;
+import com.dthielke.starburst.GroupSet;
+import com.dthielke.starburst.StarburstPlugin;
+import com.dthielke.starburst.User;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
-
 import net.milkbowl.vault.permission.Permission;
-
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
@@ -35,15 +39,9 @@ import org.bukkit.event.server.PluginDisableEvent;
 import org.bukkit.event.server.PluginEnableEvent;
 import org.bukkit.plugin.Plugin;
 
-import com.dthielke.starburst.Group;
-import com.dthielke.starburst.GroupManager;
-import com.dthielke.starburst.GroupSet;
-import com.dthielke.starburst.StarburstPlugin;
-import com.dthielke.starburst.User;
-
 public class Permission_Starburst extends Permission {
-    private StarburstPlugin perms;
     private final String name = "Starburst";
+  private StarburstPlugin perms;
 
     public Permission_Starburst(Plugin plugin) {
         this.plugin = plugin;
@@ -55,30 +53,6 @@ public class Permission_Starburst extends Permission {
             if (p != null) {
                 perms = (StarburstPlugin) p;
                 log.info(String.format("[%s][Permission] %s hooked.", plugin.getDescription().getName(), name));
-            }
-        }
-    }
-
-    public class PermissionServerListener implements Listener {
-
-        @EventHandler(priority = EventPriority.MONITOR)
-        public void onPluginEnable(PluginEnableEvent event) {
-            if (perms == null) {
-                Plugin p = event.getPlugin();
-                if (p.getDescription().getName().equals("Starburst")) {
-                    perms = (StarburstPlugin) p;
-                    log.info(String.format("[%s][Permission] %s hooked.", plugin.getDescription().getName(), name));
-                }
-            }
-        }
-
-        @EventHandler(priority = EventPriority.MONITOR)
-        public void onPluginDisable(PluginDisableEvent event) {
-            if (perms != null) {
-                if (event.getPlugin().getDescription().getName().equals("Starburst")) {
-                    perms = null;
-                    log.info(String.format("[%s][Permission] %s un-hooked.", plugin.getDescription().getName(), name));
-                }
             }
         }
     }
@@ -308,4 +282,28 @@ public class Permission_Starburst extends Permission {
     public boolean hasGroupSupport() {
         return true;
     }
+
+  public class PermissionServerListener implements Listener {
+
+    @EventHandler(priority = EventPriority.MONITOR)
+    public void onPluginEnable(PluginEnableEvent event) {
+      if (perms == null) {
+        Plugin p = event.getPlugin();
+        if (p.getDescription().getName().equals("Starburst")) {
+          perms = (StarburstPlugin) p;
+          log.info(String.format("[%s][Permission] %s hooked.", plugin.getDescription().getName(), name));
+        }
+      }
+    }
+
+    @EventHandler(priority = EventPriority.MONITOR)
+    public void onPluginDisable(PluginDisableEvent event) {
+      if (perms != null) {
+        if (event.getPlugin().getDescription().getName().equals("Starburst")) {
+          perms = null;
+          log.info(String.format("[%s][Permission] %s un-hooked.", plugin.getDescription().getName(), name));
+        }
+      }
+    }
+  }
 }

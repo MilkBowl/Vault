@@ -1,7 +1,8 @@
 /*
  * This file is part of Vault.
  *
- * Copyright (c) 2017 Lukas Nehrke
+ * Copyright (C) 2017 Lukas Nehrke
+ * Copyright (C) 2011 Morgan Humes <morgan@lanaddict.com>
  *
  * Vault is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -20,11 +21,9 @@
 package net.milkbowl.vault.chat.plugins;
 
 import java.util.logging.Logger;
-
 import net.D3GN.MiracleM4n.mChat.mChatAPI;
 import net.milkbowl.vault.chat.Chat;
 import net.milkbowl.vault.permission.Permission;
-
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -52,35 +51,6 @@ public class Chat_mChat extends Chat {
             if (chat != null) {
                 mChat = net.D3GN.MiracleM4n.mChat.mChat.API;
                 log.info(String.format("[%s][Chat] %s hooked.", plugin.getDescription().getName(), "mChat"));
-            }
-        }
-    }
-
-    public class PermissionServerListener implements Listener {
-        Chat_mChat chat = null;
-
-        public PermissionServerListener(Chat_mChat chat) {
-            this.chat = chat;
-        }
-
-        @EventHandler(priority = EventPriority.MONITOR)
-        public void onPluginEnable(PluginEnableEvent event) {
-            if (this.chat.mChat == null) {
-                Plugin chat = event.getPlugin();
-                if (chat.getDescription().getName().equals("mChat")) {
-                    this.chat.mChat = net.D3GN.MiracleM4n.mChat.mChat.API;
-                    log.info(String.format("[%s][Chat] %s hooked.", plugin.getDescription().getName(), "mChat"));
-                }
-            }
-        }
-        
-        @EventHandler(priority = EventPriority.MONITOR)
-        public void onPluginDisable(PluginDisableEvent event) {
-            if (this.chat.mChat != null) {
-                if (event.getPlugin().getDescription().getName().equals("mChat")) {
-                    this.chat.mChat = null;
-                    log.info(String.format("[%s][Chat] %s un-hooked.", plugin.getDescription().getName(), "mChat"));
-                }
             }
         }
     }
@@ -251,4 +221,33 @@ public class Chat_mChat extends Chat {
     public void setGroupInfoString(String world, String group, String node, String value) {
         throw new UnsupportedOperationException("mChat does not support group info nodes");
     }
+
+  public class PermissionServerListener implements Listener {
+    Chat_mChat chat = null;
+
+    public PermissionServerListener(Chat_mChat chat) {
+      this.chat = chat;
+    }
+
+    @EventHandler(priority = EventPriority.MONITOR)
+    public void onPluginEnable(PluginEnableEvent event) {
+      if (this.chat.mChat == null) {
+        Plugin chat = event.getPlugin();
+        if (chat.getDescription().getName().equals("mChat")) {
+          this.chat.mChat = net.D3GN.MiracleM4n.mChat.mChat.API;
+          log.info(String.format("[%s][Chat] %s hooked.", plugin.getDescription().getName(), "mChat"));
+        }
+      }
+    }
+
+    @EventHandler(priority = EventPriority.MONITOR)
+    public void onPluginDisable(PluginDisableEvent event) {
+      if (this.chat.mChat != null) {
+        if (event.getPlugin().getDescription().getName().equals("mChat")) {
+          this.chat.mChat = null;
+          log.info(String.format("[%s][Chat] %s un-hooked.", plugin.getDescription().getName(), "mChat"));
+        }
+      }
+    }
+  }
 }

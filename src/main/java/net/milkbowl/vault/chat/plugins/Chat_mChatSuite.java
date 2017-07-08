@@ -1,7 +1,8 @@
 /*
  * This file is part of Vault.
  *
- * Copyright (c) 2017 Lukas Nehrke
+ * Copyright (C) 2017 Lukas Nehrke
+ * Copyright (C) 2011 Morgan Humes <morgan@lanaddict.com>
  *
  * Vault is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -23,12 +24,9 @@ import com.miraclem4n.mchat.api.Reader;
 import com.miraclem4n.mchat.api.Writer;
 import com.miraclem4n.mchat.types.InfoType;
 import in.mDev.MiracleM4n.mChatSuite.mChatSuite;
-
 import java.util.logging.Logger;
-
 import net.milkbowl.vault.chat.Chat;
 import net.milkbowl.vault.permission.Permission;
-
 import org.bukkit.Bukkit;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -55,30 +53,6 @@ public class Chat_mChatSuite extends Chat {
             if (chat != null && chat.isEnabled()) {
                 mChat = (mChatSuite) chat;
                 log.info(String.format("[%s][Chat] %s hooked.", plugin.getDescription().getName(), "mChatSuite"));
-            }
-        }
-    }
-
-    public class PermissionServerListener implements Listener {
-
-        @EventHandler(priority = EventPriority.MONITOR)
-        public void onPluginEnable(PluginEnableEvent event) {
-            if (mChat == null) {
-                Plugin chat = event.getPlugin();
-                if (chat.getDescription().getName().equals("mChatSuite")) {
-                    mChat = (mChatSuite) chat;
-                    log.info(String.format("[%s][Chat] %s hooked.", plugin.getDescription().getName(), "mChatSuite"));
-                }
-            }
-        }
-
-        @EventHandler(priority = EventPriority.MONITOR)
-        public void onPluginDisable(PluginDisableEvent event) {
-            if (mChat != null) {
-                if (event.getPlugin().getDescription().getName().equals("mChatSuite")) {
-                    mChat = null;
-                    log.info(String.format("[%s][Chat] %s un-hooked.", plugin.getDescription().getName(), "mChatSuite"));
-                }
             }
         }
     }
@@ -278,6 +252,7 @@ public class Chat_mChatSuite extends Chat {
             Writer.setInfoVar(group, InfoType.GROUP, node, value);
         }
     }
+
     private String getPlayerInfoValue(String world, String player, String node) {
         return Reader.getInfo(player, InfoType.USER, world, node);
     }
@@ -285,4 +260,28 @@ public class Chat_mChatSuite extends Chat {
     private String getGroupInfoValue(String world, String group, String node) {
         return Reader.getInfo(group, InfoType.GROUP, world, node);
     }
+
+  public class PermissionServerListener implements Listener {
+
+    @EventHandler(priority = EventPriority.MONITOR)
+    public void onPluginEnable(PluginEnableEvent event) {
+      if (mChat == null) {
+        Plugin chat = event.getPlugin();
+        if (chat.getDescription().getName().equals("mChatSuite")) {
+          mChat = (mChatSuite) chat;
+          log.info(String.format("[%s][Chat] %s hooked.", plugin.getDescription().getName(), "mChatSuite"));
+        }
+      }
+    }
+
+    @EventHandler(priority = EventPriority.MONITOR)
+    public void onPluginDisable(PluginDisableEvent event) {
+      if (mChat != null) {
+        if (event.getPlugin().getDescription().getName().equals("mChatSuite")) {
+          mChat = null;
+          log.info(String.format("[%s][Chat] %s un-hooked.", plugin.getDescription().getName(), "mChatSuite"));
+        }
+      }
+    }
+  }
 }

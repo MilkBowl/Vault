@@ -1,7 +1,8 @@
 /*
  * This file is part of Vault.
  *
- * Copyright (c) 2017 Lukas Nehrke
+ * Copyright (C) 2017 Lukas Nehrke
+ * Copyright (C) 2011 Morgan Humes <morgan@lanaddict.com>
  *
  * Vault is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -19,11 +20,14 @@
 
 package net.milkbowl.vault.permission.plugins;
 
+import de.bananaco.bpermissions.api.ApiLayer;
+import de.bananaco.bpermissions.api.Calculable;
+import de.bananaco.bpermissions.api.CalculableType;
+import de.bananaco.bpermissions.api.World;
+import de.bananaco.bpermissions.api.WorldManager;
 import java.util.HashSet;
 import java.util.Set;
-
 import net.milkbowl.vault.permission.Permission;
-
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -33,12 +37,6 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.server.PluginDisableEvent;
 import org.bukkit.event.server.PluginEnableEvent;
 import org.bukkit.plugin.Plugin;
-
-import de.bananaco.bpermissions.api.ApiLayer;
-import de.bananaco.bpermissions.api.World;
-import de.bananaco.bpermissions.api.WorldManager;
-import de.bananaco.bpermissions.api.Calculable;
-import de.bananaco.bpermissions.api.CalculableType;
 
 public class Permission_bPermissions2 extends Permission {
 
@@ -60,30 +58,6 @@ public class Permission_bPermissions2 extends Permission {
         }
     }
 
-    public class PermissionServerListener implements Listener {
-        
-        @EventHandler(priority = EventPriority.MONITOR)
-        public void onPluginEnable(PluginEnableEvent event) {
-            if (!hooked) {
-                Plugin p = event.getPlugin();
-                if(p.getDescription().getName().equals("bPermissions")) {
-                    hooked = true;
-                    log.info(String.format("[%s][Permission] %s hooked.", plugin.getDescription().getName(), name));
-                }
-            }
-        }
-
-        @EventHandler(priority = EventPriority.MONITOR)
-        public void onPluginDisable(PluginDisableEvent event) {
-            if (hooked) {
-                if (event.getPlugin().getDescription().getName().equals("bPermissions")) {
-                    hooked = false;
-                    log.info(String.format("[%s][Permission] %s un-hooked.", plugin.getDescription().getName(), name));
-                }
-            }
-        }
-    }
-
     @Override
     public String getName() {
         return name;
@@ -93,13 +67,13 @@ public class Permission_bPermissions2 extends Permission {
     public boolean isEnabled() {
         return hooked;
     }
-    
+
     @Override
     public boolean has(Player player, String permission) {
         return playerHas(player.getWorld().getName(), player.getName(), permission);
     }
 
-    @Override
+  @Override
 	public boolean has(String world, String player, String permission) {
 		return playerHas(world, player, permission);
 	}
@@ -135,12 +109,12 @@ public class Permission_bPermissions2 extends Permission {
         return true;
     }
 
-    // use superclass implementation of playerAddTransient() and playerRemoveTransient()
-
     @Override
     public boolean groupHas(String world, String group, String permission) {
         return ApiLayer.hasPermission(world, CalculableType.GROUP, group, permission);
     }
+
+  // use superclass implementation of playerAddTransient() and playerRemoveTransient()
 
     @Override
     public boolean groupAdd(String world, String group, String permission) {
@@ -206,4 +180,28 @@ public class Permission_bPermissions2 extends Permission {
     public boolean hasGroupSupport() {
         return true;
     }
+
+  public class PermissionServerListener implements Listener {
+
+    @EventHandler(priority = EventPriority.MONITOR)
+    public void onPluginEnable(PluginEnableEvent event) {
+      if (!hooked) {
+        Plugin p = event.getPlugin();
+        if (p.getDescription().getName().equals("bPermissions")) {
+          hooked = true;
+          log.info(String.format("[%s][Permission] %s hooked.", plugin.getDescription().getName(), name));
+        }
+      }
+    }
+
+    @EventHandler(priority = EventPriority.MONITOR)
+    public void onPluginDisable(PluginDisableEvent event) {
+      if (hooked) {
+        if (event.getPlugin().getDescription().getName().equals("bPermissions")) {
+          hooked = false;
+          log.info(String.format("[%s][Permission] %s un-hooked.", plugin.getDescription().getName(), name));
+        }
+      }
+    }
+  }
 }

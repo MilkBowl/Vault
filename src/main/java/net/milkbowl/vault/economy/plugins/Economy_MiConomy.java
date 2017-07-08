@@ -1,7 +1,8 @@
 /*
  * This file is part of Vault.
  *
- * Copyright (c) 2017 Lukas Nehrke
+ * Copyright (C) 2017 Lukas Nehrke
+ * Copyright (C) 2011 Morgan Humes <morgan@lanaddict.com>
  *
  * Vault is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -21,14 +22,11 @@ package net.milkbowl.vault.economy.plugins;
 
 import com.gmail.bleedobsidian.miconomy.Main;
 import com.gmail.bleedobsidian.miconomy.MiConomy;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
-
 import net.milkbowl.vault.economy.AbstractEconomy;
 import net.milkbowl.vault.economy.EconomyResponse;
-
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.World;

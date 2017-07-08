@@ -1,7 +1,8 @@
 /*
  * This file is part of Vault.
  *
- * Copyright (c) 2017 Lukas Nehrke
+ * Copyright (C) 2017 Lukas Nehrke
+ * Copyright (C) 2011 Morgan Humes <morgan@lanaddict.com>
  *
  * Vault is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -19,10 +20,10 @@
 
 package net.milkbowl.vault.permission.plugins;
 
+import de.hydrox.bukkit.DroxPerms.DroxPerms;
+import de.hydrox.bukkit.DroxPerms.DroxPermsAPI;
 import java.util.ArrayList;
-
 import net.milkbowl.vault.permission.Permission;
-
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -31,9 +32,6 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.server.PluginDisableEvent;
 import org.bukkit.event.server.PluginEnableEvent;
 import org.bukkit.plugin.Plugin;
-
-import de.hydrox.bukkit.DroxPerms.DroxPerms;
-import de.hydrox.bukkit.DroxPerms.DroxPermsAPI;
 
 public class Permission_DroxPerms extends Permission {
 
@@ -56,29 +54,6 @@ public class Permission_DroxPerms extends Permission {
         }
 
         Bukkit.getServer().getPluginManager().registerEvents(new PermissionServerListener(), plugin);
-    }
-
-    public class PermissionServerListener implements Listener {
-        @EventHandler(priority = EventPriority.MONITOR)
-        public void onPluginEnable(PluginEnableEvent event) {
-            if (API == null) {
-                Plugin permPlugin = event.getPlugin();
-                if (permPlugin.getDescription().getName().equals("DroxPerms")) {
-                    API = ((DroxPerms) permPlugin).getAPI();
-                    log.info(String.format("[%s][Permission] %s hooked.", plugin.getDescription().getName(), name));
-                }
-            }
-        }
-
-        @EventHandler(priority = EventPriority.MONITOR)
-        public void onPluginDisable(PluginDisableEvent event) {
-            if(API != null) {
-                if(event.getPlugin().getDescription().getName().equals("DroxPerms")) {
-                    API = null;
-                    log.info(String.format("[%s][Permission] %s un-hooked.", plugin.getDescription().getName(), name));
-                }
-            }
-        }
     }
 
     @Override
@@ -179,5 +154,28 @@ public class Permission_DroxPerms extends Permission {
     public boolean hasGroupSupport() {
         return true;
     }
+
+  public class PermissionServerListener implements Listener {
+    @EventHandler(priority = EventPriority.MONITOR)
+    public void onPluginEnable(PluginEnableEvent event) {
+      if (API == null) {
+        Plugin permPlugin = event.getPlugin();
+        if (permPlugin.getDescription().getName().equals("DroxPerms")) {
+          API = ((DroxPerms) permPlugin).getAPI();
+          log.info(String.format("[%s][Permission] %s hooked.", plugin.getDescription().getName(), name));
+        }
+      }
+    }
+
+    @EventHandler(priority = EventPriority.MONITOR)
+    public void onPluginDisable(PluginDisableEvent event) {
+      if (API != null) {
+        if (event.getPlugin().getDescription().getName().equals("DroxPerms")) {
+          API = null;
+          log.info(String.format("[%s][Permission] %s un-hooked.", plugin.getDescription().getName(), name));
+        }
+      }
+    }
+  }
 
 }

@@ -1,7 +1,8 @@
 /*
  * This file is part of Vault.
  *
- * Copyright (c) 2017 Lukas Nehrke
+ * Copyright (C) 2017 Lukas Nehrke
+ * Copyright (C) 2011 Morgan Humes <morgan@lanaddict.com>
  *
  * Vault is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -19,11 +20,12 @@
 
 package net.milkbowl.vault.permission.plugins;
 
+import com.nijiko.permissions.Group;
+import com.nijiko.permissions.ModularControl;
+import com.nijikokun.bukkit.Permissions.Permissions;
 import java.util.HashSet;
 import java.util.Set;
-
 import net.milkbowl.vault.permission.Permission;
-
 import org.bukkit.Bukkit;
 import org.bukkit.World;
 import org.bukkit.command.CommandSender;
@@ -34,10 +36,6 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.server.PluginDisableEvent;
 import org.bukkit.event.server.PluginEnableEvent;
 import org.bukkit.plugin.Plugin;
-
-import com.nijiko.permissions.Group;
-import com.nijiko.permissions.ModularControl;
-import com.nijikokun.bukkit.Permissions.Permissions;
 
 public class Permission_Permissions3 extends Permission {
 
@@ -79,34 +77,6 @@ public class Permission_Permissions3 extends Permission {
     @Override
     public boolean playerInGroup(String worldName, String playerName, String groupName) {
         return this.permission.getHandler().inGroup(worldName, playerName, groupName);
-    }
-
-    public class PermissionServerListener implements Listener {
-
-        @EventHandler(priority = EventPriority.MONITOR)
-        public void onPluginEnable(PluginEnableEvent event) {
-            if (permission == null) {
-                Plugin permi = event.getPlugin();
-                if((permi.getDescription().getName().equals("Permissions") || permi.getDescription().getName().equals("vPerms")) && permi.getDescription().getVersion().startsWith("3")) {
-                    if (permi.isEnabled()) {
-                        permission = (Permissions) permi;
-                        perms = (ModularControl) permission.getHandler();
-                        log.info(String.format("[%s][Permission] %s hooked.", plugin.getDescription().getName(), name));
-                    }
-                }
-            }
-        }
-
-        @EventHandler(priority = EventPriority.MONITOR)
-        public void onPluginDisable(PluginDisableEvent event) {
-            if (permission != null) {
-                if (event.getPlugin().getDescription().getName().equals("Permissions") || event.getPlugin().getDescription().getName().equals("vPerms")) {
-                    permission = null;
-                    perms = null;
-                    log.info(String.format("[%s][Permission] %s un-hooked.", plugin.getDescription().getName(), name));
-                }
-            }
-        }
     }
 
     @Override
@@ -228,7 +198,6 @@ public class Permission_Permissions3 extends Permission {
         return this.perms.has(worldName, playerName, permission);
     }
 
-
     @Override
     public boolean playerAddTransient(String player, String permission) {
         return playerAddTransient(null, player, permission);
@@ -307,4 +276,32 @@ public class Permission_Permissions3 extends Permission {
     public boolean hasGroupSupport() {
         return true;
     }
+
+  public class PermissionServerListener implements Listener {
+
+    @EventHandler(priority = EventPriority.MONITOR)
+    public void onPluginEnable(PluginEnableEvent event) {
+      if (permission == null) {
+        Plugin permi = event.getPlugin();
+        if ((permi.getDescription().getName().equals("Permissions") || permi.getDescription().getName().equals("vPerms")) && permi.getDescription().getVersion().startsWith("3")) {
+          if (permi.isEnabled()) {
+            permission = (Permissions) permi;
+            perms = (ModularControl) permission.getHandler();
+            log.info(String.format("[%s][Permission] %s hooked.", plugin.getDescription().getName(), name));
+          }
+        }
+      }
+    }
+
+    @EventHandler(priority = EventPriority.MONITOR)
+    public void onPluginDisable(PluginDisableEvent event) {
+      if (permission != null) {
+        if (event.getPlugin().getDescription().getName().equals("Permissions") || event.getPlugin().getDescription().getName().equals("vPerms")) {
+          permission = null;
+          perms = null;
+          log.info(String.format("[%s][Permission] %s un-hooked.", plugin.getDescription().getName(), name));
+        }
+      }
+    }
+  }
 }

@@ -1,7 +1,8 @@
 /*
  * This file is part of Vault.
  *
- * Copyright (c) 2017 Lukas Nehrke
+ * Copyright (C) 2017 Lukas Nehrke
+ * Copyright (C) 2011 Morgan Humes <morgan@lanaddict.com>
  *
  * Vault is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -19,13 +20,12 @@
 
 package net.milkbowl.vault.economy.plugins;
 
+import cosine.boseconomy.BOSEconomy;
 import java.util.List;
 import java.util.logging.Logger;
-
 import net.milkbowl.vault.economy.AbstractEconomy;
 import net.milkbowl.vault.economy.EconomyResponse;
 import net.milkbowl.vault.economy.EconomyResponse.ResponseType;
-
 import org.bukkit.Bukkit;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -33,8 +33,6 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.server.PluginDisableEvent;
 import org.bukkit.event.server.PluginEnableEvent;
 import org.bukkit.plugin.Plugin;
-
-import cosine.boseconomy.BOSEconomy;
 
 public class Economy_BOSE7 extends AbstractEconomy {
     private static final Logger log = Logger.getLogger("Minecraft");
@@ -124,36 +122,6 @@ public class Economy_BOSE7 extends AbstractEconomy {
         return economy.getMoneyName();
     }
 
-    public class EconomyServerListener implements Listener {
-        Economy_BOSE7 economy = null;
-
-        public EconomyServerListener(Economy_BOSE7 economy) {
-            this.economy = economy;
-        }
-
-        @EventHandler(priority = EventPriority.MONITOR)
-        public void onPluginEnable(PluginEnableEvent event) {
-            if (economy.economy == null) {
-                Plugin bose = event.getPlugin();
-
-                if (bose.getDescription().getName().equals("BOSEconomy") && bose.getDescription().getVersion().startsWith("0.7")) {
-                    economy.economy = (BOSEconomy) bose;
-                    log.info(String.format("[%s][Economy] %s hooked.", plugin.getDescription().getName(), economy.name));
-                }
-            }
-        }
-
-        @EventHandler(priority = EventPriority.MONITOR)
-        public void onPluginDisable(PluginDisableEvent event) {
-            if (economy.economy != null) {
-                if (event.getPlugin().getDescription().getName().equals("BOSEconomy") && event.getPlugin().getDescription().getVersion().startsWith("0.7")) {
-                    economy.economy = null;
-                    log.info(String.format("[%s][Economy] %s unhooked.", plugin.getDescription().getName(), economy.name));
-                }
-            }
-        }
-    }
-
     @Override
     public String format(double amount) {
         return economy.getMoneyFormatted(amount);
@@ -182,7 +150,7 @@ public class Economy_BOSE7 extends AbstractEconomy {
         if (!economy.bankExists(name)) {
             return new EconomyResponse(0, 0, ResponseType.FAILURE, "That bank does not exist!");
         }
-        
+
         double bankMoney = economy.getBankMoneyDouble(name);
         if (bankMoney < amount) {
             return new EconomyResponse(0, bankMoney, ResponseType.FAILURE, "The bank does not have enough money!");
@@ -275,14 +243,13 @@ public class Economy_BOSE7 extends AbstractEconomy {
 	public int fractionalDigits() {
 		return economy.getFractionalDigits();
 	}
-	
 
     @Override
     public boolean hasAccount(String playerName, String worldName) {
         return hasAccount(playerName);
     }
 
-    @Override
+  @Override
     public double getBalance(String playerName, String world) {
         return getBalance(playerName);
     }
@@ -306,4 +273,34 @@ public class Economy_BOSE7 extends AbstractEconomy {
     public boolean createPlayerAccount(String playerName, String worldName) {
         return createPlayerAccount(playerName);
     }
+
+  public class EconomyServerListener implements Listener {
+    Economy_BOSE7 economy = null;
+
+    public EconomyServerListener(Economy_BOSE7 economy) {
+      this.economy = economy;
+    }
+
+    @EventHandler(priority = EventPriority.MONITOR)
+    public void onPluginEnable(PluginEnableEvent event) {
+      if (economy.economy == null) {
+        Plugin bose = event.getPlugin();
+
+        if (bose.getDescription().getName().equals("BOSEconomy") && bose.getDescription().getVersion().startsWith("0.7")) {
+          economy.economy = (BOSEconomy) bose;
+          log.info(String.format("[%s][Economy] %s hooked.", plugin.getDescription().getName(), economy.name));
+        }
+      }
+    }
+
+    @EventHandler(priority = EventPriority.MONITOR)
+    public void onPluginDisable(PluginDisableEvent event) {
+      if (economy.economy != null) {
+        if (event.getPlugin().getDescription().getName().equals("BOSEconomy") && event.getPlugin().getDescription().getVersion().startsWith("0.7")) {
+          economy.economy = null;
+          log.info(String.format("[%s][Economy] %s unhooked.", plugin.getDescription().getName(), economy.name));
+        }
+      }
+    }
+  }
 }

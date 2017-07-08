@@ -1,7 +1,8 @@
 /*
  * This file is part of Vault.
  *
- * Copyright (c) 2017 Lukas Nehrke
+ * Copyright (C) 2017 Lukas Nehrke
+ * Copyright (C) 2011 Morgan Humes <morgan@lanaddict.com>
  *
  * Vault is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -41,8 +42,8 @@ import org.bukkit.plugin.Plugin;
 public class Chat_TotalPermissions extends Chat {
 
     private final Plugin plugin;
-    private TotalPermissions totalPermissions;
     private final String name = "TotalPermissions-Chat";
+  private TotalPermissions totalPermissions;
 
     public Chat_TotalPermissions(Plugin plugin, Permission perms) {
         super(perms);
@@ -55,41 +56,6 @@ public class Chat_TotalPermissions extends Chat {
                 if (chat.isEnabled()) {
                     totalPermissions = (TotalPermissions) chat;
                     plugin.getLogger().info(String.format("[Chat] %s hooked.", name));
-                }
-            }
-        }
-    }
-
-    public class PermissionServerListener implements Listener {
-
-        Chat_TotalPermissions chat = null;
-
-        public PermissionServerListener(Chat_TotalPermissions chat) {
-            this.chat = chat;
-        }
-
-        @EventHandler(priority = EventPriority.MONITOR)
-        public void onPluginEnable(PluginEnableEvent event) {
-            if (chat.totalPermissions == null) {
-                Plugin perms = event.getPlugin();
-
-                if (perms != null) {
-                    if (perms.getDescription().getName().equals("TotalPermissions")) {
-                        if (perms.isEnabled()) {
-                            chat.totalPermissions = (TotalPermissions) perms;
-                            plugin.getLogger().info(String.format("[Chat] %s hooked.", chat.getName()));
-                        }
-                    }
-                }
-            }
-        }
-
-        @EventHandler(priority = EventPriority.MONITOR)
-        public void onPluginDisable(PluginDisableEvent event) {
-            if (chat.totalPermissions != null) {
-                if (event.getPlugin().getDescription().getName().equals("TotalPermissions")) {
-                    chat.totalPermissions = null;
-                    plugin.getLogger().info(String.format("[Chat] %s un-hooked.", chat.name));
                 }
             }
         }
@@ -288,4 +254,39 @@ public class Chat_TotalPermissions extends Chat {
         PermissionBase base = getUser(group);
         return base.getOption(node);
     }
+
+  public class PermissionServerListener implements Listener {
+
+    Chat_TotalPermissions chat = null;
+
+    public PermissionServerListener(Chat_TotalPermissions chat) {
+      this.chat = chat;
+    }
+
+    @EventHandler(priority = EventPriority.MONITOR)
+    public void onPluginEnable(PluginEnableEvent event) {
+      if (chat.totalPermissions == null) {
+        Plugin perms = event.getPlugin();
+
+        if (perms != null) {
+          if (perms.getDescription().getName().equals("TotalPermissions")) {
+            if (perms.isEnabled()) {
+              chat.totalPermissions = (TotalPermissions) perms;
+              plugin.getLogger().info(String.format("[Chat] %s hooked.", chat.getName()));
+            }
+          }
+        }
+      }
+    }
+
+    @EventHandler(priority = EventPriority.MONITOR)
+    public void onPluginDisable(PluginDisableEvent event) {
+      if (chat.totalPermissions != null) {
+        if (event.getPlugin().getDescription().getName().equals("TotalPermissions")) {
+          chat.totalPermissions = null;
+          plugin.getLogger().info(String.format("[Chat] %s un-hooked.", chat.name));
+        }
+      }
+    }
+  }
 }

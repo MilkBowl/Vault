@@ -1,7 +1,8 @@
 /*
  * This file is part of Vault.
  *
- * Copyright (c) 2017 Lukas Nehrke
+ * Copyright (C) 2017 Lukas Nehrke
+ * Copyright (C) 2011 Morgan Humes <morgan@lanaddict.com>
  *
  * Vault is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -19,11 +20,11 @@
 
 package net.milkbowl.vault.chat.plugins;
 
+import de.bananaco.bpermissions.api.ApiLayer;
+import de.bananaco.bpermissions.api.CalculableType;
 import java.util.logging.Logger;
-
 import net.milkbowl.vault.chat.Chat;
 import net.milkbowl.vault.permission.Permission;
-
 import org.bukkit.Bukkit;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -31,9 +32,6 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.server.PluginDisableEvent;
 import org.bukkit.event.server.PluginEnableEvent;
 import org.bukkit.plugin.Plugin;
-
-import de.bananaco.bpermissions.api.ApiLayer;
-import de.bananaco.bpermissions.api.CalculableType;
 
 public class Chat_bPermissions2 extends Chat {
     private static final Logger log = Logger.getLogger("Minecraft");
@@ -53,35 +51,6 @@ public class Chat_bPermissions2 extends Chat {
             if (p != null) {
                 hooked = true;
                 log.info(String.format("[%s][Chat] %s hooked.", plugin.getDescription().getName(), "bPermissions2"));
-            }
-        }
-    }
-
-    public class PermissionServerListener implements Listener {
-        Chat_bPermissions2 chat = null;
-
-        public PermissionServerListener(Chat_bPermissions2 chat) {
-            this.chat = chat;
-        }
-
-        @EventHandler(priority = EventPriority.MONITOR)
-        public void onPluginEnable(PluginEnableEvent event) {
-            if (!hooked) {
-                Plugin chat = event.getPlugin();
-                if (chat.getDescription().getName().equals("bPermissions")) {
-                    hooked = true;
-                    log.info(String.format("[%s][Chat] %s hooked.", plugin.getDescription().getName(), "bPermissions2"));
-                }
-            }
-        }
-
-        @EventHandler(priority = EventPriority.MONITOR)
-        public void onPluginDisable(PluginDisableEvent event) {
-            if (hooked) {
-                if (event.getPlugin().getDescription().getName().equals("bPermissions")) {
-                    hooked = false;
-                    log.info(String.format("[%s][Chat] %s un-hooked.", plugin.getDescription().getName(), "bPermissions2"));
-                }
             }
         }
     }
@@ -265,4 +234,33 @@ public class Chat_bPermissions2 extends Chat {
     public void setGroupInfoString(String world, String group, String node, String value) {
         ApiLayer.setValue(world, CalculableType.GROUP, group, node, value);
     }
+
+  public class PermissionServerListener implements Listener {
+    Chat_bPermissions2 chat = null;
+
+    public PermissionServerListener(Chat_bPermissions2 chat) {
+      this.chat = chat;
+    }
+
+    @EventHandler(priority = EventPriority.MONITOR)
+    public void onPluginEnable(PluginEnableEvent event) {
+      if (!hooked) {
+        Plugin chat = event.getPlugin();
+        if (chat.getDescription().getName().equals("bPermissions")) {
+          hooked = true;
+          log.info(String.format("[%s][Chat] %s hooked.", plugin.getDescription().getName(), "bPermissions2"));
+        }
+      }
+    }
+
+    @EventHandler(priority = EventPriority.MONITOR)
+    public void onPluginDisable(PluginDisableEvent event) {
+      if (hooked) {
+        if (event.getPlugin().getDescription().getName().equals("bPermissions")) {
+          hooked = false;
+          log.info(String.format("[%s][Chat] %s un-hooked.", plugin.getDescription().getName(), "bPermissions2"));
+        }
+      }
+    }
+  }
 }

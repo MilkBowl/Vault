@@ -1,7 +1,8 @@
 /*
  * This file is part of Vault.
  *
- * Copyright (c) 2017 Lukas Nehrke
+ * Copyright (C) 2017 Lukas Nehrke
+ * Copyright (C) 2011 Morgan Humes <morgan@lanaddict.com>
  *
  * Vault is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -19,11 +20,11 @@
 
 package net.milkbowl.vault.chat.plugins;
 
+import com.nijiko.permissions.PermissionHandler;
+import com.nijikokun.bukkit.Permissions.Permissions;
 import java.util.logging.Logger;
-
 import net.milkbowl.vault.chat.Chat;
 import net.milkbowl.vault.permission.Permission;
-
 import org.bukkit.Bukkit;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -31,9 +32,6 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.server.PluginDisableEvent;
 import org.bukkit.event.server.PluginEnableEvent;
 import org.bukkit.plugin.Plugin;
-
-import com.nijiko.permissions.PermissionHandler;
-import com.nijikokun.bukkit.Permissions.Permissions;
 
 public class Chat_Permissions3 extends Chat {
     private static final Logger log = Logger.getLogger("Minecraft");
@@ -66,34 +64,6 @@ public class Chat_Permissions3 extends Chat {
         }
     }
 
-    public class PermissionServerListener implements Listener {
-
-        @EventHandler(priority = EventPriority.MONITOR)
-        public void onPluginEnable(PluginEnableEvent event) {
-            if (chat == null) {
-                Plugin permChat = event.getPlugin();
-                if((permChat.getDescription().getName().equals("Permissions") || permChat.getDescription().getName().equals("vPerms")) && permChat.getDescription().getVersion().startsWith("3")) {
-                    if (permChat.isEnabled()) {
-                        chat = (Permissions) permChat;
-                        perms = chat.getHandler();
-                        log.info(String.format("[%s][Chat] %s hooked.", plugin.getDescription().getName(), name));
-                    }
-                }
-            }
-        }
-
-        @EventHandler(priority = EventPriority.MONITOR)
-        public void onPluginDisable(PluginDisableEvent event) {
-            if (chat != null) {
-                if (event.getPlugin().getDescription().getName().equals("Permissions") || event.getPlugin().getDescription().getName().equals("vPerms")) {
-                    chat = null;
-                    perms = null;
-                    log.info(String.format("[%s][Chat] %s un-hooked.", plugin.getDescription().getName(), name));
-                }
-            }
-        }
-    }
-
     @Override
     public String getName() {
         return name;
@@ -107,6 +77,7 @@ public class Chat_Permissions3 extends Chat {
             return chat.isEnabled();
         }
     }
+
     @Override
     public int getPlayerInfoInteger(String world, String playerName, String node, int defaultValue) {
         Integer i = this.perms.getPermissionInteger(world, playerName, node);
@@ -180,7 +151,6 @@ public class Chat_Permissions3 extends Chat {
         return i != -1 ? i : defaultValue;
     }
 
-
     public void setGroupInfo(String world, String groupName, String node, Object value) {
         this.perms.addGroupInfo(world, groupName, node, value);
     }
@@ -241,4 +211,32 @@ public class Chat_Permissions3 extends Chat {
     public void setGroupSuffix(String world, String group, String suffix) {
         this.perms.addGroupInfo(world, group, "suffix", suffix);
     }
+
+  public class PermissionServerListener implements Listener {
+
+    @EventHandler(priority = EventPriority.MONITOR)
+    public void onPluginEnable(PluginEnableEvent event) {
+      if (chat == null) {
+        Plugin permChat = event.getPlugin();
+        if ((permChat.getDescription().getName().equals("Permissions") || permChat.getDescription().getName().equals("vPerms")) && permChat.getDescription().getVersion().startsWith("3")) {
+          if (permChat.isEnabled()) {
+            chat = (Permissions) permChat;
+            perms = chat.getHandler();
+            log.info(String.format("[%s][Chat] %s hooked.", plugin.getDescription().getName(), name));
+          }
+        }
+      }
+    }
+
+    @EventHandler(priority = EventPriority.MONITOR)
+    public void onPluginDisable(PluginDisableEvent event) {
+      if (chat != null) {
+        if (event.getPlugin().getDescription().getName().equals("Permissions") || event.getPlugin().getDescription().getName().equals("vPerms")) {
+          chat = null;
+          perms = null;
+          log.info(String.format("[%s][Chat] %s un-hooked.", plugin.getDescription().getName(), name));
+        }
+      }
+    }
+  }
 }

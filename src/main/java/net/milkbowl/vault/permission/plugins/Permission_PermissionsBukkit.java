@@ -1,7 +1,8 @@
 /*
  * This file is part of Vault.
  *
- * Copyright (c) 2017 Lukas Nehrke
+ * Copyright (C) 2017 Lukas Nehrke
+ * Copyright (C) 2011 Morgan Humes <morgan@lanaddict.com>
  *
  * Vault is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -19,11 +20,12 @@
 
 package net.milkbowl.vault.permission.plugins;
 
+import com.platymuus.bukkit.permissions.Group;
+import com.platymuus.bukkit.permissions.PermissionInfo;
+import com.platymuus.bukkit.permissions.PermissionsPlugin;
 import java.util.ArrayList;
 import java.util.List;
-
 import net.milkbowl.vault.permission.Permission;
-
 import org.bukkit.Bukkit;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -31,10 +33,6 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.server.PluginDisableEvent;
 import org.bukkit.event.server.PluginEnableEvent;
 import org.bukkit.plugin.Plugin;
-
-import com.platymuus.bukkit.permissions.Group;
-import com.platymuus.bukkit.permissions.PermissionInfo;
-import com.platymuus.bukkit.permissions.PermissionsPlugin;
 
 public class Permission_PermissionsBukkit extends Permission {
 
@@ -51,35 +49,6 @@ public class Permission_PermissionsBukkit extends Permission {
             if (perms != null) {
                 this.perms = (PermissionsPlugin) perms;
                 log.info(String.format("[%s][Permission] %s hooked.", plugin.getDescription().getName(), name));
-            }
-        }
-    }
-
-    public class PermissionServerListener implements Listener {
-        Permission_PermissionsBukkit permission = null;
-
-        public PermissionServerListener(Permission_PermissionsBukkit permission) {
-            this.permission = permission;
-        }
-
-        @EventHandler(priority = EventPriority.MONITOR)
-        public void onPluginEnable(PluginEnableEvent event) {
-            if (permission.perms == null) {
-                Plugin perms = event.getPlugin();
-                if (perms.getDescription().getName().equals("PermissionsBukkit")) {
-                    permission.perms = (PermissionsPlugin) perms;
-                    log.info(String.format("[%s][Permission] %s hooked.", plugin.getDescription().getName(), permission.name));
-                }
-            }
-        }
-
-        @EventHandler(priority = EventPriority.MONITOR)
-        public void onPluginDisable(PluginDisableEvent event) {
-            if (permission.perms != null) {
-                if (event.getPlugin().getDescription().getName().equals("PermissionsBukkit")) {
-                    permission.perms = null;
-                    log.info(String.format("[%s][Permission] %s un-hooked.", plugin.getDescription().getName(), permission.name));
-                }
             }
         }
     }
@@ -123,8 +92,6 @@ public class Permission_PermissionsBukkit extends Permission {
         return plugin.getServer().dispatchCommand(Bukkit.getServer().getConsoleSender(), "permissions player unsetperm " + player + " " + permission);
     }
 
-    // use superclass implementation of playerAddTransient() and playerRemoveTransient()
-
     @Override
     public boolean groupHas(String world, String group, String permission) {
         if (world != null && !world.isEmpty()) {
@@ -139,6 +106,8 @@ public class Permission_PermissionsBukkit extends Permission {
         }
         return perms.getGroup(group).getInfo().getPermissions().get(permission);
     }
+
+  // use superclass implementation of playerAddTransient() and playerRemoveTransient()
 
     @Override
     public boolean groupAdd(String world, String group, String permission) {
@@ -238,4 +207,33 @@ public class Permission_PermissionsBukkit extends Permission {
     public boolean hasGroupSupport() {
         return true;
     }
+
+  public class PermissionServerListener implements Listener {
+    Permission_PermissionsBukkit permission = null;
+
+    public PermissionServerListener(Permission_PermissionsBukkit permission) {
+      this.permission = permission;
+    }
+
+    @EventHandler(priority = EventPriority.MONITOR)
+    public void onPluginEnable(PluginEnableEvent event) {
+      if (permission.perms == null) {
+        Plugin perms = event.getPlugin();
+        if (perms.getDescription().getName().equals("PermissionsBukkit")) {
+          permission.perms = (PermissionsPlugin) perms;
+          log.info(String.format("[%s][Permission] %s hooked.", plugin.getDescription().getName(), permission.name));
+        }
+      }
+    }
+
+    @EventHandler(priority = EventPriority.MONITOR)
+    public void onPluginDisable(PluginDisableEvent event) {
+      if (permission.perms != null) {
+        if (event.getPlugin().getDescription().getName().equals("PermissionsBukkit")) {
+          permission.perms = null;
+          log.info(String.format("[%s][Permission] %s un-hooked.", plugin.getDescription().getName(), permission.name));
+        }
+      }
+    }
+  }
 }

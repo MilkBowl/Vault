@@ -1,7 +1,8 @@
 /*
  * This file is part of Vault.
  *
- * Copyright (c) 2017 Lukas Nehrke
+ * Copyright (C) 2017 Lukas Nehrke
+ * Copyright (C) 2011 Morgan Humes <morgan@lanaddict.com>
  *
  * Vault is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -20,7 +21,6 @@
 package net.milkbowl.vault.permission.plugins;
 
 import net.milkbowl.vault.permission.Permission;
-
 import org.bukkit.Bukkit;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -28,7 +28,6 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.server.PluginDisableEvent;
 import org.bukkit.event.server.PluginEnableEvent;
 import org.bukkit.plugin.Plugin;
-
 import ru.simsonic.rscPermissions.MainPluginClass;
 
 public class Permission_rscPermissions extends Permission {
@@ -47,37 +46,6 @@ public class Permission_rscPermissions extends Permission {
                 this.rscp = (MainPluginClass) perms;
                 rscpAPI = rscp.API;
                 plugin.getLogger().info(String.format("[%s][Permission] %s hooked.", plugin.getDescription().getName(), "rscPermissions"));
-            }
-        }
-    }
-
-    private class PermissionServerListener implements Listener {
-        private final Permission_rscPermissions bridge;
-
-        public PermissionServerListener(Permission_rscPermissions bridge) {
-            this.bridge = bridge;
-        }
-
-        @EventHandler(priority = EventPriority.MONITOR)
-        public void onPluginEnable(PluginEnableEvent event) {
-            if(bridge.rscp == null) {
-                Plugin plugin = event.getPlugin();
-                if (plugin.getDescription().getName().equals("rscPermissions")) {
-                    bridge.rscp = (MainPluginClass) plugin;
-                    bridge.rscpAPI = bridge.rscp.API;
-                    log.info(String.format("[%s][Permission] %s hooked.", vault.getDescription().getName(), "rscPermissions"));
-                }
-            }
-        }
-
-        @EventHandler(priority = EventPriority.MONITOR)
-        public void onPluginDisable(PluginDisableEvent event) {
-            if(bridge.rscpAPI != null){
-                if(event.getPlugin().getDescription().getName().equals(bridge.rscpAPI.getName())) {
-                    bridge.rscpAPI = null;
-                    bridge.rscp = null;
-                    log.info(String.format("[%s][Permission] %s un-hooked.", vault.getDescription().getName(), "rscPermissions"));
-                }
             }
         }
     }
@@ -161,4 +129,35 @@ public class Permission_rscPermissions extends Permission {
     public String[] getGroups() {
         return rscpAPI.getGroups();
     }
+
+  private class PermissionServerListener implements Listener {
+    private final Permission_rscPermissions bridge;
+
+    public PermissionServerListener(Permission_rscPermissions bridge) {
+      this.bridge = bridge;
+    }
+
+    @EventHandler(priority = EventPriority.MONITOR)
+    public void onPluginEnable(PluginEnableEvent event) {
+      if (bridge.rscp == null) {
+        Plugin plugin = event.getPlugin();
+        if (plugin.getDescription().getName().equals("rscPermissions")) {
+          bridge.rscp = (MainPluginClass) plugin;
+          bridge.rscpAPI = bridge.rscp.API;
+          log.info(String.format("[%s][Permission] %s hooked.", vault.getDescription().getName(), "rscPermissions"));
+        }
+      }
+    }
+
+    @EventHandler(priority = EventPriority.MONITOR)
+    public void onPluginDisable(PluginDisableEvent event) {
+      if (bridge.rscpAPI != null) {
+        if (event.getPlugin().getDescription().getName().equals(bridge.rscpAPI.getName())) {
+          bridge.rscpAPI = null;
+          bridge.rscp = null;
+          log.info(String.format("[%s][Permission] %s un-hooked.", vault.getDescription().getName(), "rscPermissions"));
+        }
+      }
+    }
+  }
 }

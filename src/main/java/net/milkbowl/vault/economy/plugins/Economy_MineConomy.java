@@ -1,7 +1,8 @@
 /*
  * This file is part of Vault.
  *
- * Copyright (c) 2017 Lukas Nehrke
+ * Copyright (C) 2017 Lukas Nehrke
+ * Copyright (C) 2011 Morgan Humes <morgan@lanaddict.com>
  *
  * Vault is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -22,7 +23,6 @@ package net.milkbowl.vault.economy.plugins;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
-
 import me.mjolnir.mineconomy.MineConomy;
 import me.mjolnir.mineconomy.exceptions.AccountNameConflictException;
 import me.mjolnir.mineconomy.exceptions.NoAccountException;
@@ -31,7 +31,6 @@ import me.mjolnir.mineconomy.internal.util.MCFormat;
 import net.milkbowl.vault.economy.AbstractEconomy;
 import net.milkbowl.vault.economy.EconomyResponse;
 import net.milkbowl.vault.economy.EconomyResponse.ResponseType;
-
 import org.bukkit.Bukkit;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -57,36 +56,6 @@ public class Economy_MineConomy extends AbstractEconomy {
             if (econ != null && econ.isEnabled()) {
                 this.econ = (MineConomy) econ;
                 log.info(String.format("[%s][Economy] %s hooked.", plugin.getDescription().getName(), name));
-            }
-        }
-    }
-
-    public class EconomyServerListener implements Listener {
-        Economy_MineConomy economy = null;
-
-        public EconomyServerListener(Economy_MineConomy economy) {
-            this.economy = economy;
-        }
-
-        @EventHandler(priority = EventPriority.MONITOR)
-        public void onPluginEnable(PluginEnableEvent event) {
-            if (economy.econ == null) {
-                Plugin eco = event.getPlugin();
-
-                if (eco.getDescription().getName().equals("MineConomy")) {
-                    economy.econ = (MineConomy) eco;
-                    log.info(String.format("[%s][Economy] %s hooked.", plugin.getDescription().getName(), economy.name));
-                }
-            }
-        }
-
-        @EventHandler(priority = EventPriority.MONITOR)
-        public void onPluginDisable(PluginDisableEvent event) {
-            if (economy.econ != null) {
-                if (event.getPlugin().getDescription().getName().equals("MineConomy")) {
-                    economy.econ = null;
-                    log.info(String.format("[%s][Economy] %s unhooked.", plugin.getDescription().getName(), economy.name));
-                }
             }
         }
     }
@@ -134,7 +103,7 @@ public class Economy_MineConomy extends AbstractEconomy {
     }
 
     @Override
-    public EconomyResponse withdrawPlayer(String playerName, double amount) {      
+    public EconomyResponse withdrawPlayer(String playerName, double amount) {
         double balance;
         try {
             balance = MCCom.getExternalBalance(playerName);
@@ -273,4 +242,34 @@ public class Economy_MineConomy extends AbstractEconomy {
     public boolean createPlayerAccount(String playerName, String worldName) {
         return createPlayerAccount(playerName);
     }
+
+  public class EconomyServerListener implements Listener {
+    Economy_MineConomy economy = null;
+
+    public EconomyServerListener(Economy_MineConomy economy) {
+      this.economy = economy;
+    }
+
+    @EventHandler(priority = EventPriority.MONITOR)
+    public void onPluginEnable(PluginEnableEvent event) {
+      if (economy.econ == null) {
+        Plugin eco = event.getPlugin();
+
+        if (eco.getDescription().getName().equals("MineConomy")) {
+          economy.econ = (MineConomy) eco;
+          log.info(String.format("[%s][Economy] %s hooked.", plugin.getDescription().getName(), economy.name));
+        }
+      }
+    }
+
+    @EventHandler(priority = EventPriority.MONITOR)
+    public void onPluginDisable(PluginDisableEvent event) {
+      if (economy.econ != null) {
+        if (event.getPlugin().getDescription().getName().equals("MineConomy")) {
+          economy.econ = null;
+          log.info(String.format("[%s][Economy] %s unhooked.", plugin.getDescription().getName(), economy.name));
+        }
+      }
+    }
+  }
 }

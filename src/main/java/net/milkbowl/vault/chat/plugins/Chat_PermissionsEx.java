@@ -1,7 +1,8 @@
 /*
  * This file is part of Vault.
  *
- * Copyright (c) 2017 Lukas Nehrke
+ * Copyright (C) 2017 Lukas Nehrke
+ * Copyright (C) 2011 Morgan Humes <morgan@lanaddict.com>
  *
  * Vault is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -20,10 +21,8 @@
 package net.milkbowl.vault.chat.plugins;
 
 import java.util.logging.Logger;
-
 import net.milkbowl.vault.chat.Chat;
 import net.milkbowl.vault.permission.Permission;
-
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.event.EventHandler;
@@ -32,7 +31,6 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.server.PluginDisableEvent;
 import org.bukkit.event.server.PluginEnableEvent;
 import org.bukkit.plugin.Plugin;
-
 import ru.tehkode.permissions.PermissionGroup;
 import ru.tehkode.permissions.PermissionUser;
 import ru.tehkode.permissions.bukkit.PermissionsEx;
@@ -62,38 +60,6 @@ public class Chat_PermissionsEx extends Chat {
         }
     }
 
-    public class PermissionServerListener implements Listener {
-        Chat_PermissionsEx chat = null;
-
-        public PermissionServerListener(Chat_PermissionsEx chat) {
-            this.chat = chat;
-        }
-
-        @EventHandler(priority = EventPriority.MONITOR)
-        public void onPluginEnable(PluginEnableEvent event) {
-            if (chat.chat == null) {
-                Plugin perms = event.getPlugin();
-
-                if (perms.getDescription().getName().equals("PermissionsEx")) {
-                    if (perms.isEnabled()) {
-                        chat.chat = (PermissionsEx) perms;
-                        log.info(String.format("[%s][Chat] %s hooked.", plugin.getDescription().getName(), chat.name));
-                    }
-                }
-            }
-        }
-
-        @EventHandler(priority = EventPriority.MONITOR)
-        public void onPluginDisable(PluginDisableEvent event) {
-            if (chat.chat != null) {
-                if (event.getPlugin().getDescription().getName().equals("PermissionsEx")) {
-                    chat.chat = null;
-                    log.info(String.format("[%s][Chat] %s un-hooked.", plugin.getDescription().getName(), chat.name));
-                }
-            }
-        }
-    }
-
     @Override
     public String getName() {
         return name;
@@ -110,12 +76,12 @@ public class Chat_PermissionsEx extends Chat {
     private PermissionUser getUser(OfflinePlayer op) {
     	return PermissionsEx.getPermissionManager().getUser(op.getUniqueId());
     }
-    
+
     private PermissionUser getUser(String playerName) {
     	return PermissionsEx.getPermissionManager().getUser(playerName);
     }
 
-    @Override
+  @Override
     public int getPlayerInfoInteger(String world, String playerName, String node, int defaultValue) {
         return getUser(playerName).getOptionInteger(node, world, defaultValue);
     }
@@ -134,12 +100,12 @@ public class Chat_PermissionsEx extends Chat {
     public String getPlayerInfoString(String world, String playerName, String node, String defaultValue) {
         return getUser(playerName).getOption(node, world, defaultValue);
     }
-    
+
     public int getPlayerInfoInteger(String world, OfflinePlayer op, String node, int defaultValue) {
         return getUser(op).getOptionInteger(node, world, defaultValue);
     }
 
-    public double getPlayerInfoDouble(String world, OfflinePlayer op, String node, double defaultValue) {
+  public double getPlayerInfoDouble(String world, OfflinePlayer op, String node, double defaultValue) {
         return getUser(op).getOptionDouble(node, world, defaultValue);
     }
 
@@ -150,7 +116,7 @@ public class Chat_PermissionsEx extends Chat {
     public String getPlayerInfoString(String world, OfflinePlayer op, String node, String defaultValue) {
         return getUser(op).getOption(node, world, defaultValue);
     }
-    
+
     public void setPlayerInfoInteger(String world, OfflinePlayer op, String node, int value) {
         PermissionUser user = getUser(op);
         if (user != null) {
@@ -158,7 +124,7 @@ public class Chat_PermissionsEx extends Chat {
         }
     }
 
-    public void setPlayerInfoDouble(String world, OfflinePlayer op, String node, double value) {
+  public void setPlayerInfoDouble(String world, OfflinePlayer op, String node, double value) {
         PermissionUser user = getUser(op);
         if (user != null) {
             user.setOption(node, String.valueOf(value), world);
@@ -290,8 +256,8 @@ public class Chat_PermissionsEx extends Chat {
             group.setOption(node, world, value);
         }
     }
-    
-    public String getPlayerPrefix(String world, OfflinePlayer op) {
+
+  public String getPlayerPrefix(String world, OfflinePlayer op) {
         PermissionUser user = getUser(op);
         if (user != null) {
             return user.getPrefix(world);
@@ -300,7 +266,7 @@ public class Chat_PermissionsEx extends Chat {
         }
     }
 
-    public String getPlayerSuffix(String world, OfflinePlayer op) {
+  public String getPlayerSuffix(String world, OfflinePlayer op) {
         PermissionUser user = getUser(op);
         if (user != null) {
             return user.getSuffix(world);
@@ -395,4 +361,36 @@ public class Chat_PermissionsEx extends Chat {
             pGroup.setSuffix(suffix, world);
         }
     }
+
+  public class PermissionServerListener implements Listener {
+    Chat_PermissionsEx chat = null;
+
+    public PermissionServerListener(Chat_PermissionsEx chat) {
+      this.chat = chat;
+    }
+
+    @EventHandler(priority = EventPriority.MONITOR)
+    public void onPluginEnable(PluginEnableEvent event) {
+      if (chat.chat == null) {
+        Plugin perms = event.getPlugin();
+
+        if (perms.getDescription().getName().equals("PermissionsEx")) {
+          if (perms.isEnabled()) {
+            chat.chat = (PermissionsEx) perms;
+            log.info(String.format("[%s][Chat] %s hooked.", plugin.getDescription().getName(), chat.name));
+          }
+        }
+      }
+    }
+
+    @EventHandler(priority = EventPriority.MONITOR)
+    public void onPluginDisable(PluginDisableEvent event) {
+      if (chat.chat != null) {
+        if (event.getPlugin().getDescription().getName().equals("PermissionsEx")) {
+          chat.chat = null;
+          log.info(String.format("[%s][Chat] %s un-hooked.", plugin.getDescription().getName(), chat.name));
+        }
+      }
+    }
+  }
 }
