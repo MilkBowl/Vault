@@ -1,105 +1,105 @@
 plugins {
-    id 'java'
-    id 'idea'
-    id 'eclipse'
-    id 'net.minecrell.licenser' version '0.3'
-    id 'com.github.johnrengelman.shadow' version '1.2.4'
+  id 'java'
+  id 'idea'
+  id 'eclipse'
+  id 'net.minecrell.licenser' version '0.3'
+  id 'com.github.johnrengelman.shadow' version '1.2.4'
 }
 
 group = 'org.natrolite'
 description = 'Vault is a Permissions and Economy API to allow plugins to more easily hook into ' +
-        'these systems without needing to hook each individual system themselves.'
+  'these systems without needing to hook each individual system themselves.'
 
 ext {
-    homepage = 'https://natrolite.org/'
+  homepage = 'https://natrolite.org/'
 
-    licenseName = 'GNU Lesser General Public License (LGPL)'
-    licenseUrl = 'https://www.gnu.org/licenses/lgpl.txt'
-    licenseDist = 'repo'
+  licenseName = 'GNU Lesser General Public License (LGPL)'
+  licenseUrl = 'https://www.gnu.org/licenses/lgpl.txt'
+  licenseDist = 'repo'
 
-    issueSystem = 'GitHub Issues'
-    issueUrl = 'https://github.com/natrolite/vault/issues'
+  issueSystem = 'GitHub Issues'
+  issueUrl = 'https://github.com/natrolite/vault/issues'
 
-    ciSystem = 'Travis CI'
-    ciUrl = 'https://travis-ci.org/natrolite/vault'
+  ciSystem = 'Travis CI'
+  ciUrl = 'https://travis-ci.org/natrolite/vault'
 
-    scmUrl = 'https://github.com/natrolite/vault'
-    scmConnection = 'scm:git:git://github.com/natrolite/vault.git'
-    scmDevConnection = 'scm:git:ssh://github.com:natrolite/vault.git'
+  scmUrl = 'https://github.com/natrolite/vault'
+  scmConnection = 'scm:git:git://github.com/natrolite/vault.git'
+  scmDevConnection = 'scm:git:ssh://github.com:natrolite/vault.git'
 }
 
 repositories {
-    mavenCentral()
-    maven { url 'https://repo.natrolite.org/repository/maven-public/' }
-    maven { url 'https://hub.spigotmc.org/nexus/content/repositories/snapshots/' }
-    maven { url 'https://oss.sonatype.org/content/repositories/snapshots/' }
-    maven { url 'https://repo.bstats.org/content/repositories/releases/' }
+  mavenCentral()
+  maven { url 'https://repo.natrolite.org/repository/maven-public/' }
+  maven { url 'https://hub.spigotmc.org/nexus/content/repositories/snapshots/' }
+  maven { url 'https://oss.sonatype.org/content/repositories/snapshots/' }
+  maven { url 'https://repo.bstats.org/content/repositories/releases/' }
 }
 
 dependencies {
-    compileOnly group: 'org.bukkit', name: 'bukkit', version: '1.8-R0.1-SNAPSHOT'
-    testCompile group: 'org.bukkit', name: 'bukkit', version: '1.8-R0.1-SNAPSHOT'
+  compileOnly group: 'org.bukkit', name: 'bukkit', version: '1.8-R0.1-SNAPSHOT'
+  testCompile group: 'org.bukkit', name: 'bukkit', version: '1.8-R0.1-SNAPSHOT'
 
-    compile group: 'org.natrolite', name: 'vault-api', version: '1.6.1.1'
-    compile group: 'org.bstats', name: 'bstats-bukkit', version: '1.1'
+  compile group: 'org.natrolite', name: 'vault-api', version: '1.6.1.1'
+  compile group: 'org.bstats', name: 'bstats-bukkit', version: '1.1'
 
-    // Libraries
-    compileOnly fileTree(dir: 'libs', include: ['*.jar'])
-    compileOnly group: 'com.greatmancode', name: 'craftconomy3', version: '3.2.2-SNAPSHOT'
+  // Libraries
+  compileOnly fileTree(dir: 'libs', include: ['*.jar'])
+  compileOnly group: 'com.greatmancode', name: 'craftconomy3', version: '3.2.2-SNAPSHOT'
 }
 
 sourceCompatibility = '1.7'
 targetCompatibility = '1.7'
 
 license {
-    header = file('HEADER.txt')
-    include '**/*.java'
-    include '**/*.yml'
-    newLine = true
-    exclude 'net/milkbowl/vault/util/VersionComparator.java'
+  header = file('HEADER.txt')
+  include '**/*.java'
+  include '**/*.yml'
+  newLine = true
+  exclude 'net/milkbowl/vault/util/VersionComparator.java'
 }
 
 processResources {
-    from 'LICENSE.txt'
-    expand(version: version, description: project.description)
+  from 'LICENSE.txt'
+  expand(version: version, description: project.description)
 }
 
 compileJava {
-    sourceCompatibility = '1.7'
-    targetCompatibility = '1.7'
-    options.encoding = 'UTF-8'
+  sourceCompatibility = '1.7'
+  targetCompatibility = '1.7'
+  options.encoding = 'UTF-8'
 }
 
 compileTestJava {
-    sourceCompatibility = '1.7'
-    targetCompatibility = '1.7'
-    options.encoding = 'UTF-8'
+  sourceCompatibility = '1.7'
+  targetCompatibility = '1.7'
+  options.encoding = 'UTF-8'
 }
 
 task sourceJar(type: Jar) {
-    classifier = 'sources'
-    from sourceSets.main.allSource
+  classifier = 'sources'
+  from sourceSets.main.allSource
 }
 
 task javadocJar(type: Jar, dependsOn: javadoc) {
-    classifier = 'javadoc'
-    from javadoc.destinationDir
+  classifier = 'javadoc'
+  from javadoc.destinationDir
 }
 
 artifacts {
-    archives sourceJar
-    archives javadocJar
+  archives sourceJar
+  archives javadocJar
 }
 
 shadowJar {
-    classifier = 'shaded'
-    relocate 'org.bstats', 'net.milkbowl.vault'
+  classifier = 'shaded'
+  relocate 'org.bstats', 'net.milkbowl.vault'
 }
 
 build.dependsOn(shadowJar)
 
 task wrapper(type: Wrapper) {
-    gradleVersion = '4.0'
+  gradleVersion = '4.0'
 }
 
 apply from: 'gradle/deploy.gradle'
