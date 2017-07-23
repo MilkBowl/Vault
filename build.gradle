@@ -103,6 +103,18 @@ shadowJar {
   relocate 'org.bstats', 'net.milkbowl.vault'
 }
 
+task checkstyle(dependsOn: tasks.withType(Checkstyle))
+
+gradle.taskGraph.whenReady { TaskExecutionGraph graph ->
+  if (!graph.allTasks.contains(tasks.checkstyle)) {
+    graph.allTasks.findAll {
+      it.name.startsWith('checkstyle')
+    }.each {
+      it.enabled = false
+    }
+  }
+}
+
 build.dependsOn(shadowJar)
 
 task wrapper(type: Wrapper) {
