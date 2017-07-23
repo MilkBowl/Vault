@@ -1,49 +1,62 @@
-apply plugin: 'maven'
+apply plugin: 'maven-publish'
 
-uploadArchives.repositories.mavenDeployer {
+ext.isRelease = {
+  return !project.version.endsWith("-SNAPSHOT")
+}
 
-  if (project.hasProperty('deployRelease')) {
-    repository(url: deployRelease) {
-      if (project.hasProperty('deployUser')) {
-        authentication(userName: deployUser, password: deployPass)
+publishing {
+  repositories {
+    if (project.hasProperty("deployUrl")) {
+      maven {
+        credentials {
+          username = "${deployUser}"
+          password = "${deployPass}"
+        }
+        url = String.format("${deployUrl}", isRelease ? 'releases' : 'snapshots')
       }
     }
   }
 
-  if (project.hasProperty('deploySnapshot')) {
-    snapshotRepository(url: deploySnapshot) {
-      if (project.hasProperty('deployUser')) {
-        authentication(userName: deployUser, password: deployPass)
+  publications {
+    maven(MavenPublication) {
+      from components.java
+
+      artifact sourceJar
+      artifact javadocJar
+
+      pom.withXml {
+        asNode().children().last() + {
+          resolveStrategy = DELEGATE_FIRST
+
+          name 'Vault'
+          description project.description
+          url 'https://natrolite.org/'
+
+          ciManagement {
+            system 'Travis CI'
+            url 'https://travis-ci.org/natrolite/vault'
+          }
+
+          issueManagement {
+            system 'GitHub Issues'
+            url 'https://github.com/natrolite/vault/issues'
+          }
+
+          licenses {
+            license {
+              name 'GNU Lesser General Public License (LGPL)'
+              url 'https://www.gnu.org/licenses/lgpl.txt'
+              distribution 'repo'
+            }
+          }
+
+          scm {
+            url 'https://github.com/natrolite/vault'
+            connection 'scm:git:git://github.com/natrolite/vault.git'
+            developerConnection 'scm:git:ssh://github.com:natrolite/vault.git'
+          }
+        }
       }
-    }
-  }
-
-  pom.project {
-    packaging = 'jar'
-    description = project.description
-
-    licenses {
-      license {
-        name = licenseName
-        url = licenseUrl
-        distribution = licenseDist
-      }
-    }
-
-    issueManagement {
-      system = issueSystem
-      url = issueUrl
-    }
-
-    ciManagement {
-      system = ciSystem
-      url = ciUrl
-    }
-
-    scm {
-      url = scmUrl
-      connection = scmConnection
-      developerConnection = scmDevConnection
     }
   }
 }
