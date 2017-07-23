@@ -7,7 +7,7 @@ jdk:
   - openjdk7
   - oraclejdk8
 
-script: ./gradlew build
+script: ./gradlew build -Dorg.gradle.daemon=false
 
 deploy:
   provider: releases

@@ -7,26 +7,10 @@ plugins {
   id 'com.github.johnrengelman.shadow' version '1.2.4'
 }
 
-group = 'org.natrolite'
-description = 'Vault is a Permissions and Economy API to allow plugins to more easily hook into ' +
-  'these systems without needing to hook each individual system themselves.'
-
-ext {
-  homepage = 'https://natrolite.org/'
-
-  licenseName = 'GNU Lesser General Public License (LGPL)'
-  licenseUrl = 'https://www.gnu.org/licenses/lgpl.txt'
-  licenseDist = 'repo'
-
-  issueSystem = 'GitHub Issues'
-  issueUrl = 'https://github.com/natrolite/vault/issues'
-
-  ciSystem = 'Travis CI'
-  ciUrl = 'https://travis-ci.org/natrolite/vault'
-
-  scmUrl = 'https://github.com/natrolite/vault'
-  scmConnection = 'scm:git:git://github.com/natrolite/vault.git'
-  scmDevConnection = 'scm:git:ssh://github.com:natrolite/vault.git'
+allprojects {
+  group = 'org.natrolite'
+  description = 'Vault is a Permissions and Economy API'
+  version = '1.6.1'
 }
 
 repositories {
