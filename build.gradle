@@ -62,6 +62,7 @@ license {
 
 processResources {
   from 'LICENSE.txt'
+  from 'THIRD-PARTY-LICENSES.txt'
   expand(version: version, description: project.description)
 }
 
