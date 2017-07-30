@@ -87,6 +87,14 @@ Vault currently supports the following: Permissions 3, PEX, GroupManager, bPerms
 			<version>${api.version}</version>
 		</dependency>
 		<dependency>
+			<groupId>us.sparknetwork</groupId>
+			<artifactId>Core</artifactId>
+			<version>1.2.1</version>
+			<optional>true</optional>
+			<scope>system</scope>
+			<systemPath>${project.basedir}/lib/Core-1.2.1-Economy.jar</systemPath>
+		</dependency>
+		<dependency>
 			<groupId>com.gmail.bleedobsidian.miconomy</groupId>
 			<artifactId>MiConomy</artifactId>
 			<version>1.0</version>

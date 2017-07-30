@@ -41,6 +41,7 @@ import net.milkbowl.vault.chat.plugins.Chat_rscPermissions;
 import net.milkbowl.vault.economy.Economy;
 import net.milkbowl.vault.economy.plugins.Economy_BOSE7;
 import net.milkbowl.vault.economy.plugins.Economy_CommandsEX;
+import net.milkbowl.vault.economy.plugins.Economy_Core;
 import net.milkbowl.vault.economy.plugins.Economy_Craftconomy3;
 import net.milkbowl.vault.economy.plugins.Economy_CurrencyCore;
 import net.milkbowl.vault.economy.plugins.Economy_DigiCoin;
@@ -304,6 +305,10 @@ public class Vault extends JavaPlugin {
 
         // Try to load DigiCoin
         hookEconomy("DigiCoin", Economy_DigiCoin.class, ServicePriority.Normal, "co.uk.silvania.cities.digicoin.DigiCoin");
+        
+        // Try to load Spark Economy
+		hookEconomy("Core", Economy_Core.class, ServicePriority.Normal, "us.sparknetwork.core.economy.EconomyManager");
+
     }
 
     /**
