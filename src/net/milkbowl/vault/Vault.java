@@ -305,6 +305,10 @@ public class Vault extends JavaPlugin {
 
         // Try to load DigiCoin
         hookEconomy("DigiCoin", Economy_DigiCoin.class, ServicePriority.Normal, "co.uk.silvania.cities.digicoin.DigiCoin");
+        
+        // Try to load Spark Economy
+		hookEconomy("Core", Economy_Core.class, ServicePriority.Normal, "us.sparknetwork.core.economy.EconomyManager");
+
     }
 
     /**
