@@ -41,6 +41,7 @@ import net.milkbowl.vault.chat.plugins.Chat_rscPermissions;
 import net.milkbowl.vault.economy.Economy;
 import net.milkbowl.vault.economy.plugins.Economy_BOSE7;
 import net.milkbowl.vault.economy.plugins.Economy_CommandsEX;
+import net.milkbowl.vault.economy.plugins.Economy_Core;
 import net.milkbowl.vault.economy.plugins.Economy_Craftconomy3;
 import net.milkbowl.vault.economy.plugins.Economy_CurrencyCore;
 import net.milkbowl.vault.economy.plugins.Economy_DigiCoin;
