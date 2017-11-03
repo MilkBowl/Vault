@@ -40,6 +40,7 @@ import net.milkbowl.vault.chat.plugins.Chat_mChatSuite;
 import net.milkbowl.vault.chat.plugins.Chat_rscPermissions;
 import net.milkbowl.vault.economy.Economy;
 import net.milkbowl.vault.economy.plugins.Economy_BOSE7;
+import net.milkbowl.vault.economy.plugins.Economy_BagOfGold;
 import net.milkbowl.vault.economy.plugins.Economy_CommandsEX;
 import net.milkbowl.vault.economy.plugins.Economy_Craftconomy3;
 import net.milkbowl.vault.economy.plugins.Economy_CurrencyCore;
@@ -242,6 +243,10 @@ public class Vault extends JavaPlugin {
      * Attempts to load Economy Addons
      */
     private void loadEconomy() {
+    	
+    	// Try to load BagOfGold/MobHunting
+        hookEconomy("BagOfGold", Economy_BagOfGold.class, ServicePriority.Normal, "one.lindegaard.BagOfGold.BagOfGoldEconomy");
+        
         // Try to load MiConomy
         hookEconomy("MiConomy", Economy_MiConomy.class, ServicePriority.Normal, "com.gmail.bleedobsidian.miconomy.Main");
 
@@ -471,7 +476,7 @@ public class Vault extends JavaPlugin {
                 
             }
         }
-        sender.sendMessage("Converson complete, please verify the data before using it.");
+        sender.sendMessage("Conversion complete, please verify the data before using it.");
     }
 
     private void infoCommand(CommandSender sender) {
