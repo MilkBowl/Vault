@@ -167,7 +167,7 @@ public class Vault extends JavaPlugin {
         @Override
         public String getValue() {
           final RegisteredServiceProvider<Permission> service =
-              getServer().getServicesManager().getRegistration(Permission.class);
+            getServer().getServicesManager().getRegistration(Permission.class);
           if (service != null && service.getPlugin() != null) {
             return service.getProvider().getName();
           }
@@ -178,7 +178,7 @@ public class Vault extends JavaPlugin {
         @Override
         public String getValue() {
           final RegisteredServiceProvider<Economy> service =
-              getServer().getServicesManager().getRegistration(Economy.class);
+            getServer().getServicesManager().getRegistration(Economy.class);
           if (service != null && service.getPlugin() != null) {
             return service.getProvider().getName();
           }
@@ -189,7 +189,7 @@ public class Vault extends JavaPlugin {
         @Override
         public String getValue() {
           final RegisteredServiceProvider<Chat> service =
-              getServer().getServicesManager().getRegistration(Chat.class);
+            getServer().getServicesManager().getRegistration(Chat.class);
           if (service != null && service.getPlugin() != null) {
             return service.getProvider().getName();
           }
@@ -232,7 +232,7 @@ public class Vault extends JavaPlugin {
                 Files.createDirectories(file.getParent());
                 getLogger().info(String.format("Downloading Vault v%s..", latest));
                 try (
-                    InputStream in = new URL("http://api.spiget.org/v2/resources/41918/download").openStream()) {
+                  InputStream in = new URL("http://api.spiget.org/v2/resources/41918/download").openStream()) {
                   Files.copy(in, file, StandardCopyOption.REPLACE_EXISTING);
                 }
                 getLogger().info(String.format("Done! After next start Vault will be on version %s", latest));

@@ -39,243 +39,242 @@ import org.bukkit.plugin.Plugin;
 
 public class Permission_Permissions3 extends Permission {
 
-    private String name = "Permissions3";
-    private ModularControl perms;
-    private Permissions permission = null;
+  private String name = "Permissions3";
+  private ModularControl perms;
+  private Permissions permission = null;
 
-    public Permission_Permissions3(Plugin plugin) {
-        this.plugin = plugin;
-        Bukkit.getServer().getPluginManager().registerEvents(new PermissionServerListener(), plugin);
+  public Permission_Permissions3(Plugin plugin) {
+    this.plugin = plugin;
+    Bukkit.getServer().getPluginManager().registerEvents(new PermissionServerListener(), plugin);
 
-        // Load Plugin in case it was loaded before
-        if (permission == null) {
-            Plugin perms = plugin.getServer().getPluginManager().getPlugin("Permissions");
-            if (perms == null) {
-                plugin.getServer().getPluginManager().getPlugin("vPerms");
-                name = "vPerms";
-            }
-            if (perms != null) {
-                if (perms.isEnabled() && perms.getDescription().getVersion().startsWith("3")) {
-                    permission = (Permissions) perms;
-                    this.perms = (ModularControl) permission.getHandler();
-                    log.severe("Your permission system is outdated and no longer fully supported! It is highly advised to update!");
-                    log.info(String.format("[%s][Permission] %s hooked.", plugin.getDescription().getName(), name));
-                }
-            }
+    // Load Plugin in case it was loaded before
+    if (permission == null) {
+      Plugin perms = plugin.getServer().getPluginManager().getPlugin("Permissions");
+      if (perms == null) {
+        plugin.getServer().getPluginManager().getPlugin("vPerms");
+        name = "vPerms";
+      }
+      if (perms != null) {
+        if (perms.isEnabled() && perms.getDescription().getVersion().startsWith("3")) {
+          permission = (Permissions) perms;
+          this.perms = (ModularControl) permission.getHandler();
+          log.severe("Your permission system is outdated and no longer fully supported! It is highly advised to update!");
+          log.info(String.format("[%s][Permission] %s hooked.", plugin.getDescription().getName(), name));
         }
+      }
+    }
+  }
+
+  @Override
+  public boolean isEnabled() {
+    if (permission == null) {
+      return false;
+    } else {
+      return permission.isEnabled();
+    }
+  }
+
+  @Override
+  public boolean playerInGroup(String worldName, String playerName, String groupName) {
+    return this.permission.getHandler().inGroup(worldName, playerName, groupName);
+  }
+
+  @Override
+  public String getName() {
+    return name;
+  }
+
+  @Override
+  public boolean has(CommandSender sender, String permission) {
+    if (sender.isOp() || !(sender instanceof Player)) {
+      return true;
+    } else {
+      return has(((Player) sender).getWorld().getName(), sender.getName(), permission);
+    }
+  }
+
+  @Override
+  public boolean has(Player player, String permission) {
+    return has(player.getWorld().getName(), player.getName(), permission);
+  }
+
+  public boolean playerAddGroup(String worldName, String playerName, String groupName) {
+    if (worldName == null) {
+      worldName = "*";
     }
 
-    @Override
-    public boolean isEnabled() {
-        if (permission == null) {
-            return false;
-        } else {
-            return permission.isEnabled();
-        }
+    Group g = perms.getGroupObject(worldName, groupName);
+    if (g == null) {
+      return false;
+    }
+    try {
+      perms.safeGetUser(worldName, playerName).addParent(g);
+    } catch (Exception e) {
+      e.printStackTrace();
+      return false;
+    }
+    return true;
+  }
+
+  @Override
+  public boolean playerRemoveGroup(String worldName, String playerName, String groupName) {
+    if (worldName == null) {
+      worldName = "*";
     }
 
-    @Override
-    public boolean playerInGroup(String worldName, String playerName, String groupName) {
-        return this.permission.getHandler().inGroup(worldName, playerName, groupName);
+    Group g = perms.getGroupObject(worldName, groupName);
+    if (g == null) {
+      return false;
+    }
+    try {
+      perms.safeGetUser(worldName, playerName).removeParent(g);
+    } catch (Exception e) {
+      e.printStackTrace();
+      return false;
+    }
+    return true;
+  }
+
+  @Override
+  public boolean playerAdd(String worldName, String playerName, String permission) {
+    this.perms.addUserPermission(worldName, playerName, permission);
+    return true;
+  }
+
+  @Override
+  public boolean playerRemove(String worldName, String playerName, String permission) {
+    this.perms.removeUserPermission(worldName, playerName, permission);
+    return true;
+  }
+
+  @Override
+  public boolean groupAdd(String worldName, String groupName, String permission) {
+    if (worldName == null) {
+      worldName = "*";
     }
 
-    @Override
-    public String getName() {
-        return name;
+    perms.addGroupPermission(worldName, groupName, permission);
+    return true;
+  }
+
+  @Override
+  public boolean groupRemove(String worldName, String groupName, String permission) {
+    if (worldName == null) {
+      worldName = "*";
+    }
+    perms.removeGroupPermission(worldName, groupName, permission);
+    return true;
+  }
+
+  @Override
+  public boolean groupHas(String worldName, String groupName, String permission) {
+    if (worldName == null) {
+      worldName = "*";
+    }
+    try {
+      return perms.safeGetGroup(worldName, groupName).hasPermission(permission);
+    } catch (Exception e) {
+      e.printStackTrace();
+      return false;
+    }
+  }
+
+  @Override
+  public String[] getPlayerGroups(String world, String playerName) {
+    return this.perms.getGroups(world, playerName);
+  }
+
+  public String getPrimaryGroup(String world, String playerName) {
+    return getPlayerGroups(world, playerName)[0];
+  }
+
+  @Override
+  public boolean playerHas(String worldName, String playerName, String permission) {
+    Player p = plugin.getServer().getPlayer(playerName);
+    if (p != null) {
+      if (p.hasPermission(permission)) { return true; }
+    }
+    return this.perms.has(worldName, playerName, permission);
+  }
+
+  @Override
+  public boolean playerAddTransient(String player, String permission) {
+    return playerAddTransient(null, player, permission);
+  }
+
+  @Override
+  public boolean playerAddTransient(Player player, String permission) {
+    return playerAddTransient(null, player.getName(), permission);
+  }
+
+  @Override
+  public boolean playerAddTransient(String worldName, Player player, String permission) {
+    return playerAddTransient(worldName, player.getName(), permission);
+  }
+
+  @Override
+  public boolean playerAddTransient(String worldName, String player, String permission) {
+    if (worldName == null) {
+      worldName = "*";
+    }
+    try {
+      perms.safeGetUser(worldName, player).addTransientPermission(permission);
+      return true;
+    } catch (Exception e) {
+      return false;
+    }
+  }
+
+  @Override
+  public boolean playerRemoveTransient(String player, String permission) {
+    return playerRemoveTransient(null, player, permission);
+  }
+
+  @Override
+  public boolean playerRemoveTransient(Player player, String permission) {
+    return playerRemoveTransient(null, player.getName(), permission);
+  }
+
+  @Override
+  public boolean playerRemoveTransient(String worldName, Player player, String permission) {
+    return playerRemoveTransient(worldName, player.getName(), permission);
+  }
+
+  @Override
+  public boolean playerRemoveTransient(String worldName, String player, String permission) {
+    if (worldName == null) {
+      worldName = "*";
     }
 
-    @Override
-    public boolean has(CommandSender sender, String permission) {
-        if (sender.isOp() || !(sender instanceof Player)) {
-            return true;
-        } else {
-            return has(((Player) sender).getWorld().getName(), sender.getName(), permission);
-        }
+    try {
+      perms.safeGetUser(worldName, player).removeTransientPermission(permission);
+      return true;
+    } catch (Exception e) {
+      return false;
     }
+  }
 
-    @Override
-    public boolean has(Player player, String permission) {
-        return has(player.getWorld().getName(), player.getName(), permission);
+  @Override
+  public String[] getGroups() {
+
+    Set<String> groupNames = new HashSet<String>();
+    for (World world : Bukkit.getServer().getWorlds()) {
+      for (Group group : perms.getGroups(world.getName())) {
+        groupNames.add(group.getName());
+      }
     }
+    return groupNames.toArray(new String[0]);
+  }
 
-    public boolean playerAddGroup(String worldName, String playerName, String groupName) {
-        if (worldName == null) {
-            worldName = "*";
-        }
+  @Override
+  public boolean hasSuperPermsCompat() {
+    return false;
+  }
 
-        Group g = perms.getGroupObject(worldName, groupName);
-        if (g == null) {
-            return false;
-        }
-        try {
-            perms.safeGetUser(worldName, playerName).addParent(g);
-        } catch (Exception e) {
-            e.printStackTrace();
-            return false;
-        }
-        return true;
-    }
-
-    @Override
-    public boolean playerRemoveGroup(String worldName, String playerName, String groupName) {
-        if (worldName == null) {
-            worldName = "*";
-        }
-
-        Group g = perms.getGroupObject(worldName, groupName);
-        if (g == null) {
-            return false;
-        }
-        try {
-            perms.safeGetUser(worldName, playerName).removeParent(g);
-        } catch (Exception e) {
-            e.printStackTrace();
-            return false;
-        }
-        return true;
-    }
-
-    @Override
-    public boolean playerAdd(String worldName, String playerName, String permission) {
-        this.perms.addUserPermission(worldName, playerName, permission);
-        return true;
-    }
-
-    @Override
-    public boolean playerRemove(String worldName, String playerName, String permission) {
-        this.perms.removeUserPermission(worldName, playerName, permission);
-        return true;
-    }
-
-    @Override
-    public boolean groupAdd(String worldName, String groupName, String permission) {
-        if (worldName == null) {
-            worldName = "*";
-        }
-
-        perms.addGroupPermission(worldName, groupName, permission);
-        return true;
-    }
-
-    @Override
-    public boolean groupRemove(String worldName, String groupName, String permission) {
-        if (worldName == null) {
-            worldName = "*";
-        }
-        perms.removeGroupPermission(worldName, groupName, permission);
-        return true;
-    }
-
-    @Override
-    public boolean groupHas(String worldName, String groupName, String permission) {
-        if (worldName == null) {
-            worldName = "*";
-        }
-        try {
-            return perms.safeGetGroup(worldName, groupName).hasPermission(permission);
-        } catch (Exception e) {
-            e.printStackTrace();
-            return false;
-        }
-    }
-
-    @Override
-    public String[] getPlayerGroups(String world, String playerName) {
-        return this.perms.getGroups(world, playerName);
-    }
-
-    public String getPrimaryGroup(String world, String playerName) {
-        return getPlayerGroups(world, playerName)[0];
-    }
-
-    @Override
-    public boolean playerHas(String worldName, String playerName, String permission) {
-        Player p = plugin.getServer().getPlayer(playerName);
-        if (p != null) {
-            if (p.hasPermission(permission))
-                return true;
-        }
-        return this.perms.has(worldName, playerName, permission);
-    }
-
-    @Override
-    public boolean playerAddTransient(String player, String permission) {
-        return playerAddTransient(null, player, permission);
-    }
-
-    @Override
-    public boolean playerAddTransient(Player player, String permission) {
-        return playerAddTransient(null, player.getName(), permission);
-    }
-
-    @Override
-    public boolean playerAddTransient(String worldName, Player player, String permission) {
-        return playerAddTransient(worldName, player.getName(), permission);
-    }
-
-    @Override
-    public boolean playerAddTransient(String worldName, String player, String permission) {
-        if (worldName == null) {
-            worldName = "*";
-        }
-        try {
-            perms.safeGetUser(worldName, player).addTransientPermission(permission);
-            return true;
-        } catch(Exception e) {
-            return false;
-        }
-    }
-
-    @Override
-    public boolean playerRemoveTransient(String player, String permission) {
-        return playerRemoveTransient(null, player, permission);
-    }
-
-    @Override
-    public boolean playerRemoveTransient(Player player, String permission) {
-        return playerRemoveTransient(null, player.getName(), permission);
-    }
-
-    @Override
-    public boolean playerRemoveTransient(String worldName, Player player, String permission) {
-        return playerRemoveTransient(worldName, player.getName(), permission);
-    }
-
-    @Override
-    public boolean playerRemoveTransient(String worldName, String player, String permission) {
-        if (worldName == null) {
-            worldName = "*";
-        }
-
-        try {
-            perms.safeGetUser(worldName, player).removeTransientPermission(permission);
-            return true;
-        } catch (Exception e) {
-            return false;
-        }
-    }
-
-    @Override
-    public String[] getGroups() {
-
-        Set<String> groupNames = new HashSet<String>();
-        for (World world : Bukkit.getServer().getWorlds()) {
-            for (Group group : perms.getGroups(world.getName())) {
-                groupNames.add(group.getName());
-            }
-        }
-        return groupNames.toArray(new String[0]);
-    }
-
-    @Override
-    public boolean hasSuperPermsCompat() {
-        return false;
-    }
-
-    @Override
-    public boolean hasGroupSupport() {
-        return true;
-    }
+  @Override
+  public boolean hasGroupSupport() {
+    return true;
+  }
 
   public class PermissionServerListener implements Listener {
 

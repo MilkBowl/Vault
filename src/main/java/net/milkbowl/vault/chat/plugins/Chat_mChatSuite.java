@@ -36,230 +36,230 @@ import org.bukkit.event.server.PluginEnableEvent;
 import org.bukkit.plugin.Plugin;
 
 public class Chat_mChatSuite extends Chat {
-    private static final Logger log = Logger.getLogger("Minecraft");
-    private final String name = "mChatSuite";
-    private Plugin plugin = null;
-    private mChatSuite mChat = null;
+  private static final Logger log = Logger.getLogger("Minecraft");
+  private final String name = "mChatSuite";
+  private Plugin plugin = null;
+  private mChatSuite mChat = null;
 
-    public Chat_mChatSuite(Plugin plugin, Permission perms) {
-        super(perms);
-        this.plugin = plugin;
+  public Chat_mChatSuite(Plugin plugin, Permission perms) {
+    super(perms);
+    this.plugin = plugin;
 
-        Bukkit.getServer().getPluginManager().registerEvents(new PermissionServerListener(), plugin);
+    Bukkit.getServer().getPluginManager().registerEvents(new PermissionServerListener(), plugin);
 
-        // Load Plugin in case it was loaded before
-        if (mChat == null) {
-            Plugin chat = plugin.getServer().getPluginManager().getPlugin("mChatSuite");
-            if (chat != null && chat.isEnabled()) {
-                mChat = (mChatSuite) chat;
-                log.info(String.format("[%s][Chat] %s hooked.", plugin.getDescription().getName(), "mChatSuite"));
-            }
-        }
+    // Load Plugin in case it was loaded before
+    if (mChat == null) {
+      Plugin chat = plugin.getServer().getPluginManager().getPlugin("mChatSuite");
+      if (chat != null && chat.isEnabled()) {
+        mChat = (mChatSuite) chat;
+        log.info(String.format("[%s][Chat] %s hooked.", plugin.getDescription().getName(), "mChatSuite"));
+      }
     }
+  }
 
-    @Override
-    public String getName() {
-        return name;
-    }
+  @Override
+  public String getName() {
+    return name;
+  }
 
-    @Override
-    public boolean isEnabled() {
-        return mChat != null && mChat.isEnabled();
-    }
+  @Override
+  public boolean isEnabled() {
+    return mChat != null && mChat.isEnabled();
+  }
 
-    @Override
-    public String getPlayerPrefix(String world, String player) {
-        return Reader.getPrefix(player, InfoType.USER, world);
-    }
+  @Override
+  public String getPlayerPrefix(String world, String player) {
+    return Reader.getPrefix(player, InfoType.USER, world);
+  }
 
-    @Override
-    public void setPlayerPrefix(String world, String player, String prefix) {
-        setPlayerInfoValue(world, player, "prefix", prefix);
-    }
+  @Override
+  public void setPlayerPrefix(String world, String player, String prefix) {
+    setPlayerInfoValue(world, player, "prefix", prefix);
+  }
 
-    @Override
-    public String getPlayerSuffix(String world, String player) {
-        return Reader.getSuffix(player, InfoType.USER, world);
-    }
+  @Override
+  public String getPlayerSuffix(String world, String player) {
+    return Reader.getSuffix(player, InfoType.USER, world);
+  }
 
-    @Override
-    public void setPlayerSuffix(String world, String player, String suffix) {
-        setPlayerInfoValue(world, player, "suffix", suffix);
-    }
+  @Override
+  public void setPlayerSuffix(String world, String player, String suffix) {
+    setPlayerInfoValue(world, player, "suffix", suffix);
+  }
 
-    @Override
-    public String getGroupPrefix(String world, String group) {
-        return Reader.getPrefix(group, InfoType.GROUP, world);
-    }
+  @Override
+  public String getGroupPrefix(String world, String group) {
+    return Reader.getPrefix(group, InfoType.GROUP, world);
+  }
 
-    @Override
-    public void setGroupPrefix(String world, String group, String prefix) {
-        setGroupInfoValue(world, group, "prefix", prefix);
-    }
+  @Override
+  public void setGroupPrefix(String world, String group, String prefix) {
+    setGroupInfoValue(world, group, "prefix", prefix);
+  }
 
-    @Override
-    public String getGroupSuffix(String world, String group) {
-        return Reader.getSuffix(group, InfoType.GROUP, world);
-    }
+  @Override
+  public String getGroupSuffix(String world, String group) {
+    return Reader.getSuffix(group, InfoType.GROUP, world);
+  }
 
-    @Override
-    public void setGroupSuffix(String world, String group, String suffix) {
-        setGroupInfoValue(world, group, "suffix", suffix);
-    }
+  @Override
+  public void setGroupSuffix(String world, String group, String suffix) {
+    setGroupInfoValue(world, group, "suffix", suffix);
+  }
 
-    @Override
-    public int getPlayerInfoInteger(String world, String player, String node, int defaultValue) {
-        String val = getPlayerInfoValue(world, player, node);
-        if (val == null || val.equals("")) {
-            return defaultValue;
-        }
-        try {
-            return Integer.parseInt(val);
-        } catch (NumberFormatException e) {
-            return defaultValue;
-        }
+  @Override
+  public int getPlayerInfoInteger(String world, String player, String node, int defaultValue) {
+    String val = getPlayerInfoValue(world, player, node);
+    if (val == null || val.equals("")) {
+      return defaultValue;
     }
+    try {
+      return Integer.parseInt(val);
+    } catch (NumberFormatException e) {
+      return defaultValue;
+    }
+  }
 
-    @Override
-    public void setPlayerInfoInteger(String world, String player, String node, int value) {
-        setPlayerInfoValue(world, player, node, value);
-    }
+  @Override
+  public void setPlayerInfoInteger(String world, String player, String node, int value) {
+    setPlayerInfoValue(world, player, node, value);
+  }
 
-    @Override
-    public int getGroupInfoInteger(String world, String group, String node, int defaultValue) {
-        String val = getGroupInfoValue(world, group, node);
-        if (val == null || val.equals("")) {
-            return defaultValue;
-        }
-        try {
-            return Integer.parseInt(val);
-        } catch (NumberFormatException e) {
-            return defaultValue;
-        }
+  @Override
+  public int getGroupInfoInteger(String world, String group, String node, int defaultValue) {
+    String val = getGroupInfoValue(world, group, node);
+    if (val == null || val.equals("")) {
+      return defaultValue;
     }
+    try {
+      return Integer.parseInt(val);
+    } catch (NumberFormatException e) {
+      return defaultValue;
+    }
+  }
 
-    @Override
-    public void setGroupInfoInteger(String world, String group, String node, int value) {
-        setGroupInfoValue(world, group, node, value);
-    }
+  @Override
+  public void setGroupInfoInteger(String world, String group, String node, int value) {
+    setGroupInfoValue(world, group, node, value);
+  }
 
-    @Override
-    public double getPlayerInfoDouble(String world, String player, String node, double defaultValue) {
-        String val = getPlayerInfoValue(world, player, node);
-        if (val == null || val.equals("")) {
-            return defaultValue;
-        }
-        try {
-            return Double.parseDouble(val);
-        } catch (NumberFormatException e) {
-            return defaultValue;
-        }
+  @Override
+  public double getPlayerInfoDouble(String world, String player, String node, double defaultValue) {
+    String val = getPlayerInfoValue(world, player, node);
+    if (val == null || val.equals("")) {
+      return defaultValue;
     }
+    try {
+      return Double.parseDouble(val);
+    } catch (NumberFormatException e) {
+      return defaultValue;
+    }
+  }
 
-    @Override
-    public void setPlayerInfoDouble(String world, String player, String node, double value) {
-        setPlayerInfoValue(world, player, node, value);
-    }
+  @Override
+  public void setPlayerInfoDouble(String world, String player, String node, double value) {
+    setPlayerInfoValue(world, player, node, value);
+  }
 
-    @Override
-    public double getGroupInfoDouble(String world, String group, String node,double defaultValue) {
-        String val = getGroupInfoValue(world, group, node);
-        if (val == null || val.equals("")) {
-            return defaultValue;
-        }
-        try {
-            return Double.parseDouble(val);
-        } catch (NumberFormatException e) {
-            return defaultValue;
-        }
+  @Override
+  public double getGroupInfoDouble(String world, String group, String node, double defaultValue) {
+    String val = getGroupInfoValue(world, group, node);
+    if (val == null || val.equals("")) {
+      return defaultValue;
     }
+    try {
+      return Double.parseDouble(val);
+    } catch (NumberFormatException e) {
+      return defaultValue;
+    }
+  }
 
-    @Override
-    public void setGroupInfoDouble(String world, String group, String node, double value) {
-        setGroupInfoValue(world, group, node, value);
-    }
+  @Override
+  public void setGroupInfoDouble(String world, String group, String node, double value) {
+    setGroupInfoValue(world, group, node, value);
+  }
 
-    @Override
-    public boolean getPlayerInfoBoolean(String world, String player, String node, boolean defaultValue) {
-        String val = getPlayerInfoValue(world, player, node);
-        if (val == null || val.equals("")) {
-            return defaultValue;
-        }
-        return Boolean.parseBoolean(val);
+  @Override
+  public boolean getPlayerInfoBoolean(String world, String player, String node, boolean defaultValue) {
+    String val = getPlayerInfoValue(world, player, node);
+    if (val == null || val.equals("")) {
+      return defaultValue;
     }
+    return Boolean.parseBoolean(val);
+  }
 
-    @Override
-    public void setPlayerInfoBoolean(String world, String player, String node, boolean value) {
-        setPlayerInfoValue(world, player, node, value);
-    }
+  @Override
+  public void setPlayerInfoBoolean(String world, String player, String node, boolean value) {
+    setPlayerInfoValue(world, player, node, value);
+  }
 
-    @Override
-    public boolean getGroupInfoBoolean(String world, String group, String node, boolean defaultValue) {
-        String val = getGroupInfoValue(world, group, node);
-        if (val == null || val.equals("")) {
-            return defaultValue;
-        }
-        return Boolean.valueOf(val);
+  @Override
+  public boolean getGroupInfoBoolean(String world, String group, String node, boolean defaultValue) {
+    String val = getGroupInfoValue(world, group, node);
+    if (val == null || val.equals("")) {
+      return defaultValue;
     }
+    return Boolean.valueOf(val);
+  }
 
-    @Override
-    public void setGroupInfoBoolean(String world, String group, String node, boolean value) {
-        setGroupInfoValue(world, group, node, value);
-    }
+  @Override
+  public void setGroupInfoBoolean(String world, String group, String node, boolean value) {
+    setGroupInfoValue(world, group, node, value);
+  }
 
-    @Override
-    public String getPlayerInfoString(String world, String player, String node, String defaultValue) {
-        String val = getPlayerInfoValue(world, player, node);
-        if (val == null) {
-            return defaultValue;
-        } else {
-            return val;
-        }
+  @Override
+  public String getPlayerInfoString(String world, String player, String node, String defaultValue) {
+    String val = getPlayerInfoValue(world, player, node);
+    if (val == null) {
+      return defaultValue;
+    } else {
+      return val;
     }
+  }
 
-    @Override
-    public void setPlayerInfoString(String world, String player, String node, String value) {
-        setPlayerInfoValue(world, player, node, value);
-    }
+  @Override
+  public void setPlayerInfoString(String world, String player, String node, String value) {
+    setPlayerInfoValue(world, player, node, value);
+  }
 
-    @Override
-    public String getGroupInfoString(String world, String group, String node, String defaultValue) {
-        String val = getGroupInfoValue(world, group, node);
-        if (val == null) {
-            return defaultValue;
-        } else {
-            return val;
-        }
+  @Override
+  public String getGroupInfoString(String world, String group, String node, String defaultValue) {
+    String val = getGroupInfoValue(world, group, node);
+    if (val == null) {
+      return defaultValue;
+    } else {
+      return val;
     }
+  }
 
-    @Override
-    public void setGroupInfoString(String world, String group, String node, String value) {
-        setGroupInfoValue(world, group, node, value);
-    }
+  @Override
+  public void setGroupInfoString(String world, String group, String node, String value) {
+    setGroupInfoValue(world, group, node, value);
+  }
 
-    private void setPlayerInfoValue(String world, String player, String node, Object value) {
-        if (world != null) {
-            Writer.setWorldVar(player, InfoType.USER, world, node, value.toString());
-        } else {
-            Writer.setInfoVar(player, InfoType.USER, node, value.toString());
-        }
+  private void setPlayerInfoValue(String world, String player, String node, Object value) {
+    if (world != null) {
+      Writer.setWorldVar(player, InfoType.USER, world, node, value.toString());
+    } else {
+      Writer.setInfoVar(player, InfoType.USER, node, value.toString());
     }
+  }
 
-    private void setGroupInfoValue(String world, String group, String node, Object value) {
-        if (world != null) {
-            Writer.setWorldVar(group, InfoType.GROUP, world, node, value);
-        } else {
-            Writer.setInfoVar(group, InfoType.GROUP, node, value);
-        }
+  private void setGroupInfoValue(String world, String group, String node, Object value) {
+    if (world != null) {
+      Writer.setWorldVar(group, InfoType.GROUP, world, node, value);
+    } else {
+      Writer.setInfoVar(group, InfoType.GROUP, node, value);
     }
+  }
 
-    private String getPlayerInfoValue(String world, String player, String node) {
-        return Reader.getInfo(player, InfoType.USER, world, node);
-    }
+  private String getPlayerInfoValue(String world, String player, String node) {
+    return Reader.getInfo(player, InfoType.USER, world, node);
+  }
 
-    private String getGroupInfoValue(String world, String group, String node) {
-        return Reader.getInfo(group, InfoType.GROUP, world, node);
-    }
+  private String getGroupInfoValue(String world, String group, String node) {
+    return Reader.getInfo(group, InfoType.GROUP, world, node);
+  }
 
   public class PermissionServerListener implements Listener {
 

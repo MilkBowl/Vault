@@ -38,212 +38,212 @@ import org.bukkit.event.server.PluginEnableEvent;
 import org.bukkit.plugin.Plugin;
 
 public class Economy_EconXP extends AbstractEconomy {
-    private static final Logger log = Logger.getLogger("Minecraft");
+  private static final Logger log = Logger.getLogger("Minecraft");
 
-    private final String name = "EconXP";
-    private Plugin plugin = null;
-    private EconXP econ = null;
+  private final String name = "EconXP";
+  private Plugin plugin = null;
+  private EconXP econ = null;
 
-    public Economy_EconXP(Plugin plugin) {
-        this.plugin = plugin;
-        Bukkit.getServer().getPluginManager().registerEvents(new EconomyServerListener(this), plugin);
-        log.log(Level.WARNING, "EconXP is an integer only economy, you may notice inconsistencies with accounts if you do not setup your other econ using plugins accordingly!");
-        // Load Plugin in case it was loaded before
-        if (econ == null) {
-            Plugin econ = plugin.getServer().getPluginManager().getPlugin("EconXP");
-            if (econ != null && econ.isEnabled()) {
-                this.econ = (EconXP) econ;
-                log.info(String.format("[%s][Economy] %s hooked.", plugin.getDescription().getName(), name));
-            }
-        }
+  public Economy_EconXP(Plugin plugin) {
+    this.plugin = plugin;
+    Bukkit.getServer().getPluginManager().registerEvents(new EconomyServerListener(this), plugin);
+    log.log(Level.WARNING, "EconXP is an integer only economy, you may notice inconsistencies with accounts if you do not setup your other econ using plugins accordingly!");
+    // Load Plugin in case it was loaded before
+    if (econ == null) {
+      Plugin econ = plugin.getServer().getPluginManager().getPlugin("EconXP");
+      if (econ != null && econ.isEnabled()) {
+        this.econ = (EconXP) econ;
+        log.info(String.format("[%s][Economy] %s hooked.", plugin.getDescription().getName(), name));
+      }
     }
-
-    @Override
-    public boolean isEnabled() {
-        return this.econ != null;
-    }
-
-    @Override
-    public String getName() {
-        return name;
-    }
-
-    @Override
-    public String format(double amount) {
-        amount = Math.ceil(amount);
-
-        return String.format("%d %s", (int)amount, "experience");
-    }
-
-    @Override
-    public String currencyNamePlural() {
-        return "experience";
-    }
-
-    @Override
-    public String currencyNameSingular() {
-        return "experience";
-    }
-
-    @Override
-    public double getBalance(String playerName) {
-        OfflinePlayer player = econ.getPlayer(playerName);
-
-        if ( player == null ) { return 0; }
-
-        return econ.getExp(player);
-    }
-
-    @Override
-    public boolean has(String playerName, double amount) {
-        OfflinePlayer player = econ.getPlayer(playerName);
-
-        if ( player == null ) { return false; }
-
-        return econ.hasExp(player, (int) Math.ceil(amount) );
-    }
-
-    @Override
-    public EconomyResponse withdrawPlayer(String playerName, double amount) {
-        OfflinePlayer player = econ.getPlayer(playerName);
-
-        if ( player == null ) {
-            return new EconomyResponse(0, 0, ResponseType.FAILURE, "Player does not exist");
-        }
-
-        double balance = econ.getExp(player);
-        amount = Math.ceil(amount);
-
-        if (amount < 0) {
-            return new EconomyResponse(0, balance, ResponseType.FAILURE, "Cannot withdraw negative funds");
-        }
-
-        if ( econ.hasExp(player, (int) amount) == false ) {
-            return new EconomyResponse(0, balance, ResponseType.FAILURE, "Insufficient funds");
-        }
-
-        econ.removeExp(player, (int) amount);
-
-        double finalBalance = econ.getExp(player);
-
-        return new EconomyResponse(amount, finalBalance, ResponseType.SUCCESS, null);
-    }
-
-    @Override
-    public EconomyResponse depositPlayer(String playerName, double amount) {
-        OfflinePlayer player = econ.getPlayer(playerName);
-
-        if ( player == null ) {
-            return new EconomyResponse(0, 0, ResponseType.FAILURE, "Player does not exist");
-        }
-
-        double balance = econ.getExp(player);
-        amount = Math.ceil(amount);
-
-        if (amount < 0) {
-            return new EconomyResponse(0, balance, ResponseType.FAILURE, "Cannot withdraw negative funds");
-        }
-
-        econ.addExp(player, (int) amount );
-        balance = econ.getExp(player);
-
-        return new EconomyResponse(amount, balance, ResponseType.SUCCESS, null);
-    }
-
-    @Override
-    public EconomyResponse createBank(String name, String player) {
-        return new EconomyResponse(0, 0, ResponseType.NOT_IMPLEMENTED, "EconXP does not support bank accounts!");
-    }
-
-    @Override
-    public EconomyResponse deleteBank(String name) {
-        return new EconomyResponse(0, 0, ResponseType.NOT_IMPLEMENTED, "EconXP does not support bank accounts!");
-    }
-
-    @Override
-    public EconomyResponse bankHas(String name, double amount) {
-        return new EconomyResponse(0, 0, ResponseType.NOT_IMPLEMENTED, "EconXP does not support bank accounts!");
-    }
-
-    @Override
-    public EconomyResponse bankWithdraw(String name, double amount) {
-        return new EconomyResponse(0, 0, ResponseType.NOT_IMPLEMENTED, "EconXP does not support bank accounts!");
-    }
-
-    @Override
-    public EconomyResponse bankDeposit(String name, double amount) {
-        return new EconomyResponse(0, 0, ResponseType.NOT_IMPLEMENTED, "EconXP does not support bank accounts!");
-    }
-
-    @Override
-    public EconomyResponse isBankOwner(String name, String playerName) {
-        return new EconomyResponse(0, 0, ResponseType.NOT_IMPLEMENTED, "EconXP does not support bank accounts!");
-    }
-
-    @Override
-    public EconomyResponse isBankMember(String name, String playerName) {
-        return new EconomyResponse(0, 0, ResponseType.NOT_IMPLEMENTED, "EconXP does not support bank accounts!");
-    }
-
-    @Override
-    public EconomyResponse bankBalance(String name) {
-        return new EconomyResponse(0, 0, ResponseType.NOT_IMPLEMENTED, "EconXP does not support bank accounts!");
-    }
-
-    @Override
-    public List<String> getBanks() {
-        return new ArrayList<String>();
-    }
-
-    @Override
-    public boolean hasBankSupport() {
-        return false;
-    }
-
-    @Override
-    public boolean hasAccount(String playerName) {
-        return econ.getPlayer(playerName) != null;
-    }
-
-    @Override
-    public boolean createPlayerAccount(String playerName) {
-        return false;
-    }
-
-	@Override
-	public int fractionalDigits() {
-		return 0;
-	}
-
-    @Override
-    public boolean hasAccount(String playerName, String worldName) {
-        return hasAccount(playerName);
-    }
+  }
 
   @Override
-    public double getBalance(String playerName, String world) {
-        return getBalance(playerName);
+  public boolean isEnabled() {
+    return this.econ != null;
+  }
+
+  @Override
+  public String getName() {
+    return name;
+  }
+
+  @Override
+  public String format(double amount) {
+    amount = Math.ceil(amount);
+
+    return String.format("%d %s", (int) amount, "experience");
+  }
+
+  @Override
+  public String currencyNamePlural() {
+    return "experience";
+  }
+
+  @Override
+  public String currencyNameSingular() {
+    return "experience";
+  }
+
+  @Override
+  public double getBalance(String playerName) {
+    OfflinePlayer player = econ.getPlayer(playerName);
+
+    if (player == null) { return 0; }
+
+    return econ.getExp(player);
+  }
+
+  @Override
+  public boolean has(String playerName, double amount) {
+    OfflinePlayer player = econ.getPlayer(playerName);
+
+    if (player == null) { return false; }
+
+    return econ.hasExp(player, (int) Math.ceil(amount));
+  }
+
+  @Override
+  public EconomyResponse withdrawPlayer(String playerName, double amount) {
+    OfflinePlayer player = econ.getPlayer(playerName);
+
+    if (player == null) {
+      return new EconomyResponse(0, 0, ResponseType.FAILURE, "Player does not exist");
     }
 
-    @Override
-    public boolean has(String playerName, String worldName, double amount) {
-        return has(playerName, amount);
+    double balance = econ.getExp(player);
+    amount = Math.ceil(amount);
+
+    if (amount < 0) {
+      return new EconomyResponse(0, balance, ResponseType.FAILURE, "Cannot withdraw negative funds");
     }
 
-    @Override
-    public EconomyResponse withdrawPlayer(String playerName, String worldName, double amount) {
-        return withdrawPlayer(playerName, amount);
+    if (econ.hasExp(player, (int) amount) == false) {
+      return new EconomyResponse(0, balance, ResponseType.FAILURE, "Insufficient funds");
     }
 
-    @Override
-    public EconomyResponse depositPlayer(String playerName, String worldName, double amount) {
-        return depositPlayer(playerName, amount);
+    econ.removeExp(player, (int) amount);
+
+    double finalBalance = econ.getExp(player);
+
+    return new EconomyResponse(amount, finalBalance, ResponseType.SUCCESS, null);
+  }
+
+  @Override
+  public EconomyResponse depositPlayer(String playerName, double amount) {
+    OfflinePlayer player = econ.getPlayer(playerName);
+
+    if (player == null) {
+      return new EconomyResponse(0, 0, ResponseType.FAILURE, "Player does not exist");
     }
 
-    @Override
-    public boolean createPlayerAccount(String playerName, String worldName) {
-        return createPlayerAccount(playerName);
+    double balance = econ.getExp(player);
+    amount = Math.ceil(amount);
+
+    if (amount < 0) {
+      return new EconomyResponse(0, balance, ResponseType.FAILURE, "Cannot withdraw negative funds");
     }
+
+    econ.addExp(player, (int) amount);
+    balance = econ.getExp(player);
+
+    return new EconomyResponse(amount, balance, ResponseType.SUCCESS, null);
+  }
+
+  @Override
+  public EconomyResponse createBank(String name, String player) {
+    return new EconomyResponse(0, 0, ResponseType.NOT_IMPLEMENTED, "EconXP does not support bank accounts!");
+  }
+
+  @Override
+  public EconomyResponse deleteBank(String name) {
+    return new EconomyResponse(0, 0, ResponseType.NOT_IMPLEMENTED, "EconXP does not support bank accounts!");
+  }
+
+  @Override
+  public EconomyResponse bankHas(String name, double amount) {
+    return new EconomyResponse(0, 0, ResponseType.NOT_IMPLEMENTED, "EconXP does not support bank accounts!");
+  }
+
+  @Override
+  public EconomyResponse bankWithdraw(String name, double amount) {
+    return new EconomyResponse(0, 0, ResponseType.NOT_IMPLEMENTED, "EconXP does not support bank accounts!");
+  }
+
+  @Override
+  public EconomyResponse bankDeposit(String name, double amount) {
+    return new EconomyResponse(0, 0, ResponseType.NOT_IMPLEMENTED, "EconXP does not support bank accounts!");
+  }
+
+  @Override
+  public EconomyResponse isBankOwner(String name, String playerName) {
+    return new EconomyResponse(0, 0, ResponseType.NOT_IMPLEMENTED, "EconXP does not support bank accounts!");
+  }
+
+  @Override
+  public EconomyResponse isBankMember(String name, String playerName) {
+    return new EconomyResponse(0, 0, ResponseType.NOT_IMPLEMENTED, "EconXP does not support bank accounts!");
+  }
+
+  @Override
+  public EconomyResponse bankBalance(String name) {
+    return new EconomyResponse(0, 0, ResponseType.NOT_IMPLEMENTED, "EconXP does not support bank accounts!");
+  }
+
+  @Override
+  public List<String> getBanks() {
+    return new ArrayList<String>();
+  }
+
+  @Override
+  public boolean hasBankSupport() {
+    return false;
+  }
+
+  @Override
+  public boolean hasAccount(String playerName) {
+    return econ.getPlayer(playerName) != null;
+  }
+
+  @Override
+  public boolean createPlayerAccount(String playerName) {
+    return false;
+  }
+
+  @Override
+  public int fractionalDigits() {
+    return 0;
+  }
+
+  @Override
+  public boolean hasAccount(String playerName, String worldName) {
+    return hasAccount(playerName);
+  }
+
+  @Override
+  public double getBalance(String playerName, String world) {
+    return getBalance(playerName);
+  }
+
+  @Override
+  public boolean has(String playerName, String worldName, double amount) {
+    return has(playerName, amount);
+  }
+
+  @Override
+  public EconomyResponse withdrawPlayer(String playerName, String worldName, double amount) {
+    return withdrawPlayer(playerName, amount);
+  }
+
+  @Override
+  public EconomyResponse depositPlayer(String playerName, String worldName, double amount) {
+    return depositPlayer(playerName, amount);
+  }
+
+  @Override
+  public boolean createPlayerAccount(String playerName, String worldName) {
+    return createPlayerAccount(playerName);
+  }
 
   public class EconomyServerListener implements Listener {
     Economy_EconXP economy = null;

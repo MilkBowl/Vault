@@ -37,241 +37,241 @@ import org.bukkit.plugin.Plugin;
 
 public class Economy_CurrencyCore extends AbstractEconomy {
 
-    private static final Logger log = Logger.getLogger("Minecraft");
-    private final Plugin plugin;
-    private final String name = "CurrencyCore";
+  private static final Logger log = Logger.getLogger("Minecraft");
+  private final Plugin plugin;
+  private final String name = "CurrencyCore";
   private Currency currency;
 
-    public Economy_CurrencyCore(Plugin plugin) {
-        this.plugin = plugin;
-        Bukkit.getServer().getPluginManager().registerEvents(new EconomyServerListener(this), plugin);
+  public Economy_CurrencyCore(Plugin plugin) {
+    this.plugin = plugin;
+    Bukkit.getServer().getPluginManager().registerEvents(new EconomyServerListener(this), plugin);
 
-        // Load Plugin in case it was loaded before
-        if(currency == null) {
-            Plugin currencyPlugin = plugin.getServer().getPluginManager().getPlugin("CurrencyCore");
-            if(currencyPlugin != null && currencyPlugin.getClass().getName().equals("is.currency.Currency")) {
-                this.currency = (Currency) currencyPlugin;
-                log.info(String.format("[%s][Economy] %s hooked.", plugin.getDescription().getName(), name));  
-            }
-        }
+    // Load Plugin in case it was loaded before
+    if (currency == null) {
+      Plugin currencyPlugin = plugin.getServer().getPluginManager().getPlugin("CurrencyCore");
+      if (currencyPlugin != null && currencyPlugin.getClass().getName().equals("is.currency.Currency")) {
+        this.currency = (Currency) currencyPlugin;
+        log.info(String.format("[%s][Economy] %s hooked.", plugin.getDescription().getName(), name));
+      }
+    }
+  }
+
+  @Override
+  public boolean isEnabled() {
+    return currency != null;
+  }
+
+  @Override
+  public String getName() {
+    return name;
+  }
+
+  @Override
+  public String format(double amount) {
+    return this.currency.getFormatHelper().format(amount);
+  }
+
+  @Override
+  public String currencyNamePlural() {
+    return currency.getCurrencyConfig().getCurrencyMajor().get(1);
+  }
+
+  @Override
+  public String currencyNameSingular() {
+    return currency.getCurrencyConfig().getCurrencyMajor().get(0);
+  }
+
+  @Override
+  public double getBalance(String playerName) {
+    AccountContext account = this.currency.getAccountManager().getAccount(playerName);
+    if (account == null) {
+      return 0.0;
     }
 
-    @Override
-    public boolean isEnabled() {
-        return currency != null;
+    return account.getBalance();
+  }
+
+  @Override
+  public boolean has(String playerName, double amount) {
+    AccountContext account = this.currency.getAccountManager().getAccount(playerName);
+    if (account == null) {
+      return false;
+    } else {
+      return account.hasBalance(amount);
+    }
+  }
+
+  @Override
+  public EconomyResponse withdrawPlayer(String playerName, double amount) {
+    if (amount < 0) {
+      return new EconomyResponse(0, 0, ResponseType.FAILURE, "Cannot withdraw negative funds");
     }
 
-    @Override
-    public String getName() {
-        return name;
+    AccountContext account = this.currency.getAccountManager().getAccount(playerName);
+    if (account == null) {
+      return new EconomyResponse(0.0, 0.0, ResponseType.FAILURE, "That account does not exist");
+    } else if (!account.hasBalance(amount)) {
+      return new EconomyResponse(0.0, account.getBalance(), ResponseType.FAILURE, "Insufficient funds");
+    } else {
+      account.subtractBalance(amount);
+      return new EconomyResponse(amount, account.getBalance(), ResponseType.SUCCESS, "");
+    }
+  }
+
+  @Override
+  public EconomyResponse depositPlayer(String playerName, double amount) {
+    if (amount < 0) {
+      return new EconomyResponse(0, 0, ResponseType.FAILURE, "Cannot desposit negative funds");
     }
 
-    @Override
-    public String format(double amount) {
-        return this.currency.getFormatHelper().format(amount);
+    AccountContext account = this.currency.getAccountManager().getAccount(playerName);
+    if (account == null) {
+      return new EconomyResponse(0.0, 0.0, ResponseType.FAILURE, "That account does not exist");
+    }
+    account.addBalance(amount);
+    return new EconomyResponse(amount, account.getBalance(), ResponseType.SUCCESS, "");
+  }
+
+  @Override
+  public EconomyResponse createBank(String name, String player) {
+    if (this.currency.getAccountManager().hasAccount(name)) {
+      return new EconomyResponse(0, currency.getAccountManager().getAccount(name).getBalance(), ResponseType.FAILURE, "That account already exists.");
+    }
+    this.currency.getAccountManager().createAccount(name);
+    return new EconomyResponse(0, 0, ResponseType.SUCCESS, "");
+  }
+
+  @Override
+  public EconomyResponse deleteBank(String name) {
+    if (this.currency.getAccountManager().hasAccount(name)) {
+      this.currency.getAccountManager().deleteAccount(name);
+      return new EconomyResponse(0, 0, ResponseType.SUCCESS, "");
+    }
+    return new EconomyResponse(0, 0, ResponseType.FAILURE, "That account does not exist!");
+  }
+
+  @Override
+  public EconomyResponse bankBalance(String name) {
+    AccountContext account = this.currency.getAccountManager().getAccount(name);
+
+    if (account == null) {
+      return new EconomyResponse(0, 0, ResponseType.FAILURE, "That account does not exists.");
+    }
+    return new EconomyResponse(0, account.getBalance(), ResponseType.SUCCESS, "");
+  }
+
+  @Override
+  public EconomyResponse bankHas(String name, double amount) {
+    AccountContext account = this.currency.getAccountManager().getAccount(name);
+    if (account == null) {
+      return new EconomyResponse(0, 0, ResponseType.FAILURE, "That account does not exist!");
+    } else if (!account.hasBalance(amount)) {
+      return new EconomyResponse(0, account.getBalance(), ResponseType.FAILURE, "That account does not have enough!");
+    } else {
+      return new EconomyResponse(0, account.getBalance(), ResponseType.SUCCESS, "");
+    }
+  }
+
+  @Override
+  public EconomyResponse bankWithdraw(String name, double amount) {
+    if (amount < 0) {
+      return new EconomyResponse(0, 0, ResponseType.FAILURE, "Cannot withdraw negative funds");
     }
 
-    @Override
-    public String currencyNamePlural() {
-        return currency.getCurrencyConfig().getCurrencyMajor().get(1);
+    AccountContext account = this.currency.getAccountManager().getAccount(name);
+    if (account == null) {
+      return new EconomyResponse(0, 0, ResponseType.FAILURE, "That account does not exist!");
+    } else if (!account.hasBalance(amount)) {
+      return new EconomyResponse(0, account.getBalance(), ResponseType.FAILURE, "That account does not have enough!");
+    } else {
+      account.subtractBalance(amount);
+      return new EconomyResponse(amount, account.getBalance(), ResponseType.SUCCESS, "");
+    }
+  }
+
+  @Override
+  public EconomyResponse bankDeposit(String name, double amount) {
+    if (amount < 0) {
+      return new EconomyResponse(0, 0, ResponseType.FAILURE, "Cannot desposit negative funds");
     }
 
-    @Override
-    public String currencyNameSingular() {
-        return currency.getCurrencyConfig().getCurrencyMajor().get(0);
+    AccountContext account = this.currency.getAccountManager().getAccount(name);
+    if (account == null) {
+      return new EconomyResponse(0, 0, ResponseType.FAILURE, "That account does not exist!");
+    } else {
+      account.addBalance(amount);
+      return new EconomyResponse(amount, account.getBalance(), ResponseType.SUCCESS, "");
     }
+  }
 
-    @Override
-    public double getBalance(String playerName) {
-        AccountContext account = this.currency.getAccountManager().getAccount(playerName);
-        if (account == null) {
-          return 0.0;
-        }
+  @Override
+  public EconomyResponse isBankOwner(String name, String playerName) {
+    return new EconomyResponse(0, 0, ResponseType.NOT_IMPLEMENTED, "Currency does not support Bank members.");
+  }
 
-        return account.getBalance();
+  @Override
+  public EconomyResponse isBankMember(String name, String playerName) {
+    return new EconomyResponse(0, 0, ResponseType.NOT_IMPLEMENTED, "Currency does not support Bank members.");
+  }
+
+  @Override
+  public List<String> getBanks() {
+    return this.currency.getAccountManager().getAccountList();
+  }
+
+  @Override
+  public boolean hasBankSupport() {
+    return true;
+  }
+
+  @Override
+  public boolean hasAccount(String playerName) {
+    return this.currency.getAccountManager().getAccount(playerName) != null;
+  }
+
+  @Override
+  public boolean createPlayerAccount(String playerName) {
+    if (this.currency.getAccountManager().getAccount(playerName) != null) {
+      return false;
     }
+    this.currency.getAccountManager().createAccount(playerName);
+    return true;
+  }
 
-    @Override
-    public boolean has(String playerName, double amount) {
-        AccountContext account = this.currency.getAccountManager().getAccount(playerName);
-        if (account == null) {
-            return false;
-        } else {
-            return account.hasBalance(amount);
-        }
-    }
+  @Override
+  public int fractionalDigits() {
+    return -1;
+  }
 
-    @Override
-    public EconomyResponse withdrawPlayer(String playerName, double amount) {
-        if (amount < 0) {
-            return new EconomyResponse(0, 0, ResponseType.FAILURE, "Cannot withdraw negative funds");
-        }
+  @Override
+  public boolean hasAccount(String playerName, String worldName) {
+    return hasAccount(playerName);
+  }
 
-        AccountContext account = this.currency.getAccountManager().getAccount(playerName);
-        if (account == null) {
-            return new EconomyResponse(0.0, 0.0, ResponseType.FAILURE, "That account does not exist");
-        } else if (!account.hasBalance(amount)) {
-          return new EconomyResponse(0.0, account.getBalance(), ResponseType.FAILURE, "Insufficient funds");
-        } else {
-            account.subtractBalance(amount);
-            return new EconomyResponse(amount, account.getBalance(), ResponseType.SUCCESS, "");
-        }
-    }
+  @Override
+  public double getBalance(String playerName, String world) {
+    return getBalance(playerName);
+  }
 
-    @Override
-    public EconomyResponse depositPlayer(String playerName, double amount) {
-        if (amount < 0) {
-            return new EconomyResponse(0, 0, ResponseType.FAILURE, "Cannot desposit negative funds");
-        }
+  @Override
+  public boolean has(String playerName, String worldName, double amount) {
+    return has(playerName, amount);
+  }
 
-        AccountContext account = this.currency.getAccountManager().getAccount(playerName);
-        if (account == null) {
-            return new EconomyResponse(0.0, 0.0, ResponseType.FAILURE, "That account does not exist");
-        }
-        account.addBalance(amount);
-        return new EconomyResponse(amount, account.getBalance(), ResponseType.SUCCESS, "");
-    }
+  @Override
+  public EconomyResponse withdrawPlayer(String playerName, String worldName, double amount) {
+    return withdrawPlayer(playerName, amount);
+  }
 
-    @Override
-    public EconomyResponse createBank(String name, String player) {
-        if (this.currency.getAccountManager().hasAccount(name)) {
-            return new EconomyResponse(0, currency.getAccountManager().getAccount(name).getBalance(), ResponseType.FAILURE, "That account already exists.");
-        }
-        this.currency.getAccountManager().createAccount(name);
-        return new EconomyResponse(0, 0, ResponseType.SUCCESS, "");
-    }
+  @Override
+  public EconomyResponse depositPlayer(String playerName, String worldName, double amount) {
+    return depositPlayer(playerName, amount);
+  }
 
-    @Override
-    public EconomyResponse deleteBank(String name) {
-        if (this.currency.getAccountManager().hasAccount(name)) {
-            this.currency.getAccountManager().deleteAccount(name);
-            return new EconomyResponse(0, 0, ResponseType.SUCCESS, "");
-        }
-        return new EconomyResponse(0, 0, ResponseType.FAILURE, "That account does not exist!");
-    }
-
-    @Override
-    public EconomyResponse bankBalance(String name) {
-        AccountContext account = this.currency.getAccountManager().getAccount(name);
-
-        if (account == null) {
-            return new EconomyResponse(0, 0, ResponseType.FAILURE, "That account does not exists.");
-        }
-        return new EconomyResponse(0, account.getBalance(), ResponseType.SUCCESS, "");
-    }
-
-    @Override
-    public EconomyResponse bankHas(String name, double amount) {
-        AccountContext account = this.currency.getAccountManager().getAccount(name);
-        if (account == null) {
-            return new EconomyResponse(0, 0, ResponseType.FAILURE, "That account does not exist!");
-        } else if (!account.hasBalance(amount)) {
-            return new EconomyResponse(0, account.getBalance(), ResponseType.FAILURE, "That account does not have enough!");
-        } else {
-            return new EconomyResponse(0, account.getBalance(), ResponseType.SUCCESS, "");
-        }
-    }
-
-    @Override
-    public EconomyResponse bankWithdraw(String name, double amount) {
-        if (amount < 0) {
-            return new EconomyResponse(0, 0, ResponseType.FAILURE, "Cannot withdraw negative funds");
-        }
-
-        AccountContext account = this.currency.getAccountManager().getAccount(name);
-        if (account == null) {
-            return new EconomyResponse(0, 0, ResponseType.FAILURE, "That account does not exist!");
-        } else if (!account.hasBalance(amount)) {
-            return new EconomyResponse(0, account.getBalance(), ResponseType.FAILURE, "That account does not have enough!");
-        } else {
-            account.subtractBalance(amount);
-            return new EconomyResponse(amount, account.getBalance(), ResponseType.SUCCESS, "");
-        }
-    }
-
-    @Override
-    public EconomyResponse bankDeposit(String name, double amount) {
-        if (amount < 0) {
-            return new EconomyResponse(0, 0, ResponseType.FAILURE, "Cannot desposit negative funds");
-        }
-
-        AccountContext account = this.currency.getAccountManager().getAccount(name);
-        if (account == null) {
-            return new EconomyResponse(0, 0, ResponseType.FAILURE, "That account does not exist!");
-        } else {
-            account.addBalance(amount);
-            return new EconomyResponse(amount, account.getBalance(), ResponseType.SUCCESS, "");
-        }
-    }
-
-    @Override
-    public EconomyResponse isBankOwner(String name, String playerName) {
-        return new EconomyResponse(0, 0, ResponseType.NOT_IMPLEMENTED, "Currency does not support Bank members.");
-    }
-
-    @Override
-    public EconomyResponse isBankMember(String name, String playerName) {
-        return new EconomyResponse(0, 0, ResponseType.NOT_IMPLEMENTED, "Currency does not support Bank members.");
-    }
-
-    @Override
-    public List<String> getBanks() {
-        return this.currency.getAccountManager().getAccountList();
-    }
-
-    @Override
-    public boolean hasBankSupport() {
-        return true;
-    }
-
-    @Override
-    public boolean hasAccount(String playerName) {
-        return this.currency.getAccountManager().getAccount(playerName) != null;
-    }
-
-    @Override
-    public boolean createPlayerAccount(String playerName) {
-        if (this.currency.getAccountManager().getAccount(playerName) != null) {
-            return false;
-        }
-        this.currency.getAccountManager().createAccount(playerName);
-        return true;
-    }
-
-	@Override
-	public int fractionalDigits() {
-		return -1;
-	}
-
-    @Override
-    public boolean hasAccount(String playerName, String worldName) {
-        return hasAccount(playerName);
-    }
-
-    @Override
-    public double getBalance(String playerName, String world) {
-        return getBalance(playerName);
-    }
-
-    @Override
-    public boolean has(String playerName, String worldName, double amount) {
-        return has(playerName, amount);
-    }
-
-    @Override
-    public EconomyResponse withdrawPlayer(String playerName, String worldName, double amount) {
-        return withdrawPlayer(playerName, amount);
-    }
-
-    @Override
-    public EconomyResponse depositPlayer(String playerName, String worldName, double amount) {
-        return depositPlayer(playerName, amount);
-    }
-
-    @Override
-    public boolean createPlayerAccount(String playerName, String worldName) {
-        return createPlayerAccount(playerName);
-    }
+  @Override
+  public boolean createPlayerAccount(String playerName, String worldName) {
+    return createPlayerAccount(playerName);
+  }
 
   public class EconomyServerListener implements Listener {
 

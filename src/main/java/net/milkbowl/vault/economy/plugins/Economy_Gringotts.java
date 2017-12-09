@@ -39,208 +39,208 @@ import org.gestern.gringotts.Gringotts;
 
 public class Economy_Gringotts extends AbstractEconomy {
 
-    private static final Logger log = Logger.getLogger("Minecraft");
+  private static final Logger log = Logger.getLogger("Minecraft");
 
-    private final String name = "Gringotts";
-    private Plugin plugin = null;
-    private Gringotts gringotts = null;
+  private final String name = "Gringotts";
+  private Plugin plugin = null;
+  private Gringotts gringotts = null;
 
-    public Economy_Gringotts(Plugin plugin) {
-        this.plugin = plugin;
-        Bukkit.getServer().getPluginManager().registerEvents(new EconomyServerListener(this), plugin);
-        // Load Plugin in case it was loaded before
-        if (gringotts == null) {
-            Plugin grngts = plugin.getServer().getPluginManager().getPlugin("Gringotts");
-            if (grngts != null && grngts.isEnabled()) {
-                gringotts = (Gringotts) grngts;
-                log.info(String.format("[%s][Economy] %s hooked.", plugin.getDescription().getName(), name));
-            }
-        }
+  public Economy_Gringotts(Plugin plugin) {
+    this.plugin = plugin;
+    Bukkit.getServer().getPluginManager().registerEvents(new EconomyServerListener(this), plugin);
+    // Load Plugin in case it was loaded before
+    if (gringotts == null) {
+      Plugin grngts = plugin.getServer().getPluginManager().getPlugin("Gringotts");
+      if (grngts != null && grngts.isEnabled()) {
+        gringotts = (Gringotts) grngts;
+        log.info(String.format("[%s][Economy] %s hooked.", plugin.getDescription().getName(), name));
+      }
+    }
+  }
+
+  @Override
+  public boolean isEnabled() {
+    return gringotts != null && gringotts.isEnabled();
+  }
+
+  @Override
+  public String getName() {
+    return name;
+  }
+
+  @Override
+  public boolean hasBankSupport() {
+    return false;
+  }
+
+  @Override
+  public int fractionalDigits() {
+    return 2;
+  }
+
+  @Override
+  public String format(double amount) {
+    return Double.toString(amount);
+  }
+
+  @Override
+  public String currencyNamePlural() {
+    return org.gestern.gringotts.Configuration.config.currencyNamePlural;
+  }
+
+  @Override
+  public String currencyNameSingular() {
+    return org.gestern.gringotts.Configuration.config.currencyNameSingular;
+  }
+
+  @Override
+  public boolean hasAccount(String playerName) {
+    AccountHolder owner = gringotts.accountHolderFactory.getAccount(playerName);
+    if (owner == null) {
+      return false;
     }
 
-    @Override
-    public boolean isEnabled(){
-        return gringotts != null && gringotts.isEnabled();
+    return gringotts.accounting.getAccount(owner) != null;
+  }
+
+  @Override
+  public double getBalance(String playerName) {
+    AccountHolder owner = gringotts.accountHolderFactory.getAccount(playerName);
+    if (owner == null) {
+      return 0;
+    }
+    Account account = gringotts.accounting.getAccount(owner);
+    return account.balance();
+  }
+
+  @Override
+  public boolean has(String playerName, double amount) {
+    return getBalance(playerName) >= amount;
+  }
+
+  @Override
+  public EconomyResponse withdrawPlayer(String playerName, double amount) {
+
+    if (amount < 0) {
+      return new EconomyResponse(0, 0, ResponseType.FAILURE, "Cannot withdraw a negative amount.");
     }
 
-    @Override
-    public String getName() {
-        return name;
+    AccountHolder accountHolder = gringotts.accountHolderFactory.getAccount(playerName);
+    if (accountHolder == null) {
+      return new EconomyResponse(0, 0, ResponseType.FAILURE, playerName + " is not a valid account holder.");
     }
 
-    @Override
-    public boolean hasBankSupport(){
-        return false;
+    Account account = gringotts.accounting.getAccount(accountHolder);
+
+    if (account.balance() >= amount && account.remove(amount)) {
+      //We has mulah!
+      return new EconomyResponse(amount, account.balance(), ResponseType.SUCCESS, null);
+    } else {
+      //Not enough money to withdraw this much.
+      return new EconomyResponse(0, account.balance(), ResponseType.FAILURE, "Insufficient funds");
     }
 
-    @Override
-    public int fractionalDigits(){
-        return 2;
+  }
+
+  @Override
+  public EconomyResponse depositPlayer(String playerName, double amount) {
+    if (amount < 0) {
+      return new EconomyResponse(0, 0, ResponseType.FAILURE, "Cannot desposit negative funds");
     }
 
-    @Override
-    public String format(double amount) {
-        return Double.toString(amount);
+    AccountHolder accountHolder = gringotts.accountHolderFactory.getAccount(playerName);
+    if (accountHolder == null) {
+      return new EconomyResponse(0, 0, ResponseType.FAILURE, playerName + " is not a valid account holder.");
     }
 
-    @Override
-    public String currencyNamePlural(){
-        return org.gestern.gringotts.Configuration.config.currencyNamePlural;
+    Account account = gringotts.accounting.getAccount(accountHolder);
+
+    if (account.add(amount)) {
+      return new EconomyResponse(amount, account.balance(), ResponseType.SUCCESS, null);
+    } else {
+      return new EconomyResponse(0, account.balance(), ResponseType.FAILURE, "Not enough capacity to store that amount!");
     }
+  }
 
-    @Override
-    public String currencyNameSingular(){
-        return org.gestern.gringotts.Configuration.config.currencyNameSingular;
-    }
+  @Override
+  public EconomyResponse createBank(String name, String player) {
+    return new EconomyResponse(0, 0, ResponseType.NOT_IMPLEMENTED, "Gringotts does not support bank accounts!");
+  }
 
-    @Override
-    public boolean hasAccount(String playerName) {
-        AccountHolder owner = gringotts.accountHolderFactory.getAccount(playerName);
-        if (owner == null) {
-            return false;
-        }
+  @Override
+  public EconomyResponse deleteBank(String name) {
+    return new EconomyResponse(0, 0, ResponseType.NOT_IMPLEMENTED, "Gringotts does not support bank accounts!");
+  }
 
-        return gringotts.accounting.getAccount(owner) != null;
-    }
+  @Override
+  public EconomyResponse bankBalance(String name) {
+    return new EconomyResponse(0, 0, ResponseType.NOT_IMPLEMENTED, "Gringotts does not support bank accounts!");
+  }
 
-    @Override
-    public double getBalance(String playerName){
-        AccountHolder owner = gringotts.accountHolderFactory.getAccount(playerName);
-        if (owner == null) {
-            return 0;
-        }
-        Account account = gringotts.accounting.getAccount(owner);
-        return account.balance();
-    }
+  @Override
+  public EconomyResponse bankHas(String name, double amount) {
+    return new EconomyResponse(0, 0, ResponseType.NOT_IMPLEMENTED, "Gringotts does not support bank accounts!");
+  }
 
-    @Override
-    public boolean has(String playerName, double amount) {
-        return getBalance(playerName) >= amount;
-    }
+  @Override
+  public EconomyResponse bankWithdraw(String name, double amount) {
+    return new EconomyResponse(0, 0, ResponseType.NOT_IMPLEMENTED, "Gringotts does not support bank accounts!");
+  }
 
-    @Override
-    public EconomyResponse withdrawPlayer(String playerName, double amount) {
+  @Override
+  public EconomyResponse bankDeposit(String name, double amount) {
+    return new EconomyResponse(0, 0, ResponseType.NOT_IMPLEMENTED, "Gringotts does not support bank accounts!");
+  }
 
-        if( amount < 0 ) {
-            return new EconomyResponse(0, 0, ResponseType.FAILURE, "Cannot withdraw a negative amount.");
-        }
+  @Override
+  public EconomyResponse isBankOwner(String name, String playerName) {
+    return new EconomyResponse(0, 0, ResponseType.NOT_IMPLEMENTED, "Gringotts does not support bank accounts!");
+  }
 
-        AccountHolder accountHolder = gringotts.accountHolderFactory.getAccount(playerName);
-        if (accountHolder == null) {
-            return new EconomyResponse(0, 0, ResponseType.FAILURE, playerName + " is not a valid account holder.");
-        }
+  @Override
+  public EconomyResponse isBankMember(String name, String playerName) {
+    return new EconomyResponse(0, 0, ResponseType.NOT_IMPLEMENTED, "Gringotts does not support bank accounts!");
+  }
 
-        Account account = gringotts.accounting.getAccount( accountHolder );
+  @Override
+  public List<String> getBanks() {
+    return new ArrayList<String>();
+  }
 
-        if(account.balance() >= amount && account.remove(amount)) {
-            //We has mulah!
-            return new EconomyResponse(amount, account.balance(), ResponseType.SUCCESS, null);
-        } else {
-            //Not enough money to withdraw this much.
-            return new EconomyResponse(0, account.balance(), ResponseType.FAILURE, "Insufficient funds");
-        }
+  @Override
+  public boolean createPlayerAccount(String playerName) {
+    return hasAccount(playerName);
+  }
 
-    }
+  @Override
+  public boolean hasAccount(String playerName, String worldName) {
+    return hasAccount(playerName);
+  }
 
-    @Override
-    public EconomyResponse depositPlayer(String playerName, double amount){
-        if (amount < 0) {
-            return new EconomyResponse(0, 0, ResponseType.FAILURE, "Cannot desposit negative funds");
-        }
+  @Override
+  public double getBalance(String playerName, String world) {
+    return getBalance(playerName);
+  }
 
-        AccountHolder accountHolder = gringotts.accountHolderFactory.getAccount(playerName);
-        if (accountHolder == null) {
-            return new EconomyResponse(0, 0, ResponseType.FAILURE, playerName + " is not a valid account holder.");
-        }
+  @Override
+  public boolean has(String playerName, String worldName, double amount) {
+    return has(playerName, amount);
+  }
 
-        Account account = gringotts.accounting.getAccount( accountHolder );
+  @Override
+  public EconomyResponse withdrawPlayer(String playerName, String worldName, double amount) {
+    return withdrawPlayer(playerName, amount);
+  }
 
-      if (account.add(amount)) {
-            return new EconomyResponse( amount, account.balance(), ResponseType.SUCCESS, null);
-        } else {
-            return new EconomyResponse( 0, account.balance(), ResponseType.FAILURE, "Not enough capacity to store that amount!");
-        }
-    }
+  @Override
+  public EconomyResponse depositPlayer(String playerName, String worldName, double amount) {
+    return depositPlayer(playerName, amount);
+  }
 
-    @Override
-    public EconomyResponse createBank(String name, String player) {
-        return new EconomyResponse(0, 0, ResponseType.NOT_IMPLEMENTED, "Gringotts does not support bank accounts!");
-    }
-
-    @Override
-    public EconomyResponse deleteBank(String name) {
-        return new EconomyResponse(0, 0, ResponseType.NOT_IMPLEMENTED, "Gringotts does not support bank accounts!");
-    }
-
-    @Override
-    public EconomyResponse bankBalance(String name) {
-        return new EconomyResponse(0, 0, ResponseType.NOT_IMPLEMENTED, "Gringotts does not support bank accounts!");
-    }
-
-    @Override
-    public EconomyResponse bankHas(String name, double amount) {
-        return new EconomyResponse(0, 0, ResponseType.NOT_IMPLEMENTED, "Gringotts does not support bank accounts!");
-    }
-
-    @Override
-    public EconomyResponse bankWithdraw(String name, double amount) {
-        return new EconomyResponse(0, 0, ResponseType.NOT_IMPLEMENTED, "Gringotts does not support bank accounts!");
-    }
-
-    @Override
-    public EconomyResponse bankDeposit(String name, double amount) {
-        return new EconomyResponse(0, 0, ResponseType.NOT_IMPLEMENTED, "Gringotts does not support bank accounts!");
-    }
-
-    @Override
-    public EconomyResponse isBankOwner(String name, String playerName) {
-        return new EconomyResponse(0, 0, ResponseType.NOT_IMPLEMENTED, "Gringotts does not support bank accounts!");
-    }
-
-    @Override
-    public EconomyResponse isBankMember(String name, String playerName) {
-        return new EconomyResponse(0, 0, ResponseType.NOT_IMPLEMENTED, "Gringotts does not support bank accounts!");
-    }
-
-    @Override
-    public List<String> getBanks() {
-        return new ArrayList<String>();
-    }
-
-    @Override
-    public boolean createPlayerAccount(String playerName) {
-        return hasAccount(playerName);
-    }
-
-    @Override
-    public boolean hasAccount(String playerName, String worldName) {
-        return hasAccount(playerName);
-    }
-
-    @Override
-    public double getBalance(String playerName, String world) {
-        return getBalance(playerName);
-    }
-
-    @Override
-    public boolean has(String playerName, String worldName, double amount) {
-        return has(playerName, amount);
-    }
-
-    @Override
-    public EconomyResponse withdrawPlayer(String playerName, String worldName, double amount) {
-        return withdrawPlayer(playerName, amount);
-    }
-
-    @Override
-    public EconomyResponse depositPlayer(String playerName, String worldName, double amount) {
-        return depositPlayer(playerName, amount);
-    }
-
-    @Override
-    public boolean createPlayerAccount(String playerName, String worldName) {
-        return createPlayerAccount(playerName);
-    }
+  @Override
+  public boolean createPlayerAccount(String playerName, String worldName) {
+    return createPlayerAccount(playerName);
+  }
 
   public class EconomyServerListener implements Listener {
     Economy_Gringotts economy = null;

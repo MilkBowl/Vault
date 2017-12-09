@@ -40,208 +40,205 @@ import org.bukkit.event.server.PluginEnableEvent;
 import org.bukkit.plugin.Plugin;
 
 public class Economy_MineConomy extends AbstractEconomy {
-    private static final Logger log = Logger.getLogger("Minecraft");
+  private static final Logger log = Logger.getLogger("Minecraft");
 
-    private final String name = "MineConomy";
-    private Plugin plugin = null;
-    private MineConomy econ = null;
+  private final String name = "MineConomy";
+  private Plugin plugin = null;
+  private MineConomy econ = null;
 
-    public Economy_MineConomy(Plugin plugin) {
-        this.plugin = plugin;
-        Bukkit.getServer().getPluginManager().registerEvents(new EconomyServerListener(this), plugin);
+  public Economy_MineConomy(Plugin plugin) {
+    this.plugin = plugin;
+    Bukkit.getServer().getPluginManager().registerEvents(new EconomyServerListener(this), plugin);
 
-        // Load Plugin in case it was loaded before
-        if (econ == null) {
-            Plugin econ = plugin.getServer().getPluginManager().getPlugin("MineConomy");
-            if (econ != null && econ.isEnabled()) {
-                this.econ = (MineConomy) econ;
-                log.info(String.format("[%s][Economy] %s hooked.", plugin.getDescription().getName(), name));
-            }
-        }
+    // Load Plugin in case it was loaded before
+    if (econ == null) {
+      Plugin econ = plugin.getServer().getPluginManager().getPlugin("MineConomy");
+      if (econ != null && econ.isEnabled()) {
+        this.econ = (MineConomy) econ;
+        log.info(String.format("[%s][Economy] %s hooked.", plugin.getDescription().getName(), name));
+      }
+    }
+  }
+
+  public boolean isEnabled() {
+    return econ != null;
+  }
+
+  public String getName() {
+    return "MineConomy";
+  }
+
+  public String format(double amount) {
+    return MCFormat.format(amount);
+  }
+
+  public String currencyNameSingular() {
+    return MCCom.getDefaultCurrency();
+  }
+
+  public String currencyNamePlural() {
+    return MCCom.getDefaultCurrency();
+  }
+
+  public double getBalance(String playerName) {
+    try {
+      return MCCom.getExternalBalance(playerName);
+    } catch (NoAccountException e) {
+      MCCom.create(playerName);
+      return MCCom.getExternalBalance(playerName);
+    }
+  }
+
+  @Override
+  public boolean has(String playerName, double amount) {
+    try {
+      return MCCom.canExternalAfford(playerName, amount);
+    } catch (NoAccountException e) {
+      MCCom.create(playerName);
+      return MCCom.canExternalAfford(playerName, amount);
+    }
+  }
+
+  @Override
+  public EconomyResponse withdrawPlayer(String playerName, double amount) {
+    double balance;
+    try {
+      balance = MCCom.getExternalBalance(playerName);
+    } catch (NoAccountException e) {
+      MCCom.create(playerName);
+      balance = MCCom.getExternalBalance(playerName);
     }
 
-    public boolean isEnabled() {
-        return econ != null;
+    if (amount < 0.0D) {
+      return new EconomyResponse(0.0D, balance, ResponseType.FAILURE, "Cannot withdraw negative funds");
     }
 
-    public String getName() {
-        return "MineConomy";
+    if (balance >= amount) {
+      double finalBalance = balance - amount;
+      MCCom.setExternalBalance(playerName, finalBalance);
+      return new EconomyResponse(amount, finalBalance, ResponseType.SUCCESS, null);
+    } else {
+      return new EconomyResponse(0.0D, balance, ResponseType.FAILURE, "Insufficient funds");
+    }
+  }
+
+  @Override
+  public EconomyResponse depositPlayer(String playerName, double amount) {
+    double balance;
+    try {
+      balance = MCCom.getExternalBalance(playerName);
+    } catch (NoAccountException e) {
+      MCCom.create(playerName);
+      balance = MCCom.getExternalBalance(playerName);
+    }
+    if (amount < 0.0D) {
+      return new EconomyResponse(0.0D, 0.0, ResponseType.FAILURE, "Cannot deposit negative funds");
     }
 
-    public String format(double amount) {
-        return MCFormat.format(amount);
+    balance += amount;
+    MCCom.setExternalBalance(playerName, balance);
+    return new EconomyResponse(amount, balance, ResponseType.SUCCESS, null);
+
+  }
+
+  @Override
+  public EconomyResponse createBank(String name, String player) {
+    return new EconomyResponse(0.0D, 0.0D, ResponseType.NOT_IMPLEMENTED, "MineConomy does not support bank accounts!");
+  }
+
+  @Override
+  public EconomyResponse deleteBank(String name) {
+    return new EconomyResponse(0.0D, 0.0D, ResponseType.NOT_IMPLEMENTED, "MineConomy does not support bank accounts!");
+  }
+
+  @Override
+  public EconomyResponse bankHas(String name, double amount) {
+    return new EconomyResponse(0.0D, 0.0D, ResponseType.NOT_IMPLEMENTED, "MineConomy does not support bank accounts!");
+  }
+
+  @Override
+  public EconomyResponse bankWithdraw(String name, double amount) {
+    return new EconomyResponse(0.0D, 0.0D, ResponseType.NOT_IMPLEMENTED, "MineConomy does not support bank accounts!");
+  }
+
+  @Override
+  public EconomyResponse bankDeposit(String name, double amount) {
+    return new EconomyResponse(0.0D, 0.0D, ResponseType.NOT_IMPLEMENTED, "MineConomy does not support bank accounts!");
+  }
+
+  @Override
+  public EconomyResponse isBankOwner(String name, String playerName) {
+    return new EconomyResponse(0.0D, 0.0D, ResponseType.NOT_IMPLEMENTED, "MineConomy does not support bank accounts!");
+  }
+
+  @Override
+  public EconomyResponse isBankMember(String name, String playerName) {
+    return new EconomyResponse(0.0D, 0.0D, ResponseType.NOT_IMPLEMENTED, "MineConomy does not support bank accounts!");
+  }
+
+  @Override
+  public EconomyResponse bankBalance(String name) {
+    return new EconomyResponse(0.0D, 0.0D, ResponseType.NOT_IMPLEMENTED, "MineConomy does not support bank accounts!");
+  }
+
+  @Override
+  public List<String> getBanks() {
+    return new ArrayList<String>();
+  }
+
+  @Override
+  public boolean hasBankSupport() {
+    return false;
+  }
+
+  @Override
+  public boolean hasAccount(String playerName) {
+    return MCCom.exists(playerName);
+  }
+
+  public boolean createPlayerAccount(String playerName) {
+    try {
+      MCCom.create(playerName);
+      return true;
+    } catch (AccountNameConflictException e) {
+      return false;
     }
+  }
 
-    public String currencyNameSingular() {
-        return MCCom.getDefaultCurrency();
-    }
+  @Override
+  public int fractionalDigits() {
+    return 2;
+  }
 
-    public String currencyNamePlural() {
-        return MCCom.getDefaultCurrency();
-    }
+  @Override
+  public boolean hasAccount(String playerName, String worldName) {
+    return hasAccount(playerName);
+  }
 
-    public double getBalance(String playerName) {
-        try
-        {
-            return MCCom.getExternalBalance(playerName);
-        }
-        catch (NoAccountException e)
-        {
-            MCCom.create(playerName);
-            return MCCom.getExternalBalance(playerName);
-        }
-    }
+  @Override
+  public double getBalance(String playerName, String world) {
+    return getBalance(playerName);
+  }
 
-    @Override
-    public boolean has(String playerName, double amount) {
-        try {
-            return MCCom.canExternalAfford(playerName, amount);
-        } catch(NoAccountException e) {
-            MCCom.create(playerName);
-            return MCCom.canExternalAfford(playerName, amount);
-        }
-    }
+  @Override
+  public boolean has(String playerName, String worldName, double amount) {
+    return has(playerName, amount);
+  }
 
-    @Override
-    public EconomyResponse withdrawPlayer(String playerName, double amount) {
-        double balance;
-        try {
-            balance = MCCom.getExternalBalance(playerName);
-        } catch (NoAccountException e) {
-            MCCom.create(playerName);
-            balance = MCCom.getExternalBalance(playerName);
-        }
+  @Override
+  public EconomyResponse withdrawPlayer(String playerName, String worldName, double amount) {
+    return withdrawPlayer(playerName, amount);
+  }
 
-        if(amount < 0.0D) {
-            return new EconomyResponse(0.0D, balance, ResponseType.FAILURE, "Cannot withdraw negative funds");
-        }
+  @Override
+  public EconomyResponse depositPlayer(String playerName, String worldName, double amount) {
+    return depositPlayer(playerName, amount);
+  }
 
-        if(balance >= amount) {
-            double finalBalance = balance - amount;
-            MCCom.setExternalBalance(playerName, finalBalance);
-            return new EconomyResponse(amount, finalBalance, ResponseType.SUCCESS, null);
-        } else {
-            return new EconomyResponse(0.0D, balance, ResponseType.FAILURE, "Insufficient funds");
-        }
-    }
-
-    @Override
-    public EconomyResponse depositPlayer(String playerName, double amount) {
-        double balance;
-        try {
-            balance = MCCom.getExternalBalance(playerName);
-        } catch (NoAccountException e) {
-            MCCom.create(playerName);
-            balance = MCCom.getExternalBalance(playerName);
-        }
-        if(amount < 0.0D) {
-            return new EconomyResponse(0.0D, 0.0, ResponseType.FAILURE, "Cannot deposit negative funds");
-        }
-
-        balance += amount;
-        MCCom.setExternalBalance(playerName, balance);
-        return new EconomyResponse(amount, balance, ResponseType.SUCCESS, null);
-
-    }
-
-    @Override
-    public EconomyResponse createBank(String name, String player) {
-        return new EconomyResponse(0.0D, 0.0D, ResponseType.NOT_IMPLEMENTED, "MineConomy does not support bank accounts!");
-    }
-
-    @Override
-    public EconomyResponse deleteBank(String name) {
-        return new EconomyResponse(0.0D, 0.0D, ResponseType.NOT_IMPLEMENTED, "MineConomy does not support bank accounts!");
-    }
-
-    @Override
-    public EconomyResponse bankHas(String name, double amount) {
-        return new EconomyResponse(0.0D, 0.0D, ResponseType.NOT_IMPLEMENTED, "MineConomy does not support bank accounts!");
-    }
-
-    @Override
-    public EconomyResponse bankWithdraw(String name, double amount) {
-        return new EconomyResponse(0.0D, 0.0D, ResponseType.NOT_IMPLEMENTED, "MineConomy does not support bank accounts!");
-    }
-
-    @Override
-    public EconomyResponse bankDeposit(String name, double amount) {
-        return new EconomyResponse(0.0D, 0.0D, ResponseType.NOT_IMPLEMENTED, "MineConomy does not support bank accounts!");
-    }
-
-    @Override
-    public EconomyResponse isBankOwner(String name, String playerName) {
-        return new EconomyResponse(0.0D, 0.0D, ResponseType.NOT_IMPLEMENTED, "MineConomy does not support bank accounts!");
-    }
-
-    @Override
-    public EconomyResponse isBankMember(String name, String playerName) {
-        return new EconomyResponse(0.0D, 0.0D, ResponseType.NOT_IMPLEMENTED, "MineConomy does not support bank accounts!");
-    }
-
-    @Override
-    public EconomyResponse bankBalance(String name) {
-        return new EconomyResponse(0.0D, 0.0D, ResponseType.NOT_IMPLEMENTED, "MineConomy does not support bank accounts!");
-    }
-
-    @Override
-    public List<String> getBanks() {
-        return new ArrayList<String>();
-    }
-
-    @Override
-    public boolean hasBankSupport() {
-        return false;
-    }
-
-    @Override
-    public boolean hasAccount(String playerName) {
-        return MCCom.exists(playerName);
-    }
-
-    public boolean createPlayerAccount(String playerName) {
-        try {
-            MCCom.create(playerName);
-            return true;
-        } catch(AccountNameConflictException e) {
-            return false;
-        }
-    }
-
-    @Override
-    public int fractionalDigits() {
-        return 2;
-    }
-
-    @Override
-    public boolean hasAccount(String playerName, String worldName) {
-        return hasAccount(playerName);
-    }
-
-    @Override
-    public double getBalance(String playerName, String world) {
-        return getBalance(playerName);
-    }
-
-    @Override
-    public boolean has(String playerName, String worldName, double amount) {
-        return has(playerName, amount);
-    }
-
-    @Override
-    public EconomyResponse withdrawPlayer(String playerName, String worldName, double amount) {
-        return withdrawPlayer(playerName, amount);
-    }
-
-    @Override
-    public EconomyResponse depositPlayer(String playerName, String worldName, double amount) {
-        return depositPlayer(playerName, amount);
-    }
-
-    @Override
-    public boolean createPlayerAccount(String playerName, String worldName) {
-        return createPlayerAccount(playerName);
-    }
+  @Override
+  public boolean createPlayerAccount(String playerName, String worldName) {
+    return createPlayerAccount(playerName);
+  }
 
   public class EconomyServerListener implements Listener {
     Economy_MineConomy economy = null;

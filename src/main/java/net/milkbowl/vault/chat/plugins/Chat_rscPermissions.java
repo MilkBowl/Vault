@@ -34,154 +34,154 @@ import ru.simsonic.rscPermissions.MainPluginClass;
 
 public class Chat_rscPermissions extends Chat {
 
-    private static final Logger log = Logger.getLogger("Minecraft");
-    private final Plugin vault;
-    private ru.simsonic.rscPermissions.MainPluginClass rscp;
-    private ru.simsonic.rscPermissions.rscpAPI rscpAPI;
+  private static final Logger log = Logger.getLogger("Minecraft");
+  private final Plugin vault;
+  private ru.simsonic.rscPermissions.MainPluginClass rscp;
+  private ru.simsonic.rscPermissions.rscpAPI rscpAPI;
 
-    public Chat_rscPermissions(Plugin plugin, Permission perm) {
-        super(perm);
-        this.vault = plugin;
-        Bukkit.getServer().getPluginManager().registerEvents(new ChatServerListener(this), vault);
-        if (rscp == null) {
-            Plugin perms = plugin.getServer().getPluginManager().getPlugin("rscPermissions");
-            if (perms != null && perms.isEnabled()) {
-                this.rscp = (MainPluginClass) perms;
-                rscpAPI = rscp.API;
-                plugin.getLogger().info(String.format("[%s][Chat] %s hooked.", plugin.getDescription().getName(), "rscPermissions"));
-            }
-        }
+  public Chat_rscPermissions(Plugin plugin, Permission perm) {
+    super(perm);
+    this.vault = plugin;
+    Bukkit.getServer().getPluginManager().registerEvents(new ChatServerListener(this), vault);
+    if (rscp == null) {
+      Plugin perms = plugin.getServer().getPluginManager().getPlugin("rscPermissions");
+      if (perms != null && perms.isEnabled()) {
+        this.rscp = (MainPluginClass) perms;
+        rscpAPI = rscp.API;
+        plugin.getLogger().info(String.format("[%s][Chat] %s hooked.", plugin.getDescription().getName(), "rscPermissions"));
+      }
     }
+  }
 
-    @Override
-    public String getName() {
-        return "rscPermissions";
-    }
+  @Override
+  public String getName() {
+    return "rscPermissions";
+  }
 
-    @Override
-    public boolean isEnabled() {
-        return rscpAPI != null && rscpAPI.isEnabled();
-    }
+  @Override
+  public boolean isEnabled() {
+    return rscpAPI != null && rscpAPI.isEnabled();
+  }
 
-    @Override
-    public String getPlayerPrefix(String world, String player) {
-        return rscpAPI.getPlayerPrefix(world, player);
-    }
+  @Override
+  public String getPlayerPrefix(String world, String player) {
+    return rscpAPI.getPlayerPrefix(world, player);
+  }
 
-    @Override
-    public String getPlayerSuffix(String world, String player) {
-        return rscpAPI.getPlayerSuffix(world, player);
-    }
+  @Override
+  public String getPlayerSuffix(String world, String player) {
+    return rscpAPI.getPlayerSuffix(world, player);
+  }
 
-    @Override
-    public String getGroupPrefix(String world, String group) {
-        return rscpAPI.getGroupPrefix(world, group);
-    }
+  @Override
+  public String getGroupPrefix(String world, String group) {
+    return rscpAPI.getGroupPrefix(world, group);
+  }
 
-    @Override
-    public String getGroupSuffix(String world, String group) {
-        return rscpAPI.getGroupSuffix(world, group);
-    }
+  @Override
+  public String getGroupSuffix(String world, String group) {
+    return rscpAPI.getGroupSuffix(world, group);
+  }
 
-    @Override
-    public void setPlayerPrefix(String world, String player, String prefix) {
-        rscpAPI.setPlayerPrefix(world, player, prefix);
-    }
+  @Override
+  public void setPlayerPrefix(String world, String player, String prefix) {
+    rscpAPI.setPlayerPrefix(world, player, prefix);
+  }
 
-    @Override
-    public void setPlayerSuffix(String world, String player, String suffix) {
-        rscpAPI.setPlayerSuffix(world, player, suffix);
-    }
+  @Override
+  public void setPlayerSuffix(String world, String player, String suffix) {
+    rscpAPI.setPlayerSuffix(world, player, suffix);
+  }
 
-    @Override
-    public void setGroupPrefix(String world, String group, String prefix) {
-        rscpAPI.setGroupPrefix(world, group, prefix);
-    }
+  @Override
+  public void setGroupPrefix(String world, String group, String prefix) {
+    rscpAPI.setGroupPrefix(world, group, prefix);
+  }
 
-    @Override
-    public void setGroupSuffix(String world, String group, String suffix) {
-        rscpAPI.setGroupSuffix(world, group, suffix);
-    }
+  @Override
+  public void setGroupSuffix(String world, String group, String suffix) {
+    rscpAPI.setGroupSuffix(world, group, suffix);
+  }
 
-    @Override
-    public int getPlayerInfoInteger(String world, String player, String node, int defaultValue) {
-        throw new UnsupportedOperationException("rscPermissions does not support info nodes");
-    }
+  @Override
+  public int getPlayerInfoInteger(String world, String player, String node, int defaultValue) {
+    throw new UnsupportedOperationException("rscPermissions does not support info nodes");
+  }
 
-    @Override
-    public void setPlayerInfoInteger(String world, String player, String node, int defaultValue) {
-        throw new UnsupportedOperationException("rscPermissions does not support info nodes");
-    }
+  @Override
+  public void setPlayerInfoInteger(String world, String player, String node, int defaultValue) {
+    throw new UnsupportedOperationException("rscPermissions does not support info nodes");
+  }
 
-    @Override
-    public int getGroupInfoInteger(String world, String group, String node, int defaultValue) {
-        throw new UnsupportedOperationException("rscPermissions does not support info nodes");
-    }
+  @Override
+  public int getGroupInfoInteger(String world, String group, String node, int defaultValue) {
+    throw new UnsupportedOperationException("rscPermissions does not support info nodes");
+  }
 
-    @Override
-    public void setGroupInfoInteger(String world, String group, String node, int defaultValue) {
-        throw new UnsupportedOperationException("rscPermissions does not support info nodes");
-    }
+  @Override
+  public void setGroupInfoInteger(String world, String group, String node, int defaultValue) {
+    throw new UnsupportedOperationException("rscPermissions does not support info nodes");
+  }
 
-    @Override
-    public double getPlayerInfoDouble(String world, String player, String node, double defaultValue) {
-        throw new UnsupportedOperationException("rscPermissions does not support info nodes");
-    }
+  @Override
+  public double getPlayerInfoDouble(String world, String player, String node, double defaultValue) {
+    throw new UnsupportedOperationException("rscPermissions does not support info nodes");
+  }
 
-    @Override
-    public void setPlayerInfoDouble(String world, String player, String node, double defaultValue) {
-        throw new UnsupportedOperationException("rscPermissions does not support info nodes");
-    }
+  @Override
+  public void setPlayerInfoDouble(String world, String player, String node, double defaultValue) {
+    throw new UnsupportedOperationException("rscPermissions does not support info nodes");
+  }
 
-    @Override
-    public double getGroupInfoDouble(String world, String group, String node, double defaultValue) {
-        throw new UnsupportedOperationException("rscPermissions does not support info nodes");
-    }
+  @Override
+  public double getGroupInfoDouble(String world, String group, String node, double defaultValue) {
+    throw new UnsupportedOperationException("rscPermissions does not support info nodes");
+  }
 
-    @Override
-    public void setGroupInfoDouble(String world, String group, String node, double defaultValue) {
-        throw new UnsupportedOperationException("rscPermissions does not support info nodes");
-    }
+  @Override
+  public void setGroupInfoDouble(String world, String group, String node, double defaultValue) {
+    throw new UnsupportedOperationException("rscPermissions does not support info nodes");
+  }
 
-    @Override
-    public boolean getPlayerInfoBoolean(String world, String player, String node, boolean defaultValue) {
-        throw new UnsupportedOperationException("rscPermissions does not support info nodes");
-    }
+  @Override
+  public boolean getPlayerInfoBoolean(String world, String player, String node, boolean defaultValue) {
+    throw new UnsupportedOperationException("rscPermissions does not support info nodes");
+  }
 
-    @Override
-    public void setPlayerInfoBoolean(String world, String player, String node, boolean defaultValue) {
-        throw new UnsupportedOperationException("rscPermissions does not support info nodes");
-    }
+  @Override
+  public void setPlayerInfoBoolean(String world, String player, String node, boolean defaultValue) {
+    throw new UnsupportedOperationException("rscPermissions does not support info nodes");
+  }
 
-    @Override
-    public boolean getGroupInfoBoolean(String world, String group, String node, boolean defaultValue) {
-        throw new UnsupportedOperationException("rscPermissions does not support info nodes");
-    }
+  @Override
+  public boolean getGroupInfoBoolean(String world, String group, String node, boolean defaultValue) {
+    throw new UnsupportedOperationException("rscPermissions does not support info nodes");
+  }
 
-    @Override
-    public void setGroupInfoBoolean(String world, String group, String node, boolean defaultValue) {
-        throw new UnsupportedOperationException("rscPermissions does not support info nodes");
-    }
+  @Override
+  public void setGroupInfoBoolean(String world, String group, String node, boolean defaultValue) {
+    throw new UnsupportedOperationException("rscPermissions does not support info nodes");
+  }
 
-    @Override
-    public String getPlayerInfoString(String world, String player, String node, String defaultValue) {
-        throw new UnsupportedOperationException("rscPermissions does not support info nodes");
-    }
+  @Override
+  public String getPlayerInfoString(String world, String player, String node, String defaultValue) {
+    throw new UnsupportedOperationException("rscPermissions does not support info nodes");
+  }
 
-    @Override
-    public void setPlayerInfoString(String world, String player, String node, String defaultValue) {
-        throw new UnsupportedOperationException("rscPermissions does not support info nodes");
-    }
+  @Override
+  public void setPlayerInfoString(String world, String player, String node, String defaultValue) {
+    throw new UnsupportedOperationException("rscPermissions does not support info nodes");
+  }
 
-    @Override
-    public String getGroupInfoString(String world, String group, String node, String defaultValue) {
-        throw new UnsupportedOperationException("rscPermissions does not support info nodes");
-    }
+  @Override
+  public String getGroupInfoString(String world, String group, String node, String defaultValue) {
+    throw new UnsupportedOperationException("rscPermissions does not support info nodes");
+  }
 
-    @Override
-    public void setGroupInfoString(String world, String group, String node, String defaultValue) {
-        throw new UnsupportedOperationException("rscPermissions does not support info nodes");
-    }
+  @Override
+  public void setGroupInfoString(String world, String group, String node, String defaultValue) {
+    throw new UnsupportedOperationException("rscPermissions does not support info nodes");
+  }
 
   private class ChatServerListener implements Listener {
 

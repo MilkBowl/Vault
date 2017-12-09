@@ -37,323 +37,323 @@ import ru.tehkode.permissions.bukkit.PermissionsEx;
 
 public class Permission_PermissionsEx extends Permission {
 
-    private final String name = "PermissionsEx";
-    private PermissionsEx permission = null;
+  private final String name = "PermissionsEx";
+  private PermissionsEx permission = null;
 
-    public Permission_PermissionsEx(Plugin plugin) {
-        this.plugin = plugin;
-        Bukkit.getServer().getPluginManager().registerEvents(new PermissionServerListener(this), plugin);
+  public Permission_PermissionsEx(Plugin plugin) {
+    this.plugin = plugin;
+    Bukkit.getServer().getPluginManager().registerEvents(new PermissionServerListener(this), plugin);
 
-        // Load Plugin in case it was loaded before
-        if (permission == null) {
-            Plugin perms = plugin.getServer().getPluginManager().getPlugin("PermissionsEx");
-            if (perms != null) {
-                if (perms.isEnabled()) {
-                    try {
-                        if (Double.valueOf(perms.getDescription().getVersion()) < 1.16) {
-                            log.info(String.format("[%s][Permission] %s below 1.16 is not compatible with Vault! Falling back to SuperPerms only mode. PLEASE UPDATE!", plugin.getDescription().getName(), name));
-                        }
-                    } catch (NumberFormatException e) {
-                        // Do nothing
-                    }
-                    permission = (PermissionsEx) perms;
-                    log.info(String.format("[%s][Permission] %s hooked.", plugin.getDescription().getName(), name));
-                }
+    // Load Plugin in case it was loaded before
+    if (permission == null) {
+      Plugin perms = plugin.getServer().getPluginManager().getPlugin("PermissionsEx");
+      if (perms != null) {
+        if (perms.isEnabled()) {
+          try {
+            if (Double.valueOf(perms.getDescription().getVersion()) < 1.16) {
+              log.info(String.format("[%s][Permission] %s below 1.16 is not compatible with Vault! Falling back to SuperPerms only mode. PLEASE UPDATE!", plugin.getDescription().getName(), name));
             }
+          } catch (NumberFormatException e) {
+            // Do nothing
+          }
+          permission = (PermissionsEx) perms;
+          log.info(String.format("[%s][Permission] %s hooked.", plugin.getDescription().getName(), name));
         }
+      }
     }
-
-    @Override
-    public boolean isEnabled() {
-        if (permission == null) {
-            return false;
-        } else {
-            return permission.isEnabled();
-        }
-    }
-
-    @Override
-    public String getName() {
-        return name;
-    }
-
-    @Override
-    public boolean playerInGroup(String worldName, OfflinePlayer op, String groupName) {
-    	PermissionUser user = getUser(op);
-    	if (user == null) {
-    		return false;
-    	}
-    	return user.inGroup(groupName, worldName);
-    }
-
-    @Override
-    public boolean playerInGroup(String worldName, String playerName, String groupName) {
-        return PermissionsEx.getPermissionManager().getUser(playerName).inGroup(groupName, worldName);
-    }
-
-    @Override
-    public boolean playerAddGroup(String worldName, OfflinePlayer op, String groupName) {
-        PermissionGroup group = PermissionsEx.getPermissionManager().getGroup(groupName);
-        PermissionUser user = getUser(op);
-        if (group == null || user == null) {
-            return false;
-        } else {
-            user.addGroup(groupName, worldName);
-            return true;
-        }
-    }
-
-    @Override
-    public boolean playerAddGroup(String worldName, String playerName, String groupName) {
-        PermissionGroup group = PermissionsEx.getPermissionManager().getGroup(groupName);
-        PermissionUser user = PermissionsEx.getPermissionManager().getUser(playerName);
-        if (group == null || user == null) {
-            return false;
-        } else {
-            user.addGroup(groupName, worldName);
-            return true;
-        }
-    }
-
-    @Override
-    public boolean playerRemoveGroup(String worldName, OfflinePlayer op, String groupName) {
-    	PermissionUser user = getUser(op);
-    	user.removeGroup(groupName, worldName);
-    	return true;
-    }
-
-    @Override
-    public boolean playerRemoveGroup(String worldName, String playerName, String groupName) {
-        PermissionsEx.getPermissionManager().getUser(playerName).removeGroup(groupName, worldName);
-        return true;
-    }
-
-    @Override
-    public boolean playerAdd(String worldName, OfflinePlayer op, String permission) {
-        PermissionUser user = getUser(op);
-        if (user == null) {
-            return false;
-        } else {
-            user.addPermission(permission, worldName);
-            return true;
-        }
-    }
-
-    @Override
-    public boolean playerAdd(String worldName, String playerName, String permission) {
-        PermissionUser user = getUser(playerName);
-        if (user == null) {
-            return false;
-        } else {
-            user.addPermission(permission, worldName);
-            return true;
-        }
-    }
-
-    @Override
-    public boolean playerRemove(String worldName, OfflinePlayer op, String permission) {
-        PermissionUser user = getUser(op);
-        if (user == null) {
-            return false;
-        } else {
-            user.removePermission(permission, worldName);
-            return true;
-        }
-    }
-
-    @Override
-    public boolean playerRemove(String worldName, String playerName, String permission) {
-        PermissionUser user = getUser(playerName);
-        if (user == null) {
-            return false;
-        } else {
-            user.removePermission(permission, worldName);
-            return true;
-        }
-    }
-
-    @Override
-    public boolean groupAdd(String worldName, String groupName, String permission) {
-        PermissionGroup group = PermissionsEx.getPermissionManager().getGroup(groupName);
-        if (group == null) {
-            return false;
-        } else {
-            group.addPermission(permission, worldName);
-            return true;
-        }
-    }
-
-    @Override
-    public boolean groupRemove(String worldName, String groupName, String permission) {
-        PermissionGroup group = PermissionsEx.getPermissionManager().getGroup(groupName);
-        if (group == null) {
-            return false;
-        } else {
-            group.removePermission(permission, worldName);
-            return true;
-        }
-    }
-
-    @Override
-    public boolean groupHas(String worldName, String groupName, String permission) {
-        PermissionGroup group = PermissionsEx.getPermissionManager().getGroup(groupName);
-        if (group == null) {
-            return false;
-        } else {
-            return group.has(permission, worldName);
-        }
-    }
-
-    private PermissionUser getUser(OfflinePlayer op) {
-    	return PermissionsEx.getPermissionManager().getUser(op.getUniqueId());
-    }
-
-    private PermissionUser getUser(String playerName) {
-    	return PermissionsEx.getPermissionManager().getUser(playerName);
-    }
+  }
 
   @Override
-    public String[] getPlayerGroups(String world, OfflinePlayer op) {
-    	PermissionUser user = getUser(op);
-    	return user == null ? null : user.getParentIdentifiers(world).toArray(new String[0]);
+  public boolean isEnabled() {
+    if (permission == null) {
+      return false;
+    } else {
+      return permission.isEnabled();
     }
+  }
 
-    @Override
-    public String[] getPlayerGroups(String world, String playerName) {
-    	PermissionUser user = getUser(playerName);
-    	return user == null ? null : user.getParentIdentifiers(world).toArray(new String[0]);
-    }
+  @Override
+  public String getName() {
+    return name;
+  }
 
-    @Override
-    public String getPrimaryGroup(String world, OfflinePlayer op) {
-    	PermissionUser user = getUser(op);
-    	if (user == null) {
-    		return null;
-    	} else if (user.getParentIdentifiers(world).size() > 0) {
-    		return user.getParentIdentifiers(world).get(0);
-    	} else {
-    		return null;
-    	}
+  @Override
+  public boolean playerInGroup(String worldName, OfflinePlayer op, String groupName) {
+    PermissionUser user = getUser(op);
+    if (user == null) {
+      return false;
     }
+    return user.inGroup(groupName, worldName);
+  }
 
-    @Override
-    public String getPrimaryGroup(String world, String playerName) {
-        PermissionUser user = PermissionsEx.getPermissionManager().getUser(playerName);
-        if (user == null) {
-            return null;
-        } else if (user.getParentIdentifiers(world).size() > 0) {
-            return user.getParentIdentifiers(world).get(0);
-        } else {
-            return null;
-        }
-    }
+  @Override
+  public boolean playerInGroup(String worldName, String playerName, String groupName) {
+    return PermissionsEx.getPermissionManager().getUser(playerName).inGroup(groupName, worldName);
+  }
 
-    @Override
-    public boolean playerHas(String worldName, OfflinePlayer op, String permission) {
-    	PermissionUser user = getUser(op);
-        if (user != null) {
-            return user.has(permission, worldName);
-        } else {
-            return false;
-        }
+  @Override
+  public boolean playerAddGroup(String worldName, OfflinePlayer op, String groupName) {
+    PermissionGroup group = PermissionsEx.getPermissionManager().getGroup(groupName);
+    PermissionUser user = getUser(op);
+    if (group == null || user == null) {
+      return false;
+    } else {
+      user.addGroup(groupName, worldName);
+      return true;
     }
+  }
 
-    @Override
-    public boolean playerHas(String worldName, String playerName, String permission) {
-        PermissionUser user = getUser(playerName);
-        if (user != null) {
-            return user.has(permission, worldName);
-        } else {
-            return false;
-        }
+  @Override
+  public boolean playerAddGroup(String worldName, String playerName, String groupName) {
+    PermissionGroup group = PermissionsEx.getPermissionManager().getGroup(groupName);
+    PermissionUser user = PermissionsEx.getPermissionManager().getUser(playerName);
+    if (group == null || user == null) {
+      return false;
+    } else {
+      user.addGroup(groupName, worldName);
+      return true;
     }
+  }
 
-    @Override
-    public boolean playerAddTransient(String worldName, String player, String permission) {
-        PermissionUser pPlayer = getUser(player);
-        if (pPlayer != null) {
-            pPlayer.addTimedPermission(permission, worldName, 0);
-            return true;
-        } else {
-            return false;
-        }
-    }
+  @Override
+  public boolean playerRemoveGroup(String worldName, OfflinePlayer op, String groupName) {
+    PermissionUser user = getUser(op);
+    user.removeGroup(groupName, worldName);
+    return true;
+  }
 
-    @Override
-    public boolean playerAddTransient(String worldName, Player player, String permission) {
-    	PermissionUser pPlayer = getUser(player);
-        if (pPlayer != null) {
-            pPlayer.addTimedPermission(permission, worldName, 0);
-            return true;
-        } else {
-            return false;
-        }
-    }
+  @Override
+  public boolean playerRemoveGroup(String worldName, String playerName, String groupName) {
+    PermissionsEx.getPermissionManager().getUser(playerName).removeGroup(groupName, worldName);
+    return true;
+  }
 
-    @Override
-    public boolean playerAddTransient(String player, String permission) {
-        return playerAddTransient(null, player, permission);
+  @Override
+  public boolean playerAdd(String worldName, OfflinePlayer op, String permission) {
+    PermissionUser user = getUser(op);
+    if (user == null) {
+      return false;
+    } else {
+      user.addPermission(permission, worldName);
+      return true;
     }
+  }
 
-    @Override
-    public boolean playerAddTransient(Player player, String permission) {
-        return playerAddTransient(null, player, permission);
+  @Override
+  public boolean playerAdd(String worldName, String playerName, String permission) {
+    PermissionUser user = getUser(playerName);
+    if (user == null) {
+      return false;
+    } else {
+      user.addPermission(permission, worldName);
+      return true;
     }
+  }
 
-    @Override
-    public boolean playerRemoveTransient(String worldName, String player, String permission) {
-        PermissionUser pPlayer = getUser(player);
-        if (pPlayer != null) {
-            pPlayer.removeTimedPermission(permission, worldName);
-            return true;
-        } else {
-            return false;
-        }
+  @Override
+  public boolean playerRemove(String worldName, OfflinePlayer op, String permission) {
+    PermissionUser user = getUser(op);
+    if (user == null) {
+      return false;
+    } else {
+      user.removePermission(permission, worldName);
+      return true;
     }
+  }
 
-    @Override
-    public boolean playerRemoveTransient(Player player, String permission) {
-        return playerRemoveTransient(null, player, permission);
+  @Override
+  public boolean playerRemove(String worldName, String playerName, String permission) {
+    PermissionUser user = getUser(playerName);
+    if (user == null) {
+      return false;
+    } else {
+      user.removePermission(permission, worldName);
+      return true;
     }
+  }
 
-    @Override
-    public boolean playerRemoveTransient(String worldName, Player player, String permission) {
-        PermissionUser pPlayer = getUser(player);
-        if (pPlayer != null) {
-            pPlayer.removeTimedPermission(permission, worldName);
-            return true;
-        } else {
-            return false;
-        }
+  @Override
+  public boolean groupAdd(String worldName, String groupName, String permission) {
+    PermissionGroup group = PermissionsEx.getPermissionManager().getGroup(groupName);
+    if (group == null) {
+      return false;
+    } else {
+      group.addPermission(permission, worldName);
+      return true;
     }
+  }
 
-    @Override
-    public boolean playerRemoveTransient(String player, String permission) {
-        return playerRemoveTransient(null, player, permission);
+  @Override
+  public boolean groupRemove(String worldName, String groupName, String permission) {
+    PermissionGroup group = PermissionsEx.getPermissionManager().getGroup(groupName);
+    if (group == null) {
+      return false;
+    } else {
+      group.removePermission(permission, worldName);
+      return true;
     }
+  }
 
-    @Override
-    public String[] getGroups() {
-        List<PermissionGroup> groups = PermissionsEx.getPermissionManager().getGroupList();
-        if (groups == null || groups.isEmpty()) {
-            return null;
-        }
-        String[] groupNames = new String[groups.size()];
-        for (int i = 0; i < groups.size(); i++) {
-            groupNames[i] = groups.get(i).getName();
-        }
-        return groupNames;
+  @Override
+  public boolean groupHas(String worldName, String groupName, String permission) {
+    PermissionGroup group = PermissionsEx.getPermissionManager().getGroup(groupName);
+    if (group == null) {
+      return false;
+    } else {
+      return group.has(permission, worldName);
     }
+  }
 
-    @Override
-    public boolean hasSuperPermsCompat() {
-        return true;
-    }
+  private PermissionUser getUser(OfflinePlayer op) {
+    return PermissionsEx.getPermissionManager().getUser(op.getUniqueId());
+  }
 
-    @Override
-    public boolean hasGroupSupport() {
-        return true;
+  private PermissionUser getUser(String playerName) {
+    return PermissionsEx.getPermissionManager().getUser(playerName);
+  }
+
+  @Override
+  public String[] getPlayerGroups(String world, OfflinePlayer op) {
+    PermissionUser user = getUser(op);
+    return user == null ? null : user.getParentIdentifiers(world).toArray(new String[0]);
+  }
+
+  @Override
+  public String[] getPlayerGroups(String world, String playerName) {
+    PermissionUser user = getUser(playerName);
+    return user == null ? null : user.getParentIdentifiers(world).toArray(new String[0]);
+  }
+
+  @Override
+  public String getPrimaryGroup(String world, OfflinePlayer op) {
+    PermissionUser user = getUser(op);
+    if (user == null) {
+      return null;
+    } else if (user.getParentIdentifiers(world).size() > 0) {
+      return user.getParentIdentifiers(world).get(0);
+    } else {
+      return null;
     }
+  }
+
+  @Override
+  public String getPrimaryGroup(String world, String playerName) {
+    PermissionUser user = PermissionsEx.getPermissionManager().getUser(playerName);
+    if (user == null) {
+      return null;
+    } else if (user.getParentIdentifiers(world).size() > 0) {
+      return user.getParentIdentifiers(world).get(0);
+    } else {
+      return null;
+    }
+  }
+
+  @Override
+  public boolean playerHas(String worldName, OfflinePlayer op, String permission) {
+    PermissionUser user = getUser(op);
+    if (user != null) {
+      return user.has(permission, worldName);
+    } else {
+      return false;
+    }
+  }
+
+  @Override
+  public boolean playerHas(String worldName, String playerName, String permission) {
+    PermissionUser user = getUser(playerName);
+    if (user != null) {
+      return user.has(permission, worldName);
+    } else {
+      return false;
+    }
+  }
+
+  @Override
+  public boolean playerAddTransient(String worldName, String player, String permission) {
+    PermissionUser pPlayer = getUser(player);
+    if (pPlayer != null) {
+      pPlayer.addTimedPermission(permission, worldName, 0);
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  @Override
+  public boolean playerAddTransient(String worldName, Player player, String permission) {
+    PermissionUser pPlayer = getUser(player);
+    if (pPlayer != null) {
+      pPlayer.addTimedPermission(permission, worldName, 0);
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  @Override
+  public boolean playerAddTransient(String player, String permission) {
+    return playerAddTransient(null, player, permission);
+  }
+
+  @Override
+  public boolean playerAddTransient(Player player, String permission) {
+    return playerAddTransient(null, player, permission);
+  }
+
+  @Override
+  public boolean playerRemoveTransient(String worldName, String player, String permission) {
+    PermissionUser pPlayer = getUser(player);
+    if (pPlayer != null) {
+      pPlayer.removeTimedPermission(permission, worldName);
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  @Override
+  public boolean playerRemoveTransient(Player player, String permission) {
+    return playerRemoveTransient(null, player, permission);
+  }
+
+  @Override
+  public boolean playerRemoveTransient(String worldName, Player player, String permission) {
+    PermissionUser pPlayer = getUser(player);
+    if (pPlayer != null) {
+      pPlayer.removeTimedPermission(permission, worldName);
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  @Override
+  public boolean playerRemoveTransient(String player, String permission) {
+    return playerRemoveTransient(null, player, permission);
+  }
+
+  @Override
+  public String[] getGroups() {
+    List<PermissionGroup> groups = PermissionsEx.getPermissionManager().getGroupList();
+    if (groups == null || groups.isEmpty()) {
+      return null;
+    }
+    String[] groupNames = new String[groups.size()];
+    for (int i = 0; i < groups.size(); i++) {
+      groupNames[i] = groups.get(i).getName();
+    }
+    return groupNames;
+  }
+
+  @Override
+  public boolean hasSuperPermsCompat() {
+    return true;
+  }
+
+  @Override
+  public boolean hasGroupSupport() {
+    return true;
+  }
 
   public class PermissionServerListener implements Listener {
     Permission_PermissionsEx permission = null;

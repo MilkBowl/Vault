@@ -38,226 +38,226 @@ import org.bukkit.event.server.PluginEnableEvent;
 import org.bukkit.plugin.Plugin;
 
 public class Economy_iConomy6 extends AbstractEconomy {
-    private static final Logger log = Logger.getLogger("Minecraft");
+  private static final Logger log = Logger.getLogger("Minecraft");
   protected iConomy economy = null;
-    private String name = "iConomy ";
-    private Plugin plugin = null;
-    private Accounts accounts;
+  private String name = "iConomy ";
+  private Plugin plugin = null;
+  private Accounts accounts;
 
-    public Economy_iConomy6(Plugin plugin) {
-        this.plugin = plugin;
-        Bukkit.getServer().getPluginManager().registerEvents(new EconomyServerListener(this), plugin);
-        log.warning("iConomy - If you are using Flatfile storage be aware that versions 6, 7 and 8 have a CRITICAL bug which can wipe ALL iconomy data.");
-        log.warning("if you're using Votifier, or any other plugin which handles economy data in a threaded manner your server is at risk!");
-        log.warning("it is highly suggested to use SQL with iCo6 or to use an alternative economy plugin!");
-        // Load Plugin in case it was loaded before
-        if (economy == null) {
-            Plugin ec = plugin.getServer().getPluginManager().getPlugin("iConomy");
-            if (ec != null && ec.isEnabled() && ec.getClass().getName().equals("com.iCo6.iConomy")) {
-                String version = ec.getDescription().getVersion().split("\\.")[0];
-                name += version;
-                economy = (iConomy) ec;
-                accounts = new Accounts();
-                log.info(String.format("[%s][Economy] %s hooked.", plugin.getDescription().getName(), name));
-            }
-        }
+  public Economy_iConomy6(Plugin plugin) {
+    this.plugin = plugin;
+    Bukkit.getServer().getPluginManager().registerEvents(new EconomyServerListener(this), plugin);
+    log.warning("iConomy - If you are using Flatfile storage be aware that versions 6, 7 and 8 have a CRITICAL bug which can wipe ALL iconomy data.");
+    log.warning("if you're using Votifier, or any other plugin which handles economy data in a threaded manner your server is at risk!");
+    log.warning("it is highly suggested to use SQL with iCo6 or to use an alternative economy plugin!");
+    // Load Plugin in case it was loaded before
+    if (economy == null) {
+      Plugin ec = plugin.getServer().getPluginManager().getPlugin("iConomy");
+      if (ec != null && ec.isEnabled() && ec.getClass().getName().equals("com.iCo6.iConomy")) {
+        String version = ec.getDescription().getVersion().split("\\.")[0];
+        name += version;
+        economy = (iConomy) ec;
+        accounts = new Accounts();
+        log.info(String.format("[%s][Economy] %s hooked.", plugin.getDescription().getName(), name));
+      }
+    }
+  }
+
+  @Override
+  public boolean isEnabled() {
+    if (economy == null) {
+      return false;
+    } else {
+      return economy.isEnabled();
+    }
+  }
+
+  @Override
+  public String getName() {
+    return name;
+  }
+
+  @Override
+  public String format(double amount) {
+    return iConomy.format(amount);
+  }
+
+  @Override
+  public String currencyNameSingular() {
+    return Constants.Nodes.Major.getStringList().get(0);
+  }
+
+  @Override
+  public String currencyNamePlural() {
+    return Constants.Nodes.Major.getStringList().get(1);
+  }
+
+  @Override
+  public double getBalance(String playerName) {
+    if (accounts.exists(playerName)) {
+      return accounts.get(playerName).getHoldings().getBalance();
+    } else {
+      return 0;
+    }
+  }
+
+  @Override
+  public EconomyResponse withdrawPlayer(String playerName, double amount) {
+    if (amount < 0) {
+      return new EconomyResponse(0, 0, ResponseType.FAILURE, "Cannot withdraw negative funds");
     }
 
-    @Override
-    public boolean isEnabled() {
-        if (economy == null) {
-            return false;
-        } else {
-            return economy.isEnabled();
-        }
+    Holdings holdings = accounts.get(playerName).getHoldings();
+    if (holdings.hasEnough(amount)) {
+      holdings.subtract(amount);
+      return new EconomyResponse(amount, holdings.getBalance(), ResponseType.SUCCESS, null);
+    } else {
+      return new EconomyResponse(0, holdings.getBalance(), ResponseType.FAILURE, "Insufficient funds");
+    }
+  }
+
+  @Override
+  public EconomyResponse depositPlayer(String playerName, double amount) {
+    if (amount < 0) {
+      return new EconomyResponse(0, 0, ResponseType.FAILURE, "Cannot desposit negative funds");
     }
 
-    @Override
-    public String getName() {
-        return name;
+    Holdings holdings = accounts.get(playerName).getHoldings();
+    holdings.add(amount);
+    return new EconomyResponse(amount, holdings.getBalance(), ResponseType.SUCCESS, null);
+  }
+
+  @Override
+  public boolean has(String playerName, double amount) {
+    return getBalance(playerName) >= amount;
+  }
+
+  @Override
+  public EconomyResponse createBank(String name, String player) {
+    if (accounts.exists(name)) {
+      return new EconomyResponse(0, accounts.get(name).getHoldings().getBalance(), ResponseType.FAILURE, "That account already exists.");
+    }
+    boolean created = accounts.create(name);
+    if (created) {
+      return new EconomyResponse(0, 0, ResponseType.SUCCESS, "");
+    } else {
+      return new EconomyResponse(0, 0, ResponseType.FAILURE, "There was an error creating the account");
     }
 
-    @Override
-    public String format(double amount) {
-        return iConomy.format(amount);
+  }
+
+  @Override
+  public EconomyResponse deleteBank(String name) {
+    if (accounts.exists(name)) {
+      accounts.remove(name);
+      return new EconomyResponse(0, 0, ResponseType.SUCCESS, "");
+    }
+    return new EconomyResponse(0, 0, ResponseType.FAILURE, "That bank account does not exist.");
+  }
+
+  @Override
+  public EconomyResponse bankHas(String name, double amount) {
+    if (has(name, amount)) {
+      return new EconomyResponse(0, amount, ResponseType.SUCCESS, "");
+    } else {
+      return new EconomyResponse(0, accounts.get(name).getHoldings().getBalance(), ResponseType.FAILURE, "The account does not have enough!");
+    }
+  }
+
+  @Override
+  public EconomyResponse bankWithdraw(String name, double amount) {
+    if (amount < 0) {
+      return new EconomyResponse(0, 0, ResponseType.FAILURE, "Cannot withdraw negative funds");
     }
 
-    @Override
-    public String currencyNameSingular() {
-        return Constants.Nodes.Major.getStringList().get(0);
+    return withdrawPlayer(name, amount);
+  }
+
+  @Override
+  public EconomyResponse bankDeposit(String name, double amount) {
+    if (amount < 0) {
+      return new EconomyResponse(0, 0, ResponseType.FAILURE, "Cannot desposit negative funds");
     }
 
-    @Override
-    public String currencyNamePlural() {
-        return Constants.Nodes.Major.getStringList().get(1);
+    return depositPlayer(name, amount);
+  }
+
+  @Override
+  public EconomyResponse isBankOwner(String name, String playerName) {
+    return new EconomyResponse(0, 0, ResponseType.NOT_IMPLEMENTED, "iConomy 6 does not support Bank owners.");
+  }
+
+  @Override
+  public EconomyResponse isBankMember(String name, String playerName) {
+    return new EconomyResponse(0, 0, ResponseType.NOT_IMPLEMENTED, "iConomy 6 does not support Bank members.");
+  }
+
+  @Override
+  public EconomyResponse bankBalance(String name) {
+    if (!accounts.exists(name)) {
+      return new EconomyResponse(0, 0, ResponseType.FAILURE, "There is no bank account with that name");
+    } else {
+      return new EconomyResponse(0, accounts.get(name).getHoldings().getBalance(), ResponseType.SUCCESS, null);
     }
+  }
 
-    @Override
-    public double getBalance(String playerName) {
-        if (accounts.exists(playerName)) {
-            return accounts.get(playerName).getHoldings().getBalance();
-        } else {
-            return 0;
-        }
+  @Override
+  public List<String> getBanks() {
+    throw new UnsupportedOperationException("iConomy does not support listing of bank accounts");
+  }
+
+  @Override
+  public boolean hasBankSupport() {
+    return true;
+  }
+
+  @Override
+  public boolean hasAccount(String playerName) {
+    return accounts.exists(playerName);
+  }
+
+  @Override
+  public boolean createPlayerAccount(String playerName) {
+    if (hasAccount(playerName)) {
+      return false;
     }
+    return accounts.create(playerName);
+  }
 
-    @Override
-    public EconomyResponse withdrawPlayer(String playerName, double amount) {
-        if (amount < 0) {
-            return new EconomyResponse(0, 0, ResponseType.FAILURE, "Cannot withdraw negative funds");
-        }
+  @Override
+  public int fractionalDigits() {
+    return -1;
+  }
 
-        Holdings holdings = accounts.get(playerName).getHoldings();
-        if (holdings.hasEnough(amount)) {
-            holdings.subtract(amount);
-            return new EconomyResponse(amount, holdings.getBalance(), ResponseType.SUCCESS, null);
-        } else {
-            return new EconomyResponse(0, holdings.getBalance(), ResponseType.FAILURE, "Insufficient funds");
-        }
-    }
+  @Override
+  public boolean hasAccount(String playerName, String worldName) {
+    return hasAccount(playerName);
+  }
 
-    @Override
-    public EconomyResponse depositPlayer(String playerName, double amount) {
-        if (amount < 0) {
-            return new EconomyResponse(0, 0, ResponseType.FAILURE, "Cannot desposit negative funds");
-        }
+  @Override
+  public double getBalance(String playerName, String world) {
+    return getBalance(playerName);
+  }
 
-        Holdings holdings = accounts.get(playerName).getHoldings();
-        holdings.add(amount);
-        return new EconomyResponse(amount, holdings.getBalance(), ResponseType.SUCCESS, null);
-    }
+  @Override
+  public boolean has(String playerName, String worldName, double amount) {
+    return has(playerName, amount);
+  }
 
-    @Override
-    public boolean has(String playerName, double amount) {
-        return getBalance(playerName) >= amount;
-    }
+  @Override
+  public EconomyResponse withdrawPlayer(String playerName, String worldName, double amount) {
+    return withdrawPlayer(playerName, amount);
+  }
 
-    @Override
-    public EconomyResponse createBank(String name, String player) {
-        if (accounts.exists(name)) {
-            return new EconomyResponse(0, accounts.get(name).getHoldings().getBalance(), ResponseType.FAILURE, "That account already exists.");
-        }
-        boolean created = accounts.create(name);
-        if (created) {
-            return new EconomyResponse(0, 0, ResponseType.SUCCESS, "");
-        } else {
-            return new EconomyResponse(0, 0, ResponseType.FAILURE, "There was an error creating the account");
-        }
+  @Override
+  public EconomyResponse depositPlayer(String playerName, String worldName, double amount) {
+    return depositPlayer(playerName, amount);
+  }
 
-    }
-
-    @Override
-    public EconomyResponse deleteBank(String name) {
-        if (accounts.exists(name)) {
-            accounts.remove(name);
-            return new EconomyResponse(0, 0, ResponseType.SUCCESS, "");
-        }
-        return new EconomyResponse(0, 0, ResponseType.FAILURE, "That bank account does not exist.");
-    }
-
-    @Override
-    public EconomyResponse bankHas(String name, double amount) {
-        if (has(name, amount)) {
-            return new EconomyResponse(0, amount, ResponseType.SUCCESS, "");
-        } else {
-            return new EconomyResponse(0, accounts.get(name).getHoldings().getBalance(), ResponseType.FAILURE, "The account does not have enough!");
-        }
-    }
-
-    @Override
-    public EconomyResponse bankWithdraw(String name, double amount) {
-        if (amount < 0) {
-            return new EconomyResponse(0, 0, ResponseType.FAILURE, "Cannot withdraw negative funds");
-        }
-
-        return withdrawPlayer(name, amount);
-    }
-
-    @Override
-    public EconomyResponse bankDeposit(String name, double amount) {
-        if (amount < 0) {
-            return new EconomyResponse(0, 0, ResponseType.FAILURE, "Cannot desposit negative funds");
-        }
-
-        return depositPlayer(name, amount);
-    }
-
-    @Override
-    public EconomyResponse isBankOwner(String name, String playerName) {
-        return new EconomyResponse(0, 0, ResponseType.NOT_IMPLEMENTED, "iConomy 6 does not support Bank owners.");
-    }
-
-    @Override
-    public EconomyResponse isBankMember(String name, String playerName) {
-        return new EconomyResponse(0, 0, ResponseType.NOT_IMPLEMENTED, "iConomy 6 does not support Bank members.");
-    }
-
-    @Override
-    public EconomyResponse bankBalance(String name) {
-        if (!accounts.exists(name)) {
-            return new EconomyResponse(0, 0, ResponseType.FAILURE, "There is no bank account with that name");
-        } else {
-            return new EconomyResponse(0, accounts.get(name).getHoldings().getBalance(), ResponseType.SUCCESS, null);
-        }
-    }
-
-    @Override
-    public List<String> getBanks() {
-        throw new UnsupportedOperationException("iConomy does not support listing of bank accounts");
-    }
-
-    @Override
-    public boolean hasBankSupport() {
-        return true;
-    }
-
-    @Override
-    public boolean hasAccount(String playerName) {
-        return accounts.exists(playerName);
-    }
-
-    @Override
-    public boolean createPlayerAccount(String playerName) {
-        if (hasAccount(playerName)) {
-            return false;
-        }
-        return accounts.create(playerName);
-    }
-
-	@Override
-	public int fractionalDigits() {
-		return -1;
-	}
-
-    @Override
-    public boolean hasAccount(String playerName, String worldName) {
-        return hasAccount(playerName);
-    }
-
-    @Override
-    public double getBalance(String playerName, String world) {
-        return getBalance(playerName);
-    }
-
-    @Override
-    public boolean has(String playerName, String worldName, double amount) {
-        return has(playerName, amount);
-    }
-
-    @Override
-    public EconomyResponse withdrawPlayer(String playerName, String worldName, double amount) {
-        return withdrawPlayer(playerName, amount);
-    }
-
-    @Override
-    public EconomyResponse depositPlayer(String playerName, String worldName, double amount) {
-        return depositPlayer(playerName, amount);
-    }
-
-    @Override
-    public boolean createPlayerAccount(String playerName, String worldName) {
-        return createPlayerAccount(playerName);
-    }
+  @Override
+  public boolean createPlayerAccount(String playerName, String worldName) {
+    return createPlayerAccount(playerName);
+  }
 
   public class EconomyServerListener implements Listener {
     Economy_iConomy6 economy = null;

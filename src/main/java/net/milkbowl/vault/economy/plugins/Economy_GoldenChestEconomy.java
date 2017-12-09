@@ -35,186 +35,186 @@ import org.bukkit.event.server.PluginEnableEvent;
 import org.bukkit.plugin.Plugin;
 
 public class Economy_GoldenChestEconomy extends AbstractEconomy {
-    private static final Logger log = Logger.getLogger("Minecraft");
-    
-    private final String name = "GoldenChestEconomy";
-    private Plugin plugin = null;
-    private GoldenChestEconomy economy = null;
-    
-    
-    public Economy_GoldenChestEconomy (Plugin plugin) {
-        this.plugin = plugin;
-        Bukkit.getServer().getPluginManager().registerEvents(new EconomyServerListener(this), plugin);
-        // Load Plugin in case it was loaded before
-        if (economy == null) {
-            Plugin ec = plugin.getServer().getPluginManager().getPlugin("GoldenChestEconomy");
-            if (ec != null && ec.isEnabled() && ec.getClass().getName().equals("me.igwb.GoldenChest.GoldenChestEconomy")) {
-                economy = (GoldenChestEconomy) ec;
-                log.info(String.format("[%s][Economy] %s hooked.", plugin.getDescription().getName(), name));
-            }
-        }
+  private static final Logger log = Logger.getLogger("Minecraft");
+
+  private final String name = "GoldenChestEconomy";
+  private Plugin plugin = null;
+  private GoldenChestEconomy economy = null;
+
+
+  public Economy_GoldenChestEconomy(Plugin plugin) {
+    this.plugin = plugin;
+    Bukkit.getServer().getPluginManager().registerEvents(new EconomyServerListener(this), plugin);
+    // Load Plugin in case it was loaded before
+    if (economy == null) {
+      Plugin ec = plugin.getServer().getPluginManager().getPlugin("GoldenChestEconomy");
+      if (ec != null && ec.isEnabled() && ec.getClass().getName().equals("me.igwb.GoldenChest.GoldenChestEconomy")) {
+        economy = (GoldenChestEconomy) ec;
+        log.info(String.format("[%s][Economy] %s hooked.", plugin.getDescription().getName(), name));
+      }
     }
-    
-    @Override
-    public boolean isEnabled() {
-        if (economy == null) {
-            return false;
-        } else {
-            return economy.isEnabled();
-        }
-    }
+  }
 
   @Override
-    public String getName() {
-       return name;
+  public boolean isEnabled() {
+    if (economy == null) {
+      return false;
+    } else {
+      return economy.isEnabled();
+    }
+  }
+
+  @Override
+  public String getName() {
+    return name;
+  }
+
+  @Override
+  public boolean hasBankSupport() {
+    return false;
+  }
+
+  @Override
+  public int fractionalDigits() {
+    return economy.getVaultConnector().fractionalDigits();
+  }
+
+  @Override
+  public String format(double amount) {
+    return economy.getVaultConnector().format(amount);
+  }
+
+  @Override
+  public String currencyNamePlural() {
+    return economy.getVaultConnector().currencyNamePlural();
+  }
+
+  @Override
+  public String currencyNameSingular() {
+    return economy.getVaultConnector().currencyNameSingular();
+  }
+
+  @Override
+  public boolean hasAccount(String playerName) {
+    return economy.getVaultConnector().hasAccount(playerName);
+  }
+
+  @Override
+  public boolean hasAccount(String playerName, String worldName) {
+    return economy.getVaultConnector().hasAccount(playerName, worldName);
+  }
+
+  @Override
+  public double getBalance(String playerName) {
+    return economy.getVaultConnector().getBalance(playerName);
+  }
+
+  @Override
+  public double getBalance(String playerName, String world) {
+    return economy.getVaultConnector().getBalance(playerName, world);
+  }
+
+  @Override
+  public boolean has(String playerName, double amount) {
+    return economy.getVaultConnector().has(playerName, amount);
+  }
+
+  @Override
+  public boolean has(String playerName, String worldName, double amount) {
+    return economy.getVaultConnector().has(playerName, worldName, amount);
+  }
+
+  @Override
+  public EconomyResponse withdrawPlayer(String playerName, double amount) {
+
+    if (amount < 0) {
+      return new EconomyResponse(0, 0, ResponseType.FAILURE, "Cannot withdraw negative funds");
     }
 
-    @Override
-    public boolean hasBankSupport() {
-        return false;
+    if (has(playerName, amount)) {
+      economy.getVaultConnector().withdrawPlayer(playerName, amount);
+      return new EconomyResponse(amount, getBalance(playerName), ResponseType.SUCCESS, null);
+    } else {
+      return new EconomyResponse(0, getBalance(playerName), ResponseType.FAILURE, "Insufficient funds");
+    }
+  }
+
+  @Override
+  public EconomyResponse withdrawPlayer(String playerName, String worldName,
+    double amount) {
+    return withdrawPlayer(playerName, amount);
+  }
+
+  @Override
+  public EconomyResponse depositPlayer(String playerName, double amount) {
+    if (amount < 0) {
+      return new EconomyResponse(0, 0, ResponseType.FAILURE, "Cannot desposit negative funds");
     }
 
-    @Override
-    public int fractionalDigits() {
-        return economy.getVaultConnector().fractionalDigits();
-    }
+    economy.getVaultConnector().depositPlayer(playerName, amount);
+    return new EconomyResponse(amount, getBalance(playerName), EconomyResponse.ResponseType.SUCCESS, null);
+  }
 
-    @Override
-    public String format(double amount) {
-        return economy.getVaultConnector().format(amount);
-    }
+  @Override
+  public EconomyResponse depositPlayer(String playerName, String worldName,
+    double amount) {
+    return depositPlayer(playerName, amount);
+  }
 
-    @Override
-    public String currencyNamePlural() {
-        return economy.getVaultConnector().currencyNamePlural();
-    }
+  @Override
+  public EconomyResponse createBank(String name, String player) {
+    return new EconomyResponse(0, 0, ResponseType.NOT_IMPLEMENTED, "Banks are not supported!");
+  }
 
-    @Override
-    public String currencyNameSingular() {
-        return economy.getVaultConnector().currencyNameSingular();
-    }
+  @Override
+  public EconomyResponse deleteBank(String name) {
+    return new EconomyResponse(0, 0, ResponseType.NOT_IMPLEMENTED, "Banks are not supported!");
+  }
 
-    @Override
-    public boolean hasAccount(String playerName) {
-        return economy.getVaultConnector().hasAccount(playerName);
-    }
+  @Override
+  public EconomyResponse bankBalance(String name) {
+    return new EconomyResponse(0, 0, ResponseType.NOT_IMPLEMENTED, "Banks are not supported!");
+  }
 
-    @Override
-    public boolean hasAccount(String playerName, String worldName) {
-        return economy.getVaultConnector().hasAccount(playerName, worldName);
-    }
+  @Override
+  public EconomyResponse bankHas(String name, double amount) {
+    return new EconomyResponse(0, 0, ResponseType.NOT_IMPLEMENTED, "Banks are not supported!");
+  }
 
-    @Override
-    public double getBalance(String playerName) {
-        return economy.getVaultConnector().getBalance(playerName);
-    }
+  @Override
+  public EconomyResponse bankWithdraw(String name, double amount) {
+    return new EconomyResponse(0, 0, ResponseType.NOT_IMPLEMENTED, "Banks are not supported!");
+  }
 
-    @Override
-    public double getBalance(String playerName, String world) {
-        return economy.getVaultConnector().getBalance(playerName, world);
-    }
+  @Override
+  public EconomyResponse bankDeposit(String name, double amount) {
+    return new EconomyResponse(0, 0, ResponseType.NOT_IMPLEMENTED, "Banks are not supported!");
+  }
 
-    @Override
-    public boolean has(String playerName, double amount) {
-        return economy.getVaultConnector().has(playerName, amount);
-    }
+  @Override
+  public EconomyResponse isBankOwner(String name, String playerName) {
+    return new EconomyResponse(0, 0, ResponseType.NOT_IMPLEMENTED, "Banks are not supported!");
+  }
 
-    @Override
-    public boolean has(String playerName, String worldName, double amount) {
-        return economy.getVaultConnector().has(playerName, worldName, amount);
-    }
+  @Override
+  public EconomyResponse isBankMember(String name, String playerName) {
+    return new EconomyResponse(0, 0, ResponseType.NOT_IMPLEMENTED, "Banks are not supported!");
+  }
 
-    @Override
-    public EconomyResponse withdrawPlayer(String playerName, double amount) {
+  @Override
+  public List<String> getBanks() {
+    return null;
+  }
 
-        if (amount < 0) {
-            return new EconomyResponse(0, 0, ResponseType.FAILURE, "Cannot withdraw negative funds");
-        }
+  @Override
+  public boolean createPlayerAccount(String playerName) {
+    return economy.getVaultConnector().createPlayerAccount(playerName);
+  }
 
-      if (has(playerName, amount)) {
-            economy.getVaultConnector().withdrawPlayer(playerName, amount);
-            return new EconomyResponse(amount, getBalance(playerName), ResponseType.SUCCESS, null);
-        } else {
-            return new EconomyResponse(0, getBalance(playerName), ResponseType.FAILURE, "Insufficient funds");
-        }
-    }
-
-    @Override
-    public EconomyResponse withdrawPlayer(String playerName, String worldName,
-            double amount) {
-        return withdrawPlayer(playerName, amount);
-    }
-
-    @Override
-    public EconomyResponse depositPlayer(String playerName, double amount) {
-        if (amount < 0) {
-            return new EconomyResponse(0, 0, ResponseType.FAILURE, "Cannot desposit negative funds");
-        }
-
-      economy.getVaultConnector().depositPlayer(playerName, amount);
-        return new EconomyResponse(amount, getBalance(playerName), EconomyResponse.ResponseType.SUCCESS, null);
-    }
-
-    @Override
-    public EconomyResponse depositPlayer(String playerName, String worldName,
-            double amount) {
-        return depositPlayer(playerName, amount);
-    }
-
-    @Override
-    public EconomyResponse createBank(String name, String player) {
-        return new EconomyResponse(0, 0, ResponseType.NOT_IMPLEMENTED, "Banks are not supported!");
-    }
-
-    @Override
-    public EconomyResponse deleteBank(String name) {
-        return new EconomyResponse(0, 0, ResponseType.NOT_IMPLEMENTED, "Banks are not supported!");
-    }
-
-    @Override
-    public EconomyResponse bankBalance(String name) {
-        return new EconomyResponse(0, 0, ResponseType.NOT_IMPLEMENTED, "Banks are not supported!");
-    }
-
-    @Override
-    public EconomyResponse bankHas(String name, double amount) {
-        return new EconomyResponse(0, 0, ResponseType.NOT_IMPLEMENTED, "Banks are not supported!");
-    }
-
-    @Override
-    public EconomyResponse bankWithdraw(String name, double amount) {
-        return new EconomyResponse(0, 0, ResponseType.NOT_IMPLEMENTED, "Banks are not supported!");
-    }
-
-    @Override
-    public EconomyResponse bankDeposit(String name, double amount) {
-        return new EconomyResponse(0, 0, ResponseType.NOT_IMPLEMENTED, "Banks are not supported!");
-    }
-
-    @Override
-    public EconomyResponse isBankOwner(String name, String playerName) {
-        return new EconomyResponse(0, 0, ResponseType.NOT_IMPLEMENTED, "Banks are not supported!");
-    }
-
-    @Override
-    public EconomyResponse isBankMember(String name, String playerName) {
-        return new EconomyResponse(0, 0, ResponseType.NOT_IMPLEMENTED, "Banks are not supported!");
-    }
-
-    @Override
-    public List<String> getBanks() {
-        return null;
-    }
-
-    @Override
-    public boolean createPlayerAccount(String playerName) {
-        return economy.getVaultConnector().createPlayerAccount(playerName);
-    }
-
-    @Override
-    public boolean createPlayerAccount(String playerName, String worldName) {
-        return economy.getVaultConnector().createPlayerAccount(playerName, worldName);
-    }
+  @Override
+  public boolean createPlayerAccount(String playerName, String worldName) {
+    return economy.getVaultConnector().createPlayerAccount(playerName, worldName);
+  }
 
   public class EconomyServerListener implements Listener {
     Economy_GoldenChestEconomy economy = null;
