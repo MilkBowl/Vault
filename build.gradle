@@ -15,17 +15,21 @@ allprojects {
 
 repositories {
   mavenCentral()
-  maven { url 'https://repo.natrolite.org/repository/maven-public/' }
+  //maven { url 'https://repo.natrolite.org/repository/maven-public/' }
   maven { url 'https://hub.spigotmc.org/nexus/content/repositories/snapshots/' }
   maven { url 'https://oss.sonatype.org/content/repositories/snapshots/' }
   maven { url 'https://repo.bstats.org/content/repositories/releases/' }
+
+  maven { url 'http://nexus.hc.to/content/repositories/pub_releases/'}
 }
 
 dependencies {
   compileOnly group: 'org.bukkit', name: 'bukkit', version: '1.8-R0.1-SNAPSHOT'
   testCompile group: 'org.bukkit', name: 'bukkit', version: '1.8-R0.1-SNAPSHOT'
 
-  compile group: 'org.natrolite', name: 'vault-api', version: '1.6.1.1'
+  //compile group: 'org.natrolite', name: 'vault-api', version: '1.6.1.1'
+  compile group: 'net.milkbowl.vault', name: 'VaultAPI', version: '1.6'
+
   compile group: 'org.bstats', name: 'bstats-bukkit', version: '1.1'
 
   // Libraries
@@ -102,7 +106,7 @@ gradle.taskGraph.whenReady { TaskExecutionGraph graph ->
 build.dependsOn(shadowJar)
 
 task wrapper(type: Wrapper) {
-  gradleVersion = '4.0'
+  gradleVersion = '4.4'
 }
 
 apply from: 'gradle/deploy.gradle'

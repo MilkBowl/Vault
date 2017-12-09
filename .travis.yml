@@ -1,11 +1,9 @@
-dist: trusty
-sudo: required
-
 language: java
 
 jdk:
   - openjdk8
   - oraclejdk8
+  - oraclejdk9
 
 script: ./gradlew build checkstyle -Dorg.gradle.daemon=false
 
@@ -24,6 +22,12 @@ deploy:
 branches:
   except:
     - gh-pages
+
+# Temporary!
+matrix:
+  fast_finish: true
+  allow_failures:
+    - jdk: oraclejdk9
 
 notifications:
   email: false
