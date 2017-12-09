@@ -101,32 +101,32 @@ public class Economy_Essentials extends AbstractEconomy {
     }
 
     double balance;
-    EconomyResponse.ResponseType type;
+    ResponseType type;
     String errorMessage = null;
 
     try {
       com.earth2me.essentials.api.Economy.subtract(playerName, amount);
       balance = com.earth2me.essentials.api.Economy.getMoney(playerName);
-      type = EconomyResponse.ResponseType.SUCCESS;
+      type = ResponseType.SUCCESS;
     } catch (UserDoesNotExistException e) {
       if (createPlayerAccount(playerName)) {
         return withdrawPlayer(playerName, amount);
       } else {
         amount = 0;
         balance = 0;
-        type = EconomyResponse.ResponseType.FAILURE;
+        type = ResponseType.FAILURE;
         errorMessage = "User does not exist";
       }
     } catch (NoLoanPermittedException e) {
       try {
         balance = com.earth2me.essentials.api.Economy.getMoney(playerName);
         amount = 0;
-        type = EconomyResponse.ResponseType.FAILURE;
+        type = ResponseType.FAILURE;
         errorMessage = "Loan was not permitted";
       } catch (UserDoesNotExistException e1) {
         amount = 0;
         balance = 0;
-        type = EconomyResponse.ResponseType.FAILURE;
+        type = ResponseType.FAILURE;
         errorMessage = "User does not exist";
       }
     }
@@ -141,32 +141,32 @@ public class Economy_Essentials extends AbstractEconomy {
     }
 
     double balance;
-    EconomyResponse.ResponseType type;
+    ResponseType type;
     String errorMessage = null;
 
     try {
       com.earth2me.essentials.api.Economy.add(playerName, amount);
       balance = com.earth2me.essentials.api.Economy.getMoney(playerName);
-      type = EconomyResponse.ResponseType.SUCCESS;
+      type = ResponseType.SUCCESS;
     } catch (UserDoesNotExistException e) {
       if (createPlayerAccount(playerName)) {
         return depositPlayer(playerName, amount);
       } else {
         amount = 0;
         balance = 0;
-        type = EconomyResponse.ResponseType.FAILURE;
+        type = ResponseType.FAILURE;
         errorMessage = "User does not exist";
       }
     } catch (NoLoanPermittedException e) {
       try {
         balance = com.earth2me.essentials.api.Economy.getMoney(playerName);
         amount = 0;
-        type = EconomyResponse.ResponseType.FAILURE;
+        type = ResponseType.FAILURE;
         errorMessage = "Loan was not permitted";
       } catch (UserDoesNotExistException e1) {
         balance = 0;
         amount = 0;
-        type = EconomyResponse.ResponseType.FAILURE;
+        type = ResponseType.FAILURE;
         errorMessage = "Loan was not permitted";
       }
     }

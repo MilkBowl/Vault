@@ -84,12 +84,12 @@ public class Economy_MultiCurrency extends AbstractEconomy {
   @Override
   public EconomyResponse withdrawPlayer(String playerName, double amount) {
     double balance;
-    EconomyResponse.ResponseType type;
+    ResponseType type;
     String errorMessage = null;
 
     if (amount < 0) {
       errorMessage = "Cannot withdraw negative funds";
-      type = EconomyResponse.ResponseType.FAILURE;
+      type = ResponseType.FAILURE;
       amount = 0;
       balance = CurrencyList.getValue((String) CurrencyList.maxCurrency(playerName)[0], playerName);
 
@@ -98,7 +98,7 @@ public class Economy_MultiCurrency extends AbstractEconomy {
 
     if (!CurrencyList.hasEnough(playerName, amount)) {
       errorMessage = "Insufficient funds";
-      type = EconomyResponse.ResponseType.FAILURE;
+      type = ResponseType.FAILURE;
       amount = 0;
       balance = CurrencyList.getValue((String) CurrencyList.maxCurrency(playerName)[0], playerName);
 
@@ -106,13 +106,13 @@ public class Economy_MultiCurrency extends AbstractEconomy {
     }
 
     if (CurrencyList.subtract(playerName, amount)) {
-      type = EconomyResponse.ResponseType.SUCCESS;
+      type = ResponseType.SUCCESS;
       balance = CurrencyList.getValue((String) CurrencyList.maxCurrency(playerName)[0], playerName);
 
       return new EconomyResponse(amount, balance, type, errorMessage);
     } else {
       errorMessage = "Error withdrawing funds";
-      type = EconomyResponse.ResponseType.FAILURE;
+      type = ResponseType.FAILURE;
       amount = 0;
       balance = CurrencyList.getValue((String) CurrencyList.maxCurrency(playerName)[0], playerName);
 
@@ -123,12 +123,12 @@ public class Economy_MultiCurrency extends AbstractEconomy {
   @Override
   public EconomyResponse depositPlayer(String playerName, double amount) {
     double balance;
-    EconomyResponse.ResponseType type;
+    ResponseType type;
     String errorMessage = null;
 
     if (amount < 0) {
       errorMessage = "Cannot deposit negative funds";
-      type = EconomyResponse.ResponseType.FAILURE;
+      type = ResponseType.FAILURE;
       amount = 0;
       balance = CurrencyList.getValue((String) CurrencyList.maxCurrency(playerName)[0], playerName);
 
@@ -136,13 +136,13 @@ public class Economy_MultiCurrency extends AbstractEconomy {
     }
 
     if (CurrencyList.add(playerName, amount)) {
-      type = EconomyResponse.ResponseType.SUCCESS;
+      type = ResponseType.SUCCESS;
       balance = CurrencyList.getValue((String) CurrencyList.maxCurrency(playerName)[0], playerName);
 
       return new EconomyResponse(amount, balance, type, errorMessage);
     } else {
       errorMessage = "Error withdrawing funds";
-      type = EconomyResponse.ResponseType.FAILURE;
+      type = ResponseType.FAILURE;
       amount = 0;
       balance = CurrencyList.getValue((String) CurrencyList.maxCurrency(playerName)[0], playerName);
 

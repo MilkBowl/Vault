@@ -152,7 +152,7 @@ public class Economy_GoldenChestEconomy extends AbstractEconomy {
     }
 
     economy.getVaultConnector().depositPlayer(playerName, amount);
-    return new EconomyResponse(amount, getBalance(playerName), EconomyResponse.ResponseType.SUCCESS, null);
+    return new EconomyResponse(amount, getBalance(playerName), ResponseType.SUCCESS, null);
   }
 
   @Override
