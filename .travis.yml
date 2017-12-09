@@ -23,5 +23,11 @@ branches:
   except:
     - gh-pages
 
+# Temporary!
+matrix:
+  fast_finish: true
+  allow_failures:
+    - jdk: oraclejdk9
+
 notifications:
   email: false
