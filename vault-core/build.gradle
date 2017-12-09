@@ -1,0 +1,33 @@
+plugins {
+  id 'com.github.johnrengelman.shadow' version '1.2.4'
+}
+
+repositories {
+  maven { url 'https://repo.bstats.org/content/repositories/releases/' }
+}
+
+dependencies {
+  compile project(':vault-api')
+  compile group: 'org.bstats', name: 'bstats-bukkit', version: '1.1'
+
+  // Libraries
+  compileOnly fileTree(dir: 'libs', include: ['*.jar'])
+  compileOnly group: 'com.greatmancode', name: 'craftconomy3', version: '3.2.2-SNAPSHOT'
+}
+
+license {
+  exclude 'net/milkbowl/vault/util/VersionComparator.java'
+}
+
+processResources {
+  from rootProject.file('LICENSE.txt')
+  from rootProject.file('THIRD-PARTY-LICENSES.txt')
+  expand(version: version, description: project.description)
+}
+
+shadowJar {
+  classifier = 'shaded'
+  relocate 'org.bstats', 'net.milkbowl.vault'
+}
+
+build.dependsOn(shadowJar)

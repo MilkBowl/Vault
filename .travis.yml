@@ -1,8 +1,33 @@
 language: java
-jdk: [ openjdk7 ]
-sudo: false
-env:
-  global:
-    - secure: "WGObsHmjnqn5e0nbXLGetwpUHU0UgvNk02+f0m3jIS7hSdBy5m1JK2K6NXV13brY0C9i0DLy0e7JKabqmqTxI94dT0LrYBxcvfmtZ/7PujOn/D9CzVimGj6g20hBDYwAXL6KAIR7JL8qexQBwIkVZPdwaA+k+UHLM9XVoIQdFgU="
-    - secure: "XfBov3Z4Rk2AvS1v7o31Qr2XrO/oqQvl+Eksx9DO3XbGcLjT9wfGxGcYgP9IJO+Aa5AQo3Xud7EV4gqNpMa2PByzDdgg/nfyqSvrRvsG2aH1zm5N5bAHxCVlPimVdNtyeub6QBPCIGaWBp1R8x3Ak7F79mA5BdJuT9j5FBogC5U="
-script: .utility/do-build.sh
+
+jdk:
+  - openjdk8
+  - oraclejdk8
+  - oraclejdk9
+
+script: ./gradlew build checkstyle -Dorg.gradle.daemon=false
+
+deploy:
+  provider: releases
+  api_key:
+    secure: "yGxO4NkiTO5faA+4EWERPufi8NRlSKiOZxgk3HqLISG3LBHI5UcBCbdDPUhB5O5cw47wG3BZlX4B8SPP4jMWtAmwAify6FcxtatFGzpKy8Z2CBRo68BHIYj4vtnyQ2VcQpt4sn5rJLY6wJkcHk3piYp99aAhafT1KfjYthLF9YVEDm2VMMSg4o1X5Lf1Bj5PZy5VOx+RuBTCGvPUNT6DHXafYr36x8kkQRLD/W6xst3GcqzGy+WJJXHIKcORi8walx6ER6vrTkxhJ/LyzMKh9EbdpK+t/Bz4HywvYZKFIpfjJxFJ+35knXcmHDmpXeID86apC8duYJm5BsHCUBi+WzSewLntf+5sb81PyP1Ej1pUJO6fjyTxM0LCUs6J/AIxWpiM0JVXNLZMg6A1JW/purHvUmYco06Gjq17ic48vDMXNSa8NnyqIbMti/rGE3Ou5t/MXPybrQlTeRXZOiE1hgjBkDGgpOvQCM74TKI1nXb0jIl0ia1ALrzIfqGnHb43QJKqHkygKnWmQvwQogqtxMCt0RD3OaekHpBAcpC8cj+hhycURHyXxUJWQSCss0UZYOVVU4KTAe8w6OuUy8I2RIH6QLXHskK8sev2BY3wsDSoCvaUzmkmoPCqZEf7T2uGJAvJtsDVQTKEugorSvmQ1fFK7d/Zg9n0wxNQ+mlGAUU="
+  skip_cleanup: true
+  file_glob: true
+  file: "build/libs/*.jar"
+  on:
+    tags: true
+    jdk: oraclejdk8
+    repo: natrolite/vault
+
+branches:
+  except:
+    - gh-pages
+
+# Temporary!
+matrix:
+  fast_finish: true
+  allow_failures:
+    - jdk: oraclejdk9
+
+notifications:
+  email: false

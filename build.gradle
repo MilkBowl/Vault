@@ -1,0 +1,89 @@
+plugins {
+  id 'net.minecrell.licenser' version '0.3' apply false
+}
+
+allprojects {
+  apply plugin: 'idea'
+  apply plugin: 'eclipse'
+
+  group = 'org.natrolite'
+  description = 'Vault is a Permissions and Economy API'
+  version = '1.6.1'
+}
+
+subprojects {
+  apply plugin: 'java'
+  apply plugin: 'checkstyle'
+  apply plugin: 'net.minecrell.licenser'
+
+  sourceCompatibility = '1.8'
+  targetCompatibility = '1.8'
+
+  repositories {
+    mavenCentral()
+    maven { url 'https://hub.spigotmc.org/nexus/content/repositories/snapshots/' }
+    maven { url 'https://oss.sonatype.org/content/repositories/snapshots/' }
+  }
+
+  dependencies {
+    compileOnly group: 'org.bukkit', name: 'bukkit', version: '1.9-R0.1-SNAPSHOT'
+    testCompile group: 'org.bukkit', name: 'bukkit', version: '1.9-R0.1-SNAPSHOT'
+  }
+
+  license {
+    header = rootProject.file('HEADER.txt')
+    include '**/*.java'
+    include '**/*.yml'
+    newLine = true
+  }
+
+  compileJava {
+    sourceCompatibility = '1.8'
+    targetCompatibility = '1.8'
+    options.encoding = 'UTF-8'
+  }
+
+  compileTestJava {
+    sourceCompatibility = '1.8'
+    targetCompatibility = '1.8'
+    options.encoding = 'UTF-8'
+  }
+
+  checkstyle {
+    toolVersion = '8.0'
+    configFile = rootProject.file('checkstyle.xml')
+  }
+
+  task sourceJar(type: Jar) {
+    classifier = 'sources'
+    from sourceSets.main.allSource
+  }
+
+  task javadocJar(type: Jar, dependsOn: javadoc) {
+    classifier = 'javadoc'
+    from javadoc.destinationDir
+  }
+
+  artifacts {
+    archives sourceJar
+    archives javadocJar
+  }
+
+  task checkstyle(dependsOn: tasks.withType(Checkstyle))
+
+  gradle.taskGraph.whenReady { TaskExecutionGraph graph ->
+    if (!graph.allTasks.contains(tasks.checkstyle)) {
+      graph.allTasks.findAll {
+        it.name.startsWith('checkstyle')
+      }.each {
+        it.enabled = false
+      }
+    }
+  }
+
+  apply from: rootProject.file('gradle/deploy.gradle')
+}
+
+task wrapper(type: Wrapper) {
+  gradleVersion = '4.4'
+}

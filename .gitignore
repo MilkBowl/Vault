@@ -1,18 +1,25 @@
-*/**/.classpath
-.classpath
-*/**/.externalToolBuilders
-.externalToolBuilders
-*/**/.project
-.project
-*/**/.settings
-.settings
-javadoc
-Vault.jar
-/Vault.iml
-/target
+!gradle-wrapper.jar
+.gradle
+build/
+/local.properties
+gradle-app.setting
 
-#added by LRFLEW
-#feel free to remove
-bin
-*.DS_Store
+.idea/
+/out/
+*.iml
+*.ipr
+*.iws
+
+target/
 /dependency-reduced-pom.xml
+
+*.classpath
+*.project
+*.settings
+
+/dist/
+.nb-gradle/
+.nb-gradle-properties
+
+atlassian-ide-plugin.xml
+.DS_Store
