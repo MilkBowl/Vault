@@ -1,3 +1,4 @@
 rootProject.name = 'vault'
 
+include 'vault-api'
 include 'vault-core'
