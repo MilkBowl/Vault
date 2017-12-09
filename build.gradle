@@ -106,7 +106,7 @@ gradle.taskGraph.whenReady { TaskExecutionGraph graph ->
 build.dependsOn(shadowJar)
 
 task wrapper(type: Wrapper) {
-  gradleVersion = '4.0'
+  gradleVersion = '4.4'
 }
 
 apply from: 'gradle/deploy.gradle'
