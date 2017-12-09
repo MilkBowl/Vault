@@ -30,16 +30,16 @@ publishing {
 
           name 'Vault'
           description project.description
-          url 'https://natrolite.org/'
+          url 'https://neolumia.com/'
 
           ciManagement {
             system 'Travis CI'
-            url 'https://travis-ci.org/natrolite/vault'
+            url 'https://travis-ci.org/neolumia/vault'
           }
 
           issueManagement {
             system 'GitHub Issues'
-            url 'https://github.com/natrolite/vault/issues'
+            url 'https://github.com/neolumia/vault/issues'
           }
 
           licenses {
@@ -51,9 +51,9 @@ publishing {
           }
 
           scm {
-            url 'https://github.com/natrolite/vault'
-            connection 'scm:git:git://github.com/natrolite/vault.git'
-            developerConnection 'scm:git:ssh://github.com:natrolite/vault.git'
+            url 'https://github.com/neolumia/vault'
+            connection 'scm:git:git://github.com/neolumia/vault.git'
+            developerConnection 'scm:git:ssh://github.com:neolumia/vault.git'
           }
         }
       }
