@@ -99,6 +99,8 @@ Vault currently supports the following: Permissions 3, PEX, GroupManager, bPerms
 			<artifactId>DroxPerms</artifactId>
 			<version>0.5.0</version>
 			<optional>true</optional>
+			<scope>system</scope>
+			<systemPath>${project.basedir}/lib/DroxPerms.jar</systemPath>
 		</dependency>
 		<dependency>
 			<groupId>me.coniin.plugins.minefaconomy</groupId>
