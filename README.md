@@ -41,7 +41,7 @@ So, what features do I _think_ you'll like the most?
    - Determines if a player should recieve the update notices
 
 ## License
-Copyright (C) 2011 Morgan Humes <morgan@lanaddict.com>
+Copyright (C) 2011-2018 Morgan Humes <morgan@lanaddict.com>
 
 Vault is free software: you can redistribute it and/or modify
 it under the terms of the GNU Lesser General Public License as published by
@@ -108,10 +108,11 @@ Github and we'll get to it at our convenience.
    - bPermissions 2 (http://dev.bukkit.org/server-mods/bpermissions/)
    - DroxPerms
    - Group Manager (Essentials) (http://forums.bukkit.org/threads/15312/)
+   - LuckPerms (https://www.spigotmc.org/resources/luckperms-an-advanced-permissions-plugin.28140/)
    - OverPermissions (http://dev.bukkit.org/bukkit-plugins/overpermissions/)
    - Permissions 3 (http://forums.bukkit.org/threads/18430/)
    - PermissionsBukkit
-   - Permissions Ex (http://forums.bukkit.org/threads/18140/)
+   - Permissions Ex (PEX) (http://forums.bukkit.org/threads/18140/)
    - Privileges
    - rscPermissions
    - SimplyPerms
@@ -122,13 +123,14 @@ Github and we'll get to it at our convenience.
 
 * Chat
    - bPermissions
-   - Group Manager (Essentials)
+   - Group Manager (Essentials) (http://forums.bukkit.org/threads/15312/)
    - iChat
+   - LuckPerms (https://www.spigotmc.org/resources/luckperms-an-advanced-permissions-plugin.28140/)
    - mChat
    - mChatSuite
-   - OverPermissions
-   - Permissions3
-   - PEX
+   - OverPermissions (http://dev.bukkit.org/bukkit-plugins/overpermissions/)
+   - Permissions 3 (http://forums.bukkit.org/threads/18430/)
+   - Permissions Ex (PEX) (http://forums.bukkit.org/threads/18140/)
    - rscPermissions
-   - TotalPermissions
+   - TotalPermissions (http://dev.bukkit.org/bukkit-mods/totalpermissions)
    - zPermissions
