@@ -71,7 +71,7 @@ Vault currently supports the following: Permissions 3, PEX, GroupManager, bPerms
 		</repository>
 		<repository>
 			<id>bstats-repo</id>
-			<url>http://repo.bstats.org/content/repositories/releases/</url>
+			<url>https://repo.bstats.org/content/repositories/releases/</url>
 		</repository>
 	</repositories>
 
