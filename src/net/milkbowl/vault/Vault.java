@@ -16,13 +16,13 @@
 package net.milkbowl.vault;
 
 import java.io.BufferedReader;
-import java.io.IOException;
 import java.io.InputStreamReader;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.Collection;
+import java.util.concurrent.Callable;
 import java.util.logging.Logger;
 
 import net.milkbowl.vault.chat.Chat;
@@ -77,6 +77,7 @@ import net.milkbowl.vault.permission.plugins.Permission_TotalPermissions;
 import net.milkbowl.vault.permission.plugins.Permission_rscPermissions;
 import net.milkbowl.vault.permission.plugins.Permission_KPerms;
 
+import org.bstats.bukkit.Metrics;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.Command;
@@ -111,7 +112,6 @@ public class Vault extends JavaPlugin {
     private double currentVersion = 0;
     private String currentVersionTitle = "";
     private ServicesManager sm;
-    private Metrics metrics;
     private Vault plugin;
 
     @Override
@@ -184,13 +184,9 @@ public class Vault extends JavaPlugin {
         });
 
         // Load up the Plugin metrics
-        try {
-            metrics = new Metrics(this);
-            metrics.findCustomData();
-            metrics.start();
-        } catch (IOException e) {
-            // ignore exception
-        }
+        Metrics metrics = new Metrics(this);
+        findCustomData(metrics);
+
         log.info(String.format("Enabled Version %s", getDescription().getVersion()));
     }
 
@@ -574,6 +570,45 @@ public class Vault extends JavaPlugin {
             log.info("There was an issue attempting to check for the latest version.");
         }
         return currentVersion;
+    }
+
+    private void findCustomData(Metrics metrics) {
+        // Create our Economy Graph and Add our Economy plotters
+        RegisteredServiceProvider<Economy> rspEcon = Bukkit.getServer().getServicesManager().getRegistration(Economy.class);
+        Economy econ = null;
+        if (rspEcon != null) {
+            econ = rspEcon.getProvider();
+        }
+        final String econName = econ != null ? econ.getName() : "No Economy";
+        metrics.addCustomChart(new Metrics.SimplePie("economy", new Callable<String>() {
+            @Override
+            public String call() {
+                return econName;
+            }
+        }));
+
+        // Create our Permission Graph and Add our permission Plotters
+        final String permName = Bukkit.getServer().getServicesManager().getRegistration(Permission.class).getProvider().getName();
+        metrics.addCustomChart(new Metrics.SimplePie("permission", new Callable<String>() {
+            @Override
+            public String call() {
+                return permName;
+            }
+        }));
+
+        // Create our Chat Graph and Add our chat Plotters
+        RegisteredServiceProvider<Chat> rspChat = Bukkit.getServer().getServicesManager().getRegistration(Chat.class);
+        Chat chat = null;
+        if (rspChat != null) {
+            chat = rspChat.getProvider();
+        }
+        final String chatName = chat != null ? chat.getName() : "No Chat";
+        metrics.addCustomChart(new Metrics.SimplePie("chat", new Callable<String>() {
+            @Override
+            public String call() {
+                return chatName;
+            }
+        }));
     }
 
     public class VaultListener implements Listener {

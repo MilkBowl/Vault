@@ -66,12 +66,12 @@ Vault currently supports the following: Permissions 3, PEX, GroupManager, bPerms
 			<url>https://oss.sonatype.org/content/repositories/snapshots/</url>
 		</repository>
 		<repository>
-			<id>bukkit-repo</id>
-			<url>http://repo.bukkit.org/content/groups/public/</url>
-		</repository>
-		<repository>
 			<id>escapecraft-repo</id>
 			<url>http://dev.escapecraft.com/maven</url>
+		</repository>
+		<repository>
+			<id>bstats-repo</id>
+			<url>https://repo.bstats.org/content/repositories/releases/</url>
 		</repository>
 	</repositories>
 
@@ -85,6 +85,11 @@ Vault currently supports the following: Permissions 3, PEX, GroupManager, bPerms
 			<groupId>net.milkbowl.vault</groupId>
 			<artifactId>VaultAPI</artifactId>
 			<version>${api.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.bstats</groupId>
+			<artifactId>bstats-bukkit</artifactId>
+			<version>1.2</version>
 		</dependency>
 		<dependency>
 			<groupId>com.gmail.bleedobsidian.miconomy</groupId>
@@ -430,22 +435,30 @@ Vault currently supports the following: Permissions 3, PEX, GroupManager, bPerms
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
-				<version>2.0.2</version>
+				<version>3.7.0</version>
 				<configuration>
-					<source>1.6</source>
-					<target>1.6</target>
+					<source>1.8</source>
+					<target>1.8</target>
 				</configuration>
 			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-shade-plugin</artifactId>
-				<version>2.3</version>
+				<version>3.1.0</version>
 				<configuration>
+					<createDependencyReducedPom>false</createDependencyReducedPom>
 					<artifactSet>
 						<includes>
 							<include>net.milkbowl.vault:VaultAPI</include>
+							<include>org.bstats</include>
 						</includes>
 					</artifactSet>
+					<relocations>
+						<relocation>
+							<pattern>org.bstats</pattern>
+							<shadedPattern>net.milkbowl.vault.metrics</shadedPattern>
+						</relocation>
+					</relocations>
 				</configuration>
 				<executions>
 					<execution>
