@@ -1,4 +1,4 @@
-# Vault - Abstraction Library for Bukkit - ![Travis-ci](https://travis-ci.org/MilkBowl/Vault.svg?branch=master)
+# Vault - Abstraction Library for Bukkit - [![](https://travis-ci.org/MilkBowl/Vault.svg?branch=master)](https://travis-ci.org/MilkBowl/Vault)
 
 ## For Developers:
 Please see the [VaultAPI](http://www.github.com/MilkBowl/VaultAPI) page for 
