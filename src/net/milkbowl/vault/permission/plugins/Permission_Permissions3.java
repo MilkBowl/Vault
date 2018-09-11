@@ -249,25 +249,12 @@ public class Permission_Permissions3 extends Permission {
 
     @Override
     public boolean playerRemoveTransient(Player player, String permission) {
-        return playerRemoveTransient(null, player.getName(), permission);
+        return pRemoveTransient(null, player.getName(), permission);
     }
 
     @Override
     public boolean playerRemoveTransient(String worldName, Player player, String permission) {
-        return playerRemoveTransient(worldName, player.getName(), permission);
-    }
-
-    private boolean playerRemoveTransient(String worldName, String player, String permission) {
-        if (worldName == null) {
-            worldName = "*";
-        }
-
-        try {
-            perms.safeGetUser(worldName, player).removeTransientPermission(permission);
-            return true;
-        } catch (Exception e) {
-            return false;
-        }
+        return pRemoveTransient(worldName, player.getName(), permission);
     }
 
     @Override
@@ -291,4 +278,18 @@ public class Permission_Permissions3 extends Permission {
     public boolean hasGroupSupport() {
         return true;
     }
+
+    private boolean pRemoveTransient(String worldName, String player, String permission) {
+        if (worldName == null) {
+            worldName = "*";
+        }
+
+        try {
+            perms.safeGetUser(worldName, player).removeTransientPermission(permission);
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
 }
