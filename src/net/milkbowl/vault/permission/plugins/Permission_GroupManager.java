@@ -333,46 +333,6 @@ public class Permission_GroupManager extends Permission {
     }
 
     @Override
-    public boolean playerAddTransient(String world, String player, String permission) {
-        if (world != null) {
-            throw new UnsupportedOperationException(getName() + " does not support World based transient permissions!");
-        }
-        Player p = plugin.getServer().getPlayer(player);
-        if (p == null) {
-            throw new UnsupportedOperationException(getName() + " does not support offline player transient permissions!");
-        }
-
-        for (PermissionAttachmentInfo paInfo : p.getEffectivePermissions()) {
-            if (paInfo.getAttachment().getPlugin().equals(plugin)) {
-                paInfo.getAttachment().setPermission(permission, true);
-                return true;
-            }
-        }
-
-        PermissionAttachment attach = p.addAttachment(plugin);
-        attach.setPermission(permission, true);
-
-        return true;
-    }
-
-    @Override
-    public boolean playerRemoveTransient(String world, String player, String permission) {
-        if (world != null) {
-            throw new UnsupportedOperationException(getName() + " does not support World based transient permissions!");
-        }
-        Player p = plugin.getServer().getPlayer(player);
-        if (p == null) {
-            throw new UnsupportedOperationException(getName() + " does not support offline player transient permissions!");
-        }
-        for (PermissionAttachmentInfo paInfo : p.getEffectivePermissions()) {
-            if (paInfo.getAttachment().getPlugin().equals(plugin)) {
-                return paInfo.getAttachment().getPermissions().remove(permission);
-            }
-        }
-        return false;
-    }
-
-    @Override
     public String[] getGroups() {
         Set<String> groupNames = new HashSet<String>();
         for (World world : Bukkit.getServer().getWorlds()) {
