@@ -4,15 +4,15 @@
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<bukkitVersion>1.8-R0.1-SNAPSHOT</bukkitVersion>
+		<bukkitVersion>1.13.1-R0.1-SNAPSHOT</bukkitVersion>
 		<mainClass>${project.groupId}.${project.artifactId}</mainClass>
-		<api.version>1.6</api.version>
+		<api.version>1.7</api.version>
 	</properties>
 
 	<!-- Project information -->
 	<groupId>net.milkbowl.vault</groupId>
 	<artifactId>Vault</artifactId>
-	<version>${api.version}.7</version>
+	<version>${api.version}.1</version>
 	<name>Vault</name>
 	<url>https://dev.bukkit.org/projects/vault</url>
 	<description>Vault is a Permissions &amp; Economy API to allow plugins to more easily hook into these systems without needing to hook each individual system themselves.
@@ -435,7 +435,7 @@ Vault currently supports the following: Permissions 3, PEX, GroupManager, bPerms
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
-				<version>3.7.0</version>
+				<version>3.8.0</version>
 				<configuration>
 					<source>1.8</source>
 					<target>1.8</target>
