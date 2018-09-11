@@ -62,10 +62,6 @@ Vault currently supports the following: Permissions 3, PEX, GroupManager, bPerms
 			<url>https://hub.spigotmc.org/nexus/content/groups/public/</url>
 		</repository>
 		<repository>
-			<id>greatman-repo</id>
-			<url>https://oss.sonatype.org/content/repositories/snapshots/</url>
-		</repository>
-		<repository>
 			<id>escapecraft-repo</id>
 			<url>http://dev.escapecraft.com/maven</url>
 		</repository>
