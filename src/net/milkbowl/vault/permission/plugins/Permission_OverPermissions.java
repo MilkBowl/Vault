@@ -172,24 +172,6 @@ public class Permission_OverPermissions extends Permission {
     }
 
     @Override
-    public boolean playerAddTransient(String world, String playerName, String permission) {
-        if (!userManager.doesUserExist(playerName)) { // Can't add transient permissions to an offline player.
-            return false;
-        }
-        PermissionUser user = userManager.getPermissionUser(playerName);
-        return (world == null) ? user.addGlobalTransientPermissionNode(permission) : user.addTransientPermissionNode(permission, world);
-    }
-
-    @Override
-    public boolean playerRemoveTransient(String world, String playerName, String permission) {
-        if (!userManager.doesUserExist(playerName)) {
-            return false;
-        }
-        PermissionUser user = userManager.getPermissionUser(playerName);
-        return (world == null) ? user.removeGlobalTransientPermissionNode(permission) : user.removeTransientPermissionNode(permission, world);
-    }
-
-    @Override
     public String[] getGroups( ) {
         ArrayList<String> groupNames = new ArrayList<String>();
         for (PermissionGroup s : groupManager.getGroups()) {

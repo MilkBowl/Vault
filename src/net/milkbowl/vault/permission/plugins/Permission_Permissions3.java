@@ -224,12 +224,6 @@ public class Permission_Permissions3 extends Permission {
         return this.perms.has(worldName, playerName, permission);
     }
 
-
-    @Override
-    public boolean playerAddTransient(String player, String permission) {
-        return playerAddTransient(null, player, permission);
-    }
-
     @Override
     public boolean playerAddTransient(Player player, String permission) {
         return playerAddTransient(null, player.getName(), permission);
@@ -240,8 +234,7 @@ public class Permission_Permissions3 extends Permission {
         return playerAddTransient(worldName, player.getName(), permission);
     }
 
-    @Override
-    public boolean playerAddTransient(String worldName, String player, String permission) {
+    private boolean playerAddTransient(String worldName, String player, String permission) {
         if (worldName == null) {
             worldName = "*";
         }
@@ -253,10 +246,6 @@ public class Permission_Permissions3 extends Permission {
         }
     }
 
-    @Override
-    public boolean playerRemoveTransient(String player, String permission) {
-        return playerRemoveTransient(null, player, permission);
-    }
 
     @Override
     public boolean playerRemoveTransient(Player player, String permission) {
@@ -268,8 +257,7 @@ public class Permission_Permissions3 extends Permission {
         return playerRemoveTransient(worldName, player.getName(), permission);
     }
 
-    @Override
-    public boolean playerRemoveTransient(String worldName, String player, String permission) {
+    private boolean playerRemoveTransient(String worldName, String player, String permission) {
         if (worldName == null) {
             worldName = "*";
         }

@@ -303,16 +303,6 @@ public class Permission_PermissionsEx extends Permission {
         }
     }
 
-    @Override
-    public boolean playerAddTransient(String worldName, String player, String permission) {
-        PermissionUser pPlayer = getUser(player);
-        if (pPlayer != null) {
-            pPlayer.addTimedPermission(permission, worldName, 0);
-            return true;
-        } else {
-            return false;
-        }
-    }
 
     @Override
     public boolean playerAddTransient(String worldName, Player player, String permission) {
@@ -326,25 +316,10 @@ public class Permission_PermissionsEx extends Permission {
     }
 
     @Override
-    public boolean playerAddTransient(String player, String permission) {
-        return playerAddTransient(null, player, permission);
-    }
-
-    @Override
     public boolean playerAddTransient(Player player, String permission) {
         return playerAddTransient(null, player, permission);
     }
 
-    @Override
-    public boolean playerRemoveTransient(String worldName, String player, String permission) {
-        PermissionUser pPlayer = getUser(player);
-        if (pPlayer != null) {
-            pPlayer.removeTimedPermission(permission, worldName);
-            return true;
-        } else {
-            return false;
-        }
-    }
 
     @Override
     public boolean playerRemoveTransient(Player player, String permission) {
@@ -360,11 +335,6 @@ public class Permission_PermissionsEx extends Permission {
         } else {
             return false;
         }
-    }
-
-    @Override
-    public boolean playerRemoveTransient(String player, String permission) {
-        return playerRemoveTransient(null, player, permission);
     }
 
     @Override
