@@ -620,7 +620,7 @@ public class Vault extends JavaPlugin {
                 try {
                     if (newVersion > currentVersion) {
                         player.sendMessage("Vault " +  newVersionTitle + " is out! You are running " + currentVersionTitle);
-                        player.sendMessage("Update Vault at: http://dev.bukkit.org/server-mods/vault");
+                        player.sendMessage("Update Vault at: https://dev.bukkit.org/projects/vault");
                     }
                 } catch (Exception e) {
                     // Ignore exceptions
