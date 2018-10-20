@@ -30,8 +30,10 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.server.PluginDisableEvent;
 import org.bukkit.event.server.PluginEnableEvent;
 import org.bukkit.plugin.Plugin;
-import org.gestern.gringotts.Account;
-import org.gestern.gringotts.AccountHolder;
+import org.gestern.gringotts.GringottsAccount;
+import org.gestern.gringotts.accountholder.AccountHolder; //new accountholder folder
+import org.gestern.gringotts.accountholder.AccountHolderFactory;
+import org.gestern.gringotts.api.TransactionResult; //new transaction handler
 import org.gestern.gringotts.Gringotts;
 
 public class Economy_Gringotts extends AbstractEconomy {
@@ -112,17 +114,17 @@ public class Economy_Gringotts extends AbstractEconomy {
 
     @Override
     public String currencyNamePlural(){
-        return org.gestern.gringotts.Configuration.config.currencyNamePlural;
+        return org.gestern.gringotts.Configuration.CONF.currency.namePlural;;
     }
 
     @Override
     public String currencyNameSingular(){
-        return org.gestern.gringotts.Configuration.config.currencyNameSingular;
+        return org.gestern.gringotts.Configuration.CONF.currency.name;;
     }
 
     @Override
     public boolean hasAccount(String playerName) {
-        AccountHolder owner = gringotts.accountHolderFactory.getAccount(playerName);
+        AccountHolder owner = gringotts.accountHolderFactory.get(playerName);
         if (owner == null) {
             return false;
         }
@@ -132,11 +134,11 @@ public class Economy_Gringotts extends AbstractEconomy {
 
     @Override
     public double getBalance(String playerName){
-        AccountHolder owner = gringotts.accountHolderFactory.getAccount(playerName);
+        AccountHolder owner = gringotts.accountHolderFactory.get(playerName);
         if (owner == null) {
             return 0;
         }
-        Account account = gringotts.accounting.getAccount(owner);
+        GringottsAccount account = gringotts.accounting.getAccount(owner);
         return account.balance();
     }
 
@@ -159,7 +161,7 @@ public class Economy_Gringotts extends AbstractEconomy {
 
         Account account = gringotts.accounting.getAccount( accountHolder );
 
-        if(account.balance() >= amount && account.remove(amount)) {
+        if(account.balance() >= amount && (account.remove((long)amount) == TransactionResult.SUCCESS)) {
             //We has mulah!
             return new EconomyResponse(amount, account.balance(), ResponseType.SUCCESS, null);
         } else {
@@ -175,14 +177,14 @@ public class Economy_Gringotts extends AbstractEconomy {
             return new EconomyResponse(0, 0, ResponseType.FAILURE, "Cannot desposit negative funds");
         }
 
-        AccountHolder accountHolder = gringotts.accountHolderFactory.getAccount(playerName);
+        AccountHolder accountHolder = gringotts.accountHolderFactory.get(playerName);;
         if (accountHolder == null) {
             return new EconomyResponse(0, 0, ResponseType.FAILURE, playerName + " is not a valid account holder.");
         }
 
-        Account account = gringotts.accounting.getAccount( accountHolder );
+        GringottsAccount account = gringotts.accounting.getAccount( accountHolder );
 
-        if (account.add(amount)) {   
+        if (account.add((long)amount) == TransactionResult.SUCCESS) {   
             return new EconomyResponse( amount, account.balance(), ResponseType.SUCCESS, null);
         } else {
             return new EconomyResponse( 0, account.balance(), ResponseType.FAILURE, "Not enough capacity to store that amount!");
