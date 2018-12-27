@@ -4,6 +4,8 @@
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<mainClass>${project.groupId}.${project.artifactId}</mainClass>
+		<api.version>1.7</api.version>
 	</properties>
 
 	<!-- Project information -->
