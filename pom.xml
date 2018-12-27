@@ -4,9 +4,6 @@
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<bukkitVersion>1.13.1-R0.1-SNAPSHOT</bukkitVersion>
-		<mainClass>${project.groupId}.${project.artifactId}</mainClass>
-		<api.version>1.7</api.version>
 	</properties>
 
 	<!-- Project information -->
@@ -76,6 +73,13 @@ Vault currently supports the following: Permissions 3, PEX, GroupManager, bPerms
 			<groupId>org.bukkit</groupId>
 			<artifactId>bukkit</artifactId>
 			<version>${bukkitVersion}</version>
+		</dependency>
+		<!-- Spigot -->
+		<dependency>
+			<groupId>org.spigotmc</groupId>
+			<artifactId>spigot-api</artifactId>
+			<version>1.13.2-R0.1-SNAPSHOT</version>
+			<scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>net.milkbowl.vault</groupId>
