@@ -80,14 +80,14 @@ Github and we'll get to it at our convenience.
    - AEco
    - BOSEconomy 6 (http://forums.bukkit.org/threads/19025/)
    - BOSEconomy 7
-   - CommandsEX Economy (http://dev.bukkit.org/server-mods/commandsex/)
-   - CraftConomy2 (http://dev.bukkit.org/server-mods/craftconomy/)
-   - CraftConomy3 (http://dev.bukkit.org/server-mods/craftconomy/)
-   - CurrencyCore (http://dev.bukkit.org/server-mods/currency/)
+   - CommandsEX Economy (http://dev.bukkit.org/projects/commandsex)
+   - CraftConomy2 (http://dev.bukkit.org/projects/craftconomy)
+   - CraftConomy3 (http://dev.bukkit.org/projects/craftconomy)
+   - CurrencyCore (http://dev.bukkit.org/projects/currency)
    - Dosh
-   - EconXP (http://dev.bukkit.org/server-mods/econxp/)
+   - EconXP (http://dev.bukkit.org/projects/econxp)
    - Essentials Economy (http://forums.bukkit.org/threads/15312/)
-   - eWallet (http://dev.bukkit.org/server-mods/ewallet/)
+   - eWallet (http://dev.bukkit.org/projects/ewallet)
    - GoldIsMoney
    - GoldIsMoney2
    - Gringotts
@@ -96,7 +96,7 @@ Github and we'll get to it at our convenience.
    - iConomy 6 (http://forums.bukkit.org/threads/40/)
    - McMoney
    - Miconomy
-   - MineConomy (http://dev.bukkit.org/server-mods/mineconomy/)
+   - MineConomy (http://dev.bukkit.org/projects/mineconomy)
    - MineFaconomy2
    - MultiCurrency
    - SDFEconomy
@@ -105,11 +105,11 @@ Github and we'll get to it at our convenience.
 
 * Permissions
    - bPermissions
-   - bPermissions 2 (http://dev.bukkit.org/server-mods/bpermissions/)
+   - bPermissions 2 (http://dev.bukkit.org/projects/bpermissions)
    - DroxPerms
    - Group Manager (Essentials) (http://forums.bukkit.org/threads/15312/)
    - LuckPerms (https://www.spigotmc.org/resources/luckperms-an-advanced-permissions-plugin.28140/)
-   - OverPermissions (http://dev.bukkit.org/bukkit-plugins/overpermissions/)
+   - OverPermissions (http://dev.bukkit.org/projects/overpermissions)
    - Permissions 3 (http://forums.bukkit.org/threads/18430/)
    - PermissionsBukkit
    - Permissions Ex (PEX) (http://forums.bukkit.org/threads/18140/)
@@ -117,7 +117,7 @@ Github and we'll get to it at our convenience.
    - rscPermissions
    - SimplyPerms
    - SuperPerms (Bukkit's default)
-   - TotalPermissions (http://dev.bukkit.org/bukkit-mods/totalpermissions)
+   - TotalPermissions (http://dev.bukkit.org/projects/totalpermissions)
    - XPerms
    - zPermissions
 
@@ -128,9 +128,9 @@ Github and we'll get to it at our convenience.
    - LuckPerms (https://www.spigotmc.org/resources/luckperms-an-advanced-permissions-plugin.28140/)
    - mChat
    - mChatSuite
-   - OverPermissions (http://dev.bukkit.org/bukkit-plugins/overpermissions/)
+   - OverPermissions (http://dev.bukkit.org/projects/overpermissions)
    - Permissions 3 (http://forums.bukkit.org/threads/18430/)
    - Permissions Ex (PEX) (http://forums.bukkit.org/threads/18140/)
    - rscPermissions
-   - TotalPermissions (http://dev.bukkit.org/bukkit-mods/totalpermissions)
+   - TotalPermissions (http://dev.bukkit.org/projects/totalpermissions)
    - zPermissions
