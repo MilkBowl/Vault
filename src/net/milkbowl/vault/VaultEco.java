@@ -33,10 +33,9 @@ public class VaultEco implements Method {
         return this.vault;
     }
 
-
-	@Override
+    @Override
     public boolean createAccount(String name, Double amount) {
-        if(!this.economy.createBank(name, "").transactionSuccess()) {
+        if (!this.economy.createBank(name, "").transactionSuccess()) {
             return false;
         }
         return this.economy.bankDeposit(name, amount).transactionSuccess();
@@ -79,7 +78,7 @@ public class VaultEco implements Method {
     }
 
     public MethodAccount getAccount(String name) {
-        if(!hasAccount(name)) {
+        if (!hasAccount(name)) {
             return null;
         }
 
@@ -87,7 +86,7 @@ public class VaultEco implements Method {
     }
 
     public MethodBankAccount getBankAccount(String bank, String name) {
-        if(!hasBankAccount(bank, name)) {
+        if (!hasBankAccount(bank, name)) {
             return null;
         }
 
@@ -120,11 +119,11 @@ public class VaultEco implements Method {
         }
 
         public boolean set(double amount) {
-            if(!this.economy.withdrawPlayer(this.name, this.balance()).transactionSuccess()) {
+            if (!this.economy.withdrawPlayer(this.name, this.balance()).transactionSuccess()) {
                 return false;
             }
 
-            if(amount == 0) {
+            if (amount == 0) {
                 return true;
             }
             return this.economy.depositPlayer(this.name, amount).transactionSuccess();
@@ -192,10 +191,10 @@ public class VaultEco implements Method {
         }
 
         public boolean set(double amount) {
-            if(!this.economy.bankWithdraw(this.bank, this.balance()).transactionSuccess()) {
+            if (!this.economy.bankWithdraw(this.bank, this.balance()).transactionSuccess()) {
                 return false;
             }
-            if(amount == 0) {
+            if (amount == 0) {
                 return true;
             }
             return this.economy.bankDeposit(this.bank, amount).transactionSuccess();
