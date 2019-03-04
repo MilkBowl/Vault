@@ -172,7 +172,7 @@ public class Vault extends JavaPlugin {
                                 } else {
                                     log.info("No new version available");
                                 }
-                            } catch (Exception e) {
+                            } catch (Throwable e) {
                                 // ignore exceptions
                             }
                         }
@@ -365,7 +365,7 @@ public class Vault extends JavaPlugin {
                 sm.register(Chat.class, chat, this, priority);
                 log.info(String.format("[Chat] %s found: %s", name, chat.isEnabled() ? "Loaded" : "Waiting"));
             }
-        } catch (Exception e) {
+        } catch (Throwable e) {
             log.severe(String.format("[Chat] There was an error hooking %s - check to make sure you're using a compatible version!", name));
         }
     }
@@ -377,7 +377,7 @@ public class Vault extends JavaPlugin {
                 sm.register(Economy.class, econ, this, priority);
                 log.info(String.format("[Economy] %s found: %s", name, econ.isEnabled() ? "Loaded" : "Waiting"));
             }
-        } catch (Exception e) {
+        } catch (Throwable e) {
             log.severe(String.format("[Economy] There was an error hooking %s - check to make sure you're using a compatible version!", name));
         }
     }
@@ -389,7 +389,7 @@ public class Vault extends JavaPlugin {
                 sm.register(Permission.class, perms, this, priority);
                 log.info(String.format("[Permission] %s found: %s", name, perms.isEnabled() ? "Loaded" : "Waiting"));
             }
-        } catch (Exception e) {
+        } catch (Throwable e) {
             log.severe(String.format("[Permission] There was an error hooking %s - check to make sure you're using a compatible version!", name));
         }
     }
@@ -543,7 +543,7 @@ public class Vault extends JavaPlugin {
                 Class.forName(pkg);
             }
             return true;
-        } catch (Exception e) {
+        } catch (Throwable e) {
             return false;
         }
     }
@@ -566,7 +566,7 @@ public class Vault extends JavaPlugin {
             // Pull the last version from the JSON
             newVersionTitle = ((String) ((JSONObject) array.get(array.size() - 1)).get("name")).replace("Vault", "").trim();
             return Double.valueOf(newVersionTitle.replaceFirst("\\.", "").trim());
-        } catch (Exception e) {
+        } catch (Throwable e) {
             log.info("There was an issue attempting to check for the latest version.");
         }
         return currentVersion;
@@ -620,9 +620,9 @@ public class Vault extends JavaPlugin {
                 try {
                     if (newVersion > currentVersion) {
                         player.sendMessage("Vault " +  newVersionTitle + " is out! You are running " + currentVersionTitle);
-                        player.sendMessage("Update Vault at: http://dev.bukkit.org/server-mods/vault");
+                        player.sendMessage("Update Vault at: https://dev.bukkit.org/projects/vault");
                     }
-                } catch (Exception e) {
+                } catch (Throwable e) {
                     // Ignore exceptions
                 }
             }
