@@ -119,7 +119,6 @@ public class Economy_Essentials extends AbstractEconomy {
             try {
                 balance = com.earth2me.essentials.api.Economy.getMoney(playerName);
                 amount = 0;
-                type = EconomyResponse.ResponseType.FAILURE;
                 errorMessage = "Loan was not permitted";
             } catch (UserDoesNotExistException e1) {
                 amount = 0;
@@ -130,6 +129,16 @@ public class Economy_Essentials extends AbstractEconomy {
         }
 
         return new EconomyResponse(amount, balance, type, errorMessage);
+    }
+
+    private boolean depositPlayerT(String playerName, double amount)
+    {		
+        try {
+            com.earth2me.essentials.api.Economy.add(playerName, amount);
+        } catch (UserDoesNotExistException e) {
+            return false;
+        }
+        return true;
     }
 
     @Override
@@ -148,7 +157,15 @@ public class Economy_Essentials extends AbstractEconomy {
             type = EconomyResponse.ResponseType.SUCCESS;
         } catch (UserDoesNotExistException e) {
             if (createPlayerAccount(playerName)) {
-                return depositPlayer(playerName, amount);
+		if(depositPlayerT(playerName, amount))
+		{
+			return new EconomyResponse(amount, com.earth2me.essentials.api.Economy.getMoney(playerName), EconomyResponse.ResponseType.SUCCESS, null);
+		}
+		else {
+			balance = null;
+			type = EconomyResponse.ResponseType.FAILURE;
+			errorMessage = "Unknown Error Occured With Essentials, Unable To Create Economy NPC";
+		}
             } else {
                 amount = 0;
                 balance = 0;
