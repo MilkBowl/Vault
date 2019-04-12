@@ -148,7 +148,7 @@ public class Economy_Essentials extends AbstractEconomy {
         }
         
         double balance;
-        EconomyResponse.ResponseType type = EconomyResonce.ResponseType.FAILURE; //Type defaults to failure to avoid error "Might not have been initialized."
+        EconomyResponse.ResponseType type = EconomyResponse.ResponseType.FAILURE; //Type defaults to failure to avoid error "Might not have been initialized."
         String errorMessage = null;
 
         try {
