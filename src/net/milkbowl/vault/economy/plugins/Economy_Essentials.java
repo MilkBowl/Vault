@@ -131,11 +131,11 @@ public class Economy_Essentials extends AbstractEconomy {
         return new EconomyResponse(amount, balance, type, errorMessage);
     }
 
-    private boolean depositPlayerT(String playerName, double amount) throws NoLoanPermittedException
+    private boolean depositPlayerT(String playerName, double amount)
     {		
         try {
             com.earth2me.essentials.api.Economy.add(playerName, amount);
-        } catch (UserDoesNotExistException e) {
+        } catch (UserDoesNotExistException e, NoLoanPermittedException ex) {
             return false;
         }
         return true;
@@ -172,7 +172,7 @@ public class Economy_Essentials extends AbstractEconomy {
                 type = EconomyResponse.ResponseType.FAILURE;
                 errorMessage = "User does not exist";
             }
-        } catch (NoLoanPermittedException e) {
+        } catch (NoLoanPermittedException e, UserDoesNotExistException ex) {
             try {
                 balance = com.earth2me.essentials.api.Economy.getMoney(playerName);
                 amount = 0;
