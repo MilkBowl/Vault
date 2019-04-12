@@ -162,7 +162,7 @@ public class Economy_Essentials extends AbstractEconomy {
 			return new EconomyResponse(amount, com.earth2me.essentials.api.Economy.getMoney(playerName), EconomyResponse.ResponseType.SUCCESS, null);
 		}
 		else {
-			balance = null;
+			balance = 0;
 			type = EconomyResponse.ResponseType.FAILURE;
 			errorMessage = "Unknown Error Occured With Essentials, Unable To Create Economy NPC";
 		}
