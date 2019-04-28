@@ -34,7 +34,7 @@ import org.bukkit.event.server.PluginEnableEvent;
 import org.bukkit.plugin.Plugin;
 
 public class Chat_mChatSuite extends Chat {
-    private static final Logger log = Logger.getLogger("Minecraft");
+    private final Logger log;
     private final String name = "mChatSuite";
     private Plugin plugin = null;
     private mChatSuite mChat = null;
@@ -42,6 +42,7 @@ public class Chat_mChatSuite extends Chat {
     public Chat_mChatSuite(Plugin plugin, Permission perms) {
         super(perms);
         this.plugin = plugin;
+        this.log = plugin.getLogger();
 
         Bukkit.getServer().getPluginManager().registerEvents(new PermissionServerListener(), plugin);
 

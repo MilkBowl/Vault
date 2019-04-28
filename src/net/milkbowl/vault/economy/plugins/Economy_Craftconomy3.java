@@ -37,13 +37,14 @@ import com.greatmancode.craftconomy3.groups.WorldGroupsManager;
 import com.greatmancode.craftconomy3.tools.interfaces.BukkitLoader;
 
 public class Economy_Craftconomy3 extends AbstractEconomy {
-	private static final Logger log = Logger.getLogger("Minecraft");
+	private final Logger log;
 	private final String name = "Craftconomy3";
 	private Plugin plugin = null;
 	protected BukkitLoader economy = null;
 
 	public Economy_Craftconomy3(Plugin plugin) {
 		this.plugin = plugin;
+		this.log = plugin.getLogger();
 		Bukkit.getServer().getPluginManager().registerEvents(new EconomyServerListener(this), plugin);
 
 		// Load Plugin in case it was loaded before

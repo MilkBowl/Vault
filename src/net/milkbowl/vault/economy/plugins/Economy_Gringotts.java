@@ -36,7 +36,7 @@ import org.gestern.gringotts.Gringotts;
 
 public class Economy_Gringotts extends AbstractEconomy {
 
-    private static final Logger log = Logger.getLogger("Minecraft");
+    private final Logger log;
 
     private final String name = "Gringotts";
     private Plugin plugin = null;
@@ -44,6 +44,7 @@ public class Economy_Gringotts extends AbstractEconomy {
 
     public Economy_Gringotts(Plugin plugin) {
         this.plugin = plugin;
+        this.log = plugin.getLogger();
         Bukkit.getServer().getPluginManager().registerEvents(new EconomyServerListener(this), plugin);
         // Load Plugin in case it was loaded before
         if (gringotts == null) {

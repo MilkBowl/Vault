@@ -33,14 +33,14 @@ import net.milkbowl.vault.economy.EconomyResponse.ResponseType;
 import net.teamalpha.taecon.TAEcon;
 
 public class Economy_TAEcon extends AbstractEconomy {
-	private static final Logger log = Logger.getLogger("Minecraft");
-	
+	private final Logger log;
 	private final String name = "TAEcon";
     private Plugin plugin = null;
     private TAEcon economy = null;
     
 	public Economy_TAEcon(Plugin plugin){
 		this.plugin = plugin;
+		this.log = plugin.getLogger();
 		Bukkit.getServer().getPluginManager().registerEvents(new EconomyServerListener(this), plugin);
 		
 		if (economy == null) {

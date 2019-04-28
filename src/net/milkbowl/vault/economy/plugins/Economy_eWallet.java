@@ -33,7 +33,7 @@ import org.bukkit.event.server.PluginEnableEvent;
 import org.bukkit.plugin.Plugin;
 
 public class Economy_eWallet extends AbstractEconomy {
-    private static final Logger log = Logger.getLogger("Minecraft");
+    private final Logger log;
 
     private final String name = "eWallet";
     private Plugin plugin = null;
@@ -41,6 +41,7 @@ public class Economy_eWallet extends AbstractEconomy {
 
     public Economy_eWallet(Plugin plugin) {
         this.plugin = plugin;
+        this.log = plugin.getLogger();
         Bukkit.getServer().getPluginManager().registerEvents(new EconomyServerListener(this), plugin);
 
         // Load Plugin in case it was loaded before

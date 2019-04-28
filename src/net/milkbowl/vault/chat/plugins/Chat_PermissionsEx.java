@@ -34,7 +34,7 @@ import ru.tehkode.permissions.PermissionUser;
 import ru.tehkode.permissions.bukkit.PermissionsEx;
 
 public class Chat_PermissionsEx extends Chat {
-    private static final Logger log = Logger.getLogger("Minecraft");
+    private final Logger log;
     private final String name = "PermissionsEx_Chat";
 
     private Plugin plugin = null;
@@ -43,6 +43,7 @@ public class Chat_PermissionsEx extends Chat {
     public Chat_PermissionsEx(Plugin plugin, Permission perms) {
         super(perms);
         this.plugin = plugin;
+        this.log = plugin.getLogger();
 
         Bukkit.getServer().getPluginManager().registerEvents(new PermissionServerListener(this), plugin);
 

@@ -36,12 +36,13 @@ import org.bukkit.plugin.Plugin;
 public class Economy_CurrencyCore extends AbstractEconomy {
 
     private Currency currency;
-    private static final Logger log = Logger.getLogger("Minecraft");
+    private final Logger log;
     private final Plugin plugin;
     private final String name = "CurrencyCore";
 
     public Economy_CurrencyCore(Plugin plugin) {
         this.plugin = plugin;
+        this.log = plugin.getLogger();
         Bukkit.getServer().getPluginManager().registerEvents(new EconomyServerListener(this), plugin);
 
         // Load Plugin in case it was loaded before

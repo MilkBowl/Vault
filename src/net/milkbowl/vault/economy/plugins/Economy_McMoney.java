@@ -34,7 +34,7 @@ import org.bukkit.plugin.Plugin;
 import boardinggamer.mcmoney.McMoneyAPI;
 
 public class Economy_McMoney extends AbstractEconomy {
-    private static final Logger log = Logger.getLogger("Minecraft");
+    private final Logger log;
 
     private final String name = "McMoney";
     private Plugin plugin = null;
@@ -42,6 +42,7 @@ public class Economy_McMoney extends AbstractEconomy {
 
     public Economy_McMoney(Plugin plugin) {
         this.plugin = plugin;
+        this.log = plugin.getLogger();
         Bukkit.getServer().getPluginManager().registerEvents(new EconomyServerListener(this), plugin);
 
         // Load Plugin in case it was loaded before

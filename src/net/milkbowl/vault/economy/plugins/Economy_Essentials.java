@@ -36,14 +36,15 @@ import com.earth2me.essentials.api.NoLoanPermittedException;
 import com.earth2me.essentials.api.UserDoesNotExistException;
 
 public class Economy_Essentials extends AbstractEconomy {
-    private static final Logger log = Logger.getLogger("Minecraft");
 
     private final String name = "Essentials Economy";
+    private final Logger log;
     private Plugin plugin = null;
     private Essentials ess = null;
 
     public Economy_Essentials(Plugin plugin) {
         this.plugin = plugin;
+        this.log = plugin.getLogger();
         Bukkit.getServer().getPluginManager().registerEvents(new EconomyServerListener(this), plugin);
 
         // Load Plugin in case it was loaded before

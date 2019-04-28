@@ -32,8 +32,8 @@ import com.nijiko.permissions.PermissionHandler;
 import com.nijikokun.bukkit.Permissions.Permissions;
 
 public class Chat_Permissions3 extends Chat {
-    private static final Logger log = Logger.getLogger("Minecraft");
 
+    private final Logger log;
     private String name = "Permissions 3 (Yeti) - Chat";
     private PermissionHandler perms;
     private Plugin plugin = null;
@@ -42,6 +42,7 @@ public class Chat_Permissions3 extends Chat {
     public Chat_Permissions3(Plugin plugin, Permission perms) {
         super(perms);
         this.plugin = plugin;
+        this.log = plugin.getLogger();
 
         Bukkit.getServer().getPluginManager().registerEvents(new PermissionServerListener(), plugin);
 
