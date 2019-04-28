@@ -132,10 +132,12 @@ public class Economy_Essentials extends AbstractEconomy {
         return new EconomyResponse(amount, balance, type, errorMessage);
     }
 
-    @Override
-    public EconomyResponse depositPlayer(String playerName, double amount) {
+    public EconomyResponse tryDepositPlayer(String playerName, double amount, int tries) {
         if (amount < 0) {
             return new EconomyResponse(0, 0, ResponseType.FAILURE, "Cannot desposit negative funds");
+        }
+        if (tries <= 0) {
+            return new EconomyResponse(amount, 0, ResponseType.FAILURE, "Failed to deposit amount.");
         }
         
         double balance;
@@ -145,31 +147,36 @@ public class Economy_Essentials extends AbstractEconomy {
         try {
             com.earth2me.essentials.api.Economy.add(playerName, amount);
             balance = com.earth2me.essentials.api.Economy.getMoney(playerName);
-            type = EconomyResponse.ResponseType.SUCCESS;
+            type = ResponseType.SUCCESS;
         } catch (UserDoesNotExistException e) {
             if (createPlayerAccount(playerName)) {
-                return depositPlayer(playerName, amount);
+                return tryDepositPlayer(playerName, amount, tries--);
             } else {
                 amount = 0;
                 balance = 0;
-                type = EconomyResponse.ResponseType.FAILURE;
+                type = ResponseType.FAILURE;
                 errorMessage = "User does not exist";
             }
         } catch (NoLoanPermittedException e) {
             try {
                 balance = com.earth2me.essentials.api.Economy.getMoney(playerName);
                 amount = 0;
-                type = EconomyResponse.ResponseType.FAILURE;
+                type = ResponseType.FAILURE;
                 errorMessage = "Loan was not permitted";
             } catch (UserDoesNotExistException e1) {
                 balance = 0;
                 amount = 0;
-                type = EconomyResponse.ResponseType.FAILURE;
+                type = ResponseType.FAILURE;
                 errorMessage = "Loan was not permitted";
             }
         }
 
         return new EconomyResponse(amount, balance, type, errorMessage);
+    }
+
+    @Override
+    public EconomyResponse depositPlayer(String playerName, double amount) {
+        return tryDepositPlayer(playerName, amount, 2);
     }
 
     public class EconomyServerListener implements Listener {
