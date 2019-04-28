@@ -12,7 +12,7 @@
 	<!-- Project information -->
 	<groupId>net.milkbowl.vault</groupId>
 	<artifactId>Vault</artifactId>
-	<version>${api.version}.1</version>
+	<version>${api.version}.2</version>
 	<name>Vault</name>
 	<url>https://dev.bukkit.org/projects/vault</url>
 	<description>Vault is a Permissions &amp; Economy API to allow plugins to more easily hook into these systems without needing to hook each individual system themselves.
