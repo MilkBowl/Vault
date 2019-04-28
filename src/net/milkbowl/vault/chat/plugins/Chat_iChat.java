@@ -33,7 +33,7 @@ import org.bukkit.plugin.Plugin;
 
 public class Chat_iChat extends Chat {
 
-	private static final Logger log = Logger.getLogger("Minecraft");
+	private final Logger log;
 	private final String name = "iChat";
 	private Plugin plugin = null;
 	private iChatAPI iChat = null;
@@ -41,6 +41,7 @@ public class Chat_iChat extends Chat {
 	public Chat_iChat(Plugin plugin, Permission perms) {
 		super(perms);
 		this.plugin = plugin;
+		this.log = plugin.getLogger();
 
 		Bukkit.getServer().getPluginManager().registerEvents(new PermissionServerListener(this), plugin);
 

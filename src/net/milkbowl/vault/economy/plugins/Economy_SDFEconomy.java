@@ -32,15 +32,14 @@ import net.milkbowl.vault.economy.AbstractEconomy;
 import net.milkbowl.vault.economy.EconomyResponse;
 
 public class Economy_SDFEconomy extends AbstractEconomy {
-    private static final Logger log = Logger.getLogger("Minecraft");
-    private Plugin plugin = null;
-
+    private final Logger log;
     private final String name = "SDFEconomy";
+    private Plugin plugin = null;
     private SDFEconomyAPI api = null;
     
-    public Economy_SDFEconomy(Plugin _plugin) {
-        plugin = _plugin;
-
+    public Economy_SDFEconomy(Plugin plugin) {
+        this.plugin = plugin;
+        this.log = plugin.getLogger();
         // Register a listener to wait for plugin being loaded
         plugin.getServer().getPluginManager().registerEvents(new EconomyServerListener(this), plugin);
 

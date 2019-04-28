@@ -36,7 +36,7 @@ import org.bukkit.plugin.Plugin;
 import ca.agnate.EconXP.EconXP;
 
 public class Economy_EconXP extends AbstractEconomy {
-    private static final Logger log = Logger.getLogger("Minecraft");
+    private final Logger log;
 
     private final String name = "EconXP";
     private Plugin plugin = null;
@@ -44,6 +44,7 @@ public class Economy_EconXP extends AbstractEconomy {
 
     public Economy_EconXP(Plugin plugin) {
         this.plugin = plugin;
+        this.log = plugin.getLogger();
         Bukkit.getServer().getPluginManager().registerEvents(new EconomyServerListener(this), plugin);
         log.log(Level.WARNING, "EconXP is an integer only economy, you may notice inconsistencies with accounts if you do not setup your other econ using plugins accordingly!");
         // Load Plugin in case it was loaded before

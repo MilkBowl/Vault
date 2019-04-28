@@ -16,8 +16,8 @@ import de.hydrox.bukkit.DroxPerms.DroxPerms;
 import de.hydrox.bukkit.DroxPerms.DroxPermsAPI;
 
 public class Chat_DroxPerms extends Chat {
-    private static final Logger log = Logger.getLogger("Minecraft");
 
+    private final Logger log;
     private final String name = "DroxPerms";
     private Plugin plugin;
     private DroxPermsAPI API;
@@ -25,6 +25,7 @@ public class Chat_DroxPerms extends Chat {
     public Chat_DroxPerms(Plugin plugin, Permission perms) {
         super(perms);
         this.plugin = plugin;
+        this.log = plugin.getLogger();
 
         // Load Plugin in case it was loaded before
         if (API == null) {

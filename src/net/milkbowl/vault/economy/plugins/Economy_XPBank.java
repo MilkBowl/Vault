@@ -38,9 +38,7 @@ import com.gmail.mirelatrue.xpbank.XPBank;
 
 public class Economy_XPBank extends AbstractEconomy {
 
-    private static final Logger log = Logger.getLogger("Minecraft");
-
-
+    private final Logger log;
     private final String name = "XPBank";
     private Plugin plugin = null;
     private XPBank XPB = null;
@@ -48,6 +46,7 @@ public class Economy_XPBank extends AbstractEconomy {
 
     public Economy_XPBank (Plugin plugin) {
         this.plugin = plugin;
+        this.log = plugin.getLogger();
         Bukkit.getServer().getPluginManager().registerEvents(new EconomyServerListener(this), plugin);
 
         // Load Plugin in case it was loaded before

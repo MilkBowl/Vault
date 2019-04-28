@@ -32,7 +32,7 @@ import ru.simsonic.rscPermissions.MainPluginClass;
 
 public class Chat_rscPermissions extends Chat {
 
-    private static final Logger log = Logger.getLogger("Minecraft");
+    private final Logger log;
     private final Plugin vault;
     private ru.simsonic.rscPermissions.MainPluginClass rscp;
     private ru.simsonic.rscPermissions.rscpAPI rscpAPI;
@@ -40,6 +40,7 @@ public class Chat_rscPermissions extends Chat {
     public Chat_rscPermissions(Plugin plugin, Permission perm) {
         super(perm);
         this.vault = plugin;
+        this.log = plugin.getLogger();
         Bukkit.getServer().getPluginManager().registerEvents(new ChatServerListener(this), vault);
         if (rscp == null) {
             Plugin perms = plugin.getServer().getPluginManager().getPlugin("rscPermissions");

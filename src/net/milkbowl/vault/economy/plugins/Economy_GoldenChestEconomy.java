@@ -32,7 +32,7 @@ import net.milkbowl.vault.economy.EconomyResponse;
 import net.milkbowl.vault.economy.EconomyResponse.ResponseType;
 
 public class Economy_GoldenChestEconomy extends AbstractEconomy {
-    private static final Logger log = Logger.getLogger("Minecraft");
+    private final Logger log;
     
     private final String name = "GoldenChestEconomy";
     private Plugin plugin = null;
@@ -41,6 +41,7 @@ public class Economy_GoldenChestEconomy extends AbstractEconomy {
     
     public Economy_GoldenChestEconomy (Plugin plugin) {
         this.plugin = plugin;
+        this.log = plugin.getLogger();
         Bukkit.getServer().getPluginManager().registerEvents(new EconomyServerListener(this), plugin);
         // Load Plugin in case it was loaded before
         if (economy == null) {

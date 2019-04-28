@@ -32,7 +32,7 @@ import de.bananaco.bpermissions.api.ApiLayer;
 import de.bananaco.bpermissions.api.CalculableType;
 
 public class Chat_bPermissions2 extends Chat {
-    private static final Logger log = Logger.getLogger("Minecraft");
+    private final Logger log;
     private final String name = "bInfo";
     private Plugin plugin = null;
     private boolean hooked = false;
@@ -40,6 +40,7 @@ public class Chat_bPermissions2 extends Chat {
     public Chat_bPermissions2(Plugin plugin, Permission perms) {
         super(perms);
         this.plugin = plugin;
+        this.log = plugin.getLogger();
 
         Bukkit.getServer().getPluginManager().registerEvents(new PermissionServerListener(this), plugin);
 

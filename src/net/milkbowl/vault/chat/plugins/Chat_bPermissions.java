@@ -32,14 +32,15 @@ import de.bananaco.permissions.Permissions;
 import de.bananaco.permissions.info.InfoReader;
 
 public class Chat_bPermissions extends Chat {
-	private static final Logger log = Logger.getLogger("Minecraft");
 	private final String name = "bInfo";
+	private final Logger log;
 	private Plugin plugin = null;
 	InfoReader chat;
 
 	public Chat_bPermissions(Plugin plugin, Permission perms) {
 		super(perms);
 		this.plugin = plugin;
+		this.log = plugin.getLogger();
 		
 		Bukkit.getServer().getPluginManager().registerEvents(new PermissionServerListener(this), plugin);
 

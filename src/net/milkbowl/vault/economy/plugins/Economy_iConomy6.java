@@ -36,7 +36,7 @@ import com.iCo6.system.Accounts;
 import com.iCo6.system.Holdings;
 
 public class Economy_iConomy6 extends AbstractEconomy {
-    private static final Logger log = Logger.getLogger("Minecraft");
+    private final Logger log;
 
     private String name = "iConomy ";
     private Plugin plugin = null;
@@ -45,6 +45,7 @@ public class Economy_iConomy6 extends AbstractEconomy {
 
     public Economy_iConomy6(Plugin plugin) {
         this.plugin = plugin;
+        this.log = plugin.getLogger();
         Bukkit.getServer().getPluginManager().registerEvents(new EconomyServerListener(this), plugin);
         log.warning("iConomy - If you are using Flatfile storage be aware that versions 6, 7 and 8 have a CRITICAL bug which can wipe ALL iconomy data.");
         log.warning("if you're using Votifier, or any other plugin which handles economy data in a threaded manner your server is at risk!");

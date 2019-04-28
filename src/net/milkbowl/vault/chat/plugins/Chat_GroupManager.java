@@ -35,7 +35,7 @@ import org.bukkit.plugin.Plugin;
 
 public class Chat_GroupManager extends Chat {
 
-    private static final Logger log = Logger.getLogger("Minecraft");
+    private final Logger log;
     private final String name = "GroupManager - Chat";
     private Plugin plugin = null;
     private GroupManager groupManager;
@@ -43,6 +43,7 @@ public class Chat_GroupManager extends Chat {
     public Chat_GroupManager(Plugin plugin, Permission perms) {
         super(perms);
         this.plugin = plugin;
+        this.log = plugin.getLogger();
         Bukkit.getServer().getPluginManager().registerEvents(new PermissionServerListener(this), plugin);
 
         // Load Plugin in case it was loaded before

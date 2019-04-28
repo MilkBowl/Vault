@@ -16,8 +16,7 @@ import net.milkbowl.vault.economy.AbstractEconomy;
 import net.milkbowl.vault.economy.EconomyResponse;
 
 public class Economy_Minefaconomy extends AbstractEconomy {
-	private static final Logger log = Logger.getLogger("Minecraft");
-	
+	private final Logger log;
 	private final String name = "Minefaconomy";
 	
 	private Plugin plugin = null;
@@ -25,6 +24,7 @@ public class Economy_Minefaconomy extends AbstractEconomy {
 
 	public Economy_Minefaconomy(Plugin plugin) {
 		this.plugin = plugin;
+		this.log = plugin.getLogger();
 		Bukkit.getServer().getPluginManager().registerEvents(new EconomyServerListener(this), plugin);
 		Plugin econ = null;
 		// Load Plugin in case it was loaded before

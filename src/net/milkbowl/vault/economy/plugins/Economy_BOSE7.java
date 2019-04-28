@@ -33,14 +33,14 @@ import org.bukkit.plugin.Plugin;
 import cosine.boseconomy.BOSEconomy;
 
 public class Economy_BOSE7 extends AbstractEconomy {
-    private static final Logger log = Logger.getLogger("Minecraft");
-
+    private final Logger log;
     private final String name = "BOSEconomy";
     private Plugin plugin = null;
     private BOSEconomy economy = null;
 
     public Economy_BOSE7(Plugin plugin) {
         this.plugin = plugin;
+        this.log = plugin.getLogger();
         Bukkit.getServer().getPluginManager().registerEvents(new EconomyServerListener(this), plugin);
 
         // Load Plugin in case it was loaded before
