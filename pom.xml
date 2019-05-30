@@ -85,7 +85,7 @@ Vault currently supports the following: Permissions 3, PEX, GroupManager, bPerms
 		<dependency>
 			<groupId>org.bstats</groupId>
 			<artifactId>bstats-bukkit</artifactId>
-			<version>1.2</version>
+			<version>1.5</version>
 		</dependency>
 		<dependency>
 			<groupId>com.gmail.bleedobsidian.miconomy</groupId>
