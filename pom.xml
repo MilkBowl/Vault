@@ -1,4 +1,4 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://maven.apache.org/POM/4.0.0"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
@@ -66,8 +66,8 @@ Vault currently supports the following: Permissions 3, PEX, GroupManager, bPerms
 			<url>http://dev.escapecraft.com/maven</url>
 		</repository>
 		<repository>
-			<id>bstats-repo</id>
-			<url>https://repo.bstats.org/content/repositories/releases/</url>
+			<id>codemc-repo</id>
+			<url>https://repo.codemc.org/repository/maven-public</url>
 		</repository>
 	</repositories>
 
@@ -85,7 +85,7 @@ Vault currently supports the following: Permissions 3, PEX, GroupManager, bPerms
 		<dependency>
 			<groupId>org.bstats</groupId>
 			<artifactId>bstats-bukkit</artifactId>
-			<version>1.2</version>
+			<version>1.5</version>
 		</dependency>
 		<dependency>
 			<groupId>com.gmail.bleedobsidian.miconomy</groupId>
