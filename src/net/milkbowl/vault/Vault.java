@@ -105,6 +105,7 @@ import net.milkbowl.vault.economy.plugins.Economy_MiConomy;
 
 public class Vault extends JavaPlugin {
 
+    private static final String VAULT_BUKKIT_URL = "https://dev.bukkit.org/projects/Vault";
     private static Logger log;
     private Permission perms;
     private String newVersionTitle = "";
@@ -620,7 +621,7 @@ public class Vault extends JavaPlugin {
                 try {
                     if (newVersion > currentVersion) {
                         player.sendMessage("Vault " +  newVersionTitle + " is out! You are running " + currentVersionTitle);
-                        player.sendMessage("Update Vault at: http://dev.bukkit.org/server-mods/vault");
+                        player.sendMessage("Update Vault at: " + VAULT_BUKKIT_URL);
                     }
                 } catch (Exception e) {
                     // Ignore exceptions
