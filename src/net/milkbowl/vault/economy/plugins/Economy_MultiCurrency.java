@@ -49,7 +49,7 @@ public class Economy_MultiCurrency extends AbstractEconomy {
             Plugin multiCurrency = plugin.getServer().getPluginManager().getPlugin("MultiCurrency");
             if (multiCurrency != null && multiCurrency.isEnabled()) {
                 economy = (Currency) multiCurrency;
-                log.info(String.format("[%s][Economy] %s hooked.", plugin.getDescription().getName(), name));
+                log.info(String.format("[Economy] %s hooked.", name));
             }
         }
     }
@@ -161,7 +161,7 @@ public class Economy_MultiCurrency extends AbstractEconomy {
 
                 if (mcur.getDescription().getName().equals("MultiCurrency")) {
                     economy.economy = (Currency) mcur;
-                    log.info(String.format("[%s][Economy] %s hooked.", plugin.getDescription().getName(), economy.name));
+                    log.info(String.format("[Economy] %s hooked.", economy.name));
                 }
             }
         }
@@ -171,7 +171,7 @@ public class Economy_MultiCurrency extends AbstractEconomy {
             if (economy.economy != null) {
                 if (event.getPlugin().getDescription().getName().equals("MultiCurrency")) {
                     economy.economy = null;
-                    log.info(String.format("[%s][Economy] %s unhooked.", plugin.getDescription().getName(), economy.name));
+                    log.info(String.format("[Economy] %s unhooked.", economy.name));
                 }
             }
         }
