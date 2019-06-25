@@ -22,7 +22,7 @@ import net.milkbowl.vault.economy.EconomyResponse.ResponseType;
 public class Economy_CommandsEX extends AbstractEconomy {
 	private final Logger log;
 	private final String name = "CommandsEX Economy";
-    private Plugin plugin = null;
+    	private Plugin plugin = null;
    	private CommandsEX economy = null;
     
 	public Economy_CommandsEX(Plugin plugin){
