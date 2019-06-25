@@ -49,7 +49,7 @@ public class Economy_eWallet extends AbstractEconomy {
             Plugin econ = plugin.getServer().getPluginManager().getPlugin("eWallet");
             if (econ != null && econ.isEnabled()) {
                 this.econ = (ECO) econ;
-                log.info(String.format("[%s][Economy] %s hooked.", plugin.getDescription().getName(), name));
+                log.info(String.format("[Economy] %s hooked.", name));
             }
         }
     }
@@ -68,7 +68,7 @@ public class Economy_eWallet extends AbstractEconomy {
 
                 if (eco.getDescription().getName().equals("eWallet")) {
                     economy.econ = (ECO) eco;
-                    log.info(String.format("[%s][Economy] %s hooked.", plugin.getDescription().getName(), economy.name));
+                    log.info(String.format("[Economy] %s hooked.", economy.name));
                 }
             }
         }
@@ -78,7 +78,7 @@ public class Economy_eWallet extends AbstractEconomy {
             if (economy.econ != null) {
                 if (event.getPlugin().getDescription().getName().equals("eWallet")) {
                     economy.econ = null;
-                    log.info(String.format("[%s][Economy] %s unhooked.", plugin.getDescription().getName(), economy.name));
+                    log.info(String.format("[Economy] %s unhooked.", economy.name));
                 }
             }
         }
