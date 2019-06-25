@@ -48,7 +48,7 @@ public class Economy_BOSE7 extends AbstractEconomy {
             Plugin bose = plugin.getServer().getPluginManager().getPlugin("BOSEconomy");
             if (bose != null && bose.isEnabled() && bose.getDescription().getVersion().startsWith("0.7")) {
                 economy = (BOSEconomy) bose;
-                log.info(String.format("[%s][Economy] %s hooked.", plugin.getDescription().getName(), name));
+                log.info(String.format("[Economy] %s hooked.", name));
             }
         }
     }
