@@ -50,7 +50,7 @@ public class Economy_CurrencyCore extends AbstractEconomy {
             Plugin currencyPlugin = plugin.getServer().getPluginManager().getPlugin("CurrencyCore");
             if(currencyPlugin != null && currencyPlugin.getClass().getName().equals("is.currency.Currency")) {
                 this.currency = (Currency) currencyPlugin;
-                log.info(String.format("[%s][Economy] %s hooked.", plugin.getDescription().getName(), name));  
+                log.info(String.format("[Economy] %s hooked.", name));  
             }
         }
     }
@@ -70,7 +70,7 @@ public class Economy_CurrencyCore extends AbstractEconomy {
                 
                 if(currencyPlugin.getDescription().getName().equals("CurrencyCore") && currencyPlugin.getClass().getName().equals("is.currency.Currency")) {
                     this.economy.currency = (Currency) currencyPlugin;
-                    log.info(String.format("[%s][Economy] %s hooked.", plugin.getDescription().getName(), this.economy.getName()));  
+                    log.info(String.format("[Economy] %s hooked.", this.economy.getName()));  
                 }
             }
         }
@@ -80,7 +80,7 @@ public class Economy_CurrencyCore extends AbstractEconomy {
             if (this.economy.currency != null) {
                 if (event.getPlugin().getDescription().getName().equals("CurrencyCore")) {
                     this.economy.currency = null;
-                    log.info(String.format("[%s][Economy] %s unhooked.", plugin.getDescription().getName(), this.economy.getName()));
+                    log.info(String.format("[Economy] %s unhooked.", this.economy.getName()));
                 }
             }
         }
