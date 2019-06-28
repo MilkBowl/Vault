@@ -48,7 +48,7 @@ public class Economy_GoldIsMoney2 extends AbstractEconomy {
 
 	        if (ec != null && ec.isEnabled() && ec.getClass().getName().equals("com.flobi.GoldIsMoney2.GoldIsMoney")) {
 	            economy = (GoldIsMoney) ec;
-	            log.info(String.format("[%s][Economy] %s hooked.", plugin.getDescription().getName(), name));
+	            log.info(String.format("[Economy] %s hooked.", name));
 	        }
 	    }
 	}
@@ -268,7 +268,7 @@ public class Economy_GoldIsMoney2 extends AbstractEconomy {
 
 				if (ec.getClass().getName().equals("com.flobi.GoldIsMoney2.GoldIsMoney")) {
 					economy.economy = (GoldIsMoney) ec;
-					log.info(String.format("[%s][Economy] %s hooked.", plugin.getDescription().getName(), economy.name));
+					log.info(String.format("[Economy] %s hooked.", economy.name));
 				}
 			}
 		}
@@ -278,7 +278,7 @@ public class Economy_GoldIsMoney2 extends AbstractEconomy {
 			if (economy.economy != null) {
 				if (event.getPlugin().getDescription().getName().equals("GoldIsMoney")) {
 					economy.economy = null;
-					log.info(String.format("[%s][Economy] %s unhooked.", plugin.getDescription().getName(), economy.name));
+					log.info(String.format("[Economy] %s unhooked.", economy.name));
 				}
 			}
 		}

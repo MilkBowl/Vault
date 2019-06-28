@@ -52,7 +52,7 @@ public class Economy_Craftconomy3 extends AbstractEconomy {
 			Plugin ec = plugin.getServer().getPluginManager().getPlugin("Craftconomy3");
 			if (ec != null && ec.isEnabled() && ec.getClass().getName().equals("com.greatmancode.craftconomy3.BukkitLoader")) {
 				economy = (BukkitLoader) ec;
-				log.info(String.format("[%s][Economy] %s hooked.", plugin.getDescription().getName(), name));
+				log.info(String.format("[Economy] %s hooked.", name));
 			}
 		}
 	}
@@ -71,7 +71,7 @@ public class Economy_Craftconomy3 extends AbstractEconomy {
 
 				if (ec.getDescription().getName().equals("Craftconomy3") && ec.getClass().getName().equals("com.greatmancode.craftconomy3.tools.interfaces.BukkitLoader")) {
 					economy.economy = (BukkitLoader) ec;
-					log.info(String.format("[%s][Economy] %s hooked.", plugin.getDescription().getName(), economy.name));
+					log.info(String.format("[Economy] %s hooked.", economy.name));
 				}
 			}
 		}
@@ -81,7 +81,7 @@ public class Economy_Craftconomy3 extends AbstractEconomy {
 			if (economy.economy != null) {
 				if (event.getPlugin().getDescription().getName().equals("Craftconomy3")) {
 					economy.economy = null;
-					log.info(String.format("[%s][Economy] %s unhooked.", plugin.getDescription().getName(), economy.name));
+					log.info(String.format("[Economy] %s unhooked.", economy.name));
 				}
 			}
 		}

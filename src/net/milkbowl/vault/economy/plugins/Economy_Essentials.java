@@ -52,7 +52,7 @@ public class Economy_Essentials extends AbstractEconomy {
             Plugin essentials = plugin.getServer().getPluginManager().getPlugin("Essentials");
             if (essentials != null && essentials.isEnabled()) {
                 ess = (Essentials) essentials;
-                log.info(String.format("[%s][Economy] %s hooked.", plugin.getDescription().getName(), name));
+                log.info(String.format("[Economy] %s hooked.", name));
             }
         }
     }
@@ -194,7 +194,7 @@ public class Economy_Essentials extends AbstractEconomy {
 
                 if (essentials.getDescription().getName().equals("Essentials")) {
                     economy.ess = (Essentials) essentials;
-                    log.info(String.format("[%s][Economy] %s hooked.", plugin.getDescription().getName(), economy.name));
+                    log.info(String.format("[Economy] %s hooked.", economy.name));
                 }
             }
         }
@@ -204,7 +204,7 @@ public class Economy_Essentials extends AbstractEconomy {
             if (economy.ess != null) {
                 if (event.getPlugin().getDescription().getName().equals("Essentials")) {
                     economy.ess = null;
-                    log.info(String.format("[%s][Economy] %s unhooked.", plugin.getDescription().getName(), economy.name));
+                    log.info(String.format("[Economy] %s unhooked.", economy.name));
                 }
             }
         }
