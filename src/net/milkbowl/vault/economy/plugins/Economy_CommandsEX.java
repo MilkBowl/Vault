@@ -22,8 +22,8 @@ import net.milkbowl.vault.economy.EconomyResponse.ResponseType;
 public class Economy_CommandsEX extends AbstractEconomy {
 	private final Logger log;
 	private final String name = "CommandsEX Economy";
-    private Plugin plugin = null;
-    private CommandsEX economy = null;
+    	private Plugin plugin = null;
+   	private CommandsEX economy = null;
     
 	public Economy_CommandsEX(Plugin plugin){
 		this.plugin = plugin;
@@ -35,7 +35,7 @@ public class Economy_CommandsEX extends AbstractEconomy {
             
             if (commandsex != null && commandsex.isEnabled()) {
                 economy = (CommandsEX) commandsex;
-                log.info(String.format("[%s][Economy] %s hooked.", plugin.getDescription().getName(), name));
+                log.info(String.format("[Economy] %s hooked.", name));
             }
         }
 	}
@@ -54,7 +54,7 @@ public class Economy_CommandsEX extends AbstractEconomy {
 
                 if (cex.getDescription().getName().equals("CommandsEX")) {
                     economy.economy = (CommandsEX) cex;
-                    log.info(String.format("[%s][Economy] %s hooked.", plugin.getDescription().getName(), economy.name));
+                    log.info(String.format("[Economy] %s hooked.", economy.name));
                 }
             }
         }
@@ -64,7 +64,7 @@ public class Economy_CommandsEX extends AbstractEconomy {
             if (economy.economy != null) {
                 if (event.getPlugin().getDescription().getName().equals("CommandsEX")) {
                     economy.economy = null;
-                    log.info(String.format("[%s][Economy] %s unhooked.", plugin.getDescription().getName(), economy.name));
+                    log.info(String.format("[Economy] %s unhooked.", economy.name));
                 }
             }
         }

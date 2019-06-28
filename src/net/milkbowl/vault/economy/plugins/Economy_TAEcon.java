@@ -48,7 +48,7 @@ public class Economy_TAEcon extends AbstractEconomy {
             
             if (taecon != null && taecon.isEnabled()) {
                 economy = (TAEcon) taecon;
-                log.info(String.format("[%s][Economy] %s hooked.", plugin.getDescription().getName(), name));
+                log.info(String.format("[Economy] %s hooked.", name));
             }
         }
 	}
@@ -67,7 +67,7 @@ public class Economy_TAEcon extends AbstractEconomy {
 
                 if (taecon.getDescription().getName().equals(economy.name)) {
                     economy.economy = (TAEcon) taecon;
-                    log.info(String.format("[%s][Economy] %s hooked.", plugin.getDescription().getName(), economy.name));
+                    log.info(String.format("[Economy] %s hooked.", economy.name));
                 }
             }
         }
@@ -77,7 +77,7 @@ public class Economy_TAEcon extends AbstractEconomy {
             if (economy.economy != null) {
                 if (event.getPlugin().getDescription().getName().equals(economy.name)) {
                     economy.economy = null;
-                    log.info(String.format("[%s][Economy] %s unhooked.", plugin.getDescription().getName(), economy.name));
+                    log.info(String.format("[Economy] %s unhooked.", economy.name));
                 }
             }
         }

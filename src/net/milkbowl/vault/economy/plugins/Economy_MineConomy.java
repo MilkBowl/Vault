@@ -52,7 +52,7 @@ public class Economy_MineConomy extends AbstractEconomy {
             Plugin econ = plugin.getServer().getPluginManager().getPlugin("MineConomy");
             if (econ != null && econ.isEnabled()) {
                 this.econ = (MineConomy) econ;
-                log.info(String.format("[%s][Economy] %s hooked.", plugin.getDescription().getName(), name));
+                log.info(String.format("[Economy] %s hooked.", name));
             }
         }
     }
@@ -71,7 +71,7 @@ public class Economy_MineConomy extends AbstractEconomy {
 
                 if (eco.getDescription().getName().equals("MineConomy")) {
                     economy.econ = (MineConomy) eco;
-                    log.info(String.format("[%s][Economy] %s hooked.", plugin.getDescription().getName(), economy.name));
+                    log.info(String.format("[Economy] %s hooked.", economy.name));
                 }
             }
         }
@@ -81,7 +81,7 @@ public class Economy_MineConomy extends AbstractEconomy {
             if (economy.econ != null) {
                 if (event.getPlugin().getDescription().getName().equals("MineConomy")) {
                     economy.econ = null;
-                    log.info(String.format("[%s][Economy] %s unhooked.", plugin.getDescription().getName(), economy.name));
+                    log.info(String.format("[Economy] %s unhooked.", economy.name));
                 }
             }
         }

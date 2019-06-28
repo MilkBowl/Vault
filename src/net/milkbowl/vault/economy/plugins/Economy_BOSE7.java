@@ -48,7 +48,7 @@ public class Economy_BOSE7 extends AbstractEconomy {
             Plugin bose = plugin.getServer().getPluginManager().getPlugin("BOSEconomy");
             if (bose != null && bose.isEnabled() && bose.getDescription().getVersion().startsWith("0.7")) {
                 economy = (BOSEconomy) bose;
-                log.info(String.format("[%s][Economy] %s hooked.", plugin.getDescription().getName(), name));
+                log.info(String.format("[Economy] %s hooked.", name));
             }
         }
     }
@@ -134,7 +134,7 @@ public class Economy_BOSE7 extends AbstractEconomy {
 
                 if (bose.getDescription().getName().equals("BOSEconomy") && bose.getDescription().getVersion().startsWith("0.7")) {
                     economy.economy = (BOSEconomy) bose;
-                    log.info(String.format("[%s][Economy] %s hooked.", plugin.getDescription().getName(), economy.name));
+                    log.info(String.format("[Economy] %s hooked.", economy.name));
                 }
             }
         }
@@ -144,7 +144,7 @@ public class Economy_BOSE7 extends AbstractEconomy {
             if (economy.economy != null) {
                 if (event.getPlugin().getDescription().getName().equals("BOSEconomy") && event.getPlugin().getDescription().getVersion().startsWith("0.7")) {
                     economy.economy = null;
-                    log.info(String.format("[%s][Economy] %s unhooked.", plugin.getDescription().getName(), economy.name));
+                    log.info(String.format("[Economy] %s unhooked.", economy.name));
                 }
             }
         }

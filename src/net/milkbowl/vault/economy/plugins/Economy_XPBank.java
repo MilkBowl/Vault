@@ -55,7 +55,7 @@ public class Economy_XPBank extends AbstractEconomy {
             if (economy != null && economy.isEnabled()) {
                 XPB = (XPBank) economy;
                 api = XPB.getAPI();
-                log.info(String.format("[%s][Economy] %s hooked.", plugin.getDescription().getName(), name));
+                log.info(String.format("[Economy] %s hooked.", name));
             }
         }
     }
@@ -75,7 +75,7 @@ public class Economy_XPBank extends AbstractEconomy {
                 if (eco.getDescription().getName().equals("XPBank")) {
                     economy.XPB = (XPBank) eco;
                     api = XPB.getAPI();
-                    log.info(String.format("[%s][Economy] %s hooked.", plugin.getDescription().getName(), economy.name));
+                    log.info(String.format("[Economy] %s hooked.", economy.name));
                 }
             }
         }
@@ -85,7 +85,7 @@ public class Economy_XPBank extends AbstractEconomy {
             if (economy.XPB != null) {
                 if (event.getPlugin().getDescription().getName().equals("XPBank")) {
                     economy.XPB = null;
-                    log.info(String.format("[%s][Economy] %s unhooked.", plugin.getDescription().getName(), economy.name));
+                    log.info(String.format("[Economy] %s unhooked.", economy.name));
                 }
             }
         }

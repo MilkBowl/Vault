@@ -34,7 +34,7 @@ public class Economy_Minefaconomy extends AbstractEconomy {
 		}
 		if (econ != null && econ.isEnabled()) {
 			economy = (Minefaconomy) econ;
-			log.info(String.format("[%s][Economy] %s hooked.", plugin.getDescription().getName(), this.name));
+			log.info(String.format("[Economy] %s hooked.", this.name));
 			return;
 		}
 		log.info("Error Loading Minefaconomy");
@@ -54,7 +54,7 @@ public class Economy_Minefaconomy extends AbstractEconomy {
 
                 if (mfc.getDescription().getName().equals("Minefaconomy")) {
                     economy_minefaconomy.economy = (Minefaconomy) economy;
-                    log.info(String.format("[%s][Economy] %s hooked.", plugin.getDescription().getName(), economy_minefaconomy.name));
+                    log.info(String.format("[Economy] %s hooked.", economy_minefaconomy.name));
                 }
             }
         }
@@ -64,7 +64,7 @@ public class Economy_Minefaconomy extends AbstractEconomy {
             if (economy_minefaconomy.economy != null) {
                 if (event.getPlugin().getDescription().getName().equals("Minefaconomy")) {
                     economy_minefaconomy.economy = null;
-                    log.info(String.format("[%s][Economy] %s unhooked.", plugin.getDescription().getName(), economy_minefaconomy.name));
+                    log.info(String.format("[Economy] %s unhooked.", economy_minefaconomy.name));
                 }
             }
         }

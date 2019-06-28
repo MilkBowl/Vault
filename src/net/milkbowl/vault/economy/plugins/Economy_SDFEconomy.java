@@ -51,7 +51,7 @@ public class Economy_SDFEconomy extends AbstractEconomy {
         SDFEconomy pluginSDF = (SDFEconomy) plugin.getServer().getPluginManager().getPlugin("SDFEconomy");
         if(!isEnabled() && pluginSDF != null) {
             api = pluginSDF.getAPI(); 
-            log.info(String.format("[%s][Economy] %s hooked.", plugin.getDescription().getName(), name));
+            log.info(String.format("[Economy] %s hooked.", name));
         }
     }
 
@@ -59,7 +59,7 @@ public class Economy_SDFEconomy extends AbstractEconomy {
         SDFEconomy pluginSDF = (SDFEconomy) plugin.getServer().getPluginManager().getPlugin("SDFEconomy");
         if(isEnabled() && pluginSDF != null) {
             api = null; 
-            log.info(String.format("[%s][Economy] %s unhooked.", plugin.getDescription().getName(), name));
+            log.info(String.format("[Economy] %s unhooked.", name));
         }
     }
 

@@ -51,7 +51,7 @@ public class Economy_Gringotts extends AbstractEconomy {
             Plugin grngts = plugin.getServer().getPluginManager().getPlugin("Gringotts");
             if (grngts != null && grngts.isEnabled()) {
                 gringotts = (Gringotts) grngts;
-                log.info(String.format("[%s][Economy] %s hooked.", plugin.getDescription().getName(), name));
+                log.info(String.format("[Economy] %s hooked.", name));
             }
         }
     }
@@ -70,7 +70,7 @@ public class Economy_Gringotts extends AbstractEconomy {
 
                 if (grngts.getDescription().getName().equals("Gringotts")) {
                     economy.gringotts = (Gringotts) grngts;
-                    log.info(String.format("[%s][Economy] %s hooked.", plugin.getDescription().getName(), economy.name));
+                    log.info(String.format("[Economy] %s hooked.", economy.name));
                 }
             }
         }
@@ -80,7 +80,7 @@ public class Economy_Gringotts extends AbstractEconomy {
             if (economy.gringotts != null) {
                 if (event.getPlugin().getDescription().getName().equals("Gringotts")) {
                     economy.gringotts = null;
-                    log.info(String.format("[%s][Economy] %s unhooked.", plugin.getDescription().getName(), economy.name));
+                    log.info(String.format("[Economy] %s unhooked.", economy.name));
                 }
             }
         }

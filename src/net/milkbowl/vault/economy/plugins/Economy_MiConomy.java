@@ -56,7 +56,7 @@ public class Economy_MiConomy extends AbstractEconomy {
             if (miConomy != null) {
                 miConomy = (Main) miConomyPlugin;
                 economy = miConomy.getInstance();
-                log.info(String.format("[%s][Economy] %s hooked.", plugin.getDescription().getName(), name));
+                log.info(String.format("[Economy] %s hooked.", name));
             }
         }
     }
@@ -350,7 +350,7 @@ public class Economy_MiConomy extends AbstractEconomy {
                     
                     economy.economy = miConomy.getInstance();
                     
-                    log.info(String.format("[%s][Economy] %s hooked.", plugin.getDescription().getName(), name));
+                    log.info(String.format("[Economy] %s hooked.", name));
                 }
             }
         }
@@ -362,7 +362,7 @@ public class Economy_MiConomy extends AbstractEconomy {
                     economy.miConomy = null;
                     economy.economy = null;
                     
-                    log.info(String.format("[%s][Economy] %s unhooked.", plugin.getDescription().getName(), economy.name));
+                    log.info(String.format("[Economy] %s unhooked.", economy.name));
                 }
             }
         }
