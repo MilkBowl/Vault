@@ -69,6 +69,10 @@ Vault currently supports the following: Permissions 3, PEX, GroupManager, bPerms
 			<id>codemc-repo</id>
 			<url>https://repo.codemc.org/repository/maven-public</url>
 		</repository>
+        <repository>
+            <id>bungeeperms-repo</id>
+            <url>https://repo.wea-ondara.net/repository/public/</url>
+        </repository>
 	</repositories>
 
 	<dependencies>
@@ -413,6 +417,12 @@ Vault currently supports the following: Permissions 3, PEX, GroupManager, bPerms
 			<scope>system</scope>
 			<systemPath>${project.basedir}/lib/overpermissions-2.0.0.jar</systemPath>
 		</dependency>
+        <dependency>
+            <groupId>net.alpenblock</groupId>
+            <artifactId>BungeePerms</artifactId>
+            <version>3.0-dev-77</version>
+            <type>jar</type>
+        </dependency>
 	</dependencies>
 
 	<build>

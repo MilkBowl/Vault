@@ -102,6 +102,7 @@ import com.nijikokun.register.payment.Methods;
 
 import net.milkbowl.vault.chat.plugins.Chat_TotalPermissions;
 import net.milkbowl.vault.economy.plugins.Economy_MiConomy;
+import net.milkbowl.vault.permission.plugins.Permission_BungeePerms;
 
 public class Vault extends JavaPlugin {
 
@@ -233,6 +234,9 @@ public class Vault extends JavaPlugin {
 
         //Try to load TotalPermissions
         hookChat("TotalPermissions", Chat_TotalPermissions.class, ServicePriority.Normal, "net.ar97.totalpermissions.TotalPermissions");
+        
+        //Try to load TotalPermissions
+        hookChat("BungeePerms", Chat_TotalPermissions.class, ServicePriority.Highest, "net.alpenblock.bungeeperms.BungeePerms");
     }
 
     /**
@@ -351,6 +355,9 @@ public class Vault extends JavaPlugin {
 
         // Try to load KPerms
         hookPermission("KPerms", Permission_KPerms.class, ServicePriority.Normal, "com.lightniinja.kperms.KPermsPlugin");
+
+        // Try to load BungeePerms
+        hookPermission("BungeePerms", Permission_BungeePerms.class, ServicePriority.Highest, "net.alpenblock.bungeeperms.BungeePerms", "net.alpenblock.bungeeperms.BungeePermsAPI");
 
         Permission perms = new Permission_SuperPerms(this);
         sm.register(Permission.class, perms, this, ServicePriority.Lowest);
