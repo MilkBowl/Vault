@@ -106,6 +106,7 @@ Github and we'll get to it at our convenience.
 * Permissions
    - bPermissions
    - bPermissions 2 (http://dev.bukkit.org/projects/bpermissions)
+   - BungeePerms (https://www.spigotmc.org/resources/bungeeperms.25/)
    - DroxPerms
    - Group Manager (Essentials) (http://forums.bukkit.org/threads/15312/)
    - LuckPerms (https://www.spigotmc.org/resources/luckperms-an-advanced-permissions-plugin.28140/)
@@ -123,6 +124,7 @@ Github and we'll get to it at our convenience.
 
 * Chat
    - bPermissions
+   - BungeePerms (https://www.spigotmc.org/resources/bungeeperms.25/)
    - Group Manager (Essentials) (http://forums.bukkit.org/threads/15312/)
    - iChat
    - LuckPerms (https://www.spigotmc.org/resources/luckperms-an-advanced-permissions-plugin.28140/)
