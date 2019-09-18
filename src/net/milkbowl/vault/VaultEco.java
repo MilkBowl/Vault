@@ -33,8 +33,7 @@ public class VaultEco implements Method {
         return this.vault;
     }
 
-
-	@Override
+    @Override
     public boolean createAccount(String name, Double amount) {
         if(!this.economy.createBank(name, "").transactionSuccess()) {
             return false;
