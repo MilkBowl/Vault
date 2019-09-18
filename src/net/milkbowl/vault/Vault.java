@@ -149,8 +149,7 @@ public class Vault extends JavaPlugin {
             public void run() {
                 // Programmatically set the default permission value cause Bukkit doesn't handle plugin.yml properly for Load order STARTUP plugins
                 org.bukkit.permissions.Permission perm = getServer().getPluginManager().getPermission("vault.update");
-                if (perm == null)
-                {
+                if (perm == null) {
                     perm = new org.bukkit.permissions.Permission("vault.update");
                     perm.setDefault(PermissionDefault.OP);
                     plugin.getServer().getPluginManager().addPermission(perm);
@@ -186,7 +185,9 @@ public class Vault extends JavaPlugin {
 
         // Load up the Plugin metrics
         Metrics metrics = new Metrics(this);
-        findCustomData(metrics);
+        if (metrics.isEnabled()) {
+            findCustomData(metrics);
+        }
 
         log.info(String.format("Enabled Version %s", getDescription().getVersion()));
     }
@@ -359,7 +360,7 @@ public class Vault extends JavaPlugin {
         this.perms = sm.getRegistration(Permission.class).getProvider();
     }
 
-    private void hookChat (String name, Class<? extends Chat> hookClass, ServicePriority priority, String...packages) {
+    private void hookChat(String name, Class<? extends Chat> hookClass, ServicePriority priority, String...packages) {
         try {
             if (packagesExists(packages)) {
                 Chat chat = hookClass.getConstructor(Plugin.class, Permission.class).newInstance(this, perms);
@@ -371,7 +372,7 @@ public class Vault extends JavaPlugin {
         }
     }
 
-    private void hookEconomy (String name, Class<? extends Economy> hookClass, ServicePriority priority, String...packages) {
+    private void hookEconomy(String name, Class<? extends Economy> hookClass, ServicePriority priority, String...packages) {
         try {
             if (packagesExists(packages)) {
                 Economy econ = hookClass.getConstructor(Plugin.class).newInstance(this);
@@ -383,7 +384,7 @@ public class Vault extends JavaPlugin {
         }
     }
 
-    private void hookPermission (String name, Class<? extends Permission> hookClass, ServicePriority priority, String...packages) {
+    private void hookPermission(String name, Class<? extends Permission> hookClass, ServicePriority priority, String...packages) {
         try {
             if (packagesExists(packages)) {
                 Permission perms = hookClass.getConstructor(Plugin.class).newInstance(this);
@@ -418,7 +419,7 @@ public class Vault extends JavaPlugin {
     }
 
     private void convertCommand(CommandSender sender, String[] args) {
-        Collection<RegisteredServiceProvider<Economy>> econs = this.getServer().getServicesManager().getRegistrations(Economy.class);
+        Collection<RegisteredServiceProvider<Economy>> econs = sm.getRegistrations(Economy.class);
         if (econs == null || econs.size() < 2) {
             sender.sendMessage("You must have at least 2 economies loaded to convert.");
             return;
@@ -474,7 +475,7 @@ public class Vault extends JavaPlugin {
     private void infoCommand(CommandSender sender) {
         // Get String of Registered Economy Services
         String registeredEcons = null;
-        Collection<RegisteredServiceProvider<Economy>> econs = this.getServer().getServicesManager().getRegistrations(Economy.class);
+        Collection<RegisteredServiceProvider<Economy>> econs = sm.getRegistrations(Economy.class);
         for (RegisteredServiceProvider<Economy> econ : econs) {
             Economy e = econ.getProvider();
             if (registeredEcons == null) {
@@ -486,7 +487,7 @@ public class Vault extends JavaPlugin {
 
         // Get String of Registered Permission Services
         String registeredPerms = null;
-        Collection<RegisteredServiceProvider<Permission>> perms = this.getServer().getServicesManager().getRegistrations(Permission.class);
+        Collection<RegisteredServiceProvider<Permission>> perms = sm.getRegistrations(Permission.class);
         for (RegisteredServiceProvider<Permission> perm : perms) {
             Permission p = perm.getProvider();
             if (registeredPerms == null) {
@@ -497,7 +498,7 @@ public class Vault extends JavaPlugin {
         }
 
         String registeredChats = null;
-        Collection<RegisteredServiceProvider<Chat>> chats = this.getServer().getServicesManager().getRegistrations(Chat.class);
+        Collection<RegisteredServiceProvider<Chat>> chats = sm.getRegistrations(Chat.class);
         for (RegisteredServiceProvider<Chat> chat : chats) {
             Chat c = chat.getProvider();
             if (registeredChats == null) {
@@ -508,26 +509,28 @@ public class Vault extends JavaPlugin {
         }
 
         // Get Economy & Permission primary Services
-        RegisteredServiceProvider<Economy> rsp = getServer().getServicesManager().getRegistration(Economy.class);
+        RegisteredServiceProvider<Economy> rsp = sm.getRegistration(Economy.class);
         Economy econ = null;
         if (rsp != null) {
             econ = rsp.getProvider();
         }
         Permission perm = null;
-        RegisteredServiceProvider<Permission> rspp = getServer().getServicesManager().getRegistration(Permission.class);
+        RegisteredServiceProvider<Permission> rspp = sm.getRegistration(Permission.class);
         if (rspp != null) {
             perm = rspp.getProvider();
         }
         Chat chat = null;
-        RegisteredServiceProvider<Chat> rspc = getServer().getServicesManager().getRegistration(Chat.class);
+        RegisteredServiceProvider<Chat> rspc = sm.getRegistration(Chat.class);
         if (rspc != null) {
             chat = rspc.getProvider();
         }
+
         // Send user some info!
-        sender.sendMessage(String.format("[%s] Vault v%s Information", getDescription().getName(), getDescription().getVersion()));
-        sender.sendMessage(String.format("[%s] Economy: %s [%s]", getDescription().getName(), econ == null ? "None" : econ.getName(), registeredEcons));
-        sender.sendMessage(String.format("[%s] Permission: %s [%s]", getDescription().getName(), perm == null ? "None" : perm.getName(), registeredPerms));
-        sender.sendMessage(String.format("[%s] Chat: %s [%s]", getDescription().getName(), chat == null ? "None" : chat.getName(), registeredChats));
+        String dName = getDescription().getName();
+        sender.sendMessage(String.format("[%s] Vault v%s Information", dName, getDescription().getVersion()));
+        sender.sendMessage(String.format("[%s] Economy: %s [%s]", dName, econ == null ? "None" : econ.getName(), registeredEcons));
+        sender.sendMessage(String.format("[%s] Permission: %s [%s]", dName, perm == null ? "None" : perm.getName(), registeredPerms));
+        sender.sendMessage(String.format("[%s] Chat: %s [%s]", dName, chat == null ? "None" : chat.getName(), registeredChats));
     }
 
     /**
@@ -581,21 +584,11 @@ public class Vault extends JavaPlugin {
             econ = rspEcon.getProvider();
         }
         final String econName = econ != null ? econ.getName() : "No Economy";
-        metrics.addCustomChart(new Metrics.SimplePie("economy", new Callable<String>() {
-            @Override
-            public String call() {
-                return econName;
-            }
-        }));
+        metrics.addCustomChart(new Metrics.SimplePie("economy", () -> econName));
 
         // Create our Permission Graph and Add our permission Plotters
         final String permName = Bukkit.getServer().getServicesManager().getRegistration(Permission.class).getProvider().getName();
-        metrics.addCustomChart(new Metrics.SimplePie("permission", new Callable<String>() {
-            @Override
-            public String call() {
-                return permName;
-            }
-        }));
+        metrics.addCustomChart(new Metrics.SimplePie("permission", () -> permName));
 
         // Create our Chat Graph and Add our chat Plotters
         RegisteredServiceProvider<Chat> rspChat = Bukkit.getServer().getServicesManager().getRegistration(Chat.class);
@@ -604,12 +597,7 @@ public class Vault extends JavaPlugin {
             chat = rspChat.getProvider();
         }
         final String chatName = chat != null ? chat.getName() : "No Chat";
-        metrics.addCustomChart(new Metrics.SimplePie("chat", new Callable<String>() {
-            @Override
-            public String call() {
-                return chatName;
-            }
-        }));
+        metrics.addCustomChart(new Metrics.SimplePie("chat", () -> chatName));
     }
 
     public class VaultListener implements Listener {
@@ -642,15 +630,8 @@ public class Vault extends JavaPlugin {
                         } else {
                             log.info("[Vault] - Successfully injected Vault methods into Register.");
                         }
-                    } catch (SecurityException e) {
-                        log.info("Unable to hook register");
-                    } catch (NoSuchMethodException e) {
-                        log.info("Unable to hook register");
-                    } catch (IllegalArgumentException e) {
-                        log.info("Unable to hook register");
-                    } catch (IllegalAccessException e) {
-                        log.info("Unable to hook register");
-                    } catch (InvocationTargetException e) {
+                    } catch (SecurityException | NoSuchMethodException | IllegalArgumentException | IllegalAccessException
+                             | InvocationTargetException e) {
                         log.info("Unable to hook register");
                     }
                 }
