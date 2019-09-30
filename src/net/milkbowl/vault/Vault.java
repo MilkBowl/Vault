@@ -26,6 +26,7 @@ import java.util.concurrent.Callable;
 import java.util.logging.Logger;
 
 import net.milkbowl.vault.chat.Chat;
+import net.milkbowl.vault.chat.plugins.Chat_CoPerms;
 import net.milkbowl.vault.chat.plugins.Chat_DroxPerms;
 import net.milkbowl.vault.chat.plugins.Chat_GroupManager;
 import net.milkbowl.vault.chat.plugins.Chat_OverPermissions;
@@ -60,6 +61,7 @@ import net.milkbowl.vault.economy.plugins.Economy_iConomy6;
 import net.milkbowl.vault.economy.plugins.Economy_SDFEconomy;
 import net.milkbowl.vault.economy.plugins.Economy_Minefaconomy;  
 import net.milkbowl.vault.permission.Permission;
+import net.milkbowl.vault.permission.plugins.Permission_CoPerms;
 import net.milkbowl.vault.permission.plugins.Permission_DroxPerms;
 import net.milkbowl.vault.permission.plugins.Permission_GroupManager;
 import net.milkbowl.vault.permission.plugins.Permission_OverPermissions;
@@ -231,8 +233,11 @@ public class Vault extends JavaPlugin {
         // Try to load rscPermissions
         hookChat("rscPermissions", Chat_rscPermissions.class, ServicePriority.Normal, "ru.simsonic.rscPermissions.MainPluginClass");
 
-        //Try to load TotalPermissions
+        // Try to load TotalPermissions
         hookChat("TotalPermissions", Chat_TotalPermissions.class, ServicePriority.Normal, "net.ar97.totalpermissions.TotalPermissions");
+
+        // Try to load CoPerms
+        hookChat("CoPerms", Chat_CoPerms.class, ServicePriority.Highest, "com.njdaeger.coperms.CoPerms");
     }
 
     /**
@@ -351,6 +356,9 @@ public class Vault extends JavaPlugin {
 
         // Try to load KPerms
         hookPermission("KPerms", Permission_KPerms.class, ServicePriority.Normal, "com.lightniinja.kperms.KPermsPlugin");
+
+        // Try to load CoPerms
+        hookPermission("CoPerms", Permission_CoPerms.class, ServicePriority.Normal, "com.njdaeger.coperms.CoPerms");
 
         Permission perms = new Permission_SuperPerms(this);
         sm.register(Permission.class, perms, this, ServicePriority.Lowest);

@@ -120,6 +120,7 @@ Github and we'll get to it at our convenience.
    - TotalPermissions (http://dev.bukkit.org/projects/totalpermissions)
    - XPerms
    - zPermissions
+   - CoPerms (https://github.com/NJDaeger/CoPerms)
 
 * Chat
    - bPermissions
@@ -134,3 +135,4 @@ Github and we'll get to it at our convenience.
    - rscPermissions
    - TotalPermissions (http://dev.bukkit.org/projects/totalpermissions)
    - zPermissions
+   - CoPerms (https://github.com/NJDaeger/CoPerms)
