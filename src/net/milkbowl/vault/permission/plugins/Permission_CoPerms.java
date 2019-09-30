@@ -18,11 +18,9 @@ public class Permission_CoPerms extends Permission {
 
     private static final String NAME = "CoPerms";
     private final Logger logger;
-    private final Plugin vault;
     private CoPerms coperms;
 
     public Permission_CoPerms(Plugin plugin) {
-        this.vault = plugin;
         this.logger = plugin.getLogger();
         Bukkit.getServer().getPluginManager().registerEvents(new PermissionServerListener(this), plugin);
     }
@@ -39,14 +37,14 @@ public class Permission_CoPerms extends Permission {
         public void onEnable(PluginEnableEvent e) {
             if (permission.coperms == null && e.getPlugin() instanceof CoPerms) {
                 permission.coperms = (CoPerms)e.getPlugin();
-                logger.info(String.format("[%s][Permission] %s hooked.", vault.getName(), NAME));
+                logger.info(String.format("[Permission] %s hooked.",  NAME));
             }
         }
 
         @EventHandler( priority = EventPriority.MONITOR )
         public void onDisable(PluginDisableEvent e) {
             if (permission.coperms != null && e.getPlugin() instanceof CoPerms) {
-                logger.info(String.format("[%s][Permission] %s un-hooked.", vault.getName(), NAME));
+                logger.info(String.format("[Permission] %s un-hooked.", NAME));
                 permission.coperms = null;
             }
         }

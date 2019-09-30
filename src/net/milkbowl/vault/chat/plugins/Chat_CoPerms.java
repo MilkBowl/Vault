@@ -17,13 +17,11 @@ public class Chat_CoPerms extends Chat {
 
     private static final String NAME = "CoPerms";
     private final Logger logger;
-    private final Plugin vault;
     private CoPerms coperms;
 
     public Chat_CoPerms(Plugin plugin, Permission perms) {
         super(perms);
         this.logger = plugin.getLogger();
-        this.vault = plugin;
         Bukkit.getServer().getPluginManager().registerEvents(new PermissionServiceListener(this), plugin);
     }
 
@@ -39,14 +37,14 @@ public class Chat_CoPerms extends Chat {
         public void onEnable(PluginEnableEvent e) {
             if (chat.coperms == null && e.getPlugin() instanceof CoPerms) {
                 chat.coperms = (CoPerms)e.getPlugin();
-                logger.info(String.format("[%s][Chat] %s hooked.", vault.getName(), NAME));
+                logger.info(String.format("[Chat] %s hooked.", NAME));
             }
         }
 
         @EventHandler( priority = EventPriority.MONITOR )
         public void onDisable(PluginDisableEvent e) {
             if (chat.coperms != null && e.getPlugin() instanceof CoPerms) {
-                logger.info(String.format("[%s][Chat] %s un-hooked.", vault.getName(), NAME));
+                logger.info(String.format("[Chat] %s un-hooked.", NAME));
                 chat.coperms = null;
             }
         }
