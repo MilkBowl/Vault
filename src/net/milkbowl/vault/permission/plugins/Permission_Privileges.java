@@ -29,7 +29,7 @@ public class Permission_Privileges extends Permission {
             Plugin perms = plugin.getServer().getPluginManager().getPlugin("Privileges");
             if (perms != null && perms.isEnabled()) {
                 this.privs = (Privileges) perms;
-                log.info(String.format("[Permission] %s hooked.", name));
+                log.info(String.format("[%s][Permission] %s hooked.", plugin.getDescription().getName(), name));
             }
         }
     }
@@ -47,7 +47,7 @@ public class Permission_Privileges extends Permission {
                 Plugin perms = event.getPlugin();
                 if (perms.getDescription().getName().equals("Privileges")) {
                     permission.privs = (Privileges) perms;
-                    log.info(String.format("[Permission] %s hooked.", permission.name));
+                    log.info(String.format("[%s][Permission] %s hooked.", plugin.getDescription().getName(), permission.name));
                 }
             }
         }
@@ -57,7 +57,7 @@ public class Permission_Privileges extends Permission {
             if (permission.privs != null) {
                 if (event.getPlugin().getDescription().getName().equals("Privileges")) {
                     permission.privs = null;
-                    log.info(String.format("[Permission] %s un-hooked.", permission.name));
+                    log.info(String.format("[%s][Permission] %s un-hooked.", plugin.getDescription().getName(), permission.name));
                 }
             }
         }
