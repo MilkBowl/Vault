@@ -29,20 +29,19 @@ import ru.simsonic.rscPermissions.MainPluginClass;
 
 public class Permission_rscPermissions extends Permission {
 
-    private final Plugin vault;
     private ru.simsonic.rscPermissions.MainPluginClass rscp = null;
     private ru.simsonic.rscPermissions.rscpAPI rscpAPI = null;
 
     public Permission_rscPermissions(Plugin plugin) {
         super();
-        this.vault = plugin;
-        Bukkit.getServer().getPluginManager().registerEvents(new PermissionServerListener(this), vault);
+
+        Bukkit.getServer().getPluginManager().registerEvents(new PermissionServerListener(this), plugin);
         if (rscp == null) {
             Plugin perms = plugin.getServer().getPluginManager().getPlugin("rscPermissions");
             if (perms != null && perms.isEnabled()) {
                 this.rscp = (MainPluginClass) perms;
                 rscpAPI = rscp.API;
-                plugin.getLogger().info(String.format("[%s][Permission] %s hooked.", plugin.getDescription().getName(), "rscPermissions"));
+                log.info(String.format("[Permission] %s hooked.", "rscPermissions"));
             }
         }
     }
@@ -61,7 +60,7 @@ public class Permission_rscPermissions extends Permission {
                 if (plugin.getDescription().getName().equals("rscPermissions")) {
                     bridge.rscp = (MainPluginClass) plugin;
                     bridge.rscpAPI = bridge.rscp.API;
-                    log.info(String.format("[%s][Permission] %s hooked.", vault.getDescription().getName(), "rscPermissions"));
+                    log.info(String.format("[Permission] %s hooked.", "rscPermissions"));
                 }
             }
         }
@@ -72,7 +71,7 @@ public class Permission_rscPermissions extends Permission {
                 if(event.getPlugin().getDescription().getName().equals(bridge.rscpAPI.getName())) {
                     bridge.rscpAPI = null;
                     bridge.rscp = null;
-                    log.info(String.format("[%s][Permission] %s un-hooked.", vault.getDescription().getName(), "rscPermissions"));
+                    log.info(String.format("[Permission] %s un-hooked.", "rscPermissions"));
                 }
             }
         }
