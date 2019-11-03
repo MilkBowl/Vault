@@ -57,7 +57,7 @@ public class Permission_Permissions3 extends Permission {
                     permission = (Permissions) perms;
                     this.perms = (ModularControl) permission.getHandler();
                     log.severe("Your permission system is outdated and no longer fully supported! It is highly advised to update!");
-                    log.info(String.format("[%s][Permission] %s hooked.", plugin.getDescription().getName(), name));
+                    log.info(String.format("[Permission] %s hooked.", name));
                 }
             }
         }
@@ -87,7 +87,7 @@ public class Permission_Permissions3 extends Permission {
                     if (permi.isEnabled()) {
                         permission = (Permissions) permi;
                         perms = (ModularControl) permission.getHandler();
-                        log.info(String.format("[%s][Permission] %s hooked.", plugin.getDescription().getName(), name));
+                        log.info(String.format("[Permission] %s hooked.", name));
                     }
                 }
             }
@@ -99,7 +99,7 @@ public class Permission_Permissions3 extends Permission {
                 if (event.getPlugin().getDescription().getName().equals("Permissions") || event.getPlugin().getDescription().getName().equals("vPerms")) {
                     permission = null;
                     perms = null;
-                    log.info(String.format("[%s][Permission] %s un-hooked.", plugin.getDescription().getName(), name));
+                    log.info(String.format("[Permission] %s un-hooked.", name));
                 }
             }
         }
@@ -259,7 +259,6 @@ public class Permission_Permissions3 extends Permission {
 
     @Override
     public String[] getGroups() {
-
         Set<String> groupNames = new HashSet<String>();
         for (World world : Bukkit.getServer().getWorlds()) {
             for (Group group : perms.getGroups(world.getName())) {
