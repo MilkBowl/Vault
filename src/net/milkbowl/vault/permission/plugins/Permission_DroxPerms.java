@@ -30,9 +30,9 @@ public class Permission_DroxPerms extends Permission {
             DroxPerms p = (DroxPerms) plugin.getServer().getPluginManager().getPlugin("DroxPerms");
             if (p != null) {
                 API = p.getAPI();
-                log.info(String.format("[Permission] %s hooked.", "DroxPerms"));
+                log.info(String.format("[%s][Permission] %s hooked.", plugin.getDescription().getName(), "DroxPerms"));
                 useOnlySubgroups = p.getConfig().getBoolean("Vault.useOnlySubgroups", true);
-                log.info(String.format("[Permission] Vault.useOnlySubgroups: %s", useOnlySubgroups));
+                log.info(String.format("[%s][Permission] Vault.useOnlySubgroups: %s", plugin.getDescription().getName(), useOnlySubgroups));
             }
         }
 
@@ -46,7 +46,7 @@ public class Permission_DroxPerms extends Permission {
                 Plugin permPlugin = event.getPlugin();
                 if (permPlugin.getDescription().getName().equals("DroxPerms")) {
                     API = ((DroxPerms) permPlugin).getAPI();
-                    log.info(String.format("[Permission] %s hooked.", name));
+                    log.info(String.format("[%s][Permission] %s hooked.", plugin.getDescription().getName(), name));
                 }
             }
         }
@@ -56,7 +56,7 @@ public class Permission_DroxPerms extends Permission {
             if(API != null) {
                 if(event.getPlugin().getDescription().getName().equals("DroxPerms")) {
                     API = null;
-                    log.info(String.format("[Permission] %s un-hooked.", name));
+                    log.info(String.format("[%s][Permission] %s un-hooked.", plugin.getDescription().getName(), name));
                 }
             }
         }
