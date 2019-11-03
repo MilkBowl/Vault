@@ -51,7 +51,7 @@ public class Permission_bPermissions2 extends Permission {
             Plugin p = plugin.getServer().getPluginManager().getPlugin("bPermissions");
             if (p != null) {
                 hooked = true;
-                log.info(String.format("[Permission] %s hooked.", name));
+                log.info(String.format("[%s][Permission] %s hooked.", plugin.getDescription().getName(), name));
             }
         }
     }
@@ -64,7 +64,7 @@ public class Permission_bPermissions2 extends Permission {
                 Plugin p = event.getPlugin();
                 if(p.getDescription().getName().equals("bPermissions")) {
                     hooked = true;
-                    log.info(String.format("[Permission] %s hooked.", name));
+                    log.info(String.format("[%s][Permission] %s hooked.", plugin.getDescription().getName(), name));
                 }
             }
         }
@@ -74,7 +74,7 @@ public class Permission_bPermissions2 extends Permission {
             if (hooked) {
                 if (event.getPlugin().getDescription().getName().equals("bPermissions")) {
                     hooked = false;
-                    log.info(String.format("[Permission] %s un-hooked.", name));
+                    log.info(String.format("[%s][Permission] %s un-hooked.", plugin.getDescription().getName(), name));
                 }
             }
         }
