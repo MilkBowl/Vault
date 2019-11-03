@@ -49,14 +49,13 @@ public class Permission_PermissionsEx extends Permission {
                 if (perms.isEnabled()) {
                     try {
                         if (Double.valueOf(perms.getDescription().getVersion()) < 1.16) {
-                            log.info(String.format(
-                                "[Permission] %s below 1.16 is not compatible with Vault! Falling back to SuperPerms only mode. PLEASE UPDATE!", name));
+                            log.info(String.format("[%s][Permission] %s below 1.16 is not compatible with Vault! Falling back to SuperPerms only mode. PLEASE UPDATE!", plugin.getDescription().getName(), name));
                         }
                     } catch (NumberFormatException e) {
                         // Do nothing
                     }
                     permission = (PermissionsEx) perms;
-                    log.info(String.format("[Permission] %s hooked.", name));
+                    log.info(String.format("[%s][Permission] %s hooked.", plugin.getDescription().getName(), name));
                 }
             }
         }
@@ -85,15 +84,14 @@ public class Permission_PermissionsEx extends Permission {
                 if (perms.getDescription().getName().equals("PermissionsEx")) {
                     try {
                         if (Double.valueOf(perms.getDescription().getVersion()) < 1.16) {
-                            log.info(String.format(
-                                "[Permission] %s below 1.16 is not compatible with Vault! Falling back to SuperPerms only mode. PLEASE UPDATE!", name));
+                            log.info(String.format("[%s][Permission] %s below 1.16 is not compatible with Vault! Falling back to SuperPerms only mode. PLEASE UPDATE!", plugin.getDescription().getName(), name));
                             return;
                         }
                     } catch (NumberFormatException e) {
                         // Do nothing
                     }
                     permission.permission = (PermissionsEx) perms;
-                    log.info(String.format("[Permission] %s hooked.", permission.name));
+                    log.info(String.format("[%s][Permission] %s hooked.", plugin.getDescription().getName(), permission.name));
                 }
             }
         }
@@ -103,7 +101,7 @@ public class Permission_PermissionsEx extends Permission {
             if (permission.permission != null) {
                 if (event.getPlugin().getDescription().getName().equals("PermissionsEx")) {
                     permission.permission = null;
-                    log.info(String.format("[Permission] %s un-hooked.", permission.name));
+                    log.info(String.format("[%s][Permission] %s un-hooked.", plugin.getDescription().getName(), permission.name));
                 }
             }
         }
