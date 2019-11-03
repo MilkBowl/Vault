@@ -45,7 +45,7 @@ public class Permission_SimplyPerms extends Permission{
             Plugin perms = plugin.getServer().getPluginManager().getPlugin("SimplyPerms");
             if (perms != null && perms.isEnabled()) {
                 this.perms = ((SimplyPlugin) perms).getAPI();
-                log.info(String.format("[%s][Permission] %s hooked.", plugin.getDescription().getName(), name));
+                log.info(String.format("[Permission] %s hooked.", name));
             }
         }
     }
@@ -63,7 +63,7 @@ public class Permission_SimplyPerms extends Permission{
                 Plugin perms = event.getPlugin();
                 if (perms.getDescription().getName().equals("SimplyPerms")) {
                     permission.perms = ((SimplyPlugin) perms).getAPI();
-                    log.info(String.format("[%s][Permission] %s hooked.", plugin.getDescription().getName(), permission.name));
+                    log.info(String.format("[Permission] %s hooked.", permission.name));
                 }
             }
         }
@@ -73,7 +73,7 @@ public class Permission_SimplyPerms extends Permission{
             if (permission.perms != null) {
                 if (event.getPlugin().getDescription().getName().equals("SimplyPerms")) {
                     permission.perms = null;
-                    log.info(String.format("[%s][Permission] %s un-hooked.", plugin.getDescription().getName(), permission.name));
+                    log.info(String.format("[Permission] %s un-hooked.", permission.name));
                 }
             }
         }
