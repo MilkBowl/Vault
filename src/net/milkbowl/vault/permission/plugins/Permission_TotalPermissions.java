@@ -50,7 +50,7 @@ public class Permission_TotalPermissions extends Permission {
                 if (permPlugin.getDescription().getName().equals(name)) {
                     totalperms = (TotalPermissions) permPlugin;
                     manager = totalperms.getManager();
-                    log.info(String.format("[Permission] %s hooked.", name));
+                    log.info(String.format("[%s][Permission] %s hooked.", plugin.getDescription().getName(), name));
                 }
             }
         }
@@ -61,7 +61,7 @@ public class Permission_TotalPermissions extends Permission {
                 if (event.getPlugin().getDescription().getName().equals(name)) {
                     totalperms = null;
                     manager = null;
-                    log.info(String.format("[Permission] %s un-hooked.", name));
+                    log.info(String.format("[%s][Permission] %s un-hooked.", plugin.getDescription().getName(), name));
                 }
             }
         }
