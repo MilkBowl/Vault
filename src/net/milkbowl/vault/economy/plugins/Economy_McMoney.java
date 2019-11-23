@@ -34,215 +34,212 @@ import org.bukkit.plugin.Plugin;
 import boardinggamer.mcmoney.McMoneyAPI;
 
 public class Economy_McMoney extends AbstractEconomy {
-    private final Logger log;
+	private final Logger log;
 
-    private final String name = "McMoney";
-    private Plugin plugin = null;
-    private McMoneyAPI economy = null;
+	private final String name = "McMoney";
+	private McMoneyAPI economy = null;
 
-    public Economy_McMoney(Plugin plugin) {
-        this.plugin = plugin;
-        this.log = plugin.getLogger();
-        Bukkit.getServer().getPluginManager().registerEvents(new EconomyServerListener(this), plugin);
+	public Economy_McMoney(Plugin plugin) {
+		this.log = plugin.getLogger();
+		Bukkit.getServer().getPluginManager().registerEvents(new EconomyServerListener(this), plugin);
 
-        // Load Plugin in case it was loaded before
-        if (economy == null) {
-            Plugin econ = plugin.getServer().getPluginManager().getPlugin("McMoney");
-            if (econ != null && econ.isEnabled()) {
-                economy = McMoneyAPI.getInstance();
-                log.info(String.format("[Economy] %s hooked.", name));
-            }
-        }
-    }
+		// Load Plugin in case it was loaded before
+		if (economy == null) {
+			Plugin econ = plugin.getServer().getPluginManager().getPlugin("McMoney");
+			if (econ != null && econ.isEnabled()) {
+				economy = McMoneyAPI.getInstance();
+				log.info(String.format("[Economy] %s hooked.", name));
+			}
+		}
+	}
 
-    @Override
-    public String getName() {
-        return name;
-    }
+	@Override
+	public String getName() {
+		return name;
+	}
 
-    @Override
-    public boolean isEnabled() {
-        return economy != null;
-    }
+	@Override
+	public boolean isEnabled() {
+		return economy != null;
+	}
 
-    @Override
-    public double getBalance(String playerName) {
-        return economy.getMoney(playerName);
-    }
+	@Override
+	public double getBalance(String playerName) {
+		return economy.getMoney(playerName);
+	}
 
-    @Override
-    public EconomyResponse withdrawPlayer(String playerName, double amount) {
-        double balance = economy.getMoney(playerName);
-        if (amount < 0) {
-            return new EconomyResponse(0, balance, ResponseType.FAILURE, "Cannot withdraw negative funds");
-        } else if (balance - amount < 0) {
-            return new EconomyResponse(0, balance, ResponseType.FAILURE, "Insufficient funds");
-        }
-        economy.removeMoney(playerName, amount);
-        return new EconomyResponse(amount, economy.getMoney(playerName), ResponseType.SUCCESS, "");
-    }
+	@Override
+	public EconomyResponse withdrawPlayer(String playerName, double amount) {
+		double balance = economy.getMoney(playerName);
+		if (amount < 0) {
+			return new EconomyResponse(0, balance, ResponseType.FAILURE, "Cannot withdraw negative funds");
+		} else if (balance - amount < 0) {
+			return new EconomyResponse(0, balance, ResponseType.FAILURE, "Insufficient funds");
+		}
+		economy.removeMoney(playerName, amount);
+		return new EconomyResponse(amount, economy.getMoney(playerName), ResponseType.SUCCESS, "");
+	}
 
-    @Override
-    public EconomyResponse depositPlayer(String playerName, double amount) {
-        double balance = economy.getMoney(playerName);
-        if (amount < 0) {
-            return new EconomyResponse(0, balance, ResponseType.FAILURE, "Cannot deposit negative funds");
-        }
-        economy.addMoney(playerName, amount);
-        return new EconomyResponse(amount, economy.getMoney(playerName), ResponseType.SUCCESS, "");
-    }
+	@Override
+	public EconomyResponse depositPlayer(String playerName, double amount) {
+		double balance = economy.getMoney(playerName);
+		if (amount < 0) {
+			return new EconomyResponse(0, balance, ResponseType.FAILURE, "Cannot deposit negative funds");
+		}
+		economy.addMoney(playerName, amount);
+		return new EconomyResponse(amount, economy.getMoney(playerName), ResponseType.SUCCESS, "");
+	}
 
-    @Override
-    public String currencyNamePlural() {
-        return economy.moneyNamePlural();
-    }
+	@Override
+	public String currencyNamePlural() {
+		return economy.moneyNamePlural();
+	}
 
-    @Override
-    public String currencyNameSingular() {
-        return economy.moneyNameSingle();
-    }
+	@Override
+	public String currencyNameSingular() {
+		return economy.moneyNameSingle();
+	}
 
-    public class EconomyServerListener implements Listener {
-        Economy_McMoney economy = null;
+	public class EconomyServerListener implements Listener {
+		Economy_McMoney economy = null;
 
-        public EconomyServerListener(Economy_McMoney economy) {
-            this.economy = economy;
-        }
+		public EconomyServerListener(Economy_McMoney economy) {
+			this.economy = economy;
+		}
 
-        @EventHandler(priority = EventPriority.MONITOR)
-        public void onPluginEnable(PluginEnableEvent event) {
-            if (economy.economy == null) {
-                Plugin eco = event.getPlugin();
+		@EventHandler(priority = EventPriority.MONITOR)
+		public void onPluginEnable(PluginEnableEvent event) {
+			if (economy.economy == null) {
+				Plugin eco = event.getPlugin();
 
-                if (eco.getDescription().getName().equals("McMoney")) {
-                    economy.economy = McMoneyAPI.getInstance();
-                    log.info(String.format("[Economy] %s hooked.", economy.name));
-                }
-            }
-        }
+				if (eco.getDescription().getName().equals("McMoney")) {
+					economy.economy = McMoneyAPI.getInstance();
+					log.info(String.format("[Economy] %s hooked.", economy.name));
+				}
+			}
+		}
 
-        @EventHandler(priority = EventPriority.MONITOR)
-        public void onPluginDisable(PluginDisableEvent event) {
-            if (economy.economy != null) {
-                if (event.getPlugin().getDescription().getName().equals("McMoney")) {
-                    economy.economy = null;
-                    log.info(String.format("[Economy] %s unhooked.", economy.name));
-                }
-            }
-        }
-    }
+		@EventHandler(priority = EventPriority.MONITOR)
+		public void onPluginDisable(PluginDisableEvent event) {
+			if (economy.economy != null) {
+				if (event.getPlugin().getDescription().getName().equals("McMoney")) {
+					economy.economy = null;
+					log.info(String.format("[Economy] %s unhooked.", economy.name));
+				}
+			}
+		}
+	}
 
-    @Override
-    public String format(double amount) {
-        amount = Math.ceil(amount);
-        if (amount == 1) {
-            return String.format("%d %s", (int)amount, currencyNameSingular());
-        } else {
-            return String.format("%d %s", (int)amount, currencyNamePlural());
-        }
-    }
+	@Override
+	public String format(double amount) {
+		amount = Math.ceil(amount);
+		if (amount == 1) {
+			return String.format("%d %s", (int) amount, currencyNameSingular());
+		}
+		return String.format("%d %s", (int) amount, currencyNamePlural());
+	}
 
-    @Override
-    public EconomyResponse createBank(String name, String player) {
-        return new EconomyResponse(0, 0, ResponseType.NOT_IMPLEMENTED, "McMoney does not support bank accounts!");
-    }
+	@Override
+	public EconomyResponse createBank(String name, String player) {
+		return new EconomyResponse(0, 0, ResponseType.NOT_IMPLEMENTED, "McMoney does not support bank accounts!");
+	}
 
-    @Override
-    public EconomyResponse deleteBank(String name) {
-        return new EconomyResponse(0, 0, ResponseType.NOT_IMPLEMENTED, "McMoney does not support bank accounts!");
-    }
+	@Override
+	public EconomyResponse deleteBank(String name) {
+		return new EconomyResponse(0, 0, ResponseType.NOT_IMPLEMENTED, "McMoney does not support bank accounts!");
+	}
 
-    @Override
-    public EconomyResponse bankHas(String name, double amount) {
-        return new EconomyResponse(0, 0, ResponseType.NOT_IMPLEMENTED, "McMoney does not support bank accounts!");
-    }
+	@Override
+	public EconomyResponse bankHas(String name, double amount) {
+		return new EconomyResponse(0, 0, ResponseType.NOT_IMPLEMENTED, "McMoney does not support bank accounts!");
+	}
 
-    @Override
-    public EconomyResponse bankWithdraw(String name, double amount) {
-        return new EconomyResponse(0, 0, ResponseType.NOT_IMPLEMENTED, "McMoney does not support bank accounts!");
-    }
+	@Override
+	public EconomyResponse bankWithdraw(String name, double amount) {
+		return new EconomyResponse(0, 0, ResponseType.NOT_IMPLEMENTED, "McMoney does not support bank accounts!");
+	}
 
-    @Override
-    public EconomyResponse bankDeposit(String name, double amount) {
-        return new EconomyResponse(0, 0, ResponseType.NOT_IMPLEMENTED, "McMoney does not support bank accounts!");
-    }
+	@Override
+	public EconomyResponse bankDeposit(String name, double amount) {
+		return new EconomyResponse(0, 0, ResponseType.NOT_IMPLEMENTED, "McMoney does not support bank accounts!");
+	}
 
-    @Override
-    public boolean has(String playerName, double amount) {
-        return getBalance(playerName) >= amount;
-    }
+	@Override
+	public boolean has(String playerName, double amount) {
+		return getBalance(playerName) >= amount;
+	}
 
-    @Override
-    public EconomyResponse isBankOwner(String name, String playerName) {
-        return new EconomyResponse(0, 0, ResponseType.NOT_IMPLEMENTED, "McMoney does not support bank accounts!");
-    }
+	@Override
+	public EconomyResponse isBankOwner(String name, String playerName) {
+		return new EconomyResponse(0, 0, ResponseType.NOT_IMPLEMENTED, "McMoney does not support bank accounts!");
+	}
 
-    @Override
-    public EconomyResponse isBankMember(String name, String playerName) {
-        return new EconomyResponse(0, 0, ResponseType.NOT_IMPLEMENTED, "McMoney does not support bank accounts!");
-    }
+	@Override
+	public EconomyResponse isBankMember(String name, String playerName) {
+		return new EconomyResponse(0, 0, ResponseType.NOT_IMPLEMENTED, "McMoney does not support bank accounts!");
+	}
 
-    @Override
-    public EconomyResponse bankBalance(String name) {
-        return new EconomyResponse(0, 0, ResponseType.NOT_IMPLEMENTED, "McMoney does not support bank accounts!");
-    }
+	@Override
+	public EconomyResponse bankBalance(String name) {
+		return new EconomyResponse(0, 0, ResponseType.NOT_IMPLEMENTED, "McMoney does not support bank accounts!");
+	}
 
-    @Override
-    public List<String> getBanks() {
-        return new ArrayList<String>();
-    }
+	@Override
+	public List<String> getBanks() {
+		return new ArrayList<String>();
+	}
 
-    @Override
-    public boolean hasBankSupport() {
-        return false;
-    }
+	@Override
+	public boolean hasBankSupport() {
+		return false;
+	}
 
-    @Override
-    public boolean hasAccount(String playerName) {
-        return economy.playerExists(playerName);
-    }
+	@Override
+	public boolean hasAccount(String playerName) {
+		return economy.playerExists(playerName);
+	}
 
-    @Override
-    public boolean createPlayerAccount(String playerName) {
-        if (!hasAccount(playerName)) {
-            economy.setMoney(playerName, 0.0);
-            return true;
-        }
-        return false;
-    }
+	@Override
+	public boolean createPlayerAccount(String playerName) {
+		if (!hasAccount(playerName)) {
+			economy.setMoney(playerName, 0.0);
+			return true;
+		}
+		return false;
+	}
 
 	@Override
 	public int fractionalDigits() {
 		return -1;
 	}
 
-    @Override
-    public boolean hasAccount(String playerName, String worldName) {
-        return hasAccount(playerName);
-    }
+	@Override
+	public boolean hasAccount(String playerName, String worldName) {
+		return hasAccount(playerName);
+	}
 
-    @Override
-    public double getBalance(String playerName, String world) {
-        return getBalance(playerName);
-    }
+	@Override
+	public double getBalance(String playerName, String world) {
+		return getBalance(playerName);
+	}
 
-    @Override
-    public boolean has(String playerName, String worldName, double amount) {
-        return has(playerName, amount);
-    }
+	@Override
+	public boolean has(String playerName, String worldName, double amount) {
+		return has(playerName, amount);
+	}
 
-    @Override
-    public EconomyResponse withdrawPlayer(String playerName, String worldName, double amount) {
-        return withdrawPlayer(playerName, amount);
-    }
+	@Override
+	public EconomyResponse withdrawPlayer(String playerName, String worldName, double amount) {
+		return withdrawPlayer(playerName, amount);
+	}
 
-    @Override
-    public EconomyResponse depositPlayer(String playerName, String worldName, double amount) {
-        return depositPlayer(playerName, amount);
-    }
+	@Override
+	public EconomyResponse depositPlayer(String playerName, String worldName, double amount) {
+		return depositPlayer(playerName, amount);
+	}
 
-    @Override
-    public boolean createPlayerAccount(String playerName, String worldName) {
-        return createPlayerAccount(playerName);
-    }
+	@Override
+	public boolean createPlayerAccount(String playerName, String worldName) {
+		return createPlayerAccount(playerName);
+	}
 }

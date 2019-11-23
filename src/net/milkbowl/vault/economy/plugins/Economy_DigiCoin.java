@@ -33,219 +33,216 @@ import net.milkbowl.vault.economy.EconomyResponse;
 import net.milkbowl.vault.economy.EconomyResponse.ResponseType;
 
 public class Economy_DigiCoin extends AbstractEconomy {
-    private final Logger log;
-    private final String name = "DigiCoin";
-    private Plugin plugin = null;
-    private DigiCoin economy = null;
+	private final Logger log;
+	private final String name = "DigiCoin";
+	private DigiCoin economy = null;
 
-    public Economy_DigiCoin(Plugin plugin){
-        this.plugin = plugin;
-        this.log = plugin.getLogger();
-        Bukkit.getServer().getPluginManager().registerEvents(new EconomyServerListener(this), plugin);
+	public Economy_DigiCoin(Plugin plugin) {
+		this.log = plugin.getLogger();
+		Bukkit.getServer().getPluginManager().registerEvents(new EconomyServerListener(this), plugin);
 
-        if (economy == null) {
-            Plugin digicoin = plugin.getServer().getPluginManager().getPlugin(name);
+		if (economy == null) {
+			Plugin digicoin = plugin.getServer().getPluginManager().getPlugin(name);
 
-            if (digicoin != null && digicoin.isEnabled()) {
-                economy = (DigiCoin) digicoin;
-                log.info(String.format("[Economy] %s hooked.", name));
-            }
-        }
-    }
+			if (digicoin != null && digicoin.isEnabled()) {
+				economy = (DigiCoin) digicoin;
+				log.info(String.format("[Economy] %s hooked.", name));
+			}
+		}
+	}
 
-    public class EconomyServerListener implements Listener {
-        Economy_DigiCoin economy = null;
+	public class EconomyServerListener implements Listener {
+		Economy_DigiCoin economy = null;
 
-        public EconomyServerListener(Economy_DigiCoin economy) {
-            this.economy = economy;
-        }
+		public EconomyServerListener(Economy_DigiCoin economy) {
+			this.economy = economy;
+		}
 
-        @EventHandler(priority = EventPriority.MONITOR)
-        public void onPluginEnable(PluginEnableEvent event) {
-            if (economy.economy == null) {
-                Plugin digicoin = event.getPlugin();
+		@EventHandler(priority = EventPriority.MONITOR)
+		public void onPluginEnable(PluginEnableEvent event) {
+			if (economy.economy == null) {
+				Plugin digicoin = event.getPlugin();
 
-                if (digicoin.getDescription().getName().equals(economy.name)) {
-                    economy.economy = (DigiCoin) digicoin;
-                    log.info(String.format("[Economy] %s hooked.", economy.name));
-                }
-            }
-        }
+				if (digicoin.getDescription().getName().equals(economy.name)) {
+					economy.economy = (DigiCoin) digicoin;
+					log.info(String.format("[Economy] %s hooked.", economy.name));
+				}
+			}
+		}
 
-        @EventHandler(priority = EventPriority.MONITOR)
-        public void onPluginDisable(PluginDisableEvent event) {
-            if (economy.economy != null) {
-                if (event.getPlugin().getDescription().getName().equals(economy.name)) {
-                    economy.economy = null;
-                    log.info(String.format("[Economy] %s unhooked.", economy.name));
-                }
-            }
-        }
-    }
+		@EventHandler(priority = EventPriority.MONITOR)
+		public void onPluginDisable(PluginDisableEvent event) {
+			if (economy.economy != null) {
+				if (event.getPlugin().getDescription().getName().equals(economy.name)) {
+					economy.economy = null;
+					log.info(String.format("[Economy] %s unhooked.", economy.name));
+				}
+			}
+		}
+	}
 
-    @Override
-    public boolean isEnabled() {
-        return economy != null;
-    }
+	@Override
+	public boolean isEnabled() {
+		return economy != null;
+	}
 
-    @Override
-    public String getName() {
-        return name;
-    }
+	@Override
+	public String getName() {
+		return name;
+	}
 
-    @Override
-    public boolean hasBankSupport() {
-        return false;
-    }
+	@Override
+	public boolean hasBankSupport() {
+		return false;
+	}
 
-    @Override
-    public int fractionalDigits() {
-        return -1;
-    }
+	@Override
+	public int fractionalDigits() {
+		return -1;
+	}
 
-    @Override
-    public String format(double amount) {
-        if (amount == 1.0) {
-            return String.format("%d %s", amount, currencyNameSingular());
-        } else {
-            return String.format("%d %s", amount, currencyNamePlural());
-        }
-    }
+	@Override
+	public String format(double amount) {
+		if (amount == 1.0) {
+			return String.format("%d %s", amount, currencyNameSingular());
+		}
+		return String.format("%d %s", amount, currencyNamePlural());
+	}
 
-    @Override
-    public String currencyNamePlural() {
-        return "coins";
-    }
+	@Override
+	public String currencyNamePlural() {
+		return "coins";
+	}
 
-    @Override
-    public String currencyNameSingular() {
-        return "coin";
-    }
+	@Override
+	public String currencyNameSingular() {
+		return "coin";
+	}
 
-    @Override
-    public boolean hasAccount(String playerName) {
-        return true;
-    }
+	@Override
+	public boolean hasAccount(String playerName) {
+		return true;
+	}
 
-    @Override
-    public double getBalance(String playerName) {
-        return economy.getBalance(playerName);
-    }
+	@Override
+	public double getBalance(String playerName) {
+		return economy.getBalance(playerName);
+	}
 
-    @Override
-    public boolean has(String playerName, double amount) {
-        return getBalance(playerName) >= amount;
-    }
+	@Override
+	public boolean has(String playerName, double amount) {
+		return getBalance(playerName) >= amount;
+	}
 
-    @Override
-    public EconomyResponse withdrawPlayer(String playerName, double amount) {
-        ResponseType rt;
-        String message;
+	@Override
+	public EconomyResponse withdrawPlayer(String playerName, double amount) {
+		ResponseType rt;
+		String message;
 
-        if (economy.removeBalance(playerName, amount)) {
-            rt = ResponseType.SUCCESS;
-            message = null;
-        } else {
-            rt = ResponseType.FAILURE;
-            message = "Not enough money.";
-        }
+		if (economy.removeBalance(playerName, amount)) {
+			rt = ResponseType.SUCCESS;
+			message = null;
+		} else {
+			rt = ResponseType.FAILURE;
+			message = "Not enough money.";
+		}
 
-        return new EconomyResponse(amount, getBalance(playerName), rt, message);
-    }
+		return new EconomyResponse(amount, getBalance(playerName), rt, message);
+	}
 
-    @Override
-    public EconomyResponse depositPlayer(String playerName, double amount) {
-        ResponseType rt;
-        String message;
+	@Override
+	public EconomyResponse depositPlayer(String playerName, double amount) {
+		ResponseType rt;
+		String message;
 
-        if (economy.addBalance(playerName, amount)) {
-            rt = ResponseType.SUCCESS;
-            message = null;
-        } else {
-            rt = ResponseType.FAILURE;
-            message = "Failed to deposit balance.";
-        }
+		if (economy.addBalance(playerName, amount)) {
+			rt = ResponseType.SUCCESS;
+			message = null;
+		} else {
+			rt = ResponseType.FAILURE;
+			message = "Failed to deposit balance.";
+		}
 
-        return new EconomyResponse(amount, getBalance(playerName), rt, message);
-    }
+		return new EconomyResponse(amount, getBalance(playerName), rt, message);
+	}
 
-    @Override
-    public EconomyResponse createBank(String name, String player) {
-        return new EconomyResponse(0, 0, ResponseType.NOT_IMPLEMENTED, "DigiCoin does not support bank accounts");
-    }
+	@Override
+	public EconomyResponse createBank(String name, String player) {
+		return new EconomyResponse(0, 0, ResponseType.NOT_IMPLEMENTED, "DigiCoin does not support bank accounts");
+	}
 
-    @Override
-    public EconomyResponse deleteBank(String name) {
-        return new EconomyResponse(0, 0, ResponseType.NOT_IMPLEMENTED, "DigiCoin does not support bank accounts");
-    }
+	@Override
+	public EconomyResponse deleteBank(String name) {
+		return new EconomyResponse(0, 0, ResponseType.NOT_IMPLEMENTED, "DigiCoin does not support bank accounts");
+	}
 
-    @Override
-    public EconomyResponse bankBalance(String name) {
-        return new EconomyResponse(0, 0, ResponseType.NOT_IMPLEMENTED, "DigiCoin does not support bank accounts");
-    }
+	@Override
+	public EconomyResponse bankBalance(String name) {
+		return new EconomyResponse(0, 0, ResponseType.NOT_IMPLEMENTED, "DigiCoin does not support bank accounts");
+	}
 
-    @Override
-    public EconomyResponse bankHas(String name, double amount) {
-        return new EconomyResponse(0, 0, ResponseType.NOT_IMPLEMENTED, "DigiCoin does not support bank accounts");
-    }
+	@Override
+	public EconomyResponse bankHas(String name, double amount) {
+		return new EconomyResponse(0, 0, ResponseType.NOT_IMPLEMENTED, "DigiCoin does not support bank accounts");
+	}
 
-    @Override
-    public EconomyResponse bankWithdraw(String name, double amount) {
-        return new EconomyResponse(0, 0, ResponseType.NOT_IMPLEMENTED, "DigiCoin does not support bank accounts");
-    }
+	@Override
+	public EconomyResponse bankWithdraw(String name, double amount) {
+		return new EconomyResponse(0, 0, ResponseType.NOT_IMPLEMENTED, "DigiCoin does not support bank accounts");
+	}
 
-    @Override
-    public EconomyResponse bankDeposit(String name, double amount) {
-        return new EconomyResponse(0, 0, ResponseType.NOT_IMPLEMENTED, "DigiCoin does not support bank accounts");
-    }
+	@Override
+	public EconomyResponse bankDeposit(String name, double amount) {
+		return new EconomyResponse(0, 0, ResponseType.NOT_IMPLEMENTED, "DigiCoin does not support bank accounts");
+	}
 
-    @Override
-    public EconomyResponse isBankOwner(String name, String playerName) {
-        return new EconomyResponse(0, 0, ResponseType.NOT_IMPLEMENTED, "DigiCoin does not support bank accounts");
-    }
+	@Override
+	public EconomyResponse isBankOwner(String name, String playerName) {
+		return new EconomyResponse(0, 0, ResponseType.NOT_IMPLEMENTED, "DigiCoin does not support bank accounts");
+	}
 
-    @Override
-    public EconomyResponse isBankMember(String name, String playerName) {
-        return new EconomyResponse(0, 0, ResponseType.NOT_IMPLEMENTED, "DigiCoin does not support bank accounts");
-    }
+	@Override
+	public EconomyResponse isBankMember(String name, String playerName) {
+		return new EconomyResponse(0, 0, ResponseType.NOT_IMPLEMENTED, "DigiCoin does not support bank accounts");
+	}
 
-    @Override
-    public List<String> getBanks() {
-        return new ArrayList<String>();
-    }
+	@Override
+	public List<String> getBanks() {
+		return new ArrayList<String>();
+	}
 
-    @Override
-    public boolean createPlayerAccount(String playerName) {
-        return false;
-    }
+	@Override
+	public boolean createPlayerAccount(String playerName) {
+		return false;
+	}
 
-    @Override
-    public boolean hasAccount(String playerName, String worldName) {
-        return true;
-    }
+	@Override
+	public boolean hasAccount(String playerName, String worldName) {
+		return true;
+	}
 
-    @Override
-    public double getBalance(String playerName, String world) {
-        return getBalance(playerName);
-    }
+	@Override
+	public double getBalance(String playerName, String world) {
+		return getBalance(playerName);
+	}
 
-    @Override
-    public boolean has(String playerName, String worldName, double amount) {
-        return has(playerName, amount);
-    }
+	@Override
+	public boolean has(String playerName, String worldName, double amount) {
+		return has(playerName, amount);
+	}
 
-    @Override
-    public EconomyResponse withdrawPlayer(String playerName, String worldName, double amount) {
-        return withdrawPlayer(playerName, amount);
-    }
+	@Override
+	public EconomyResponse withdrawPlayer(String playerName, String worldName, double amount) {
+		return withdrawPlayer(playerName, amount);
+	}
 
-    @Override
-    public EconomyResponse depositPlayer(String playerName, String worldName, double amount) {
-        return depositPlayer(playerName, amount);
-    }
+	@Override
+	public EconomyResponse depositPlayer(String playerName, String worldName, double amount) {
+		return depositPlayer(playerName, amount);
+	}
 
-    @Override
-    public boolean createPlayerAccount(String playerName, String worldName) {
-        return false;
-    }
+	@Override
+	public boolean createPlayerAccount(String playerName, String worldName) {
+		return false;
+	}
 }

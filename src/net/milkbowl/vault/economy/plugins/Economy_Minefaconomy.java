@@ -18,19 +18,17 @@ import net.milkbowl.vault.economy.EconomyResponse;
 public class Economy_Minefaconomy extends AbstractEconomy {
 	private final Logger log;
 	private final String name = "Minefaconomy";
-	
-	private Plugin plugin = null;
+
 	private Minefaconomy economy = null;
 
 	public Economy_Minefaconomy(Plugin plugin) {
-		this.plugin = plugin;
 		this.log = plugin.getLogger();
 		Bukkit.getServer().getPluginManager().registerEvents(new EconomyServerListener(this), plugin);
 		Plugin econ = null;
 		// Load Plugin in case it was loaded before
 		if (economy == null) {
 			econ = plugin.getServer().getPluginManager().getPlugin("Minefaconomy");
-			log.info("Loading Minefaconomy");	
+			log.info("Loading Minefaconomy");
 		}
 		if (econ != null && econ.isEnabled()) {
 			economy = (Minefaconomy) econ;
@@ -40,35 +38,35 @@ public class Economy_Minefaconomy extends AbstractEconomy {
 		log.info("Error Loading Minefaconomy");
 	}
 
-    public class EconomyServerListener implements Listener {
-        Economy_Minefaconomy economy_minefaconomy = null;
+	public class EconomyServerListener implements Listener {
+		Economy_Minefaconomy economy_minefaconomy = null;
 
-        public EconomyServerListener(Economy_Minefaconomy economy_minefaconomy) {
-            this.economy_minefaconomy = economy_minefaconomy;
-        }
+		public EconomyServerListener(Economy_Minefaconomy economy_minefaconomy) {
+			this.economy_minefaconomy = economy_minefaconomy;
+		}
 
-        @EventHandler(priority = EventPriority.MONITOR)
-        public void onPluginEnable(PluginEnableEvent event) {
-            if (economy_minefaconomy.economy == null) {
-                Plugin mfc = event.getPlugin();
+		@EventHandler(priority = EventPriority.MONITOR)
+		public void onPluginEnable(PluginEnableEvent event) {
+			if (economy_minefaconomy.economy == null) {
+				Plugin mfc = event.getPlugin();
 
-                if (mfc.getDescription().getName().equals("Minefaconomy")) {
-                    economy_minefaconomy.economy = (Minefaconomy) economy;
-                    log.info(String.format("[Economy] %s hooked.", economy_minefaconomy.name));
-                }
-            }
-        }
+				if (mfc.getDescription().getName().equals("Minefaconomy")) {
+					economy_minefaconomy.economy = economy;
+					log.info(String.format("[Economy] %s hooked.", economy_minefaconomy.name));
+				}
+			}
+		}
 
-        @EventHandler(priority = EventPriority.MONITOR)
-        public void onPluginDisable(PluginDisableEvent event) {
-            if (economy_minefaconomy.economy != null) {
-                if (event.getPlugin().getDescription().getName().equals("Minefaconomy")) {
-                    economy_minefaconomy.economy = null;
-                    log.info(String.format("[Economy] %s unhooked.", economy_minefaconomy.name));
-                }
-            }
-        }
-    }
+		@EventHandler(priority = EventPriority.MONITOR)
+		public void onPluginDisable(PluginDisableEvent event) {
+			if (economy_minefaconomy.economy != null) {
+				if (event.getPlugin().getDescription().getName().equals("Minefaconomy")) {
+					economy_minefaconomy.economy = null;
+					log.info(String.format("[Economy] %s unhooked.", economy_minefaconomy.name));
+				}
+			}
+		}
+	}
 
 	@Override
 	public boolean isEnabled() {
@@ -136,8 +134,7 @@ public class Economy_Minefaconomy extends AbstractEconomy {
 	}
 
 	@Override
-	public EconomyResponse withdrawPlayer(String playerName, String worldName,
-			double amount) {
+	public EconomyResponse withdrawPlayer(String playerName, String worldName, double amount) {
 		return Minefaconomy.vaultLayer.withdrawPlayer(playerName, amount);
 	}
 
@@ -147,8 +144,7 @@ public class Economy_Minefaconomy extends AbstractEconomy {
 	}
 
 	@Override
-	public EconomyResponse depositPlayer(String playerName, String worldName,
-			double amount) {
+	public EconomyResponse depositPlayer(String playerName, String worldName, double amount) {
 		return Minefaconomy.vaultLayer.depositPlayer(playerName, amount);
 	}
 

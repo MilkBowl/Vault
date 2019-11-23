@@ -23,11 +23,11 @@ import org.bukkit.plugin.Plugin;
 public class Permission_SuperPerms extends Permission {
 
 	private final String name = "SuperPerms";
-	
+
 	public Permission_SuperPerms(Plugin plugin) {
 		this.plugin = plugin;
 	}
-	
+
 	@Override
 	public String getName() {
 		return name;
@@ -49,7 +49,8 @@ public class Permission_SuperPerms extends Permission {
 		return false;
 	}
 
-	// use superclass implementation of playerAddTransient() and playerRemoveTransient()
+	// use superclass implementation of playerAddTransient() and
+	// playerRemoveTransient()
 
 	@Override
 	public boolean playerRemove(String world, String player, String permission) {
@@ -106,8 +107,8 @@ public class Permission_SuperPerms extends Permission {
 		return true;
 	}
 
-    @Override
-    public boolean hasGroupSupport() {
-        return false;
-    }
+	@Override
+	public boolean hasGroupSupport() {
+		return false;
+	}
 }

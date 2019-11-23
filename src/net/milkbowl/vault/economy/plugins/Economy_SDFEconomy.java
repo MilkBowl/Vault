@@ -32,197 +32,196 @@ import net.milkbowl.vault.economy.AbstractEconomy;
 import net.milkbowl.vault.economy.EconomyResponse;
 
 public class Economy_SDFEconomy extends AbstractEconomy {
-    private final Logger log;
-    private final String name = "SDFEconomy";
-    private Plugin plugin = null;
-    private SDFEconomyAPI api = null;
-    
-    public Economy_SDFEconomy(Plugin plugin) {
-        this.plugin = plugin;
-        this.log = plugin.getLogger();
-        // Register a listener to wait for plugin being loaded
-        plugin.getServer().getPluginManager().registerEvents(new EconomyServerListener(this), plugin);
+	private final Logger log;
+	private final String name = "SDFEconomy";
+	private Plugin plugin = null;
+	private SDFEconomyAPI api = null;
 
-        // Try and Load API in case plugin was loaded before Vault
-        load_api();
-    }
+	public Economy_SDFEconomy(Plugin plugin) {
+		this.plugin = plugin;
+		this.log = plugin.getLogger();
+		// Register a listener to wait for plugin being loaded
+		plugin.getServer().getPluginManager().registerEvents(new EconomyServerListener(this), plugin);
 
-    public void load_api() {
-        SDFEconomy pluginSDF = (SDFEconomy) plugin.getServer().getPluginManager().getPlugin("SDFEconomy");
-        if(!isEnabled() && pluginSDF != null) {
-            api = pluginSDF.getAPI(); 
-            log.info(String.format("[Economy] %s hooked.", name));
-        }
-    }
+		// Try and Load API in case plugin was loaded before Vault
+		load_api();
+	}
 
-    public void unload_api() {
-        SDFEconomy pluginSDF = (SDFEconomy) plugin.getServer().getPluginManager().getPlugin("SDFEconomy");
-        if(isEnabled() && pluginSDF != null) {
-            api = null; 
-            log.info(String.format("[Economy] %s unhooked.", name));
-        }
-    }
+	public void load_api() {
+		SDFEconomy pluginSDF = (SDFEconomy) plugin.getServer().getPluginManager().getPlugin("SDFEconomy");
+		if (!isEnabled() && pluginSDF != null) {
+			api = pluginSDF.getAPI();
+			log.info(String.format("[Economy] %s hooked.", name));
+		}
+	}
 
-    public class EconomyServerListener implements Listener {
-        Economy_SDFEconomy economy = null;
+	public void unload_api() {
+		SDFEconomy pluginSDF = (SDFEconomy) plugin.getServer().getPluginManager().getPlugin("SDFEconomy");
+		if (isEnabled() && pluginSDF != null) {
+			api = null;
+			log.info(String.format("[Economy] %s unhooked.", name));
+		}
+	}
 
-        public EconomyServerListener(Economy_SDFEconomy economy) {
-            this.economy = economy;
-        }
+	public class EconomyServerListener implements Listener {
+		Economy_SDFEconomy economy = null;
 
-        @EventHandler(priority = EventPriority.MONITOR)
-        public void onPluginEnable(PluginEnableEvent event) {
-            if (event.getPlugin().getDescription().getName().equals("SDFEconomy")) {
-                economy.load_api();
-            }
-        }
+		public EconomyServerListener(Economy_SDFEconomy economy) {
+			this.economy = economy;
+		}
 
-        @EventHandler(priority = EventPriority.MONITOR)
-        public void onPluginDisable(PluginDisableEvent event) {
-            if (event.getPlugin().getDescription().getName().equals("SDFEconomy")) {
-                economy.unload_api();
-            }
-        }
-    }
+		@EventHandler(priority = EventPriority.MONITOR)
+		public void onPluginEnable(PluginEnableEvent event) {
+			if (event.getPlugin().getDescription().getName().equals("SDFEconomy")) {
+				economy.load_api();
+			}
+		}
 
- 
-    @Override
-    public boolean isEnabled() {
-        return api != null;
-    }
+		@EventHandler(priority = EventPriority.MONITOR)
+		public void onPluginDisable(PluginDisableEvent event) {
+			if (event.getPlugin().getDescription().getName().equals("SDFEconomy")) {
+				economy.unload_api();
+			}
+		}
+	}
 
-    @Override
-    public String getName() {
-        return "SDFEconomy"; 
-    }
+	@Override
+	public boolean isEnabled() {
+		return api != null;
+	}
 
-    @Override
-    public boolean hasBankSupport() {
-        return api.hasBankSupport();
-    }
+	@Override
+	public String getName() {
+		return "SDFEconomy";
+	}
 
-    @Override
-    public int fractionalDigits() {
-        return api.fractionalDigits();
-    }
+	@Override
+	public boolean hasBankSupport() {
+		return api.hasBankSupport();
+	}
 
-    @Override
-    public String format(double amount) {
-        return api.format(amount);
-    }
+	@Override
+	public int fractionalDigits() {
+		return api.fractionalDigits();
+	}
 
-    @Override
-    public String currencyNamePlural() {
-        return api.currencyNamePlural();
-    }
+	@Override
+	public String format(double amount) {
+		return api.format(amount);
+	}
 
-    @Override
-    public String currencyNameSingular() {
-        return api.currencyNameSingular();
-    }
+	@Override
+	public String currencyNamePlural() {
+		return api.currencyNamePlural();
+	}
 
-    @Override
-    public boolean hasAccount(String playerName) {
-        return api.hasAccount(playerName);
-    }
+	@Override
+	public String currencyNameSingular() {
+		return api.currencyNameSingular();
+	}
 
-    @Override
-    public double getBalance(String playerName) {
-        return api.getBalance(playerName);
-    }
+	@Override
+	public boolean hasAccount(String playerName) {
+		return api.hasAccount(playerName);
+	}
 
-    @Override
-    public boolean has(String playerName, double amount) {
-        return api.has(playerName, amount);
-    }
+	@Override
+	public double getBalance(String playerName) {
+		return api.getBalance(playerName);
+	}
 
-    @Override
-    public EconomyResponse withdrawPlayer(String playerName, double amount) {
-        return api.withdrawPlayer(playerName, amount);
-    }
+	@Override
+	public boolean has(String playerName, double amount) {
+		return api.has(playerName, amount);
+	}
 
-    @Override
-    public EconomyResponse depositPlayer(String playerName, double amount) {
-        return api.depositPlayer(playerName, amount);
-    }
+	@Override
+	public EconomyResponse withdrawPlayer(String playerName, double amount) {
+		return api.withdrawPlayer(playerName, amount);
+	}
 
-    @Override
-    public EconomyResponse createBank(String name, String player) {
-        return api.createBank(name, player);
-    }
+	@Override
+	public EconomyResponse depositPlayer(String playerName, double amount) {
+		return api.depositPlayer(playerName, amount);
+	}
 
-    @Override
-    public EconomyResponse deleteBank(String name) {
-        return api.deleteBank(name);
-    }
+	@Override
+	public EconomyResponse createBank(String name, String player) {
+		return api.createBank(name, player);
+	}
 
-    @Override
-    public EconomyResponse bankBalance(String name) {
-        return api.bankBalance(name);
-    }
+	@Override
+	public EconomyResponse deleteBank(String name) {
+		return api.deleteBank(name);
+	}
 
-    @Override
-    public EconomyResponse bankHas(String name, double amount) {
-        return api.bankHas(name, amount);
-    }
+	@Override
+	public EconomyResponse bankBalance(String name) {
+		return api.bankBalance(name);
+	}
 
-    @Override
-    public EconomyResponse bankWithdraw(String name, double amount) {
-        return api.bankWithdraw(name, amount);
-    }
+	@Override
+	public EconomyResponse bankHas(String name, double amount) {
+		return api.bankHas(name, amount);
+	}
 
-    @Override
-    public EconomyResponse bankDeposit(String name, double amount) {
-        return api.bankDeposit(name, amount);
-    }
+	@Override
+	public EconomyResponse bankWithdraw(String name, double amount) {
+		return api.bankWithdraw(name, amount);
+	}
 
-    @Override
-    public EconomyResponse isBankOwner(String name, String playerName) {
-        return api.isBankOwner(name, playerName);
-    }
+	@Override
+	public EconomyResponse bankDeposit(String name, double amount) {
+		return api.bankDeposit(name, amount);
+	}
 
-    @Override
-    public EconomyResponse isBankMember(String name, String playerName) {
-        return api.isBankMember(name, playerName);
-    }
+	@Override
+	public EconomyResponse isBankOwner(String name, String playerName) {
+		return api.isBankOwner(name, playerName);
+	}
 
-    @Override
-    public List<String> getBanks() {
-        return api.getBankNames();
-    }
+	@Override
+	public EconomyResponse isBankMember(String name, String playerName) {
+		return api.isBankMember(name, playerName);
+	}
 
-    @Override
-    public boolean createPlayerAccount(String playerName) {
-        return api.createPlayerAccount(playerName);
-    }
+	@Override
+	public List<String> getBanks() {
+		return api.getBankNames();
+	}
 
-    @Override
-    public boolean hasAccount(String playerName, String worldName) {
-        return hasAccount(playerName);
-    }
+	@Override
+	public boolean createPlayerAccount(String playerName) {
+		return api.createPlayerAccount(playerName);
+	}
 
-    @Override
-    public double getBalance(String playerName, String world) {
-        return getBalance(playerName);
-    }
+	@Override
+	public boolean hasAccount(String playerName, String worldName) {
+		return hasAccount(playerName);
+	}
 
-    @Override
-    public boolean has(String playerName, String worldName, double amount) {
-        return has(playerName, amount);
-    }
+	@Override
+	public double getBalance(String playerName, String world) {
+		return getBalance(playerName);
+	}
 
-    @Override
-    public EconomyResponse withdrawPlayer(String playerName, String worldName, double amount) {
-        return withdrawPlayer(playerName, amount);
-    }
+	@Override
+	public boolean has(String playerName, String worldName, double amount) {
+		return has(playerName, amount);
+	}
 
-    @Override
-    public EconomyResponse depositPlayer(String playerName, String worldName, double amount) {
-        return depositPlayer(playerName, amount);
-    }
+	@Override
+	public EconomyResponse withdrawPlayer(String playerName, String worldName, double amount) {
+		return withdrawPlayer(playerName, amount);
+	}
 
-    @Override
-    public boolean createPlayerAccount(String playerName, String worldName) {
-        return createPlayerAccount(playerName);
-    }
+	@Override
+	public EconomyResponse depositPlayer(String playerName, String worldName, double amount) {
+		return depositPlayer(playerName, amount);
+	}
+
+	@Override
+	public boolean createPlayerAccount(String playerName, String worldName) {
+		return createPlayerAccount(playerName);
+	}
 }

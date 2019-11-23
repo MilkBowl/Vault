@@ -39,18 +39,17 @@ import com.greatmancode.craftconomy3.tools.interfaces.BukkitLoader;
 public class Economy_Craftconomy3 extends AbstractEconomy {
 	private final Logger log;
 	private final String name = "Craftconomy3";
-	private Plugin plugin = null;
 	protected BukkitLoader economy = null;
 
 	public Economy_Craftconomy3(Plugin plugin) {
-		this.plugin = plugin;
 		this.log = plugin.getLogger();
 		Bukkit.getServer().getPluginManager().registerEvents(new EconomyServerListener(this), plugin);
 
 		// Load Plugin in case it was loaded before
 		if (economy == null) {
 			Plugin ec = plugin.getServer().getPluginManager().getPlugin("Craftconomy3");
-			if (ec != null && ec.isEnabled() && ec.getClass().getName().equals("com.greatmancode.craftconomy3.BukkitLoader")) {
+			if (ec != null && ec.isEnabled()
+					&& ec.getClass().getName().equals("com.greatmancode.craftconomy3.BukkitLoader")) {
 				economy = (BukkitLoader) ec;
 				log.info(String.format("[Economy] %s hooked.", name));
 			}
@@ -69,7 +68,8 @@ public class Economy_Craftconomy3 extends AbstractEconomy {
 			if (economy.economy == null) {
 				Plugin ec = event.getPlugin();
 
-				if (ec.getDescription().getName().equals("Craftconomy3") && ec.getClass().getName().equals("com.greatmancode.craftconomy3.tools.interfaces.BukkitLoader")) {
+				if (ec.getDescription().getName().equals("Craftconomy3") && ec.getClass().getName()
+						.equals("com.greatmancode.craftconomy3.tools.interfaces.BukkitLoader")) {
 					economy.economy = (BukkitLoader) ec;
 					log.info(String.format("[Economy] %s hooked.", economy.name));
 				}
@@ -91,9 +91,9 @@ public class Economy_Craftconomy3 extends AbstractEconomy {
 	public boolean isEnabled() {
 		if (economy == null) {
 			return false;
-		} else {
-			return economy.isEnabled();
 		}
+
+		return economy.isEnabled();
 	}
 
 	@Override
@@ -103,7 +103,8 @@ public class Economy_Craftconomy3 extends AbstractEconomy {
 
 	@Override
 	public String format(double amount) {
-		return Common.getInstance().format(null, Common.getInstance().getCurrencyManager().getDefaultCurrency(), amount);
+		return Common.getInstance().format(null, Common.getInstance().getCurrencyManager().getDefaultCurrency(),
+				amount);
 	}
 
 	@Override
@@ -140,14 +141,16 @@ public class Economy_Craftconomy3 extends AbstractEconomy {
 	public EconomyResponse createBank(String name, String player) {
 		boolean success = false;
 		if (!Common.getInstance().getAccountManager().exist(name, true)) {
-			Common.getInstance().getAccountManager().getAccount(name,true).getAccountACL().set(player, true, true, true, true, true);
+			Common.getInstance().getAccountManager().getAccount(name, true).getAccountACL().set(player, true, true,
+					true, true, true);
 			success = true;
 		}
 		if (success) {
 			return new EconomyResponse(0, 0, ResponseType.SUCCESS, "");
 		}
 
-		return new EconomyResponse(0, 0, ResponseType.FAILURE, "Unable to create that bank account. It already exists!");
+		return new EconomyResponse(0, 0, ResponseType.FAILURE,
+				"Unable to create that bank account. It already exists!");
 	}
 
 	@Override
@@ -165,11 +168,12 @@ public class Economy_Craftconomy3 extends AbstractEconomy {
 
 		if (Common.getInstance().getAccountManager().exist(name, true)) {
 			Account account = Common.getInstance().getAccountManager().getAccount(name, true);
-			if (account.hasEnough(amount, Common.getInstance().getServerCaller().getDefaultWorld(), Common.getInstance().getCurrencyManager().getDefaultCurrency().getName())) {
+			if (account.hasEnough(amount, Common.getInstance().getServerCaller().getDefaultWorld(),
+					Common.getInstance().getCurrencyManager().getDefaultCurrency().getName())) {
 				return new EconomyResponse(0, bankBalance(name).balance, ResponseType.SUCCESS, "");
-			} else {
-				return new EconomyResponse(0, bankBalance(name).balance, ResponseType.FAILURE, "The bank does not have enough money!");
 			}
+			return new EconomyResponse(0, bankBalance(name).balance, ResponseType.FAILURE,
+					"The bank does not have enough money!");
 		}
 		return new EconomyResponse(0, 0, ResponseType.FAILURE, "That bank does not exist!");
 	}
@@ -183,12 +187,16 @@ public class Economy_Craftconomy3 extends AbstractEconomy {
 		EconomyResponse er = bankHas(name, amount);
 		if (!er.transactionSuccess()) {
 			return er;
-		} else {
-			if (Common.getInstance().getAccountManager().exist(name, true)) {
-				return new EconomyResponse(0, Common.getInstance().getAccountManager().getAccount(name, true).withdraw(amount,WorldGroupsManager.DEFAULT_GROUP_NAME, Common.getInstance().getCurrencyManager().getDefaultBankCurrency().getName(), Cause.VAULT, null), ResponseType.SUCCESS, "");
-			}
-			return new EconomyResponse(0, 0, ResponseType.FAILURE, "That bank does not exist!");
 		}
+		if (Common.getInstance().getAccountManager().exist(name, true)) {
+			return new EconomyResponse(0,
+					Common.getInstance().getAccountManager().getAccount(name, true).withdraw(amount,
+							WorldGroupsManager.DEFAULT_GROUP_NAME,
+							Common.getInstance().getCurrencyManager().getDefaultBankCurrency().getName(), Cause.VAULT,
+							null),
+					ResponseType.SUCCESS, "");
+		}
+		return new EconomyResponse(0, 0, ResponseType.FAILURE, "That bank does not exist!");
 	}
 
 	@Override
@@ -198,7 +206,12 @@ public class Economy_Craftconomy3 extends AbstractEconomy {
 		}
 
 		if (Common.getInstance().getAccountManager().exist(name, true)) {
-			return new EconomyResponse(0, Common.getInstance().getAccountManager().getAccount(name, true).deposit(amount,WorldGroupsManager.DEFAULT_GROUP_NAME, Common.getInstance().getCurrencyManager().getDefaultBankCurrency().getName(), Cause.VAULT, null), ResponseType.SUCCESS, "");
+			return new EconomyResponse(0,
+					Common.getInstance().getAccountManager().getAccount(name, true).deposit(amount,
+							WorldGroupsManager.DEFAULT_GROUP_NAME,
+							Common.getInstance().getCurrencyManager().getDefaultBankCurrency().getName(), Cause.VAULT,
+							null),
+					ResponseType.SUCCESS, "");
 		}
 		return new EconomyResponse(0, 0, ResponseType.FAILURE, "That bank does not exist!");
 	}
@@ -216,26 +229,28 @@ public class Economy_Craftconomy3 extends AbstractEconomy {
 
 	@Override
 	public EconomyResponse isBankMember(String name, String playerName) {
-
 		// Basicly here if the user have access to deposit & withdraw he's a member
 		EconomyResponse er = isBankOwner(name, playerName);
 		if (er.transactionSuccess()) {
 			return er;
-		} else {
-			if (Common.getInstance().getAccountManager().exist(name, true)) {
-				Account account = Common.getInstance().getAccountManager().getAccount(name, true);
-				if (account.getAccountACL().canDeposit(playerName) && account.getAccountACL().canWithdraw(playerName)) {
-					return new EconomyResponse(0, bankBalance(name).balance, ResponseType.SUCCESS, "");
-				}
-			}
-			return new EconomyResponse(0, 0, ResponseType.FAILURE, "This player is not a member of the bank!");
 		}
+		if (Common.getInstance().getAccountManager().exist(name, true)) {
+			Account account = Common.getInstance().getAccountManager().getAccount(name, true);
+			if (account.getAccountACL().canDeposit(playerName) && account.getAccountACL().canWithdraw(playerName)) {
+				return new EconomyResponse(0, bankBalance(name).balance, ResponseType.SUCCESS, "");
+			}
+		}
+		return new EconomyResponse(0, 0, ResponseType.FAILURE, "This player is not a member of the bank!");
 	}
 
 	@Override
 	public EconomyResponse bankBalance(String name) {
 		if (Common.getInstance().getAccountManager().exist(name, true)) {
-			return new EconomyResponse(0, Common.getInstance().getAccountManager().getAccount(name, true).getBalance(WorldGroupsManager.DEFAULT_GROUP_NAME, Common.getInstance().getCurrencyManager().getDefaultBankCurrency().getName()), ResponseType.SUCCESS, "");
+			return new EconomyResponse(0,
+					Common.getInstance().getAccountManager().getAccount(name, true).getBalance(
+							WorldGroupsManager.DEFAULT_GROUP_NAME,
+							Common.getInstance().getCurrencyManager().getDefaultBankCurrency().getName()),
+					ResponseType.SUCCESS, "");
 		}
 		return new EconomyResponse(0, 0, ResponseType.FAILURE, "That bank does not exist!");
 	}
@@ -276,39 +291,45 @@ public class Economy_Craftconomy3 extends AbstractEconomy {
 
 	@Override
 	public double getBalance(String playerName, String world) {
-		return Common.getInstance().getAccountManager().getAccount(playerName, false).getBalance(world, Common.getInstance().getCurrencyManager().getDefaultCurrency().getName());
+		return Common.getInstance().getAccountManager().getAccount(playerName, false).getBalance(world,
+				Common.getInstance().getCurrencyManager().getDefaultCurrency().getName());
 	}
 
 	@Override
 	public boolean has(String playerName, String worldName, double amount) {
-		return Common.getInstance().getAccountManager().getAccount(playerName, false).hasEnough(amount, worldName, Common.getInstance().getCurrencyManager().getDefaultCurrency().getName());
+		return Common.getInstance().getAccountManager().getAccount(playerName, false).hasEnough(amount, worldName,
+				Common.getInstance().getCurrencyManager().getDefaultCurrency().getName());
 	}
 
 	@Override
 	public EconomyResponse withdrawPlayer(String playerName, String worldName, double amount) {
 		if (amount < 0) {
-			return new EconomyResponse(0, getBalance(playerName, worldName), ResponseType.FAILURE, "Cannot withdraw negative funds");
+			return new EconomyResponse(0, getBalance(playerName, worldName), ResponseType.FAILURE,
+					"Cannot withdraw negative funds");
 		}
 
 		double balance;
 		Account account = Common.getInstance().getAccountManager().getAccount(playerName, false);
-		if (account.hasEnough(amount, worldName, Common.getInstance().getCurrencyManager().getDefaultCurrency().getName())) {
-			balance = account.withdraw(amount, worldName, Common.getInstance().getCurrencyManager().getDefaultCurrency().getName(), Cause.VAULT, null);
+		if (account.hasEnough(amount, worldName,
+				Common.getInstance().getCurrencyManager().getDefaultCurrency().getName())) {
+			balance = account.withdraw(amount, worldName,
+					Common.getInstance().getCurrencyManager().getDefaultCurrency().getName(), Cause.VAULT, null);
 			return new EconomyResponse(amount, balance, ResponseType.SUCCESS, "");
-		} else {
-			return new EconomyResponse(0, getBalance(playerName, worldName), ResponseType.FAILURE, "Insufficient funds");
 		}
+		return new EconomyResponse(0, getBalance(playerName, worldName), ResponseType.FAILURE, "Insufficient funds");
 	}
 
 	@Override
 	public EconomyResponse depositPlayer(String playerName, String worldName, double amount) {
 		if (amount < 0) {
-			return new EconomyResponse(0, getBalance(playerName, worldName), ResponseType.FAILURE, "Cannot desposit negative funds");
+			return new EconomyResponse(0, getBalance(playerName, worldName), ResponseType.FAILURE,
+					"Cannot desposit negative funds");
 		}
 
 		Account account = Common.getInstance().getAccountManager().getAccount(playerName, false);
 
-		double balance = account.deposit(amount, worldName, Common.getInstance().getCurrencyManager().getDefaultCurrency().getName(), Cause.VAULT, null);
+		double balance = account.deposit(amount, worldName,
+				Common.getInstance().getCurrencyManager().getDefaultCurrency().getName(), Cause.VAULT, null);
 		return new EconomyResponse(amount, balance, ResponseType.SUCCESS, null);
 	}
 

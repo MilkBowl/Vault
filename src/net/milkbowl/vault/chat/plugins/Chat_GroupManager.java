@@ -35,334 +35,334 @@ import org.bukkit.plugin.Plugin;
 
 public class Chat_GroupManager extends Chat {
 
-    private final Logger log;
-    private final String name = "GroupManager - Chat";
-    private Plugin plugin = null;
-    private GroupManager groupManager;
+	private final Logger log;
+	private final String name = "GroupManager - Chat";
+	private Plugin plugin = null;
+	private GroupManager groupManager;
 
-    public Chat_GroupManager(Plugin plugin, Permission perms) {
-        super(perms);
-        this.plugin = plugin;
-        this.log = plugin.getLogger();
-        Bukkit.getServer().getPluginManager().registerEvents(new PermissionServerListener(this), plugin);
+	public Chat_GroupManager(Plugin plugin, Permission perms) {
+		super(perms);
+		this.plugin = plugin;
+		this.log = plugin.getLogger();
+		Bukkit.getServer().getPluginManager().registerEvents(new PermissionServerListener(this), plugin);
 
-        // Load Plugin in case it was loaded before
-        if (groupManager == null) {
-            Plugin chat = plugin.getServer().getPluginManager().getPlugin("GroupManager");
-            if (chat != null) {
-                if (chat.isEnabled()) {
-                    groupManager = (GroupManager) chat;
-                    log.info(String.format("[%s][Chat] %s hooked.", plugin.getDescription().getName(), name));
-                }
-            }
-        }
-    }
+		// Load Plugin in case it was loaded before
+		if (groupManager == null) {
+			Plugin chat = plugin.getServer().getPluginManager().getPlugin("GroupManager");
+			if (chat != null) {
+				if (chat.isEnabled()) {
+					groupManager = (GroupManager) chat;
+					log.info(String.format("[%s][Chat] %s hooked.", plugin.getDescription().getName(), name));
+				}
+			}
+		}
+	}
 
-    public class PermissionServerListener implements Listener {
+	public class PermissionServerListener implements Listener {
 
-        Chat_GroupManager chat = null;
+		Chat_GroupManager chat = null;
 
-        public PermissionServerListener(Chat_GroupManager chat) {
-            this.chat = chat;
-        }
+		public PermissionServerListener(Chat_GroupManager chat) {
+			this.chat = chat;
+		}
 
-        @EventHandler(priority = EventPriority.MONITOR)
-        public void onPluginEnable(PluginEnableEvent event) {
-            if (chat.groupManager == null) {
-                Plugin perms = event.getPlugin();
+		@EventHandler(priority = EventPriority.MONITOR)
+		public void onPluginEnable(PluginEnableEvent event) {
+			if (chat.groupManager == null) {
+				Plugin perms = event.getPlugin();
 
-                if (perms.getDescription().getName().equals("GroupManager")) {
-                    chat.groupManager = (GroupManager) perms;
-                    log.info(String.format("[%s][Chat] %s hooked.", plugin.getDescription().getName(), chat.name));
-                }
-            }
-        }
+				if (perms.getDescription().getName().equals("GroupManager")) {
+					chat.groupManager = (GroupManager) perms;
+					log.info(String.format("[%s][Chat] %s hooked.", plugin.getDescription().getName(), chat.name));
+				}
+			}
+		}
 
-        @EventHandler(priority = EventPriority.MONITOR)
-        public void onPluginDisable(PluginDisableEvent event) {
-            if (chat.groupManager != null) {
-                if (event.getPlugin().getDescription().getName().equals("GroupManager")) {
-                    chat.groupManager = null;
-                    log.info(String.format("[%s][Chat] %s un-hooked.", plugin.getDescription().getName(), chat.name));
-                }
-            }
-        }
-    }
+		@EventHandler(priority = EventPriority.MONITOR)
+		public void onPluginDisable(PluginDisableEvent event) {
+			if (chat.groupManager != null) {
+				if (event.getPlugin().getDescription().getName().equals("GroupManager")) {
+					chat.groupManager = null;
+					log.info(String.format("[%s][Chat] %s un-hooked.", plugin.getDescription().getName(), chat.name));
+				}
+			}
+		}
+	}
 
-    @Override
-    public String getName() {
-        return this.name;
-    }
+	@Override
+	public String getName() {
+		return this.name;
+	}
 
-    @Override
-    public boolean isEnabled() {
-        if (groupManager == null) {
-            return false;
-        } else {
-            return groupManager.isEnabled();
-        }
-    }
+	@Override
+	public boolean isEnabled() {
+		if (groupManager == null) {
+			return false;
+		}
 
-    @Override
-    public int getPlayerInfoInteger(String worldName, String playerName, String node, int defaultValue) {
-        AnjoPermissionsHandler handler;
-        if (worldName == null) {
-            handler = groupManager.getWorldsHolder().getWorldPermissionsByPlayerName(playerName);
-        } else {
-            handler = groupManager.getWorldsHolder().getWorldPermissions(worldName);
-        }
-        if (handler == null) {
-            return defaultValue;
-        }
-        Integer val = handler.getUserPermissionInteger(playerName, node);
-        return val != null ? val : defaultValue;
-    }
+		return groupManager.isEnabled();
+	}
 
-    @Override
-    public void setPlayerInfoInteger(String worldName, String playerName, String node, int value) {
-        setPlayerValue(worldName, playerName, node, value);
-    }
+	@Override
+	public int getPlayerInfoInteger(String worldName, String playerName, String node, int defaultValue) {
+		AnjoPermissionsHandler handler;
+		if (worldName == null) {
+			handler = groupManager.getWorldsHolder().getWorldPermissionsByPlayerName(playerName);
+		} else {
+			handler = groupManager.getWorldsHolder().getWorldPermissions(worldName);
+		}
+		if (handler == null) {
+			return defaultValue;
+		}
+		Integer val = handler.getUserPermissionInteger(playerName, node);
+		return val != null ? val : defaultValue;
+	}
 
-    @Override
-    public int getGroupInfoInteger(String worldName, String groupName, String node, int defaultValue) {
-        AnjoPermissionsHandler handler;
-        if (worldName == null) {
-            handler = groupManager.getWorldsHolder().getDefaultWorld().getPermissionsHandler();
-        } else {
-            handler = groupManager.getWorldsHolder().getWorldPermissions(worldName);
-        }
-        if (handler == null) {
-            return defaultValue;
-        }
-        Integer val = handler.getGroupPermissionInteger(groupName, node);
-        return val != null ? val : defaultValue;
-    }
+	@Override
+	public void setPlayerInfoInteger(String worldName, String playerName, String node, int value) {
+		setPlayerValue(worldName, playerName, node, value);
+	}
 
-    @Override
-    public void setGroupInfoInteger(String worldName, String groupName, String node, int value) {
-        setGroupValue(worldName, groupName, node, value);
-    }
+	@Override
+	public int getGroupInfoInteger(String worldName, String groupName, String node, int defaultValue) {
+		AnjoPermissionsHandler handler;
+		if (worldName == null) {
+			handler = groupManager.getWorldsHolder().getDefaultWorld().getPermissionsHandler();
+		} else {
+			handler = groupManager.getWorldsHolder().getWorldPermissions(worldName);
+		}
+		if (handler == null) {
+			return defaultValue;
+		}
+		Integer val = handler.getGroupPermissionInteger(groupName, node);
+		return val != null ? val : defaultValue;
+	}
 
-    @Override
-    public double getPlayerInfoDouble(String worldName, String playerName, String node, double defaultValue) {
-        AnjoPermissionsHandler handler;
-        if (worldName == null) {
-            handler = groupManager.getWorldsHolder().getWorldPermissionsByPlayerName(playerName);
-        } else {
-            handler = groupManager.getWorldsHolder().getWorldPermissions(worldName);
-        }
-        if (handler == null) {
-            return defaultValue;
-        }
-        Double val = handler.getUserPermissionDouble(playerName, node);
-        return val != null ? val : defaultValue;
-    }
+	@Override
+	public void setGroupInfoInteger(String worldName, String groupName, String node, int value) {
+		setGroupValue(worldName, groupName, node, value);
+	}
 
-    @Override
-    public void setPlayerInfoDouble(String worldName, String playerName, String node, double value) {
-        setPlayerValue(worldName, playerName, node, value);
-    }
+	@Override
+	public double getPlayerInfoDouble(String worldName, String playerName, String node, double defaultValue) {
+		AnjoPermissionsHandler handler;
+		if (worldName == null) {
+			handler = groupManager.getWorldsHolder().getWorldPermissionsByPlayerName(playerName);
+		} else {
+			handler = groupManager.getWorldsHolder().getWorldPermissions(worldName);
+		}
+		if (handler == null) {
+			return defaultValue;
+		}
+		Double val = handler.getUserPermissionDouble(playerName, node);
+		return val != null ? val : defaultValue;
+	}
 
-    @Override
-    public double getGroupInfoDouble(String worldName, String groupName, String node, double defaultValue) {
-        AnjoPermissionsHandler handler;
-        if (worldName == null) {
-            handler = groupManager.getWorldsHolder().getDefaultWorld().getPermissionsHandler();
-        } else {
-            handler = groupManager.getWorldsHolder().getWorldPermissions(worldName);
-        }
-        if (handler == null) {
-            return defaultValue;
-        }
-        Double val = handler.getGroupPermissionDouble(groupName, node);
-        return val != null ? val : defaultValue;
-    }
+	@Override
+	public void setPlayerInfoDouble(String worldName, String playerName, String node, double value) {
+		setPlayerValue(worldName, playerName, node, value);
+	}
 
-    @Override
-    public void setGroupInfoDouble(String worldName, String groupName, String node, double value) {
-        setGroupValue(worldName, groupName, node, value);
-    }
+	@Override
+	public double getGroupInfoDouble(String worldName, String groupName, String node, double defaultValue) {
+		AnjoPermissionsHandler handler;
+		if (worldName == null) {
+			handler = groupManager.getWorldsHolder().getDefaultWorld().getPermissionsHandler();
+		} else {
+			handler = groupManager.getWorldsHolder().getWorldPermissions(worldName);
+		}
+		if (handler == null) {
+			return defaultValue;
+		}
+		Double val = handler.getGroupPermissionDouble(groupName, node);
+		return val != null ? val : defaultValue;
+	}
 
-    @Override
-    public boolean getPlayerInfoBoolean(String worldName, String playerName, String node, boolean defaultValue) {
-        AnjoPermissionsHandler handler;
-        if (worldName == null) {
-            handler = groupManager.getWorldsHolder().getWorldPermissionsByPlayerName(playerName);
-        } else {
-            handler = groupManager.getWorldsHolder().getWorldPermissions(worldName);
-        }
-        if (handler == null) {
-            return defaultValue;
-        }
-        Boolean val = handler.getUserPermissionBoolean(playerName, node);
-        return val != null ? val : defaultValue;
-    }
+	@Override
+	public void setGroupInfoDouble(String worldName, String groupName, String node, double value) {
+		setGroupValue(worldName, groupName, node, value);
+	}
 
-    @Override
-    public void setPlayerInfoBoolean(String worldName, String playerName, String node, boolean value) {
-        setPlayerValue(worldName, playerName, node, value);
-    }
+	@Override
+	public boolean getPlayerInfoBoolean(String worldName, String playerName, String node, boolean defaultValue) {
+		AnjoPermissionsHandler handler;
+		if (worldName == null) {
+			handler = groupManager.getWorldsHolder().getWorldPermissionsByPlayerName(playerName);
+		} else {
+			handler = groupManager.getWorldsHolder().getWorldPermissions(worldName);
+		}
+		if (handler == null) {
+			return defaultValue;
+		}
+		Boolean val = handler.getUserPermissionBoolean(playerName, node);
+		return val != null ? val : defaultValue;
+	}
 
-    @Override
-    public boolean getGroupInfoBoolean(String worldName, String groupName, String node, boolean defaultValue) {
-        AnjoPermissionsHandler handler;
-        if (worldName == null) {
-            handler = groupManager.getWorldsHolder().getDefaultWorld().getPermissionsHandler();
-        } else {
-            handler = groupManager.getWorldsHolder().getWorldPermissions(worldName);
-        }
-        if (handler == null) {
-            return defaultValue;
-        }
-        Boolean val = handler.getGroupPermissionBoolean(groupName, node);
-        return val != null ? val : defaultValue;
-    }
+	@Override
+	public void setPlayerInfoBoolean(String worldName, String playerName, String node, boolean value) {
+		setPlayerValue(worldName, playerName, node, value);
+	}
 
-    @Override
-    public void setGroupInfoBoolean(String worldName, String groupName, String node, boolean value) {
-        setGroupValue(worldName, groupName, node, value);
-    }
+	@Override
+	public boolean getGroupInfoBoolean(String worldName, String groupName, String node, boolean defaultValue) {
+		AnjoPermissionsHandler handler;
+		if (worldName == null) {
+			handler = groupManager.getWorldsHolder().getDefaultWorld().getPermissionsHandler();
+		} else {
+			handler = groupManager.getWorldsHolder().getWorldPermissions(worldName);
+		}
+		if (handler == null) {
+			return defaultValue;
+		}
+		Boolean val = handler.getGroupPermissionBoolean(groupName, node);
+		return val != null ? val : defaultValue;
+	}
 
-    @Override
-    public String getPlayerInfoString(String worldName, String playerName, String node, String defaultValue) {
-        AnjoPermissionsHandler handler;
-        if (worldName == null) {
-            handler = groupManager.getWorldsHolder().getWorldPermissionsByPlayerName(playerName);
-        } else {
-            handler = groupManager.getWorldsHolder().getWorldPermissions(worldName);
-        }
-        if (handler == null) {
-            return defaultValue;
-        }
-        String val = handler.getUserPermissionString(playerName, node);
-        return val != null ? val : defaultValue;
-    }
+	@Override
+	public void setGroupInfoBoolean(String worldName, String groupName, String node, boolean value) {
+		setGroupValue(worldName, groupName, node, value);
+	}
 
-    @Override
-    public void setPlayerInfoString(String worldName, String playerName, String node, String value) {
-        setPlayerValue(worldName, playerName, node, value);
-    }
+	@Override
+	public String getPlayerInfoString(String worldName, String playerName, String node, String defaultValue) {
+		AnjoPermissionsHandler handler;
+		if (worldName == null) {
+			handler = groupManager.getWorldsHolder().getWorldPermissionsByPlayerName(playerName);
+		} else {
+			handler = groupManager.getWorldsHolder().getWorldPermissions(worldName);
+		}
+		if (handler == null) {
+			return defaultValue;
+		}
+		String val = handler.getUserPermissionString(playerName, node);
+		return val != null ? val : defaultValue;
+	}
 
-    @Override
-    public String getGroupInfoString(String worldName, String groupName, String node, String defaultValue) {
-        AnjoPermissionsHandler handler;
-        if (worldName == null) {
-            handler = groupManager.getWorldsHolder().getDefaultWorld().getPermissionsHandler();
-        } else {
-            handler = groupManager.getWorldsHolder().getWorldPermissions(worldName);
-        }
-        if (handler == null) {
-            return defaultValue;
-        }
-        String val = handler.getGroupPermissionString(groupName, node);
-        return val != null ? val : defaultValue;
-    }
+	@Override
+	public void setPlayerInfoString(String worldName, String playerName, String node, String value) {
+		setPlayerValue(worldName, playerName, node, value);
+	}
 
-    @Override
-    public void setGroupInfoString(String worldName, String groupName, String node, String value) {
-        setGroupValue(worldName, groupName, node, value);
-    }
+	@Override
+	public String getGroupInfoString(String worldName, String groupName, String node, String defaultValue) {
+		AnjoPermissionsHandler handler;
+		if (worldName == null) {
+			handler = groupManager.getWorldsHolder().getDefaultWorld().getPermissionsHandler();
+		} else {
+			handler = groupManager.getWorldsHolder().getWorldPermissions(worldName);
+		}
+		if (handler == null) {
+			return defaultValue;
+		}
+		String val = handler.getGroupPermissionString(groupName, node);
+		return val != null ? val : defaultValue;
+	}
 
-    @Override
-    public String getPlayerPrefix(String worldName, String playerName) {
-        AnjoPermissionsHandler handler;
-        if (worldName == null) {
-            handler = groupManager.getWorldsHolder().getWorldPermissionsByPlayerName(playerName);
-        } else {
-            handler = groupManager.getWorldsHolder().getWorldPermissions(worldName);
-        }
-        if (handler == null) {
-            return "";
-        }
-        return handler.getUserPrefix(playerName);
-    }
+	@Override
+	public void setGroupInfoString(String worldName, String groupName, String node, String value) {
+		setGroupValue(worldName, groupName, node, value);
+	}
 
-    @Override
-    public String getPlayerSuffix(String worldName, String playerName) {
-        AnjoPermissionsHandler handler;
-        if (worldName == null) {
-            handler = groupManager.getWorldsHolder().getWorldPermissionsByPlayerName(playerName);
-        } else {
-            handler = groupManager.getWorldsHolder().getWorldPermissions(worldName);
-        }
-        if (handler == null) {
-            return "";
-        }
-        return handler.getUserSuffix(playerName);
-    }
+	@Override
+	public String getPlayerPrefix(String worldName, String playerName) {
+		AnjoPermissionsHandler handler;
+		if (worldName == null) {
+			handler = groupManager.getWorldsHolder().getWorldPermissionsByPlayerName(playerName);
+		} else {
+			handler = groupManager.getWorldsHolder().getWorldPermissions(worldName);
+		}
+		if (handler == null) {
+			return "";
+		}
+		return handler.getUserPrefix(playerName);
+	}
 
-    @Override
-    public void setPlayerSuffix(String worldName, String player, String suffix) {
-        setPlayerInfoString(worldName, player, "suffix", suffix);
-    }
+	@Override
+	public String getPlayerSuffix(String worldName, String playerName) {
+		AnjoPermissionsHandler handler;
+		if (worldName == null) {
+			handler = groupManager.getWorldsHolder().getWorldPermissionsByPlayerName(playerName);
+		} else {
+			handler = groupManager.getWorldsHolder().getWorldPermissions(worldName);
+		}
+		if (handler == null) {
+			return "";
+		}
+		return handler.getUserSuffix(playerName);
+	}
 
-    @Override
-    public void setPlayerPrefix(String worldName, String player, String prefix) {
-        setPlayerInfoString(worldName, player, "prefix", prefix);
-    }
+	@Override
+	public void setPlayerSuffix(String worldName, String player, String suffix) {
+		setPlayerInfoString(worldName, player, "suffix", suffix);
+	}
 
-    @Override
-    public String getGroupPrefix(String worldName, String group) {
-        return getGroupInfoString(worldName, group, "prefix", "");
-    }
+	@Override
+	public void setPlayerPrefix(String worldName, String player, String prefix) {
+		setPlayerInfoString(worldName, player, "prefix", prefix);
+	}
 
-    @Override
-    public void setGroupPrefix(String worldName, String group, String prefix) {
-        setGroupInfoString(worldName, group, "prefix", prefix);
-    }
+	@Override
+	public String getGroupPrefix(String worldName, String group) {
+		return getGroupInfoString(worldName, group, "prefix", "");
+	}
 
-    @Override
-    public String getGroupSuffix(String worldName, String group) {
-        return getGroupInfoString(worldName, group, "suffix", "");
-    }
+	@Override
+	public void setGroupPrefix(String worldName, String group, String prefix) {
+		setGroupInfoString(worldName, group, "prefix", prefix);
+	}
 
-    @Override
-    public void setGroupSuffix(String worldName, String group, String suffix) {
-        setGroupInfoString(worldName, group, "suffix", suffix);
-    }
+	@Override
+	public String getGroupSuffix(String worldName, String group) {
+		return getGroupInfoString(worldName, group, "suffix", "");
+	}
 
-    @Override
-    public String getPrimaryGroup(String worldName, String playerName) {
-        AnjoPermissionsHandler handler;
-        if (worldName == null) {
-            handler = groupManager.getWorldsHolder().getWorldPermissionsByPlayerName(playerName);
-        } else {
-            handler = groupManager.getWorldsHolder().getWorldPermissions(worldName);
-        }
-        return handler.getGroup(playerName);
-    }
+	@Override
+	public void setGroupSuffix(String worldName, String group, String suffix) {
+		setGroupInfoString(worldName, group, "suffix", suffix);
+	}
 
-    private void setPlayerValue(String worldName, String playerName, String node, Object value) {
-        OverloadedWorldHolder owh;
-        if (worldName == null) {
-            owh = groupManager.getWorldsHolder().getWorldDataByPlayerName(playerName);
-        } else {
-            owh = groupManager.getWorldsHolder().getWorldData(worldName);
-        }
-        if (owh == null) {
-            return;
-        }
-        User user = owh.getUser(playerName);
-        if (user == null) {
-            return;
-        }
-        user.getVariables().addVar(node, value);
-    }
+	@Override
+	public String getPrimaryGroup(String worldName, String playerName) {
+		AnjoPermissionsHandler handler;
+		if (worldName == null) {
+			handler = groupManager.getWorldsHolder().getWorldPermissionsByPlayerName(playerName);
+		} else {
+			handler = groupManager.getWorldsHolder().getWorldPermissions(worldName);
+		}
+		return handler.getGroup(playerName);
+	}
 
-    private void setGroupValue(String worldName, String groupName, String node, Object value) {
-        OverloadedWorldHolder owh;
-        if (worldName == null) {
-            owh = groupManager.getWorldsHolder().getDefaultWorld();
-        } else {
-            owh = groupManager.getWorldsHolder().getWorldData(worldName);
-        }
-        if (owh == null) {
-            return;
-        }
-        Group group = owh.getGroup(groupName);
-        if (group == null) {
-            return;
-        }
-        group.getVariables().addVar(node, value);
-    }
+	private void setPlayerValue(String worldName, String playerName, String node, Object value) {
+		OverloadedWorldHolder owh;
+		if (worldName == null) {
+			owh = groupManager.getWorldsHolder().getWorldDataByPlayerName(playerName);
+		} else {
+			owh = groupManager.getWorldsHolder().getWorldData(worldName);
+		}
+		if (owh == null) {
+			return;
+		}
+		User user = owh.getUser(playerName);
+		if (user == null) {
+			return;
+		}
+		user.getVariables().addVar(node, value);
+	}
+
+	private void setGroupValue(String worldName, String groupName, String node, Object value) {
+		OverloadedWorldHolder owh;
+		if (worldName == null) {
+			owh = groupManager.getWorldsHolder().getDefaultWorld();
+		} else {
+			owh = groupManager.getWorldsHolder().getWorldData(worldName);
+		}
+		if (owh == null) {
+			return;
+		}
+		Group group = owh.getGroup(groupName);
+		if (group == null) {
+			return;
+		}
+		group.getVariables().addVar(node, value);
+	}
 }

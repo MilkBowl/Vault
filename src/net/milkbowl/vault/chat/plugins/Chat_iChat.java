@@ -136,7 +136,6 @@ public class Chat_iChat extends Chat {
 	public String getGroupPrefix(String world, String group) {
 		throw new UnsupportedOperationException("iChat does not support group info nodes!");
 	}
-	
 
 	@Override
 	public void setGroupPrefix(String world, String group, String prefix) {
@@ -220,10 +219,10 @@ public class Chat_iChat extends Chat {
 		String val = getPlayerInfoString(world, player, node, null);
 		if (val == null) {
 			return defaultValue;
-		} else {
-		    Boolean v = Boolean.valueOf(val);
-		    return v != null ? v : defaultValue;
 		}
+
+		Boolean v = Boolean.valueOf(val);
+		return v != null ? v : defaultValue;
 	}
 
 	@Override
@@ -233,7 +232,7 @@ public class Chat_iChat extends Chat {
 
 	@Override
 	public boolean getGroupInfoBoolean(String world, String group, String node, boolean defaultValue) {
-	    throw new UnsupportedOperationException("iChat does not support group info nodes!");
+		throw new UnsupportedOperationException("iChat does not support group info nodes!");
 	}
 
 	@Override

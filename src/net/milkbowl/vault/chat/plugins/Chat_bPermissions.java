@@ -35,20 +35,20 @@ public class Chat_bPermissions extends Chat {
 	private final String name = "bInfo";
 	private final Logger log;
 	private Plugin plugin = null;
-	InfoReader chat;
+	InfoReader info;
 
 	public Chat_bPermissions(Plugin plugin, Permission perms) {
 		super(perms);
 		this.plugin = plugin;
 		this.log = plugin.getLogger();
-		
+
 		Bukkit.getServer().getPluginManager().registerEvents(new PermissionServerListener(this), plugin);
 
 		// Load Plugin in case it was loaded before
-		if (chat == null) {
+		if (info == null) {
 			Plugin p = plugin.getServer().getPluginManager().getPlugin("bPermissions");
 			if (p != null) {
-				chat = Permissions.getInfoReader();
+				info = Permissions.getInfoReader();
 				log.info(String.format("[%s][Chat] %s hooked.", plugin.getDescription().getName(), "bPermissions"));
 			}
 		}
@@ -63,10 +63,10 @@ public class Chat_bPermissions extends Chat {
 
 		@EventHandler(priority = EventPriority.MONITOR)
 		public void onPluginEnable(PluginEnableEvent event) {
-			if (this.chat.chat == null) {
+			if (this.chat.info == null) {
 				Plugin chat = event.getPlugin();
 				if (chat.getDescription().getName().equals("bPermissions")) {
-				    this.chat.chat = Permissions.getInfoReader();
+					this.chat.info = Permissions.getInfoReader();
 					log.info(String.format("[%s][Chat] %s hooked.", plugin.getDescription().getName(), "bPermissions"));
 				}
 			}
@@ -74,14 +74,16 @@ public class Chat_bPermissions extends Chat {
 
 		@EventHandler(priority = EventPriority.MONITOR)
 		public void onPluginDisable(PluginDisableEvent event) {
-			if (this.chat.chat != null) {
+			if (this.chat.info != null) {
 				if (event.getPlugin().getDescription().getName().equals("bPermissions")) {
-					this.chat.chat = null;
-					log.info(String.format("[%s][Chat] %s un-hooked.", plugin.getDescription().getName(), "bPermissions"));
+					this.chat.info = null;
+					log.info(String.format("[%s][Chat] %s un-hooked.", plugin.getDescription().getName(),
+							"bPermissions"));
 				}
 			}
 		}
 	}
+
 	@Override
 	public String getName() {
 		return name;
@@ -89,12 +91,12 @@ public class Chat_bPermissions extends Chat {
 
 	@Override
 	public boolean isEnabled() {
-		return chat != null;
+		return info != null;
 	}
 
 	@Override
 	public String getPlayerPrefix(String world, String player) {
-	    return chat.getPrefix(player, world);
+		return info.getPrefix(player, world);
 	}
 
 	@Override
@@ -104,7 +106,7 @@ public class Chat_bPermissions extends Chat {
 
 	@Override
 	public String getPlayerSuffix(String world, String player) {
-	    return chat.getSuffix(player, world);
+		return info.getSuffix(player, world);
 	}
 
 	@Override
@@ -114,7 +116,7 @@ public class Chat_bPermissions extends Chat {
 
 	@Override
 	public String getGroupPrefix(String world, String group) {
-	    return chat.getGroupPrefix(group, world);
+		return info.getGroupPrefix(group, world);
 	}
 
 	@Override
@@ -124,7 +126,7 @@ public class Chat_bPermissions extends Chat {
 
 	@Override
 	public String getGroupSuffix(String world, String group) {
-	    return chat.getGroupSuffix(group, world);
+		return info.getGroupSuffix(group, world);
 	}
 
 	@Override
@@ -213,10 +215,10 @@ public class Chat_bPermissions extends Chat {
 		String s = getPlayerInfoString(world, player, node, null);
 		if (s == null) {
 			return defaultValue;
-		} else {
-            Boolean val = Boolean.valueOf(s);
-            return val != null ? val : defaultValue;
 		}
+
+		Boolean val = Boolean.valueOf(s);
+		return val != null ? val : defaultValue;
 	}
 
 	@Override
@@ -229,10 +231,10 @@ public class Chat_bPermissions extends Chat {
 		String s = getGroupInfoString(world, group, node, null);
 		if (s == null) {
 			return defaultValue;
-		} else {
-            Boolean val = Boolean.valueOf(s);
-            return val != null ? val : defaultValue;
 		}
+
+		Boolean val = Boolean.valueOf(s);
+		return val != null ? val : defaultValue;
 	}
 
 	@Override
@@ -242,7 +244,7 @@ public class Chat_bPermissions extends Chat {
 
 	@Override
 	public String getPlayerInfoString(String world, String player, String node, String defaultValue) {
-		String val = chat.getValue(player, world, node);
+		String val = info.getValue(player, world, node);
 		return (val == null || val == "BLANKWORLD") ? defaultValue : val;
 	}
 
@@ -253,7 +255,7 @@ public class Chat_bPermissions extends Chat {
 
 	@Override
 	public String getGroupInfoString(String world, String group, String node, String defaultValue) {
-		String val = chat.getGroupValue(group, world, node);
+		String val = info.getGroupValue(group, world, node);
 		return (val == null || val == "BLANKWORLD") ? defaultValue : val;
 	}
 

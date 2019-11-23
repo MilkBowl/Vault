@@ -35,54 +35,52 @@ import net.teamalpha.taecon.TAEcon;
 public class Economy_TAEcon extends AbstractEconomy {
 	private final Logger log;
 	private final String name = "TAEcon";
-    private Plugin plugin = null;
-    private TAEcon economy = null;
-    
-	public Economy_TAEcon(Plugin plugin){
-		this.plugin = plugin;
+	private TAEcon economy = null;
+
+	public Economy_TAEcon(Plugin plugin) {
 		this.log = plugin.getLogger();
 		Bukkit.getServer().getPluginManager().registerEvents(new EconomyServerListener(this), plugin);
-		
+
 		if (economy == null) {
-            Plugin taecon = plugin.getServer().getPluginManager().getPlugin(name);
-            
-            if (taecon != null && taecon.isEnabled()) {
-                economy = (TAEcon) taecon;
-                log.info(String.format("[Economy] %s hooked.", name));
-            }
-        }
+			Plugin taecon = plugin.getServer().getPluginManager().getPlugin(name);
+
+			if (taecon != null && taecon.isEnabled()) {
+				economy = (TAEcon) taecon;
+				log.info(String.format("[Economy] %s hooked.", name));
+			}
+		}
 	}
-	
+
 	public class EconomyServerListener implements Listener {
 		Economy_TAEcon economy = null;
 
-        public EconomyServerListener(Economy_TAEcon economy) {
-            this.economy = economy;
-        }
+		public EconomyServerListener(Economy_TAEcon economy) {
+			this.economy = economy;
+		}
 
-        @EventHandler(priority = EventPriority.MONITOR)
-        public void onPluginEnable(PluginEnableEvent event) {
-            if (economy.economy == null) {
-                Plugin taecon = event.getPlugin();
+		@EventHandler(priority = EventPriority.MONITOR)
+		public void onPluginEnable(PluginEnableEvent event) {
+			if (economy.economy == null) {
+				Plugin taecon = event.getPlugin();
 
-                if (taecon.getDescription().getName().equals(economy.name)) {
-                    economy.economy = (TAEcon) taecon;
-                    log.info(String.format("[Economy] %s hooked.", economy.name));
-                }
-            }
-        }
+				if (taecon.getDescription().getName().equals(economy.name)) {
+					economy.economy = (TAEcon) taecon;
+					log.info(String.format("[Economy] %s hooked.", economy.name));
+				}
+			}
+		}
 
-        @EventHandler(priority = EventPriority.MONITOR)
-        public void onPluginDisable(PluginDisableEvent event) {
-            if (economy.economy != null) {
-                if (event.getPlugin().getDescription().getName().equals(economy.name)) {
-                    economy.economy = null;
-                    log.info(String.format("[Economy] %s unhooked.", economy.name));
-                }
-            }
-        }
-    }
-	
+		@EventHandler(priority = EventPriority.MONITOR)
+		public void onPluginDisable(PluginDisableEvent event) {
+			if (economy.economy != null) {
+				if (event.getPlugin().getDescription().getName().equals(economy.name)) {
+					economy.economy = null;
+					log.info(String.format("[Economy] %s unhooked.", economy.name));
+				}
+			}
+		}
+	}
+
 	@Override
 	public boolean isEnabled() {
 		return economy != null;
@@ -105,13 +103,12 @@ public class Economy_TAEcon extends AbstractEconomy {
 
 	@Override
 	public String format(double amount) {
-	amount = Math.ceil(amount);
-	if (amount == 1) {
-		return String.format("%d %s", (int)amount, currencyNameSingular());
-        } else {
-            return String.format("%d %s", (int)amount, currencyNamePlural());
-        }
-    }
+		amount = Math.ceil(amount);
+		if (amount == 1) {
+			return String.format("%d %s", (int) amount, currencyNameSingular());
+		}
+		return String.format("%d %s", (int) amount, currencyNamePlural());
+	}
 
 	@Override
 	public String currencyNamePlural() {
@@ -142,8 +139,8 @@ public class Economy_TAEcon extends AbstractEconomy {
 	public EconomyResponse withdrawPlayer(String playerName, double amount) {
 		ResponseType rt;
 		String message;
-		int iamount = (int)Math.ceil(amount);
-		
+		int iamount = (int) Math.ceil(amount);
+
 		if (has(playerName, amount)) {
 			if (economy.removeBalance(playerName, iamount)) {
 				rt = ResponseType.SUCCESS;
@@ -156,7 +153,7 @@ public class Economy_TAEcon extends AbstractEconomy {
 			rt = ResponseType.FAILURE;
 			message = "Not enough money";
 		}
-		
+
 		return new EconomyResponse(iamount, getBalance(playerName), rt, message);
 	}
 
@@ -164,8 +161,8 @@ public class Economy_TAEcon extends AbstractEconomy {
 	public EconomyResponse depositPlayer(String playerName, double amount) {
 		ResponseType rt;
 		String message;
-		int iamount = (int)Math.floor(amount);
-		
+		int iamount = (int) Math.floor(amount);
+
 		if (economy.addBalance(playerName, iamount)) {
 			rt = ResponseType.SUCCESS;
 			message = null;
@@ -173,7 +170,7 @@ public class Economy_TAEcon extends AbstractEconomy {
 			rt = ResponseType.SUCCESS;
 			message = "ERROR";
 		}
-		
+
 		return new EconomyResponse(iamount, getBalance(playerName), rt, message);
 	}
 
@@ -227,33 +224,33 @@ public class Economy_TAEcon extends AbstractEconomy {
 		return false;
 	}
 
-    @Override
-    public boolean hasAccount(String playerName, String worldName) {
-        return true;
-    }
+	@Override
+	public boolean hasAccount(String playerName, String worldName) {
+		return true;
+	}
 
-    @Override
-    public double getBalance(String playerName, String world) {
-        return getBalance(playerName);
-    }
+	@Override
+	public double getBalance(String playerName, String world) {
+		return getBalance(playerName);
+	}
 
-    @Override
-    public boolean has(String playerName, String worldName, double amount) {
-        return has(playerName, amount);
-    }
+	@Override
+	public boolean has(String playerName, String worldName, double amount) {
+		return has(playerName, amount);
+	}
 
-    @Override
-    public EconomyResponse withdrawPlayer(String playerName, String worldName, double amount) {
-        return withdrawPlayer(playerName, amount);
-    }
+	@Override
+	public EconomyResponse withdrawPlayer(String playerName, String worldName, double amount) {
+		return withdrawPlayer(playerName, amount);
+	}
 
-    @Override
-    public EconomyResponse depositPlayer(String playerName, String worldName, double amount) {
-        return depositPlayer(playerName, amount);
-    }
+	@Override
+	public EconomyResponse depositPlayer(String playerName, String worldName, double amount) {
+		return depositPlayer(playerName, amount);
+	}
 
-    @Override
-    public boolean createPlayerAccount(String playerName, String worldName) {
-        return false;
-    }
+	@Override
+	public boolean createPlayerAccount(String playerName, String worldName) {
+		return false;
+	}
 }
