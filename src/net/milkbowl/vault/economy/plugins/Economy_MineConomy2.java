@@ -94,7 +94,7 @@ public class Economy_MineConomy2 extends AbstractEconomy {
 
     @Override
     public String getName() {
-        return MineConomyHook.getName();
+        return "MineConomy 2";
     }
 
     @Override
