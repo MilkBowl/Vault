@@ -69,6 +69,10 @@ Vault currently supports the following: Permissions 3, PEX, GroupManager, bPerms
 			<id>codemc-repo</id>
 			<url>https://repo.codemc.org/repository/maven-public</url>
 		</repository>
+                <repository>
+                        <id>mineconomy-2-repo</id>
+                        <url>http://nexus.jeter.de/repository/releases/</url>
+                </repository>
 	</repositories>
 
 	<dependencies>
@@ -413,6 +417,12 @@ Vault currently supports the following: Permissions 3, PEX, GroupManager, bPerms
 			<scope>system</scope>
 			<systemPath>${project.basedir}/lib/overpermissions-2.0.0.jar</systemPath>
 		</dependency>
+                <dependency>
+                        <groupId>de.TheJeterLP</groupId>
+                        <artifactId>MineConomy-2</artifactId>
+                        <version>2.0</version>
+                        <optional>true</optional>
+                </dependency>
 	</dependencies>
 
 	<build>
