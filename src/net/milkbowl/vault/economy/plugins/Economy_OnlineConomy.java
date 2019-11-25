@@ -15,9 +15,9 @@
  */
 package net.milkbowl.vault.economy.plugins;
 
-import de.thejeterlp.mineconomy.MineConomy;
-import de.thejeterlp.mineconomy.Utils;
-import de.thejeterlp.mineconomy.api.MineConomyHook;
+import de.thejeterlp.onlineconomy.OnlineConomy;
+import de.thejeterlp.onlineconomy.Utils;
+import de.thejeterlp.onlineconomy.api.OnlineConomyHook; 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
@@ -34,23 +34,23 @@ import org.bukkit.event.server.PluginDisableEvent;
 import org.bukkit.event.server.PluginEnableEvent;
 import org.bukkit.plugin.Plugin;
 
-public class Economy_MineConomy2 extends AbstractEconomy {
+public class Economy_OnlineConomy extends AbstractEconomy {
 
     private final Logger log;
-    private final String name = "MineConomy-2";
+    private final String name = "OnlineConomy";
     private Plugin plugin = null;
-    private MineConomy econ = null;
+    private OnlineConomy econ = null;
 
-    public Economy_MineConomy2(Plugin plugin) {
+    public Economy_OnlineConomy(Plugin plugin) {
         this.plugin = plugin;
         this.log = plugin.getLogger();
         Bukkit.getServer().getPluginManager().registerEvents(new EconomyServerListener(this), plugin);
 
         // Load Plugin in case it was loaded before
         if (econ == null) {
-            Plugin econ = plugin.getServer().getPluginManager().getPlugin("MineConomy-2");
+            Plugin econ = plugin.getServer().getPluginManager().getPlugin("OnlineConomy");
             if (econ != null && econ.isEnabled()) {
-                this.econ = (MineConomy) econ;
+                this.econ = (OnlineConomy) econ;
                 log.info(String.format("[Economy] %s hooked.", name));
             }
         }
@@ -58,9 +58,9 @@ public class Economy_MineConomy2 extends AbstractEconomy {
 
     public class EconomyServerListener implements Listener {
 
-        Economy_MineConomy2 economy = null;
+        Economy_OnlineConomy economy = null;
 
-        public EconomyServerListener(Economy_MineConomy2 economy) {
+        public EconomyServerListener(Economy_OnlineConomy economy) {
             this.economy = economy;
         }
 
@@ -70,7 +70,7 @@ public class Economy_MineConomy2 extends AbstractEconomy {
                 Plugin eco = event.getPlugin();
 
                 if (eco.getDescription().getName().equals("MineConomy-2")) {
-                    economy.econ = (MineConomy) eco;
+                    economy.econ = (OnlineConomy) eco;
                     log.info(String.format("[Economy] %s hooked.", economy.name));
                 }
             }
@@ -94,7 +94,7 @@ public class Economy_MineConomy2 extends AbstractEconomy {
 
     @Override
     public String getName() {
-        return "MineConomy 2";
+        return "OnlineConomy";
     }
 
     @Override
@@ -105,28 +105,28 @@ public class Economy_MineConomy2 extends AbstractEconomy {
     @Override
     public String currencyNameSingular() {
 
-        return MineConomyHook.getCurrencyName();
+        return OnlineConomyHook.getCurrencyName();
     }
 
     @Override
     public String currencyNamePlural() {
-        return MineConomyHook.getCurrencyName();
+        return OnlineConomyHook.getCurrencyName();
     }
 
     @Override
     public double getBalance(String playerName) {
-        return MineConomyHook.getBalance(playerName);
+        return OnlineConomyHook.getBalance(playerName);
     }
 
     @Override
     public boolean has(String playerName, double amount) {
-        return MineConomyHook.canAfford(playerName, amount);
+        return OnlineConomyHook.canAfford(playerName, amount);
 
     }
 
     @Override
     public EconomyResponse withdrawPlayer(String playerName, double amount) {
-        double balance = MineConomyHook.getBalance(playerName);
+        double balance = OnlineConomyHook.getBalance(playerName);
 
         if (amount < 0.0D) {
             return new EconomyResponse(0.0D, balance, ResponseType.FAILURE, "Cannot withdraw negative funds");
@@ -134,7 +134,7 @@ public class Economy_MineConomy2 extends AbstractEconomy {
 
         if (balance >= amount) {
             double finalBalance = balance - amount;
-            MineConomyHook.setBalance(playerName, finalBalance);
+            OnlineConomyHook.setBalance(playerName, finalBalance);
             return new EconomyResponse(amount, finalBalance, ResponseType.SUCCESS, null);
         } else {
             return new EconomyResponse(0.0D, balance, ResponseType.FAILURE, "Insufficient funds");
@@ -143,14 +143,14 @@ public class Economy_MineConomy2 extends AbstractEconomy {
 
     @Override
     public EconomyResponse depositPlayer(String playerName, double amount) {
-        double balance = MineConomyHook.getBalance(playerName);
+        double balance = OnlineConomyHook.getBalance(playerName);
 
         if (amount < 0.0D) {
             return new EconomyResponse(0.0D, 0.0, ResponseType.FAILURE, "Cannot deposit negative funds");
         }
 
         balance += amount;
-        MineConomyHook.setBalance(playerName, balance);
+        OnlineConomyHook.setBalance(playerName, balance);
         return new EconomyResponse(amount, balance, ResponseType.SUCCESS, null);
 
     }
@@ -207,12 +207,12 @@ public class Economy_MineConomy2 extends AbstractEconomy {
 
     @Override
     public boolean hasAccount(String playerName) {
-        return MineConomyHook.hasAccount(name);
+        return OnlineConomyHook.hasAccount(name);
     }
 
     @Override
     public boolean createPlayerAccount(String playerName) {
-        MineConomyHook.create(playerName);
+        OnlineConomyHook.create(playerName);
         return true;
 
     }

@@ -419,7 +419,7 @@ Vault currently supports the following: Permissions 3, PEX, GroupManager, bPerms
 		</dependency>
                 <dependency>
                         <groupId>de.TheJeterLP</groupId>
-                        <artifactId>MineConomy-2</artifactId>
+                        <artifactId>OnlineConomy</artifactId>
                         <version>2.0</version>
                         <optional>true</optional>
                 </dependency>
