@@ -29,8 +29,7 @@ So, what features do I _think_ you'll like the most?
    namespaces.  Just simply add Vault.jar to your download zip file!
  * Broad range of supported plugins
    I wanted an abstraction layer not only for Economic plugins but also
-   Permission plugins as well.  The future will likely add more, but what
-   types, I have yet to decide, let me know!
+   Permission plugins as well.
  * Choice!
    That's half the fun of Bukkit, we get to choose what to use!  More choice
    has never hurt developers so here's to choice!
@@ -58,7 +57,8 @@ along with Vault.  If not, see <http://www.gnu.org/licenses/>.
 
 ## Building
 Vault comes with all libraries needed to build from the current branch and
-also comes with an Apache Ant build file (build.xml).
+also comes with an Apache Ant build file (build.xml) and a Maven build file
+(pom.xml). Maven is currently the preferred build method.
 
 
 ## Dependencies
@@ -70,10 +70,10 @@ only need to compile against Vault.
 
 
 ## Supported Plugins
-Vault provides abstraction for the following categories and plugins.  If you
-have your own plugin that you believe should be supported, fork Vault or create
-a patch with the necessary changes.  Additionally you can create an issue on
-Github and we'll get to it at our convenience.
+Vault provides abstraction for the following categories and plugins.  If 
+you have your own plugin that you believe should be supported you'll need 
+to add your own connector within your plugin as Vault no longer maintains
+new plugin connectors.
 
 * Economy
    - 3co (http://forums.bukkit.org/threads/22461/)
