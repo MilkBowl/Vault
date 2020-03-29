@@ -16,6 +16,7 @@
 package net.milkbowl.vault;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.InputStreamReader;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -89,11 +90,9 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.server.PluginEnableEvent;
 import org.bukkit.permissions.PermissionDefault;
-import org.bukkit.plugin.Plugin;
-import org.bukkit.plugin.RegisteredServiceProvider;
-import org.bukkit.plugin.ServicePriority;
-import org.bukkit.plugin.ServicesManager;
+import org.bukkit.plugin.*;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.plugin.java.JavaPluginLoader;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.JSONValue;
@@ -114,6 +113,22 @@ public class Vault extends JavaPlugin {
     private String currentVersionTitle = "";
     private ServicesManager sm;
     private Vault plugin;
+
+    /*
+    * This is the first of two constructors used to make Vault MockBukkit compatible
+    */
+    public Vault()
+    {
+        super();
+    }
+
+    /*
+     * This is the second of two constructors used to make Vault MockBukkit compatible
+     */
+    protected Vault(JavaPluginLoader loader, PluginDescriptionFile description, File dataFolder, File file)
+    {
+        super(loader, description, dataFolder, file);
+    }
 
     @Override
     public void onDisable() {
