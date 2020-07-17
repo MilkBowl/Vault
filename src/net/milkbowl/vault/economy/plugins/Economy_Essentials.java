@@ -95,6 +95,9 @@ public class Economy_Essentials extends AbstractEconomy {
 
     @Override
     public EconomyResponse withdrawPlayer(String playerName, double amount) {
+        if (playerName == null) {
+            return new EconomyResponse(0, 0 ResponseType.FAILURE, "Player name can not be null.");
+        }
         if (amount < 0) {
             return new EconomyResponse(0, 0, ResponseType.FAILURE, "Cannot withdraw negative funds");
         }
@@ -134,6 +137,9 @@ public class Economy_Essentials extends AbstractEconomy {
     }
 
     public EconomyResponse tryDepositPlayer(String playerName, double amount, int tries) {
+        if (playerName == null) {
+            return new EconomyResponse(0, 0 ResponseType.FAILURE, "Player name can not be null.");
+        }
         if (amount < 0) {
             return new EconomyResponse(0, 0, ResponseType.FAILURE, "Cannot desposit negative funds");
         }
