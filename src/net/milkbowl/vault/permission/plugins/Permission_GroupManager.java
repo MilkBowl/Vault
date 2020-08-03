@@ -83,6 +83,14 @@ public class Permission_GroupManager extends Permission {
             }
         }
     }
+    
+    private void updatePermissions(Player p) {
+        if (GroupManager.class.getDeclaredField("BukkitPermissions").isAccessible()) {
+            GroupManager.BukkitPermissions.updatePermissions(p);
+        } else {
+            GroupManager.getBukkitPermissions().updatePermissions(p);
+        }
+    }
 
     @Override
     public String getName() {
@@ -129,7 +137,7 @@ public class Permission_GroupManager extends Permission {
         user.addPermission(permission);
         Player p = Bukkit.getPlayer(playerName);
         if (p != null) {
-            GroupManager.BukkitPermissions.updatePermissions(p);
+            updatePermissions(p);
         }
         return true;
     }
@@ -154,7 +162,7 @@ public class Permission_GroupManager extends Permission {
         user.removePermission(permission);
         Player p = Bukkit.getPlayer(playerName);
         if (p != null) {
-            GroupManager.BukkitPermissions.updatePermissions(p);
+            updatePermissions(p);
         }
         return true;
     }
@@ -263,7 +271,7 @@ public class Permission_GroupManager extends Permission {
         }
         Player p = Bukkit.getPlayer(playerName);
         if (p != null) {
-            GroupManager.BukkitPermissions.updatePermissions(p);
+            updatePermissions(p);
         }
         return true;
     }
@@ -296,7 +304,7 @@ public class Permission_GroupManager extends Permission {
         if (success) {
             Player p = Bukkit.getPlayer(playerName);
             if (p != null) {
-                GroupManager.BukkitPermissions.updatePermissions(p);
+                updatePermissions(p);
             }
         }
         return success;
