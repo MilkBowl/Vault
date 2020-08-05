@@ -86,7 +86,11 @@ public class Permission_GroupManager extends Permission {
     
     private void updatePermissions(Player p) {
     	if (p != null) {
-            GroupManager.getBukkitPermissions().updatePermissions(p);
+    		if (GroupManager.class.getField("BukkitPermissions").isAccessible()) {
+    			GroupManager.BukkitPermissions().updatePermissions(p);
+    		} Else {
+    			GroupManager.getBukkitPermissions().updatePermissions(p);
+    		}
         }
     }
 
