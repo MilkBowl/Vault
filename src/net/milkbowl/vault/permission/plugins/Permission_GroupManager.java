@@ -86,11 +86,15 @@ public class Permission_GroupManager extends Permission {
     
     private void updatePermissions(Player p) {
     	if (p != null) {
-    		if (GroupManager.class.getField("BukkitPermissions").isAccessible()) {
-    			GroupManager.BukkitPermissions().updatePermissions(p);
-    		} Else {
-    			GroupManager.getBukkitPermissions().updatePermissions(p);
-    		}
+    		try {
+				if (GroupManager.class.getField("BukkitPermissions").isAccessible()) {
+					GroupManager.BukkitPermissions.updatePermissions(p);
+				} else {
+					GroupManager.getBukkitPermissions().updatePermissions(p);
+				}
+			} catch (Exception e) {
+				log.severe(String.format("[Permission] There was an error accessing %s - check to make sure you're using a compatible version!", "GroupManagers BukkitPermissions"));
+			}
         }
     }
 
