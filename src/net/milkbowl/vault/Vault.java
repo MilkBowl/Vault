@@ -131,6 +131,7 @@ public class Vault extends JavaPlugin {
         sm = getServer().getServicesManager();
         // set defaults
         getConfig().addDefault("update-check", true);
+        getConfig().addDefault("silent-no-update", false);
         getConfig().options().copyDefaults(true);
         saveConfig();
         // Load Vault Addons
@@ -171,7 +172,8 @@ public class Vault extends JavaPlugin {
                                 } else if (currentVersion > newVersion) {
                                     log.info("Stable Version: " + newVersionTitle + " | Current Version: " + currentVersionTitle);
                                 } else {
-                                    log.info("No new version available");
+                                    if (!getConfig().getBoolean("silent-no-update", false))
+                                        log.info("No new version available");
                                 }
                             } catch (Exception e) {
                                 // ignore exceptions
