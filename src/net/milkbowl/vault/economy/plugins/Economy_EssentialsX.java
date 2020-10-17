@@ -16,11 +16,6 @@ public class Economy_EssentialsX extends Economy_Essentials {
     }
 
     @Override
-    public String getName() {
-        return "EssentialsX Economy";
-    }
-
-    @Override
     public boolean hasAccount(OfflinePlayer player) {
         return Economy.playerExists(player.getUniqueId());
     }
@@ -115,7 +110,7 @@ public class Economy_EssentialsX extends Economy_Essentials {
             type = EconomyResponse.ResponseType.SUCCESS;
         } catch (UserDoesNotExistException e) {
             if (createPlayerAccount(player)) {
-                return tryDepositPlayer(player, amount, tries--);
+                return tryDepositPlayer(player, amount, --tries);
             } else {
                 amount = 0;
                 balance = BigDecimal.ZERO;
@@ -167,5 +162,10 @@ public class Economy_EssentialsX extends Economy_Essentials {
     @Override
     public boolean createPlayerAccount(OfflinePlayer player, String worldName) {
         return createPlayerAccount(player);
+    }
+
+    @Override
+    public boolean createPlayerAccount(OfflinePlayer player) {
+        return createPlayerAccount(player.getName());
     }
 }

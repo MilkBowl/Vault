@@ -220,10 +220,14 @@ public class Vault extends JavaPlugin {
         hookEconomy("Gringotts", Economy_Gringotts.class, ServicePriority.Normal, "org.gestern.gringotts.Gringotts");
 
         // Try to load EssentialsX Economy
-        hookEconomy("EssentialsX Economy", Economy_EssentialsX.class, ServicePriority.Normal, "com.earth2me.essentials.api.Economy", "com.earth2me.essentials.api.NoLoanPermittedException",  "com.earth2me.essentials.api.UserDoesNotExistException", "com.earth2me.essentials.AsyncTeleport");
+        boolean isEssentialsX = hookEconomy("Essentials Economy", Economy_EssentialsX.class, ServicePriority.Low,
+                        "com.earth2me.essentials.api.Economy", "com.earth2me.essentials.api.NoLoanPermittedException",
+                        "com.earth2me.essentials.api.UserDoesNotExistException", "com.earth2me.essentials.AsyncTeleport");
 
-        // Try to load Essentials Economy
-        hookEconomy("Essentials Economy", Economy_Essentials.class, ServicePriority.Low, "com.earth2me.essentials.api.Economy", "com.earth2me.essentials.api.NoLoanPermittedException",  "com.earth2me.essentials.api.UserDoesNotExistException");
+        if (!isEssentialsX) {
+            // Try to load Essentials Economy
+            hookEconomy("Essentials Economy", Economy_Essentials.class, ServicePriority.Low, "com.earth2me.essentials.api.Economy", "com.earth2me.essentials.api.NoLoanPermittedException", "com.earth2me.essentials.api.UserDoesNotExistException");
+        }
 
         // Try to load iConomy 6
         hookEconomy("iConomy 6", Economy_iConomy6.class, ServicePriority.High, "com.iCo6.iConomy");
@@ -324,16 +328,19 @@ public class Vault extends JavaPlugin {
         }
     }
 
-    private void hookEconomy (String name, Class<? extends Economy> hookClass, ServicePriority priority, String...packages) {
+    private boolean hookEconomy (String name, Class<? extends Economy> hookClass, ServicePriority priority, String...packages) {
         try {
             if (packagesExists(packages)) {
                 Economy econ = hookClass.getConstructor(Plugin.class).newInstance(this);
                 sm.register(Economy.class, econ, this, priority);
                 log.info(String.format("[Economy] %s found: %s", name, econ.isEnabled() ? "Loaded" : "Waiting"));
+                return true;
             }
         } catch (Exception e) {
             log.severe(String.format("[Economy] There was an error hooking %s - check to make sure you're using a compatible version!", name));
+            return false;
         }
+        return false;
     }
 
     private void hookPermission (String name, Class<? extends Permission> hookClass, ServicePriority priority, String...packages) {

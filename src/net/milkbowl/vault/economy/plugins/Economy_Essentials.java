@@ -154,7 +154,7 @@ public class Economy_Essentials extends AbstractEconomy {
             type = ResponseType.SUCCESS;
         } catch (UserDoesNotExistException e) {
             if (createPlayerAccount(playerName)) {
-                return tryDepositPlayer(playerName, amount, tries--);
+                return tryDepositPlayer(playerName, amount, --tries);
             } else {
                 amount = 0;
                 balance = 0;
