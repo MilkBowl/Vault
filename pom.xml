@@ -176,12 +176,12 @@ Vault currently supports the following: Permissions 3, PEX, GroupManager, bPerms
 			<systemPath>${project.basedir}/lib/EconXP.jar</systemPath>
 		</dependency>
 		<dependency>
-			<groupId>com.earth2me.essentials.Essentials</groupId>
-			<artifactId>Essentials</artifactId>
-			<version>2.9.2</version>
+			<groupId>net.ess3</groupId>
+			<artifactId>EssentialsX</artifactId>
+			<version>2.18.1.24</version>
 			<optional>true</optional>
 			<scope>system</scope>
-			<systemPath>${project.basedir}/lib/Essentials.jar</systemPath>
+			<systemPath>${project.basedir}/lib/EssentialsX.jar</systemPath>
 		</dependency>
 		<dependency>
 			<groupId>org.anjocaido.groupmanager.GroupManager</groupId>

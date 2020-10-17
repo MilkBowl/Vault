@@ -15,14 +15,12 @@
  */
 package net.milkbowl.vault.economy.plugins;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.logging.Logger;
-
+import com.earth2me.essentials.Essentials;
+import com.earth2me.essentials.api.NoLoanPermittedException;
+import com.earth2me.essentials.api.UserDoesNotExistException;
 import net.milkbowl.vault.economy.AbstractEconomy;
 import net.milkbowl.vault.economy.EconomyResponse;
 import net.milkbowl.vault.economy.EconomyResponse.ResponseType;
-
 import org.bukkit.Bukkit;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -31,15 +29,14 @@ import org.bukkit.event.server.PluginDisableEvent;
 import org.bukkit.event.server.PluginEnableEvent;
 import org.bukkit.plugin.Plugin;
 
-import com.earth2me.essentials.Essentials;
-import com.earth2me.essentials.api.NoLoanPermittedException;
-import com.earth2me.essentials.api.UserDoesNotExistException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.logging.Logger;
 
 public class Economy_Essentials extends AbstractEconomy {
 
-    private final String name = "Essentials Economy";
     private final Logger log;
-    private Plugin plugin = null;
+    private Plugin plugin;
     private Essentials ess = null;
 
     public Economy_Essentials(Plugin plugin) {
@@ -52,7 +49,7 @@ public class Economy_Essentials extends AbstractEconomy {
             Plugin essentials = plugin.getServer().getPluginManager().getPlugin("Essentials");
             if (essentials != null && essentials.isEnabled()) {
                 ess = (Essentials) essentials;
-                log.info(String.format("[Economy] %s hooked.", name));
+                log.info(String.format("[Economy] %s hooked.", getName()));
             }
         }
     }
@@ -68,7 +65,7 @@ public class Economy_Essentials extends AbstractEconomy {
 
     @Override
     public String getName() {
-        return name;
+        return "Essentials Economy";
     }
 
     @Override
@@ -200,7 +197,7 @@ public class Economy_Essentials extends AbstractEconomy {
 
                 if (essentials.getDescription().getName().equals("Essentials")) {
                     economy.ess = (Essentials) essentials;
-                    log.info(String.format("[Economy] %s hooked.", economy.name));
+                    log.info(String.format("[Economy] %s hooked.", economy.getName()));
                 }
             }
         }
@@ -210,7 +207,7 @@ public class Economy_Essentials extends AbstractEconomy {
             if (economy.ess != null) {
                 if (event.getPlugin().getDescription().getName().equals("Essentials")) {
                     economy.ess = null;
-                    log.info(String.format("[Economy] %s unhooked.", economy.name));
+                    log.info(String.format("[Economy] %s unhooked.", economy.getName()));
                 }
             }
         }

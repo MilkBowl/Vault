@@ -15,68 +15,13 @@
  */
 package net.milkbowl.vault;
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
-import java.net.URL;
-import java.net.URLConnection;
-import java.util.Collection;
-import java.util.concurrent.Callable;
-import java.util.logging.Logger;
-
+import com.nijikokun.register.payment.Methods;
 import net.milkbowl.vault.chat.Chat;
-import net.milkbowl.vault.chat.plugins.Chat_DroxPerms;
-import net.milkbowl.vault.chat.plugins.Chat_GroupManager;
-import net.milkbowl.vault.chat.plugins.Chat_OverPermissions;
-import net.milkbowl.vault.chat.plugins.Chat_Permissions3;
-import net.milkbowl.vault.chat.plugins.Chat_PermissionsEx;
-import net.milkbowl.vault.chat.plugins.Chat_Privileges;
-import net.milkbowl.vault.chat.plugins.Chat_bPermissions;
-import net.milkbowl.vault.chat.plugins.Chat_bPermissions2;
-import net.milkbowl.vault.chat.plugins.Chat_iChat;
-import net.milkbowl.vault.chat.plugins.Chat_mChat;
-import net.milkbowl.vault.chat.plugins.Chat_mChatSuite;
-import net.milkbowl.vault.chat.plugins.Chat_rscPermissions;
+import net.milkbowl.vault.chat.plugins.*;
 import net.milkbowl.vault.economy.Economy;
-import net.milkbowl.vault.economy.plugins.Economy_BOSE7;
-import net.milkbowl.vault.economy.plugins.Economy_CommandsEX;
-import net.milkbowl.vault.economy.plugins.Economy_Craftconomy3;
-import net.milkbowl.vault.economy.plugins.Economy_CurrencyCore;
-import net.milkbowl.vault.economy.plugins.Economy_DigiCoin;
-import net.milkbowl.vault.economy.plugins.Economy_Dosh;
-import net.milkbowl.vault.economy.plugins.Economy_EconXP;
-import net.milkbowl.vault.economy.plugins.Economy_Essentials;
-import net.milkbowl.vault.economy.plugins.Economy_GoldIsMoney2;
-import net.milkbowl.vault.economy.plugins.Economy_GoldenChestEconomy;
-import net.milkbowl.vault.economy.plugins.Economy_Gringotts;
-import net.milkbowl.vault.economy.plugins.Economy_McMoney;
-import net.milkbowl.vault.economy.plugins.Economy_MineConomy;
-import net.milkbowl.vault.economy.plugins.Economy_MultiCurrency;
-import net.milkbowl.vault.economy.plugins.Economy_TAEcon;
-import net.milkbowl.vault.economy.plugins.Economy_XPBank;
-import net.milkbowl.vault.economy.plugins.Economy_eWallet;
-import net.milkbowl.vault.economy.plugins.Economy_iConomy6;
-import net.milkbowl.vault.economy.plugins.Economy_SDFEconomy;
-import net.milkbowl.vault.economy.plugins.Economy_Minefaconomy;  
+import net.milkbowl.vault.economy.plugins.*;
 import net.milkbowl.vault.permission.Permission;
-import net.milkbowl.vault.permission.plugins.Permission_DroxPerms;
-import net.milkbowl.vault.permission.plugins.Permission_GroupManager;
-import net.milkbowl.vault.permission.plugins.Permission_OverPermissions;
-import net.milkbowl.vault.permission.plugins.Permission_Permissions3;
-import net.milkbowl.vault.permission.plugins.Permission_PermissionsBukkit;
-import net.milkbowl.vault.permission.plugins.Permission_PermissionsEx;
-import net.milkbowl.vault.permission.plugins.Permission_Privileges;
-import net.milkbowl.vault.permission.plugins.Permission_SimplyPerms;
-import net.milkbowl.vault.permission.plugins.Permission_Starburst;
-import net.milkbowl.vault.permission.plugins.Permission_SuperPerms;
-import net.milkbowl.vault.permission.plugins.Permission_Xperms;
-import net.milkbowl.vault.permission.plugins.Permission_bPermissions;
-import net.milkbowl.vault.permission.plugins.Permission_bPermissions2;
-import net.milkbowl.vault.permission.plugins.Permission_TotalPermissions;
-import net.milkbowl.vault.permission.plugins.Permission_rscPermissions;
-import net.milkbowl.vault.permission.plugins.Permission_KPerms;
-
+import net.milkbowl.vault.permission.plugins.*;
 import org.bstats.bukkit.Metrics;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
@@ -98,10 +43,15 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.JSONValue;
 
-import com.nijikokun.register.payment.Methods;
-
-import net.milkbowl.vault.chat.plugins.Chat_TotalPermissions;
-import net.milkbowl.vault.economy.plugins.Economy_MiConomy;
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.net.URL;
+import java.net.URLConnection;
+import java.util.Collection;
+import java.util.concurrent.Callable;
+import java.util.logging.Logger;
 
 public class Vault extends JavaPlugin {
 
@@ -268,6 +218,9 @@ public class Vault extends JavaPlugin {
 
         // Try to load Gringotts
         hookEconomy("Gringotts", Economy_Gringotts.class, ServicePriority.Normal, "org.gestern.gringotts.Gringotts");
+
+        // Try to load EssentialsX Economy
+        hookEconomy("EssentialsX Economy", Economy_EssentialsX.class, ServicePriority.Normal, "com.earth2me.essentials.api.Economy", "com.earth2me.essentials.api.NoLoanPermittedException",  "com.earth2me.essentials.api.UserDoesNotExistException", "com.earth2me.essentials.AsyncTeleport");
 
         // Try to load Essentials Economy
         hookEconomy("Essentials Economy", Economy_Essentials.class, ServicePriority.Low, "com.earth2me.essentials.api.Economy", "com.earth2me.essentials.api.NoLoanPermittedException",  "com.earth2me.essentials.api.UserDoesNotExistException");
