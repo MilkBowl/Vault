@@ -413,6 +413,14 @@ Vault currently supports the following: Permissions 3, PEX, GroupManager, bPerms
 			<scope>system</scope>
 			<systemPath>${project.basedir}/lib/overpermissions-2.0.0.jar</systemPath>
 		</dependency>
+		<dependency>
+			<groupId>de.DotBeam</groupId>
+			<artifactId>Eco</artifactId>
+			<version>0.0.1</version>
+			<optional>true</optional>
+			<scope>system</scope>
+			<systemPath>${project.basedir}/lib/Eco.jar</systemPath>
+		</dependency>
 	</dependencies>
 
 	<build>
