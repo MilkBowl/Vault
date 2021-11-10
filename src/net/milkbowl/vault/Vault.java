@@ -185,7 +185,7 @@ public class Vault extends JavaPlugin {
         });
 
         // Load up the Plugin metrics
-        Metrics metrics = new Metrics(this);
+        Metrics metrics = new Metrics(this, 887);
         findCustomData(metrics);
 
         log.info(String.format("Enabled Version %s", getDescription().getVersion()));
