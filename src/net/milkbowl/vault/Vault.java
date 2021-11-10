@@ -26,18 +26,10 @@ import java.util.concurrent.Callable;
 import java.util.logging.Logger;
 
 import net.milkbowl.vault.chat.Chat;
-import net.milkbowl.vault.chat.plugins.Chat_DroxPerms;
 import net.milkbowl.vault.chat.plugins.Chat_GroupManager;
-import net.milkbowl.vault.chat.plugins.Chat_OverPermissions;
 import net.milkbowl.vault.chat.plugins.Chat_Permissions3;
 import net.milkbowl.vault.chat.plugins.Chat_PermissionsEx;
-import net.milkbowl.vault.chat.plugins.Chat_Privileges;
-import net.milkbowl.vault.chat.plugins.Chat_bPermissions;
 import net.milkbowl.vault.chat.plugins.Chat_bPermissions2;
-import net.milkbowl.vault.chat.plugins.Chat_iChat;
-import net.milkbowl.vault.chat.plugins.Chat_mChat;
-import net.milkbowl.vault.chat.plugins.Chat_mChatSuite;
-import net.milkbowl.vault.chat.plugins.Chat_rscPermissions;
 import net.milkbowl.vault.economy.Economy;
 import net.milkbowl.vault.economy.plugins.Economy_BOSE7;
 import net.milkbowl.vault.economy.plugins.Economy_CommandsEX;
@@ -60,22 +52,10 @@ import net.milkbowl.vault.economy.plugins.Economy_iConomy6;
 import net.milkbowl.vault.economy.plugins.Economy_SDFEconomy;
 import net.milkbowl.vault.economy.plugins.Economy_Minefaconomy;  
 import net.milkbowl.vault.permission.Permission;
-import net.milkbowl.vault.permission.plugins.Permission_DroxPerms;
 import net.milkbowl.vault.permission.plugins.Permission_GroupManager;
-import net.milkbowl.vault.permission.plugins.Permission_OverPermissions;
-import net.milkbowl.vault.permission.plugins.Permission_Permissions3;
-import net.milkbowl.vault.permission.plugins.Permission_PermissionsBukkit;
 import net.milkbowl.vault.permission.plugins.Permission_PermissionsEx;
-import net.milkbowl.vault.permission.plugins.Permission_Privileges;
-import net.milkbowl.vault.permission.plugins.Permission_SimplyPerms;
-import net.milkbowl.vault.permission.plugins.Permission_Starburst;
 import net.milkbowl.vault.permission.plugins.Permission_SuperPerms;
-import net.milkbowl.vault.permission.plugins.Permission_Xperms;
-import net.milkbowl.vault.permission.plugins.Permission_bPermissions;
 import net.milkbowl.vault.permission.plugins.Permission_bPermissions2;
-import net.milkbowl.vault.permission.plugins.Permission_TotalPermissions;
-import net.milkbowl.vault.permission.plugins.Permission_rscPermissions;
-import net.milkbowl.vault.permission.plugins.Permission_KPerms;
 
 import org.bstats.bukkit.Metrics;
 import org.bukkit.Bukkit;
@@ -100,7 +80,6 @@ import org.json.simple.JSONValue;
 
 import com.nijikokun.register.payment.Methods;
 
-import net.milkbowl.vault.chat.plugins.Chat_TotalPermissions;
 import net.milkbowl.vault.economy.plugins.Economy_MiConomy;
 
 public class Vault extends JavaPlugin {
@@ -198,41 +177,14 @@ public class Vault extends JavaPlugin {
         // Try to load PermissionsEx
         hookChat("PermissionsEx", Chat_PermissionsEx.class, ServicePriority.Highest, "ru.tehkode.permissions.bukkit.PermissionsEx");
 
-        // Try to load mChatSuite
-        hookChat("mChatSuite", Chat_mChatSuite.class, ServicePriority.Highest, "in.mDev.MiracleM4n.mChatSuite.mChatSuite");
-
-        // Try to load mChat
-        hookChat("mChat", Chat_mChat.class, ServicePriority.Highest, "net.D3GN.MiracleM4n.mChat");
-
-        // Try to load OverPermissions
-        hookChat("OverPermissions", Chat_OverPermissions.class, ServicePriority.Highest, "com.overmc.overpermissions.internal.OverPermissions");
-
-        // Try to load DroxPerms Chat
-        hookChat("DroxPerms", Chat_DroxPerms.class, ServicePriority.Lowest, "de.hydrox.bukkit.DroxPerms.DroxPerms");
-
         // Try to load bPermssions 2
         hookChat("bPermssions2", Chat_bPermissions2.class, ServicePriority.Highest, "de.bananaco.bpermissions.api.ApiLayer");
-
-        // Try to load bPermissions 1
-        hookChat("bPermissions", Chat_bPermissions.class, ServicePriority.Normal, "de.bananaco.permissions.info.InfoReader");
 
         // Try to load GroupManager
         hookChat("GroupManager", Chat_GroupManager.class, ServicePriority.Normal, "org.anjocaido.groupmanager.GroupManager");
 
         // Try to load Permissions 3 (Yeti)
         hookChat("Permissions3", Chat_Permissions3.class, ServicePriority.Normal, "com.nijiko.permissions.ModularControl");
-
-        // Try to load iChat
-        hookChat("iChat", Chat_iChat.class, ServicePriority.Low, "net.TheDgtl.iChat.iChat");
-
-        // Try to load Privileges
-        hookChat("Privileges", Chat_Privileges.class, ServicePriority.Normal, "net.krinsoft.privileges.Privileges");
-
-        // Try to load rscPermissions
-        hookChat("rscPermissions", Chat_rscPermissions.class, ServicePriority.Normal, "ru.simsonic.rscPermissions.MainPluginClass");
-
-        //Try to load TotalPermissions
-        hookChat("TotalPermissions", Chat_TotalPermissions.class, ServicePriority.Normal, "net.ar97.totalpermissions.TotalPermissions");
     }
 
     /**
@@ -307,50 +259,14 @@ public class Vault extends JavaPlugin {
      * Attempts to load Permission Addons
      */
     private void loadPermission() {
-        // Try to load Starburst
-        hookPermission("Starburst", Permission_Starburst.class, ServicePriority.Highest, "com.dthielke.starburst.StarburstPlugin");
-
         // Try to load PermissionsEx
         hookPermission("PermissionsEx", Permission_PermissionsEx.class, ServicePriority.Highest, "ru.tehkode.permissions.bukkit.PermissionsEx");
-
-        // Try to load OverPermissions
-        hookPermission("OverPermissions", Permission_OverPermissions.class, ServicePriority.Highest, "com.overmc.overpermissions.internal.OverPermissions");
-
-        // Try to load PermissionsBukkit
-        hookPermission("PermissionsBukkit", Permission_PermissionsBukkit.class, ServicePriority.Normal, "com.platymuus.bukkit.permissions.PermissionsPlugin");
-
-        // Try to load DroxPerms
-        hookPermission("DroxPerms", Permission_DroxPerms.class, ServicePriority.High, "de.hydrox.bukkit.DroxPerms.DroxPerms");
-
-        // Try to load SimplyPerms
-        hookPermission("SimplyPerms", Permission_SimplyPerms.class, ServicePriority.Highest, "net.crystalyx.bukkit.simplyperms.SimplyPlugin");
 
         // Try to load bPermissions2
         hookPermission("bPermissions 2", Permission_bPermissions2.class, ServicePriority.Highest, "de.bananaco.bpermissions.api.WorldManager");
 
-        // Try to load Privileges
-        hookPermission("Privileges", Permission_Privileges.class, ServicePriority.Highest, "net.krinsoft.privileges.Privileges");
-
-        // Try to load bPermissions
-        hookPermission("bPermissions", Permission_bPermissions.class, ServicePriority.High, "de.bananaco.permissions.SuperPermissionHandler");
-
         // Try to load GroupManager
         hookPermission("GroupManager", Permission_GroupManager.class, ServicePriority.High, "org.anjocaido.groupmanager.GroupManager");
-
-        // Try to load Permissions 3 (Yeti)
-        hookPermission("Permissions 3 (Yeti)", Permission_Permissions3.class, ServicePriority.Normal, "com.nijiko.permissions.ModularControl");
-
-        // Try to load Xperms
-        hookPermission("Xperms", Permission_Xperms.class, ServicePriority.Low, "com.github.sebc722.Xperms");
-
-        //Try to load TotalPermissions
-        hookPermission("TotalPermissions", Permission_TotalPermissions.class, ServicePriority.Normal, "net.ae97.totalpermissions.TotalPermissions");
-
-        // Try to load rscPermissions
-        hookPermission("rscPermissions", Permission_rscPermissions.class, ServicePriority.Normal, "ru.simsonic.rscPermissions.MainPluginClass");
-
-        // Try to load KPerms
-        hookPermission("KPerms", Permission_KPerms.class, ServicePriority.Normal, "com.lightniinja.kperms.KPermsPlugin");
 
         Permission perms = new Permission_SuperPerms(this);
         sm.register(Permission.class, perms, this, ServicePriority.Lowest);
