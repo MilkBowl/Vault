@@ -180,8 +180,8 @@ public class Permission_bPermissions2 extends Permission {
 
     @Override
     public String[] getGroups() {
-        String[] groups = null;
-        Set<String> gSet = new HashSet<String>();
+        String[] groups;
+        Set<String> gSet = new HashSet<>();
         for(World world : WorldManager.getInstance().getAllWorlds()) {
         	Set<Calculable> gr = world.getAll(CalculableType.GROUP);
         	for(Calculable c : gr) {
@@ -189,7 +189,7 @@ public class Permission_bPermissions2 extends Permission {
         	}
         }
         // Convert to String
-        groups = gSet.toArray(new String[gSet.size()]);
+        groups = gSet.toArray(new String[0]);
         return groups;
     }
 

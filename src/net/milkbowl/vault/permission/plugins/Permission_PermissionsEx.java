@@ -48,7 +48,7 @@ public class Permission_PermissionsEx extends Permission {
             if (perms != null) {
                 if (perms.isEnabled()) {
                     try {
-                        if (Double.valueOf(perms.getDescription().getVersion()) < 1.16) {
+                        if (Double.parseDouble(perms.getDescription().getVersion()) < 1.16) {
                             log.info(String.format("[%s][Permission] %s below 1.16 is not compatible with Vault! Falling back to SuperPerms only mode. PLEASE UPDATE!", plugin.getDescription().getName(), name));
                         }
                     } catch (NumberFormatException e) {
@@ -71,7 +71,7 @@ public class Permission_PermissionsEx extends Permission {
     }
 
     public class PermissionServerListener implements Listener {
-        Permission_PermissionsEx permission = null;
+        Permission_PermissionsEx permission;
 
         public PermissionServerListener(Permission_PermissionsEx permission) {
             this.permission = permission;
@@ -83,7 +83,7 @@ public class Permission_PermissionsEx extends Permission {
                 Plugin perms = event.getPlugin();
                 if (perms.getDescription().getName().equals("PermissionsEx")) {
                     try {
-                        if (Double.valueOf(perms.getDescription().getVersion()) < 1.16) {
+                        if (Double.parseDouble(perms.getDescription().getVersion()) < 1.16) {
                             log.info(String.format("[%s][Permission] %s below 1.16 is not compatible with Vault! Falling back to SuperPerms only mode. PLEASE UPDATE!", plugin.getDescription().getName(), name));
                             return;
                         }

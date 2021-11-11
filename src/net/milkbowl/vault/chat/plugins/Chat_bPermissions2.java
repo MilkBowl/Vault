@@ -34,7 +34,7 @@ import de.bananaco.bpermissions.api.CalculableType;
 public class Chat_bPermissions2 extends Chat {
     private final Logger log;
     private final String name = "bInfo";
-    private Plugin plugin = null;
+    private final Plugin plugin;
     private boolean hooked = false;
 
     public Chat_bPermissions2(Plugin plugin, Permission perms) {
@@ -55,7 +55,7 @@ public class Chat_bPermissions2 extends Chat {
     }
 
     public class PermissionServerListener implements Listener {
-        Chat_bPermissions2 chat = null;
+        Chat_bPermissions2 chat;
 
         public PermissionServerListener(Chat_bPermissions2 chat) {
             this.chat = chat;
@@ -140,8 +140,7 @@ public class Chat_bPermissions2 extends Chat {
             return defaultValue;
         }
         try {
-            int i = Integer.valueOf(s);
-            return i;
+            return Integer.parseInt(s);
         } catch (NumberFormatException e) {
             return defaultValue;
         }
@@ -159,8 +158,7 @@ public class Chat_bPermissions2 extends Chat {
             return defaultValue;
         }
         try {
-            int i = Integer.valueOf(s);
-            return i;
+            return Integer.parseInt(s);
         } catch (NumberFormatException e) {
             return defaultValue;
         }
@@ -178,8 +176,7 @@ public class Chat_bPermissions2 extends Chat {
             return defaultValue;
         }
         try {
-            double d = Double.valueOf(s);
-            return d;
+            return Double.parseDouble(s);
         } catch (NumberFormatException e) {
             return defaultValue;
         }
@@ -197,8 +194,7 @@ public class Chat_bPermissions2 extends Chat {
             return defaultValue;
         }
         try {
-            double d = Double.valueOf(s);
-            return d;
+            return Double.parseDouble(s);
         } catch (NumberFormatException e) {
             return defaultValue;
         }
@@ -215,8 +211,7 @@ public class Chat_bPermissions2 extends Chat {
         if (s == null) {
             return defaultValue;
         } else {
-            Boolean val = Boolean.valueOf(s);
-            return val != null ? val : defaultValue;
+            return Boolean.parseBoolean(s);
         }
     }
 
@@ -231,20 +226,19 @@ public class Chat_bPermissions2 extends Chat {
         if (s == null) {
             return defaultValue;
         } else {
-            Boolean val = Boolean.valueOf(s);
-            return val != null ? val : defaultValue;
+            return Boolean.parseBoolean(s);
         }
     }
 
     @Override
     public void setGroupInfoBoolean(String world, String group, String node, boolean value) {
-        ApiLayer.setValue(world, CalculableType.GROUP, group, node, String.valueOf(value));;
+        ApiLayer.setValue(world, CalculableType.GROUP, group, node, String.valueOf(value));
     }
 
     @Override
     public String getPlayerInfoString(String world, String player, String node, String defaultValue) {
         String val = ApiLayer.getValue(world, CalculableType.USER, player, node);
-        return (val == null || val == "BLANKWORLD" || val == "") ? defaultValue : val;
+        return (val == null || val.equals("BLANKWORLD") || val.equals("")) ? defaultValue : val;
     }
 
     @Override
@@ -255,7 +249,7 @@ public class Chat_bPermissions2 extends Chat {
     @Override
     public String getGroupInfoString(String world, String group, String node, String defaultValue) {
         String val = ApiLayer.getValue(world, CalculableType.GROUP, group, node);
-        return (val == null || val == "BLANKWORLD" || val == "") ? defaultValue : val;
+        return (val == null || val.equals("BLANKWORLD") || val.equals("")) ? defaultValue : val;
     }
 
     @Override

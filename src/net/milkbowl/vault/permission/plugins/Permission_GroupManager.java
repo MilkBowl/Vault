@@ -56,7 +56,7 @@ public class Permission_GroupManager extends Permission {
     }
 
     public class PermissionServerListener implements Listener {
-        Permission_GroupManager permission = null;
+        Permission_GroupManager permission;
 
         public PermissionServerListener(Permission_GroupManager permission) {
             this.permission = permission;
@@ -332,7 +332,7 @@ public class Permission_GroupManager extends Permission {
 
     @Override
     public String[] getGroups() {
-        Set<String> groupNames = new HashSet<String>();
+        Set<String> groupNames = new HashSet<>();
         for (World world : Bukkit.getServer().getWorlds()) {
             OverloadedWorldHolder owh = groupManager.getWorldsHolder().getWorldData(world.getName());
             if (owh == null) {

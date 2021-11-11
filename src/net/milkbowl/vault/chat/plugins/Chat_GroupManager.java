@@ -37,7 +37,7 @@ public class Chat_GroupManager extends Chat {
 
     private final Logger log;
     private final String name = "GroupManager - Chat";
-    private Plugin plugin = null;
+    private final Plugin plugin;
     private GroupManager groupManager;
 
     public Chat_GroupManager(Plugin plugin, Permission perms) {
@@ -60,7 +60,7 @@ public class Chat_GroupManager extends Chat {
 
     public class PermissionServerListener implements Listener {
 
-        Chat_GroupManager chat = null;
+        Chat_GroupManager chat;
 
         public PermissionServerListener(Chat_GroupManager chat) {
             this.chat = chat;
@@ -114,8 +114,7 @@ public class Chat_GroupManager extends Chat {
         if (handler == null) {
             return defaultValue;
         }
-        Integer val = handler.getUserPermissionInteger(playerName, node);
-        return val != null ? val : defaultValue;
+        return handler.getUserPermissionInteger(playerName, node);
     }
 
     @Override
@@ -134,8 +133,7 @@ public class Chat_GroupManager extends Chat {
         if (handler == null) {
             return defaultValue;
         }
-        Integer val = handler.getGroupPermissionInteger(groupName, node);
-        return val != null ? val : defaultValue;
+        return handler.getGroupPermissionInteger(groupName, node);
     }
 
     @Override
@@ -154,8 +152,7 @@ public class Chat_GroupManager extends Chat {
         if (handler == null) {
             return defaultValue;
         }
-        Double val = handler.getUserPermissionDouble(playerName, node);
-        return val != null ? val : defaultValue;
+        return handler.getUserPermissionDouble(playerName, node);
     }
 
     @Override
@@ -174,8 +171,7 @@ public class Chat_GroupManager extends Chat {
         if (handler == null) {
             return defaultValue;
         }
-        Double val = handler.getGroupPermissionDouble(groupName, node);
-        return val != null ? val : defaultValue;
+        return handler.getGroupPermissionDouble(groupName, node);
     }
 
     @Override
@@ -194,8 +190,7 @@ public class Chat_GroupManager extends Chat {
         if (handler == null) {
             return defaultValue;
         }
-        Boolean val = handler.getUserPermissionBoolean(playerName, node);
-        return val != null ? val : defaultValue;
+        return handler.getUserPermissionBoolean(playerName, node);
     }
 
     @Override
@@ -214,8 +209,7 @@ public class Chat_GroupManager extends Chat {
         if (handler == null) {
             return defaultValue;
         }
-        Boolean val = handler.getGroupPermissionBoolean(groupName, node);
-        return val != null ? val : defaultValue;
+        return handler.getGroupPermissionBoolean(groupName, node);
     }
 
     @Override

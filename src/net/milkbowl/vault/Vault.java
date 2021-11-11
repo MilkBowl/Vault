@@ -15,16 +15,7 @@
  */
 package net.milkbowl.vault;
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
-import java.net.URL;
-import java.net.URLConnection;
-import java.util.Collection;
-import java.util.concurrent.Callable;
-import java.util.logging.Logger;
-
+import com.nijikokun.register.payment.Methods;
 import net.milkbowl.vault.chat.Chat;
 import net.milkbowl.vault.chat.plugins.Chat_DroxPerms;
 import net.milkbowl.vault.chat.plugins.Chat_GroupManager;
@@ -32,6 +23,7 @@ import net.milkbowl.vault.chat.plugins.Chat_OverPermissions;
 import net.milkbowl.vault.chat.plugins.Chat_Permissions3;
 import net.milkbowl.vault.chat.plugins.Chat_PermissionsEx;
 import net.milkbowl.vault.chat.plugins.Chat_Privileges;
+import net.milkbowl.vault.chat.plugins.Chat_TotalPermissions;
 import net.milkbowl.vault.chat.plugins.Chat_bPermissions;
 import net.milkbowl.vault.chat.plugins.Chat_bPermissions2;
 import net.milkbowl.vault.chat.plugins.Chat_iChat;
@@ -51,17 +43,19 @@ import net.milkbowl.vault.economy.plugins.Economy_GoldIsMoney2;
 import net.milkbowl.vault.economy.plugins.Economy_GoldenChestEconomy;
 import net.milkbowl.vault.economy.plugins.Economy_Gringotts;
 import net.milkbowl.vault.economy.plugins.Economy_McMoney;
+import net.milkbowl.vault.economy.plugins.Economy_MiConomy;
 import net.milkbowl.vault.economy.plugins.Economy_MineConomy;
+import net.milkbowl.vault.economy.plugins.Economy_Minefaconomy;
 import net.milkbowl.vault.economy.plugins.Economy_MultiCurrency;
+import net.milkbowl.vault.economy.plugins.Economy_SDFEconomy;
 import net.milkbowl.vault.economy.plugins.Economy_TAEcon;
 import net.milkbowl.vault.economy.plugins.Economy_XPBank;
 import net.milkbowl.vault.economy.plugins.Economy_eWallet;
 import net.milkbowl.vault.economy.plugins.Economy_iConomy6;
-import net.milkbowl.vault.economy.plugins.Economy_SDFEconomy;
-import net.milkbowl.vault.economy.plugins.Economy_Minefaconomy;  
 import net.milkbowl.vault.permission.Permission;
 import net.milkbowl.vault.permission.plugins.Permission_DroxPerms;
 import net.milkbowl.vault.permission.plugins.Permission_GroupManager;
+import net.milkbowl.vault.permission.plugins.Permission_KPerms;
 import net.milkbowl.vault.permission.plugins.Permission_OverPermissions;
 import net.milkbowl.vault.permission.plugins.Permission_Permissions3;
 import net.milkbowl.vault.permission.plugins.Permission_PermissionsBukkit;
@@ -70,13 +64,11 @@ import net.milkbowl.vault.permission.plugins.Permission_Privileges;
 import net.milkbowl.vault.permission.plugins.Permission_SimplyPerms;
 import net.milkbowl.vault.permission.plugins.Permission_Starburst;
 import net.milkbowl.vault.permission.plugins.Permission_SuperPerms;
+import net.milkbowl.vault.permission.plugins.Permission_TotalPermissions;
 import net.milkbowl.vault.permission.plugins.Permission_Xperms;
 import net.milkbowl.vault.permission.plugins.Permission_bPermissions;
 import net.milkbowl.vault.permission.plugins.Permission_bPermissions2;
-import net.milkbowl.vault.permission.plugins.Permission_TotalPermissions;
 import net.milkbowl.vault.permission.plugins.Permission_rscPermissions;
-import net.milkbowl.vault.permission.plugins.Permission_KPerms;
-
 import org.bstats.bukkit.Metrics;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
@@ -98,10 +90,15 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.JSONValue;
 
-import com.nijikokun.register.payment.Methods;
-
-import net.milkbowl.vault.chat.plugins.Chat_TotalPermissions;
-import net.milkbowl.vault.economy.plugins.Economy_MiConomy;
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.net.URL;
+import java.net.URLConnection;
+import java.util.Collection;
+import java.util.concurrent.Callable;
+import java.util.logging.Logger;
 
 public class Vault extends JavaPlugin {
 
@@ -127,7 +124,7 @@ public class Vault extends JavaPlugin {
         plugin = this;
         log = this.getLogger();
         currentVersionTitle = getDescription().getVersion().split("-")[0];
-        currentVersion = Double.valueOf(currentVersionTitle.replaceFirst("\\.", ""));
+        currentVersion = Double.parseDouble(currentVersionTitle.replaceFirst("\\.", ""));
         sm = getServer().getServicesManager();
         // set defaults
         getConfig().addDefault("update-check", true);
@@ -143,44 +140,35 @@ public class Vault extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new VaultListener(), this);
         // Schedule to check the version every 30 minutes for an update. This is to update the most recent 
         // version so if an admin reconnects they will be warned about newer versions.
-        this.getServer().getScheduler().runTask(this, new Runnable() {
-
-            @Override
-            public void run() {
-                // Programmatically set the default permission value cause Bukkit doesn't handle plugin.yml properly for Load order STARTUP plugins
-                org.bukkit.permissions.Permission perm = getServer().getPluginManager().getPermission("vault.update");
-                if (perm == null)
-                {
-                    perm = new org.bukkit.permissions.Permission("vault.update");
-                    perm.setDefault(PermissionDefault.OP);
-                    plugin.getServer().getPluginManager().addPermission(perm);
-                }
-                perm.setDescription("Allows a user or the console to check for vault updates");
-
-                getServer().getScheduler().runTaskTimerAsynchronously(plugin, new Runnable() {
-
-                    @Override
-                    public void run() {
-                        if (getServer().getConsoleSender().hasPermission("vault.update") && getConfig().getBoolean("update-check", true)) {
-                            try {
-                            	log.info("Checking for Updates ... ");
-                                newVersion = updateCheck(currentVersion);
-                                if (newVersion > currentVersion) {
-                                    log.warning("Stable Version: " + newVersionTitle + " is out!" + " You are still running version: " + currentVersionTitle);
-                                    log.warning("Update at: https://dev.bukkit.org/projects/vault");
-                                } else if (currentVersion > newVersion) {
-                                    log.info("Stable Version: " + newVersionTitle + " | Current Version: " + currentVersionTitle);
-                                } else {
-                                    log.info("No new version available");
-                                }
-                            } catch (Exception e) {
-                                // ignore exceptions
-                            }
-                        }
-                    }
-                }, 0, 432000);
-
+        this.getServer().getScheduler().runTask(this, () -> {
+            // Programmatically set the default permission value cause Bukkit doesn't handle plugin.yml properly for Load order STARTUP plugins
+            org.bukkit.permissions.Permission perm = getServer().getPluginManager().getPermission("vault.update");
+            if (perm == null)
+            {
+                perm = new org.bukkit.permissions.Permission("vault.update");
+                perm.setDefault(PermissionDefault.OP);
+                plugin.getServer().getPluginManager().addPermission(perm);
             }
+            perm.setDescription("Allows a user or the console to check for vault updates");
+
+            getServer().getScheduler().runTaskTimerAsynchronously(plugin, () -> {
+                if (getServer().getConsoleSender().hasPermission("vault.update") && getConfig().getBoolean("update-check", true)) {
+                    try {
+                        log.info("Checking for Updates ... ");
+                        newVersion = updateCheck(currentVersion);
+                        if (newVersion > currentVersion) {
+                            log.warning("Stable Version: " + newVersionTitle + " is out!" + " You are still running version: " + currentVersionTitle);
+                            log.warning("Update at: https://dev.bukkit.org/projects/vault");
+                        } else if (currentVersion > newVersion) {
+                            log.info("Stable Version: " + newVersionTitle + " | Current Version: " + currentVersionTitle);
+                        } else {
+                            log.info("No new version available");
+                        }
+                    } catch (Exception e) {
+                        // ignore exceptions
+                    }
+                }
+            }, 0, 432000);
 
         });
 
@@ -354,7 +342,7 @@ public class Vault extends JavaPlugin {
 
         Permission perms = new Permission_SuperPerms(this);
         sm.register(Permission.class, perms, this, ServicePriority.Lowest);
-        log.info(String.format("[Permission] SuperPermissions loaded as backup permission system."));
+        log.info("[Permission] SuperPermissions loaded as backup permission system.");
 
         this.perms = sm.getRegistration(Permission.class).getProvider();
     }
@@ -428,7 +416,7 @@ public class Vault extends JavaPlugin {
         }
         Economy econ1 = null;
         Economy econ2 = null;
-        String economies = "";
+        StringBuilder economies = new StringBuilder();
         for (RegisteredServiceProvider<Economy> econ : econs) {
             String econName = econ.getProvider().getName().replace(" ", "");
             if (econName.equalsIgnoreCase(args[0])) {
@@ -437,9 +425,9 @@ public class Vault extends JavaPlugin {
                 econ2 = econ.getProvider();
             }
             if (economies.length() > 0) {
-            	economies += ", ";
+            	economies.append(", ");
             }
-            economies += econName;
+            economies.append(econName);
         }
 
         if (econ1 == null) {
@@ -468,42 +456,42 @@ public class Vault extends JavaPlugin {
                 
             }
         }
-        sender.sendMessage("Converson complete, please verify the data before using it.");
+        sender.sendMessage("Conversion complete, please verify the data before using it.");
     }
 
     private void infoCommand(CommandSender sender) {
         // Get String of Registered Economy Services
-        String registeredEcons = null;
+        StringBuilder registeredEcons = new StringBuilder();
         Collection<RegisteredServiceProvider<Economy>> econs = this.getServer().getServicesManager().getRegistrations(Economy.class);
         for (RegisteredServiceProvider<Economy> econ : econs) {
             Economy e = econ.getProvider();
-            if (registeredEcons == null) {
-                registeredEcons = e.getName();
+            if (registeredEcons.length() == 0) {
+                registeredEcons.append(e.getName());
             } else {
-                registeredEcons += ", " + e.getName();
+                registeredEcons.append(", ").append(e.getName());
             }
         }
 
         // Get String of Registered Permission Services
-        String registeredPerms = null;
+        StringBuilder registeredPerms = new StringBuilder();
         Collection<RegisteredServiceProvider<Permission>> perms = this.getServer().getServicesManager().getRegistrations(Permission.class);
         for (RegisteredServiceProvider<Permission> perm : perms) {
             Permission p = perm.getProvider();
-            if (registeredPerms == null) {
-                registeredPerms = p.getName();
+            if (registeredPerms.length() == 0) {
+                registeredPerms.append(p.getName());
             } else {
-                registeredPerms += ", " + p.getName();
+                registeredPerms.append(", ").append(p.getName());
             }
         }
 
-        String registeredChats = null;
+        StringBuilder registeredChats = new StringBuilder();
         Collection<RegisteredServiceProvider<Chat>> chats = this.getServer().getServicesManager().getRegistrations(Chat.class);
         for (RegisteredServiceProvider<Chat> chat : chats) {
             Chat c = chat.getProvider();
-            if (registeredChats == null) {
-                registeredChats = c.getName();
+            if (registeredChats.length() == 0) {
+                registeredChats.append(c.getName());
             } else {
-                registeredChats += ", " + c.getName();
+                registeredChats.append(", ").append(c.getName());
             }
         }
 
@@ -566,7 +554,7 @@ public class Vault extends JavaPlugin {
             }
             // Pull the last version from the JSON
             newVersionTitle = ((String) ((JSONObject) array.get(array.size() - 1)).get("name")).replace("Vault", "").trim();
-            return Double.valueOf(newVersionTitle.replaceFirst("\\.", "").trim());
+            return Double.parseDouble(newVersionTitle.replaceFirst("\\.", "").trim());
         } catch (Exception e) {
             log.info("There was an issue attempting to check for the latest version.");
         }
@@ -581,21 +569,11 @@ public class Vault extends JavaPlugin {
             econ = rspEcon.getProvider();
         }
         final String econName = econ != null ? econ.getName() : "No Economy";
-        metrics.addCustomChart(new Metrics.SimplePie("economy", new Callable<String>() {
-            @Override
-            public String call() {
-                return econName;
-            }
-        }));
+        metrics.addCustomChart(new Metrics.SimplePie("economy", () -> econName));
 
         // Create our Permission Graph and Add our permission Plotters
         final String permName = Bukkit.getServer().getServicesManager().getRegistration(Permission.class).getProvider().getName();
-        metrics.addCustomChart(new Metrics.SimplePie("permission", new Callable<String>() {
-            @Override
-            public String call() {
-                return permName;
-            }
-        }));
+        metrics.addCustomChart(new Metrics.SimplePie("permission", () -> permName));
 
         // Create our Chat Graph and Add our chat Plotters
         RegisteredServiceProvider<Chat> rspChat = Bukkit.getServer().getServicesManager().getRegistration(Chat.class);
@@ -604,12 +582,7 @@ public class Vault extends JavaPlugin {
             chat = rspChat.getProvider();
         }
         final String chatName = chat != null ? chat.getName() : "No Chat";
-        metrics.addCustomChart(new Metrics.SimplePie("chat", new Callable<String>() {
-            @Override
-            public String call() {
-                return chatName;
-            }
-        }));
+        metrics.addCustomChart(new Metrics.SimplePie("chat", () -> chatName));
     }
 
     public class VaultListener implements Listener {
@@ -618,13 +591,9 @@ public class Vault extends JavaPlugin {
         public void onPlayerJoin(PlayerJoinEvent event) {
             Player player = event.getPlayer();
             if (perms.has(player, "vault.update")) {
-                try {
-                    if (newVersion > currentVersion) {
-                        player.sendMessage("Vault " +  newVersionTitle + " is out! You are running " + currentVersionTitle);
-                        player.sendMessage("Update Vault at: " + VAULT_BUKKIT_URL);
-                    }
-                } catch (Exception e) {
-                    // Ignore exceptions
+                if (newVersion > currentVersion) {
+                    player.sendMessage("Vault " + newVersionTitle + " is out! You are running " + currentVersionTitle);
+                    player.sendMessage("Update Vault at: " + VAULT_BUKKIT_URL);
                 }
             }
         }

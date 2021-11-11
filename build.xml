@@ -53,7 +53,7 @@
 			verbose="false"
 			author="true"
 			version="true">
-	    <link href="http://docs.oracle.com/javase/7/docs/api/" />
+	    <link href="https://docs.oracle.com/javase/7/docs/api/" />
         <link href="http://jd.bukkit.org/apidocs/" />
 
 		<classpath>
