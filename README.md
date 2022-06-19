@@ -1,7 +1,7 @@
 # Vault - Abstraction Library for Bukkit - [![](https://travis-ci.org/MilkBowl/Vault.svg?branch=master)](https://travis-ci.org/MilkBowl/Vault)
 
 ## For Developers:
-Please see the [VaultAPI](http://www.github.com/MilkBowl/VaultAPI) page for
+Please see the [VaultAPI](https://www.github.com/MilkBowl/VaultAPI) page for
 information on developing with Vault's API. In the past, you would use the same
 artifact as servers installed, but the API has now been split from the main
 project and is under a different artifact name. Please make sure you accommodate
@@ -53,7 +53,7 @@ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 GNU Lesser General Public License for more details.
 
 You should have received a copy of the GNU Lesser General Public License
-with Vault. If not, see <http://www.gnu.org/licenses/>.
+with Vault. If not, see <https://www.gnu.org/licenses/>.
 
 ## Building
 Vault comes with all libraries needed to build from the current branch and
@@ -76,27 +76,27 @@ to add your own connector within your plugin as Vault no longer maintains
 new plugin connectors.
 
 * Economy
-  - 3co (http://forums.bukkit.org/threads/22461/)
+  - 3co (https://forums.bukkit.org/threads/22461/)
   - AEco
-  - BOSEconomy 6 (http://forums.bukkit.org/threads/19025/)
+  - BOSEconomy 6 (https://forums.bukkit.org/threads/19025/)
   - BOSEconomy 7
-  - CommandsEX Economy (http://dev.bukkit.org/projects/commandsex)
-  - CraftConomy2 (http://dev.bukkit.org/projects/craftconomy)
-  - CraftConomy3 (http://dev.bukkit.org/projects/craftconomy)
-  - CurrencyCore (http://dev.bukkit.org/projects/currency)
+  - CommandsEX Economy (https://dev.bukkit.org/projects/commandsex)
+  - CraftConomy2 (https://dev.bukkit.org/projects/craftconomy)
+  - CraftConomy3 (https://dev.bukkit.org/projects/craftconomy)
+  - CurrencyCore (https://dev.bukkit.org/projects/currency)
   - Dosh
-  - EconXP (http://dev.bukkit.org/projects/econxp)
-  - Essentials Economy (http://forums.bukkit.org/threads/15312/)
-  - eWallet (http://dev.bukkit.org/projects/ewallet)
+  - EconXP (https://dev.bukkit.org/projects/econxp)
+  - Essentials Economy (https://forums.bukkit.org/threads/15312/)
+  - eWallet (https://dev.bukkit.org/projects/ewallet)
   - GoldIsMoney
   - GoldIsMoney2
   - Gringotts
-  - iConomy 4 (http://forums.bukkit.org/threads/40/)
-  - iConomy 5 (http://forums.bukkit.org/threads/40/)
-  - iConomy 6 (http://forums.bukkit.org/threads/40/)
+  - iConomy 4 (https://forums.bukkit.org/threads/40/)
+  - iConomy 5 (https://forums.bukkit.org/threads/40/)
+  - iConomy 6 (https://forums.bukkit.org/threads/40/)
   - McMoney
   - Miconomy
-  - MineConomy (http://dev.bukkit.org/projects/mineconomy)
+  - MineConomy (https://dev.bukkit.org/projects/mineconomy)
   - MineFaconomy2
   - MultiCurrency
   - SDFEconomy
@@ -105,32 +105,32 @@ new plugin connectors.
 
 * Permissions
   - bPermissions
-  - bPermissions 2 (http://dev.bukkit.org/projects/bpermissions)
+  - bPermissions 2 (https://dev.bukkit.org/projects/bpermissions)
   - DroxPerms
-  - Group Manager (Essentials) (http://forums.bukkit.org/threads/15312/)
+  - Group Manager (Essentials) (https://forums.bukkit.org/threads/15312/)
   - LuckPerms (https://www.spigotmc.org/resources/luckperms-an-advanced-permissions-plugin.28140/)
-  - OverPermissions (http://dev.bukkit.org/projects/overpermissions)
-  - Permissions 3 (http://forums.bukkit.org/threads/18430/)
+  - OverPermissions (https://dev.bukkit.org/projects/overpermissions)
+  - Permissions 3 (https://forums.bukkit.org/threads/18430/)
   - PermissionsBukkit
-  - Permissions Ex (PEX) (http://forums.bukkit.org/threads/18140/)
+  - Permissions Ex (PEX) (https://forums.bukkit.org/threads/18140/)
   - Privileges
   - rscPermissions
   - SimplyPerms
   - SuperPerms (Bukkit's default)
-  - TotalPermissions (http://dev.bukkit.org/projects/totalpermissions)
+  - TotalPermissions (https://dev.bukkit.org/projects/totalpermissions)
   - XPerms
   - zPermissions
 
 * Chat
   - bPermissions
-  - Group Manager (Essentials) (http://forums.bukkit.org/threads/15312/)
+  - Group Manager (Essentials) (https://forums.bukkit.org/threads/15312/)
   - iChat
   - LuckPerms (https://www.spigotmc.org/resources/luckperms-an-advanced-permissions-plugin.28140/)
   - mChat
   - mChatSuite
-  - OverPermissions (http://dev.bukkit.org/projects/overpermissions)
-  - Permissions 3 (http://forums.bukkit.org/threads/18430/)
-  - Permissions Ex (PEX) (http://forums.bukkit.org/threads/18140/)
+  - OverPermissions (https://dev.bukkit.org/projects/overpermissions)
+  - Permissions 3 (https://forums.bukkit.org/threads/18430/)
+  - Permissions Ex (PEX) (https://forums.bukkit.org/threads/18140/)
   - rscPermissions
-  - TotalPermissions (http://dev.bukkit.org/projects/totalpermissions)
+  - TotalPermissions (https://dev.bukkit.org/projects/totalpermissions)
   - zPermissions
