@@ -3,14 +3,14 @@ version: ${project.version}-b${env.TRAVIS_BUILD_NUMBER}
 description: ${project.description}
 authors: [cereal, Sleaker, mung3r]
 website: ${project.url}
-api-version: 1.13
+api-version: 1.19
 
 main: ${mainClass}
-load: startup
+load: STARTUP
 
 commands:
   vault-info:
-    description: Displays information about Vault 
+    description: Displays information about Vault
     usage: |
            /<command> - Displays Vault information
     permission: vault.admin

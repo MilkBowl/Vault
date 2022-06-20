@@ -7,15 +7,15 @@
     <path id="classpath">
         <fileset dir="lib" includes="**/*.jar"/>
     </path>
-	
+
 	<target name="jdoc" depends="clean, javadoc" description="Main javadoc">
 	    <echo>Building and Archiving the Javadocs</echo>
 	</target>
-	
+
     <target name="main" depends="clean, compile, compress, javadoc" description="Main target">
         <echo>Building the .jar file.</echo>
     </target>
-	
+
 	<target name="clean" description="Cleans project">
 		<echo>Cleaning</echo>
 		<delete failonerror="false">
@@ -25,14 +25,14 @@
 		<delete file="Vault.jar" />
 		<mkdir dir="bin"/>
 	</target>
-  
+
     <target name="compile" description="Compilation target">
     	<echo>Compiling</echo>
         <javac srcdir="." destdir="bin" debug="on" debuglevel="lines,vars,source" classpathref="classpath" includeantruntime="false" />
     	<copy file="plugin.yml" tofile="bin/plugin.yml" />
     	<replace file="bin/plugin.yml" token="b000" value="b${env.BUILD_NUMBER}" />
     </target>
-  
+
   <target name="compress" description="Compression target">
 	<echo>Compressing</echo>
         <jar jarfile="Vault.jar" basedir="bin" includes="net/**/*, plugin.yml, props/*">
@@ -42,7 +42,7 @@
         </jar>
     	<delete dir="bin" />
   </target>
-	
+
   <target name="javadoc" description="Generate JavaDoc">
   	<delete dir="/var/www/javadoc/vault" includes="**/*" failonerror="false" />
 	<javadoc packagenames="net.milkbowl.vault.economy,net.milkbowl.vault.permission,net.milkbowl.vault.chat,net.milkbowl.vault.item"
@@ -53,8 +53,8 @@
 			verbose="false"
 			author="true"
 			version="true">
-	    <link href="http://docs.oracle.com/javase/7/docs/api/" />
-        <link href="http://jd.bukkit.org/apidocs/" />
+	    <link href="https://docs.oracle.com/javase/7/docs/api/" />
+        <link href="https://jd.bukkit.org/apidocs/" />
 
 		<classpath>
 			<fileset dir="lib" includes="**/*.jar"/>

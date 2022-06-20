@@ -15,10 +15,9 @@
  */
 package net.milkbowl.vault.economy.plugins;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.logging.Logger;
-
+import net.milkbowl.vault.economy.AbstractEconomy;
+import net.milkbowl.vault.economy.EconomyResponse;
+import net.teamalpha.taecon.TAEcon;
 import org.bukkit.Bukkit;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -27,233 +26,230 @@ import org.bukkit.event.server.PluginDisableEvent;
 import org.bukkit.event.server.PluginEnableEvent;
 import org.bukkit.plugin.Plugin;
 
-import net.milkbowl.vault.economy.AbstractEconomy;
-import net.milkbowl.vault.economy.EconomyResponse;
-import net.milkbowl.vault.economy.EconomyResponse.ResponseType;
-import net.teamalpha.taecon.TAEcon;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.logging.Logger;
 
 public class Economy_TAEcon extends AbstractEconomy {
 	private final Logger log;
 	private final String name = "TAEcon";
-    private Plugin plugin = null;
-    private TAEcon economy = null;
-    
-	public Economy_TAEcon(Plugin plugin){
-		this.plugin = plugin;
-		this.log = plugin.getLogger();
+	private TAEcon economy;
+	
+	public Economy_TAEcon(final Plugin plugin) {
+		log = plugin.getLogger();
 		Bukkit.getServer().getPluginManager().registerEvents(new EconomyServerListener(this), plugin);
 		
-		if (economy == null) {
-            Plugin taecon = plugin.getServer().getPluginManager().getPlugin(name);
-            
-            if (taecon != null && taecon.isEnabled()) {
-                economy = (TAEcon) taecon;
-                log.info(String.format("[Economy] %s hooked.", name));
-            }
-        }
+		if (this.economy == null) {
+			final Plugin taecon = plugin.getServer().getPluginManager().getPlugin(this.name);
+			
+			if (taecon != null && taecon.isEnabled()) {
+				this.economy = (TAEcon) taecon;
+				this.log.info(String.format("[Economy] %s hooked.", this.name));
+			}
+		}
 	}
 	
 	public class EconomyServerListener implements Listener {
-		Economy_TAEcon economy = null;
-
-        public EconomyServerListener(Economy_TAEcon economy) {
-            this.economy = economy;
-        }
-
-        @EventHandler(priority = EventPriority.MONITOR)
-        public void onPluginEnable(PluginEnableEvent event) {
-            if (economy.economy == null) {
-                Plugin taecon = event.getPlugin();
-
-                if (taecon.getDescription().getName().equals(economy.name)) {
-                    economy.economy = (TAEcon) taecon;
-                    log.info(String.format("[Economy] %s hooked.", economy.name));
-                }
-            }
-        }
-
-        @EventHandler(priority = EventPriority.MONITOR)
-        public void onPluginDisable(PluginDisableEvent event) {
-            if (economy.economy != null) {
-                if (event.getPlugin().getDescription().getName().equals(economy.name)) {
-                    economy.economy = null;
-                    log.info(String.format("[Economy] %s unhooked.", economy.name));
-                }
-            }
-        }
-    }
+		final Economy_TAEcon economy;
+		
+		public EconomyServerListener(final Economy_TAEcon economy) {
+			this.economy = economy;
+		}
+		
+		@EventHandler(priority = EventPriority.MONITOR)
+		public void onPluginEnable(final PluginEnableEvent event) {
+			if (this.economy.economy == null) {
+				final Plugin taecon = event.getPlugin();
+				
+				if (taecon.getDescription().getName().equals(this.economy.name)) {
+					this.economy.economy = (TAEcon) taecon;
+					Economy_TAEcon.this.log.info(String.format("[Economy] %s hooked.", this.economy.name));
+				}
+			}
+		}
+		
+		@EventHandler(priority = EventPriority.MONITOR)
+		public void onPluginDisable(final PluginDisableEvent event) {
+			if (this.economy.economy != null) {
+				if (event.getPlugin().getDescription().getName().equals(this.economy.name)) {
+					this.economy.economy = null;
+					Economy_TAEcon.this.log.info(String.format("[Economy] %s unhooked.", this.economy.name));
+				}
+			}
+		}
+	}
 	
 	@Override
 	public boolean isEnabled() {
-		return economy != null;
+		return this.economy != null;
 	}
-
+	
 	@Override
 	public String getName() {
-		return name;
+		return this.name;
 	}
-
+	
 	@Override
 	public boolean hasBankSupport() {
 		return false;
 	}
-
+	
 	@Override
 	public int fractionalDigits() {
 		return 0;
 	}
-
+	
 	@Override
 	public String format(double amount) {
-	amount = Math.ceil(amount);
-	if (amount == 1) {
-		return String.format("%d %s", (int)amount, currencyNameSingular());
-        } else {
-            return String.format("%d %s", (int)amount, currencyNamePlural());
-        }
-    }
-
+		amount = Math.ceil(amount);
+		if (amount == 1) {
+			return String.format("%d %s", 1, this.currencyNameSingular());
+		} else {
+			return String.format("%d %s", (int) amount, this.currencyNamePlural());
+		}
+	}
+	
 	@Override
 	public String currencyNamePlural() {
-		return economy.getCurrencyName(true);
+		return this.economy.getCurrencyName(true);
 	}
-
+	
 	@Override
 	public String currencyNameSingular() {
-		return economy.getCurrencyName(false);
+		return this.economy.getCurrencyName(false);
 	}
-
+	
 	@Override
-	public boolean hasAccount(String playerName) {
+	public boolean hasAccount(final String playerName) {
 		return true;
 	}
-
+	
 	@Override
-	public double getBalance(String playerName) {
-		return economy.getBalance(playerName);
+	public double getBalance(final String playerName) {
+		return this.economy.getBalance(playerName);
 	}
-
+	
 	@Override
-	public boolean has(String playerName, double amount) {
-		return getBalance(playerName) >= amount;
+	public boolean has(final String playerName, final double amount) {
+		return this.getBalance(playerName) >= amount;
 	}
-
+	
 	@Override
-	public EconomyResponse withdrawPlayer(String playerName, double amount) {
-		ResponseType rt;
-		String message;
-		int iamount = (int)Math.ceil(amount);
+	public EconomyResponse withdrawPlayer(final String playerName, final double amount) {
+		final EconomyResponse.ResponseType rt;
+		final String message;
+		final int iamount = (int) Math.ceil(amount);
 		
-		if (has(playerName, amount)) {
-			if (economy.removeBalance(playerName, iamount)) {
-				rt = ResponseType.SUCCESS;
+		if (this.has(playerName, amount)) {
+			if (this.economy.removeBalance(playerName, iamount)) {
+				rt = EconomyResponse.ResponseType.SUCCESS;
 				message = null;
 			} else {
-				rt = ResponseType.SUCCESS;
+				rt = EconomyResponse.ResponseType.SUCCESS;
 				message = "ERROR";
 			}
 		} else {
-			rt = ResponseType.FAILURE;
+			rt = EconomyResponse.ResponseType.FAILURE;
 			message = "Not enough money";
 		}
 		
-		return new EconomyResponse(iamount, getBalance(playerName), rt, message);
+		return new EconomyResponse(iamount, this.getBalance(playerName), rt, message);
 	}
-
+	
 	@Override
-	public EconomyResponse depositPlayer(String playerName, double amount) {
-		ResponseType rt;
-		String message;
-		int iamount = (int)Math.floor(amount);
+	public EconomyResponse depositPlayer(final String playerName, final double amount) {
+		final EconomyResponse.ResponseType rt;
+		final String message;
+		final int iamount = (int) Math.floor(amount);
 		
-		if (economy.addBalance(playerName, iamount)) {
-			rt = ResponseType.SUCCESS;
+		if (this.economy.addBalance(playerName, iamount)) {
+			rt = EconomyResponse.ResponseType.SUCCESS;
 			message = null;
 		} else {
-			rt = ResponseType.SUCCESS;
+			rt = EconomyResponse.ResponseType.SUCCESS;
 			message = "ERROR";
 		}
 		
-		return new EconomyResponse(iamount, getBalance(playerName), rt, message);
+		return new EconomyResponse(iamount, this.getBalance(playerName), rt, message);
 	}
-
+	
 	@Override
-	public EconomyResponse createBank(String name, String player) {
-		return new EconomyResponse(0, 0, ResponseType.NOT_IMPLEMENTED, "TAEcon does not support bank accounts");
+	public EconomyResponse createBank(final String name, final String player) {
+		return new EconomyResponse(0, 0, EconomyResponse.ResponseType.NOT_IMPLEMENTED, "TAEcon does not support bank accounts");
 	}
-
+	
 	@Override
-	public EconomyResponse deleteBank(String name) {
-		return new EconomyResponse(0, 0, ResponseType.NOT_IMPLEMENTED, "TAEcon does not support bank accounts");
+	public EconomyResponse deleteBank(final String name) {
+		return new EconomyResponse(0, 0, EconomyResponse.ResponseType.NOT_IMPLEMENTED, "TAEcon does not support bank accounts");
 	}
-
+	
 	@Override
-	public EconomyResponse bankBalance(String name) {
-		return new EconomyResponse(0, 0, ResponseType.NOT_IMPLEMENTED, "TAEcon does not support bank accounts");
+	public EconomyResponse bankBalance(final String name) {
+		return new EconomyResponse(0, 0, EconomyResponse.ResponseType.NOT_IMPLEMENTED, "TAEcon does not support bank accounts");
 	}
-
+	
 	@Override
-	public EconomyResponse bankHas(String name, double amount) {
-		return new EconomyResponse(0, 0, ResponseType.NOT_IMPLEMENTED, "TAEcon does not support bank accounts");
+	public EconomyResponse bankHas(final String name, final double amount) {
+		return new EconomyResponse(0, 0, EconomyResponse.ResponseType.NOT_IMPLEMENTED, "TAEcon does not support bank accounts");
 	}
-
+	
 	@Override
-	public EconomyResponse bankWithdraw(String name, double amount) {
-		return new EconomyResponse(0, 0, ResponseType.NOT_IMPLEMENTED, "TAEcon does not support bank accounts");
+	public EconomyResponse bankWithdraw(final String name, final double amount) {
+		return new EconomyResponse(0, 0, EconomyResponse.ResponseType.NOT_IMPLEMENTED, "TAEcon does not support bank accounts");
 	}
-
+	
 	@Override
-	public EconomyResponse bankDeposit(String name, double amount) {
-		return new EconomyResponse(0, 0, ResponseType.NOT_IMPLEMENTED, "TAEcon does not support bank accounts");
+	public EconomyResponse bankDeposit(final String name, final double amount) {
+		return new EconomyResponse(0, 0, EconomyResponse.ResponseType.NOT_IMPLEMENTED, "TAEcon does not support bank accounts");
 	}
-
+	
 	@Override
-	public EconomyResponse isBankOwner(String name, String playerName) {
-		return new EconomyResponse(0, 0, ResponseType.NOT_IMPLEMENTED, "TAEcon does not support bank accounts");
+	public EconomyResponse isBankOwner(final String name, final String playerName) {
+		return new EconomyResponse(0, 0, EconomyResponse.ResponseType.NOT_IMPLEMENTED, "TAEcon does not support bank accounts");
 	}
-
+	
 	@Override
-	public EconomyResponse isBankMember(String name, String playerName) {
-		return new EconomyResponse(0, 0, ResponseType.NOT_IMPLEMENTED, "TAEcon does not support bank accounts");
+	public EconomyResponse isBankMember(final String name, final String playerName) {
+		return new EconomyResponse(0, 0, EconomyResponse.ResponseType.NOT_IMPLEMENTED, "TAEcon does not support bank accounts");
 	}
-
+	
 	@Override
 	public List<String> getBanks() {
-		return new ArrayList<String>();
+		return new ArrayList<>();
 	}
-
+	
 	@Override
-	public boolean createPlayerAccount(String playerName) {
+	public boolean createPlayerAccount(final String playerName) {
 		return false;
 	}
-
-    @Override
-    public boolean hasAccount(String playerName, String worldName) {
-        return true;
-    }
-
-    @Override
-    public double getBalance(String playerName, String world) {
-        return getBalance(playerName);
-    }
-
-    @Override
-    public boolean has(String playerName, String worldName, double amount) {
-        return has(playerName, amount);
-    }
-
-    @Override
-    public EconomyResponse withdrawPlayer(String playerName, String worldName, double amount) {
-        return withdrawPlayer(playerName, amount);
-    }
-
-    @Override
-    public EconomyResponse depositPlayer(String playerName, String worldName, double amount) {
-        return depositPlayer(playerName, amount);
-    }
-
-    @Override
-    public boolean createPlayerAccount(String playerName, String worldName) {
-        return false;
-    }
+	
+	@Override
+	public boolean hasAccount(final String playerName, final String worldName) {
+		return true;
+	}
+	
+	@Override
+	public double getBalance(final String playerName, final String world) {
+		return this.getBalance(playerName);
+	}
+	
+	@Override
+	public boolean has(final String playerName, final String worldName, final double amount) {
+		return this.has(playerName, amount);
+	}
+	
+	@Override
+	public EconomyResponse withdrawPlayer(final String playerName, final String worldName, final double amount) {
+		return this.withdrawPlayer(playerName, amount);
+	}
+	
+	@Override
+	public EconomyResponse depositPlayer(final String playerName, final String worldName, final double amount) {
+		return this.depositPlayer(playerName, amount);
+	}
+	
+	@Override
+	public boolean createPlayerAccount(final String playerName, final String worldName) {
+		return false;
+	}
 }

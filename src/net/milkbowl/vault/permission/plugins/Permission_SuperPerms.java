@@ -16,98 +16,95 @@
 package net.milkbowl.vault.permission.plugins;
 
 import net.milkbowl.vault.permission.Permission;
-
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 
 public class Permission_SuperPerms extends Permission {
-
-	private final String name = "SuperPerms";
 	
-	public Permission_SuperPerms(Plugin plugin) {
+	public Permission_SuperPerms(final Plugin plugin) {
 		this.plugin = plugin;
 	}
 	
 	@Override
 	public String getName() {
-		return name;
+		return "SuperPerms";
 	}
-
+	
 	@Override
 	public boolean isEnabled() {
 		return true;
 	}
-
+	
 	@Override
-	public boolean playerHas(String world, String player, String permission) {
-		Player p = plugin.getServer().getPlayer(player);
-		return p != null ? p.hasPermission(permission) : false;
+	public boolean playerHas(final String world, final String player, final String permission) {
+		final Player p = this.plugin.getServer().getPlayer(player);
+		return p != null && p.hasPermission(permission);
 	}
-
+	
 	@Override
-	public boolean playerAdd(String world, String player, String permission) {
+	public boolean playerAdd(final String world, final String player, final String permission) {
 		return false;
 	}
-
+	
 	// use superclass implementation of playerAddTransient() and playerRemoveTransient()
-
+	
 	@Override
-	public boolean playerRemove(String world, String player, String permission) {
+	public boolean playerRemove(final String world, final String player, final String permission) {
 		return false;
 	}
-
+	
 	@Override
-	public boolean groupHas(String world, String group, String permission) {
-		throw new UnsupportedOperationException(getName() + " no group permissions.");
+	public boolean groupHas(final String world, final String group, final String permission) {
+		throw new UnsupportedOperationException(this.getName() + " no group permissions.");
 	}
-
+	
 	@Override
-	public boolean groupAdd(String world, String group, String permission) {
-		throw new UnsupportedOperationException(getName() + " no group permissions.");
+	public boolean groupAdd(final String world, final String group, final String permission) {
+		throw new UnsupportedOperationException(this.getName() + " no group permissions.");
 	}
-
+	
 	@Override
-	public boolean groupRemove(String world, String group, String permission) {
-		throw new UnsupportedOperationException(getName() + " no group permissions.");
+	public boolean groupRemove(final String world, final String group, final String permission) {
+		throw new UnsupportedOperationException(this.getName() + " no group permissions.");
 	}
-
+	
 	@Override
-	public boolean playerInGroup(String world, String player, String group) {
-		return playerHas(world, player, "groups." + group);
+	public boolean playerInGroup(final String world, final String player, final String group) {
+		return this.playerHas(world, player, "groups." + group);
 	}
-
+	
 	@Override
-	public boolean playerAddGroup(String world, String player, String group) {
-		throw new UnsupportedOperationException(getName() + " no group permissions.");
+	public boolean playerAddGroup(final String world, final String player, final String group) {
+		throw new UnsupportedOperationException(this.getName() + " no group permissions.");
 	}
-
+	
 	@Override
-	public boolean playerRemoveGroup(String world, String player, String group) {
-		throw new UnsupportedOperationException(getName() + " no group permissions.");
+	public boolean playerRemoveGroup(final String world, final String player, final String group) {
+		throw new UnsupportedOperationException(this.getName() + " no group permissions.");
 	}
-
+	
 	@Override
-	public String[] getPlayerGroups(String world, String player) {
-		throw new UnsupportedOperationException(getName() + " no group permissions.");
+	public String[] getPlayerGroups(final String world, final String player) {
+		throw new UnsupportedOperationException(this.getName() + " no group permissions.");
 	}
-
+	
 	@Override
-	public String getPrimaryGroup(String world, String player) {
-		throw new UnsupportedOperationException(getName() + " no group permissions.");
+	public String getPrimaryGroup(final String world, final String player) {
+		throw new UnsupportedOperationException(this.getName() + " no group permissions.");
 	}
-
+	
 	@Override
 	public String[] getGroups() {
 		return new String[0];
 	}
-
+	
 	@Override
 	public boolean hasSuperPermsCompat() {
 		return true;
 	}
-
-    @Override
-    public boolean hasGroupSupport() {
-        return false;
-    }
+	
+	@Override
+	public boolean hasGroupSupport() {
+		return false;
+	}
 }

@@ -16,13 +16,12 @@
 
 package net.milkbowl.vault.economy.plugins;
 
-import java.util.List;
-import java.util.logging.Logger;
-
+import com.gmail.mirelatrue.xpbank.API;
+import com.gmail.mirelatrue.xpbank.Account;
+import com.gmail.mirelatrue.xpbank.GroupBank;
+import com.gmail.mirelatrue.xpbank.XPBank;
 import net.milkbowl.vault.economy.AbstractEconomy;
 import net.milkbowl.vault.economy.EconomyResponse;
-import net.milkbowl.vault.economy.EconomyResponse.ResponseType;
-
 import org.bukkit.Bukkit;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -31,358 +30,346 @@ import org.bukkit.event.server.PluginDisableEvent;
 import org.bukkit.event.server.PluginEnableEvent;
 import org.bukkit.plugin.Plugin;
 
-import com.gmail.mirelatrue.xpbank.API;
-import com.gmail.mirelatrue.xpbank.Account;
-import com.gmail.mirelatrue.xpbank.GroupBank;
-import com.gmail.mirelatrue.xpbank.XPBank;
+import java.util.List;
+import java.util.logging.Logger;
 
 public class Economy_XPBank extends AbstractEconomy {
-
-    private final Logger log;
-    private final String name = "XPBank";
-    private Plugin plugin = null;
-    private XPBank XPB = null;
-    private API api = null;
-
-    public Economy_XPBank (Plugin plugin) {
-        this.plugin = plugin;
-        this.log = plugin.getLogger();
-        Bukkit.getServer().getPluginManager().registerEvents(new EconomyServerListener(this), plugin);
-
-        // Load Plugin in case it was loaded before
-        if (XPB == null) {
-            Plugin economy = plugin.getServer().getPluginManager().getPlugin("XPBank");
-            if (economy != null && economy.isEnabled()) {
-                XPB = (XPBank) economy;
-                api = XPB.getAPI();
-                log.info(String.format("[Economy] %s hooked.", name));
-            }
-        }
-    }
-
-    public class EconomyServerListener implements Listener {
-        Economy_XPBank economy = null;
-
-        public EconomyServerListener (Economy_XPBank economy_XPBank) {
-            this.economy = economy_XPBank;
-        }
-
-        @EventHandler (priority = EventPriority.MONITOR)
-        public void onPluginEnable (PluginEnableEvent event) {
-            if (economy.XPB == null) {
-                Plugin eco = event.getPlugin();
-
-                if (eco.getDescription().getName().equals("XPBank")) {
-                    economy.XPB = (XPBank) eco;
-                    api = XPB.getAPI();
-                    log.info(String.format("[Economy] %s hooked.", economy.name));
-                }
-            }
-        }
-
-        @EventHandler (priority = EventPriority.MONITOR)
-        public void onPluginDisable (PluginDisableEvent event) {
-            if (economy.XPB != null) {
-                if (event.getPlugin().getDescription().getName().equals("XPBank")) {
-                    economy.XPB = null;
-                    log.info(String.format("[Economy] %s unhooked.", economy.name));
-                }
-            }
-        }
-    }
-
-    @Override
-    public boolean isEnabled () {
-        return this.XPB != null;
-    }
-
-    @Override
-    public String getName () {
-        return name;
-    }
-
-    @Override
-    public boolean hasBankSupport () {
-        return true;
-    }
-
-    @Override
-    public int fractionalDigits () {
-        return 0;
-    }
-
-    @Override
-    public String format (double amount) {
-        return String.format("%d %s", (int) amount, api.currencyName((int) amount));
-    }
-
-    @Override
-    public String currencyNamePlural () {
-        return api.getMsg("CurrencyNamePlural");
-    }
-
-    @Override
-    public String currencyNameSingular () {
-        return api.getMsg("currencyName");
-    }
-
-    @Override
-    public boolean hasAccount (String playerName) {
-        Account account = api.getAccount(playerName);
-
-        if (account != null) {
-            return true;
-        }
-
-        return false;
-    }
-
-    @Override
-    public double getBalance (String playerName) {
-        Account account = api.getAccount(playerName);
-
-        return account.getBalance();
-    }
-
-    @Override
-    public boolean has (String playerName, double amount) {
-        Account account = api.getAccount(playerName);
-
-        if (account.getBalance() >= (int) amount) {
-            return true;
-        }
-
-        return false;
-    }
-
-    @Override
-    public EconomyResponse withdrawPlayer (String playerName, double amount) {
-        Account account = api.getAccount(playerName);
-
-        if (account == null) {
-            return new EconomyResponse(0, 0, ResponseType.FAILURE, api.getMsg("Player doesn't exist."));
-        }
-
-        int value = (int) amount;
-        int balance = account.getBalance();
-
-        if (value < 1) {
-            return new EconomyResponse(0, balance, ResponseType.FAILURE, api.getMsg("LessThanZero"));
-        }
-
-        if (value > balance) {
-            return new EconomyResponse(0, balance, ResponseType.FAILURE, String.format(api.getMsg("InsufficientXP"), api.currencyName(value)));
-        }
-
-        account.modifyBalance(-value);
-
-        return new EconomyResponse(value, balance - value, ResponseType.SUCCESS, null);
-    }
-
-    @Override
-    public EconomyResponse depositPlayer (String playerName, double amount) {
-        Account account = api.getAccount(playerName);
-
-        if (account == null) {
-            // Stupid plugins that use fake players without creating them first...
-            // return new EconomyResponse(0, 0, ResponseType.FAILURE, "Player doesn't exist");
-            this.createPlayerAccount(playerName);
-        }
-
-        int value = (int) amount;
-        int balance = account.getBalance();
-
-        if (value < 1) {
-            return new EconomyResponse(0, balance, ResponseType.FAILURE, api.getMsg("LessThanZero"));
-        }
-
-        account.addTaxableIncome(value);
-
-        return new EconomyResponse(value, balance + value, ResponseType.SUCCESS, null);
-    }
-
-    @Override
-    public EconomyResponse createBank (String name, String player) {
-        GroupBank groupBank = api.getGroupBank(name);
-
-        if (groupBank != null) {
-            return new EconomyResponse(0, groupBank.getBalance(), ResponseType.FAILURE, String.format(api.getMsg("GroupBankExists"), name));
-        }
-
-        Account account = api.getAccount(player);
-
-        groupBank = api.createGroupBank(name, account);
-
-        return new EconomyResponse(0, groupBank.getBalance(), ResponseType.SUCCESS, null);
-    }
-
-    @Override
-    public EconomyResponse deleteBank (String name) {
-        GroupBank groupBank = api.getGroupBank(name);
-
-        if (groupBank == null) {
-            return new EconomyResponse(0, 0, ResponseType.FAILURE, api.getMsg("GroupBankNotExists"));
-        }
-
-        api.deleteGroupBank(groupBank, String.format(api.getMsg("Disbanded"), groupBank.getName()));
-
-        return new EconomyResponse(0, 0, ResponseType.SUCCESS, null);
-    }
-
-    @Override
-    public EconomyResponse bankBalance (String name) {
-        GroupBank groupBank = api.getGroupBank(name);
-
-        if (groupBank == null) {
-            return new EconomyResponse(0, 0, ResponseType.FAILURE, api.getMsg("GroupBankNotExists"));
-        }
-
-        return new EconomyResponse(0, groupBank.getBalance(), ResponseType.SUCCESS, null);
-    }
-
-    @Override
-    public EconomyResponse bankHas (String name, double amount) {
-        GroupBank groupBank = api.getGroupBank(name);
-
-        if (groupBank == null) {
-            return new EconomyResponse(0, 0, ResponseType.FAILURE, api.getMsg("GroupBankNotExists"));
-        }
-
-        int value = (int) amount;
-        int balance = groupBank.getBalance();
-
-        if (balance >= value) {
-            return new EconomyResponse(0, balance, ResponseType.SUCCESS, null);
-        }
-
-        return new EconomyResponse(0, balance, ResponseType.FAILURE, String.format(api.getMsg("InsufficientXP"), api.currencyName(value)));
-    }
-
-    @Override
-    public EconomyResponse bankWithdraw (String name, double amount) {
-        GroupBank groupBank = api.getGroupBank(name);
-
-        if (groupBank == null) {
-            return new EconomyResponse(0, 0, ResponseType.FAILURE, api.getMsg("GroupBankNotExists"));
-        }
-
-        int value = (int) amount;
-        int balance = groupBank.getBalance();
-
-        if (value < 1) {
-            return new EconomyResponse(0, balance, ResponseType.FAILURE, api.getMsg("LessThanZero"));
-        }
-
-        if (value > balance) {
-            return new EconomyResponse(0, balance, ResponseType.FAILURE, String.format(api.getMsg("InsufficientXP"), api.currencyName(value)));
-        }
-
-        groupBank.modifyBalance(-value);
-
-        return new EconomyResponse(value, balance - value, ResponseType.SUCCESS, null);
-    }
-
-    @Override
-    public EconomyResponse bankDeposit (String name, double amount) {
-        GroupBank groupBank = api.getGroupBank(name);
-
-        if (groupBank == null) {
-            return new EconomyResponse(0, 0, ResponseType.FAILURE, api.getMsg("GroupBankNotExists"));
-        }
-
-        int value = (int) amount;
-        int balance = groupBank.getBalance();
-
-        if (value < 1) {
-            return new EconomyResponse(0, balance, ResponseType.FAILURE, api.getMsg("LessThanZero"));
-        }
-
-        groupBank.modifyBalance(value);
-
-        return new EconomyResponse(value, balance + value, ResponseType.SUCCESS, null);
-    }
-
-    @Override
-    public EconomyResponse isBankOwner (String name, String playerName) {
-        GroupBank groupBank = api.getGroupBank(name);
-
-        if (groupBank == null) {
-            return new EconomyResponse(0, 0, ResponseType.FAILURE, api.getMsg("GroupBankNotExists"));
-        }
-
-        Account account = api.getAccount(name);
-
-        if (account == null) {
-            return new EconomyResponse(0, groupBank.getBalance(), ResponseType.FAILURE, api.getMsg("PlayerNotExist"));
-        }
-
-        if (groupBank.getOwner().equalsIgnoreCase(name)) {
-            return new EconomyResponse(0, groupBank.getBalance(), ResponseType.SUCCESS, null);
-        }
-
-        return new EconomyResponse(0, groupBank.getBalance(), ResponseType.FAILURE, String.format(api.getMsg("PlayerNotOwner"), account.getName(), groupBank.getName()));
-    }
-
-    @Override
-    public EconomyResponse isBankMember (String name, String playerName) {
-        GroupBank groupBank = api.getGroupBank(name);
-
-        if (groupBank == null) {
-            return new EconomyResponse(0, 0, ResponseType.FAILURE, api.getMsg("GroupBankNotExists"));
-        }
-
-        Account account = api.getAccount(name);
-
-        if (account == null) {
-            return new EconomyResponse(0, groupBank.getBalance(), ResponseType.FAILURE, api.getMsg("PlayerNotExist"));
-        }
-
-        if (groupBank.groupMembers.getMembers().containsKey(playerName)) {
-            return new EconomyResponse(0, groupBank.getBalance(), ResponseType.SUCCESS, null);
-        }
-
-        return new EconomyResponse(0, groupBank.getBalance(), ResponseType.FAILURE, String.format(api.getMsg("NotAMemberOf"), groupBank.getName(), account.getName()));
-    }
-
-    @Override
-    public List<String> getBanks () {
-        return api.getAllGroupBanks();
-    }
-
-    @Override
-    public boolean createPlayerAccount (String playerName) {
-        api.createAccount(playerName);
-
-        return true;
-    }
-
-    @Override
-    public boolean hasAccount(String playerName, String worldName) {
-        return hasAccount(playerName);
-    }
-
-    @Override
-    public double getBalance(String playerName, String world) {
-        return getBalance(playerName);
-    }
-
-    @Override
-    public boolean has(String playerName, String worldName, double amount) {
-        return has(playerName, amount);
-    }
-
-    @Override
-    public EconomyResponse withdrawPlayer(String playerName, String worldName, double amount) {
-        return withdrawPlayer(playerName, amount);
-    }
-
-    @Override
-    public EconomyResponse depositPlayer(String playerName, String worldName, double amount) {
-        return depositPlayer(playerName, amount);
-    }
-
-    @Override
-    public boolean createPlayerAccount(String playerName, String worldName) {
-        return createPlayerAccount(playerName);
-    }
+	
+	private final Logger log;
+	private final String name = "XPBank";
+	private XPBank XPB;
+	private API api;
+	
+	public Economy_XPBank(final Plugin plugin) {
+		log = plugin.getLogger();
+		Bukkit.getServer().getPluginManager().registerEvents(new EconomyServerListener(this), plugin);
+		
+		// Load Plugin in case it was loaded before
+		if (this.XPB == null) {
+			final Plugin economy = plugin.getServer().getPluginManager().getPlugin("XPBank");
+			if (economy != null && economy.isEnabled()) {
+				this.XPB = (XPBank) economy;
+				this.api = this.XPB.getAPI();
+				this.log.info(String.format("[Economy] %s hooked.", this.name));
+			}
+		}
+	}
+	
+	public class EconomyServerListener implements Listener {
+		final Economy_XPBank economy;
+		
+		public EconomyServerListener(final Economy_XPBank economy_XPBank) {
+			economy = economy_XPBank;
+		}
+		
+		@EventHandler(priority = EventPriority.MONITOR)
+		public void onPluginEnable(final PluginEnableEvent event) {
+			if (this.economy.XPB == null) {
+				final Plugin eco = event.getPlugin();
+				
+				if (eco.getDescription().getName().equals("XPBank")) {
+					this.economy.XPB = (XPBank) eco;
+					Economy_XPBank.this.api = Economy_XPBank.this.XPB.getAPI();
+					Economy_XPBank.this.log.info(String.format("[Economy] %s hooked.", this.economy.name));
+				}
+			}
+		}
+		
+		@EventHandler(priority = EventPriority.MONITOR)
+		public void onPluginDisable(final PluginDisableEvent event) {
+			if (this.economy.XPB != null) {
+				if (event.getPlugin().getDescription().getName().equals("XPBank")) {
+					this.economy.XPB = null;
+					Economy_XPBank.this.log.info(String.format("[Economy] %s unhooked.", this.economy.name));
+				}
+			}
+		}
+	}
+	
+	@Override
+	public boolean isEnabled() {
+		return XPB != null;
+	}
+	
+	@Override
+	public String getName() {
+		return this.name;
+	}
+	
+	@Override
+	public boolean hasBankSupport() {
+		return true;
+	}
+	
+	@Override
+	public int fractionalDigits() {
+		return 0;
+	}
+	
+	@Override
+	public String format(final double amount) {
+		return String.format("%d %s", (int) amount, this.api.currencyName((int) amount));
+	}
+	
+	@Override
+	public String currencyNamePlural() {
+		return this.api.getMsg("CurrencyNamePlural");
+	}
+	
+	@Override
+	public String currencyNameSingular() {
+		return this.api.getMsg("currencyName");
+	}
+	
+	@Override
+	public boolean hasAccount(final String playerName) {
+		final Account account = this.api.getAccount(playerName);
+		
+		return account != null;
+	}
+	
+	@Override
+	public double getBalance(final String playerName) {
+		final Account account = this.api.getAccount(playerName);
+		
+		return account.getBalance();
+	}
+	
+	@Override
+	public boolean has(final String playerName, final double amount) {
+		final Account account = this.api.getAccount(playerName);
+		
+		return account.getBalance() >= (int) amount;
+	}
+	
+	@Override
+	public EconomyResponse withdrawPlayer(final String playerName, final double amount) {
+		final Account account = this.api.getAccount(playerName);
+		
+		if (account == null) {
+			return new EconomyResponse(0, 0, EconomyResponse.ResponseType.FAILURE, this.api.getMsg("Player doesn't exist."));
+		}
+		
+		final int value = (int) amount;
+		final int balance = account.getBalance();
+		
+		if (value < 1) {
+			return new EconomyResponse(0, balance, EconomyResponse.ResponseType.FAILURE, this.api.getMsg("LessThanZero"));
+		}
+		
+		if (value > balance) {
+			return new EconomyResponse(0, balance, EconomyResponse.ResponseType.FAILURE, String.format(this.api.getMsg("InsufficientXP"), this.api.currencyName(value)));
+		}
+		
+		account.modifyBalance(-value);
+		
+		return new EconomyResponse(value, balance - value, EconomyResponse.ResponseType.SUCCESS, null);
+	}
+	
+	@Override
+	public EconomyResponse depositPlayer(final String playerName, final double amount) {
+		final Account account = this.api.getAccount(playerName);
+		
+		if (account == null) {
+			// Stupid plugins that use fake players without creating them first...
+			// return new EconomyResponse(0, 0, ResponseType.FAILURE, "Player doesn't exist");
+			createPlayerAccount(playerName);
+		}
+		
+		final int value = (int) amount;
+		final int balance = account.getBalance();
+		
+		if (value < 1) {
+			return new EconomyResponse(0, balance, EconomyResponse.ResponseType.FAILURE, this.api.getMsg("LessThanZero"));
+		}
+		
+		account.addTaxableIncome(value);
+		
+		return new EconomyResponse(value, balance + value, EconomyResponse.ResponseType.SUCCESS, null);
+	}
+	
+	@Override
+	public EconomyResponse createBank(final String name, final String player) {
+		GroupBank groupBank = this.api.getGroupBank(name);
+		
+		if (groupBank != null) {
+			return new EconomyResponse(0, groupBank.getBalance(), EconomyResponse.ResponseType.FAILURE, String.format(this.api.getMsg("GroupBankExists"), name));
+		}
+		
+		final Account account = this.api.getAccount(player);
+		
+		groupBank = this.api.createGroupBank(name, account);
+		
+		return new EconomyResponse(0, groupBank.getBalance(), EconomyResponse.ResponseType.SUCCESS, null);
+	}
+	
+	@Override
+	public EconomyResponse deleteBank(final String name) {
+		final GroupBank groupBank = this.api.getGroupBank(name);
+		
+		if (groupBank == null) {
+			return new EconomyResponse(0, 0, EconomyResponse.ResponseType.FAILURE, this.api.getMsg("GroupBankNotExists"));
+		}
+		
+		this.api.deleteGroupBank(groupBank, String.format(this.api.getMsg("Disbanded"), groupBank.getName()));
+		
+		return new EconomyResponse(0, 0, EconomyResponse.ResponseType.SUCCESS, null);
+	}
+	
+	@Override
+	public EconomyResponse bankBalance(final String name) {
+		final GroupBank groupBank = this.api.getGroupBank(name);
+		
+		if (groupBank == null) {
+			return new EconomyResponse(0, 0, EconomyResponse.ResponseType.FAILURE, this.api.getMsg("GroupBankNotExists"));
+		}
+		
+		return new EconomyResponse(0, groupBank.getBalance(), EconomyResponse.ResponseType.SUCCESS, null);
+	}
+	
+	@Override
+	public EconomyResponse bankHas(final String name, final double amount) {
+		final GroupBank groupBank = this.api.getGroupBank(name);
+		
+		if (groupBank == null) {
+			return new EconomyResponse(0, 0, EconomyResponse.ResponseType.FAILURE, this.api.getMsg("GroupBankNotExists"));
+		}
+		
+		final int value = (int) amount;
+		final int balance = groupBank.getBalance();
+		
+		if (balance >= value) {
+			return new EconomyResponse(0, balance, EconomyResponse.ResponseType.SUCCESS, null);
+		}
+		
+		return new EconomyResponse(0, balance, EconomyResponse.ResponseType.FAILURE, String.format(this.api.getMsg("InsufficientXP"), this.api.currencyName(value)));
+	}
+	
+	@Override
+	public EconomyResponse bankWithdraw(final String name, final double amount) {
+		final GroupBank groupBank = this.api.getGroupBank(name);
+		
+		if (groupBank == null) {
+			return new EconomyResponse(0, 0, EconomyResponse.ResponseType.FAILURE, this.api.getMsg("GroupBankNotExists"));
+		}
+		
+		final int value = (int) amount;
+		final int balance = groupBank.getBalance();
+		
+		if (value < 1) {
+			return new EconomyResponse(0, balance, EconomyResponse.ResponseType.FAILURE, this.api.getMsg("LessThanZero"));
+		}
+		
+		if (value > balance) {
+			return new EconomyResponse(0, balance, EconomyResponse.ResponseType.FAILURE, String.format(this.api.getMsg("InsufficientXP"), this.api.currencyName(value)));
+		}
+		
+		groupBank.modifyBalance(-value);
+		
+		return new EconomyResponse(value, balance - value, EconomyResponse.ResponseType.SUCCESS, null);
+	}
+	
+	@Override
+	public EconomyResponse bankDeposit(final String name, final double amount) {
+		final GroupBank groupBank = this.api.getGroupBank(name);
+		
+		if (groupBank == null) {
+			return new EconomyResponse(0, 0, EconomyResponse.ResponseType.FAILURE, this.api.getMsg("GroupBankNotExists"));
+		}
+		
+		final int value = (int) amount;
+		final int balance = groupBank.getBalance();
+		
+		if (value < 1) {
+			return new EconomyResponse(0, balance, EconomyResponse.ResponseType.FAILURE, this.api.getMsg("LessThanZero"));
+		}
+		
+		groupBank.modifyBalance(value);
+		
+		return new EconomyResponse(value, balance + value, EconomyResponse.ResponseType.SUCCESS, null);
+	}
+	
+	@Override
+	public EconomyResponse isBankOwner(final String name, final String playerName) {
+		final GroupBank groupBank = this.api.getGroupBank(name);
+		
+		if (groupBank == null) {
+			return new EconomyResponse(0, 0, EconomyResponse.ResponseType.FAILURE, this.api.getMsg("GroupBankNotExists"));
+		}
+		
+		final Account account = this.api.getAccount(name);
+		
+		if (account == null) {
+			return new EconomyResponse(0, groupBank.getBalance(), EconomyResponse.ResponseType.FAILURE, this.api.getMsg("PlayerNotExist"));
+		}
+		
+		if (groupBank.getOwner().equalsIgnoreCase(name)) {
+			return new EconomyResponse(0, groupBank.getBalance(), EconomyResponse.ResponseType.SUCCESS, null);
+		}
+		
+		return new EconomyResponse(0, groupBank.getBalance(), EconomyResponse.ResponseType.FAILURE, String.format(this.api.getMsg("PlayerNotOwner"), account.getName(), groupBank.getName()));
+	}
+	
+	@Override
+	public EconomyResponse isBankMember(final String name, final String playerName) {
+		final GroupBank groupBank = this.api.getGroupBank(name);
+		
+		if (groupBank == null) {
+			return new EconomyResponse(0, 0, EconomyResponse.ResponseType.FAILURE, this.api.getMsg("GroupBankNotExists"));
+		}
+		
+		final Account account = this.api.getAccount(name);
+		
+		if (account == null) {
+			return new EconomyResponse(0, groupBank.getBalance(), EconomyResponse.ResponseType.FAILURE, this.api.getMsg("PlayerNotExist"));
+		}
+		
+		if (groupBank.groupMembers.getMembers().containsKey(playerName)) {
+			return new EconomyResponse(0, groupBank.getBalance(), EconomyResponse.ResponseType.SUCCESS, null);
+		}
+		
+		return new EconomyResponse(0, groupBank.getBalance(), EconomyResponse.ResponseType.FAILURE, String.format(this.api.getMsg("NotAMemberOf"), groupBank.getName(), account.getName()));
+	}
+	
+	@Override
+	public List<String> getBanks() {
+		return this.api.getAllGroupBanks();
+	}
+	
+	@Override
+	public boolean createPlayerAccount(final String playerName) {
+		this.api.createAccount(playerName);
+		
+		return true;
+	}
+	
+	@Override
+	public boolean hasAccount(final String playerName, final String worldName) {
+		return this.hasAccount(playerName);
+	}
+	
+	@Override
+	public double getBalance(final String playerName, final String world) {
+		return this.getBalance(playerName);
+	}
+	
+	@Override
+	public boolean has(final String playerName, final String worldName, final double amount) {
+		return this.has(playerName, amount);
+	}
+	
+	@Override
+	public EconomyResponse withdrawPlayer(final String playerName, final String worldName, final double amount) {
+		return this.withdrawPlayer(playerName, amount);
+	}
+	
+	@Override
+	public EconomyResponse depositPlayer(final String playerName, final String worldName, final double amount) {
+		return this.depositPlayer(playerName, amount);
+	}
+	
+	@Override
+	public boolean createPlayerAccount(final String playerName, final String worldName) {
+		return this.createPlayerAccount(playerName);
+	}
 }

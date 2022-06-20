@@ -76,8 +76,6 @@ to add your own connector within your plugin as Vault no longer maintains
 new plugin connectors.
 
 * Economy
-  - 3co (https://forums.bukkit.org/threads/22461/)
-  - AEco
   - BOSEconomy 6 (https://forums.bukkit.org/threads/19025/)
   - BOSEconomy 7
   - CommandsEX Economy (https://dev.bukkit.org/projects/commandsex)
@@ -94,10 +92,8 @@ new plugin connectors.
   - iConomy 4 (https://forums.bukkit.org/threads/40/)
   - iConomy 5 (https://forums.bukkit.org/threads/40/)
   - iConomy 6 (https://forums.bukkit.org/threads/40/)
-  - McMoney
   - Miconomy
   - MineConomy (https://dev.bukkit.org/projects/mineconomy)
-  - MineFaconomy2
   - MultiCurrency
   - SDFEconomy
   - TAEcon
@@ -106,7 +102,6 @@ new plugin connectors.
 * Permissions
   - bPermissions
   - bPermissions 2 (https://dev.bukkit.org/projects/bpermissions)
-  - DroxPerms
   - Group Manager (Essentials) (https://forums.bukkit.org/threads/15312/)
   - LuckPerms (https://www.spigotmc.org/resources/luckperms-an-advanced-permissions-plugin.28140/)
   - OverPermissions (https://dev.bukkit.org/projects/overpermissions)
