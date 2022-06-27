@@ -104,33 +104,15 @@ new plugin connectors.
    - XPBank
 
 * Permissions
-   - bPermissions
    - bPermissions 2 (http://dev.bukkit.org/projects/bpermissions)
-   - DroxPerms
    - Group Manager (Essentials) (http://forums.bukkit.org/threads/15312/)
    - LuckPerms (https://www.spigotmc.org/resources/luckperms-an-advanced-permissions-plugin.28140/)
-   - OverPermissions (http://dev.bukkit.org/projects/overpermissions)
-   - Permissions 3 (http://forums.bukkit.org/threads/18430/)
-   - PermissionsBukkit
    - Permissions Ex (PEX) (http://forums.bukkit.org/threads/18140/)
-   - Privileges
-   - rscPermissions
-   - SimplyPerms
    - SuperPerms (Bukkit's default)
-   - TotalPermissions (http://dev.bukkit.org/projects/totalpermissions)
-   - XPerms
    - zPermissions
 
 * Chat
-   - bPermissions
    - Group Manager (Essentials) (http://forums.bukkit.org/threads/15312/)
-   - iChat
    - LuckPerms (https://www.spigotmc.org/resources/luckperms-an-advanced-permissions-plugin.28140/)
-   - mChat
-   - mChatSuite
-   - OverPermissions (http://dev.bukkit.org/projects/overpermissions)
-   - Permissions 3 (http://forums.bukkit.org/threads/18430/)
    - Permissions Ex (PEX) (http://forums.bukkit.org/threads/18140/)
-   - rscPermissions
-   - TotalPermissions (http://dev.bukkit.org/projects/totalpermissions)
    - zPermissions
