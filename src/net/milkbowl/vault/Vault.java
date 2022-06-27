@@ -572,11 +572,11 @@ public class Vault extends JavaPlugin {
             econ = rspEcon.getProvider();
         }
         final String econName = econ != null ? econ.getName() : "No Economy";
-        metrics.addCustomChart(new Metrics.SimplePie("economy", () -> econName));
+        metrics.addCustomChart(new SimplePie("economy", () -> econName));
 
         // Create our Permission Graph and Add our permission Plotters
         final String permName = Bukkit.getServer().getServicesManager().getRegistration(Permission.class).getProvider().getName();
-        metrics.addCustomChart(new Metrics.SimplePie("permission", () -> permName));
+        metrics.addCustomChart(new SimplePie("permission", () -> permName));
 
         // Create our Chat Graph and Add our chat Plotters
         RegisteredServiceProvider<Chat> rspChat = Bukkit.getServer().getServicesManager().getRegistration(Chat.class);
@@ -585,7 +585,7 @@ public class Vault extends JavaPlugin {
             chat = rspChat.getProvider();
         }
         final String chatName = chat != null ? chat.getName() : "No Chat";
-        metrics.addCustomChart(new Metrics.SimplePie("chat", () -> chatName));
+        metrics.addCustomChart(new SimplePie("chat", () -> chatName));
     }
 
     public class VaultListener implements Listener {
@@ -614,15 +614,8 @@ public class Vault extends JavaPlugin {
                         } else {
                             log.info("[Vault] - Successfully injected Vault methods into Register.");
                         }
-                    } catch (SecurityException e) {
-                        log.info("Unable to hook register");
-                    } catch (NoSuchMethodException e) {
-                        log.info("Unable to hook register");
-                    } catch (IllegalArgumentException e) {
-                        log.info("Unable to hook register");
-                    } catch (IllegalAccessException e) {
-                        log.info("Unable to hook register");
-                    } catch (InvocationTargetException e) {
+                    } catch (SecurityException | NoSuchMethodException | IllegalArgumentException |
+                             IllegalAccessException | InvocationTargetException e) {
                         log.info("Unable to hook register");
                     }
                 }
