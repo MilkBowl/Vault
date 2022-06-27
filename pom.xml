@@ -324,6 +324,12 @@ Vault currently supports the following: Permissions 3, PEX, GroupManager, bPerms
 			<artifactId>craftconomy3</artifactId>
 			<version>3.2.2-SNAPSHOT</version>
 			<optional>true</optional>
+			<exclusions>
+				<exclusion>
+					<groupId>org.projectlombok</groupId>
+					<artifactId>lombok</artifactId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 		<dependency>
 			<groupId>net.crystalyx.bukkit.simplyperms</groupId>
