@@ -75,34 +75,6 @@ you have your own plugin that you believe should be supported, you'll need
 to add your own connector within your plugin as Vault no longer maintains
 new plugin connectors.
 
-* Economy
-  - 3co (https://forums.bukkit.org/threads/22461/)
-  - AEco
-  - BOSEconomy 6 (https://forums.bukkit.org/threads/19025/)
-  - BOSEconomy 7
-  - CommandsEX Economy (https://dev.bukkit.org/projects/commandsex)
-  - CraftConomy2 (https://dev.bukkit.org/projects/craftconomy)
-  - CraftConomy3 (https://dev.bukkit.org/projects/craftconomy)
-  - CurrencyCore (https://dev.bukkit.org/projects/currency)
-  - Dosh
-  - EconXP (https://dev.bukkit.org/projects/econxp)
-  - Essentials Economy (https://forums.bukkit.org/threads/15312/)
-  - eWallet (https://dev.bukkit.org/projects/ewallet)
-  - GoldIsMoney
-  - GoldIsMoney2
-  - Gringotts
-  - iConomy 4 (https://forums.bukkit.org/threads/40/)
-  - iConomy 5 (https://forums.bukkit.org/threads/40/)
-  - iConomy 6 (https://forums.bukkit.org/threads/40/)
-  - McMoney
-  - Miconomy
-  - MineConomy (https://dev.bukkit.org/projects/mineconomy)
-  - MineFaconomy2
-  - MultiCurrency
-  - SDFEconomy
-  - TAEcon
-  - XPBank
-
 * Permissions
   - bPermissions
   - bPermissions 2 (https://dev.bukkit.org/projects/bpermissions)
