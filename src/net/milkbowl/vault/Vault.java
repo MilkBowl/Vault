@@ -77,6 +77,7 @@ import net.milkbowl.vault.permission.plugins.Permission_rscPermissions;
 import net.milkbowl.vault.permission.plugins.Permission_KPerms;
 
 import org.bstats.bukkit.Metrics;
+import org.bstats.charts.SimplePie;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.Command;
@@ -175,7 +176,7 @@ public class Vault extends JavaPlugin {
         });
 
         // Load up the Plugin metrics
-        Metrics metrics = new Metrics(this);
+        Metrics metrics = new Metrics(this, 887);
         findCustomData(metrics);
 
         log.info(String.format("Enabled Version %s", getDescription().getVersion()));
