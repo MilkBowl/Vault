@@ -85,7 +85,7 @@ Vault currently supports the following: Permissions 3, PEX, GroupManager, bPerms
 		<dependency>
 			<groupId>org.bstats</groupId>
 			<artifactId>bstats-bukkit</artifactId>
-			<version>1.5</version>
+			<version>3.0.0</version>
 		</dependency>
 		<dependency>
 			<groupId>com.gmail.bleedobsidian.miconomy</groupId>
@@ -244,6 +244,12 @@ Vault currently supports the following: Permissions 3, PEX, GroupManager, bPerms
 			<artifactId>craftconomy3</artifactId>
 			<version>3.2.2-SNAPSHOT</version>
 			<optional>true</optional>
+			<exclusions>
+				<exclusion>
+					<groupId>org.projectlombok</groupId>
+					<artifactId>lombok</artifactId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 		<dependency>
 			<groupId>Gringotts</groupId>

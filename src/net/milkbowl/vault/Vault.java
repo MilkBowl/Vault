@@ -57,6 +57,7 @@ import net.milkbowl.vault.permission.plugins.Permission_SuperPerms;
 import net.milkbowl.vault.permission.plugins.Permission_bPermissions2;
 
 import org.bstats.bukkit.Metrics;
+import org.bstats.charts.SimplePie;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.Command;
@@ -163,7 +164,7 @@ public class Vault extends JavaPlugin {
         });
 
         // Load up the Plugin metrics
-        Metrics metrics = new Metrics(this);
+        Metrics metrics = new Metrics(this, 887);
         findCustomData(metrics);
 
         log.info(String.format("Enabled Version %s", getDescription().getVersion()));
@@ -493,7 +494,7 @@ public class Vault extends JavaPlugin {
             econ = rspEcon.getProvider();
         }
         final String econName = econ != null ? econ.getName() : "No Economy";
-        metrics.addCustomChart(new Metrics.SimplePie("economy", new Callable<String>() {
+        metrics.addCustomChart(new SimplePie("economy", new Callable<String>() {
             @Override
             public String call() {
                 return econName;
@@ -502,7 +503,7 @@ public class Vault extends JavaPlugin {
 
         // Create our Permission Graph and Add our permission Plotters
         final String permName = Bukkit.getServer().getServicesManager().getRegistration(Permission.class).getProvider().getName();
-        metrics.addCustomChart(new Metrics.SimplePie("permission", new Callable<String>() {
+        metrics.addCustomChart(new SimplePie("permission", new Callable<String>() {
             @Override
             public String call() {
                 return permName;
@@ -516,7 +517,7 @@ public class Vault extends JavaPlugin {
             chat = rspChat.getProvider();
         }
         final String chatName = chat != null ? chat.getName() : "No Chat";
-        metrics.addCustomChart(new Metrics.SimplePie("chat", new Callable<String>() {
+        metrics.addCustomChart(new SimplePie("chat", new Callable<String>() {
             @Override
             public String call() {
                 return chatName;
