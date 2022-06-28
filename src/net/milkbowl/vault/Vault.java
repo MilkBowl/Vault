@@ -171,8 +171,6 @@ public class Vault extends JavaPlugin {
                                     log.warning("Update at: https://dev.bukkit.org/projects/vault");
                                 } else if (currentVersion > newVersion) {
                                     log.info("Stable Version: " + newVersionTitle + " | Current Version: " + currentVersionTitle);
-                                } else {
-                                    log.info("No new version available");
                                 }
                             } catch (Exception e) {
                                 // ignore exceptions
@@ -182,7 +180,6 @@ public class Vault extends JavaPlugin {
                 }, 0, 432000);
 
             }
-
         });
 
         // Load up the Plugin metrics
