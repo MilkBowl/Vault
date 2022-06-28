@@ -146,8 +146,7 @@ public class Vault extends JavaPlugin {
         this.getServer().getScheduler().runTask(this, () -> {
             // Programmatically set the default permission value cause Bukkit doesn't handle plugin.yml properly for Load order STARTUP plugins
             org.bukkit.permissions.Permission perm = getServer().getPluginManager().getPermission("vault.update");
-            if (perm == null)
-            {
+            if (perm == null) {
                 perm = new org.bukkit.permissions.Permission("vault.update");
                 perm.setDefault(PermissionDefault.OP);
                 plugin.getServer().getPluginManager().addPermission(perm);
