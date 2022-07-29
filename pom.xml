@@ -15,9 +15,7 @@
 	<version>${api.version}.3</version>
 	<name>Vault</name>
 	<url>https://dev.bukkit.org/projects/vault</url>
-	<description>Vault is a Permissions &amp; Economy API to allow plugins to more easily hook into these systems without needing to hook each individual system themselves.
-
-Vault currently supports the following: Permissions 3, PEX, GroupManager, bPerms, bPerms2, SimplyPerms, DroxPerms, zPermissions, rscPermissions, KPerms, Starburst, iConomy (4/5/6) BOSEconomy *6/7), EssentialsEcon, 3Co, MultiConomy, MineConomy, EconXP, eWallet, CurrencyCore, XPBank, CraftConomy, AEco, SDFEconomy, TAEcon, and OverPermissions</description>
+	<description>Vault is a Chat, Permissions &amp; Economy API to allow plugins to more easily hook into these systems without needing to hook each individual system themselves.</description>
 
 
 
@@ -88,124 +86,12 @@ Vault currently supports the following: Permissions 3, PEX, GroupManager, bPerms
 			<version>3.0.0</version>
 		</dependency>
 		<dependency>
-			<groupId>com.gmail.bleedobsidian.miconomy</groupId>
-			<artifactId>MiConomy</artifactId>
-			<version>1.0</version>
-			<optional>true</optional>
-			<scope>system</scope>
-			<systemPath>${project.basedir}/lib/MiConomy.jar</systemPath>
-		</dependency>
-		<dependency>
-			<groupId>me.coniin.plugins.minefaconomy</groupId>
-			<artifactId>MineFaConomy</artifactId>
-			<version>0.2</version>
-			<optional>true</optional>
-			<scope>system</scope>
-			<systemPath>${project.basedir}/lib/Minefaconomy.jar</systemPath>
-		</dependency>
-		<dependency>
-			<groupId>is.currency</groupId>
-			<artifactId>Currency</artifactId>
-			<version>0.61</version>
-			<optional>true</optional>
-			<scope>system</scope>
-			<systemPath>${project.basedir}/lib/CurrencyCore.jar</systemPath>
-		</dependency>
-		<dependency>
-			<groupId>me.igwb.GoldenChest</groupId>
-			<artifactId>GoldenChestEconomy</artifactId>
-			<version>1.0.0</version>
-			<optional>true</optional>
-			<scope>system</scope>
-			<systemPath>${project.basedir}/lib/GoldenChestEconomy.jar</systemPath>
-		</dependency>
-		<dependency>
-			<groupId>com.flobi.GoldIsMoney2</groupId>
-			<artifactId>GoldIsMoney</artifactId>
-			<version>2.0.0</version>
-			<optional>true</optional>
-			<scope>system</scope>
-			<systemPath>${project.basedir}/lib/GoldIsMoney2.jar</systemPath>
-		</dependency>
-		<dependency>
-			<groupId>cosine.boseconomy.BOSEconomy</groupId>
-			<artifactId>BOSEconomy</artifactId>
-			<version>0.7.3.1a</version>
-			<optional>true</optional>
-			<scope>system</scope>
-			<systemPath>${project.basedir}/lib/BOSEconomy.jar</systemPath>
-		</dependency>
-		<dependency>
-			<groupId>ca.agnate.EconXP.EconXP</groupId>
-			<artifactId>EconXP</artifactId>
-			<version>0.4.1</version>
-			<optional>true</optional>
-			<scope>system</scope>
-			<systemPath>${project.basedir}/lib/EconXP.jar</systemPath>
-		</dependency>
-		<dependency>
-			<groupId>com.earth2me.essentials.Essentials</groupId>
-			<artifactId>Essentials</artifactId>
-			<version>2.9.2</version>
-			<optional>true</optional>
-			<scope>system</scope>
-			<systemPath>${project.basedir}/lib/Essentials.jar</systemPath>
-		</dependency>
-		<dependency>
 			<groupId>org.anjocaido.groupmanager.GroupManager</groupId>
 			<artifactId>GroupManager</artifactId>
 			<version>2.0</version>
 			<optional>true</optional>
 			<scope>system</scope>
 			<systemPath>${project.basedir}/lib/EssentialsGroupManager.jar</systemPath>
-		</dependency>
-		<dependency>
-			<groupId>me.ethan.eWallet.ECO</groupId>
-			<artifactId>eWallet</artifactId>
-			<version>1.0</version>
-			<optional>true</optional>
-			<scope>system</scope>
-			<systemPath>${project.basedir}/lib/eWallet.jar</systemPath>
-		</dependency>
-		<dependency>
-			<groupId>boardinggamer.mcmoney</groupId>
-			<artifactId>McMoney</artifactId>
-			<version>1.2</version>
-			<optional>true</optional>
-			<scope>system</scope>
-			<systemPath>${project.basedir}/lib/McMoney.jar</systemPath>
-		</dependency>
-		<dependency>
-			<groupId>com.iCo6.iConomy</groupId>
-			<artifactId>iConomy</artifactId>
-			<version>6.0.9b</version>
-			<optional>true</optional>
-			<scope>system</scope>
-			<systemPath>${project.basedir}/lib/iConomy6.jar</systemPath>
-		</dependency>
-		<dependency>
-			<groupId>com.gmail.mirelatrue.xpbank.XPBank</groupId>
-			<artifactId>XPBank</artifactId>
-			<version>0.9</version>
-			<optional>true</optional>
-			<scope>system</scope>
-			<systemPath>${project.basedir}/lib/XPBank.jar</systemPath>
-		</dependency>
-		<dependency>
-			<groupId>me.mjolnir.mineconomy.MineConomy</groupId>
-			<artifactId>MineConomy</artifactId>
-			<version>1.6</version>
-			<optional>true</optional>
-			<scope>system</scope>
-			<systemPath>${project.basedir}/lib/MineConomy.jar</systemPath>
-		</dependency>
-		<dependency>
-			<groupId>me.ashtheking.currency.Currency</groupId>
-			<artifactId>MultiCurrency</artifactId>
-			<version>0.1</version>
-			<optional>true</optional>
-			<scope>system</scope>
-			<systemPath>${project.basedir}/lib/MultiCurrency.jar</systemPath>
 		</dependency>
 		<dependency>
 			<groupId>ru.tehkode</groupId>
@@ -224,80 +110,12 @@ Vault currently supports the following: Permissions 3, PEX, GroupManager, bPerms
 			<systemPath>${project.basedir}/lib/bpermissions25.jar</systemPath>
 		</dependency>
 		<dependency>
-			<groupId>com.nijikokun.register</groupId>
-			<artifactId>Register</artifactId>
-			<version>1.5</version>
-			<optional>true</optional>
-			<scope>system</scope>
-			<systemPath>${project.basedir}/lib/Register.jar</systemPath>
-		</dependency>
-		<dependency>
-			<groupId>me.greatman.Craftconomy</groupId>
-			<artifactId>Craftconomy</artifactId>
-			<version>2.3.5</version>
-			<optional>true</optional>
-			<scope>system</scope>
-			<systemPath>${project.basedir}/lib/Craftconomy.jar</systemPath>
-		</dependency>
-		<dependency>
-			<groupId>com.greatmancode</groupId>
-			<artifactId>craftconomy3</artifactId>
-			<version>3.2.2-SNAPSHOT</version>
-			<optional>true</optional>
-			<exclusions>
-				<exclusion>
-					<groupId>org.projectlombok</groupId>
-					<artifactId>lombok</artifactId>
-				</exclusion>
-			</exclusions>
-		</dependency>
-		<dependency>
-			<groupId>Gringotts</groupId>
-			<artifactId>Gringotts</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
-			<optional>true</optional>
-			<scope>system</scope>
-			<systemPath>${project.basedir}/lib/Gringotts.jar</systemPath>
-		</dependency>
-		<dependency>
-			<groupId>com.gravypod.Dosh</groupId>
-			<artifactId>Dosh</artifactId>
-			<version>1.0</version>
-			<optional>true</optional>
-			<scope>system</scope>
-			<systemPath>${project.basedir}/lib/Dosh.jar</systemPath>
-		</dependency>
-		<dependency>
 			<groupId>com.github.zathrus_writer.commandsex</groupId>
 			<artifactId>CommandsEX</artifactId>
 			<version>1.98</version>
 			<optional>true</optional>
 			<scope>system</scope>
 			<systemPath>${project.basedir}/lib/CommandsEX.jar</systemPath>
-		</dependency>
-		<dependency>
-			<groupId>com.github.omwah</groupId>
-			<artifactId>SDFEconomy</artifactId>
-			<version>0.2.2</version>
-			<optional>true</optional>
-			<scope>system</scope>
-			<systemPath>${project.basedir}/lib/SDFEconomy-0.2.2.jar</systemPath>
-		</dependency>
-		<dependency>
-			<groupId>net.teamalpha.taecon</groupId>
-			<artifactId>TAEcon</artifactId>
-			<version>0.1</version>
-			<optional>true</optional>
-			<scope>system</scope>
-			<systemPath>${project.basedir}/lib/TAEcon.jar</systemPath>
-		</dependency>
-		<dependency>
-			<groupId>co.uk.silvania.cities.digicoin</groupId>
-			<artifactId>DigiCoin</artifactId>
-			<version>0.1</version>
-			<optional>true</optional>
-			<scope>system</scope>
-			<systemPath>${project.basedir}/lib/DigiCoin.jar</systemPath>
 		</dependency>
 	</dependencies>
 
