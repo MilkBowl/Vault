@@ -41,7 +41,7 @@ public class Permission_SuperPerms extends Permission {
 	@Override
 	public boolean playerHas(String world, String player, String permission) {
 		Player p = plugin.getServer().getPlayer(player);
-		return p != null ? p.hasPermission(permission) : false;
+		return p != null && p.hasPermission(permission);
 	}
 
 	@Override

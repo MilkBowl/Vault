@@ -37,7 +37,7 @@ public class Chat_PermissionsEx extends Chat {
     private final Logger log;
     private final String name = "PermissionsEx_Chat";
 
-    private Plugin plugin = null;
+    private final Plugin plugin;
     private PermissionsEx chat = null;
 
     public Chat_PermissionsEx(Plugin plugin, Permission perms) {
@@ -60,7 +60,7 @@ public class Chat_PermissionsEx extends Chat {
     }
 
     public class PermissionServerListener implements Listener {
-        Chat_PermissionsEx chat = null;
+        Chat_PermissionsEx chat;
 
         public PermissionServerListener(Chat_PermissionsEx chat) {
             this.chat = chat;
@@ -221,9 +221,7 @@ public class Chat_PermissionsEx extends Chat {
     @Override
     public void setGroupInfoInteger(String world, String groupName, String node, int value) {
         PermissionGroup group = PermissionsEx.getPermissionManager().getGroup(groupName);
-        if (group == null) {
-            return;
-        } else {
+        if (group != null) {
             group.setOption(node, world, String.valueOf(value));
         }
     }
@@ -241,9 +239,7 @@ public class Chat_PermissionsEx extends Chat {
     @Override
     public void setGroupInfoDouble(String world, String groupName, String node, double value) {
         PermissionGroup group = PermissionsEx.getPermissionManager().getGroup(groupName);
-        if (group == null) {
-            return;
-        } else {
+        if (group != null) {
             group.setOption(node, world, String.valueOf(value));
         }
     }
@@ -261,9 +257,7 @@ public class Chat_PermissionsEx extends Chat {
     @Override
     public void setGroupInfoBoolean(String world, String groupName, String node, boolean value) {
         PermissionGroup group = PermissionsEx.getPermissionManager().getGroup(groupName);
-        if (group == null) {
-            return;
-        } else {
+        if (group != null) {
             group.setOption(node, world, String.valueOf(value));
         }
     }
@@ -281,9 +275,7 @@ public class Chat_PermissionsEx extends Chat {
     @Override
     public void setGroupInfoString(String world, String groupName, String node, String value) {
         PermissionGroup group = PermissionsEx.getPermissionManager().getGroup(groupName);
-        if (group == null) {
-            return;
-        } else {
+        if (group != null) {
             group.setOption(node, world, value);
         }
     }
