@@ -4,7 +4,7 @@
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<bukkitVersion>1.13.1-R0.1-SNAPSHOT</bukkitVersion>
+		<bukkitVersion>1.15.2-R0.1-SNAPSHOT</bukkitVersion>
 		<mainClass>${project.groupId}.${project.artifactId}</mainClass>
 		<api.version>1.7</api.version>
 	</properties>
@@ -12,7 +12,7 @@
 	<!-- Project information -->
 	<groupId>net.milkbowl.vault</groupId>
 	<artifactId>Vault</artifactId>
-	<version>${api.version}.3</version>
+	<version>${api.version}.3_JDK17</version>
 	<name>Vault</name>
 	<url>https://dev.bukkit.org/projects/vault</url>
 	<description>Vault is a Chat, Permissions &amp; Economy API to allow plugins to more easily hook into these systems without needing to hook each individual system themselves.</description>
@@ -40,12 +40,12 @@
 		<repository>
 			<id>pub-repo</id>
 			<name>Public Releases</name>
-			<url>http://nexus.hc.to/content/repositories/pub_releases/</url>
+			<url>https://nexus.hc.to/content/repositories/pub_releases/</url>
 		</repository>
 		<snapshotRepository>
 			<id>pub-repo</id>
 			<name>Public Snapshots</name>
-			<url>http://nexus.hc.to/content/repositories/pub_snapshots/</url>
+			<url>https://nexus.hc.to/content/repositories/pub_snapshots/</url>
 		</snapshotRepository>
 	</distributionManagement>
 
@@ -53,7 +53,7 @@
 		<repository>
 			<id>pub-repo</id>
 			<name>Public Releases</name>
-			<url>http://nexus.hc.to/content/repositories/pub_releases/</url>
+			<url>https://nexus.hc.to/content/repositories/pub_releases/</url>
 		</repository>
 		<repository>
 			<id>spigot-repo</id>
@@ -61,7 +61,7 @@
 		</repository>
 		<repository>
 			<id>escapecraft-repo</id>
-			<url>http://dev.escapecraft.com/maven</url>
+			<url>https://dev.escapecraft.com/maven</url>
 		</repository>
 		<repository>
 			<id>codemc-repo</id>
@@ -237,6 +237,14 @@
 			<scope>system</scope>
 			<systemPath>${project.basedir}/lib/overpermissions-2.0.0.jar</systemPath>
 		</dependency>
+		<dependency>
+			<!-- https://mvnrepository.com/artifact/org.apache.clerezza.ext/org.json.simple -->
+			<groupId>org.apache.clerezza.ext</groupId>
+			<artifactId>org.json.simple</artifactId>
+			<version>0.4</version>
+		</dependency>
+
+
 	</dependencies>
 
 	<build>
@@ -257,8 +265,8 @@
 				<artifactId>maven-compiler-plugin</artifactId>
 				<version>3.8.0</version>
 				<configuration>
-					<source>1.8</source>
-					<target>1.8</target>
+					<source>17</source>
+					<target>17</target>
 				</configuration>
 			</plugin>
 			<plugin>
