@@ -5,6 +5,7 @@
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<bukkitVersion>1.13.1-R0.1-SNAPSHOT</bukkitVersion>
+		<foliaVersion>1.19.4-R0.1-SNAPSHOT</foliaVersion>
 		<mainClass>${project.groupId}.${project.artifactId}</mainClass>
 		<api.version>1.7</api.version>
 	</properties>
@@ -60,6 +61,10 @@
 			<url>https://hub.spigotmc.org/nexus/content/groups/public/</url>
 		</repository>
 		<repository>
+			<id>papermc</id>
+			<url>https://repo.papermc.io/repository/maven-public/</url>
+		</repository>
+		<repository>
 			<id>escapecraft-repo</id>
 			<url>http://dev.escapecraft.com/maven</url>
 		</repository>
@@ -70,6 +75,12 @@
 	</repositories>
 
 	<dependencies>
+		<dependency>
+			<groupId>dev.folia</groupId>
+			<artifactId>folia-api</artifactId>
+			<version>${foliaVersion}</version>
+			<scope>provided</scope>
+		</dependency>
 		<dependency>
 			<groupId>org.bukkit</groupId>
 			<artifactId>bukkit</artifactId>
