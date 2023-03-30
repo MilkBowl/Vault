@@ -15,14 +15,6 @@
  */
 package net.milkbowl.vault;
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.net.URL;
-import java.net.URLConnection;
-import java.util.Collection;
-import java.util.concurrent.Callable;
-import java.util.logging.Logger;
-
 import net.milkbowl.vault.chat.Chat;
 import net.milkbowl.vault.chat.plugins.Chat_DroxPerms;
 import net.milkbowl.vault.chat.plugins.Chat_GroupManager;
@@ -30,6 +22,7 @@ import net.milkbowl.vault.chat.plugins.Chat_OverPermissions;
 import net.milkbowl.vault.chat.plugins.Chat_Permissions3;
 import net.milkbowl.vault.chat.plugins.Chat_PermissionsEx;
 import net.milkbowl.vault.chat.plugins.Chat_Privileges;
+import net.milkbowl.vault.chat.plugins.Chat_TotalPermissions;
 import net.milkbowl.vault.chat.plugins.Chat_bPermissions;
 import net.milkbowl.vault.chat.plugins.Chat_bPermissions2;
 import net.milkbowl.vault.chat.plugins.Chat_iChat;
@@ -40,6 +33,7 @@ import net.milkbowl.vault.economy.Economy;
 import net.milkbowl.vault.permission.Permission;
 import net.milkbowl.vault.permission.plugins.Permission_DroxPerms;
 import net.milkbowl.vault.permission.plugins.Permission_GroupManager;
+import net.milkbowl.vault.permission.plugins.Permission_KPerms;
 import net.milkbowl.vault.permission.plugins.Permission_OverPermissions;
 import net.milkbowl.vault.permission.plugins.Permission_Permissions3;
 import net.milkbowl.vault.permission.plugins.Permission_PermissionsBukkit;
@@ -48,13 +42,11 @@ import net.milkbowl.vault.permission.plugins.Permission_Privileges;
 import net.milkbowl.vault.permission.plugins.Permission_SimplyPerms;
 import net.milkbowl.vault.permission.plugins.Permission_Starburst;
 import net.milkbowl.vault.permission.plugins.Permission_SuperPerms;
+import net.milkbowl.vault.permission.plugins.Permission_TotalPermissions;
 import net.milkbowl.vault.permission.plugins.Permission_Xperms;
 import net.milkbowl.vault.permission.plugins.Permission_bPermissions;
 import net.milkbowl.vault.permission.plugins.Permission_bPermissions2;
-import net.milkbowl.vault.permission.plugins.Permission_TotalPermissions;
 import net.milkbowl.vault.permission.plugins.Permission_rscPermissions;
-import net.milkbowl.vault.permission.plugins.Permission_KPerms;
-
 import org.bstats.bukkit.Metrics;
 import org.bstats.charts.SimplePie;
 import org.bukkit.Bukkit;
@@ -76,7 +68,14 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.JSONValue;
 
-import net.milkbowl.vault.chat.plugins.Chat_TotalPermissions;
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.net.URL;
+import java.net.URLConnection;
+import java.util.Collection;
+import java.util.concurrent.Callable;
+import java.util.concurrent.TimeUnit;
+import java.util.logging.Logger;
 
 public class Vault extends JavaPlugin {
 
@@ -89,12 +88,13 @@ public class Vault extends JavaPlugin {
     private String currentVersionTitle = "";
     private ServicesManager sm;
     private Vault plugin;
+    private boolean folia;
 
     @Override
     public void onDisable() {
         // Remove all Service Registrations
         getServer().getServicesManager().unregisterAll(this);
-        Bukkit.getScheduler().cancelTasks(this);
+        schedulerCancelTasks(this);
     }
 
     @Override
@@ -104,6 +104,8 @@ public class Vault extends JavaPlugin {
         currentVersionTitle = getDescription().getVersion().split("-")[0];
         currentVersion = Double.valueOf(currentVersionTitle.replaceFirst("\\.", ""));
         sm = getServer().getServicesManager();
+        folia = packagesExists("io.papermc.paper.threadedregions.scheduler.AsyncScheduler");
+
         // set defaults
         getConfig().addDefault("update-check", true);
         getConfig().options().copyDefaults(true);
@@ -117,7 +119,7 @@ public class Vault extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new VaultListener(), this);
         // Schedule to check the version every 30 minutes for an update. This is to update the most recent 
         // version so if an admin reconnects they will be warned about newer versions.
-        this.getServer().getScheduler().runTask(this, new Runnable() {
+        schedulerRunTask(this, new Runnable() {
 
             @Override
             public void run() {
@@ -131,7 +133,7 @@ public class Vault extends JavaPlugin {
                 }
                 perm.setDescription("Allows a user or the console to check for vault updates");
 
-                getServer().getScheduler().runTaskTimerAsynchronously(plugin, new Runnable() {
+                schedulerRunTaskTimerAsynchronously(plugin, new Runnable() {
 
                     @Override
                     public void run() {
@@ -419,6 +421,31 @@ public class Vault extends JavaPlugin {
         sender.sendMessage(String.format("[%s] Economy: %s [%s]", getDescription().getName(), econ == null ? "None" : econ.getName(), registeredEcons));
         sender.sendMessage(String.format("[%s] Permission: %s [%s]", getDescription().getName(), perm == null ? "None" : perm.getName(), registeredPerms));
         sender.sendMessage(String.format("[%s] Chat: %s [%s]", getDescription().getName(), chat == null ? "None" : chat.getName(), registeredChats));
+    }
+
+    private void schedulerRunTask(Plugin plugin, Runnable runnable) {
+        if (folia) {
+            Bukkit.getGlobalRegionScheduler().execute(plugin, runnable);
+        } else {
+            Bukkit.getScheduler().runTask(plugin, runnable);
+        }
+    }
+
+    private void schedulerRunTaskTimerAsynchronously(Plugin plugin, Runnable runnable, long delay, long period) {
+        if (folia) {
+            Bukkit.getAsyncScheduler().runAtFixedRate(plugin, st -> runnable.run(), delay, period * 50L, TimeUnit.MILLISECONDS);
+        } else {
+            Bukkit.getScheduler().runTaskTimerAsynchronously(plugin, runnable, delay, period);
+        }
+    }
+
+    private void schedulerCancelTasks(Plugin plugin) {
+        if (folia) {
+            Bukkit.getAsyncScheduler().cancelTasks(plugin);
+            Bukkit.getGlobalRegionScheduler().cancelTasks(plugin);
+        } else {
+            Bukkit.getScheduler().cancelTasks(plugin);
+        }
     }
 
     /**
