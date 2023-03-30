@@ -15,6 +15,15 @@
  */
 package net.milkbowl.vault;
 
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.net.URL;
+import java.net.URLConnection;
+import java.util.Collection;
+import java.util.concurrent.Callable;
+import java.util.concurrent.TimeUnit;
+import java.util.logging.Logger;
+
 import net.milkbowl.vault.chat.Chat;
 import net.milkbowl.vault.chat.plugins.Chat_DroxPerms;
 import net.milkbowl.vault.chat.plugins.Chat_GroupManager;
@@ -22,7 +31,6 @@ import net.milkbowl.vault.chat.plugins.Chat_OverPermissions;
 import net.milkbowl.vault.chat.plugins.Chat_Permissions3;
 import net.milkbowl.vault.chat.plugins.Chat_PermissionsEx;
 import net.milkbowl.vault.chat.plugins.Chat_Privileges;
-import net.milkbowl.vault.chat.plugins.Chat_TotalPermissions;
 import net.milkbowl.vault.chat.plugins.Chat_bPermissions;
 import net.milkbowl.vault.chat.plugins.Chat_bPermissions2;
 import net.milkbowl.vault.chat.plugins.Chat_iChat;
@@ -33,7 +41,6 @@ import net.milkbowl.vault.economy.Economy;
 import net.milkbowl.vault.permission.Permission;
 import net.milkbowl.vault.permission.plugins.Permission_DroxPerms;
 import net.milkbowl.vault.permission.plugins.Permission_GroupManager;
-import net.milkbowl.vault.permission.plugins.Permission_KPerms;
 import net.milkbowl.vault.permission.plugins.Permission_OverPermissions;
 import net.milkbowl.vault.permission.plugins.Permission_Permissions3;
 import net.milkbowl.vault.permission.plugins.Permission_PermissionsBukkit;
@@ -42,11 +49,13 @@ import net.milkbowl.vault.permission.plugins.Permission_Privileges;
 import net.milkbowl.vault.permission.plugins.Permission_SimplyPerms;
 import net.milkbowl.vault.permission.plugins.Permission_Starburst;
 import net.milkbowl.vault.permission.plugins.Permission_SuperPerms;
-import net.milkbowl.vault.permission.plugins.Permission_TotalPermissions;
 import net.milkbowl.vault.permission.plugins.Permission_Xperms;
 import net.milkbowl.vault.permission.plugins.Permission_bPermissions;
 import net.milkbowl.vault.permission.plugins.Permission_bPermissions2;
+import net.milkbowl.vault.permission.plugins.Permission_TotalPermissions;
 import net.milkbowl.vault.permission.plugins.Permission_rscPermissions;
+import net.milkbowl.vault.permission.plugins.Permission_KPerms;
+
 import org.bstats.bukkit.Metrics;
 import org.bstats.charts.SimplePie;
 import org.bukkit.Bukkit;
@@ -68,14 +77,7 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.JSONValue;
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.net.URL;
-import java.net.URLConnection;
-import java.util.Collection;
-import java.util.concurrent.Callable;
-import java.util.concurrent.TimeUnit;
-import java.util.logging.Logger;
+import net.milkbowl.vault.chat.plugins.Chat_TotalPermissions;
 
 public class Vault extends JavaPlugin {
 
