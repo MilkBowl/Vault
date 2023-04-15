@@ -126,6 +126,7 @@ public class Vault extends JavaPlugin {
         // Schedule to check the version every 30 minutes for an update. This is to update the most recent 
         // version so if an admin reconnects they will be warned about newer versions.
         Executors.newSingleThreadExecutor().execute(() -> {
+            // Programmatically set the default permission value cause Bukkit doesn't handle plugin.yml properly for Load order STARTUP plugins
             org.bukkit.permissions.Permission perm = getServer().getPluginManager().getPermission("vault.update");
             if (perm == null)
             {
