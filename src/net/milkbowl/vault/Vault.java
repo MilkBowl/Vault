@@ -17,9 +17,14 @@ package net.milkbowl.vault;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
+import java.math.BigDecimal;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.Collection;
+import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.UUID;
 import java.util.concurrent.Callable;
 import java.util.logging.Logger;
 
@@ -36,7 +41,7 @@ import net.milkbowl.vault.chat.plugins.Chat_iChat;
 import net.milkbowl.vault.chat.plugins.Chat_mChat;
 import net.milkbowl.vault.chat.plugins.Chat_mChatSuite;
 import net.milkbowl.vault.chat.plugins.Chat_rscPermissions;
-import net.milkbowl.vault.economy.Economy;
+import net.milkbowl.vault2.economy.Economy;
 import net.milkbowl.vault.permission.Permission;
 import net.milkbowl.vault.permission.plugins.Permission_DroxPerms;
 import net.milkbowl.vault.permission.plugins.Permission_GroupManager;
@@ -317,7 +322,7 @@ public class Vault extends JavaPlugin {
             sender.sendMessage("You must specify only the economy to convert from and the economy to convert to. (names should not contain spaces)");
             return;
         }
-        Economy econ1 = null;
+        net.milkbowl.vault.economy.Economy econ1 = null;
         Economy econ2 = null;
         String economies = "";
         for (RegisteredServiceProvider<Economy> econ : econs) {
@@ -343,23 +348,36 @@ public class Vault extends JavaPlugin {
             return;
         }
 
-        sender.sendMessage("This may take some time to convert, expect server lag.");
-        for (OfflinePlayer op : Bukkit.getServer().getOfflinePlayers()) {
-            if (econ1.hasAccount(op)) {
-                if (econ2.hasAccount(op)) {
-                    continue;
-                }
-                econ2.createPlayerAccount(op);
-                double diff = econ1.getBalance(op) - econ2.getBalance(op);
-                if (diff > 0) {
-                	econ2.depositPlayer(op, diff);
-                } else if (diff < 0) {
-                	econ2.withdrawPlayer(op, -diff);
-                }
-                
+        List<UUID> uuidsToImport = econ1.getUUIDMap().keySet();
+        int accountsFound = uuidsToImport.size();
+        sender.sendMessage(String.format("%s accounts have been found in %s, this may take some time to convert, server lag may occur.", accountsFound, econ1.getName());
+
+        BigDecimal diff;
+        int numConverted = 0;
+        for (UUID uuid: uuidsToImport) {
+            // The old eco plugin doesn't actually have an account associated with the UUID, skip it.
+            if (!econ1.hasAccount(uuid)) {
+                continue;
             }
+
+            // Make a new account if it doesn't exist yet.
+            if (!econ2.hasAccount(uuid)) {
+                econ2.createAccount(uuid, econ1.getAccountName(uuid));
+            }
+
+            // Get the old eco plugin balance for the UUID and calculate how much difference
+            // there is between the balances.
+            diff = econ1.getBalance(uuid).subtract(econ2.getBalance(uuid));
+            if (diff.compareTo(BigDecimal.ZERO) > 0) {
+                econ2.deposit(uuid, diff);
+            } else {
+                econ2.withdraw(uuid, diff);
+            }
+
+            numConverted++;
         }
-        sender.sendMessage("Converson complete, please verify the data before using it.");
+        sender.sendMessage(String.format("Converson complete, please verify the data before using it. %s/%s accounts found in %s were converted to %s.",
+                numConverted, accountsFound, econ1.getName(), econ2.getName()));
     }
 
     private void infoCommand(CommandSender sender) {
