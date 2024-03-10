@@ -86,84 +86,12 @@
 			<version>3.0.0</version>
 		</dependency>
 		<dependency>
-			<groupId>de.hydrox.bukkit</groupId>
-			<artifactId>DroxPerms</artifactId>
-			<version>0.5.0</version>
-			<optional>true</optional>
-			<scope>system</scope>
-			<systemPath>${project.basedir}/lib/DroxPerms.jar</systemPath>
-		</dependency>
-		<dependency>
-			<groupId>net.krinsoft</groupId>
-			<artifactId>Privileges</artifactId>
-			<version>1.8.1</version>
-			<optional>true</optional>
-			<scope>system</scope>
-			<systemPath>${project.basedir}/lib/Privileges.jar</systemPath>
-		</dependency>
-		<dependency>
-			<groupId>de.bananaco.permissions.Permissions</groupId>
-			<artifactId>bPermissions</artifactId>
-			<version>2.0.9a</version>
-			<optional>true</optional>
-			<scope>system</scope>
-			<systemPath>${project.basedir}/lib/bpermissions.jar</systemPath>
-		</dependency>
-		<dependency>
-			<groupId>com.github.sebc722</groupId>
-			<artifactId>xPerms</artifactId>
-			<version>1.1</version>
-			<optional>true</optional>
-			<scope>system</scope>
-			<systemPath>${project.basedir}/lib/Xperms.jar</systemPath>
-		</dependency>
-		<dependency>
 			<groupId>org.anjocaido.groupmanager.GroupManager</groupId>
 			<artifactId>GroupManager</artifactId>
 			<version>2.0</version>
 			<optional>true</optional>
 			<scope>system</scope>
 			<systemPath>${project.basedir}/lib/EssentialsGroupManager.jar</systemPath>
-		</dependency>
-		<dependency>
-			<groupId>net.TheDgtl.iChat.iChat</groupId>
-			<artifactId>iChat</artifactId>
-			<version>2.5.7</version>
-			<optional>true</optional>
-			<scope>system</scope>
-			<systemPath>${project.basedir}/lib/iChat.jar</systemPath>
-		</dependency>
-		<dependency>
-			<groupId>net.D3GN.MiracleM4n.mChat.mChat</groupId>
-			<artifactId>mChat</artifactId>
-			<version>1.8.5</version>
-			<optional>true</optional>
-			<scope>system</scope>
-			<systemPath>${project.basedir}/lib/mChat.jar</systemPath>
-		</dependency>
-		<dependency>
-			<groupId>in.mDev</groupId>
-			<artifactId>mChatSuite</artifactId>
-			<version>DEV-b275</version>
-			<optional>true</optional>
-			<scope>system</scope>
-			<systemPath>${project.basedir}/lib/mChatSuite.jar</systemPath>
-		</dependency>
-		<dependency>
-			<groupId>com.nijikokun.bukkit.Permissions.Permissions</groupId>
-			<artifactId>Permissions</artifactId>
-			<version>3.1.6</version>
-			<optional>true</optional>
-			<scope>system</scope>
-			<systemPath>${project.basedir}/lib/Permissions.jar</systemPath>
-		</dependency>
-		<dependency>
-			<groupId>com.platymuus.bukkit.permissions.PermissionsPlugin</groupId>
-			<artifactId>PermissionsBukkit</artifactId>
-			<version>2.3</version>
-			<optional>true</optional>
-			<scope>system</scope>
-			<systemPath>${project.basedir}/lib/PermissionsBukkit.jar</systemPath>
 		</dependency>
 		<dependency>
 			<groupId>ru.tehkode</groupId>
@@ -180,62 +108,6 @@
 			<optional>true</optional>
 			<scope>system</scope>
 			<systemPath>${project.basedir}/lib/bpermissions25.jar</systemPath>
-		</dependency>
-		<dependency>
-			<groupId>com.dthielke.starburst</groupId>
-			<artifactId>Starburst</artifactId>
-			<version>1.0.0</version>
-			<optional>true</optional>
-			<scope>system</scope>
-			<systemPath>${project.basedir}/lib/Starburst.jar</systemPath>
-		</dependency>
-		<dependency>
-			<groupId>net.crystalyx.bukkit.simplyperms</groupId>
-			<artifactId>SimplyPerms</artifactId>
-			<version>1.6.2</version>
-			<optional>true</optional>
-			<scope>system</scope>
-			<systemPath>${project.basedir}/lib/SimplyPerms.jar</systemPath>
-		</dependency>
-		<dependency>
-			<groupId>com.github.zathrus_writer.commandsex</groupId>
-			<artifactId>CommandsEX</artifactId>
-			<version>1.98</version>
-			<optional>true</optional>
-			<scope>system</scope>
-			<systemPath>${project.basedir}/lib/CommandsEX.jar</systemPath>
-		</dependency>
-		<dependency>
-			<groupId>net.ae97</groupId>
-			<artifactId>TotalPermissions</artifactId>
-			<version>0.3.1</version>
-			<optional>true</optional>
-			<scope>system</scope>
-			<systemPath>${project.basedir}/lib/TotalPermissions.jar</systemPath>
-		</dependency>
-		<dependency>
-			<groupId>ru.simsonic</groupId>
-			<artifactId>rscPermissions</artifactId>
-			<version>1.0</version>
-			<optional>true</optional>
-			<scope>system</scope>
-			<systemPath>${project.basedir}/lib/rscPermissions.jar</systemPath>
-		</dependency>
-		<dependency>
-			<groupId>KPerms</groupId>
-			<artifactId>KPerms</artifactId>
-			<version>1.0</version>
-			<optional>true</optional>
-			<scope>system</scope>
-			<systemPath>${project.basedir}/lib/KPerms.jar</systemPath>
-		</dependency>
-		<dependency>
-			<groupId>com.overmc</groupId>
-			<artifactId>overpermissions</artifactId>
-			<version>2.0.0</version>
-			<optional>true</optional>
-			<scope>system</scope>
-			<systemPath>${project.basedir}/lib/overpermissions-2.0.0.jar</systemPath>
 		</dependency>
 	</dependencies>
 
