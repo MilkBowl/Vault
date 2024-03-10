@@ -359,7 +359,7 @@ public class Vault extends JavaPlugin {
                 
             }
         }
-        sender.sendMessage("Converson complete, please verify the data before using it.");
+        sender.sendMessage("Conversion complete, please verify the data before using it.");
     }
 
     private void infoCommand(CommandSender sender) {
