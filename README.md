@@ -37,7 +37,9 @@ So, what features do I _think_ you'll like the most?
 
 ## Permissions
 * vault.admin
-  - Determines if a player should receive the update notices
+  - Determines if a player should have access to the administrative tools.
+* vault.update
+  - Determines if a player should receive the update notices.
 
 ## License
 Copyright (C) 2011-2018 Morgan Humes <morgan@lanaddict.com>
