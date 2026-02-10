@@ -19,3 +19,6 @@ bin
 
 .gradle/
 build/
+
+# Maven (legacy, kept for completeness)
+/target/
