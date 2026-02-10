@@ -3,12 +3,19 @@ plugins {
     id 'com.github.johnrengelman.shadow' version '8.1.1'
 }
 
-group = 'io.github.mcengine.vault'
+group = 'io.github.mcengine'
 version = '1.7.3'
 
 description = 'Vault is a Chat, Permissions & Economy API to allow plugins to more easily hook into these systems without needing to hook each individual system themselves.'
 
 def spigotApiVersion = '1.21.1-R0.1-SNAPSHOT'
+
+configurations {
+    vaultApi {
+        canBeConsumed = false
+        canBeResolved = true
+    }
+}
 
 repositories {
     mavenCentral()
@@ -31,7 +38,7 @@ repositories {
 dependencies {
     compileOnly "org.spigotmc:spigot-api:${spigotApiVersion}"
 
-    implementation 'net.milkbowl.vault:VaultAPI:1.7'
+    vaultApi 'net.milkbowl.vault:VaultAPI:1.7'
 
     implementation 'org.bstats:bstats-bukkit:3.0.0'
 
@@ -74,15 +81,31 @@ tasks.processResources {
                         description: project.description,
                         url        : 'https://github.com/MCEngine/Vault'
                 ],
-                mainClass: "${project.group}.Vault",
+                mainClass: "${project.group}.vault.Vault",
                 env: System.getenv()
         )
     }
 }
 
+tasks.register('shadowVaultApiJar', com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar) {
+    archiveBaseName.set('VaultAPI')
+    archiveClassifier.set('relocated')
+    configurations = [project.configurations.vaultApi]
+    relocate 'net.milkbowl.vault', 'io.github.mcengine.vault'
+}
+
+dependencies {
+    compileOnly files(tasks.named('shadowVaultApiJar').map { it.archiveFile })
+}
+
+tasks.compileJava {
+    dependsOn tasks.named('shadowVaultApiJar')
+}
+
 tasks.shadowJar {
     archiveClassifier.set('')
     relocate 'org.bstats', 'io.github.mcengine.vault.metrics'
+    from(zipTree(tasks.named('shadowVaultApiJar').get().archiveFile.get().asFile))
 }
 
 tasks.jar {

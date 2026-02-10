@@ -10,7 +10,7 @@
 	</properties>
 
 	<!-- Project information -->
-	<groupId>net.milkbowl.vault</groupId>
+	<groupId>io.github.mcengine.vault</groupId>
 	<artifactId>Vault</artifactId>
 	<version>${api.version}.3</version>
 	<name>Vault</name>
@@ -276,7 +276,7 @@
 					<relocations>
 						<relocation>
 							<pattern>org.bstats</pattern>
-							<shadedPattern>net.milkbowl.vault.metrics</shadedPattern>
+							<shadedPattern>io.github.mcengine.vault.metrics</shadedPattern>
 						</relocation>
 					</relocations>
 				</configuration>
