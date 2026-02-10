@@ -1,10 +1,10 @@
 plugins {
     id 'java'
-    id 'com.github.johnrengelman.shadow' version '8.1.1'
+    id 'com.gradleup.shadow'
+    id 'io.github.mcengine.vault.module'
 }
 
 group = 'io.github.mcengine'
-version = '1.7.3'
 
 description = 'Vault is a Chat, Permissions & Economy API to allow plugins to more easily hook into these systems without needing to hook each individual system themselves.'
 
@@ -47,16 +47,7 @@ dependencies {
     compileOnly fileTree(dir: 'lib', include: ['*.jar'])
 }
 
-java {
-    toolchain {
-        languageVersion = JavaLanguageVersion.of(21)
-    }
-}
-
-tasks.withType(JavaCompile).configureEach {
-    options.encoding = 'UTF-8'
-    options.release = 17
-}
+// Java config handled by buildSrc convention
 
 sourceSets {
     main {
@@ -102,16 +93,11 @@ tasks.compileJava {
     dependsOn tasks.named('shadowVaultApiJar')
 }
 
+// shadowJar: keep Vault-specific relocations and API jar inclusion
 tasks.shadowJar {
     archiveClassifier.set('')
     relocate 'org.bstats', 'io.github.mcengine.vault.metrics'
     from(zipTree(tasks.named('shadowVaultApiJar').get().archiveFile.get().asFile))
 }
 
-tasks.jar {
-    enabled = false
-}
-
-tasks.build {
-    dependsOn tasks.shadowJar
-}
+// build lifecycle handled by buildSrc convention
