@@ -45,7 +45,7 @@ class VaultModulePlugin implements Plugin<Project> {
             archiveFileName.set("${finalBaseName}-${project.version}.jar")
 
             // --- ENGINE SPECIFIC CLEANUP LOGIC ---
-            if (project.path == ':platform:papermc:engine') {
+            if (project.path == ':') {
                 String pluginBuildPath = System.getenv("MCPLUGIN_BUILD_PATH")
                 if (pluginBuildPath != null && !pluginBuildPath.isEmpty()) {
                     def outputDir = project.file(pluginBuildPath)
