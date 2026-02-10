@@ -1,0 +1,94 @@
+plugins {
+    id 'java'
+    id 'com.github.johnrengelman.shadow' version '8.1.1'
+}
+
+group = 'io.github.mcengine.vault'
+version = '1.7.3'
+
+description = 'Vault is a Chat, Permissions & Economy API to allow plugins to more easily hook into these systems without needing to hook each individual system themselves.'
+
+def spigotApiVersion = '1.21.1-R0.1-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+    maven { url = 'https://hub.spigotmc.org/nexus/content/groups/public/' }
+    maven { url = 'https://repo.codemc.org/repository/maven-public' }
+    maven {
+        url = 'http://nexus.hc.to/content/repositories/pub_releases/'
+        allowInsecureProtocol = true
+    }
+    maven {
+        url = 'http://nexus.hc.to/content/repositories/pub_snapshots/'
+        allowInsecureProtocol = true
+    }
+    maven {
+        url = 'http://dev.escapecraft.com/maven'
+        allowInsecureProtocol = true
+    }
+}
+
+dependencies {
+    compileOnly "org.spigotmc:spigot-api:${spigotApiVersion}"
+
+    implementation 'net.milkbowl.vault:VaultAPI:1.7'
+
+    implementation 'org.bstats:bstats-bukkit:3.0.0'
+
+    implementation 'com.googlecode.json-simple:json-simple:1.1.1'
+
+    compileOnly fileTree(dir: 'lib', include: ['*.jar'])
+}
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(21)
+    }
+}
+
+tasks.withType(JavaCompile).configureEach {
+    options.encoding = 'UTF-8'
+    options.release = 17
+}
+
+sourceSets {
+    main {
+        java {
+            srcDirs = ['src']
+        }
+        resources {
+            srcDirs = ['.']
+            include 'plugin.yml'
+        }
+    }
+}
+
+tasks.processResources {
+    filteringCharset = 'UTF-8'
+
+    filesMatching('plugin.yml') {
+        expand(
+                project: [
+                        name       : project.name,
+                        version    : project.version,
+                        description: project.description,
+                        url        : 'https://github.com/MCEngine/Vault'
+                ],
+                mainClass: "${project.group}.Vault",
+                env: System.getenv()
+        )
+    }
+}
+
+tasks.shadowJar {
+    archiveClassifier.set('')
+    relocate 'org.bstats', 'io.github.mcengine.vault.metrics'
+}
+
+tasks.jar {
+    enabled = false
+}
+
+tasks.build {
+    dependsOn tasks.shadowJar
+}
