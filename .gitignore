@@ -22,3 +22,6 @@ build/
 
 # Maven (legacy, kept for completeness)
 /target/
+
+# IDE
+.vscode/
