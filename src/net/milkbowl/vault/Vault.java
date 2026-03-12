@@ -72,10 +72,6 @@ import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.ServicePriority;
 import org.bukkit.plugin.ServicesManager;
 import org.bukkit.plugin.java.JavaPlugin;
-import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
-import org.json.simple.JSONValue;
-
 import net.milkbowl.vault.chat.plugins.Chat_TotalPermissions;
 
 public class Vault extends JavaPlugin {
@@ -441,26 +437,6 @@ public class Vault extends JavaPlugin {
     }
 
     public double updateCheck(double currentVersion) {
-        try {
-            URL url = new URL("https://api.curseforge.com/servermods/files?projectids=33184");
-            URLConnection conn = url.openConnection();
-            conn.setReadTimeout(5000);
-            conn.addRequestProperty("User-Agent", "Vault Update Checker");
-            conn.setDoOutput(true);
-            final BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getInputStream()));
-            final String response = reader.readLine();
-            final JSONArray array = (JSONArray) JSONValue.parse(response);
-
-            if (array.size() == 0) {
-                this.getLogger().warning("No files found, or Feed URL is bad.");
-                return currentVersion;
-            }
-            // Pull the last version from the JSON
-            newVersionTitle = ((String) ((JSONObject) array.get(array.size() - 1)).get("name")).replace("Vault", "").trim();
-            return Double.valueOf(newVersionTitle.replaceFirst("\\.", "").trim());
-        } catch (Exception e) {
-            log.info("There was an issue attempting to check for the latest version.");
-        }
         return currentVersion;
     }
 

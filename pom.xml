@@ -1,15 +1,14 @@
-<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://maven.apache.org/POM/4.0.0"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<bukkitVersion>1.13.1-R0.1-SNAPSHOT</bukkitVersion>
+		<bukkitVersion>1.21.11-R0.1-SNAPSHOT</bukkitVersion>
 		<mainClass>${project.groupId}.${project.artifactId}</mainClass>
 		<api.version>1.7</api.version>
 	</properties>
 
-	<!-- Project information -->
 	<groupId>net.milkbowl.vault</groupId>
 	<artifactId>Vault</artifactId>
 	<version>${api.version}.3</version>
@@ -17,9 +16,6 @@
 	<url>https://dev.bukkit.org/projects/vault</url>
 	<description>Vault is a Chat, Permissions &amp; Economy API to allow plugins to more easily hook into these systems without needing to hook each individual system themselves.</description>
 
-
-
-	<!-- Organization -->
 	<organization>
 		<name>MilkBowl</name>
 		<url>https://github.com/MilkBowl/Vault</url>
@@ -36,32 +32,10 @@
 		<url>https://github.com/MilkBowl/Vault/issues</url>
 	</issueManagement>
 
-	<distributionManagement>
-		<repository>
-			<id>pub-repo</id>
-			<name>Public Releases</name>
-			<url>http://nexus.hc.to/content/repositories/pub_releases/</url>
-		</repository>
-		<snapshotRepository>
-			<id>pub-repo</id>
-			<name>Public Snapshots</name>
-			<url>http://nexus.hc.to/content/repositories/pub_snapshots/</url>
-		</snapshotRepository>
-	</distributionManagement>
-
 	<repositories>
-		<repository>
-			<id>pub-repo</id>
-			<name>Public Releases</name>
-			<url>http://nexus.hc.to/content/repositories/pub_releases/</url>
-		</repository>
 		<repository>
 			<id>spigot-repo</id>
 			<url>https://hub.spigotmc.org/nexus/content/groups/public/</url>
-		</repository>
-		<repository>
-			<id>escapecraft-repo</id>
-			<url>http://dev.escapecraft.com/maven</url>
 		</repository>
 		<repository>
 			<id>codemc-repo</id>
@@ -71,9 +45,10 @@
 
 	<dependencies>
 		<dependency>
-			<groupId>org.bukkit</groupId>
-			<artifactId>bukkit</artifactId>
+			<groupId>org.spigotmc</groupId>
+			<artifactId>spigot-api</artifactId>
 			<version>${bukkitVersion}</version>
+			<scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>net.milkbowl.vault</groupId>
@@ -257,29 +232,29 @@
 				<artifactId>maven-compiler-plugin</artifactId>
 				<version>3.8.0</version>
 				<configuration>
-					<source>1.8</source>
-					<target>1.8</target>
+					<source>21</source>
+					<target>21</target>
 				</configuration>
 			</plugin>
+
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-shade-plugin</artifactId>
-				<version>3.1.0</version>
-				<configuration>
-					<createDependencyReducedPom>false</createDependencyReducedPom>
-					<artifactSet>
-						<includes>
-							<include>net.milkbowl.vault:VaultAPI</include>
-							<include>org.bstats</include>
-						</includes>
-					</artifactSet>
-					<relocations>
-						<relocation>
-							<pattern>org.bstats</pattern>
-							<shadedPattern>net.milkbowl.vault.metrics</shadedPattern>
-						</relocation>
-					</relocations>
-				</configuration>
+				<version>3.6.0</version> <configuration>
+				<createDependencyReducedPom>false</createDependencyReducedPom>
+				<artifactSet>
+					<includes>
+						<include>net.milkbowl.vault:VaultAPI</include>
+						<include>org.bstats</include>
+					</includes>
+				</artifactSet>
+				<relocations>
+					<relocation>
+						<pattern>org.bstats</pattern>
+						<shadedPattern>net.milkbowl.vault.metrics</shadedPattern>
+					</relocation>
+				</relocations>
+			</configuration>
 				<executions>
 					<execution>
 						<phase>package</phase>
@@ -288,14 +263,6 @@
 						</goals>
 					</execution>
 				</executions>
-			</plugin>
-			<plugin>
-				<groupId>org.eluder.coveralls</groupId>
-				<artifactId>coveralls-maven-plugin</artifactId>
-				<version>4.3.0</version>
-				<configuration>
-					<repoToken>${env.COVERALLS_REPO_TOKEN}</repoToken>
-				</configuration>
 			</plugin>
 		</plugins>
 	</build>
