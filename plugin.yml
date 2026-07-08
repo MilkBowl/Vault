@@ -4,6 +4,7 @@ description: ${project.description}
 authors: [cereal, Sleaker, mung3r]
 website: ${project.url}
 api-version: 1.13
+folia-supported: true
 
 main: ${mainClass}
 load: startup

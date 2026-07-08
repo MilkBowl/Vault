@@ -58,6 +58,7 @@ import net.milkbowl.vault.permission.plugins.Permission_KPerms;
 import org.bstats.bukkit.Metrics;
 import org.bstats.charts.SimplePie;
 import org.bukkit.Bukkit;
+import java.util.concurrent.TimeUnit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -94,7 +95,12 @@ public class Vault extends JavaPlugin {
     public void onDisable() {
         // Remove all Service Registrations
         getServer().getServicesManager().unregisterAll(this);
-        Bukkit.getScheduler().cancelTasks(this);
+        if (FoliaUtil.isFolia()) {
+            Bukkit.getServer().getGlobalRegionScheduler().cancelTasks(this);
+            Bukkit.getServer().getAsyncScheduler().cancelTasks(this);
+        } else {
+            Bukkit.getScheduler().cancelTasks(this);
+        }
     }
 
     @Override
@@ -115,45 +121,48 @@ public class Vault extends JavaPlugin {
         getCommand("vault-info").setExecutor(this);
         getCommand("vault-convert").setExecutor(this);
         getServer().getPluginManager().registerEvents(new VaultListener(), this);
-        // Schedule to check the version every 30 minutes for an update. This is to update the most recent 
+        // Schedule to check the version every 30 minutes for an update. This is to update the most recent
         // version so if an admin reconnects they will be warned about newer versions.
-        this.getServer().getScheduler().runTask(this, new Runnable() {
-
-            @Override
-            public void run() {
-                // Programmatically set the default permission value cause Bukkit doesn't handle plugin.yml properly for Load order STARTUP plugins
-                org.bukkit.permissions.Permission perm = getServer().getPluginManager().getPermission("vault.update");
-                if (perm == null)
-                {
-                    perm = new org.bukkit.permissions.Permission("vault.update");
-                    perm.setDefault(PermissionDefault.OP);
-                    plugin.getServer().getPluginManager().addPermission(perm);
-                }
-                perm.setDescription("Allows a user or the console to check for vault updates");
-
-                getServer().getScheduler().runTaskTimerAsynchronously(plugin, new Runnable() {
-
-                    @Override
-                    public void run() {
-                        if (getServer().getConsoleSender().hasPermission("vault.update") && getConfig().getBoolean("update-check", true)) {
-                            try {
-                            	log.info("Checking for Updates ... ");
-                                newVersion = updateCheck(currentVersion);
-                                if (newVersion > currentVersion) {
-                                    log.warning("Stable Version: " + newVersionTitle + " is out!" + " You are still running version: " + currentVersionTitle);
-                                    log.warning("Update at: https://dev.bukkit.org/projects/vault");
-                                } else if (currentVersion > newVersion) {
-                                    log.info("Stable Version: " + newVersionTitle + " | Current Version: " + currentVersionTitle);
-                                }
-                            } catch (Exception e) {
-                                // ignore exceptions
-                            }
-                        }
-                    }
-                }, 0, 432000);
-
+        Runnable updateCheckStarter = () -> {
+            // Programmatically set the default permission value cause Bukkit doesn't handle plugin.yml properly for Load order STARTUP plugins
+            org.bukkit.permissions.Permission perm = getServer().getPluginManager().getPermission("vault.update");
+            if (perm == null) {
+                perm = new org.bukkit.permissions.Permission("vault.update");
+                perm.setDefault(PermissionDefault.OP);
+                plugin.getServer().getPluginManager().addPermission(perm);
             }
-        });
+            perm.setDescription("Allows a user or the console to check for vault updates");
+
+            Runnable updateTask = () -> {
+                if (getServer().getConsoleSender().hasPermission("vault.update") && getConfig().getBoolean("update-check", true)) {
+                    try {
+                        log.info("Checking for Updates ... ");
+                        newVersion = updateCheck(currentVersion);
+                        if (newVersion > currentVersion) {
+                            log.warning("Stable Version: " + newVersionTitle + " is out!" + " You are still running version: " + currentVersionTitle);
+                            log.warning("Update at: https://dev.bukkit.org/projects/vault");
+                        } else if (currentVersion > newVersion) {
+                            log.info("Stable Version: " + newVersionTitle + " | Current Version: " + currentVersionTitle);
+                        }
+                    } catch (Exception e) {
+                        // ignore exceptions
+                    }
+                }
+            };
+
+            if (FoliaUtil.isFolia()) {
+                // 432000 ticks * 50ms/tick = 21 600 000 ms (6 hours)
+                Bukkit.getServer().getAsyncScheduler().runAtFixedRate(plugin, t -> updateTask.run(), 0L, 21600000L, TimeUnit.MILLISECONDS);
+            } else {
+                getServer().getScheduler().runTaskTimerAsynchronously(plugin, updateTask, 0, 432000);
+            }
+        };
+
+        if (FoliaUtil.isFolia()) {
+            Bukkit.getServer().getGlobalRegionScheduler().run(plugin, t -> updateCheckStarter.run());
+        } else {
+            this.getServer().getScheduler().runTask(this, updateCheckStarter);
+        }
 
         // Load up the Plugin metrics
         Metrics metrics = new Metrics(this, 887);
