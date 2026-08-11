@@ -359,7 +359,7 @@ public class Chat_PermissionsEx extends Chat {
     @Override
     public String getGroupPrefix(String world, String group) {
         PermissionGroup pGroup = PermissionsEx.getPermissionManager().getGroup(group);
-        if (group != null) {
+        if (pGroup != null) {
             return pGroup.getPrefix(world);
         } else {
             return null;
@@ -369,7 +369,7 @@ public class Chat_PermissionsEx extends Chat {
     @Override
     public void setGroupPrefix(String world, String group, String prefix) {
         PermissionGroup pGroup = PermissionsEx.getPermissionManager().getGroup(group);
-        if (group != null) {
+        if (pGroup != null) {
             pGroup.setPrefix(prefix, world);
         }
 
@@ -378,7 +378,7 @@ public class Chat_PermissionsEx extends Chat {
     @Override
     public String getGroupSuffix(String world, String group) {
         PermissionGroup pGroup = PermissionsEx.getPermissionManager().getGroup(group);
-        if (group != null) {
+        if (pGroup != null) {
             return pGroup.getSuffix(world);
         } else {
             return null;
@@ -388,7 +388,7 @@ public class Chat_PermissionsEx extends Chat {
     @Override
     public void setGroupSuffix(String world, String group, String suffix) {
         PermissionGroup pGroup = PermissionsEx.getPermissionManager().getGroup(group);
-        if (group != null) {
+        if (pGroup != null) {
             pGroup.setSuffix(suffix, world);
         }
     }

@@ -359,7 +359,7 @@ public class Vault extends JavaPlugin {
                 
             }
         }
-        sender.sendMessage("Converson complete, please verify the data before using it.");
+        sender.sendMessage("Conversion complete, please verify the data before using it.");
     }
 
     private void infoCommand(CommandSender sender) {
@@ -480,7 +480,12 @@ public class Vault extends JavaPlugin {
         }));
 
         // Create our Permission Graph and Add our permission Plotters
-        final String permName = Bukkit.getServer().getServicesManager().getRegistration(Permission.class).getProvider().getName();
+        RegisteredServiceProvider<Permission> rspPerm = Bukkit.getServer().getServicesManager().getRegistration(Permission.class);
+        Permission perm = null;
+        if (rspPerm != null) {
+            perm = rspPerm.getProvider();
+        }
+        final String permName = perm != null ? perm.getName() : "No Permission";
         metrics.addCustomChart(new SimplePie("permission", new Callable<String>() {
             @Override
             public String call() {

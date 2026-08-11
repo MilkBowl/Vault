@@ -98,7 +98,7 @@ public class Chat_OverPermissions extends Chat {
 
     @Override
     public void setGroupSuffix(String world, String group, String suffix) {
-        setGroupInfoString(world, group, "prefix", suffix);
+        setGroupInfoString(world, group, "suffix", suffix);
     }
 
     @Override
