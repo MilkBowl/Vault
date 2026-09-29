@@ -54,6 +54,7 @@ import net.milkbowl.vault.permission.plugins.Permission_bPermissions2;
 import net.milkbowl.vault.permission.plugins.Permission_TotalPermissions;
 import net.milkbowl.vault.permission.plugins.Permission_rscPermissions;
 import net.milkbowl.vault.permission.plugins.Permission_KPerms;
+import net.milkbowl.vault.scheduler.VaultScheduler;
 
 import org.bstats.bukkit.Metrics;
 import org.bstats.charts.SimplePie;
@@ -81,25 +82,29 @@ import net.milkbowl.vault.chat.plugins.Chat_TotalPermissions;
 public class Vault extends JavaPlugin {
 
     private static final String VAULT_BUKKIT_URL = "https://dev.bukkit.org/projects/Vault";
+    private static final long UPDATE_CHECK_INTERVAL_TICKS = 432000L; // 6 hours
     private static Logger log;
     private Permission perms;
-    private String newVersionTitle = "";
-    private double newVersion = 0;
+    // Written by the async update checker and read from player (region) threads
+    private volatile String newVersionTitle = "";
+    private volatile double newVersion = 0;
     private double currentVersion = 0;
     private String currentVersionTitle = "";
     private ServicesManager sm;
-    private Vault plugin;
+    private VaultScheduler scheduler;
 
     @Override
     public void onDisable() {
         // Remove all Service Registrations
         getServer().getServicesManager().unregisterAll(this);
-        Bukkit.getScheduler().cancelTasks(this);
+        if (scheduler != null) {
+            scheduler.cancelAll();
+        }
     }
 
     @Override
     public void onEnable() {
-        plugin = this;
+        scheduler = VaultScheduler.create(this);
         log = this.getLogger();
         currentVersionTitle = getDescription().getVersion().split("-")[0];
         currentVersion = Double.valueOf(currentVersionTitle.replaceFirst("\\.", ""));
@@ -115,44 +120,10 @@ public class Vault extends JavaPlugin {
         getCommand("vault-info").setExecutor(this);
         getCommand("vault-convert").setExecutor(this);
         getServer().getPluginManager().registerEvents(new VaultListener(), this);
-        // Schedule to check the version every 30 minutes for an update. This is to update the most recent 
-        // version so if an admin reconnects they will be warned about newer versions.
-        this.getServer().getScheduler().runTask(this, new Runnable() {
-
-            @Override
-            public void run() {
-                // Programmatically set the default permission value cause Bukkit doesn't handle plugin.yml properly for Load order STARTUP plugins
-                org.bukkit.permissions.Permission perm = getServer().getPluginManager().getPermission("vault.update");
-                if (perm == null)
-                {
-                    perm = new org.bukkit.permissions.Permission("vault.update");
-                    perm.setDefault(PermissionDefault.OP);
-                    plugin.getServer().getPluginManager().addPermission(perm);
-                }
-                perm.setDescription("Allows a user or the console to check for vault updates");
-
-                getServer().getScheduler().runTaskTimerAsynchronously(plugin, new Runnable() {
-
-                    @Override
-                    public void run() {
-                        if (getServer().getConsoleSender().hasPermission("vault.update") && getConfig().getBoolean("update-check", true)) {
-                            try {
-                            	log.info("Checking for Updates ... ");
-                                newVersion = updateCheck(currentVersion);
-                                if (newVersion > currentVersion) {
-                                    log.warning("Stable Version: " + newVersionTitle + " is out!" + " You are still running version: " + currentVersionTitle);
-                                    log.warning("Update at: https://dev.bukkit.org/projects/vault");
-                                } else if (currentVersion > newVersion) {
-                                    log.info("Stable Version: " + newVersionTitle + " | Current Version: " + currentVersionTitle);
-                                }
-                            } catch (Exception e) {
-                                // ignore exceptions
-                            }
-                        }
-                    }
-                }, 0, 432000);
-
-            }
+        // Check for a new version periodically so that admins reconnecting are warned about newer versions.
+        scheduler.runGlobal(() -> {
+            registerUpdatePermission();
+            scheduler.runAsyncTimer(this::checkForUpdate, 0, UPDATE_CHECK_INTERVAL_TICKS);
         });
 
         // Load up the Plugin metrics
@@ -160,6 +131,38 @@ public class Vault extends JavaPlugin {
         findCustomData(metrics);
 
         log.info(String.format("Enabled Version %s", getDescription().getVersion()));
+    }
+
+    /**
+     * Programmatically sets the default permission value because Bukkit doesn't handle
+     * plugin.yml properly for load order STARTUP plugins.
+     */
+    private void registerUpdatePermission() {
+        org.bukkit.permissions.Permission perm = getServer().getPluginManager().getPermission("vault.update");
+        if (perm == null) {
+            perm = new org.bukkit.permissions.Permission("vault.update");
+            perm.setDefault(PermissionDefault.OP);
+            getServer().getPluginManager().addPermission(perm);
+        }
+        perm.setDescription("Allows a user or the console to check for vault updates");
+    }
+
+    private void checkForUpdate() {
+        if (!getServer().getConsoleSender().hasPermission("vault.update") || !getConfig().getBoolean("update-check", true)) {
+            return;
+        }
+        try {
+            log.info("Checking for Updates ... ");
+            newVersion = updateCheck(currentVersion);
+            if (newVersion > currentVersion) {
+                log.warning("Stable Version: " + newVersionTitle + " is out!" + " You are still running version: " + currentVersionTitle);
+                log.warning("Update at: https://dev.bukkit.org/projects/vault");
+            } else if (currentVersion > newVersion) {
+                log.info("Stable Version: " + newVersionTitle + " | Current Version: " + currentVersionTitle);
+            }
+        } catch (Exception e) {
+            // ignore exceptions
+        }
     }
 
     /**

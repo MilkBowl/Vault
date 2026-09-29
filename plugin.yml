@@ -1,12 +1,13 @@
 name: ${project.name}
-version: ${project.version}-b${env.TRAVIS_BUILD_NUMBER}
+version: ${project.version}-b${build.number}
 description: ${project.description}
-authors: [cereal, Sleaker, mung3r]
+authors: [cereal, Sleaker, mung3r, YoannFM]
 website: ${project.url}
 api-version: 1.13
 
 main: ${mainClass}
 load: startup
+folia-supported: true
 
 commands:
   vault-info:
