@@ -105,7 +105,7 @@ public class Vault extends JavaPlugin {
         currentVersion = Double.valueOf(currentVersionTitle.replaceFirst("\\.", ""));
         sm = getServer().getServicesManager();
         // set defaults
-        getConfig().addDefault("update-check", true);
+        getConfig().addDefault("update-check", false);
         getConfig().options().copyDefaults(true);
         saveConfig();
         // Load Vault Addons
@@ -135,7 +135,7 @@ public class Vault extends JavaPlugin {
 
                     @Override
                     public void run() {
-                        if (getServer().getConsoleSender().hasPermission("vault.update") && getConfig().getBoolean("update-check", true)) {
+                        if (getServer().getConsoleSender().hasPermission("vault.update") && getConfig().getBoolean("update-check", false)) {
                             try {
                             	log.info("Checking for Updates ... ");
                                 newVersion = updateCheck(currentVersion);

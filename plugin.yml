@@ -1,11 +1,10 @@
-name: ${project.name}
-version: ${project.version}-b${env.TRAVIS_BUILD_NUMBER}
-description: ${project.description}
+name: ClarkVault
+version: ${version}
+description: Fork do Vault para a Rede Clark, com integração de chat, permissões e economia.
 authors: [cereal, Sleaker, mung3r]
-website: ${project.url}
-api-version: 1.13
+website: https://github.com/MilkBowl/Vault
 
-main: ${mainClass}
+main: net.milkbowl.vault.Vault
 load: startup
 
 commands:

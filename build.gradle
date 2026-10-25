@@ -1,0 +1,45 @@
+plugins {
+    id 'java'
+    id 'com.github.johnrengelman.shadow' version '8.1.1'
+}
+group = 'br.com.redeclark'
+version = '1.7.3'
+repositories {
+    mavenCentral()
+    maven { url = 'https://hub.spigotmc.org/nexus/content/repositories/snapshots/' }
+}
+dependencies {
+    compileOnly 'org.spigotmc:spigot-api:1.8.8-R0.1-SNAPSHOT'
+    compileOnly 'com.googlecode.json-simple:json-simple:1.1.1'
+    compileOnly fileTree(dir: 'lib', include: '*.jar')
+    implementation 'org.bstats:bstats-bukkit:3.0.0'
+}
+configurations.configureEach { resolutionStrategy.force 'net.md-5:bungeecord-chat:1.16-R0.4' }
+java {
+    toolchain { languageVersion = JavaLanguageVersion.of(17) }
+    sourceCompatibility = JavaVersion.VERSION_1_8
+    targetCompatibility = JavaVersion.VERSION_1_8
+    withSourcesJar()
+}
+sourceSets {
+    main { java.srcDirs = ['src']; resources.srcDirs = [] }
+}
+tasks.withType(JavaCompile).configureEach { options.encoding = 'UTF-8'; options.release = 8 }
+processResources {
+    inputs.property 'version', project.version
+    from('plugin.yml') { expand(version: project.version) }
+    from('license.txt') { into 'META-INF/licenses' }
+}
+jar { archiveClassifier = 'plain' }
+shadowJar {
+    archiveClassifier = ''
+    relocate 'org.bstats', 'br.com.redeclark.vault.metrics'
+}
+tasks.register('copyToRankup', Copy) {
+    group = 'distribution'
+    dependsOn tasks.named('shadowJar'),tasks.named('check')
+    from(tasks.named('shadowJar').flatMap { it.archiveFile })
+    into layout.projectDirectory.dir('../../servers/rankup/plugins')
+}
+tasks.named('build') { dependsOn tasks.named('copyToRankup') }
+wrapper { gradleVersion = '8.7' }
